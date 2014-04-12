@@ -1,0 +1,9 @@
+build/
+
+# make install DESTDIR=..
+include/
+lib/
+share/
+
+# QtCreator
+CMakeLists.txt.user
