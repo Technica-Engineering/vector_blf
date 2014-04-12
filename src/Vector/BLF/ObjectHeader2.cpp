@@ -41,17 +41,23 @@ void ObjectHeader2::read(std::istream & is)
     if (alreadyRead)
         return;
 
+    /* read object header */
     ObjectHeaderBase::read(is);
 
-    const std::streamsize size =
-            sizeof(objectFlags) +
-            sizeof(timeStampStatus) +
-            sizeof(reserved) +
-            sizeof(objectVersion) +
-            sizeof(objectTimeStamp) +
-            sizeof(originalTimeStamp);
-    is.read((char *) &objectFlags, size);
-    remainingSize -= size;
+    /* read remaining data */
+    is.read((char *) &objectFlags, sizeof(objectFlags));
+    remainingSize -= is.gcount();
+    is.read((char *) &timeStampStatus, sizeof(timeStampStatus));
+    remainingSize -= is.gcount();
+    is.read((char *) &reserved, sizeof(reserved));
+    remainingSize -= is.gcount();
+    is.read((char *) &objectVersion, sizeof(objectVersion));
+    remainingSize -= is.gcount();
+    is.read((char *) &objectTimeStamp, sizeof(objectTimeStamp));
+    remainingSize -= is.gcount();
+    is.read((char *) &originalTimeStamp, sizeof(originalTimeStamp));
+    remainingSize -= is.gcount();
+
     alreadyRead = true;
 }
 

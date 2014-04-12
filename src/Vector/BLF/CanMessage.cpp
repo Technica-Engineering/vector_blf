@@ -20,6 +20,7 @@
  */
 
 #include "CanMessage.h"
+#include <iostream>
 
 namespace Vector {
 namespace BLF {
@@ -40,16 +41,21 @@ void CanMessage::read(std::istream & is)
     if (alreadyRead)
         return;
 
+    /* read object header */
     ObjectHeader::read(is);
 
-    const std::streamsize size =
-            sizeof(channel) +
-            sizeof(flags) +
-            sizeof(dlc) +
-            sizeof(id) +
-            sizeof(data);
-    is.read((char *) &channel, size);
-    remainingSize -= size;
+    /* read remaining data */
+    is.read((char *) &channel, sizeof(channel));
+    remainingSize -= is.gcount();
+    is.read((char *) &flags, sizeof(flags));
+    remainingSize -= is.gcount();
+    is.read((char *) &dlc, sizeof(dlc));
+    remainingSize -= is.gcount();
+    is.read((char *) &id, sizeof(id));
+    remainingSize -= is.gcount();
+    is.read((char *) &data, sizeof(data));
+    remainingSize -= is.gcount();
+
     alreadyRead = true;
 }
 

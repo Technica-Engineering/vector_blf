@@ -30,7 +30,8 @@ EnvironmentVariable::EnvironmentVariable() :
     dataLength(),
     unknown(),
     name(nullptr),
-    data(nullptr)
+    data(nullptr),
+    alreadyRead(false)
 {
 }
 
@@ -48,23 +49,27 @@ void EnvironmentVariable::read(std::istream & is)
     if (alreadyRead)
         return;
 
+    /* read object header */
     ObjectHeader::read(is);
 
-    const std::streamsize size =
-            sizeof(nameLength) +
-            sizeof(dataLength) +
-            sizeof(unknown);
-    is.read((char *) &nameLength, size);
-    remainingSize -= size;
+    /* read remaining data */
+    is.read((char *) &nameLength, sizeof(nameLength));
+    remainingSize -= is.gcount();
+    is.read((char *) &dataLength, sizeof(dataLength));
+    remainingSize -= is.gcount();
+    is.read((char *) &unknown, sizeof(unknown));
+    remainingSize -= is.gcount();
 
+    /* read name */
     name = new char[nameLength+1];
     is.read(name, nameLength);
+    remainingSize -= is.gcount();
     name[nameLength] = 0;
-    remainingSize -= nameLength;
 
+    /* read data */
     data = new char[dataLength];
     is.read(data, dataLength);
-    remainingSize -= dataLength;
+    remainingSize -= is.gcount();
 
     alreadyRead = true;
 }

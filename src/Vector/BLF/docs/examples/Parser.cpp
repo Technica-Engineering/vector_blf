@@ -17,7 +17,8 @@ void showFileStatistics(Vector::BLF::FileStatistics * fileStatistics)
               << (unsigned short) fileStatistics->apiBuild << "."
               << (unsigned short) fileStatistics->apiPatch << std::endl;
     std::cout << "fileSize: " << fileStatistics->fileSize << std::endl;
-    std::cout << "uncompressedFileSize: " << fileStatistics->uncompressedFileSize << std::endl;
+    std::cout << "uncompressedFileSize: " << fileStatistics->uncompressedFileSize <<
+                 " (hex: 0x" << std::hex << fileStatistics->uncompressedFileSize << ")" << std::dec << std::endl;
     std::cout << "objectCount: " << fileStatistics->objectCount << std::endl;
     std::cout << "objectsRead: " << fileStatistics->objectsRead << std::endl;
     std::cout << "measurementStartTime: "
@@ -142,31 +143,48 @@ int main(int argc, char *argv[])
 {
     if (argc != 2) {
         std::cout << "Parser <filename.blf>" << std::endl;
-        return EXIT_FAILURE;
+        return -1;
     }
 
     Vector::BLF::File file;
     file.open(argv[1]);
 
-    Vector::BLF::ObjectHeaderBase * obj = file.read();
-    switch(obj->objectType) {
-    case Vector::BLF::ObjectType::CAN_MESSAGE:
-        showCanMessage(reinterpret_cast<Vector::BLF::CanMessage *>(obj));
-        break;
+    showFileStatistics(&file.fileStatistics);
 
-    case Vector::BLF::ObjectType::ENV_INTEGER:
-    case Vector::BLF::ObjectType::ENV_DOUBLE:
-    case Vector::BLF::ObjectType::ENV_STRING:
-    case Vector::BLF::ObjectType::ENV_DATA:
-        showEnvironmentVariable(reinterpret_cast<Vector::BLF::EnvironmentVariable *>(obj));
-        break;
+    while(!file.eof()) {
+        Vector::BLF::ObjectHeaderBase * obj = file.read();
+        if (obj == nullptr)
+            continue;
 
-    case Vector::BLF::ObjectType::SYS_VARIABLE:
-        showSystemVariable(reinterpret_cast<Vector::BLF::SystemVariable *>(obj));
-        break;
+        switch(obj->objectType) {
+        case Vector::BLF::ObjectType::CAN_MESSAGE:
+            showCanMessage(reinterpret_cast<Vector::BLF::CanMessage *>(obj));
+            break;
+
+        case Vector::BLF::ObjectType::ENV_INTEGER:
+        case Vector::BLF::ObjectType::ENV_DOUBLE:
+        case Vector::BLF::ObjectType::ENV_STRING:
+        case Vector::BLF::ObjectType::ENV_DATA:
+            showEnvironmentVariable(reinterpret_cast<Vector::BLF::EnvironmentVariable *>(obj));
+            break;
+
+        case Vector::BLF::ObjectType::LOG_CONTAINER:
+            showLogContainer(reinterpret_cast<Vector::BLF::LogContainer *>(obj));
+            break;
+
+        case Vector::BLF::ObjectType::SYS_VARIABLE:
+            showSystemVariable(reinterpret_cast<Vector::BLF::SystemVariable *>(obj));
+            break;
+
+        default:
+            std::cerr << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+        }
+        delete obj;
     }
 
     file.close();
 
-    return EXIT_SUCCESS;
+    std::cout << std::endl << std::endl << std::endl << std::endl;
+
+    return 0;
 }

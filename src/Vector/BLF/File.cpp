@@ -32,6 +32,7 @@ File::File() :
     fileStatistics(),
     compressedFile(),
     uncompressedFile(),
+    uncompressedFileAvailable(),
     compressionStream()
 {
     compressionStream.zalloc = (alloc_func) nullptr;
@@ -42,7 +43,7 @@ File::File() :
 void File::open(const char * filename)
 {
     if (openMode == OpenMode::Read) {
-        compressedFile.open(filename, std::ios_base::in);
+        compressedFile.open(filename, std::ios_base::in | std::ios_base::binary);
         if (!compressedFile.is_open()) {
             std::cerr << "open failed." << std::endl;
         }
@@ -54,7 +55,7 @@ void File::open(const char * filename)
             std::cerr << "inflateInit failed." << std::endl;
         }
     } else {
-        compressedFile.open(filename, std::ios_base::out);
+        compressedFile.open(filename, std::ios_base::out | std::ios_base::binary);
         if (!compressedFile.is_open()) {
             std::cerr << "open failed." << std::endl;
         }
@@ -82,15 +83,20 @@ void File::close()
     compressedFile.close();
 }
 
+bool File::eof()
+{
+    return (uncompressedFile.tellg() >= fileStatistics.uncompressedFileSize);
+    // return (compressedFile.tellg() >= fileStatistics.fileSize);
+}
+
 ObjectHeaderBase * File::read(std::iostream & ios)
 {
-    ObjectHeaderBase * obj = nullptr;
-
     /* read object header */
     ObjectHeaderBase ohb;
     ohb.read(ios);
 
     /* create class */
+    ObjectHeaderBase * obj = nullptr;
     switch(ohb.objectType) {
     case ObjectType::UNKNOWN:
         break;
@@ -487,6 +493,12 @@ ObjectHeaderBase * File::read(std::iostream & ios)
     if (obj != nullptr) {
         obj->copyObjectHeaderBase(ohb);
         obj->read(ios);
+
+        /* handle if there is size remaining */
+        if (obj->remainingSize > 0) {
+          std::cerr << "remainingSize: 0x" << std::hex << obj->remainingSize << std::endl;
+          ios.seekg(obj->remainingSize, std::iostream::cur);
+        }
     } else {
         ohb.skip(ios);
     }
@@ -501,19 +513,39 @@ ObjectHeaderBase * File::read()
 {
     ObjectHeaderBase * obj;
 
-    /* read from compressed file */
-    if (compressionStream.avail_out <= 1024) {
+    std::cout << std::endl;
+    std::cout << "uncompressedFile pos: 0x" << std::hex << (unsigned long) uncompressedFile.tellg() << std::endl;
+
+    /* read from compressed file first */
+    if (((uncompressedFileAvailable - uncompressedFile.tellg()) < 0x1000) &&
+        (compressedFile.tellg() < fileStatistics.fileSize)) {
+        std::cout << "*** compressedFile pos: 0x" << std::hex << (unsigned long) compressedFile.tellg() << std::endl;
         obj = read(compressedFile);
 
         /* decompress log container */
         if (obj->objectType == ObjectType::LOG_CONTAINER) {
-            LogContainer * lc = reinterpret_cast<LogContainer *>(obj);
-            compressionStream.avail_out = lc->uncompressedFileSize;
-            compressionStream.next_out = reinterpret_cast<Bytef *>(new char[lc->uncompressedFileSize]);
-            int ret = deflate(&compressionStream, Z_NO_FLUSH);
+            LogContainer * logContainer = reinterpret_cast<LogContainer *>(obj);
+
+            /* create buffer */
+            size_t bufferSize = logContainer->uncompressedFileSize;
+            char * buffer = new char[bufferSize];
+
+            /* deflate */
+            compressionStream.next_in = reinterpret_cast<Bytef *>(logContainer->compressedFile);
+            compressionStream.avail_in = logContainer->compressedFileSize;
+            compressionStream.next_out = reinterpret_cast<Bytef *>(buffer);
+            compressionStream.avail_out = bufferSize;
+            int ret = inflate(&compressionStream, Z_FINISH);
             if (ret == Z_STREAM_ERROR) {
-                std::cerr << "deflate failed." << std::endl;
+                std::cerr << "inflate failed." << std::endl;
             }
+            uncompressedFileAvailable += bufferSize;
+
+            /* copy into stringstream */
+            uncompressedFile.write(buffer, bufferSize);
+
+            /* delete buffer */
+            delete buffer;
         } else {
             return obj;
         }
@@ -521,6 +553,7 @@ ObjectHeaderBase * File::read()
 
     /* read from uncompressed file */
     obj = read(uncompressedFile);
+
     return obj;
 }
 

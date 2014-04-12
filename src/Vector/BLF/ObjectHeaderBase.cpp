@@ -27,7 +27,7 @@ namespace Vector {
 namespace BLF {
 
 ObjectHeaderBase::ObjectHeaderBase() :
-    signature(ObjectSignature),
+    signature(),
     headerSize(),
     headerVersion(),
     objectSize(),
@@ -46,19 +46,25 @@ void ObjectHeaderBase::read(std::istream & is)
     if (alreadyRead)
         return;
 
+    /* read data */
     const std::streamsize size =
             sizeof(signature) +
             sizeof(headerSize) +
             sizeof(headerVersion) +
             sizeof(objectSize) +
             sizeof(objectType);
-    is.read((char *) &signature, size);
+    is.read((char *) &signature, sizeof(signature));
+    is.read((char *) &headerSize, sizeof(headerSize));
+    is.read((char *) &headerVersion, sizeof(headerVersion));
+    is.read((char *) &objectSize, sizeof(objectSize));
+    is.read((char *) &objectType, sizeof(objectType));
     remainingSize = objectSize - size;
+
     alreadyRead = true;
 
     /* checks */
     if (signature != ObjectSignature) {
-        std::cerr << "Unexpected object signature" << std::endl;
+        std::cerr << "Unexpected object signature at pos 0x" << std::hex << (unsigned long) is.tellg() - 0x10 << std::endl;
         return;
     }
 }
@@ -71,6 +77,7 @@ void ObjectHeaderBase::skip(std::istream & is)
 
     /* skip object */
     is.seekg(remainingSize, std::ifstream::cur);
+    remainingSize = 0;
 }
 
 void ObjectHeaderBase::copyObjectHeaderBase(ObjectHeaderBase & ohb)

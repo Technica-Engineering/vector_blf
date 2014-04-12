@@ -156,23 +156,23 @@ public:
 
     int compressionLevel;
 
+    FileStatistics fileStatistics;
+
     void open(const char * filename);
     void close();
-
-    ObjectHeaderBase * read(std::iostream & ios);
+    bool eof();
 
     ObjectHeaderBase * read();
 
 private:
-    FileStatistics fileStatistics;
     std::fstream compressedFile;
     std::stringstream uncompressedFile;
+    size_t uncompressedFileAvailable;
 
-    /** decompression stream */
+    /** compression stream */
     z_stream compressionStream;
 
-
-    void inflate(LogContainer & logContainer);
+    ObjectHeaderBase * read(std::iostream & ios);
 };
 
 }

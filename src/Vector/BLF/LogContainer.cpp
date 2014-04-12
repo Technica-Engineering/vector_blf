@@ -47,8 +47,10 @@ void LogContainer::read(std::istream & is)
     if (alreadyRead)
         return;
 
+    /* read object header */
     ObjectHeaderBase::read(is);
 
+    /* read remaining data */
     const std::streamsize size =
             sizeof(objectFlags) +
             sizeof(reserved) +
@@ -57,10 +59,12 @@ void LogContainer::read(std::istream & is)
     is.read((char *) &objectFlags, size);
     remainingSize -= size;
 
+    /* read compressed file */
     compressedFileSize = remainingSize;
     compressedFile = new char[compressedFileSize];
     is.read(compressedFile, compressedFileSize);
-    remainingSize = 0;
+    remainingSize -= compressedFileSize;
+
     alreadyRead = true;
 }
 
