@@ -24,7 +24,6 @@
 #include "platform.h"
 
 #include <fstream>
-#include <sstream>
 #include "zlib.h"
 
 #include "VectorTypes.h"
@@ -32,6 +31,7 @@
 #include "ObjectHeaderBase.h"
 #include "ObjectHeader.h"
 #include "ObjectHeader2.h"
+#include "UncompressedFile.h"
 
 // UNKNOWN = 0
 #include "CanMessage.h" // CAN_MESSAGE = 1
@@ -158,6 +158,8 @@ public:
 
     FileStatistics fileStatistics;
 
+    ObjectHeaderBase * createObject(ObjectType type);
+
     void open(const char * filename);
     void close();
     bool eof();
@@ -165,13 +167,16 @@ public:
     ObjectHeaderBase * read();
 
 private:
+    /** compressed file */
     std::fstream compressedFile;
-    std::stringstream uncompressedFile;
-    size_t uncompressedFileAvailable;
 
-    /** compression stream */
-    z_stream compressionStream;
+    /** uncompressed file */
+    UncompressedFile uncompressedFile;
 
+    ObjectHeaderBase * readObjectFromCompressedFile();
+    ObjectHeaderBase * readObjectFromUncompressedFile();
+    char * readFromUncompressedFile(size_t size);
+    void inflateLogContainer(LogContainer * logContainer);
     ObjectHeaderBase * read(std::iostream & ios);
 };
 

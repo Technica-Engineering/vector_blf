@@ -111,6 +111,7 @@ set(source_files
   RealtimeClock.cpp
   SerialEvent.cpp
   SystemVariable.cpp
+  UncompressedFile.cpp
   WlanFrame.cpp
   WlanStatistic.cpp)
 
@@ -218,6 +219,7 @@ set(header_files
   RealtimeClock.h
   SerialEvent.h
   SystemVariable.h
+  UncompressedFile.h
   VectorTypes.h
   WlanFrame.h
   WlanStatistic.h)
