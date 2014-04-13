@@ -156,7 +156,14 @@ public:
 
     int compressionLevel;
 
+    /** file statistics from file header. contains total counts/sizes */
     FileStatistics fileStatistics;
+
+    /** current uncompressed file size */
+    unsigned long currentUncompressedFileSize;
+
+    /** current number of objects read */
+    unsigned long currentObjectCount;
 
     ObjectHeaderBase * createObject(ObjectType type);
 

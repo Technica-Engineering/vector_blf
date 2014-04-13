@@ -48,6 +48,8 @@ File::File() :
     openMode(OpenMode::Read),
     compressionLevel(Z_DEFAULT_COMPRESSION),
     fileStatistics(),
+    currentUncompressedFileSize(0),
+    currentObjectCount(0),
     compressedFile(),
     uncompressedFile()
 {
@@ -470,6 +472,7 @@ void File::open(const char * filename)
         }
 
         fileStatistics.read(compressedFile);
+        currentUncompressedFileSize += 0x90;
     } else {
         compressedFile.open(filename, std::ios_base::out | std::ios_base::binary);
         if (!compressedFile.is_open()) {
@@ -493,7 +496,7 @@ void File::close()
 bool File::eof()
 {
     bool compressedFileDone = (compressedFile.tellg() >= fileStatistics.fileSize);
-    bool uncompressedFileDone = (uncompressedFile.tellg >= (fileStatistics.uncompressedFileSize - 144-32-32));
+    bool uncompressedFileDone = (uncompressedFile.size() <= 0);
     return compressedFileDone && uncompressedFileDone;
 }
 
@@ -572,6 +575,7 @@ ObjectHeaderBase * File::readObjectFromUncompressedFile()
     delete ohbBuffer;
     delete objBuffer;
 
+    currentObjectCount++;
     return obj;
 }
 
@@ -610,6 +614,8 @@ char * File::readFromUncompressedFile(size_t size)
         ObjectHeaderBase * obj = readObjectFromCompressedFile();
         if (obj->objectType == ObjectType::LOG_CONTAINER) {
             LogContainer * logContainer = reinterpret_cast<LogContainer *>(obj);
+            currentUncompressedFileSize += 0x20; // header
+            currentUncompressedFileSize += logContainer->uncompressedFileSize;
 
             /* inflate the log container */
             inflateLogContainer(logContainer);

@@ -183,10 +183,10 @@ int main(int argc, char *argv[])
     }
 
     std::cout << "End of file." << std::endl;
+    std::cout << "objectCount: " << std::dec << file.currentObjectCount << std::endl;
+    std::cout << "uncompressedFileSize: " << std::dec << file.currentUncompressedFileSize << std::endl;
 
     file.close();
-
-    std::cout << std::endl << std::endl << std::endl << std::endl;
 
     return 0;
 }
