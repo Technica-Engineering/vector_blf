@@ -40,7 +40,7 @@ namespace BLF {
  * - The POC state or wakeup state of the CC has changed
  * - The status of the symbol window has changed
  */
-class FlexRayVFrStatus : public ObjectHeader
+class VECTOR_BLF_EXPORT FlexRayVFrStatus : public ObjectHeader
 {
 public:
     FlexRayVFrStatus();

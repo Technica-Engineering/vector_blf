@@ -36,7 +36,7 @@ namespace BLF {
  *
  * J1708 message object
  */
-class J1708Message : public ObjectHeader
+class VECTOR_BLF_EXPORT J1708Message : public ObjectHeader
 {
 public:
     J1708Message();

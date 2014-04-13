@@ -34,7 +34,7 @@ namespace BLF {
 /**
  * @brief MOST_PKT2
  */
-class MostPkt2 : public ObjectHeader2
+class VECTOR_BLF_EXPORT MostPkt2 : public ObjectHeader2
 {
 public:
     MostPkt2();

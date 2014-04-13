@@ -36,7 +36,7 @@ namespace BLF {
  *
  * CAN driver statistic data for a CAN channel.
  */
-class CanDriverStatistic : public ObjectHeader
+class VECTOR_BLF_EXPORT CanDriverStatistic : public ObjectHeader
 {
 public:
     CanDriverStatistic();

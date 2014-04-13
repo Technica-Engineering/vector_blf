@@ -36,7 +36,7 @@ namespace BLF {
  *
  * Ethernet status.
  */
-class EthernetStatus : public ObjectHeader
+class VECTOR_BLF_EXPORT EthernetStatus : public ObjectHeader
 {
 public:
     EthernetStatus();

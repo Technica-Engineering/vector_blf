@@ -34,7 +34,7 @@ namespace BLF {
 /**
  * @brief MOST_TXLIGHT
  */
-class MostTxLight : public ObjectHeader2
+class VECTOR_BLF_EXPORT MostTxLight : public ObjectHeader2
 {
 public:
     MostTxLight();

@@ -34,7 +34,7 @@ namespace BLF {
 /**
  * @brief MOST_STATISTICEX
  */
-class MostStatisticEx : public ObjectHeader2
+class VECTOR_BLF_EXPORT MostStatisticEx : public ObjectHeader2
 {
 public:
     MostStatisticEx();

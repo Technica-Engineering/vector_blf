@@ -50,7 +50,7 @@ enumclass ApplicationId : BYTE {
  *
  * File statistics
  */
-class FileStatistics
+class VECTOR_BLF_EXPORT FileStatistics
 {
 public:
     FileStatistics();

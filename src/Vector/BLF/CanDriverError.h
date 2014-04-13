@@ -36,7 +36,7 @@ namespace BLF {
  *
  * CAN driver error information for transceiver of a CAN channel.
  */
-class CanDriverError : public ObjectHeader
+class VECTOR_BLF_EXPORT CanDriverError : public ObjectHeader
 {
 public:
     CanDriverError();

@@ -32,7 +32,7 @@
 namespace Vector {
 namespace BLF {
 
-class LinDatabyteTimestampEvent : public LinMessageDescriptor
+class VECTOR_BLF_EXPORT LinDatabyteTimestampEvent : public LinMessageDescriptor
 {
 public:
     LinDatabyteTimestampEvent();

@@ -36,7 +36,7 @@ namespace BLF {
  *
  * CAN-FD error frame received or transmitted on a CAN-FD channel.
  */
-class CanFdErrorFrame64 : public ObjectHeader
+class VECTOR_BLF_EXPORT CanFdErrorFrame64 : public ObjectHeader
 {
 public:
     CanFdErrorFrame64();

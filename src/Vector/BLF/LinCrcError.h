@@ -34,7 +34,7 @@ namespace BLF {
 /**
  * @brief LIN_CRC_ERROR
  */
-class LinCrcError : public ObjectHeader
+class VECTOR_BLF_EXPORT LinCrcError : public ObjectHeader
 {
 public:
     LinCrcError();

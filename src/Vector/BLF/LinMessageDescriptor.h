@@ -32,7 +32,7 @@
 namespace Vector {
 namespace BLF {
 
-class LinMessageDescriptor : public LinSynchFieldEvent
+class VECTOR_BLF_EXPORT LinMessageDescriptor : public LinSynchFieldEvent
 {
 public:
     LinMessageDescriptor();

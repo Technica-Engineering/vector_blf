@@ -31,7 +31,7 @@
 namespace Vector {
 namespace BLF {
 
-class LinBusEvent
+class VECTOR_BLF_EXPORT LinBusEvent
 {
 public:
     LinBusEvent();

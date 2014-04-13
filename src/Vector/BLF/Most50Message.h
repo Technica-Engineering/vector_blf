@@ -34,7 +34,7 @@ namespace BLF {
 /**
  * @brief MOST_50_MESSAGE
  */
-class Most50Message : public ObjectHeader2
+class VECTOR_BLF_EXPORT Most50Message : public ObjectHeader2
 {
 public:
     Most50Message();

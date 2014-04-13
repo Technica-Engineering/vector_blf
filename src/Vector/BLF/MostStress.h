@@ -34,7 +34,7 @@ namespace BLF {
 /**
  * @brief MOST_STRESS
  */
-class MostStress : public ObjectHeader2
+class VECTOR_BLF_EXPORT MostStress : public ObjectHeader2
 {
 public:
     MostStress();

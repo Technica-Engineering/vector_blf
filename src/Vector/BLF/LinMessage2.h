@@ -35,7 +35,7 @@ namespace BLF {
 /**
  * @brief LIN_MESSAGE2
  */
-class LinMessage2 : public ObjectHeader, public LinDatabyteTimestampEvent
+class VECTOR_BLF_EXPORT LinMessage2 : public ObjectHeader, public LinDatabyteTimestampEvent
 {
 public:
     LinMessage2();

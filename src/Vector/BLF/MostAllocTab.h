@@ -34,7 +34,7 @@ namespace BLF {
 /**
  * @brief MOST_ALLOCTAB
  */
-class MostAllocTab : public ObjectHeader2
+class VECTOR_BLF_EXPORT MostAllocTab : public ObjectHeader2
 {
 public:
     MostAllocTab();

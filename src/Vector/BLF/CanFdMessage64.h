@@ -36,7 +36,7 @@ namespace BLF {
  *
  * CAN FD data frame, or CAN data- or remote frame on a CAN FD channel.
  */
-class CanFdMessage64 : public ObjectHeader
+class VECTOR_BLF_EXPORT CanFdMessage64 : public ObjectHeader
 {
 public:
     CanFdMessage64();

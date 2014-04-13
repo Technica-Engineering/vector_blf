@@ -36,7 +36,7 @@ namespace BLF {
  *
  * FlexRay Error event transmitted by the FlexRay hardware.
  */
-class FlexRayVFrError : public ObjectHeader
+class VECTOR_BLF_EXPORT FlexRayVFrError : public ObjectHeader
 {
 public:
     FlexRayVFrError();

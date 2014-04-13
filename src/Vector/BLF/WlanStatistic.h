@@ -36,7 +36,7 @@ namespace BLF {
  *
  * WLAN statistic.
  */
-class WlanStatistic : public ObjectHeader
+class VECTOR_BLF_EXPORT WlanStatistic : public ObjectHeader
 {
 public:
     WlanStatistic();

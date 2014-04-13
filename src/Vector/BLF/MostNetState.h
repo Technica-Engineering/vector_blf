@@ -34,7 +34,7 @@ namespace BLF {
 /**
  * @brief MOST_NETSTATE
  */
-class MostNetState : public ObjectHeader2
+class VECTOR_BLF_EXPORT MostNetState : public ObjectHeader2
 {
 public:
     MostNetState();

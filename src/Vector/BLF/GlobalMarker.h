@@ -36,7 +36,7 @@ namespace BLF {
  *
  * Global Marker assigned to another event or to a time stamp.
  */
-class GlobalMarker : public ObjectHeader
+class VECTOR_BLF_EXPORT GlobalMarker : public ObjectHeader
 {
 public:
     GlobalMarker();

@@ -21,6 +21,8 @@
 
 #include "SystemVariable.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 
@@ -80,14 +82,14 @@ char * SystemVariable::parse(char * buffer)
     /* name */
     size = nameLength;
     name = new char[nameLength+1];
-    memcpy((char *) &name, buffer, size);
-    buffer += size;
+    memcpy(name, buffer, size);
     name[nameLength] = 0;
+    buffer += size;
 
     /* data */
     size = dataLength;
-    buffer = new char[dataLength];
-    memcpy((char *) &data, buffer, size);
+    data = new char[dataLength];
+    memcpy(data, buffer, size);
     buffer += size;
 
     return buffer;

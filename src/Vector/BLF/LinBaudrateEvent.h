@@ -34,7 +34,7 @@ namespace BLF {
 /**
  * @brief LIN_BAUDRATE
  */
-class LinBaudrateEvent : public ObjectHeader
+class VECTOR_BLF_EXPORT LinBaudrateEvent : public ObjectHeader
 {
 public:
     LinBaudrateEvent();

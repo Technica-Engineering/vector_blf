@@ -34,7 +34,7 @@ namespace BLF {
 /**
  * @brief KLINE_STATUSEVENT
  */
-class KLineStatusEvent : public ObjectHeader
+class VECTOR_BLF_EXPORT KLineStatusEvent : public ObjectHeader
 {
 public:
     KLineStatusEvent();

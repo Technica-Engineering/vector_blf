@@ -20,6 +20,7 @@
  */
 
 #include "EnvironmentVariable.h"
+#include <cstring>
 
 namespace Vector {
 namespace BLF {
@@ -68,14 +69,14 @@ char * EnvironmentVariable::parse(char * buffer)
     /* name */
     size = nameLength;
     name = new char[nameLength+1];
-    memcpy((char *) &name, buffer, size);
+    memcpy(name, buffer, size);
     buffer += size;
     name[nameLength] = 0;
 
     /* data */
     size = dataLength;
-    buffer = new char[dataLength];
-    memcpy((char *) &data, buffer, size);
+    data = new char[dataLength];
+    memcpy(data, buffer, size);
     buffer += size;
 
     return buffer;

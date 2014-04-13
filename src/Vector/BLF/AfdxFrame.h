@@ -36,7 +36,7 @@ namespace BLF {
  *
  * AFDX frame.
  */
-class AfdxFrame : public ObjectHeader
+class VECTOR_BLF_EXPORT AfdxFrame : public ObjectHeader
 {
 public:
     AfdxFrame();

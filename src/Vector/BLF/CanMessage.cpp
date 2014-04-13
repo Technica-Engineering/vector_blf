@@ -20,7 +20,8 @@
  */
 
 #include "CanMessage.h"
-#include <iostream>
+
+#include <cstring>
 
 namespace Vector {
 namespace BLF {
@@ -63,8 +64,8 @@ char * CanMessage::parse(char * buffer)
     buffer += size;
 
     // data
-    size = sizeof(buffer);
-    memcpy((char *) &buffer, buffer, size);
+    size = sizeof(data);
+    memcpy((char *) &data, buffer, size);
     buffer += size;
 
     return buffer;

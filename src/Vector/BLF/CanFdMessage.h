@@ -54,7 +54,7 @@ enumclass CanFdMessageFlags : BYTE {
 /**
  * @brief CAN_FD_MESSAGE
  */
-class CanFdMessage : public ObjectHeader
+class VECTOR_BLF_EXPORT CanFdMessage : public ObjectHeader
 {
 public:
     CanFdMessage();

@@ -34,7 +34,7 @@ namespace BLF {
 /**
  * @brief LIN_DLC_INFO
  */
-class LinDlcInfo : public ObjectHeader
+class VECTOR_BLF_EXPORT LinDlcInfo : public ObjectHeader
 {
 public:
     LinDlcInfo();

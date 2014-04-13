@@ -34,7 +34,7 @@ namespace BLF {
 /**
  * @brief FR_RCVMESSAGE_EX
  */
-class FlexRayVFrReceiveMsgEx : public ObjectHeader
+class VECTOR_BLF_EXPORT FlexRayVFrReceiveMsgEx : public ObjectHeader
 {
 public:
     FlexRayVFrReceiveMsgEx();

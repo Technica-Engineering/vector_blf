@@ -34,7 +34,7 @@ namespace BLF {
 /**
  * @brief FLEXRAY_STATUS
  */
-class FlexRayStatusEvent : public ObjectHeader
+class VECTOR_BLF_EXPORT FlexRayStatusEvent : public ObjectHeader
 {
 public:
     FlexRayStatusEvent();

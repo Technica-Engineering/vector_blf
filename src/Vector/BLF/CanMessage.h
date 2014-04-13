@@ -36,7 +36,7 @@ namespace BLF {
  *
  * CAN data or CAN remote frame received or transmitted on a CAN channel.
  */
-class CanMessage : public ObjectHeader
+class VECTOR_BLF_EXPORT CanMessage : public ObjectHeader
 {
 public:
     CanMessage();

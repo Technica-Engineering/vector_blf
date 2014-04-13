@@ -34,7 +34,7 @@ namespace BLF {
 /**
  * @brief MOST_HWMODE
  */
-class MostHwMode : public ObjectHeader2
+class VECTOR_BLF_EXPORT MostHwMode : public ObjectHeader2
 {
 public:
     MostHwMode();

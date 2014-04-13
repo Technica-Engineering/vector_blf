@@ -36,7 +36,7 @@ namespace BLF {
  *
  * FlexRay message received or transmitted on FlexRay bus.
  */
-class FlexRayVFrReceiveMsg : public ObjectHeader
+class VECTOR_BLF_EXPORT FlexRayVFrReceiveMsg : public ObjectHeader
 {
 public:
     FlexRayVFrReceiveMsg();

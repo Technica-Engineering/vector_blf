@@ -36,7 +36,7 @@ namespace BLF {
  *
  * WLAN frame.
  */
-class WlanFrame : public ObjectHeader
+class VECTOR_BLF_EXPORT WlanFrame : public ObjectHeader
 {
 public:
     WlanFrame();

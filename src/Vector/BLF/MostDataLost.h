@@ -34,7 +34,7 @@ namespace BLF {
 /**
  * @brief MOST_DATALOST
  */
-class MostDataLost : public ObjectHeader2
+class VECTOR_BLF_EXPORT MostDataLost : public ObjectHeader2
 {
 public:
     MostDataLost();

@@ -53,7 +53,7 @@ struct CompactSerialEvent
 /**
  * @brief SERIAL_EVENT
  */
-class SerialEvent : public ObjectHeader
+class VECTOR_BLF_EXPORT SerialEvent : public ObjectHeader
 {
 public:
     SerialEvent();

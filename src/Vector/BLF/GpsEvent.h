@@ -36,7 +36,7 @@ namespace BLF {
  *
  * GPS event.
  */
-class GpsEvent : public ObjectHeader
+class VECTOR_BLF_EXPORT GpsEvent : public ObjectHeader
 {
 public:
     GpsEvent();

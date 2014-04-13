@@ -36,7 +36,7 @@ namespace BLF {
  *
  * Realtime clock object
  */
-class RealtimeClock : public ObjectHeader
+class VECTOR_BLF_EXPORT RealtimeClock : public ObjectHeader
 {
 public:
     RealtimeClock();

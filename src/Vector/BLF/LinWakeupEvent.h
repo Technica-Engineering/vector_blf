@@ -34,7 +34,7 @@ namespace BLF {
 /**
  * @brief LIN_WAKEUP
  */
-class LinWakeupEvent : public ObjectHeader
+class VECTOR_BLF_EXPORT LinWakeupEvent : public ObjectHeader
 {
 public:
     LinWakeupEvent();

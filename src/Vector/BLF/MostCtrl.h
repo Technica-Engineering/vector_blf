@@ -34,7 +34,7 @@ namespace BLF {
 /**
  * @brief MOST_CTRL
  */
-class MostCtrl : public ObjectHeader
+class VECTOR_BLF_EXPORT MostCtrl : public ObjectHeader
 {
 public:
     MostCtrl();

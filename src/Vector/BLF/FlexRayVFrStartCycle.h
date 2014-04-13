@@ -36,7 +36,7 @@ namespace BLF {
  *
  * FlexRay StartCycle event transmitted by the FlexRay hardware.
  */
-class FlexRayVFrStartCycle : public ObjectHeader
+class VECTOR_BLF_EXPORT FlexRayVFrStartCycle : public ObjectHeader
 {
 public:
     FlexRayVFrStartCycle();

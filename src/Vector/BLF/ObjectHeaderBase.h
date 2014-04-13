@@ -157,7 +157,7 @@ const DWORD ObjectSignature = 0x4A424F4C; /* LOBJ */
  *
  * Object header base structure.
  */
-class ObjectHeaderBase
+class VECTOR_BLF_EXPORT ObjectHeaderBase
 {
 public:
     ObjectHeaderBase();

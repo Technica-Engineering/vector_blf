@@ -36,7 +36,7 @@ namespace BLF {
  *
  * Ethernet RX error frame.
  */
-class EthernetRxError : public ObjectHeader
+class VECTOR_BLF_EXPORT EthernetRxError : public ObjectHeader
 {
 public:
     EthernetRxError();

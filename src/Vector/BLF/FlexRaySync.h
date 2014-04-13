@@ -34,7 +34,7 @@ namespace BLF {
 /**
  * @brief FLEXRAY_SYNC
  */
-class FlexRaySync : public ObjectHeader
+class VECTOR_BLF_EXPORT FlexRaySync : public ObjectHeader
 {
 public:
     FlexRaySync();

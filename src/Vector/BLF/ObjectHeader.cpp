@@ -21,6 +21,8 @@
 
 #include "ObjectHeader.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 

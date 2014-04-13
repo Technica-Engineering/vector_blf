@@ -34,7 +34,7 @@ namespace BLF {
 /**
  * @brief MOST_150_PKT_FRAGMENT
  */
-class Most150PktFragment : public ObjectHeader2 /* applied for MOST50 and MOST150 */
+class VECTOR_BLF_EXPORT Most150PktFragment : public ObjectHeader2 /* applied for MOST50 and MOST150 */
 {
 public:
     Most150PktFragment();

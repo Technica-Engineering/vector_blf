@@ -34,7 +34,7 @@ namespace BLF {
 /**
  * @brief LIN_CHECKSUM_INFO
  */
-class LinChecksumInfo : public ObjectHeader
+class VECTOR_BLF_EXPORT LinChecksumInfo : public ObjectHeader
 {
 public:
     LinChecksumInfo();

@@ -182,6 +182,8 @@ int main(int argc, char *argv[])
         delete obj;
     }
 
+    std::cout << "End of file." << std::endl;
+
     file.close();
 
     std::cout << std::endl << std::endl << std::endl << std::endl;

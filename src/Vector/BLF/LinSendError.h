@@ -34,7 +34,7 @@ namespace BLF {
 /**
  * @brief LIN_SND_ERROR
  */
-class LinSendError : public ObjectHeader
+class VECTOR_BLF_EXPORT LinSendError : public ObjectHeader
 {
 public:
     LinSendError();

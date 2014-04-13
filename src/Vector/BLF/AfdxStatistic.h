@@ -36,7 +36,7 @@ namespace BLF {
  *
  * AFDX statistic event per virtual link.
  */
-class AfdxStatistic : public ObjectHeader
+class VECTOR_BLF_EXPORT AfdxStatistic : public ObjectHeader
 {
 public:
     AfdxStatistic();

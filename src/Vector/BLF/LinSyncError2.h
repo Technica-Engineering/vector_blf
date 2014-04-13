@@ -35,7 +35,7 @@ namespace BLF {
 /**
  * @brief LIN_SYN_ERROR2
  */
-class LinSyncError2 : public ObjectHeader, public LinSynchFieldEvent
+class VECTOR_BLF_EXPORT LinSyncError2 : public ObjectHeader, public LinSynchFieldEvent
 {
 public:
     LinSyncError2();

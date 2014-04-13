@@ -34,7 +34,7 @@ namespace BLF {
 /**
  * @brief LIN_STATISTIC
  */
-class LinStatisticEvent : public ObjectHeader
+class VECTOR_BLF_EXPORT LinStatisticEvent : public ObjectHeader
 {
 public:
     LinStatisticEvent();

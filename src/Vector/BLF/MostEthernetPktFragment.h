@@ -34,7 +34,7 @@ namespace BLF {
 /**
  * @brief MOST_ETHERNET_PKT_FRAGMENT
  */
-class MostEthernetPktFragment : public ObjectHeader2
+class VECTOR_BLF_EXPORT MostEthernetPktFragment : public ObjectHeader2
 {
 public:
     MostEthernetPktFragment();

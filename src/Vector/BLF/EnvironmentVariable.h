@@ -36,7 +36,7 @@ namespace BLF {
  *
  * Environment variable that can be used with CANoe.
  */
-class EnvironmentVariable : public ObjectHeader
+class VECTOR_BLF_EXPORT EnvironmentVariable : public ObjectHeader
 {
 public:
     EnvironmentVariable();

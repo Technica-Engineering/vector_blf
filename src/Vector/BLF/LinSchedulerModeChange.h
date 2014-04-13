@@ -34,7 +34,7 @@ namespace BLF {
 /**
  * @brief LIN_SCHED_MODCH
  */
-class LinSchedulerModeChange : public ObjectHeader
+class VECTOR_BLF_EXPORT LinSchedulerModeChange : public ObjectHeader
 {
 public:
     LinSchedulerModeChange();

@@ -35,7 +35,7 @@ namespace BLF {
 /**
  * @brief LIN_RCV_ERROR2
  */
-class LinReceiveError2 : public ObjectHeader, public LinDatabyteTimestampEvent
+class VECTOR_BLF_EXPORT LinReceiveError2 : public ObjectHeader, public LinDatabyteTimestampEvent
 {
 public:
     LinReceiveError2();

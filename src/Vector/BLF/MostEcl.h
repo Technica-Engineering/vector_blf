@@ -34,7 +34,7 @@ namespace BLF {
 /**
  * @brief MOST_ECL
  */
-class MostEcl : public ObjectHeader2
+class VECTOR_BLF_EXPORT MostEcl : public ObjectHeader2
 {
 public:
     MostEcl();

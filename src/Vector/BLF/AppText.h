@@ -50,7 +50,7 @@ namespace BLF {
  * Application defined text to be saved in BLF log file (currently not used in
  * CANoe/CANalyzer).
  */
-class AppText : public ObjectHeader
+class VECTOR_BLF_EXPORT AppText : public ObjectHeader
 {
 public:
     AppText();

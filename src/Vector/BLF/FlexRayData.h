@@ -34,7 +34,7 @@ namespace BLF {
 /**
  * @brief FLEXRAY_DATA
  */
-class FlexRayData : public ObjectHeader
+class VECTOR_BLF_EXPORT FlexRayData : public ObjectHeader
 {
 public:
     FlexRayData();

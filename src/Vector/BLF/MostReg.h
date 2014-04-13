@@ -34,7 +34,7 @@ namespace BLF {
 /**
  * @brief MOST_REG
  */
-class MostReg : public ObjectHeader2
+class VECTOR_BLF_EXPORT MostReg : public ObjectHeader2
 {
 public:
     MostReg();

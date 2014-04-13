@@ -35,7 +35,7 @@ namespace BLF {
 /**
  * @brief LIN_LONG_DOM_SIG
  */
-class LinLongDomSignalEvent : public ObjectHeader, public LinBusEvent
+class VECTOR_BLF_EXPORT LinLongDomSignalEvent : public ObjectHeader, public LinBusEvent
 {
 public:
     LinLongDomSignalEvent();

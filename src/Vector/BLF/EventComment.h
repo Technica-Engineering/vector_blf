@@ -36,7 +36,7 @@ namespace BLF {
  *
  * Comment of an event. The comment can be set in Trace Window.
  */
-class EventComment : public ObjectHeader
+class VECTOR_BLF_EXPORT EventComment : public ObjectHeader
 {
 public:
     EventComment();

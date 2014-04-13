@@ -34,7 +34,7 @@ namespace BLF {
 /**
  * @brief OVERRUN_ERROR
  */
-class DriverOverrun : public ObjectHeader
+class VECTOR_BLF_EXPORT DriverOverrun : public ObjectHeader
 {
 public:
     DriverOverrun();

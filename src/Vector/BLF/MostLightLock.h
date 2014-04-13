@@ -34,7 +34,7 @@ namespace BLF {
 /**
  * @brief MOST_LIGHTLOCK
  */
-class MostLightLock : public ObjectHeader
+class VECTOR_BLF_EXPORT MostLightLock : public ObjectHeader
 {
 public:
     MostLightLock();

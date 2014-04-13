@@ -34,7 +34,7 @@ namespace BLF {
 /**
  * @brief LIN_RCV_ERROR
  */
-class LinReceiveError : public ObjectHeader
+class VECTOR_BLF_EXPORT LinReceiveError : public ObjectHeader
 {
 public:
     LinReceiveError();

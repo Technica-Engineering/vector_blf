@@ -35,7 +35,7 @@ namespace BLF {
 /**
  * @brief LIN_SHORT_OR_SLOW_RESPONSE
  */
-class LinShortOrSlowResponse : public ObjectHeader, public LinDatabyteTimestampEvent
+class VECTOR_BLF_EXPORT LinShortOrSlowResponse : public ObjectHeader, public LinDatabyteTimestampEvent
 {
 public:
     LinShortOrSlowResponse();

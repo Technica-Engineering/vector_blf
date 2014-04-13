@@ -36,7 +36,7 @@ namespace BLF {
  *
  * System variable that can be used with CANoe.
  */
-class SystemVariable : public ObjectHeader
+class VECTOR_BLF_EXPORT SystemVariable : public ObjectHeader
 {
 public:
     SystemVariable();

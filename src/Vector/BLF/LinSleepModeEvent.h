@@ -34,7 +34,7 @@ namespace BLF {
 /**
  * @brief LIN_SLEEP
  */
-class LinSleepModeEvent : public ObjectHeader
+class VECTOR_BLF_EXPORT LinSleepModeEvent : public ObjectHeader
 {
 public:
     LinSleepModeEvent();

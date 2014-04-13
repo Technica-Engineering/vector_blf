@@ -34,7 +34,7 @@ namespace BLF {
 /**
  * @brief MOST_TRIGGER
  */
-class MostTrigger : public ObjectHeader2
+class VECTOR_BLF_EXPORT MostTrigger : public ObjectHeader2
 {
 public:
     MostTrigger();

@@ -21,6 +21,9 @@
 
 #include "LogContainer.h"
 
+#include <cstring>
+#include <iostream>
+
 namespace Vector {
 namespace BLF {
 
@@ -69,11 +72,12 @@ char * LogContainer::parse(char * buffer)
     buffer += size;
 
     // compressedFile
-    size = objectSize
+    compressedFileSize = objectSize
             - 0x10  // ObjectHeaderBase
             - 0x10; // sizeof(LogContainer.header)
+    size = compressedFileSize;
     compressedFile = new char[compressedFileSize];
-    memcpy((char *) &compressedFile, buffer, size);
+    memcpy(compressedFile, buffer, size);
     buffer += size;
 
     return buffer;

@@ -34,7 +34,7 @@ namespace BLF {
 /**
  * @brief MOST_SYSTEM_EVENT
  */
-class MostSystemEvent : public ObjectHeader2
+class VECTOR_BLF_EXPORT MostSystemEvent : public ObjectHeader2
 {
 public:
     MostSystemEvent();

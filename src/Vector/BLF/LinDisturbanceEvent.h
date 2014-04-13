@@ -34,7 +34,7 @@ namespace BLF {
 /**
  * @brief LIN_DISTURBANCE_EVENT
  */
-class LinDisturbanceEvent : public ObjectHeader
+class VECTOR_BLF_EXPORT LinDisturbanceEvent : public ObjectHeader
 {
 public:
     LinDisturbanceEvent();

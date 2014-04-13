@@ -34,7 +34,7 @@ namespace BLF {
 /**
  * @brief MOST_SPY
  */
-class MostSpy : public ObjectHeader
+class VECTOR_BLF_EXPORT MostSpy : public ObjectHeader
 {
 public:
     MostSpy();

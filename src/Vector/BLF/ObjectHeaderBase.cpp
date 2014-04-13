@@ -21,6 +21,7 @@
 
 #include "ObjectHeaderBase.h"
 
+#include <cstring>
 #include <iostream>
 
 namespace Vector {

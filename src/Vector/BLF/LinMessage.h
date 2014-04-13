@@ -34,7 +34,7 @@ namespace BLF {
 /**
  * @brief LIN_MESSAGE
  */
-class LinMessage : public ObjectHeader
+class VECTOR_BLF_EXPORT LinMessage : public ObjectHeader
 {
 public:
     LinMessage();

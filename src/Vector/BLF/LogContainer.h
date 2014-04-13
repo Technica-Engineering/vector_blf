@@ -36,7 +36,7 @@ namespace BLF {
 /**
  * @brief LOG_CONTAINER
  */
-class LogContainer : public ObjectHeaderBase
+class VECTOR_BLF_EXPORT LogContainer : public ObjectHeaderBase
 {
 public:
     LogContainer();

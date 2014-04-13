@@ -36,7 +36,7 @@ namespace BLF {
  *
  * Event that occurs when hardware sync is executed.
  */
-class CanDriverHwSync : public ObjectHeader
+class VECTOR_BLF_EXPORT CanDriverHwSync : public ObjectHeader
 {
 public:
     CanDriverHwSync();

@@ -37,7 +37,7 @@ namespace BLF {
  * Application defined trigger to be saved in BLF log file (currently not used in CANoe
  * / CANalyzer).
  */
-class AppTrigger : public ObjectHeader
+class VECTOR_BLF_EXPORT AppTrigger : public ObjectHeader
 {
 public:
     AppTrigger();

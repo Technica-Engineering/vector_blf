@@ -34,7 +34,7 @@ namespace BLF {
 /**
  * @brief LIN_SPIKE_EVENT
  */
-class LinSpikeEvent : public ObjectHeader
+class VECTOR_BLF_EXPORT LinSpikeEvent : public ObjectHeader
 {
 public:
     LinSpikeEvent();

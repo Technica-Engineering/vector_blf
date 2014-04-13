@@ -36,7 +36,7 @@ namespace BLF {
  *
  * Object header. Version 1.
  */
-class ObjectHeader : public ObjectHeaderBase
+class VECTOR_BLF_EXPORT ObjectHeader : public ObjectHeaderBase
 {
 public:
     ObjectHeader();

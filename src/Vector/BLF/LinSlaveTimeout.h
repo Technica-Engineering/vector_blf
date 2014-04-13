@@ -34,7 +34,7 @@ namespace BLF {
 /**
  * @brief LIN_SLV_TIMEOUT
  */
-class LinSlaveTimeout : public ObjectHeader
+class VECTOR_BLF_EXPORT LinSlaveTimeout : public ObjectHeader
 {
 public:
     LinSlaveTimeout();
