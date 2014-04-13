@@ -42,7 +42,7 @@ public:
     SystemVariable();
     virtual ~SystemVariable();
 
-    virtual void read(std::istream & is);
+    virtual char * parse(char * buffer);
 
     virtual void setObjectSize();
 
@@ -109,10 +109,6 @@ public:
      * Data value of the system variable.
      */
     char * data;
-
-private:
-    /** object is already read */
-    bool alreadyRead;
 };
 
 }

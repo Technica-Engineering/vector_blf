@@ -41,8 +41,6 @@ class ObjectHeader2 : public ObjectHeaderBase
 public:
     ObjectHeader2();
 
-    virtual void read(std::istream & is);
-
     /**
      * @brief object flags
      *
@@ -130,10 +128,6 @@ public:
      * objectFlags.
      */
     ULONGLONG originalTimeStamp;
-
-private:
-    /** object is already read */
-    bool alreadyRead;
 };
 
 }

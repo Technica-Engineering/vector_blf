@@ -42,7 +42,7 @@ public:
     EnvironmentVariable();
     virtual ~EnvironmentVariable();
 
-    virtual void read(std::istream & is);
+    virtual char * parse(char * buffer);
 
     /**
      * @brief length of variable name in bytes
@@ -76,10 +76,6 @@ public:
      * Data value of the environment variable.
      */
     char * data;
-
-private:
-    /** object is already read */
-    bool alreadyRead;
 };
 
 }

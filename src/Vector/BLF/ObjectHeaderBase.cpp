@@ -31,9 +31,7 @@ ObjectHeaderBase::ObjectHeaderBase() :
     headerSize(),
     headerVersion(),
     objectSize(),
-    objectType(),
-    remainingSize(),
-    alreadyRead(false)
+    objectType()
 {
 }
 
@@ -41,59 +39,51 @@ ObjectHeaderBase::~ObjectHeaderBase()
 {
 }
 
-void ObjectHeaderBase::read(std::istream & is)
+char * ObjectHeaderBase::parse(char * buffer)
 {
-    if (alreadyRead)
-        return;
+    size_t size;
 
-    /* read data */
-    const std::streamsize size =
+    // signature
+    size = sizeof(signature);
+    memcpy((char *) &signature, buffer, size);
+    buffer += size;
+
+    // headerSize
+    size = sizeof(headerSize);
+    memcpy((char *) &headerSize, buffer, size);
+    buffer += size;
+
+    // headerVersion
+    size = sizeof(headerVersion);
+    memcpy((char *) &headerVersion, buffer, size);
+    buffer += size;
+
+    // objectSize
+    size = sizeof(objectSize);
+    memcpy((char *) &objectSize, buffer, size);
+    buffer += size;
+
+    // objectType
+    size = sizeof(objectType);
+    memcpy((char *) &objectType, buffer, size);
+    buffer += size;
+
+    /* checks */
+    if (signature != ObjectSignature) {
+        std::cerr << "Unexpected object signature" << std::endl;
+    }
+
+    return buffer;
+}
+
+void ObjectHeaderBase::setObjectSize()
+{
+    objectSize =
             sizeof(signature) +
             sizeof(headerSize) +
             sizeof(headerVersion) +
             sizeof(objectSize) +
             sizeof(objectType);
-    is.read((char *) &signature, sizeof(signature));
-    is.read((char *) &headerSize, sizeof(headerSize));
-    is.read((char *) &headerVersion, sizeof(headerVersion));
-    is.read((char *) &objectSize, sizeof(objectSize));
-    is.read((char *) &objectType, sizeof(objectType));
-    remainingSize = objectSize - size;
-
-    alreadyRead = true;
-
-    /* checks */
-    if (signature != ObjectSignature) {
-        std::cerr << "Unexpected object signature at pos 0x" << std::hex << (unsigned long) is.tellg() - 0x10 << std::endl;
-        return;
-    }
-}
-
-void ObjectHeaderBase::skip(std::istream & is)
-{
-    /* read the header at least */
-    if (!alreadyRead)
-        read(is);
-
-    /* skip object */
-    is.seekg(remainingSize, std::ifstream::cur);
-    remainingSize = 0;
-}
-
-void ObjectHeaderBase::copyObjectHeaderBase(ObjectHeaderBase & ohb)
-{
-    signature = ohb.signature;
-    headerSize = ohb.headerSize;
-    headerVersion = ohb.headerVersion;
-    objectSize = ohb.objectSize;
-    objectType = ohb.objectType;
-    remainingSize = ohb.remainingSize;
-    alreadyRead = ohb.alreadyRead;
-}
-
-void ObjectHeaderBase::setObjectSize()
-{
-    /* do nothing here */
 }
 
 }

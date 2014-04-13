@@ -31,32 +31,43 @@ CanMessage::CanMessage() :
     flags(),
     dlc(),
     id(),
-    data(),
-    alreadyRead(false)
+    data()
 {
 }
 
-void CanMessage::read(std::istream & is)
+char * CanMessage::parse(char * buffer)
 {
-    if (alreadyRead)
-        return;
+    size_t size;
 
-    /* read object header */
-    ObjectHeader::read(is);
+    // previous data
+    buffer = ObjectHeader::parse(buffer);
 
-    /* read remaining data */
-    is.read((char *) &channel, sizeof(channel));
-    remainingSize -= is.gcount();
-    is.read((char *) &flags, sizeof(flags));
-    remainingSize -= is.gcount();
-    is.read((char *) &dlc, sizeof(dlc));
-    remainingSize -= is.gcount();
-    is.read((char *) &id, sizeof(id));
-    remainingSize -= is.gcount();
-    is.read((char *) &data, sizeof(data));
-    remainingSize -= is.gcount();
+    // channel
+    size = sizeof(channel);
+    memcpy((char *) &channel, buffer, size);
+    buffer += size;
 
-    alreadyRead = true;
+    // flags
+    size = sizeof(flags);
+    memcpy((char *) &flags, buffer, size);
+    buffer += size;
+
+    // dlc
+    size = sizeof(dlc);
+    memcpy((char *) &dlc, buffer, size);
+    buffer += size;
+
+    // id
+    size = sizeof(id);
+    memcpy((char *) &id, buffer, size);
+    buffer += size;
+
+    // data
+    size = sizeof(buffer);
+    memcpy((char *) &buffer, buffer, size);
+    buffer += size;
+
+    return buffer;
 }
 
 }

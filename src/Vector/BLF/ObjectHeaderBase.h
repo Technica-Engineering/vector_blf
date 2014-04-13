@@ -166,23 +166,10 @@ public:
     /**
      * Read the data of this object
      *
-     * @param ifs input file stream
+     * @param data Data buffer
+     * @return data pointer after parse
      */
-    virtual void read(std::istream & is);
-
-    /**
-     * Skip the object
-     *
-     * @param ifs input file stream
-     */
-    void skip(std::istream & is);
-
-    /**
-     * Copy object header base from previous read
-     *
-     * @param ohb Existing object header base
-     */
-    void copyObjectHeaderBase(ObjectHeaderBase & ohb);
+    virtual char * parse(char * buffer);
 
     /**
      * Sets the variable objectSize according to the payload
@@ -232,14 +219,6 @@ public:
      * Object type.
      */
     ObjectType objectType;
-
-protected:
-    /** object remaining size */
-    std::streamsize remainingSize;
-
-private:
-    /** object is already read */
-    bool alreadyRead;
 };
 
 }

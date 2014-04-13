@@ -92,11 +92,18 @@ bool File::eof()
 ObjectHeaderBase * File::read(std::iostream & ios)
 {
     /* read object header */
+    char * ohbBuffer = new char[0x10];
+    ios.read(ohbBuffer, 0x10);
     ObjectHeaderBase ohb;
-    ohb.read(ios);
+    ohb.parse(ohbBuffer);
 
-    /* create class */
-    ObjectHeaderBase * obj = nullptr;
+    /* read full object */
+    char * objBuffer = new char[ohb.objectSize];
+    memcpy(objBuffer, ohbBuffer, 0x10);
+    ios.read(objBuffer + 0x10, ohb.objectSize - 0x10);
+
+    /* create object */
+    ObjectHeaderBase * obj;
     switch(ohb.objectType) {
     case ObjectType::UNKNOWN:
         break;
@@ -491,21 +498,25 @@ ObjectHeaderBase * File::read(std::iostream & ios)
 
     /* read remaining object data or skip */
     if (obj != nullptr) {
-        obj->copyObjectHeaderBase(ohb);
-        obj->read(ios);
+        char * ptr = obj->parse(objBuffer);
 
         /* handle if there is size remaining */
-        if (obj->remainingSize > 0) {
-          std::cerr << "remainingSize: 0x" << std::hex << obj->remainingSize << std::endl;
-          ios.seekg(obj->remainingSize, std::iostream::cur);
+        size_t remainingSize = ptr - objBuffer;
+        if (remainingSize > 0) {
+          std::cerr << "remainingSize: 0x" << std::hex << remainingSize << std::endl;
+          ios.seekg(remainingSize, std::iostream::cur);
         }
     } else {
-        ohb.skip(ios);
+        /* skip object */
+        size_t remainingSize = ohb.objectSize - 0x10;
+        ios.seekg(remainingSize, std::iostream::cur);
     }
 
     /* skip padding */
     ios.seekg(ohb.objectSize%4, std::iostream::cur);
 
+    delete ohbBuffer;
+    delete objBuffer;
     return obj;
 }
 

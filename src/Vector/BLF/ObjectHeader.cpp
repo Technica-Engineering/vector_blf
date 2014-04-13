@@ -29,30 +29,38 @@ ObjectHeader::ObjectHeader() :
     objectFlags(),
     reserved(),
     objectVersion(),
-    objectTimeStamp(),
-    alreadyRead(false)
+    objectTimeStamp()
 {
 }
 
-void ObjectHeader::read(std::istream & is)
+char * ObjectHeader::parse(char * buffer)
 {
-    if (alreadyRead)
-        return;
+    size_t size;
 
-    /* read object header */
-    ObjectHeaderBase::read(is);
+    // previous data
+    buffer = ObjectHeaderBase::parse(buffer);
 
-    /* read remaining data */
-    is.read((char *) &objectFlags, sizeof(objectFlags));
-    remainingSize -= is.gcount();
-    is.read((char *) &reserved, sizeof(reserved));
-    remainingSize -= is.gcount();
-    is.read((char *) &objectVersion, sizeof(objectVersion));
-    remainingSize -= is.gcount();
-    is.read((char *) &objectTimeStamp, sizeof(objectTimeStamp));
-    remainingSize -= is.gcount();
+    // objectFlags
+    size = sizeof(objectFlags);
+    memcpy((char *) &objectFlags, buffer, size);
+    buffer += size;
 
-    alreadyRead = true;
+    // reserved
+    size = sizeof(reserved);
+    memcpy((char *) &reserved, buffer, size);
+    buffer += size;
+
+    // objectVersion
+    size = sizeof(objectVersion);
+    memcpy((char *) &objectVersion, buffer, size);
+    buffer += size;
+
+    // objectTimeStamp
+    size = sizeof(objectTimeStamp);
+    memcpy((char *) &objectTimeStamp, buffer, size);
+    buffer += size;
+
+    return buffer;
 }
 
 }

@@ -31,8 +31,7 @@ LogContainer::LogContainer() :
     objectVersion(),
     uncompressedFileSize(),
     compressedFileSize(),
-    compressedFile(nullptr),
-    alreadyRead(false)
+    compressedFile(nullptr)
 {
 }
 
@@ -42,30 +41,42 @@ LogContainer::~LogContainer()
     compressedFile = nullptr;
 }
 
-void LogContainer::read(std::istream & is)
+char * LogContainer::parse(char * buffer)
 {
-    if (alreadyRead)
-        return;
+    size_t size;
 
-    /* read object header */
-    ObjectHeaderBase::read(is);
+    // previous data
+    buffer = ObjectHeaderBase::parse(buffer);
 
-    /* read remaining data */
-    const std::streamsize size =
-            sizeof(objectFlags) +
-            sizeof(reserved) +
-            sizeof(objectVersion) +
-            sizeof(uncompressedFileSize);
-    is.read((char *) &objectFlags, size);
-    remainingSize -= size;
+    // objectFlags
+    size = sizeof(objectFlags);
+    memcpy((char *) &objectFlags, buffer, size);
+    buffer += size;
 
-    /* read compressed file */
-    compressedFileSize = remainingSize;
+    // reserved
+    size = sizeof(reserved);
+    memcpy((char *) &reserved, buffer, size);
+    buffer += size;
+
+    // objectVersion
+    size = sizeof(objectVersion);
+    memcpy((char *) &objectVersion, buffer, size);
+    buffer += size;
+
+    // uncompressedFileSize
+    size = sizeof(uncompressedFileSize);
+    memcpy((char *) &uncompressedFileSize, buffer, size);
+    buffer += size;
+
+    // compressedFile
+    size = objectSize
+            - 0x10  // ObjectHeaderBase
+            - 0x10; // sizeof(LogContainer.header)
     compressedFile = new char[compressedFileSize];
-    is.read(compressedFile, compressedFileSize);
-    remainingSize -= compressedFileSize;
+    memcpy((char *) &compressedFile, buffer, size);
+    buffer += size;
 
-    alreadyRead = true;
+    return buffer;
 }
 
 }

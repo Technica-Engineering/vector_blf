@@ -30,8 +30,7 @@ EnvironmentVariable::EnvironmentVariable() :
     dataLength(),
     unknown(),
     name(nullptr),
-    data(nullptr),
-    alreadyRead(false)
+    data(nullptr)
 {
 }
 
@@ -44,34 +43,42 @@ EnvironmentVariable::~EnvironmentVariable()
     data = nullptr;
 }
 
-void EnvironmentVariable::read(std::istream & is)
+char * EnvironmentVariable::parse(char * buffer)
 {
-    if (alreadyRead)
-        return;
+    size_t size;
 
-    /* read object header */
-    ObjectHeader::read(is);
+    // previous data
+    buffer = ObjectHeader::parse(buffer);
 
-    /* read remaining data */
-    is.read((char *) &nameLength, sizeof(nameLength));
-    remainingSize -= is.gcount();
-    is.read((char *) &dataLength, sizeof(dataLength));
-    remainingSize -= is.gcount();
-    is.read((char *) &unknown, sizeof(unknown));
-    remainingSize -= is.gcount();
+    // nameLength
+    size = sizeof(nameLength);
+    memcpy((char *) &nameLength, buffer, size);
+    buffer += size;
 
-    /* read name */
+    // dataLength
+    size = sizeof(dataLength);
+    memcpy((char *) &dataLength, buffer, size);
+    buffer += size;
+
+    // unknown
+    size = sizeof(unknown);
+    memcpy((char *) &unknown, buffer, size);
+    buffer += size;
+
+    /* name */
+    size = nameLength;
     name = new char[nameLength+1];
-    is.read(name, nameLength);
-    remainingSize -= is.gcount();
+    memcpy((char *) &name, buffer, size);
+    buffer += size;
     name[nameLength] = 0;
 
-    /* read data */
-    data = new char[dataLength];
-    is.read(data, dataLength);
-    remainingSize -= is.gcount();
+    /* data */
+    size = dataLength;
+    buffer = new char[dataLength];
+    memcpy((char *) &data, buffer, size);
+    buffer += size;
 
-    alreadyRead = true;
+    return buffer;
 }
 
 }

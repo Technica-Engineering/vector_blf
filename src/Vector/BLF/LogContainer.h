@@ -42,7 +42,7 @@ public:
     LogContainer();
     virtual ~LogContainer();
 
-    virtual void read(std::istream & is);
+    virtual char * parse(char * buffer);
 
     /**
      * @brief object flags (usually BL_OBJ_FLAG_TIME_ONE_NANS)
@@ -69,10 +69,6 @@ public:
 
     /** compressed file content */
     char * compressedFile;
-
-private:
-    /** object is already read */
-    bool alreadyRead;
 };
 
 }

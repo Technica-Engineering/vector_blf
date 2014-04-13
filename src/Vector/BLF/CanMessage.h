@@ -41,7 +41,7 @@ class CanMessage : public ObjectHeader
 public:
     CanMessage();
 
-    virtual void read(std::istream & is);
+    virtual char * parse(char * buffer);
 
     /**
      * @brief application channel
@@ -84,10 +84,6 @@ public:
      * CAN data bytes
      */
     BYTE data[8];
-
-private:
-    /** object is already read */
-    bool alreadyRead;
 };
 
 }
