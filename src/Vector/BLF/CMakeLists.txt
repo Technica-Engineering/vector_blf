@@ -241,7 +241,7 @@ endif()
 
 find_package(ZLIB)
 include_directories(${ZLIB_INCLUDE_DIRS})
-target_link_libraries(Vector_BLF ${ZLIB_LIBRARIES})
+target_link_libraries(Vector_BLF -lz ${ZLIB_LIBRARIES})
 
 install(
   TARGETS Vector_BLF
