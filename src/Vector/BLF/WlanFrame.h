@@ -51,7 +51,8 @@ public:
     WORD channel;
 
     enumclass Flags : WORD {
-        GenuineMacHeader = 0x0001 /**< Genuine MAC Header */
+        /** Genuine MAC Header */
+        GenuineMacHeader = 0x0001
     };
     WORD flags;
 
@@ -103,7 +104,7 @@ public:
      * header.
      * Max. 2342 data bytes per frame
      */
-    BYTE* frameData;
+    char * frameData;
 };
 
 }

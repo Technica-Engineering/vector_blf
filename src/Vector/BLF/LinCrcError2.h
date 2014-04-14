@@ -34,24 +34,113 @@ namespace BLF {
 
 /**
  * @brief LIN_CRC_ERROR2
+ *
+ * Checksum error event occurring when Slave sends an incorrect checksum value for a
+ * frame response that is otherwise correct.
  */
 class VECTOR_BLF_EXPORT LinCrcError2 : public ObjectHeader, public LinDatabyteTimestampEvent
 {
 public:
     LinCrcError2();
 
-    BYTE data[8]; /**< data bytes. */
-    WORD crc; /**< checksum byte */
-    BYTE dir; /**< direction */
+    /**
+     * @brief data bytes.
+     *
+     * Data byte values
+     */
+    BYTE data[8];
+
+    /**
+     * @brief checksum byte
+     *
+     * Checksum byte value
+     */
+    WORD crc;
+
+    /**
+     * @brief direction
+     *
+     * Direction of bus events
+     *   - 0: Rx (received)
+     *   - 1: Tx (transmit receipt)
+     *   - 2: Tx Request (transmit request)
+     */
+    BYTE dir;
+
+    /**
+     * Slave Identifier in the Final State
+     * Machine (obsolete)
+     */
     BYTE fsmId;
+
+    /**
+     * State Identifier of a Slave in the
+     * Final State Machine (obsolete)
+     */
     BYTE fsmState;
-    BYTE simulated; /**< simulated frame */
-    BYTE reserved[2]; /**< 4-byte alignment */
-    DWORD respBaudrate; /**< Response baudrate of the event in bit/sec */
-    BYTE reserved2[4]; /**< 4-byte alignment, reserved since BLF 3.9.3.0, BLF files from older versions may have junk data here */
-    DOUBLE exactHeaderBaudrate; /**< Exact baudrate of the header in bit/sec */
-    DWORD earlyStopbitOffset; /**< Early stop bit offset for UART timestamps in ns */
-    DWORD earlyStopbitOffsetResponse; /**< Early stop bit offset in frame response for UART timestamps in ns */
+
+    /**
+     * @brief simulated frame
+     *
+     * Flag indicating whether this frame a
+     * simulated one:
+     *   - 0: real frame
+     *   - 1: simulated frame
+     */
+    BYTE simulated;
+
+    /**
+     * @brief 4-byte alignment
+     *
+     * Reserved, has to be set to 0.
+     */
+    BYTE reserved[2];
+
+    /* the following variables are only available in Version 2 and above */
+
+    /**
+     * @brief Response baudrate of the event in bit/sec
+     *
+     * Event’s baudrate measured in
+     * response [in bits/sec]
+     */
+    DWORD respBaudrate;
+
+    /**
+     * @brief 4-byte alignment, reserved since BLF 3.9.3.0, BLF files from older versions may have junk data here
+     *
+     * Reserved, has to be set to 0.
+     */
+    BYTE reserved2[4];
+
+    /* the following variables are only available in Version 3 and above */
+
+    /**
+     * @brief Exact baudrate of the header in bit/sec
+     *
+     * Event's baudrate
+     * measured in header [in
+     * bits/sec]
+     */
+    DOUBLE exactHeaderBaudrate;
+
+    /**
+     * @brief Early stop bit offset for UART timestamps in ns
+     *
+     * Early stop bit offset in
+     * frame header for UART
+     * timestamps [in ns]
+     */
+    DWORD earlyStopbitOffset;
+
+    /**
+     * @brief Early stop bit offset in frame response for UART timestamps in ns
+     *
+     * Early stop bit offset in
+     * frame response for
+     * UART timestamps [in ns]
+     */
+    DWORD earlyStopbitOffsetResponse;
 };
 
 }

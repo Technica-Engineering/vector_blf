@@ -33,6 +33,9 @@ namespace BLF {
 
 /**
  * @brief MOST_ALLOCTAB
+ *
+ * Transports current state of the MOST25 Allocation Table of connected hardware
+ * interface.
  */
 class VECTOR_BLF_EXPORT MostAllocTab : public ObjectHeader2
 {
@@ -41,9 +44,37 @@ public:
 
     virtual void setObjectSize();
 
-    WORD channel; /**< application channel */
+    /**
+     * @brief application channel
+     *
+     * Application channel
+     */
+    WORD channel;
+
+    /**
+     * Length of variable data (usually 60 bytes for
+     * MOST25)
+     */
     WORD length;
-    LPBYTE tableData;
+
+    /**
+     * Allocation Table
+     *
+     * The label of a synchronous connection can be
+     * distributed over several bytes in the Allocation
+     * Table.
+     *
+     * Each byte in mTableData contains a value that
+     * specifies the identification number of the label it
+     * belongs to. If the device is a timing master, the
+     * MSB of the byte value is used to indicate if the
+     * label is in use or not, otherwise the MSB should
+     * be ignored. The label number thus can be
+     * determined by byte value & 0x7F. If the resulting
+     * label number is 0x70, the byte is not used for any
+     * label.
+     */
+    char * tableData;
 };
 
 }

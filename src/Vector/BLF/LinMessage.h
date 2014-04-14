@@ -33,22 +33,82 @@ namespace BLF {
 
 /**
  * @brief LIN_MESSAGE
+ *
+ * @deprecated
+ *
+ * LIN frame received or transmitted on a LIN channel.
  */
 class VECTOR_BLF_EXPORT LinMessage : public ObjectHeader
 {
 public:
     LinMessage();
 
-    WORD channel; /**< application channel */
-    BYTE id; /**< LIN ID */
-    BYTE dlc; /**< LIN DLC */
+    /**
+     * @brief application channel
+     *
+     * Channel number where the frame sent/received.
+     */
+    WORD channel;
+
+    /**
+     * @brief LIN ID
+     *
+     * Frame identifier
+     */
+    BYTE id;
+
+    /**
+     * @brief LIN DLC
+     *
+     * Frame length
+     */
+    BYTE dlc;
+
+    /**
+     * Databyte values
+     */
     BYTE data[8];
+
+    /**
+     * Slave Identifier in the Final State Machine
+     * (obsolete)
+     */
     BYTE fsmId;
+
+    /**
+     * State Identifier of a Slave in the Final State
+     * Machine (obsolete)
+     */
     BYTE fsmState;
+
+    /**
+     * Duration of the frame header [in bit times]
+     */
     BYTE headerTime;
+
+    /**
+     * Duration of the entire frame [in bit times]
+     */
     BYTE fullTime;
+
+    /**
+     * Checksum byte value
+     */
     WORD crc;
+
+    /**
+     * @brief direction
+     *
+     * Direction of bus events
+     *   - 0: Rx (received)
+     *   - 1: Tx (transmit receipt)
+     *   - 2: Tx Request (transmit request)
+     */
     BYTE dir;
+
+    /**
+     * Reserved, has to be set to 0.
+     */
     BYTE reserved;
 };
 

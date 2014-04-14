@@ -25,7 +25,8 @@ namespace Vector {
 namespace BLF {
 
 LinDatabyteTimestampEvent::LinDatabyteTimestampEvent() :
-    LinMessageDescriptor()
+    LinMessageDescriptor(),
+    databyteTimestamps()
 {
 }
 

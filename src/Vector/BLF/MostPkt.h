@@ -33,26 +33,98 @@ namespace BLF {
 
 /**
  * @brief MOST_PKT
+ *
+ * This event structure was never and should never be used. Use MostPkt2
+ * instead.
  */
 class VECTOR_BLF_EXPORT MostPkt : public ObjectHeader
 {
 public:
     MostPkt();
 
-    WORD channel; /**< application channel */
+    /**
+     * @brief application channel
+     *
+     * Application channel
+     */
+    WORD channel;
+
+    /**
+     * @se 3.1.4
+     */
     BYTE dir;
+
     BYTE dummy1;
+
+    /**
+     * Source address
+     */
     DWORD sourceAdr;
+
+    /**
+     * Target address
+     */
     DWORD destAdr;
+
+    /**
+     * Arbitration byte
+     */
     BYTE arbitration;
+
+    /**
+     * Obsolete member; read/write 0
+     */
     BYTE timeRes;
+
+    /**
+     * Number of quadlets
+     */
     BYTE quadsToFollow;
+
+    /**
+     * Cyclic Redundancy Check
+     */
     WORD crc;
+
+    /**
+     * Priority
+     */
     BYTE priority;
+
+    /**
+     * @brief Tranfer type
+     *
+     * Message-like events can either be recorded through the MOST transceiver chip or through a
+     * separate network spy.
+     *   - 1: Node
+     *     MOST transceiver reported the message (either due to a successful reception or
+     *     as acknowledgment for a transmit request).
+     *   - 2: Spy
+     *     Message was reported by the network spy. The Spy sees all messages
+     *     independently of the desti-nation address.
+     */
     BYTE transferType;
+
+    /**
+     * Transmission state
+     *   - 0 for Rx
+     *   - 0x40 for TxOk (transmit request)
+     */
     BYTE state;
-    DWORD pktDataLength; /**< length of variable data in bytes */
-    LPBYTE pktData; /**< variable data */
+
+    /**
+     * @brief length of variable data in bytes
+     *
+     * Length of variable data in bytes (1014 max)
+     */
+    DWORD pktDataLength;
+
+    /**
+     * @brief variable data
+     *
+     * Variable data
+     */
+    char * pktData;
 };
 
 }

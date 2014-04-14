@@ -33,19 +33,59 @@ namespace BLF {
 
 /**
  * @brief MOST_DATALOST
+ *
+ * Indicates loss of data. (Number of lost messages and start and end time stamp of data
+ * loss.)
  */
 class VECTOR_BLF_EXPORT MostDataLost : public ObjectHeader2
 {
 public:
     MostDataLost();
 
-    WORD channel; /**< application channel */
+    /**
+     * @brief application channel
+     *
+     * Application channel
+     */
+    WORD channel;
+
     WORD dummy1;
-    DWORD info; /**< info about data loss */
+
+    /**
+     * @brief info about data loss
+     *
+     * Data loss information
+     *   - Bit0: 1: data loss on control channel (spy)
+     *   - Bit1: 1: data loss on control channel (node)
+     *   - Bit2: 1: data loss on asynchronous channel
+     *     (spy)
+     *   - Bit3: 1: data loss on asynchronous channel
+     *     (node)
+     *   - Bit4: 1: data loss on synchronous channel
+     *   - Bit5: 1: data loss since driver queue full
+     */
+    DWORD info;
+
+    /**
+     * Number of lost messages on Control channel
+     */
     DWORD lostMsgsCtrl;
+
+    /**
+     * Number of lost messages on Packet Data
+     * Channel channel
+     */
     DWORD lostMsgsAsync;
-    ULONGLONG lastGoodTimeStampNS;
-    ULONGLONG nextGoodTimeStampNS;
+
+    /**
+     * Absolute time in nano-seconds
+     */
+    ULONGLONG lastGoodTimeStampNs;
+
+    /**
+     * Absolute time in nano-seconds
+     */
+    ULONGLONG nextGoodTimeStampNs;
 };
 
 }

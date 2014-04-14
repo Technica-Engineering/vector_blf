@@ -25,7 +25,14 @@ namespace Vector {
 namespace BLF {
 
 EthernetRxError::EthernetRxError() :
-    ObjectHeader()
+    ObjectHeader(),
+    structLength(),
+    channel(),
+    dir(),
+    fcs(),
+    frameDataLength(),
+    error(),
+    frameData(nullptr)
 {
 }
 

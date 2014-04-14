@@ -33,20 +33,83 @@ namespace BLF {
 
 /**
  * @brief MOST_GENREG
+ *
+ * This event reports the change of an important transceiver register like node position or
+ * node address. It can occur spontaneous or as result of a read/write operation. Directly after
+ * measurement start the current values of the special registers are reported even if they have not
+ * changed.
  */
 class VECTOR_BLF_EXPORT MostGenReg : public ObjectHeader2
 {
 public:
     MostGenReg();
 
-    WORD channel; /**< application channel */
-    BYTE subType; /**< read/write request/result */
+    /**
+     * @brief application channel
+     *
+     * Application channel
+     */
+    WORD channel;
+
+    /**
+     * @brief read/write request/result
+     *
+     * Operation type of a register event.
+     *   - Unspecified = 0: unspecified (or HW does not support sub types)
+     *   - Notify = 1: notification on register change (spontaneous)
+     *   - ReadRequest = 2: request of a register read operation
+     *   - WriteRequest = 3: request of a register write operation
+     *   - ReadResult = 4: result of a register read operation
+     *   - WriteResult = 5: result of a register write operation
+     *   - ReadFailed = 6: register read operation failed
+     *   - WriteFailed = 7: register write operation failed
+     */
+    BYTE subType;
+
     BYTE dummy1;
-    DWORD handle; /**< operation handle */
-    WORD regId; /**< register ID */
+
+    /**
+     * @brief operation handle
+     *
+     * Operation handle (obsolete; write 0)
+     */
+    DWORD handle;
+
+    /**
+     * @brief register ID
+     *
+     * IDs for identifying registers.
+     *   - Empty = 0x0
+     *   - NPR = 0x87: 8 bit Node Position register
+     *   - GA = 0x89: 8 bit Group (Group Address = 0x0300 + Group)
+     *   - NA = 0x8A: 16 bit Node Address
+     *   - NDR = 0x8F: 8 bit Node Delay (MOST25 only)
+     *   - MPR = 0x90: 8 bit Number of nodes with open bypass
+     *   - MDR = 0x91: 8 bit Maximum Delay (MOST25 only)
+     *   - SBC = 0x96: 8 bit Synchronous Bandwidth Control (SBC)
+     *     - Synchronous Bandwidth = 4 x SBC
+     *     - Maximum values for SBC:
+     *       - MOST25: 15 (= 60 Bytes)
+     *       - MOST50: 29 (= 116 Bytes)
+     *       - MOST150: 93 (= 372 Bytes)
+     *   - APA = 0xE8: 16 bit Alternate Packet Address (MOST25 only)
+     *   - XTIM = 0xBE: 8 bit Transmit Retry Time
+     *   - XRTY = 0xBF: 8 bit Number of send attempts
+     *   - MacAdr = 0xFE: 48 bit MAC address (EUI-48, conforming to the IEEE standard;
+     *     MOST150 only)
+     */
+    WORD regId;
+
     WORD dummy2;
+
     DWORD dummy3;
-    ULONGLONG  regValue; /**< register value */
+
+    /**
+     * @brief register value
+     *
+     * Register value
+     */
+    ULONGLONG regValue;
 };
 
 }

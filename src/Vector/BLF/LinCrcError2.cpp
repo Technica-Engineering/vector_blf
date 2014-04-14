@@ -26,7 +26,19 @@ namespace BLF {
 
 LinCrcError2::LinCrcError2() :
     ObjectHeader(),
-    LinDatabyteTimestampEvent()
+    LinDatabyteTimestampEvent(),
+    data(),
+    crc(),
+    dir(),
+    fsmId(),
+    fsmState(),
+    simulated(),
+    reserved(),
+    respBaudrate(),
+    reserved2(),
+    exactHeaderBaudrate(),
+    earlyStopbitOffset(),
+    earlyStopbitOffsetResponse()
 {
 }
 

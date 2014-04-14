@@ -34,20 +34,76 @@ namespace BLF {
 
 /**
  * @brief LIN_SND_ERROR2
+ *
+ * This event occurs when no Slave responds to a frame header from Master.
  */
 class VECTOR_BLF_EXPORT LinSendError2 : public ObjectHeader, public LinMessageDescriptor
 {
 public:
     LinSendError2();
 
-    ULONGLONG eoh; /**< EndOfHeader timestamp */
-    BYTE isETF; /**< Event-triggered frame */
+    /**
+     * @brief EndOfHeader timestamp
+     *
+     * End of header timestamp [in nanosecond]
+     */
+    ULONGLONG eoh;
+
+    /**
+     * @brief Event-triggered frame
+     *
+     * Flag indicating whether this frame is Event-
+     * Triggered one:
+     *   - 0: not ETF
+     *   - 1: ETF
+     */
+    BYTE isEtf;
+
+    /**
+     * Slave Identifier in the Final State
+     * Machine (obsolete)
+     */
     BYTE fsmId;
+
+    /**
+     * State Identifier of a Slave in the Final State
+     * Machine (obsolete)
+     */
     BYTE fsmState;
-    BYTE reserved; /**< 4-byte alignment */
-    BYTE reserved2[4]; /**< 4-byte alignment, reserved since BLF 3.9.3.0, BLF files from older versions may have junk data here */
-    DOUBLE exactHeaderBaudrate; /**< Exact baudrate of the header in bit/sec */
-    DWORD earlyStopbitOffset; /**< Early stop bit offset for UART timestamps in ns */
+
+    /**
+     * @brief 4-byte alignment
+     *
+     * Reserved, has to be set to 0.
+     */
+    BYTE reserved;
+
+    /* the following variables are only available in Version 2 and above */
+
+    /**
+     * @brief 4-byte alignment, reserved since BLF 3.9.3.0, BLF files from older versions may have junk data here
+     *
+     * Reserved, has to be set to 0.
+     */
+    BYTE reserved2[4];
+
+    /* the following variables are only available in Version 3 and above */
+
+    /**
+     * @brief Exact baudrate of the header in bit/sec
+     *
+     * Event's baudrate measured in header
+     * [in bits/sec]
+     */
+    DOUBLE exactHeaderBaudrate;
+
+    /**
+     * @brief Early stop bit offset for UART timestamps in ns
+     *
+     * Early stop bit offset in frame header
+     * for UART timestamps [in ns]
+     */
+    DWORD earlyStopbitOffset;
 };
 
 }

@@ -25,8 +25,21 @@ namespace Vector {
 namespace BLF {
 
 MostPkt2::MostPkt2() :
-    ObjectHeader2()
-{
+    ObjectHeader2(),
+    channel(),
+    dir(),
+    dummy1(),
+    sourceAdr(),
+    destAdr(),
+    arbitration(),
+    timeRes(),
+    quadsToFollow(),
+    crc(),
+    priority(),
+    transferType(),
+    state(),
+    pktDataLength(),
+    pktData(nullptr){
 }
 
 void MostPkt2::setObjectSize()

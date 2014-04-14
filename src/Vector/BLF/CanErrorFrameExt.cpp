@@ -25,7 +25,19 @@ namespace Vector {
 namespace BLF {
 
 CanErrorFrameExt::CanErrorFrameExt() :
-    ObjectHeader()
+    ObjectHeader(),
+    channel(),
+    length(),
+    flags(),
+    ecc(),
+    position(),
+    dlc(),
+    reserved1(),
+    frameLengthInNs(),
+    id(),
+    flagsExt(),
+    reserved2(),
+    data()
 {
 }
 

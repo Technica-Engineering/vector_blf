@@ -34,12 +34,22 @@ namespace BLF {
 
 /**
  * @brief LIN_SYN_ERROR2
+ *
+ * Synchronization errors occur if the LIN hardware cannot synchronize with an external
+ * Master. This might happen if the baud rate actually used by the Master deviates by more than 15 %
+ * from the baud rate specified by the LIN hardware. In this case the baud rate value should be
+ * modified. This error event may also occur if the Master transmits an invalid or corrupted Sync
+ * field.
  */
 class VECTOR_BLF_EXPORT LinSyncError2 : public ObjectHeader, public LinSynchFieldEvent
 {
 public:
     LinSyncError2();
 
+    /**
+     * Time intervals [in us] detected between the
+     * falling signal edges of the Sync field
+     */
     WORD timeDiff[4];
 };
 

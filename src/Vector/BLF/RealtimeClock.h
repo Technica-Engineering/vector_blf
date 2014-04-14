@@ -40,8 +40,16 @@ class VECTOR_BLF_EXPORT RealtimeClock : public ObjectHeader
 {
 public:
     RealtimeClock();
-    ULONGLONG time; /**< logging start time in ns since 00:00 1.1.1970 GMT */
-    ULONGLONG loggingOffset; /**< measurement zero offset in ns to 00:00 1.1.1970 GMT */
+
+    /**
+     * @brief logging start time in ns since 00:00 1.1.1970 GMT
+     */
+    ULONGLONG time;
+
+    /**
+     * @brief measurement zero offset in ns to 00:00 1.1.1970 GMT
+     */
+    ULONGLONG loggingOffset;
 };
 
 }

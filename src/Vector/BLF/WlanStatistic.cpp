@@ -25,7 +25,15 @@ namespace Vector {
 namespace BLF {
 
 WlanStatistic::WlanStatistic() :
-    ObjectHeader()
+    ObjectHeader(),
+    channel(),
+    flags(),
+    rxPacketCount(),
+    rxByteCount(),
+    txPacketCount(),
+    txByteCount(),
+    collisionCount(),
+    errorCount()
 {
 }
 

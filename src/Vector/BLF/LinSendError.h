@@ -33,17 +33,57 @@ namespace BLF {
 
 /**
  * @brief LIN_SND_ERROR
+ *
+ * @deprecated
+ *
+ * This event occurs when no Slave responds to a frame header from Master.
  */
 class VECTOR_BLF_EXPORT LinSendError : public ObjectHeader
 {
 public:
     LinSendError();
-    WORD channel; /**< application channel */
-    BYTE id; /**< LIN ID */
-    BYTE dlc; /**< LIN DLC */
+
+    /**
+     * @brief application channel
+     *
+     * Channel number where the event notified
+     */
+    WORD channel;
+
+    /**
+     * @brief LIN ID
+     *
+     * Frame identifier
+     */
+    BYTE id;
+
+    /**
+     * @brief LIN DLC
+     *
+     * Frame length
+     */
+    BYTE dlc;
+
+    /**
+     * Slave Identifier in the Final State Machine
+     * (obsolete)
+     */
     BYTE fsmId;
+
+    /**
+     * State Identifier of a Slave in the Final State
+     * Machine (obsolete)
+     */
     BYTE fsmState;
+
+    /**
+     * Duration of the frame header [in bit times]
+     */
     BYTE headerTime;
+
+    /**
+     * Duration of the entire frame [in bit times]
+     */
     BYTE fullTime;
 };
 

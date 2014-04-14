@@ -33,15 +33,39 @@ namespace BLF {
 
 /**
  * @brief MOST_ECL
+ *
+ * State change of the MOST Electrical Control Line.
  */
 class VECTOR_BLF_EXPORT MostEcl : public ObjectHeader2
 {
 public:
     MostEcl();
 
-    WORD channel; /**< application channel */
+    /**
+     * @brief application channel
+     *
+     * Application channel
+     */
+    WORD channel;
+
+    /**
+     * - 0 – discrete
+     * - 1 – sequence
+     */
     WORD mode;
-    WORD eclState; /**< Electrical Control Line level */
+
+    /**
+     * @brief Electrical Control Line level
+     *
+     * mMode = 0:
+     *   - 0 – line low
+     *   - 1 – line high
+     * mMode = 1:
+     *   - 0 – sequence stopped
+     *   - 1 – sequence started
+     */
+    WORD eclState;
+
     WORD dummy2;
 };
 

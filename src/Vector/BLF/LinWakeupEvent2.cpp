@@ -26,7 +26,11 @@ namespace BLF {
 
 LinWakeupEvent2::LinWakeupEvent2() :
     ObjectHeader(),
-    LinBusEvent()
+    LinBusEvent(),
+    lengthInfo(),
+    signal(),
+    external(),
+    reserved()
 {
 }
 

@@ -25,7 +25,14 @@ namespace Vector {
 namespace BLF {
 
 MostDataLost::MostDataLost() :
-    ObjectHeader2()
+    ObjectHeader2(),
+    channel(),
+    dummy1(),
+    info(),
+    lostMsgsCtrl(),
+    lostMsgsAsync(),
+    lastGoodTimeStampNs(),
+    nextGoodTimeStampNs()
 {
 }
 

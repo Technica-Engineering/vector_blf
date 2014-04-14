@@ -25,7 +25,11 @@ namespace Vector {
 namespace BLF {
 
 AppText::AppText() :
-    ObjectHeader()
+    ObjectHeader(),
+    source(),
+    reserved(),
+    textLength(),
+    text(nullptr)
 {
 }
 

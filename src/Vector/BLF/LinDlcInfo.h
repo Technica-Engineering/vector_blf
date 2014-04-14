@@ -33,15 +33,36 @@ namespace BLF {
 
 /**
  * @brief LIN_DLC_INFO
+ *
+ * This info event occurs when the LIN hardware successfully detected the frame length
+ * of an unknown frame. This frame length value is set as the one to be expected for this frame in the
+ * future.
  */
 class VECTOR_BLF_EXPORT LinDlcInfo : public ObjectHeader
 {
 public:
     LinDlcInfo();
 
-    WORD channel; /**< application channel */
-    BYTE id; /**< LIN ID */
-    BYTE dlc; /**< LIN DLC */
+    /**
+     * @brief application channel
+     *
+     * Channel number where the frame sent/received.
+     */
+    WORD channel;
+
+    /**
+     * @brief LIN ID
+     *
+     * Frame identifier
+     */
+    BYTE id;
+
+    /**
+     * @brief LIN DLC
+     *
+     * Frame length
+     */
+    BYTE dlc;
 };
 
 }

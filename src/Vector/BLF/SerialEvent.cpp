@@ -25,7 +25,11 @@ namespace Vector {
 namespace BLF {
 
 SerialEvent::SerialEvent() :
-    ObjectHeader()
+    ObjectHeader(),
+    flags(),
+    port(),
+    baudrate(),
+    reserved()
 {
 }
 

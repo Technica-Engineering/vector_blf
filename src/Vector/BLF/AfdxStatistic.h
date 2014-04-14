@@ -49,9 +49,14 @@ public:
     WORD channel;
 
     enumclass Flags : WORD {
-        ValidRxTxCounter = 0x01, /**< Valid Rx/Tx counter */
-        ValidErrorCounter = 0x02, /**< Valid error counter */
-        ValidVlid = 0x04 /**< Valid VirtualLink ID */
+        /** Valid Rx/Tx counter */
+        ValidRxTxCounter = 0x01,
+
+        /** Valid error counter */
+        ValidErrorCounter = 0x02,
+
+        /** Valid VirtualLink ID */
+        ValidVlid = 0x04
     };
     WORD flags;
 

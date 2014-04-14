@@ -41,7 +41,7 @@ static void hexDump(char * data, size_t size)
         if (n % 16 == 15)
             std::cout << std::endl;
     }
-    std::cerr << std::endl;
+    std::cout << std::endl;
 }
 
 File::File() :
@@ -522,22 +522,18 @@ ObjectHeaderBase * File::readObjectFromCompressedFile()
 
         /* handle if there is size remaining */
         size_t remainingSize = (ptr - objBuffer) - obj->objectSize;
-        if (remainingSize > 0) {
+        if (remainingSize != 0) {
           std::cerr << "remainingSize: 0x" << std::hex << remainingSize << std::endl;
-          compressedFile.seekg(remainingSize, std::iostream::cur);
+          hexDump(objBuffer, ohb.objectSize);
         }
-    } else {
-        /* skip object */
-        size_t remainingSize = ohb.objectSize - 0x10;
-        compressedFile.seekg(remainingSize, std::iostream::cur);
     }
 
     /* skip padding */
     compressedFile.seekg(ohb.objectSize%4, std::iostream::cur);
 
     /* delete buffers */
-    delete ohbBuffer;
-    delete objBuffer;
+    delete[] ohbBuffer;
+    delete[] objBuffer;
 
     return obj;
 }
@@ -562,8 +558,9 @@ ObjectHeaderBase * File::readObjectFromUncompressedFile()
         char * ptr = obj->parse(objBuffer);
 
         /* handle if there is size remaining */
-        if (ptr < objBuffer + obj->objectSize) {
-          std::cout << "size remaining at uncompressedFilePos 0x" << uncompressedFile.tellg << std::endl;
+        size_t remainingSize = (ptr - objBuffer) - obj->objectSize;
+        if (remainingSize != 0) {
+          std::cerr << "remainingSize: 0x" << std::hex << remainingSize << std::endl;
           hexDump(objBuffer, ohb.objectSize);
         }
     }
@@ -572,8 +569,8 @@ ObjectHeaderBase * File::readObjectFromUncompressedFile()
     uncompressedFile.skipg(ohb.objectSize%4);
 
     /* delete buffers */
-    delete ohbBuffer;
-    delete objBuffer;
+    delete[] ohbBuffer;
+    delete[] objBuffer;
 
     currentObjectCount++;
     return obj;
@@ -604,7 +601,7 @@ void File::inflateLogContainer(LogContainer * logContainer)
     uncompressedFile.write(buffer, bufferSize);
 
     /* delete buffer */
-    delete buffer;
+    delete[] buffer;
 }
 
 char * File::readFromUncompressedFile(size_t size)
@@ -622,6 +619,7 @@ char * File::readFromUncompressedFile(size_t size)
             delete logContainer;
         } else {
             std::cerr << "Unexpected object in compressed file" << std::endl;
+            throw 0;
         }
     }
 

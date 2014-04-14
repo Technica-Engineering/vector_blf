@@ -41,11 +41,30 @@ class VECTOR_BLF_EXPORT J1708Message : public ObjectHeader
 public:
     J1708Message();
 
-    WORD channel; /**< application channel */
-    BYTE dir; /**< direction */
-    WORD error; /**< error code */
-    BYTE size; /**< data size */
-    BYTE data[255]; /**< data */
+    /**
+     * @brief application channel
+     */
+    WORD channel;
+
+    /**
+     * @brief direction
+     */
+    BYTE dir;
+
+    /**
+     * @brief error code
+     */
+    WORD error;
+
+    /**
+     * @brief data size
+     */
+    BYTE size;
+
+    /**
+     * @brief data
+     */
+    BYTE data[255];
 };
 
 }

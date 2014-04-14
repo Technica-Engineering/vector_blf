@@ -34,6 +34,8 @@ namespace BLF {
 /**
  * @brief CAN_MESSAGE
  *
+ * @deprecated
+ *
  * CAN data or CAN remote frame received or transmitted on a CAN channel.
  */
 class VECTOR_BLF_EXPORT CanMessage : public ObjectHeader

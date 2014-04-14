@@ -33,6 +33,8 @@ namespace BLF {
 
 /**
  * @brief MOST_150_PKT
+ *
+ * Message on MOST150 Packet Data Channel.
  */
 class VECTOR_BLF_EXPORT Most150Pkt : public ObjectHeader2
 {
@@ -41,22 +43,181 @@ public:
 
     virtual void setObjectSize();
 
-    WORD channel; /**< application channel */
-    BYTE dir; /**< direction: 0: Rx; 1: Tx; 2: TxRequest */
+    /**
+     * @brief application channel
+     *
+     * Application channel
+     */
+    WORD channel;
+
+    /**
+     * @brief direction: 0: Rx; 1: Tx; 2: TxRequest
+     *
+     * Direction of message events:
+     *   - 0: Rx (received)
+     *   - 1: Tx (transmit receipt)
+     *   - 2: Tx Request (transmit request)
+     */
+    BYTE dir;
+
     BYTE dummy1;
-    DWORD sourceAdr; /**< source address */
-    DWORD destAdr; /**< target address */
-    BYTE transferType; /**< 1: node message; 2: spy message*/
-    BYTE state; /**< transmission status */
-    BYTE ackNack; /**< acknowledge code */
+
+    /**
+     * @brief source address
+     *
+     * Source address
+     */
+    DWORD sourceAdr;
+
+    /**
+     * @brief target address
+     *
+     * Target address
+     */
+    DWORD destAdr;
+
+    /**
+     * @brief Tranfer Type
+     *
+     * Message-like events can either be recorded through the MOST transceiver chip or through a
+     * separate network spy.
+     *   - 1: Node
+     *     MOST transceiver reported the message (either due to a successful reception or
+     *     as acknowledgment for a transmit request).
+     *   - 2: Spy
+     *     Message was reported by the network spy. The Spy sees all messages
+     *     independently of the desti-nation address.
+     */
+    BYTE transferType;
+
+    /**
+     * @brief transmission status
+     *
+     * Transmission states of MOST50/150 messages and packets.
+     *   - Bit 0:
+     *     Meaning:
+     *       - 0: bus inactive
+     *       - 1: bus active
+     *     Restriction:
+     *       - only for Dir = Rx or mTransferType = Spy
+     *   - Bit 4:
+     *     Meaning:
+     *       - 1: acknowledged (Ack)
+     *     Restriction
+     *       - only for mTransferType = Node and Dir =
+     *         Tx (always set to 1 for Rx messages in node
+     *         mode)
+     *   - Bit 5:
+     *     Meaning:
+     *       - 1: not acknowledged (NAck)
+     *     Restriction:
+     *       - only for Dir = Tx
+     *   - Bit 6:
+     *     Meaning: Send result:
+     *       - 0: Transmission error (TxF)
+     *       - 1: OK
+     *     Restriction:
+     *       - only for Dir = Tx
+     *       - only for mTransferType = Node
+     */
+    BYTE state;
+
+    /**
+     * @brief acknowledge code
+     *
+     * AckNack holds the transmit status of a control message (see Transmit Status Register of OS8104
+     * for MOST25).
+     *   - Bit 0:
+     *     Meaning:
+     *       - 1: no response (NoResp)
+     *     Restriction:
+     *       - only for Dir = Tx or spy messages
+     *   - Bit 1:
+     *     Meaning:
+     *       - 1: valid receipt (Valid)
+     *     Restriction:
+     *       - only for Dir = Tx or spy messages
+     *   - Bit 2:
+     *     Meaning:
+     *       - 1: CRC Error (CRCError)
+     *     Restriction:
+     *       - only for Dir = Tx or spy messages
+     *   - Bit 3:
+     *     Meaning:
+     *       - 1: receive buffer full (RxBufFull)
+     *     Restriction:
+     *       - only for Dir = Tx or spy messages
+     *   - Bit 4:
+     *     Meaning:
+     *       - 1: acknowledged (Ack)
+     *     Restriction:
+     *       - only for Dir = Tx or spy messages (always
+     *         set to 1 for Rx messages in node mode)
+     *   - Bit 5:
+     *     Meaning:
+     *       - 1: negative acknowledge (NAck)
+     *     Restriction:
+     *       - only for Dir = Tx or spy messages
+     */
+    BYTE ackNack;
+
     BYTE dummy2;
-    DWORD crc; /**< Cyclic Redundancy Check */
-    BYTE pAck; /**< a preemptive acknowledge code */
-    BYTE cAck; /**< CRC acknowledge from the packet receiver(s) to the packet transmitter */
-    BYTE priority; /**< priority of the message */
-    BYTE pIndex; /**< packet index, increments per message on MOST */
-    DWORD pktDataLength; /**< length of variable data in bytes (1014 max) */
-    LPBYTE pktData; /**< variable data */
+
+    /**
+     * @brief Cyclic Redundancy Check
+     *
+     * Cyclic Redundancy Check
+     */
+    DWORD crc;
+
+    /**
+     * @brief a preemptive acknowledge code
+     *
+     * Pre-emptive acknowledge code (spy only)
+     *   - 0x00: No Response
+     *   - 0x01: Buffer full
+     *   - 0x04: OK
+     */
+    BYTE pAck;
+
+    /**
+     * @brief CRC acknowledge from the packet receiver(s) to the packet transmitter
+     *
+     * CRC acknowledge from the packet receiver(s) to
+     * the packet transmitter (spy only)
+     *   - 0x00: No Response
+     *   - 0x01: CRC error
+     *   - 0x04: OK
+     */
+    BYTE cAck;
+
+    /**
+     * @brief priority of the message
+     *
+     * Priority (not used; write 0x00)
+     */
+    BYTE priority;
+
+    /**
+     * @brief packet index, increments per message on MOST
+     *
+     * Packet index, increments per message on MOST
+     */
+    BYTE pIndex;
+
+    /**
+     * @brief length of variable data in bytes (1014 max)
+     *
+     * Length of variable data in bytes (1524 max)
+     */
+    DWORD pktDataLength;
+
+    /**
+     * @brief variable data
+     *
+     * Variable data
+     */
+    char * pktData;
 };
 
 }

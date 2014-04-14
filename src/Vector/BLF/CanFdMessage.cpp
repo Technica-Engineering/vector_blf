@@ -25,7 +25,18 @@ namespace Vector {
 namespace BLF {
 
 CanFdMessage::CanFdMessage() :
-    ObjectHeader()
+    ObjectHeader(),
+    channel(),
+    flags(),
+    dlc(),
+    id(),
+    frameLength(),
+    arbBitCount(),
+    canFdFlags(),
+    validDataBytes(),
+    reserved1(),
+    reserved2(),
+    data()
 {
 }
 

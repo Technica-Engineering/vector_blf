@@ -67,9 +67,14 @@ public:
      * @brief trigger type
      */
     enumclass Flags : WORD {
-        SingleTrigger = 0x0000, /**< single trigger type */
-        LoggingStart = 0x0001, /**< start of logging trigger type */
-        LoggingStop = 0x0002 /**< stop of logging trigger type */
+        /** single trigger type */
+        SingleTrigger = 0x0000,
+
+        /** start of logging trigger type */
+        LoggingStart = 0x0001,
+
+        /** stop of logging trigger type */
+        LoggingStop = 0x0002
     } flags;
 
     /**

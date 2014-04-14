@@ -25,7 +25,25 @@ namespace Vector {
 namespace BLF {
 
 CanFdErrorFrame64::CanFdErrorFrame64() :
-    ObjectHeader()
+    ObjectHeader(),
+    channel(),
+    dlc(),
+    validDataBytes(),
+    ecc(),
+    flags(),
+    errorCodeExt(),
+    extFlags(),
+    reserved1(),
+    id(),
+    frameLength(),
+    btrCfgArb(),
+    btrCfgData(),
+    timeOffsetBrsNs(),
+    timeOffsetCrcDelNs(),
+    crc(),
+    errorPosition(),
+    reserved2(),
+    data()
 {
 }
 

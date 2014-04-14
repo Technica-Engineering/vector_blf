@@ -25,7 +25,16 @@ namespace Vector {
 namespace BLF {
 
 FlexRayV6StartCycleEvent::FlexRayV6StartCycleEvent() :
-    ObjectHeader()
+    ObjectHeader(),
+    channel(),
+    dir(),
+    lowTime(),
+    fpgaTick(),
+    fpgaTickOverflow(),
+    clientIndex(),
+    clusterTime(),
+    dataBytes(),
+    reserved()
 {
 }
 

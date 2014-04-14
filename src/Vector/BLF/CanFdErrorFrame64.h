@@ -65,19 +65,19 @@ public:
     /**
      * Content of Philips SJA1000 Error Code Capture
      * register, or the Vector CAN-Core error register.
-     * See field ecc of VBLCANErrorFrameExt.
+     * See field ecc of CanErrorFrameExt.
      */
     BYTE ecc;
 
     /**
      * Defines what additional information is valid. See
-     * field flags of VBLCANErrorFrameExt.
+     * field flags of CanErrorFrameExt.
      */
     WORD flags;
 
     /**
      * Extended error flags. See field flagsExt of
-     * VBLCANErrorFrameExt.
+     * CanErrorFrameExt.
      */
     WORD errorCodeExt;
 

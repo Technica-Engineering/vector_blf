@@ -52,11 +52,10 @@ public:
      * @brief dir flag (tx, rx)
      *
      * Direction Flags
-     *
-     * - 0 = Rx
-     * - 1 = Tx
-     * - 2 = Tx Request
-     * - 3 and 4 are for internal use only.
+     *   - 0 = Rx
+     *   - 1 = Tx
+     *   - 2 = Tx Request
+     *   - 3 and 4 are for internal use only.
      */
     BYTE dir;
 

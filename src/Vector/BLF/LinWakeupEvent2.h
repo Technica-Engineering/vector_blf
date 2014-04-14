@@ -34,16 +34,41 @@ namespace BLF {
 
 /**
  * @brief LIN_WAKEUP2
+ *
+ * LIN Wakeup-Frame received or transmitted on a LIN channel.
  */
 class VECTOR_BLF_EXPORT LinWakeupEvent2 : public ObjectHeader, public LinBusEvent
 {
 public:
     LinWakeupEvent2();
 
+    /**
+     * Wake-up length validity indicator:
+     *   - 0: Wake-up length is OK
+     *   - 1: Wake-up is too short
+     *   - 2: Wake-up is too long
+     */
     BYTE lengthInfo;
+
+    /**
+     * Byte value used by wakeup frame.
+     */
     BYTE signal;
+
+    /**
+     * Flag indicating whether the wakeup frame has
+     * been transmitted by an external device (selector
+     * set) or by the LIN hardware itself (selector not
+     * set).
+     */
     BYTE external;
-    BYTE reserved; /**< 4-byte alignment */
+
+    /**
+     * @brief 4-byte alignment
+     *
+     * Reserved, has to be set to 0.
+     */
+    BYTE reserved;
 };
 
 }

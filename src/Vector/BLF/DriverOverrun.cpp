@@ -25,7 +25,10 @@ namespace Vector {
 namespace BLF {
 
 DriverOverrun::DriverOverrun() :
-    ObjectHeader()
+    ObjectHeader(),
+    busType(),
+    channel(),
+    dummy()
 {
 }
 

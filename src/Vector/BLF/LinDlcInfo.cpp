@@ -25,7 +25,10 @@ namespace Vector {
 namespace BLF {
 
 LinDlcInfo::LinDlcInfo() :
-    ObjectHeader()
+    ObjectHeader(),
+    channel(),
+    id(),
+    dlc()
 {
 }
 

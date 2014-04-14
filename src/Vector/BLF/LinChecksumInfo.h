@@ -33,15 +33,40 @@ namespace BLF {
 
 /**
  * @brief LIN_CHECKSUM_INFO
+ *
+ * This info event occurs when the LIN hardware successfully detected the checksum
+ * model of an unknown frame. This checksum model is set as the expected one for this frame in the
+ * future.
  */
 class VECTOR_BLF_EXPORT LinChecksumInfo : public ObjectHeader
 {
 public:
     LinChecksumInfo();
 
-    WORD channel; /**< application channel */
-    BYTE id; /**< LIN ID */
-    BYTE checksumModel; /**< LIN checksum model */
+    /**
+     * @brief application channel
+     *
+     * Channel number where the event notified
+     */
+    WORD channel;
+
+    /**
+     * @brief LIN ID
+     *
+     * Frame identifier
+     */
+    BYTE id;
+
+    /**
+     * @brief LIN checksum model
+     *
+     * Used checksum model. Following values are
+     * possible:
+     *   - 0: Classic
+     *   - 1: Enhanced
+     *   - 0xFF: Unknown
+     */
+    BYTE checksumModel;
 };
 
 }

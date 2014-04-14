@@ -41,17 +41,119 @@ class VECTOR_BLF_EXPORT FlexRayVFrStartCycle : public ObjectHeader
 public:
     FlexRayVFrStartCycle();
 
-    WORD channel; /**< application channel */
-    WORD version; /**< version of data struct */
-    WORD channelMask; /**< channel mask */
-    BYTE dir; /**< dir flag (tx, rx) */
-    BYTE cycle; /**< current cycle,   byte  */
-    DWORD clientIndex; /**< clientindex of send node */
-    DWORD clusterNo; /**< number of cluster */
-    WORD nmSize; /**< size of NM Vector */
-    BYTE dataBytes[12]; /**< array of databytes (NM vector max. length)*/
-    DWORD tag; /**< type of cc */
-    DWORD data[5]; /**< register flags */
+    /**
+     * @brief application channel
+     *
+     * Application channel
+     */
+    WORD channel;
+
+    /**
+     * @brief version of data struct
+     *
+     * Object version, for internal use
+     */
+    WORD version;
+
+    /**
+     * @brief channel mask
+     *
+     * Channel Mask
+     *   - 0 = Reserved or invalid
+     *   - 1 = FlexRay Channel A
+     *   - 2 = FlexRay Channel B
+     *   - 3 = FlexRay Channels A and B
+     */
+    WORD channelMask;
+
+    /**
+     * @brief dir flag (tx, rx)
+     *
+     * Direction Flags
+     *   - 0 = Rx
+     *   - 1 = Tx
+     *   - 2 = Tx Request
+     *   - 3 and 4 are for internal use only.
+     */
+    BYTE dir;
+
+    /**
+     * @brief current cycle
+     *
+     * Cycle number
+     */
+    BYTE cycle;
+
+    /**
+     * @brief clientindex of send node
+     *
+     * Client index of send node
+     */
+    DWORD clientIndex;
+
+    /**
+     * @brief number of cluster
+     *
+     * Number of cluster: channel number - 1
+     */
+    DWORD clusterNo;
+
+    /**
+     * @brief size of NM Vector
+     *
+     * Length of NM-Vector in bytes
+     */
+    WORD nmSize;
+
+    /**
+     * @brief array of databytes (NM vector max. length)
+     *
+     * Array of databytes (NM vector max. length)
+     */
+    BYTE dataBytes[12];
+
+    /**
+     * @brief type of cc
+     *
+     * Type of communication controller
+     *   - 0 = Architecture independent
+     *   - 1 = Invalid CC type (for internal use only)
+     *   - 2 = Cyclone I
+     *   - 3 = BUSDOCTOR
+     *   - 4 = Cyclone II
+     *   - 5 = Vector VN interface
+     *   - 6 = VN-Sync-Pulse (only in Status Event, for debugging purposes only)
+     */
+    DWORD tag;
+
+    /**
+     * @brief register flags
+     *
+     * Driver flags for internal usage
+     *
+     * Cyclone I:
+     *   - 0: Rate correction of CC, read from RCVR register
+     *   - 1: Offset correction of CC, read from OCVR register
+     *
+     * Cyclone II:
+     *   - 0: Sync correction of CC, read from RCV register
+     *   - 1: Offset correction of CC, read from OCV register
+     *   - 2: Cycles with no correction, read from CCEV register
+     *   - 3: Cycles with correction in passive mode, read from CCEV register
+     *   - 4: Sync Frame status, read from SFS register
+     *
+     * VN-Interface:
+     *   - 0: Sync correction of CC, read from RCV register
+     *   - 1: Offset correction of CC, read from OCV register
+     *   - 2: Cycles with no correction, read from CCEV register
+     *   - 3: Cycles with correction in passive mode, read from CCEV register
+     *   - 4: Sync Frame status, read from SFS register
+     */
+    DWORD data[5];
+
+    /**
+     * Reserved
+     */
     WORD reserved;
 };
 

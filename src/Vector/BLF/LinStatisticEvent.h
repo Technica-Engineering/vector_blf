@@ -33,19 +33,64 @@ namespace BLF {
 
 /**
  * @brief LIN_STATISTIC
+ *
+ * @deprecated
+ *
+ * This info event is sent by the LIN hardware and transports bus statistics.
  */
 class VECTOR_BLF_EXPORT LinStatisticEvent : public ObjectHeader
 {
 public:
     LinStatisticEvent();
 
-    WORD channel; /**< application channel */
-    double busLoad; /**< bus load */
-    ULONG burstsTotal; /**< bursts total */
-    ULONG burstsOverrun; /**< bursts overrun */
-    ULONG framesSent; /**< frames sent */
-    ULONG framesReceived; /**< frames received */
-    ULONG framesUnanswered; /**< frames unanswered */
+    /**
+     * @brief application channel
+     *
+     * Channel number where the frame sent/received.
+     */
+    WORD channel;
+
+    /**
+     * @brief bus load
+     *
+     * Bus load in percents
+     */
+    double busLoad;
+
+    /**
+     * @brief bursts total
+     *
+     * Total number of bursts
+     */
+    ULONG burstsTotal;
+
+    /**
+     * @brief bursts overrun
+     *
+     * Number of overrun bursts
+     */
+    ULONG burstsOverrun;
+
+    /**
+     * @brief frames sent
+     *
+     * Number of transmitted frames
+     */
+    ULONG framesSent;
+
+    /**
+     * @brief frames received
+     *
+     * Number of received frames
+     */
+    ULONG framesReceived;
+
+    /**
+     * @brief frames unanswered
+     *
+     * Number of frames without response
+     */
+    ULONG framesUnanswered;
 };
 
 }

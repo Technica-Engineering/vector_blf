@@ -33,13 +33,28 @@ namespace BLF {
 
 /**
  * @brief MOST_TXLIGHT
+ *
+ * Optical physical layer: Information about light output of the Fiber Optical Transmitter
+ *
+ * Electrical physical layer: Signal output state
  */
 class VECTOR_BLF_EXPORT MostTxLight : public ObjectHeader2
 {
 public:
     MostTxLight();
 
-    WORD channel; /**< application channel */
+    /**
+     * @brief application channel
+     *
+     * Application channel
+     */
+    WORD channel;
+
+    /**
+     * - 0 – TxLight/Signal off
+     * - 1 – TxLight/Signal enabled
+     * - 2 – TxLight/Signal forced on
+     */
     WORD state;
 };
 

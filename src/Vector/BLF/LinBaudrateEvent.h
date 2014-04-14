@@ -33,14 +33,31 @@ namespace BLF {
 
 /**
  * @brief LIN_BAUDRATE
+ *
+ * This info event is sent by the LIN hardware at the start of a measurement and
+ * whenever the baud rate changes by more than 0.5 % during a measurement. If this info event
+ * occurs, then the LIN hardware is synchronized with the baud rate of the external Master.
  */
 class VECTOR_BLF_EXPORT LinBaudrateEvent : public ObjectHeader
 {
 public:
     LinBaudrateEvent();
 
-    WORD channel; /**< application channel */
+    /**
+     * @brief application channel
+     *
+     * Channel number where the frame sent/received.
+     */
+    WORD channel;
+
+    /**
+     * Reserved, has to be set to 0.
+     */
     WORD dummy;
+
+    /**
+     * Measured baud rate [in bits/sec]
+     */
     LONG baudrate;
 };
 

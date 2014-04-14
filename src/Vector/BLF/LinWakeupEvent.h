@@ -33,14 +33,34 @@ namespace BLF {
 
 /**
  * @brief LIN_WAKEUP
+ *
+ * @deprecated
+ *
+ * LIN Wakeup-Frame received or transmitted on a LIN channel.
  */
 class VECTOR_BLF_EXPORT LinWakeupEvent : public ObjectHeader
 {
 public:
     LinWakeupEvent();
 
-    WORD channel; /**< application channel */
+    /**
+     * @brief application channel
+     *
+     * Channel number where the frame sent/received.
+     */
+    WORD channel;
+
+    /**
+     * Byte value used by wakeup frame.
+     */
     BYTE signal;
+
+    /**
+     * Flag indicating whether the wakeup frame has
+     * been transmitted by an external device (selector
+     * set) or by the LIN hardware itself (selector not
+     * set).
+     */
     BYTE external;
 };
 

@@ -25,7 +25,10 @@ namespace Vector {
 namespace BLF {
 
 LinChecksumInfo::LinChecksumInfo() :
-    ObjectHeader()
+    ObjectHeader(),
+    channel(),
+    id(),
+    checksumModel()
 {
 }
 

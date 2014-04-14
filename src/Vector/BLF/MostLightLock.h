@@ -33,13 +33,41 @@ namespace BLF {
 
 /**
  * @brief MOST_LIGHTLOCK
+ *
+ * This event refers to the optical or electrical modulated signal at the transceiver's Rx.
+ *
+ * "Signal On" means that a modulated signal has been detected.
+ *
+ * "Lock" means that the receiver PLL (Phase Locked Loop) was able to establish synchronization
+ * with the phase of the modulated signal (to "lock").
+ *
+ * "Stable Lock" means that for a certain period of time no unlock occurred (see MOST
+ * specification).
+ *
+ * In case of a series of unlocks, the time of the different unlocks are accumulated. If this accumulated
+ * time is greater than a certain threshold, it is called "Critical Unlock" (details see MOST
+ * specification).
  */
 class VECTOR_BLF_EXPORT MostLightLock : public ObjectHeader
 {
 public:
     MostLightLock();
 
-    WORD channel; /**< application channel */
+    /**
+     * @brief application channel
+     *
+     * Application channel
+     */
+    WORD channel;
+
+    /**
+     * Signal state:
+     *   - 0x01 – Signal On + Lock
+     *   - 0x02 – Signal Off (implies No Lock)
+     *   - 0x03 – Signal On + No Lock
+     *   - 0x10 – Stable Lock
+     *   - 0x20 – Critical Unlock
+     */
     SHORT state;
 };
 

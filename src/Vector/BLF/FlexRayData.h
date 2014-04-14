@@ -33,20 +33,36 @@ namespace BLF {
 
 /**
  * @brief FLEXRAY_DATA
+ *
+ * @deprecated
  */
 class VECTOR_BLF_EXPORT FlexRayData : public ObjectHeader
 {
 public:
     FlexRayData();
 
-    WORD channel; /**< application channel */
+    /**
+     * @brief application channel
+     */
+    WORD channel;
+
     BYTE mux;
+
     BYTE len;
-    WORD messageID;
+
+    WORD messageId;
+
     WORD crc;
+
+    /**
+     * @brief dir
+     */
     BYTE dir;
+
     BYTE dummy1;
+
     WORD dummy2;
+
     BYTE dataBytes[12];
 };
 

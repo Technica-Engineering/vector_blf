@@ -25,7 +25,10 @@ namespace Vector {
 namespace BLF {
 
 LinBaudrateEvent::LinBaudrateEvent() :
-    ObjectHeader()
+    ObjectHeader(),
+    channel(),
+    dummy(),
+    baudrate()
 {
 }
 

@@ -33,43 +33,89 @@ namespace BLF {
 
 /**
  * @brief CAN_FD_MESSAGE
- *
- * CAN Message Flags
- *
- * CAN dir, rtr, wu & nerr encoded into flags
- */
-enumclass CanMessageFlags : BYTE {
-    TX = (1<<0),
-    NERR = (1<<5),
-    WU = (1<<6),
-    RTR = (1<<7)
-};
-
-enumclass CanFdMessageFlags : BYTE {
-    EDL = (1<<0),
-    BRS = (1<<1),
-    ESI = (1<<2)
-};
-
-/**
- * @brief CAN_FD_MESSAGE
  */
 class VECTOR_BLF_EXPORT CanFdMessage : public ObjectHeader
 {
 public:
     CanFdMessage();
 
-    WORD channel; /**< application channel */
-    BYTE flags; /**< CAN dir & rtr */
-    BYTE dlc; /**< CAN dlc */
-    DWORD id; /**< CAN ID */
-    DWORD frameLength; /**< message length in ns - without 3 inter frame space bits and by Rx-message also without 1 End-Of-Frame bit */
-    BYTE arbBitCount; /**< bit count of arbitration phase */
-    BYTE canFdFlags; /**< CAN FD flags */
-    BYTE validDataBytes; /**< Valid payload length of data */
-    BYTE reserved1; /**< reserved */
-    DWORD reserved2; /**< reserved */
-    BYTE data[64]; /**< CAN FD data */
+    /**
+     * @brief application channel
+     */
+    WORD channel;
+
+    /**
+     * CAN Message Flags
+     *
+     * CAN dir, rtr, wu & nerr encoded into flags
+     *
+     * @todo does this make sense here?
+     */
+    enumclass CanMessageFlags : BYTE {
+        TX = (1<<0),
+        NERR = (1<<5),
+        WU = (1<<6),
+        RTR = (1<<7)
+    };
+
+    /**
+     * @brief CAN dir & rtr
+     */
+    BYTE flags;
+
+    /**
+     * @brief CAN dlc
+     */
+    BYTE dlc;
+
+    /**
+     * @brief CAN ID
+     */
+    DWORD id;
+
+    /**
+     * @brief message length in ns - without 3 inter frame space bits and by Rx-message also without 1 End-Of-Frame bit
+     */
+    DWORD frameLength;
+
+    /**
+     * @brief bit count of arbitration phase
+     */
+    BYTE arbBitCount;
+
+    /**
+     * @todo does this make sense here?
+     */
+    enumclass CanFdMessageFlags : BYTE {
+        EDL = (1<<0),
+        BRS = (1<<1),
+        ESI = (1<<2)
+    };
+
+    /**
+     * @brief CAN FD flags
+     */
+    BYTE canFdFlags;
+
+    /**
+     * @brief Valid payload length of data
+     */
+    BYTE validDataBytes;
+
+    /**
+     * @brief reserved
+     */
+    BYTE reserved1;
+
+    /**
+     * @brief reserved
+     */
+    DWORD reserved2;
+
+    /**
+     * @brief CAN FD data
+     */
+    BYTE data[64];
 };
 
 }

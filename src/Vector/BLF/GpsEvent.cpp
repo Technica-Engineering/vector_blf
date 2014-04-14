@@ -25,7 +25,15 @@ namespace Vector {
 namespace BLF {
 
 GpsEvent::GpsEvent() :
-    ObjectHeader()
+    ObjectHeader(),
+    flags(),
+    channel(),
+    reserved(),
+    latitude(),
+    longitude(),
+    altitude(),
+    speed(),
+    course()
 {
 }
 

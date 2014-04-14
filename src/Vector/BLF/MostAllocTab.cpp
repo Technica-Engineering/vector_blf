@@ -25,7 +25,10 @@ namespace Vector {
 namespace BLF {
 
 MostAllocTab::MostAllocTab() :
-    ObjectHeader2()
+    ObjectHeader2(),
+    channel(),
+    length(),
+    tableData(nullptr)
 {
 }
 

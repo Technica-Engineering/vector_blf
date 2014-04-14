@@ -25,7 +25,16 @@ namespace Vector {
 namespace BLF {
 
 CanDriverErrorExt::CanDriverErrorExt() :
-    ObjectHeader()
+    ObjectHeader(),
+    channel(),
+    txErrors(),
+    rxErrors(),
+    errorCode(),
+    flags(),
+    state(),
+    reserved1(),
+    reserved2(),
+    reserved3()
 {
 }
 

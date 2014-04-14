@@ -50,12 +50,6 @@ typedef long long LONGLONG;
 /* double */
 typedef double DOUBLE;
 
-/* pointer to string */
-typedef char * LPSTR;
-
-/* pointer to data */
-typedef BYTE * LPBYTE;
-
 /* color reference */
 typedef unsigned long COLORREF;
 

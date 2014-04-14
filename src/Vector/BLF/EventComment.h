@@ -60,7 +60,7 @@ public:
      *
      * Comment text.
      */
-    LPSTR text;
+    char * text;
 };
 
 }

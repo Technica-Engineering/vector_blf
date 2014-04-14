@@ -25,7 +25,12 @@ namespace Vector {
 namespace BLF {
 
 Most150AllocTab::Most150AllocTab() :
-    ObjectHeader2()
+    ObjectHeader2(),
+    channel(),
+    eventModeFlags(),
+    freeBytes(),
+    length(),
+    tableData()
 {
 }
 

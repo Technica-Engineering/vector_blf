@@ -33,14 +33,30 @@ namespace BLF {
 
 /**
  * @brief LIN_SPIKE_EVENT
+ *
+ * @deprecated
+ *
+ * This event occurs when a short (normally less than 1 bit time) dominant signal has
+ * been detected on a LIN channel.
  */
 class VECTOR_BLF_EXPORT LinSpikeEvent : public ObjectHeader
 {
 public:
     LinSpikeEvent();
 
-    WORD channel; /**< application channel */
-    ULONG width; /**< the spike's width */
+    /**
+     * @brief application channel
+     *
+     * Channel number where the frame sent/received.
+     */
+    WORD channel;
+
+    /**
+     * @brief the spike's width
+     *
+     * Spike length in microseconds
+     */
+    ULONG width;
 };
 
 }

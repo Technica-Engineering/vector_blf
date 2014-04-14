@@ -25,7 +25,11 @@ namespace Vector {
 namespace BLF {
 
 MostNetState::MostNetState() :
-    ObjectHeader2()
+    ObjectHeader2(),
+    channel(),
+    stateNew(),
+    stateOld(),
+    dummy1()
 {
 }
 

@@ -26,7 +26,24 @@
 namespace Vector {
 namespace BLF {
 
-FileStatistics::FileStatistics()
+FileStatistics::FileStatistics() :
+    signature(),
+    statisticsSize(),
+    applicationId(),
+    applicationMajor(),
+    applicationMinor(),
+    applicationBuild(),
+    apiMajor(),
+    apiMinor(),
+    apiBuild(),
+    apiPatch(),
+    fileSize(),
+    uncompressedFileSize(),
+    objectCount(),
+    objectsRead(),
+    measurementStartTime(),
+    lastObjectTime(),
+    reserved()
 {
 }
 

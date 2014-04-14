@@ -25,7 +25,20 @@ namespace Vector {
 namespace BLF {
 
 MostSpy::MostSpy() :
-    ObjectHeader()
+    ObjectHeader(),
+    channel(),
+    dir(),
+    dummy1(),
+    sourceAdr(),
+    destAdr(),
+    msg(),
+    dummy2(),
+    rTyp(),
+    rTypAdr(),
+    state(),
+    dummy3(),
+    ackNack(),
+    crc()
 {
 }
 

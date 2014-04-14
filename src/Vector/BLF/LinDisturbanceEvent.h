@@ -33,20 +33,96 @@ namespace BLF {
 
 /**
  * @brief LIN_DISTURBANCE_EVENT
+ *
+ * This event occurs if CANoe/CANalyzer explicitly caused to disturb one bit or a
+ * sequence of bits.
  */
 class VECTOR_BLF_EXPORT LinDisturbanceEvent : public ObjectHeader
 {
 public:
     LinDisturbanceEvent();
 
-    WORD channel; /**< application channel */
-    BYTE id; /**< LIN ID of disturbed response */
-    BYTE disturbingFrameID; /**< LIN ID of disturbing header */
-    ULONG disturbanceType; /**< type of disturbance (dominant, recessive, header, bitstream, variable bitstream) */
-    ULONG byteIndex; /**< index of the byte that was disturbed */
-    ULONG bitIndex; /**< index of the bit that was disturbed */
-    ULONG bitOffsetInSixteenthBits; /**< offset in 1/16th bits into the disturbed bit */
-    ULONG disturbanceLengthInSixteenthBits; /**< length of the disturbance in units of 1/16th bit */
+    /**
+     * @brief application channel
+     *
+     * Channel number of the event
+     */
+    WORD channel;
+
+    /**
+     * @brief LIN ID of disturbed response
+     *
+     * Identifier of a disturbed
+     * response or 0xFF if a header
+     * was disturbed.
+     */
+    BYTE id;
+
+    /**
+     * @brief LIN ID of disturbing header
+     *
+     * Identifier of a disturbing
+     * header, if disturbing with a
+     * header (disturbanceType
+     * == 2), otherwise 0xFF.
+     */
+    BYTE disturbingFrameId;
+
+    /**
+     * @brief type of disturbance (dominant, recessive, header, bitstream, variable bitstream)
+     *
+     * The type of disturbance:
+     *   - 0: dominant disturbance
+     *   - 1: recessive disturbance
+     *   - 2: disturbance with a header
+     *   - 3: disturbance with a
+     *     bitstream
+     *   - 4: disturbance with a variable
+     *     bitstream
+     */
+    ULONG disturbanceType;
+
+    /**
+     * @brief index of the byte that was disturbed
+     *
+     * The 0-indexed byte where
+     * the disturbance occurred. 0 is
+     * the first data byte, 9 is the
+     * checksum in case of a dlc 8
+     * frame.
+     *
+     * If a header was disturbed
+     * (id == 0xFF), 0 is the sync
+     * field and 1 is the PID.
+     */
+    ULONG byteIndex;
+
+    /**
+     * @brief index of the bit that was disturbed
+     * disturbed. 0 is the first data
+     * bit, 8 is the stop bit, 9 is the
+     * first bit in interbyte space.
+     *
+     * The index of the bit that was
+     */
+    ULONG bitIndex;
+
+    /**
+     * @brief offset in 1/16th bits into the disturbed bit
+     *
+     * The offset in 1/16th bits
+     * into the disturbed bit.
+     */
+    ULONG bitOffsetInSixteenthBits;
+
+    /**
+     * @brief length of the disturbance in units of 1/16th bit
+     *
+     * The length of a dominant or
+     * recessive disturbance in units
+     * of 1/16th bits.
+     */
+    ULONG disturbanceLengthInSixteenthBits;
 };
 
 }

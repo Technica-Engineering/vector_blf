@@ -33,16 +33,44 @@ namespace BLF {
 
 /**
  * @brief MOST_STATISTIC
+ *
+ * The event transports common network statistics. Usually the event is not visible in a
+ * trace window.
  */
 class VECTOR_BLF_EXPORT MostStatistic : public ObjectHeader
 {
 public:
     MostStatistic();
 
-    WORD channel; /**< application channel */
+    /**
+     * @brief application channel
+     *
+     * Application channel
+     */
+    WORD channel;
+
+    /**
+     * Number of messages on Asynchronous channel
+     * since the last Statistic event
+     */
     WORD pktCnt;
+
+    /**
+     * Number of messages on Control channel since
+     * the last Statistic event
+     */
     LONG frmCnt;
+
+    /**
+     * Number of signal stat transitions since the last
+     * Statistic event
+     */
     LONG lightCnt;
+
+    /**
+     * Receive buffer level of Optolyzer G1 in spy
+     * mode
+     */
     LONG bufferLevel;
 };
 

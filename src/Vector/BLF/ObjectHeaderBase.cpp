@@ -72,6 +72,7 @@ char * ObjectHeaderBase::parse(char * buffer)
     /* checks */
     if (signature != ObjectSignature) {
         std::cerr << "Unexpected object signature" << std::endl;
+        throw 0;
     }
 
     return buffer;

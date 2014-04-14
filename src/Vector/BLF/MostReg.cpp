@@ -25,7 +25,15 @@ namespace Vector {
 namespace BLF {
 
 MostReg::MostReg() :
-    ObjectHeader2()
+    ObjectHeader2(),
+    channel(),
+    subType(),
+    dummy1(),
+    handle(),
+    offset(),
+    chip(),
+    regDataLen(),
+    regData()
 {
 }
 

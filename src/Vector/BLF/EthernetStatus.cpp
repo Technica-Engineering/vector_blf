@@ -25,7 +25,18 @@ namespace Vector {
 namespace BLF {
 
 EthernetStatus::EthernetStatus() :
-    ObjectHeader()
+    ObjectHeader(),
+    channel(),
+    flags(),
+    linkStatus(),
+    ethernetPhy(),
+    duplex(),
+    mdi(),
+    connector(),
+    clockMode(),
+    pairs(),
+    reserved(),
+    bitrate()
 {
 }
 

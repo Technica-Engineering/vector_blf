@@ -47,14 +47,29 @@ public:
     WORD channel;
 
     enumclass Flags : WORD {
-        LinkStatus = 0x0001, /**< Link Status */
-        Bitrate = 0x0002, /**< Bit rate */
-        EthernetPhy = 0x0004, /**< Ethernet Phy */
-        Duplex = 0x0008, /**< Duplex */
-        MDIType = 0x0010, /**< MDI Type */
-        Connector = 0x0020, /**< Connector */
-        ClockMode = 0x0040, /**< Clock Mode */
-        BroadRReachPair = 0x0080 /**< BroadR-Reach Pair */
+        /** Link Status */
+        LinkStatus = 0x0001,
+
+        /** Bit rate */
+        Bitrate = 0x0002,
+
+        /** Ethernet Phy */
+        EthernetPhy = 0x0004,
+
+        /** Duplex */
+        Duplex = 0x0008,
+
+        /** MDI Type */
+        MDIType = 0x0010,
+
+        /** Connector */
+        Connector = 0x0020,
+
+        /** Clock Mode */
+        ClockMode = 0x0040,
+
+        /** BroadR-Reach Pair */
+        BroadRReachPair = 0x0080
     };
     WORD flags;
 
@@ -62,55 +77,95 @@ public:
      * @brief Link Status
      */
     enumclass LinkStatus : BYTE {
-        UnknownLinkStatus = 0, /**< Unknown */
-        LinkDown = 1, /**< Link down */
-        LinkUp = 2, /**< Link up */
-        Negotiate = 3, /**< Negotiate */
-        LinkError = 4 /**< Link error */
+        /** Unknown */
+        UnknownLinkStatus = 0,
+
+        /** Link down */
+        LinkDown = 1,
+
+        /** Link up */
+        LinkUp = 2,
+
+        /** Negotiate */
+        Negotiate = 3,
+
+        /** Link error */
+        LinkError = 4
     } linkStatus;
 
     /**
      * @brief Ethernet Phy
      */
     enumclass EthernetPhy : BYTE {
-        UnknownEthernetPhy = 0, /**< Unknown */
-        Ieee802_3 = 1, /**< IEEE 802.3 */
-        BroadR_Reach = 2 /**< BroadR-Reach */
-    } ethernetPhy;
+        /** Unknown */
+        UnknownEthernetPhy = 0,
 
+        /** IEEE 802.3 */
+        Ieee802_3 = 1,
+
+        /** BroadR-Reach */
+        BroadR_Reach = 2
+    } ethernetPhy;
 
     /**
      * @brief Duplex
      */
     enumclass Duplex : BYTE {
-        UnknownDuplex = 0, /**< Unknown */
-        HalfDuplex = 1, /**< Half Duplex */
-        FullDuplex = 2 /**< Full Duplex */
+        /** Unknown */
+        UnknownDuplex = 0,
+
+        /** Half Duplex */
+        HalfDuplex = 1,
+
+        /** Full Duplex */
+        FullDuplex = 2
     } duplex;
 
     enumclass Mdi : BYTE {
-        UnknownMdi = 0, /**< Unknown */
-        Direct = 1, /**< Direct */
-        Crossover = 2 /**< Crossover */
+        /** Unknown */
+        UnknownMdi = 0,
+
+        /** Direct */
+        Direct = 1,
+
+        /** Crossover */
+        Crossover = 2
     } mdi;
 
     enumclass Connector : BYTE {
-        UnknownConnector = 0, /**< Unknown */
-        Rj45 = 1, /**< RJ45*/
-        DSub = 2 /**< D-Sub */
+        /** Unknown */
+        UnknownConnector = 0,
+
+        /** RJ45*/
+        Rj45 = 1,
+
+        /** D-Sub */
+        DSub = 2
     } connector;
 
     enumclass ClockMode : BYTE {
-        UnknownClockMode = 0, /**< Unknown */
-        Master = 1, /**< Master */
-        Slave = 2 /**< Slave */
+        /** Unknown */
+        UnknownClockMode = 0,
+
+        /** Master */
+        Master = 1,
+
+        /** Slave */
+        Slave = 2
     } clockMode;
 
     enumclass Pairs : BYTE {
-        UnknownPairs = 0, /**< Unknown */
-        Br1Pair = 1, /**< BR 1-pair*/
-        Br2Pair = 2, /**< BR 2-pair */
-        Br4Pair = 3 /**< BR 4-pair */
+        /** Unknown */
+        UnknownPairs = 0,
+
+        /** BR 1-pair */
+        Br1Pair = 1,
+
+        /** BR 2-pair */
+        Br2Pair = 2,
+
+        /** BR 4-pair */
+        Br4Pair = 3
     } pairs;
 
     BYTE reserved;

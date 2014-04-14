@@ -26,7 +26,10 @@ namespace BLF {
 
 LinSpikeEvent2::LinSpikeEvent2() :
     ObjectHeader(),
-    LinBusEvent()
+    LinBusEvent(),
+    width(),
+    internal(),
+    reserved()
 {
 }
 

@@ -45,16 +45,186 @@ class VECTOR_BLF_EXPORT FlexRayVFrStatus : public ObjectHeader
 public:
     FlexRayVFrStatus();
 
-    WORD channel; /**< application channel */
-    WORD version; /**< object version */
-    WORD channelMask; /**< channel mask */
-    BYTE cycle; /**< current cycle,   byte */
-    DWORD clientIndex; /**< clientindex of send node */
-    DWORD clusterNo; /**< number of cluster */
-    DWORD wus; /**< wakeup status */
-    DWORD ccSyncState; /**< sync state of cc */
-    DWORD tag; /**< type of cc */
-    DWORD data[2]; /**< register flags */
+    /**
+     * @brief application channel
+     *
+     * Application channel
+     */
+    WORD channel;
+
+    /**
+     * @brief object version
+     *
+     * Object version, for internal use
+     */
+    WORD version;
+
+    /**
+     * @brief channel mask
+     *
+     * Channel Mask
+     *   - 0 = Reserved or invalid
+     *   - 1 = FlexRay Channel A
+     *   - 2 = FlexRay Channel B
+     *   - 3 = FlexRay Channels A and B
+     */
+    WORD channelMask;
+
+    /**
+     * @brief current cycle
+     *
+     * Cycle number
+     */
+    BYTE cycle;
+
+    /**
+     * @brief clientindex of send node
+     *
+     * Client index of send node. Must be set to 0 if file is
+     * written from other applications
+     */
+    DWORD clientIndex;
+
+    /**
+     * @brief number of cluster
+     *
+     * Number of cluster: channel number – 1
+     */
+    DWORD clusterNo;
+
+    /**
+     * @brief wakeup status
+     *
+     * WakeUp state. Only valid
+     *   - for Vector interfaces and for Cyclone II,
+     *   - if symbol is void (mReserved[0] = 0)
+     *
+     * Meaning (see E-Ray specification for a
+     * detailed description):
+     *   - 0: UNDEFINED
+     *   - 1: RECEIVED_HEADER
+     *   - 2: RECEIVED_WUP
+     *   - 3: COLLISION_HEADER
+     *   - 4: COLLISION_WUP
+     *   - 5: COLLISION_UNKNOWN
+     *   - 6: TRANSMITTED
+     *   - 7: EXTERNAL_WAKEUP
+     *   - 8: WUP_RECEIVED_WITHOUT_WUS_TX
+     */
+    DWORD wus;
+
+    /**
+     * @brief sync state of cc
+     *
+     * Sync-State, only valid
+     *   - for Cyclone 1
+     *   - for Cyclone II if the wakup state value is 0.
+     *
+     * Meaning:
+     *   - 0 = Not synced passive
+     *   - 1 = Synced active
+     *   - 2 = Not synced
+     */
+    DWORD ccSyncState;
+
+    /**
+     * @brief type of cc
+     *
+     * Type of communication controller
+     *   - 0 = Architecture independent
+     *   - 1 = Invalid CC type (for internal use only)
+     *   - 2 = Cyclone I
+     *   - 3 = BUSDOCTOR
+     *   - 4 = Cyclone II
+     *   - 5 = Vector VN interface
+     *   - 6 = VN-Sync-Pulse (only in Status Event, for debugging purposes only)
+     */
+    DWORD tag;
+
+    /**
+     * @brief register flags
+     *
+     * Driver flags for internal usage
+     *
+     * CC-Type: Cyclone I
+     *   - data[0]: Content of Protocol state register (PSR)
+     *   - data[1]: Content of Module config register (MCR0)
+     *
+     * CC-Type: BUSDOCTOR
+     *   - LOW-WORD of data[0]: Symbol length
+     *   - HI-WORD of data[0]: Flags: 1 = possible CAS
+     *   - data[1]: Reserved
+     *
+     * CC-Type: VN-Interface
+     *   - data[0]: POC state of E-Ray register CCSV. Only valid
+     *       - for Vector interfaces
+     *       - if wakeup state is 0
+     *     POC State in the operation control phase:
+     *       - 0x00: DEFAULT_CONFIG
+     *       - 0x01: READY
+     *       - 0x02: NORMAL_ACTIVE
+     *       - 0x03: NORMAL_PASSIVE
+     *       - 0x04: HALT
+     *       - 0x05: MONITOR_NODE
+     *       - 0x06: CONFIG
+     *     POC State in the wake-up phase:
+     *       - 0x10: WAKEUP_STANDBY
+     *       - 0x11: WAKEUP_LISTEN
+     *       - 0x12: WAKEUP_SEND
+     *       - 0x13: WAKEUP_DETECT
+     *     POC State in the start-up phase:
+     *       - 0x20: STARTUP_PREPARE
+     *       - 0x21: COLDSTART_LISTEN
+     *       - 0x22: COLDSTART_COLLISION_RESOLUTION
+     *       - 0x23: COLDSTART_CONSISTENCY_CHECK
+     *       - 0x24: COLDSTART_GAP
+     *       - 0x25: COLDSTART_JOIN
+     *       - 0x26: INTEGRATION_COLDSTART_CHECK
+     *       - 0x27: INTEGRATION_LISTEN
+     *       - 0x28: INTEGRATION_CONSISTENCY_CHECK
+     *       - 0x29: INITIALIZE_SCHEDULE
+     *       - 0x30: ABORT_STARTUP
+     *       - 0x31: STARTUP_SUCCESS
+     *     All other values are reserved.
+     *   - LOW-WORD of data[1]:
+     *     Bit field indicating the symbol window status of the controller and the event
+     *     source.
+     *       - 1: SESA (Syntax error in symbol window channel A)
+     *       - 2: SBSA (Slot boundary violation in symbol window channel A)
+     *       - 4: TCSA (Transmission conflict in symbol window channel A)
+     *       - 8: SESB (Syntax error in symbol window channel B)
+     *       - 16: SBSB (Slot boundary violation in symbol window channel B)
+     *       - 32: TCSB (Transmission conflict in symbol window channel B)
+     *       - 64: The event was generated from a controller-independent protocol
+     *             interpreter (Spy).
+     *       - 128: Cold-start helper POC indicator, if set, event contains the POC
+     *              state of the cold-start helper
+     *     All other bits are reserved. CANoe/CANalyzer may set some of these bits to 1.
+     *     Other applications must set them to 0.
+     *   - HI-WORD of data[1]:
+     *     Symbol length in bit times. Only valid for symbol type 4 and if the value is not
+     *     zero.
+     */
+    DWORD data[2];
+
+    /**
+     * @brief reserved
+     *
+     * reserved[0]:
+     * If this value is not zero, then the event contains the
+     * information about a symbol.
+     *   - 0 = Void
+     *   - 1 = CAS
+     *   - 2 = MTS
+     *   - 3 = WUS
+     *   - 4 = Network interface doesn’t provide a symbol interpretation,
+     *         e.g. if spy-mode is used or the BUSDOCTOR
+     *         interface. In spy mode, the symbol length is
+     *         stored in the HI-WORD of data[1].
+     *
+     * reserver[1..15]:
+     * Reserved
+     */
     WORD reserved[16];
 };
 

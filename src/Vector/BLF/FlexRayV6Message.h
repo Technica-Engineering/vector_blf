@@ -52,11 +52,10 @@ public:
      * @brief dir flag (tx, rx)
      *
      * Direction Flags
-     *
-     * - 0 = Rx
-     * - 1 = Tx
-     * - 2 = Tx Request
-     * - 3 and 4 are for internal use only.
+     *   - 0 = Rx
+     *   - 1 = Tx
+     *   - 2 = Tx Request
+     *   - 3 and 4 are for internal use only.
      */
     BYTE dir;
 
@@ -105,28 +104,28 @@ public:
     /**
      * CRC of the frame header
      */
-    WORD headerCRC;
+    WORD headerCrc;
 
     /**
      * @brief V6 framestate
      *
      * V6 framestate:
-     * - 0 Payload preample indicator bit
-     * - 1 Sync. frame indicator
-     * - 2 Reserved bit
-     * - 3 Null frame indicator
-     * - 4 Startup frame indicator
-     * - 5-7 Frame state format mask (see below)
+     *   - 0 Payload preample indicator bit
+     *   - 1 Sync. frame indicator
+     *   - 2 Reserved bit
+     *   - 3 Null frame indicator
+     *   - 4 Startup frame indicator
+     *   - 5-7 Frame state format mask (see below)
      *
      * Bit 5-7 meaning:
-     * - 0 (0x00) Motorola V.6
-     * - 1 (0x20) reserved
-     * - 2 (0x40) BusDoctor
-     * - 3 (0x60) reserved
-     * - 4 (0x80) FlexCard Cyclone
-     * - 5 (0xA0) reserved
-     * - 6 (0xC0) reserved
-     * - 7 (0xE0) reserved
+     *   - 0 (0x00) Motorola V.6
+     *   - 1 (0x20) reserved
+     *   - 2 (0x40) BusDoctor
+     *   - 3 (0x60) reserved
+     *   - 4 (0x80) FlexCard Cyclone
+     *   - 5 (0xA0) reserved
+     *   - 6 (0xC0) reserved
+     *   - 7 (0xE0) reserved
      */
     WORD frameState;
 
@@ -147,7 +146,9 @@ public:
     /**
      * @brief Bit0 = NMBit, Bit1 = SyncBit, Bit2 = Reserved
      *
-     * Bit 0 = NMBit, Bit 1 = SyncBit, Bit 2 = Reserved
+     * - Bit 0 = NMBit
+     * - Bit 1 = SyncBit
+     * - Bit 2 = Reserved
      */
     BYTE headerBitMask;
 

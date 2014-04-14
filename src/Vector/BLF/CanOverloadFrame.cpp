@@ -25,7 +25,9 @@ namespace Vector {
 namespace BLF {
 
 CanOverloadFrame::CanOverloadFrame() :
-    ObjectHeader()
+    ObjectHeader(),
+    channel(),
+    dummy()
 {
 }
 

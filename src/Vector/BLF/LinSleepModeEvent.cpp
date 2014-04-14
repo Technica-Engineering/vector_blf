@@ -25,7 +25,10 @@ namespace Vector {
 namespace BLF {
 
 LinSleepModeEvent::LinSleepModeEvent() :
-    ObjectHeader()
+    ObjectHeader(),
+    channel(),
+    reason(),
+    flags()
 {
 }
 

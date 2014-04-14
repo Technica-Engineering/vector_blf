@@ -25,7 +25,12 @@ namespace Vector {
 namespace BLF {
 
 MostStatistic::MostStatistic() :
-    ObjectHeader()
+    ObjectHeader(),
+    channel(),
+    pktCnt(),
+    frmCnt(),
+    lightCnt(),
+    bufferLevel()
 {
 }
 

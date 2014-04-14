@@ -24,7 +24,11 @@
 namespace Vector {
 namespace BLF {
 
-LinBusEvent::LinBusEvent()
+LinBusEvent::LinBusEvent() :
+    sof(),
+    eventBaudrate(),
+    channel(),
+    reserved()
 {
 }
 

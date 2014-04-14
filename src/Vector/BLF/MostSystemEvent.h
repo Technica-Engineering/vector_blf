@@ -33,16 +33,45 @@ namespace BLF {
 
 /**
  * @brief MOST_SYSTEM_EVENT
+ *
+ * Event for various system states.
  */
 class VECTOR_BLF_EXPORT MostSystemEvent : public ObjectHeader2
 {
 public:
     MostSystemEvent();
 
-    WORD channel; /**< application channel */
-    WORD id; /**< identifier of transported data */
-    DWORD value; /**< current value */
-    DWORD valueOld; /**< previous value */
+    /**
+     * @brief application channel
+     *
+     * Application channel
+     */
+    WORD channel;
+
+    /**
+     * @brief identifier of transported data
+     *
+     * Identification of transported data
+     * (enumeration):
+     *   - 1 - System Lock (MOST150)
+     *   - 2 - Shutdown Flag (MOST150)
+     *   - 3 - Shutdown Reason (MOST150)
+     */
+    WORD id;
+
+    /**
+     * @brief current value
+     *
+     * Current value
+     */
+    DWORD value;
+
+    /**
+     * @brief previous value
+     *
+     * Previous value
+     */
+    DWORD valueOld;
 };
 
 }

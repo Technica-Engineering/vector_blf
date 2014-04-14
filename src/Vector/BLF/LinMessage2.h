@@ -34,26 +34,134 @@ namespace BLF {
 
 /**
  * @brief LIN_MESSAGE2
+ *
+ * LIN frame received or transmitted on a LIN channel.
  */
 class VECTOR_BLF_EXPORT LinMessage2 : public ObjectHeader, public LinDatabyteTimestampEvent
 {
 public:
     LinMessage2();
 
-    BYTE data[8]; /**< data bytes */
-    WORD crc; /**< checksum byte */
-    BYTE dir; /**< direction */
-    BYTE simulated; /**< simulated frame */
-    BYTE isETF; /**< Event-triggered frame */
-    BYTE etfAssocIndex; /**< Unconditional frame associated with ETF - serial index */
-    BYTE etfAssocETFId; /**< Unconditional frame associated with ETF - id of ETF */
+    /**
+     * @brief data bytes
+     *
+     * Databyte values
+     */
+    BYTE data[8];
+
+    /**
+     * @brief checksum byte
+     *
+     * Checksum byte value
+     */
+    WORD crc;
+
+    /**
+     * @brief direction
+     *
+     * Direction of bus events
+     *   - 0: Rx (received)
+     *   - 1: Tx (transmit receipt)
+     *   - 2: Tx Request (transmit request)
+     */
+    BYTE dir;
+
+    /**
+     * @brief simulated frame
+     *
+     * Flag indicating whether this frame a
+     * simulated one:
+     *   - 0: real frame
+     *   - 1: simulated frame
+     */
+    BYTE simulated;
+
+    /**
+     * @brief Event-triggered frame
+     *
+     * Flag indicating whether this frame is
+     * Event-Triggered one:
+     *   - 0: not ETF
+     *   - 1: ETF
+     */
+    BYTE isEtf;
+
+    /**
+     * @brief Unconditional frame associated with ETF - serial index
+     *
+     * Event-Triggered frame only: Index
+     * of associated frame, which data is
+     * carried
+     */
+    BYTE etfAssocIndex;
+
+    /**
+     * @brief Unconditional frame associated with ETF - id of ETF
+     *
+     * Event-Triggered frame only: Frame
+     * identifier (6-bit) of associated frame,
+     * which data is carried
+     */
+    BYTE etfAssocEtfId;
+
+    /**
+     * Slave Identifier in the Final State
+     * Machine (obsolete)
+     */
     BYTE fsmId;
+
+    /**
+     * State Identifier of a Slave in the
+     * Final State Machine (obsolete)
+     */
     BYTE fsmState;
-    BYTE reserved[3]; /**< 4-byte alignment */
-    DWORD respBaudrate; /**< Response baudrate of the event in bit/sec */
-    DOUBLE exactHeaderBaudrate; /**< Exact baudrate of the header in bit/sec */
-    DWORD earlyStopbitOffset; /**< Early stop bit offset for UART timestamps in ns */
-    DWORD earlyStopbitOffsetResponse; /**< Early stop bit offset in frame response for UART timestamps in ns */
+
+    /**
+     * @brief 4-byte alignment
+     *
+     * Reserved, has to be set to 0.
+     */
+    BYTE reserved[3];
+
+    /* the following variables are only available in Version 2 and above */
+
+    /**
+     * @brief Response baudrate of the event in bit/sec
+     *
+     * Event's baudrate
+     * measured in response [in
+     * bits/sec]
+     */
+    DWORD respBaudrate;
+
+    /* the following variables are only available in Version 3 and above */
+
+    /**
+     * @brief Exact baudrate of the header in bit/sec
+     *
+     * Event’s baudrate
+     * measured in header [in
+     * bits/sec]
+     */
+    DOUBLE exactHeaderBaudrate;
+
+    /**
+     * @brief Early stop bit offset for UART timestamps in ns
+     *
+     * Early stop bit offset in
+     * frame header for UART
+     * timestamps [in ns]
+     */
+    DWORD earlyStopbitOffset;
+
+    /**
+     * @brief Early stop bit offset in frame response for UART timestamps in ns
+     *
+     * Early stop bit offset in
+     * frame response for
+     * UART timestamps [in ns]
+     */
+    DWORD earlyStopbitOffsetResponse;
 };
 
 }

@@ -40,14 +40,34 @@ public:
     KLineStatusEvent();
 
     enumclass Type : WORD {
-        toEcu = 0x8000, /**< If set in type, direction is tester -> ECU */
-        mask = 0x7FFF /**< Use this mask to filter out the type from type */
+        /** If set in type, direction is tester -> ECU */
+        toEcu = 0x8000,
+
+        /** Use this mask to filter out the type from type */
+        mask = 0x7FFF
     };
-    WORD type; /**< BusSystemFacility::VKLineStatusEventType */
-    WORD dataLen; /**< number of *bytes* used in data */
-    DWORD port; /**< channel of event */
+
+    /**
+     * @brief BusSystemFacility::VKLineStatusEventType
+     */
+    WORD type;
+
+    /**
+     * @brief number of *bytes* used in data
+     */
+    WORD dataLen;
+
+    /**
+     * @brief channel of event
+     */
+    DWORD port;
+
     DWORD reserved;
-    UINT64 data[3]; /**< the actual data, but only dataLen BYTES are used! */
+
+    /**
+     * @brief the actual data, but only dataLen BYTES are used!
+     */
+    UINT64 data[3];
 };
 
 }

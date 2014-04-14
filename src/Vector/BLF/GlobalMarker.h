@@ -91,21 +91,21 @@ public:
      *
      * Group name.
      */
-    LPSTR groupName;
+    char * groupName;
 
     /**
      * @brief marker name in MBCS
      *
      * Marker.
      */
-    LPSTR markerName;
+    char * markerName;
 
     /**
      * @brief description in MBCS
      *
      * Description text.
      */
-    LPSTR description;
+    char * description;
 };
 
 }

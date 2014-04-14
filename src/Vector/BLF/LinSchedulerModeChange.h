@@ -33,13 +33,33 @@ namespace BLF {
 
 /**
  * @brief LIN_SCHED_MODCH
+ *
+ * This info event occurs when a Master is simulated and a frame header of a new
+ * schedule table is transmitted for the first time. This info event may appear on starting a
+ * measurement.
  */
 class VECTOR_BLF_EXPORT LinSchedulerModeChange : public ObjectHeader
 {
 public:
     LinSchedulerModeChange();
-    WORD channel; /**< application channel */
+
+    /**
+     * @brief application channel
+     *
+     * Channel number where the frame sent/received.
+     */
+    WORD channel;
+
+    /**
+     * Index (0-based) of a previously active schedule
+     * table
+     */
     BYTE oldMode;
+
+    /**
+     * Index (0-based) of the newly activated schedule
+     * table
+     */
     BYTE newMode;
 };
 

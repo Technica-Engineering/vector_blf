@@ -32,13 +32,27 @@
 namespace Vector {
 namespace BLF {
 
+/**
+ * Common header of LIN bus events containing break field data
+ */
 class VECTOR_BLF_EXPORT LinSynchFieldEvent : public LinBusEvent
 {
 public:
     LinSynchFieldEvent();
 
-    ULONGLONG synchBreakLength; /**< Sync Break Length in ns */
-    ULONGLONG synchDelLength; /**< Sync Delimiter Length in ns */
+    /**
+     * @brief Sync Break Length in ns
+     *
+     * Length of dominant part [in nanoseconds]
+     */
+    ULONGLONG synchBreakLength;
+
+    /**
+     * @brief Sync Delimiter Length in ns
+     *
+     * Length of delimiter (recessive) [in nanoseconds]
+     */
+    ULONGLONG synchDelLength;
 };
 
 }

@@ -33,15 +33,33 @@ namespace BLF {
 
 /**
  * @brief MOST_STATISTICEX
+ *
+ * Event transports some bus statistic information that was previously (until CANoe/
+ * CANalyzerVersion 6.1) carried by the main bus statistic event but was not logged. Usually the
+ * event is not visible in a Trace window.
  */
 class VECTOR_BLF_EXPORT MostStatisticEx : public ObjectHeader2
 {
 public:
     MostStatisticEx();
 
-    WORD channel; /**< application channel */
+    /**
+     * @brief application channel
+     *
+     * Application channel
+     */
+    WORD channel;
+
     WORD dummy1;
+
+    /**
+     * Number of coding errors
+     */
     DWORD codingErrors;
+
+    /**
+     * MOST frame counter
+     */
     DWORD frameCounter;
 };
 

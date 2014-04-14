@@ -33,15 +33,39 @@ namespace BLF {
 
 /**
  * @brief LIN_SLV_TIMEOUT
+ *
+ * This event occurs on a timeout in Final State Machine defined on LIN Hardware via
+ * CAPL. The technology of Final State Machine on LIN Hardware is still supported, but it is
+ * obsolete.
  */
 class VECTOR_BLF_EXPORT LinSlaveTimeout : public ObjectHeader
 {
 public:
     LinSlaveTimeout();
-    WORD channel; /**< application channel */
-    BYTE slaveID;
-    BYTE stateID;
-    DWORD followStateID;
+
+    /**
+     * @brief application channel
+     *
+     * Channel number where the event notified
+     */
+    WORD channel;
+
+    /**
+     * Slave Identifier in the Final State Machine
+     */
+    BYTE slaveId;
+
+    /**
+     * Source state identifier of a Slave in the Final
+     * State Machine
+     */
+    BYTE stateId;
+
+    /**
+     * Target state identifier of a Slave in the Final
+     * State Machine
+     */
+    DWORD followStateId;
 };
 
 }

@@ -25,7 +25,18 @@ namespace Vector {
 namespace BLF {
 
 LinCrcError::LinCrcError() :
-    ObjectHeader()
+    ObjectHeader(),
+    channel(),
+    id(),
+    dlc(),
+    data(),
+    fsmId(),
+    fsmState(),
+    headerTime(),
+    fullTime(),
+    crc(),
+    dir(),
+    reserved()
 {
 }
 

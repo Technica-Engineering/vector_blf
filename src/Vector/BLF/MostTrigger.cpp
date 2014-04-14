@@ -25,7 +25,13 @@ namespace Vector {
 namespace BLF {
 
 MostTrigger::MostTrigger() :
-    ObjectHeader2()
+    ObjectHeader2(),
+    channel(),
+    dummy1(),
+    mode(),
+    hw(),
+    previousTriggerValue(),
+    currentTriggerValue()
 {
 }
 

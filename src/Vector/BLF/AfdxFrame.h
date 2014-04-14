@@ -65,7 +65,7 @@ public:
         Rx = 0,
         Tx = 1,
         TxRq = 2
-    } dir ;
+    } dir;
 
     /**
      * EtherType which indicates protocol for

@@ -115,7 +115,7 @@ public:
      *
      * Text to be saved to log file.
      */
-    LPSTR text;
+    char * text;
 };
 
 }

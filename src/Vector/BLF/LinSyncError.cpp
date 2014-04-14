@@ -25,7 +25,10 @@ namespace Vector {
 namespace BLF {
 
 LinSyncError::LinSyncError() :
-    ObjectHeader()
+    ObjectHeader(),
+    channel(),
+    dummy(),
+    timeDiff()
 {
 }
 

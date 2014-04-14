@@ -25,7 +25,10 @@ namespace Vector {
 namespace BLF {
 
 LinSchedulerModeChange::LinSchedulerModeChange() :
-    ObjectHeader()
+    ObjectHeader(),
+    channel(),
+    oldMode(),
+    newMode()
 {
 }
 

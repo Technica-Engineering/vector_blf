@@ -34,14 +34,33 @@ namespace BLF {
 
 /**
  * @brief LIN_LONG_DOM_SIG
+ *
+ * @deprecated
+ *
+ * This event occurs when a LIN channel remains in the dominant state for a time, which
+ * is longer than a valid wakeup frame and it is not a valid sync break.
  */
 class VECTOR_BLF_EXPORT LinLongDomSignalEvent : public ObjectHeader, public LinBusEvent
 {
 public:
     LinLongDomSignalEvent();
 
+    /**
+     * One dominant signal can be reported with
+     * multiple events. This field indicate the order of
+     * this event in a sequence:
+     *   - 0: Signal just detected
+     *   - 1: Signal continuation
+     *   - 2: Signal finished
+     */
     BYTE type;
-    BYTE reserved[3]; /**< 4-byte alignment */
+
+    /**
+     * @brief 4-byte alignment
+     *
+     * Reserved, has to be set to 0.
+     */
+    BYTE reserved[3];
 };
 
 }

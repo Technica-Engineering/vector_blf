@@ -33,18 +33,44 @@ namespace BLF {
 
 /**
  * @brief FLEXRAY_STATUS
+ *
+ * @deprecated
  */
 class VECTOR_BLF_EXPORT FlexRayStatusEvent : public ObjectHeader
 {
 public:
     FlexRayStatusEvent();
 
-    WORD channel; /**< application channel */
-    WORD version; /**< object version */
-    WORD statusType; /**< type of status event */
-    WORD infoMask1; /**< additional info 1 */
-    WORD infoMask2; /**< additional info 2 */
-    WORD infoMask3; /**< additional info 3 */
+    /**
+     * @brief application channel
+     */
+    WORD channel;
+
+    /**
+     * @brief object version
+     */
+    WORD version;
+
+    /**
+     * @brief type of status event
+     */
+    WORD statusType;
+
+    /**
+     * @brief additional info 1
+     */
+    WORD infoMask1;
+
+    /**
+     * @brief additional info 2
+     */
+    WORD infoMask2;
+
+    /**
+     * @brief additional info 3
+     */
+    WORD infoMask3;
+
     WORD reserved[16];
 };
 

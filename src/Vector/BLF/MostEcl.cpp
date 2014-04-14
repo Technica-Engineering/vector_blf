@@ -25,7 +25,11 @@ namespace Vector {
 namespace BLF {
 
 MostEcl::MostEcl() :
-    ObjectHeader2()
+    ObjectHeader2(),
+    channel(),
+    mode(),
+    eclState(),
+    dummy2()
 {
 }
 

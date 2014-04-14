@@ -34,15 +34,37 @@ namespace BLF {
 
 /**
  * @brief LIN_UNEXPECTED_WAKEUP
+ *
+ * This event occurs if an unexpected byte received in bus idle phase of wake mode
+ * could be a wakeup frame
  */
 class VECTOR_BLF_EXPORT LinUnexpectedWakeup : public ObjectHeader, public LinBusEvent
 {
 public:
     LinUnexpectedWakeup();
 
-    ULONGLONG width; /**< width of the unexpected wakeup in nanoseconds (valid for LIN 2.x) */
-    BYTE signal; /**< byte signal of the unexpected wakeup (valid for LIN 1.x) */
-    BYTE reserved[7]; /**< 8-byte alignment */
+    /**
+     * @brief width of the unexpected wakeup in nanoseconds (valid for LIN 2.x)
+     *
+     * Width of the unexpected wakeup in nanoseconds.
+     * Valid for LIN 2.x
+     */
+    ULONGLONG width;
+
+    /**
+     * @brief byte signal of the unexpected wakeup (valid for LIN 1.x)
+     *
+     * Byte signal of the unexpected wakeup. Valid for
+     * LIN 1.x
+     */
+    BYTE signal;
+
+    /**
+     * @brief 8-byte alignment
+     *
+     * Reserved, has to be set to 0.
+     */
+    BYTE reserved[7];
 };
 
 }

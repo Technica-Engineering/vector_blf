@@ -25,7 +25,9 @@ namespace Vector {
 namespace BLF {
 
 LinSpikeEvent::LinSpikeEvent() :
-    ObjectHeader()
+    ObjectHeader(),
+    channel(),
+    width()
 {
 }
 

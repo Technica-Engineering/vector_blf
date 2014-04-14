@@ -25,7 +25,11 @@ namespace Vector {
 namespace BLF {
 
 MostStatisticEx::MostStatisticEx() :
-    ObjectHeader2()
+    ObjectHeader2(),
+    channel(),
+    dummy1(),
+    codingErrors(),
+    frameCounter()
 {
 }
 

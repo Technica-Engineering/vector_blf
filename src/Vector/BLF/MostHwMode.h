@@ -33,16 +33,49 @@ namespace BLF {
 
 /**
  * @brief MOST_HWMODE
+ *
+ * This event is fired when one or more HW state changes. HW states are the AllBypass
+ * bit (e.g. ABY of OS8104), the Master/Slave selection (e.g. MTR of OS8104), the Control spy and
+ * the Asynchronous spy. The event transports all states even if only a single state has changed.
+ * hwModeMask denotes which state differs regarding to the previous HW mode event.
  */
 class VECTOR_BLF_EXPORT MostHwMode : public ObjectHeader2
 {
 public:
     MostHwMode();
 
-    WORD channel; /**< application channel */
+    /**
+     * @brief application channel
+     *
+     * Application channel
+     */
+    WORD channel;
+
     WORD dummy1;
-    WORD hwMode; /**< bypass/master/slave/spy */
-    WORD hwModeMask; /**< marks the altered bits */
+
+    /**
+     * @brief bypass/master/slave/spy
+     *
+     * - Bit 0x01: Bypass: 0: open; 1: active
+     * - Bit 0x02: Timing mode: 0: slave; 1: master
+     * - Bit 0x04: Master mode: 0: static master; 1: nonstatic
+     *   master
+     * - Bit 0x08: 0: Ethernet Spy active: 1: blocks
+     *   "Ethernet Spy over MOST" channel
+     * - Bit 0x10: Control channel spy: 1: active
+     * - Bit 0x20: Async. channel spy: 1: active
+     * - Bit 0x40: 1: no "Ethernet over MOST" events
+     *   (MOST150)
+     * - Bit 0x80: 1: no events from async. channel
+     */
+    WORD hwMode;
+
+    /**
+     * @brief marks the altered bits
+     *
+     * Bitmask of changed bits
+     */
+    WORD hwModeMask;
 };
 
 }

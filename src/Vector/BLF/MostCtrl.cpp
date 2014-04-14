@@ -25,7 +25,19 @@ namespace Vector {
 namespace BLF {
 
 MostCtrl::MostCtrl() :
-    ObjectHeader()
+    ObjectHeader(),
+    channel(),
+    dir(),
+    dummy1(),
+    sourceAdr(),
+    destAdr(),
+    msg(),
+    dummy2(),
+    rTyp(),
+    rTypAdr(),
+    state(),
+    dummy3H(),
+    ackNack()
 {
 }
 

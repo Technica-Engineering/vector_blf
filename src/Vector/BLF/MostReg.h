@@ -33,20 +33,75 @@ namespace BLF {
 
 /**
  * @brief MOST_REG
+ *
+ * This event transports a register read or write result (e.g. reading the routing engine of
+ * the OS8104). Unlike the special register event (MostGenReg) this event does not occur
+ * spontaneous.
  */
 class VECTOR_BLF_EXPORT MostReg : public ObjectHeader2
 {
 public:
     MostReg();
 
-    WORD channel; /**< application channel */
-    BYTE subType; /**< read/write request/result */
+    /**
+     * @brief application channel
+     *
+     * Application channel
+     */
+    WORD channel;
+
+    /**
+     * @brief read/write request/result
+     *
+     * Operation type of a register event.
+     *   - Unspecified = 0: unspecified (or HW does not support sub types)
+     *   - Notify = 1: notification on register change (spontaneous)
+     *   - ReadRequest = 2: request of a register read operation
+     *   - WriteRequest = 3: request of a register write operation
+     *   - ReadResult = 4: result of a register read operation
+     *   - WriteResult = 5: result of a register write operation
+     *   - ReadFailed = 6: register read operation failed
+     *   - WriteFailed = 7: register write operation failed
+     */
+    BYTE subType;
+
     BYTE dummy1;
-    DWORD handle; /**< operation handle */
-    DWORD offset; /**< start address */
-    WORD chip; /**< chip id */
-    WORD regDataLen; /**< number of bytes */
-    BYTE regData[16]; /**< data bytes */
+
+    /**
+     * @brief operation handle
+     *
+     * Operation handle (obsolete; write 0)
+     */
+    DWORD handle;
+
+    /**
+     * @brief start address
+     *
+     * Register address offset
+     */
+    DWORD offset;
+
+    /**
+     * @brief chip id
+     *
+     * ID of chip
+     *   - 1 – OS8104
+     */
+    WORD chip;
+
+    /**
+     * @brief number of bytes
+     *
+     * Number of valid bytes in regData
+     */
+    WORD regDataLen;
+
+    /**
+     * @brief data bytes
+     *
+     * Register data
+     */
+    BYTE regData[16];
 };
 
 }

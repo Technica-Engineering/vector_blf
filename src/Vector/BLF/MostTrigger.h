@@ -33,17 +33,58 @@ namespace BLF {
 
 /**
  * @brief MOST_TRIGGER
+ *
+ * Transports changes of HW IO pins. The event is used for debugging purposes only.
  */
 class VECTOR_BLF_EXPORT MostTrigger : public ObjectHeader2
 {
 public:
     MostTrigger();
 
-    WORD channel; /**< application channel */
+    /**
+     * @brief application channel
+     *
+     * Application channel
+     */
+    WORD channel;
+
     WORD dummy1;
-    WORD mode; /**< trigger mode */
-    WORD hw; /**< HW info */
+
+    /**
+     * @brief trigger mode
+     *
+     * Trigger mode:
+     *   - 0 – unknown
+     *   - 1 – synchronization master
+     *   - 2 – synchronization slave
+     */
+    WORD mode;
+
+    /**
+     * @brief HW info
+     *
+     * HW that generated the trigger event
+     *   - 0 – unknown
+     *   - 1 – Optolyzer
+     *   - 2 – reserved
+     *   - 3 – reserved
+     *   - 4 – VN2600/VN2610
+     *   - 5 – OptoLyzer OL3150o
+     *   - 6 – VN2640
+     *   - 7 – OptoLyzer OL3050e
+     *   - 8 – SMSC PCI 50
+     *   - 9 – MOCCAcompact50e
+     */
+    WORD hw;
+
+    /**
+     * value of IO register
+     */
     DWORD previousTriggerValue;
+
+    /**
+     * value of IO register
+     */
     DWORD currentTriggerValue;
 };
 

@@ -39,6 +39,9 @@ class VECTOR_BLF_EXPORT DriverOverrun : public ObjectHeader
 public:
     DriverOverrun();
 
+    /**
+     * @brief bus type
+     */
     enumclass BusType : DWORD {
         CAN = 1,
         LIN = 5,
@@ -48,8 +51,13 @@ public:
         Ethernet = 10,
         WLAN = 13,
         AFDX = 14
-    } busType; /**< bus type */
-    WORD channel; /**< channel where overrun occured */
+    } busType;
+
+    /**
+     * @brief channel where overrun occured
+     */
+    WORD channel;
+
     WORD dummy;
 };
 

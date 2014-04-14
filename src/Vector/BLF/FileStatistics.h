@@ -58,23 +58,56 @@ public:
     virtual void read(std::istream & is);
     virtual void write(std::ostream & os);
 
-    DWORD signature; /**< signature (signature) */
-    DWORD statisticsSize; /**< sizeof(FileStatistics) */
-    ApplicationId applicationId; /**< application ID (usually CANoe) */
-    BYTE applicationMajor; /**< application major number (usually 0) */
-    BYTE applicationMinor; /**< application minor number (usually 0) */
-    BYTE applicationBuild; /**< application build number (usually 0) */
-    BYTE apiMajor; /**< BL API major number (e.g. 3) */
-    BYTE apiMinor; /**< BL API minor number (e.g. 9) */
-    BYTE apiBuild; /**< BL API build number (e.g. 6) */
-    BYTE apiPatch; /**< BL API patch number (e.g. 0) */
-    ULONGLONG fileSize; /**< file size in bytes */
-    ULONGLONG uncompressedFileSize; /**< uncompressed file size in bytes */
-    DWORD objectCount; /**< number of objects */
-    DWORD objectsRead; /**< number of objects read */
-    SYSTEMTIME measurementStartTime; /**< measurement start time */
-    SYSTEMTIME lastObjectTime; /**< last object time */
-    DWORD reserved[18]; /**< reserved */
+    /** signature (signature) */
+    DWORD signature;
+
+    /** sizeof(FileStatistics) */
+    DWORD statisticsSize;
+
+    /** application ID (usually CANoe) */
+    ApplicationId applicationId;
+
+    /** application major number (usually 0) */
+    BYTE applicationMajor;
+
+    /** application minor number (usually 0) */
+    BYTE applicationMinor;
+
+    /** application build number (usually 0) */
+    BYTE applicationBuild;
+
+    /** BL API major number (e.g. 3) */
+    BYTE apiMajor;
+
+    /** BL API minor number (e.g. 9) */
+    BYTE apiMinor;
+
+    /** BL API build number (e.g. 6) */
+    BYTE apiBuild;
+
+    /** BL API patch number (e.g. 0) */
+    BYTE apiPatch;
+
+    /** file size in bytes */
+    ULONGLONG fileSize;
+
+    /** uncompressed file size in bytes */
+    ULONGLONG uncompressedFileSize;
+
+    /** number of objects */
+    DWORD objectCount;
+
+    /** number of objects read */
+    DWORD objectsRead;
+
+    /** measurement start time */
+    SYSTEMTIME measurementStartTime;
+
+    /** last object time */
+    SYSTEMTIME lastObjectTime;
+
+    /** reserved */
+    DWORD reserved[18];
 };
 
 }

@@ -33,25 +33,150 @@ namespace BLF {
 
 /**
  * @brief MOST_SPY
+ *
+ * Message from MOST 25 Control Channel; received in spy mode (listen only).
  */
 class VECTOR_BLF_EXPORT MostSpy : public ObjectHeader
 {
 public:
     MostSpy();
 
-    WORD channel; /**< application channel */
+    /**
+     * @brief application channel
+     */
+    WORD channel;
+
+    /**
+     * Direction of message events:
+     *   - 0: Rx (received)
+     *   - 1: Tx (transmit receipt)
+     *   - 2: Tx Request (transmit request)
+     */
     BYTE dir;
+
     BYTE dummy1;
+
+    /**
+     * Source address
+     */
     DWORD sourceAdr;
+
+    /**
+     * Target address
+     */
     DWORD destAdr;
+
+    /**
+     * 17 data bytes
+     */
     BYTE msg[17];
+
     BYTE dummy2;
+
+    /**
+     * @brief Control message sub type
+     *
+     * Sub type of a MOST 25 Control message (see data sheet of OS8104 also).
+     *   - 0: Normal
+     *   - 1: RemoteRead
+     *   - 2: RemoteWrite
+     *   - 3: Alloc
+     *   - 4: Dealloc
+     *   - 5: GetSource
+     *   - >5: not used so far
+     */
     WORD rTyp;
+
+    /**
+     * @brief Addressing mode
+     *
+     * Addressing mode of MOST25 Control messages.
+     *   - 0x00: Device (logical node address)
+     *   - 0x10: Node position
+     *   - 0x20: Broadcast
+     *   - 0x30: Groupcast
+     *   - 0xFF: Unknown
+     */
     BYTE rTypAdr;
+
+    /**
+     * @brief Transmission state MOST25
+     *
+     * Transmission state of a MOST25 Control message.
+     *   - Bit 0:
+     *     Meaning:
+     *     - 0: bus inactive
+     *     - 1: bus active
+     *     Restriction:
+     *     - only for Dir = Rx (MOSTCtrl) or MOSTSpy
+     *   - Bit 1:
+     *     Meaning:
+     *     - 1: unlock event during transmission (Unl)
+     *     Restriction:
+     *     - only for Dir = Rx (MOSTCtrl) or MOSTSpy
+     *   - Bit 4:
+     *     Meaning:
+     *     - 1: acknowledged (Ack)
+     *     Restriction:
+     *     - only for Dir = Tx (always set to 1 for Rx messages in node mode)
+     *   - Bit 5:
+     *     Meaning:
+     *     - 1: not acknowledged (NAck)
+     *     Restriction:
+     *     - only for Dir = Tx
+     *   - Bit 6:
+     *     Meaning:
+     *     - Send result:
+     *       - 0: Transmission error (TxF)
+     *       - 1: OK
+     *     Restriction:
+     *     - only for Dir = Tx (MOSTCtrl)
+     */
     BYTE state;
+
     BYTE dummy3;
+
+    /**
+     * AckNack holds the transmit status of a control message (see Transmit Status Register of OS8104
+     * for MOST25).
+     *   - Bit 0:
+     *     Meaning:
+     *       - 1: no response (NoResp)
+     *     Restriction:
+     *       - only for Dir = Tx or spy messages
+     *   - Bit 1:
+     *     Meaning:
+     *       - 1: valid receipt (Valid)
+     *     Restriction:
+     *       - only for Dir = Tx or spy messages
+     *   - Bit 2:
+     *     Meaning:
+     *       - 1: CRC Error (CRCError)
+     *     Restriction:
+     *       - only for Dir = Tx or spy messages
+     *   - Bit 3:
+     *     Meaning:
+     *       - 1: receive buffer full (RxBufFull)
+     *     Restriction:
+     *       - only for Dir = Tx or spy messages
+     *   - Bit 4:
+     *     Meaning:
+     *       - 1: acknowledged (Ack)
+     *     Restriction:
+     *       - only for Dir = Tx or spy messages (always
+     *         set to 1 for Rx messages in node mode)
+     *   - Bit 5:
+     *     Meaning:
+     *       - 1: negative acknowledge (NAck)
+     *     Restriction:
+     *       - only for Dir = Tx or spy messages
+     */
     BYTE ackNack;
-    DWORD cRC;
+
+    /**
+     * Cyclic Redundancy Check
+     */
+    DWORD crc;
 };
 
 }

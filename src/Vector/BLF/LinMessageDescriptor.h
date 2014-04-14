@@ -32,17 +32,66 @@
 namespace Vector {
 namespace BLF {
 
+/**
+ * Common header of LIN bus events containing LIN header data
+ */
 class VECTOR_BLF_EXPORT LinMessageDescriptor : public LinSynchFieldEvent
 {
 public:
     LinMessageDescriptor();
 
-    WORD supplierID; /**< LIN Sub-Identifier - Supplier ID */
-    WORD messageID; /**< LIN Sub-Identifier - Message ID (16 bits) */
-    BYTE nad; /**< LIN Sub-Identifier - NAD */
-    BYTE id; /**< LIN ID */
-    BYTE dlc; /**< LIN DLC */
-    BYTE checksumModel; /**< LIN checksum model */
+    /**
+     * @brief LIN Sub-Identifier - Supplier ID
+     *
+     * Supplier identifier of the frame’s transmitter
+     * as it is specified in LDF. LIN protocol 2.0
+     * and higher
+     */
+    WORD supplierId;
+
+    /**
+     * @brief LIN Sub-Identifier - Message ID (16 bits)
+     *
+     * LIN protocol 2.0: Message identifier (16-bit)
+     * of the frame as it is specified in LDF in the
+     * list of transmitter’s configurable frames.
+     *
+     * LIN protocol 2.1: Position index of the frame
+     * as it is specified in LDF in the list of
+     * transmitter’s configurable frames.
+     */
+    WORD messageId;
+
+    /**
+     * @brief LIN Sub-Identifier - NAD
+     *
+     * Configured Node Address of the frame’s
+     * transmitter as it is specified in LDF. LIN
+     * protocol 2.0 and higher
+     */
+    BYTE nad;
+
+    /**
+     * @brief LIN ID
+     *
+     * Frame identifier (6-bit)
+     */
+    BYTE id;
+
+    /**
+     * @brief LIN DLC
+     *
+     * Frame length [in bytes]
+     */
+    BYTE dlc;
+
+    /**
+     * @brief LIN checksum model
+     *
+     * Expected checksum model of checksum
+     * value. Only valid if objectVersion >= 1.
+     */
+    BYTE checksumModel;
 };
 
 }

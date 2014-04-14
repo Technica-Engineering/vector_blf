@@ -34,17 +34,53 @@ namespace BLF {
 
 /**
  * @brief LIN_SHORT_OR_SLOW_RESPONSE
+ *
+ * This event occurs if a set of receive errors could be a valid header followed by a short
+ * or slow response.
  */
 class VECTOR_BLF_EXPORT LinShortOrSlowResponse : public ObjectHeader, public LinDatabyteTimestampEvent
 {
 public:
     LinShortOrSlowResponse();
 
-    ULONG numberOfRespBytes; /**< number of valid response bytes */
-    BYTE respBytes[9]; /**< the response bytes (can include the checksum) */
-    BYTE slowResponse; /**< non-zero, if the response was too slow */
-    BYTE interruptedByBreak; /**< non-zero, if the response was interrupted by a sync break */
-    BYTE reserved[1]; /**< 8-byte alignment */
+    /**
+     * @brief number of valid response bytes
+     *
+     * The number of response bytes.
+     */
+    ULONG numberOfRespBtes;
+
+    /**
+     * @brief the response bytes (can include the checksum)
+     *
+     * The response bytes (can include the
+     * checksum).
+     */
+    BYTE respBytes[9];
+
+    /**
+     * @brief non-zero, if the response was too slow
+     *
+     * Non-zero, if the response was too
+     * slow; otherwise zero.
+     */
+    BYTE slowResponse;
+
+    /**
+     * @brief non-zero, if the response was interrupted by a sync break
+     *
+     * Non-zero, if the response was
+     * interrupted by a sync break;
+     * otherwise zero.
+     */
+    BYTE interruptedByBreak;
+
+    /**
+     * @brief 8-byte alignment
+     *
+     * Reserved, has to be set to 0.
+     */
+    BYTE reserved[1];
 };
 
 }

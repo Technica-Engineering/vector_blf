@@ -34,15 +34,36 @@ namespace BLF {
 
 /**
  * @brief LIN_SPIKE_EVENT2
+ *
+ * This event occurs when a short (normally less than 1 bit time) dominant signal has
+ * been detected on a LIN channel.
  */
 class VECTOR_BLF_EXPORT LinSpikeEvent2 : public ObjectHeader, public LinBusEvent
 {
 public:
     LinSpikeEvent2();
 
-    ULONG width; /**< the spike's width in microseconds */
+    /**
+     * @brief the spike's width in microseconds
+     *
+     * Spike length in microseconds
+     */
+    ULONG width;
+
+    /**
+     * Flag indicating whether this event is a simulated
+     * one:
+     *   - 0: real event
+     *   - 1: simulated event
+     */
     BYTE internal;
-    BYTE reserved[3]; /**< 4-byte alignment */
+
+    /**
+     * @brief 4-byte alignment
+     *
+     * Reserved, has to be set to 0.
+     */
+    BYTE reserved[3];
 };
 
 }

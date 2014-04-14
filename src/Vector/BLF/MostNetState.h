@@ -33,15 +33,49 @@ namespace BLF {
 
 /**
  * @brief MOST_NETSTATE
+ *
+ * Network state derived by MOST Supervisor Layer I+II
  */
 class VECTOR_BLF_EXPORT MostNetState : public ObjectHeader2
 {
 public:
     MostNetState();
 
-    WORD channel; /**< application channel */
-    WORD stateNew; /**< MOST NetState */
+    /**
+     * @brief application channel
+     *
+     * Application channel
+     */
+    WORD channel;
+
+    /**
+     * @brief MOST NetState
+     *
+     * Current network state
+     *   - 0 (undefined): Before the first event (shortly after
+     *     measurement start) the network status is
+     *     unknown.
+     *   - 1 (reserved for Ring Break Diagnostics mode)
+     *   - 2 (PowerOff): The network interface to the
+     *     MOST ring is deactivated. The Tx FOT is not
+     *     emitting any light.
+     *   - 3 (NetInterfaceInit): The network interface is
+     *     ready to communicate in the MOST ring.
+     *   - 4 (ConfigNotOk): The network interface is in
+     *     normal operating mode (stable lock).
+     *   - 5 (ConfigOk): From the perspective of the
+     *     Network Master the system configuration is
+     *     valid.
+     *   - 6 (NetOn/InitReady): NetOn/InitReady reported
+     *     to application
+     */
+    WORD stateNew;
+
+    /**
+     * Previous network state
+     */
     WORD stateOld;
+
     WORD dummy1;
 };
 

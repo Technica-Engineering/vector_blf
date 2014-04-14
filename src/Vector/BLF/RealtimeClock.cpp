@@ -25,7 +25,9 @@ namespace Vector {
 namespace BLF {
 
 RealtimeClock::RealtimeClock() :
-    ObjectHeader()
+    ObjectHeader(),
+    time(),
+    loggingOffset()
 {
 }
 

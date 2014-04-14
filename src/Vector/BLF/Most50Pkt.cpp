@@ -25,7 +25,23 @@ namespace Vector {
 namespace BLF {
 
 Most50Pkt::Most50Pkt() :
-    ObjectHeader2()
+    ObjectHeader2(),
+    channel(),
+    dir(),
+    dummy1(),
+    sourceAdr(),
+    destAdr(),
+    transferType(),
+    state(),
+    ackNack(),
+    dummy2(),
+    crc(),
+    dummy3(),
+    dummy4(),
+    priority(),
+    dummy5(),
+    pktDataLength(),
+    pktData(nullptr)
 {
 }
 

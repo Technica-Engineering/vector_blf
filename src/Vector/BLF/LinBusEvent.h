@@ -31,15 +31,41 @@
 namespace Vector {
 namespace BLF {
 
+/**
+ * Common header of LIN bus events
+ */
 class VECTOR_BLF_EXPORT LinBusEvent
 {
 public:
     LinBusEvent();
 
-    ULONGLONG sof; /**< Start Of Frame timestamp */
-    DWORD eventBaudrate; /**< Baudrate of the event in bit/sec */
-    WORD channel; /**< application channel */
-    BYTE reserved[2]; /**< 4-byte alignment */
+    /**
+     * @brief Start Of Frame timestamp
+     *
+     * Timestamp of frame/event start
+     */
+    ULONGLONG sof;
+
+    /**
+     * @brief Baudrate of the event in bit/sec
+     *
+     * Baudrate of frame/event in bit/sec
+     */
+    DWORD eventBaudrate;
+
+    /**
+     * @brief application channel
+     *
+     * Channel number where the frame/event notified
+     */
+    WORD channel;
+
+    /**
+     * @brief 4-byte alignment
+     *
+     * Reserved, has to be set to 0.
+     */
+    BYTE reserved[2];
 };
 
 }

@@ -25,7 +25,16 @@ namespace Vector {
 namespace BLF {
 
 FlexRayVFrError::FlexRayVFrError() :
-    ObjectHeader()
+    ObjectHeader(),
+    channel(),
+    version(),
+    channelMask(),
+    cycle(),
+    clientIndex(),
+    clusterNo(),
+    tag(),
+    data(),
+    reserved()
 {
 }
 

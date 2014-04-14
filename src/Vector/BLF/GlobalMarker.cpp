@@ -25,7 +25,17 @@ namespace Vector {
 namespace BLF {
 
 GlobalMarker::GlobalMarker() :
-    ObjectHeader()
+    ObjectHeader(),
+    commentedEventType(),
+    foregroundColor(),
+    backgroundColor(),
+    isRelocatable(),
+    groupNameLength(),
+    markerNameLength(),
+    descriptionLength(),
+    groupName(nullptr),
+    markerName(nullptr),
+    description(nullptr)
 {
 }
 

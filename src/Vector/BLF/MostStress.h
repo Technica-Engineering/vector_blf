@@ -33,15 +33,43 @@ namespace BLF {
 
 /**
  * @brief MOST_STRESS
+ *
+ * Information about Stress activity of the hardware interface.
  */
 class VECTOR_BLF_EXPORT MostStress : public ObjectHeader2
 {
 public:
     MostStress();
 
-    WORD channel; /**< application channel */
+    /**
+     * @brief application channel
+     *
+     * Application channel
+     */
+    WORD channel;
+
+    /**
+     * State of Stress mode:
+     *   - 0 – Stopped
+     *   - 1 – Started
+     */
     WORD state;
+
+    /**
+     * Stress mode of HW interface:
+     *   - 1 – Light
+     *   - 2 – Lock
+     *   - 3 – Busload Ctrl
+     *   - 4 – Busload Async
+     *   - 5 – Rx Buffer Ctrl
+     *   - 6 – TxLight power
+     *   - 7 – Bypass toggling
+     *   - 8 – SystemLock flag usage
+     *   - 9 – Shutdown flag usage
+     *   - 10 – Rx Buffer Async
+     */
     WORD mode;
+
     WORD dummy1;
 };
 

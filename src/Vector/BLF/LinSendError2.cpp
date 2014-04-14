@@ -26,7 +26,15 @@ namespace BLF {
 
 LinSendError2::LinSendError2() :
     ObjectHeader(),
-    LinMessageDescriptor()
+    LinMessageDescriptor(),
+    eoh(),
+    isEtf(),
+    fsmId(),
+    fsmState(),
+    reserved(),
+    reserved2(),
+    exactHeaderBaudrate(),
+    earlyStopbitOffset()
 {
 }
 

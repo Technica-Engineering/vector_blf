@@ -61,7 +61,7 @@ public:
      * Defines what additional information is valid.
      * Following values are possible:
      *
-     * - 1: SJA 1000 ECC is valid (member mECC)
+     * - 1: SJA 1000 ECC is valid (member ecc)
      * - 2: Vector CAN Core Error Code is valid.
      * - 4: Vector CAN Core Error Position
      * - 8: Vector CAN Core Frame Length in ns
@@ -73,7 +73,7 @@ public:
      *
      * Content of Philips SJA1000 Error Code Capture
      * (ECC) register, or the Vector CAN-Core error
-     * register (see also mFlags).
+     * register (see also flags).
      *
      * SJA1000-ECC
      *
@@ -124,7 +124,7 @@ public:
      * difference between Start Of Frame and End Of
      * Frame)
      */
-    DWORD frameLengthInNS;
+    DWORD frameLengthInNs;
 
     /**
      * @brief frame ID from CAN-Core

@@ -33,10 +33,25 @@ namespace BLF {
 
 struct GeneralSerialEvent
 {
-    DWORD dataLength; /**< length of variable data in bytes */
-    DWORD timeStampsLength; /**< length of variable timestamps in bytes */
-    BYTE * data; /**< variable data */
-    LONGLONG * timeStamps; /**< variable timestamps (optional) */
+    /**
+     * @brief length of variable data in bytes
+     */
+    DWORD dataLength;
+
+    /**
+     * @brief length of variable timestamps in bytes
+     */
+    DWORD timeStampsLength;
+
+    /**
+     * @brief variable data
+     */
+    BYTE * data;
+
+    /**
+     * @brief variable timestamps (optional)
+     */
+    LONGLONG * timeStamps;
 };
 
 struct SingleByteSerialEvent
@@ -57,16 +72,34 @@ class VECTOR_BLF_EXPORT SerialEvent : public ObjectHeader
 {
 public:
     SerialEvent();
+
     enumclass Flags : DWORD {
         KLineEvent = 0x000000001,
-        DiagRequest = 0x000000002, /**< only valid if BL_SERIAL_TYPE_KLINE_EVENT is set */
-        SingleByte = 0x000000004, /**< optimization for logging single bytes */
-        CompactByte = 0x000000008 /**< optimization for logging a few bytes without additional timestamps */
+
+        /** only valid if BL_SERIAL_TYPE_KLINE_EVENT is set */
+        DiagRequest = 0x000000002,
+
+        /** optimization for logging single bytes */
+        SingleByte = 0x000000004,
+
+        /** optimization for logging a few bytes without additional timestamps */
+        CompactByte = 0x000000008
     };
+
     DWORD flags;
-    DWORD port; /**< channel of event */
-    DWORD baudrate; /**< baudrate at which this event was transmitted (optional) */
+
+    /**
+     * @brief channel of event
+     */
+    DWORD port;
+
+    /**
+     * @brief baudrate at which this event was transmitted (optional)
+     */
+    DWORD baudrate;
+
     DWORD reserved;
+
     union
     {
         GeneralSerialEvent general;

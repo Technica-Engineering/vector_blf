@@ -25,7 +25,22 @@ namespace Vector {
 namespace BLF {
 
 MostEthernetPkt::MostEthernetPkt() :
-    ObjectHeader2()
+    ObjectHeader2(),
+    channel(),
+    dir(),
+    dummy1(),
+    sourceMacAdr(),
+    destMacAdr(),
+    transferType(),
+    state(),
+    ackNack(),
+    dummy2(),
+    crc(),
+    pAck(),
+    cAck(),
+    dummy3(),
+    pktDataLength(),
+    pktData(nullptr)
 {
 }
 

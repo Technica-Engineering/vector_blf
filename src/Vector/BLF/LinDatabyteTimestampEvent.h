@@ -32,12 +32,25 @@
 namespace Vector {
 namespace BLF {
 
+/**
+ * Common header of LIN bus events containing response data bytes
+ */
 class VECTOR_BLF_EXPORT LinDatabyteTimestampEvent : public LinMessageDescriptor
 {
 public:
     LinDatabyteTimestampEvent();
 
-    ULONGLONG databyteTimestamps[9]; /**< Databyte timestamps, where d[0] = EndOfHeader, d[1]=EndOfDataByte1, ..., d[8]=EndOfDataByte8 */
+    /**
+     * @brief Databyte timestamps, where d[0] = EndOfHeader, d[1]=EndOfDataByte1, ..., d[8]=EndOfDataByte8
+     *
+     * Data byte timestamps [in nanoseconds]
+     *
+     * Index 0 corresponds to last header byte
+     *
+     * Indexes 1-9 correspond to response data
+     * bytes D1-D8
+     */
+    ULONGLONG databyteTimestamps[9];
 };
 
 }

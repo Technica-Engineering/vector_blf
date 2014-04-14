@@ -25,7 +25,18 @@ namespace Vector {
 namespace BLF {
 
 FlexRayVFrStatus::FlexRayVFrStatus() :
-    ObjectHeader()
+    ObjectHeader(),
+    channel(),
+    version(),
+    channelMask(),
+    cycle(),
+    clientIndex(),
+    clusterNo(),
+    wus(),
+    ccSyncState(),
+    tag(),
+    data(),
+    reserved()
 {
 }
 

@@ -177,7 +177,7 @@ int main(int argc, char *argv[])
             break;
 
         default:
-            std::cerr << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
         }
         delete obj;
     }
