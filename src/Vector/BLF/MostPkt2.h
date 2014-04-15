@@ -40,7 +40,9 @@ class VECTOR_BLF_EXPORT MostPkt2 : public ObjectHeader2
 {
 public:
     MostPkt2();
+    virtual ~MostPkt2();
 
+    virtual char * parse(char * buffer);
     virtual void setObjectSize();
 
     /**

@@ -41,6 +41,8 @@ class VECTOR_BLF_EXPORT ObjectHeader2 : public ObjectHeaderBase
 public:
     ObjectHeader2();
 
+    virtual char * parse(char * buffer);
+
     /**
      * @brief object flags
      *

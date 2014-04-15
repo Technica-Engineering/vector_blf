@@ -21,6 +21,8 @@
 
 #include "ObjectHeader2.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 
@@ -33,6 +35,46 @@ ObjectHeader2::ObjectHeader2() :
     objectTimeStamp(),
     originalTimeStamp()
 {
+}
+
+char * ObjectHeader2::parse(char * buffer)
+{
+    size_t size;
+
+    // previous data
+    buffer = ObjectHeaderBase::parse(buffer);
+
+    // objectFlags
+    size = sizeof(objectFlags);
+    memcpy((char *) &objectFlags, buffer, size);
+    buffer += size;
+
+    // timeStampStatus
+    size = sizeof(timeStampStatus);
+    memcpy((char *) &timeStampStatus, buffer, size);
+    buffer += size;
+
+    // reserved
+    size = sizeof(reserved);
+    memcpy((char *) &reserved, buffer, size);
+    buffer += size;
+
+    // objectVersion
+    size = sizeof(objectVersion);
+    memcpy((char *) &objectVersion, buffer, size);
+    buffer += size;
+
+    // objectTimeStamp
+    size = sizeof(objectTimeStamp);
+    memcpy((char *) &objectTimeStamp, buffer, size);
+    buffer += size;
+
+    // originalTimeStamp
+    size = sizeof(originalTimeStamp);
+    memcpy((char *) &originalTimeStamp, buffer, size);
+    buffer += size;
+
+    return buffer;
 }
 
 }

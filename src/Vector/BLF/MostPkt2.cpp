@@ -21,6 +21,8 @@
 
 #include "MostPkt2.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 
@@ -39,7 +41,95 @@ MostPkt2::MostPkt2() :
     transferType(),
     state(),
     pktDataLength(),
-    pktData(nullptr){
+    pktData(nullptr)
+{
+}
+
+MostPkt2::~MostPkt2()
+{
+    delete pktData;
+    pktData = nullptr;
+}
+
+char * MostPkt2::parse(char * buffer)
+{
+    size_t size;
+
+    // previous data
+    buffer = ObjectHeader2::parse(buffer);
+
+    // channel
+    size = sizeof(channel);
+    memcpy((char *) &channel, buffer, size);
+    buffer += size;
+
+    // dir
+    size = sizeof(dir);
+    memcpy((char *) &dir, buffer, size);
+    buffer += size;
+
+    // dummy1
+    size = sizeof(dummy1);
+    memcpy((char *) &dummy1, buffer, size);
+    buffer += size;
+
+    // sourceAdr
+    size = sizeof(sourceAdr);
+    memcpy((char *) &sourceAdr, buffer, size);
+    buffer += size;
+
+    // destAdr
+    size = sizeof(destAdr);
+    memcpy((char *) &destAdr, buffer, size);
+    buffer += size;
+
+    // arbitration
+    size = sizeof(arbitration);
+    memcpy((char *) &arbitration, buffer, size);
+    buffer += size;
+
+    // timeRes
+    size = sizeof(timeRes);
+    memcpy((char *) &timeRes, buffer, size);
+    buffer += size;
+
+    // quadsToFollow
+    size = sizeof(quadsToFollow);
+    memcpy((char *) &quadsToFollow, buffer, size);
+    buffer += size;
+
+    // crc
+    size = sizeof(crc);
+    memcpy((char *) &crc, buffer, size);
+    buffer += size;
+
+    // priority
+    size = sizeof(priority);
+    memcpy((char *) &priority, buffer, size);
+    buffer += size;
+
+    // transferType
+    size = sizeof(transferType);
+    memcpy((char *) &transferType, buffer, size);
+    buffer += size;
+
+    // state
+    size = sizeof(state);
+    memcpy((char *) &state, buffer, size);
+    buffer += size;
+
+    // pktDataLength
+    size = sizeof(pktDataLength);
+    memcpy((char *) &pktDataLength, buffer, size);
+    buffer += size;
+
+    // pktData
+    size = pktDataLength;
+    pktData = new char[pktDataLength];
+    memcpy(pktData, buffer, size);
+    buffer += size;
+
+    return buffer;
 }
 
 void MostPkt2::setObjectSize()

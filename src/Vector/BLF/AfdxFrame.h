@@ -40,6 +40,9 @@ class VECTOR_BLF_EXPORT AfdxFrame : public ObjectHeader
 {
 public:
     AfdxFrame();
+    virtual ~AfdxFrame();
+
+    virtual char * parse(char * buffer);
 
     /**
      * Ethernet (MAC) address of source computer
@@ -130,7 +133,7 @@ public:
      * Ethernet payload data (without Ethernet
      * header). Max 1500 data bytes per frame
      */
-    BYTE * payLoad;
+    char * payLoad;
 };
 
 }

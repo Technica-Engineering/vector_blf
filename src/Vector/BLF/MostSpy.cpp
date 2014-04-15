@@ -21,6 +21,8 @@
 
 #include "MostSpy.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 
@@ -40,6 +42,81 @@ MostSpy::MostSpy() :
     ackNack(),
     crc()
 {
+}
+
+char * MostSpy::parse(char * buffer)
+{
+    size_t size;
+
+    // previous data
+    buffer = ObjectHeader::parse(buffer);
+
+    // channel
+    size = sizeof(channel);
+    memcpy((char *) &channel, buffer, size);
+    buffer += size;
+
+    // dir
+    size = sizeof(dir);
+    memcpy((char *) &dir, buffer, size);
+    buffer += size;
+
+    // dummy1
+    size = sizeof(dummy1);
+    memcpy((char *) &dummy1, buffer, size);
+    buffer += size;
+
+    // sourceAdr
+    size = sizeof(sourceAdr);
+    memcpy((char *) &sourceAdr, buffer, size);
+    buffer += size;
+
+    // destAdr
+    size = sizeof(destAdr);
+    memcpy((char *) &destAdr, buffer, size);
+    buffer += size;
+
+    // msg
+    size = sizeof(msg);
+    memcpy((char *) &msg, buffer, size);
+    buffer += size;
+
+    // dummy2
+    size = sizeof(dummy2);
+    memcpy((char *) &dummy2, buffer, size);
+    buffer += size;
+
+    // rTyp
+    size = sizeof(rTyp);
+    memcpy((char *) &rTyp, buffer, size);
+    buffer += size;
+
+    // rTypAdr
+    size = sizeof(rTypAdr);
+    memcpy((char *) &rTypAdr, buffer, size);
+    buffer += size;
+
+    // state
+    size = sizeof(state);
+    memcpy((char *) &state, buffer, size);
+    buffer += size;
+
+    // dummy3
+    size = sizeof(dummy3);
+    memcpy((char *) &dummy3, buffer, size);
+    buffer += size;
+
+    // ackNack
+    size = sizeof(ackNack);
+    memcpy((char *) &ackNack, buffer, size);
+    buffer += size;
+
+    // crc
+    size = sizeof(crc);
+    memcpy((char *) &crc, buffer, size);
+    buffer += size;
+
+    return buffer;
 }
 
 }

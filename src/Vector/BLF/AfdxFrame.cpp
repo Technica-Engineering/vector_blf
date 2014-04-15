@@ -21,6 +21,9 @@
 
 #include "AfdxFrame.h"
 
+#include <cstring>
+#include <iostream>
+
 namespace Vector {
 namespace BLF {
 
@@ -39,6 +42,83 @@ AfdxFrame::AfdxFrame() :
     payLoadLength(),
     payLoad(nullptr)
 {
+}
+
+AfdxFrame::~AfdxFrame()
+{
+    delete[] payLoad;
+    payLoad = nullptr;
+}
+
+char * AfdxFrame::parse(char * buffer)
+{
+    size_t size;
+
+    // previous data
+    buffer = ObjectHeader::parse(buffer);
+
+    // sourceAddress
+    size = sizeof(sourceAddress);
+    memcpy((char *) &sourceAddress, buffer, size);
+    buffer += size;
+
+    // channel
+    size = sizeof(channel);
+    memcpy((char *) &channel, buffer, size);
+    buffer += size;
+
+    // destinationAddress
+    size = sizeof(destinationAddress);
+    memcpy((char *) &destinationAddress, buffer, size);
+    buffer += size;
+
+    // dir
+    size = sizeof(dir);
+    memcpy((char *) &dir, buffer, size);
+    buffer += size;
+
+    // type
+    size = sizeof(type);
+    memcpy((char *) &type, buffer, size);
+    buffer += size;
+
+    // tpid
+    size = sizeof(tpid);
+    memcpy((char *) &tpid, buffer, size);
+    buffer += size;
+
+    // tci
+    size = sizeof(tci);
+    memcpy((char *) &tci, buffer, size);
+    buffer += size;
+
+    // ethChannel
+    size = sizeof(ethChannel);
+    memcpy((char *) &ethChannel, buffer, size);
+    buffer += size;
+
+    // afdxFlags
+    size = sizeof(afdxFlags);
+    memcpy((char *) &afdxFlags, buffer, size);
+    buffer += size;
+
+    // bagUsec
+    size = sizeof(bagUsec);
+    memcpy((char *) &bagUsec, buffer, size);
+    buffer += size;
+
+    // payLoadLength
+    size = sizeof(payLoadLength);
+    memcpy((char *) &payLoadLength, buffer, size);
+    buffer += size;
+
+    // payLoad
+    size = objectSize - 0x3f;
+    payLoad = new char[size];
+    memcpy(payLoad, buffer, size);
+    buffer += size;
+
+    return buffer;
 }
 
 }

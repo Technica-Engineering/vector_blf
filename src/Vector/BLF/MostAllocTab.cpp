@@ -21,6 +21,8 @@
 
 #include "MostAllocTab.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 
@@ -30,6 +32,38 @@ MostAllocTab::MostAllocTab() :
     length(),
     tableData(nullptr)
 {
+}
+
+MostAllocTab::~MostAllocTab()
+{
+    delete[] tableData;
+    tableData = nullptr;
+}
+
+char * MostAllocTab::parse(char * buffer)
+{
+    size_t size;
+
+    // previous data
+    buffer = ObjectHeader2::parse(buffer);
+
+    // channel
+    size = sizeof(channel);
+    memcpy((char *) &channel, buffer, size);
+    buffer += size;
+
+    // length
+    size = sizeof(length);
+    memcpy((char *) &length, buffer, size);
+    buffer += size;
+
+    // dummy1
+    size = length;
+    tableData = new char[length];
+    memcpy(tableData, buffer, size);
+    buffer += size;
+
+    return buffer;
 }
 
 void MostAllocTab::setObjectSize()

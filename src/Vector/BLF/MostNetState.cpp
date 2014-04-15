@@ -21,6 +21,8 @@
 
 #include "MostNetState.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 
@@ -31,6 +33,36 @@ MostNetState::MostNetState() :
     stateOld(),
     dummy1()
 {
+}
+
+char * MostNetState::parse(char * buffer)
+{
+    size_t size;
+
+    // previous data
+    buffer = ObjectHeader2::parse(buffer);
+
+    // channel
+    size = sizeof(channel);
+    memcpy((char *) &channel, buffer, size);
+    buffer += size;
+
+    // stateNew
+    size = sizeof(stateNew);
+    memcpy((char *) &stateNew, buffer, size);
+    buffer += size;
+
+    // stateOld
+    size = sizeof(stateOld);
+    memcpy((char *) &stateOld, buffer, size);
+    buffer += size;
+
+    // dummy1
+    size = sizeof(dummy1);
+    memcpy((char *) &dummy1, buffer, size);
+    buffer += size;
+
+    return buffer;
 }
 
 }

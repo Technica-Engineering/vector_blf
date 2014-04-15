@@ -41,6 +41,8 @@ class VECTOR_BLF_EXPORT MostCtrl : public ObjectHeader
 public:
     MostCtrl();
 
+    virtual char * parse(char * buffer);
+
     /**
      * @brief application channel
      *
@@ -136,7 +138,7 @@ public:
      */
     BYTE state;
 
-    BYTE dummy3H;
+    BYTE dummy3;
 
     /**
      * @brief acknowledge bits
@@ -176,6 +178,8 @@ public:
      *       - only for Dir = Tx or spy messages
      */
     BYTE ackNack;
+
+    /** @todo somewhere a DWORD is missing */
 };
 
 }

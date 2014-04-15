@@ -21,6 +21,8 @@
 
 #include "MostStatistic.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 
@@ -32,6 +34,41 @@ MostStatistic::MostStatistic() :
     lightCnt(),
     bufferLevel()
 {
+}
+
+char * MostStatistic::parse(char * buffer)
+{
+    size_t size;
+
+    // previous data
+    buffer = ObjectHeader::parse(buffer);
+
+    // channel
+    size = sizeof(channel);
+    memcpy((char *) &channel, buffer, size);
+    buffer += size;
+
+    // pktCnt
+    size = sizeof(pktCnt);
+    memcpy((char *) &pktCnt, buffer, size);
+    buffer += size;
+
+    // frmCnt
+    size = sizeof(frmCnt);
+    memcpy((char *) &frmCnt, buffer, size);
+    buffer += size;
+
+    // lightCnt
+    size = sizeof(lightCnt);
+    memcpy((char *) &lightCnt, buffer, size);
+    buffer += size;
+
+    // bufferLevel
+    size = sizeof(bufferLevel);
+    memcpy((char *) &bufferLevel, buffer, size);
+    buffer += size;
+
+    return buffer;
 }
 
 }

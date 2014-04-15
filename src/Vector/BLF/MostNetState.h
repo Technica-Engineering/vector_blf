@@ -41,6 +41,8 @@ class VECTOR_BLF_EXPORT MostNetState : public ObjectHeader2
 public:
     MostNetState();
 
+    virtual char * parse(char * buffer);
+
     /**
      * @brief application channel
      *

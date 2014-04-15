@@ -21,6 +21,8 @@
 
 #include "MostHwMode.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 
@@ -31,6 +33,36 @@ MostHwMode::MostHwMode() :
     hwMode(),
     hwModeMask()
 {
+}
+
+char * MostHwMode::parse(char * buffer)
+{
+    size_t size;
+
+    // previous data
+    buffer = ObjectHeader2::parse(buffer);
+
+    // channel
+    size = sizeof(channel);
+    memcpy((char *) &channel, buffer, size);
+    buffer += size;
+
+    // dummy1
+    size = sizeof(dummy1);
+    memcpy((char *) &dummy1, buffer, size);
+    buffer += size;
+
+    // hwMode
+    size = sizeof(hwMode);
+    memcpy((char *) &hwMode, buffer, size);
+    buffer += size;
+
+    // hwModeMask
+    size = sizeof(hwModeMask);
+    memcpy((char *) &hwModeMask, buffer, size);
+    buffer += size;
+
+    return buffer;
 }
 
 }

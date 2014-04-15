@@ -21,6 +21,8 @@
 
 #include "MostGenReg.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 
@@ -35,6 +37,56 @@ MostGenReg::MostGenReg() :
     dummy3(),
     regValue()
 {
+}
+
+char * MostGenReg::parse(char * buffer)
+{
+    size_t size;
+
+    // previous data
+    buffer = ObjectHeader2::parse(buffer);
+
+    // channel
+    size = sizeof(channel);
+    memcpy((char *) &channel, buffer, size);
+    buffer += size;
+
+    // subType
+    size = sizeof(subType);
+    memcpy((char *) &subType, buffer, size);
+    buffer += size;
+
+    // dummy1
+    size = sizeof(dummy1);
+    memcpy((char *) &dummy1, buffer, size);
+    buffer += size;
+
+    // handle
+    size = sizeof(handle);
+    memcpy((char *) &handle, buffer, size);
+    buffer += size;
+
+    // regId
+    size = sizeof(regId);
+    memcpy((char *) &regId, buffer, size);
+    buffer += size;
+
+    // dummy2
+    size = sizeof(dummy2);
+    memcpy((char *) &dummy2, buffer, size);
+    buffer += size;
+
+    // dummy3
+    size = sizeof(dummy3);
+    memcpy((char *) &dummy3, buffer, size);
+    buffer += size;
+
+    // regValue
+    size = sizeof(regValue);
+    memcpy((char *) &regValue, buffer, size);
+    buffer += size;
+
+    return buffer;
 }
 
 }

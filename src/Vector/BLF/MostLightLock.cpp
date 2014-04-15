@@ -21,6 +21,8 @@
 
 #include "MostLightLock.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 
@@ -29,6 +31,26 @@ MostLightLock::MostLightLock() :
     channel(),
     state()
 {
+}
+
+char * MostLightLock::parse(char * buffer)
+{
+    size_t size;
+
+    // previous data
+    buffer = ObjectHeader::parse(buffer);
+
+    // channel
+    size = sizeof(channel);
+    memcpy((char *) &channel, buffer, size);
+    buffer += size;
+
+    // state
+    size = sizeof(state);
+    memcpy((char *) &state, buffer, size);
+    buffer += size;
+
+    return buffer;
 }
 
 }

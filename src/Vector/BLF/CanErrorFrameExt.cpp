@@ -21,6 +21,8 @@
 
 #include "CanErrorFrameExt.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 
@@ -39,6 +41,76 @@ CanErrorFrameExt::CanErrorFrameExt() :
     reserved2(),
     data()
 {
+}
+
+char * CanErrorFrameExt::parse(char * buffer)
+{
+    size_t size;
+
+    // previous data
+    buffer = ObjectHeader::parse(buffer);
+
+    // channel
+    size = sizeof(channel);
+    memcpy((char *) &channel, buffer, size);
+    buffer += size;
+
+    // length
+    size = sizeof(length);
+    memcpy((char *) &length, buffer, size);
+    buffer += size;
+
+    // flags
+    size = sizeof(flags);
+    memcpy((char *) &flags, buffer, size);
+    buffer += size;
+
+    // ecc
+    size = sizeof(ecc);
+    memcpy((char *) &ecc, buffer, size);
+    buffer += size;
+
+    // position
+    size = sizeof(position);
+    memcpy((char *) &position, buffer, size);
+    buffer += size;
+
+    // dlc
+    size = sizeof(dlc);
+    memcpy((char *) &dlc, buffer, size);
+    buffer += size;
+
+    // reserved1
+    size = sizeof(reserved1);
+    memcpy((char *) &reserved1, buffer, size);
+    buffer += size;
+
+    // frameLengthInNs
+    size = sizeof(frameLengthInNs);
+    memcpy((char *) &frameLengthInNs, buffer, size);
+    buffer += size;
+
+    // id
+    size = sizeof(id);
+    memcpy((char *) &id, buffer, size);
+    buffer += size;
+
+    // flagsExt
+    size = sizeof(flagsExt);
+    memcpy((char *) &flagsExt, buffer, size);
+    buffer += size;
+
+    // reserved2
+    size = sizeof(reserved2);
+    memcpy((char *) &reserved2, buffer, size);
+    buffer += size;
+
+    // data
+    size = sizeof(data);
+    memcpy((char *) &data, buffer, size);
+    buffer += size;
+
+    return buffer;
 }
 
 }

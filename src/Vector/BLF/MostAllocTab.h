@@ -41,6 +41,9 @@ class VECTOR_BLF_EXPORT MostAllocTab : public ObjectHeader2
 {
 public:
     MostAllocTab();
+    virtual ~MostAllocTab();
+
+    virtual char * parse(char * buffer);
 
     virtual void setObjectSize();
 

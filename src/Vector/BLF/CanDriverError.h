@@ -41,6 +41,8 @@ class VECTOR_BLF_EXPORT CanDriverError : public ObjectHeader
 public:
     CanDriverError();
 
+    virtual char * parse(char * buffer);
+
     /**
      * @brief application channel
      *

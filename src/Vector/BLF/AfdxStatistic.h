@@ -41,6 +41,8 @@ class VECTOR_BLF_EXPORT AfdxStatistic : public ObjectHeader
 public:
     AfdxStatistic();
 
+    virtual char * parse(char * buffer);
+
     /**
      * @brief application channel
      *

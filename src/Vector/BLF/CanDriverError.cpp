@@ -21,6 +21,8 @@
 
 #include "CanDriverError.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 
@@ -31,6 +33,36 @@ CanDriverError::CanDriverError() :
     rxErrors(),
     errorCode()
 {
+}
+
+char * CanDriverError::parse(char * buffer)
+{
+    size_t size;
+
+    // previous data
+    buffer = ObjectHeader::parse(buffer);
+
+    // channel
+    size = sizeof(channel);
+    memcpy((char *) &channel, buffer, size);
+    buffer += size;
+
+    // txErrors
+    size = sizeof(txErrors);
+    memcpy((char *) &txErrors, buffer, size);
+    buffer += size;
+
+    // rxErrors
+    size = sizeof(rxErrors);
+    memcpy((char *) &rxErrors, buffer, size);
+    buffer += size;
+
+    // errorCode
+    size = sizeof(errorCode);
+    memcpy((char *) &errorCode, buffer, size);
+    buffer += size;
+
+    return buffer;
 }
 
 }

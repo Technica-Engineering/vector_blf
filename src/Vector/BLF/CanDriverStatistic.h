@@ -41,6 +41,8 @@ class VECTOR_BLF_EXPORT CanDriverStatistic : public ObjectHeader
 public:
     CanDriverStatistic();
 
+    virtual char * parse(char * buffer);
+
     /**
      * @brief application channel
      *
@@ -102,6 +104,8 @@ public:
      * channel.
      */
     DWORD overloadFrames;
+
+    DWORD reserved; // @todo don't know if this is right, but there is often just garbage in there...
 };
 
 }
