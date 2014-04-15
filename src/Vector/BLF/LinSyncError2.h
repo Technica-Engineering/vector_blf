@@ -46,6 +46,8 @@ class VECTOR_BLF_EXPORT LinSyncError2 : public ObjectHeader, public LinSynchFiel
 public:
     LinSyncError2();
 
+    virtual char * parse(char * buffer);
+
     /**
      * Time intervals [in us] detected between the
      * falling signal edges of the Sync field

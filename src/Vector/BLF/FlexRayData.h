@@ -41,6 +41,8 @@ class VECTOR_BLF_EXPORT FlexRayData : public ObjectHeader
 public:
     FlexRayData();
 
+    virtual char * parse(char * buffer);
+
     /**
      * @brief application channel
      */

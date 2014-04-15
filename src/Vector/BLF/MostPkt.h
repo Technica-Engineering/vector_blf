@@ -41,6 +41,9 @@ class VECTOR_BLF_EXPORT MostPkt : public ObjectHeader
 {
 public:
     MostPkt();
+    virtual ~MostPkt();
+
+    virtual char * parse(char * buffer);
 
     /**
      * @brief application channel

@@ -54,6 +54,9 @@ class VECTOR_BLF_EXPORT AppText : public ObjectHeader
 {
 public:
     AppText();
+    virtual ~AppText();
+
+    virtual char * parse(char * buffer);
 
     /**
      * @brief source of text

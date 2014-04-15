@@ -41,6 +41,8 @@ class VECTOR_BLF_EXPORT EthernetStatus : public ObjectHeader
 public:
     EthernetStatus();
 
+    virtual char * parse(char * buffer);
+
     /**
      * The channel of the event.
      */

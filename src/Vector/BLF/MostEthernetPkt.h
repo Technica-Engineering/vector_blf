@@ -40,8 +40,10 @@ class VECTOR_BLF_EXPORT MostEthernetPkt : public ObjectHeader2
 {
 public:
     MostEthernetPkt();
+    virtual ~MostEthernetPkt();
 
-    virtual void setObjectSize();
+    virtual char * parse(char * buffer);
+    virtual size_t calculateObjectSize();
 
     /**
      * @brief application channel

@@ -40,6 +40,9 @@ class VECTOR_BLF_EXPORT EthernetFrame : public ObjectHeader
 {
 public:
     EthernetFrame();
+    virtual ~EthernetFrame();
+
+    virtual char * parse(char * buffer);
 
     /**
      * Ethernet (MAC) address of source computer

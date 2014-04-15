@@ -40,6 +40,9 @@ class VECTOR_BLF_EXPORT EthernetRxError : public ObjectHeader
 {
 public:
     EthernetRxError();
+    virtual ~EthernetRxError();
+
+    virtual char * parse(char * buffer);
 
     /**
      * @brief Length of this structure

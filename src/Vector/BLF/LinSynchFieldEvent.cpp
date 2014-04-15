@@ -31,5 +31,25 @@ LinSynchFieldEvent::LinSynchFieldEvent() :
 {
 }
 
+char * LinSynchFieldEvent::parse(char * buffer)
+{
+    size_t size;
+
+    // previous data
+    buffer = LinBusEvent::parse(buffer);
+
+    // synchBreakLength
+    size = sizeof(synchBreakLength);
+    memcpy((char *) &synchBreakLength, buffer, size);
+    buffer += size;
+
+    // synchDelLength
+    size = sizeof(synchDelLength);
+    memcpy((char *) &synchDelLength, buffer, size);
+    buffer += size;
+
+    return buffer;
+}
+
 }
 }

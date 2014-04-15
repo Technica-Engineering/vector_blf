@@ -43,6 +43,8 @@ class VECTOR_BLF_EXPORT LinBaudrateEvent : public ObjectHeader
 public:
     LinBaudrateEvent();
 
+    virtual char * parse(char * buffer);
+
     /**
      * @brief application channel
      *

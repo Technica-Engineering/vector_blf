@@ -39,9 +39,53 @@ GlobalMarker::GlobalMarker() :
 {
 }
 
-void GlobalMarker::setObjectSize()
+GlobalMarker::~GlobalMarker()
 {
-    // @todo objectSize = sizeof(EventComment) + groupNameLength + markerNameLength + descriptionLength;
+    delete[] groupName;
+    groupName = nullptr;
+
+    delete[] markerName;
+    markerName = nullptr;
+
+    delete[] description;
+    description = nullptr;
+}
+
+char * GlobalMarker::parse(char * buffer)
+{
+    size_t size;
+
+    // previous data
+    buffer = ObjectHeader::parse(buffer);
+
+#if 0
+    // channel
+    size = sizeof(channel);
+    memcpy((char *) &channel, buffer, size);
+    buffer += size;
+#else
+    // @todo
+#endif
+
+    return buffer;
+}
+
+size_t GlobalMarker::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader::calculateObjectSize() +
+            sizeof(commentedEventType) +
+            sizeof(foregroundColor) +
+            sizeof(backgroundColor) +
+            sizeof(isRelocatable) +
+            sizeof(groupNameLength) +
+            sizeof(markerNameLength) +
+            sizeof(descriptionLength) +
+            groupNameLength +
+            markerNameLength +
+            descriptionLength;
+
+    return size;
 }
 
 }

@@ -43,6 +43,8 @@ class VECTOR_BLF_EXPORT LinLongDomSignalEvent2 : public ObjectHeader, public Lin
 public:
     LinLongDomSignalEvent2();
 
+    virtual char * parse(char * buffer);
+
     /**
      * One dominant signal reported with multiple
      * events (at least 2). This field indicate the order

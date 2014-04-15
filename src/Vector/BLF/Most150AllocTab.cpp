@@ -34,5 +34,40 @@ Most150AllocTab::Most150AllocTab() :
 {
 }
 
+char * Most150AllocTab::parse(char * buffer)
+{
+    size_t size;
+
+    // previous data
+    buffer = ObjectHeader2::parse(buffer);
+
+    // channel
+    size = sizeof(channel);
+    memcpy((char *) &channel, buffer, size);
+    buffer += size;
+
+    // eventModeFlags
+    size = sizeof(eventModeFlags);
+    memcpy((char *) &eventModeFlags, buffer, size);
+    buffer += size;
+
+    // freeBytes
+    size = sizeof(freeBytes);
+    memcpy((char *) &freeBytes, buffer, size);
+    buffer += size;
+
+    // length
+    size = sizeof(length);
+    memcpy((char *) &length, buffer, size);
+    buffer += size;
+
+    // tableData
+    size = sizeof(tableData);
+    memcpy((char *) &tableData, buffer, size);
+    buffer += size;
+
+    return buffer;
+}
+
 }
 }

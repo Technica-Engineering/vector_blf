@@ -71,6 +71,8 @@ public:
      *   - 0x20 – Critical Unlock
      */
     SHORT state;
+
+    DWORD reserved; // @todo not sure if this is right
 };
 
 }

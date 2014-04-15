@@ -40,6 +40,9 @@ class VECTOR_BLF_EXPORT EventComment : public ObjectHeader
 {
 public:
     EventComment();
+    virtual ~EventComment();
+
+    virtual char * parse(char * buffer);
 
     /**
      * @brief commented event type

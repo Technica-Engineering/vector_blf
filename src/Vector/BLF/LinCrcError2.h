@@ -43,6 +43,8 @@ class VECTOR_BLF_EXPORT LinCrcError2 : public ObjectHeader, public LinDatabyteTi
 public:
     LinCrcError2();
 
+    virtual char * parse(char * buffer);
+
     /**
      * @brief data bytes.
      *

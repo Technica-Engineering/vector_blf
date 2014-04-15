@@ -41,6 +41,8 @@ class VECTOR_BLF_EXPORT Most150AllocTab : public ObjectHeader2 /* applied for MO
 public:
     Most150AllocTab();
 
+    virtual char * parse(char * buffer);
+
     /**
      * @brief application channel
      *

@@ -40,8 +40,10 @@ class VECTOR_BLF_EXPORT WlanFrame : public ObjectHeader
 {
 public:
     WlanFrame();
+    virtual ~WlanFrame();
 
-    virtual void setObjectSize();
+    virtual char * parse(char * buffer);
+    virtual size_t calculateObjectSize();
 
     /**
      * @brief application channel 1..n

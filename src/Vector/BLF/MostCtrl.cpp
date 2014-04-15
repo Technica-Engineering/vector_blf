@@ -39,7 +39,8 @@ MostCtrl::MostCtrl() :
     rTypAdr(),
     state(),
     dummy3(),
-    ackNack()
+    ackNack(),
+    unknown()
 {
 }
 
@@ -108,6 +109,11 @@ char * MostCtrl::parse(char * buffer)
     // ackNack
     size = sizeof(ackNack);
     memcpy((char *) &ackNack, buffer, size);
+    buffer += size;
+
+    // unknown
+    size = sizeof(unknown);
+    memcpy((char *) &unknown, buffer, size);
     buffer += size;
 
     return buffer;

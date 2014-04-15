@@ -30,5 +30,20 @@ LinDatabyteTimestampEvent::LinDatabyteTimestampEvent() :
 {
 }
 
+char * LinDatabyteTimestampEvent::parse(char * buffer)
+{
+    size_t size;
+
+    // previous data
+    buffer = LinMessageDescriptor::parse(buffer);
+
+    // databyteTimestamps
+    size = sizeof(databyteTimestamps);
+    memcpy((char *) &databyteTimestamps, buffer, size);
+    buffer += size;
+
+    return buffer;
+}
+
 }
 }

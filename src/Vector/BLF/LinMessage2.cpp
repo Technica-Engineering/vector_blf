@@ -44,5 +44,94 @@ LinMessage2::LinMessage2() :
 {
 }
 
+char * LinMessage2::parse(char * buffer)
+{
+    size_t size;
+
+    // previous data
+    buffer = ObjectHeader::parse(buffer);
+    buffer = LinDatabyteTimestampEvent::parse(buffer);
+
+    // data
+    size = sizeof(data);
+    memcpy((char *) &data, buffer, size);
+    buffer += size;
+
+    // crc
+    size = sizeof(crc);
+    memcpy((char *) &crc, buffer, size);
+    buffer += size;
+
+    // dir
+    size = sizeof(dir);
+    memcpy((char *) &dir, buffer, size);
+    buffer += size;
+
+    // simulated
+    size = sizeof(simulated);
+    memcpy((char *) &simulated, buffer, size);
+    buffer += size;
+
+    // isEtf
+    size = sizeof(isEtf);
+    memcpy((char *) &isEtf, buffer, size);
+    buffer += size;
+
+    // etfAssocIndex
+    size = sizeof(etfAssocIndex);
+    memcpy((char *) &etfAssocIndex, buffer, size);
+    buffer += size;
+
+    // etfAssocEtfId
+    size = sizeof(etfAssocEtfId);
+    memcpy((char *) &etfAssocEtfId, buffer, size);
+    buffer += size;
+
+    // fsmId
+    size = sizeof(fsmId);
+    memcpy((char *) &fsmId, buffer, size);
+    buffer += size;
+
+    // fsmState
+    size = sizeof(fsmState);
+    memcpy((char *) &fsmState, buffer, size);
+    buffer += size;
+
+    // reserved
+    size = sizeof(reserved);
+    memcpy((char *) &reserved, buffer, size);
+    buffer += size;
+
+    /* the following variables are only available in Version 2 and above */
+    if (objectVersion < 2)
+        return buffer;
+
+    // respBaudrate
+    size = sizeof(respBaudrate);
+    memcpy((char *) &respBaudrate, buffer, size);
+    buffer += size;
+
+    /* the following variables are only available in Version 3 and above */
+    if (objectVersion < 3)
+        return buffer;
+
+    // exactHeaderBaudrate
+    size = sizeof(exactHeaderBaudrate);
+    memcpy((char *) &exactHeaderBaudrate, buffer, size);
+    buffer += size;
+
+    // earlyStopbitOffset
+    size = sizeof(earlyStopbitOffset);
+    memcpy((char *) &earlyStopbitOffset, buffer, size);
+    buffer += size;
+
+    // earlyStopbitOffsetResponse
+    size = sizeof(earlyStopbitOffsetResponse);
+    memcpy((char *) &earlyStopbitOffsetResponse, buffer, size);
+    buffer += size;
+
+    return buffer;
+}
+
 }
 }

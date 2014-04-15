@@ -35,5 +35,45 @@ LinMessageDescriptor::LinMessageDescriptor() :
 {
 }
 
+char * LinMessageDescriptor::parse(char * buffer)
+{
+    size_t size;
+
+    // previous data
+    buffer = LinSynchFieldEvent::parse(buffer);
+
+    // supplierId
+    size = sizeof(supplierId);
+    memcpy((char *) &supplierId, buffer, size);
+    buffer += size;
+
+    // messageId
+    size = sizeof(messageId);
+    memcpy((char *) &messageId, buffer, size);
+    buffer += size;
+
+    // nad
+    size = sizeof(nad);
+    memcpy((char *) &nad, buffer, size);
+    buffer += size;
+
+    // id
+    size = sizeof(id);
+    memcpy((char *) &id, buffer, size);
+    buffer += size;
+
+    // dlc
+    size = sizeof(dlc);
+    memcpy((char *) &dlc, buffer, size);
+    buffer += size;
+
+    // checksumModel
+    size = sizeof(checksumModel);
+    memcpy((char *) &checksumModel, buffer, size);
+    buffer += size;
+
+    return buffer;
+}
+
 }
 }

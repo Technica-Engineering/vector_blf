@@ -40,8 +40,10 @@ class VECTOR_BLF_EXPORT Most150Pkt : public ObjectHeader2
 {
 public:
     Most150Pkt();
+    virtual ~Most150Pkt();
 
-    virtual void setObjectSize();
+    virtual char * parse(char * buffer);
+    virtual size_t calculateObjectSize();
 
     /**
      * @brief application channel

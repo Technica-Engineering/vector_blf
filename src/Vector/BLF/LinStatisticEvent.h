@@ -43,6 +43,8 @@ class VECTOR_BLF_EXPORT LinStatisticEvent : public ObjectHeader
 public:
     LinStatisticEvent();
 
+    virtual char * parse(char * buffer);
+
     /**
      * @brief application channel
      *

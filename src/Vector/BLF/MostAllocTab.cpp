@@ -30,6 +30,7 @@ MostAllocTab::MostAllocTab() :
     ObjectHeader2(),
     channel(),
     length(),
+    unknown(),
     tableData(nullptr)
 {
 }
@@ -57,7 +58,12 @@ char * MostAllocTab::parse(char * buffer)
     memcpy((char *) &length, buffer, size);
     buffer += size;
 
-    // dummy1
+    // unknown
+    size = sizeof(unknown);
+    memcpy((char *) &unknown, buffer, size);
+    buffer += size;
+
+    // tableData
     size = length;
     tableData = new char[length];
     memcpy(tableData, buffer, size);
@@ -66,9 +72,16 @@ char * MostAllocTab::parse(char * buffer)
     return buffer;
 }
 
-void MostAllocTab::setObjectSize()
+size_t MostAllocTab::calculateObjectSize()
 {
-    // @todo objectSize = sizeof(MOSTAllocTab) + length;
+    size_t size =
+            ObjectHeader2::calculateObjectSize() +
+            sizeof(channel) +
+            sizeof(length) +
+            sizeof(unknown) +
+            length;
+
+    return size;
 }
 
 }

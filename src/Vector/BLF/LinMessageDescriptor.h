@@ -40,6 +40,8 @@ class VECTOR_BLF_EXPORT LinMessageDescriptor : public LinSynchFieldEvent
 public:
     LinMessageDescriptor();
 
+    virtual char * parse(char * buffer);
+
     /**
      * @brief LIN Sub-Identifier - Supplier ID
      *

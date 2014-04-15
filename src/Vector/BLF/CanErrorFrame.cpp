@@ -31,5 +31,25 @@ CanErrorFrame::CanErrorFrame() :
 {
 }
 
+char * CanErrorFrame::parse(char * buffer)
+{
+    size_t size;
+
+    // previous data
+    buffer = ObjectHeader::parse(buffer);
+
+    // channel
+    size = sizeof(channel);
+    memcpy((char *) &channel, buffer, size);
+    buffer += size;
+
+    // length
+    size = sizeof(length);
+    memcpy((char *) &length, buffer, size);
+    buffer += size;
+
+    return buffer;
+}
+
 }
 }

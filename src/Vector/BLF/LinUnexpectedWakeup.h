@@ -43,6 +43,8 @@ class VECTOR_BLF_EXPORT LinUnexpectedWakeup : public ObjectHeader, public LinBus
 public:
     LinUnexpectedWakeup();
 
+    virtual char * parse(char * buffer);
+
     /**
      * @brief width of the unexpected wakeup in nanoseconds (valid for LIN 2.x)
      *

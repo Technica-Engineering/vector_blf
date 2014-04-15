@@ -41,6 +41,8 @@ class VECTOR_BLF_EXPORT CanErrorFrame : public ObjectHeader
 public:
     CanErrorFrame();
 
+    virtual char * parse(char * buffer);
+
     /**
      * @brief application channel
      *

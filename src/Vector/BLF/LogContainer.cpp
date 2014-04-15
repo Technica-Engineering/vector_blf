@@ -40,7 +40,7 @@ LogContainer::LogContainer() :
 
 LogContainer::~LogContainer()
 {
-    delete compressedFile;
+    delete[] compressedFile;
     compressedFile = nullptr;
 }
 

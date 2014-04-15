@@ -40,10 +40,10 @@ SystemVariable::SystemVariable() :
 
 SystemVariable::~SystemVariable()
 {
-    delete name;
+    delete[] name;
     name = nullptr;
 
-    delete data;
+    delete[] data;
     data = nullptr;
 }
 
@@ -95,9 +95,19 @@ char * SystemVariable::parse(char * buffer)
     return buffer;
 }
 
-void SystemVariable::setObjectSize()
+size_t SystemVariable::calculateObjectSize()
 {
-    // @todo objectSize = sizeof(SystemVariable) + nameLength + dataLength;
+    size_t size =
+            ObjectHeader::calculateObjectSize() +
+            sizeof(type) +
+            sizeof(reserved) +
+            sizeof(nameLength) +
+            sizeof(dataLength) +
+            sizeof(unknown) +
+            nameLength +
+            dataLength;
+
+    return size;
 }
 
 }

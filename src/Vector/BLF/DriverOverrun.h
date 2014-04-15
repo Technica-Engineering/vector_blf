@@ -39,6 +39,8 @@ class VECTOR_BLF_EXPORT DriverOverrun : public ObjectHeader
 public:
     DriverOverrun();
 
+    virtual char * parse(char * buffer);
+
     /**
      * @brief bus type
      */

@@ -41,6 +41,8 @@ class VECTOR_BLF_EXPORT FlexRayVFrReceiveMsgEx : public ObjectHeader
 public:
     FlexRayVFrReceiveMsgEx();
 
+    virtual char * parse(char * buffer);
+
     /**
      * @brief application channel
      *

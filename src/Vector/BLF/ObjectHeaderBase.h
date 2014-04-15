@@ -172,9 +172,9 @@ public:
     virtual char * parse(char * buffer);
 
     /**
-     * Sets the variable objectSize according to the payload
+     * Calculates the objectSize
      */
-    virtual void setObjectSize();
+    virtual size_t calculateObjectSize();
 
     /**
      * @brief signature (ObjectSignature)

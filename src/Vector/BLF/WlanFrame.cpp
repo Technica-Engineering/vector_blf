@@ -37,9 +37,45 @@ WlanFrame::WlanFrame() :
 {
 }
 
-void WlanFrame::setObjectSize()
+WlanFrame::~WlanFrame()
 {
-    // @todo objectSize = sizeof(WlanFrame) + frameLength;
+    delete[] frameData;
+    frameData = nullptr;
+}
+
+char * WlanFrame::parse(char * buffer)
+{
+    size_t size;
+
+    // previous data
+    buffer = ObjectHeader::parse(buffer);
+
+#if 0
+    // channel
+    size = sizeof(channel);
+    memcpy((char *) &channel, buffer, size);
+    buffer += size;
+#else
+    // @todo
+#endif
+
+    return buffer;
+}
+
+size_t WlanFrame::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader::calculateObjectSize() +
+            sizeof(channel) +
+            sizeof(flags) +
+            sizeof(dir) +
+            sizeof(radioChannel) +
+            sizeof(signalStrength) +
+            sizeof(signalQuality) +
+            sizeof(frameLength) +
+            frameLength;
+
+    return size;
 }
 
 }

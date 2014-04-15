@@ -41,6 +41,8 @@ class VECTOR_BLF_EXPORT MostSystemEvent : public ObjectHeader2
 public:
     MostSystemEvent();
 
+    virtual char * parse(char * buffer);
+
     /**
      * @brief application channel
      *

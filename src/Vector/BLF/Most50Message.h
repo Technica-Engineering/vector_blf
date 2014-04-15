@@ -40,8 +40,10 @@ class VECTOR_BLF_EXPORT Most50Message : public ObjectHeader2
 {
 public:
     Most50Message();
+    virtual ~Most50Message();
 
-    virtual void setObjectSize();
+    virtual char * parse(char * buffer);
+    virtual size_t calculateObjectSize();
 
     /**
      * @brief application channel

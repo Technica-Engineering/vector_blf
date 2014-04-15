@@ -43,6 +43,8 @@ class VECTOR_BLF_EXPORT LinSpikeEvent2 : public ObjectHeader, public LinBusEvent
 public:
     LinSpikeEvent2();
 
+    virtual char * parse(char * buffer);
+
     /**
      * @brief the spike's width in microseconds
      *

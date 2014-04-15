@@ -78,14 +78,16 @@ char * ObjectHeaderBase::parse(char * buffer)
     return buffer;
 }
 
-void ObjectHeaderBase::setObjectSize()
+size_t ObjectHeaderBase::calculateObjectSize()
 {
-    objectSize =
+    constexpr size_t size =
             sizeof(signature) +
             sizeof(headerSize) +
             sizeof(headerVersion) +
             sizeof(objectSize) +
             sizeof(objectType);
+
+    return size;
 }
 
 }

@@ -44,6 +44,8 @@ class VECTOR_BLF_EXPORT LinSpikeEvent : public ObjectHeader
 public:
     LinSpikeEvent();
 
+    virtual char * parse(char * buffer);
+
     /**
      * @brief application channel
      *

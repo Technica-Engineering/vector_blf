@@ -43,6 +43,8 @@ class VECTOR_BLF_EXPORT LinSlaveTimeout : public ObjectHeader
 public:
     LinSlaveTimeout();
 
+    virtual char * parse(char * buffer);
+
     /**
      * @brief application channel
      *

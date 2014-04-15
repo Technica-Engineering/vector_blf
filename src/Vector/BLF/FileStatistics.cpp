@@ -49,34 +49,79 @@ FileStatistics::FileStatistics() :
 
 void FileStatistics::read(std::istream & is)
 {
-    /* read header */
-    const std::streamsize size =
-            sizeof(signature) +
-            sizeof(statisticsSize) +
-            sizeof(applicationId) +
-            sizeof(applicationMajor) +
-            sizeof(applicationMinor) +
-            sizeof(applicationBuild) +
-            sizeof(apiMajor) +
-            sizeof(apiMinor) +
-            sizeof(apiBuild) +
-            sizeof(apiPatch) +
-            sizeof(fileSize) +
-            sizeof(uncompressedFileSize) +
-            sizeof(objectCount) +
-            sizeof(objectsRead) +
-            sizeof(measurementStartTime) +
-            sizeof(lastObjectTime) +
-            sizeof(reserved);
+    size_t size;
+
+    // signature
+    size = sizeof(signature);
     is.read((char *) &signature, size);
+
+    // statisticsSize
+    size = sizeof(statisticsSize);
+    is.read((char *) &statisticsSize, size);
+
+    // applicationId
+    size = sizeof(applicationId);
+    is.read((char *) &applicationId, size);
+
+    // applicationMajor
+    size = sizeof(applicationMajor);
+    is.read((char *) &applicationMajor, size);
+
+    // applicationMinor
+    size = sizeof(applicationMinor);
+    is.read((char *) &applicationMinor, size);
+
+    // applicationBuild
+    size = sizeof(applicationBuild);
+    is.read((char *) &applicationBuild, size);
+
+    // apiMajor
+    size = sizeof(apiMajor);
+    is.read((char *) &apiMajor, size);
+
+    // apiMinor
+    size = sizeof(apiMinor);
+    is.read((char *) &apiMinor, size);
+
+    // apiBuild
+    size = sizeof(apiBuild);
+    is.read((char *) &apiBuild, size);
+
+    // apiPatch
+    size = sizeof(apiPatch);
+    is.read((char *) &apiPatch, size);
+
+    // fileSize
+    size = sizeof(fileSize);
+    is.read((char *) &fileSize, size);
+
+    // uncompressedFileSize
+    size = sizeof(uncompressedFileSize);
+    is.read((char *) &uncompressedFileSize, size);
+
+    // objectCount
+    size = sizeof(objectCount);
+    is.read((char *) &objectCount, size);
+
+    // objectsRead
+    size = sizeof(objectsRead);
+    is.read((char *) &objectsRead, size);
+
+    // measurementStartTime
+    size = sizeof(measurementStartTime);
+    is.read((char *) &measurementStartTime, size);
+
+    // lastObjectTime
+    size = sizeof(lastObjectTime);
+    is.read((char *) &lastObjectTime, size);
+
+    // reserved
+    size = sizeof(reserved);
+    is.read((char *) &reserved, size);
 
     /* checks */
     if (signature != FileSignature) {
         std::cerr << "Unexpected file signature" << std::endl;
-        return;
-    }
-    if (statisticsSize != size) {
-        std::cerr << "Unexpected statistics size" << std::endl;
         return;
     }
 }

@@ -41,6 +41,8 @@ class VECTOR_BLF_EXPORT GpsEvent : public ObjectHeader
 public:
     GpsEvent();
 
+    virtual char * parse(char * buffer);
+
     /**
      * Not used, must be 0.
      */

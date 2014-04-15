@@ -40,6 +40,8 @@ class VECTOR_BLF_EXPORT LinDatabyteTimestampEvent : public LinMessageDescriptor
 public:
     LinDatabyteTimestampEvent();
 
+    virtual char * parse(char * buffer);
+
     /**
      * @brief Databyte timestamps, where d[0] = EndOfHeader, d[1]=EndOfDataByte1, ..., d[8]=EndOfDataByte8
      *

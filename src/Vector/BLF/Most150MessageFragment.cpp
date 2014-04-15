@@ -40,13 +40,56 @@ Most150MessageFragment::Most150MessageFragment() :
     dataLen(),
     dataLenAnnounced(),
     firstDataLen(),
-    firstData()
+    firstData(nullptr)
 {
 }
 
-void Most150MessageFragment::setObjectSize()
+Most150MessageFragment::~Most150MessageFragment()
 {
-    // @todo objectSize = sizeof(MOST150MessageFragment) + firstDataLen;
+    delete[] firstData;
+    firstData = nullptr;
+}
+
+char * Most150MessageFragment::parse(char * buffer)
+{
+    size_t size;
+
+    // previous data
+    buffer = ObjectHeader2::parse(buffer);
+
+#if 0
+    // channel
+    size = sizeof(channel);
+    memcpy((char *) &channel, buffer, size);
+    buffer += size;
+#else
+    // @todo
+#endif
+
+    return buffer;
+}
+
+size_t Most150MessageFragment::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader2::calculateObjectSize() +
+            sizeof(channel) +
+            sizeof(dummy1) +
+            sizeof(ackNack) +
+            sizeof(validMask) +
+            sizeof(sourceAdr) +
+            sizeof(destAdr) +
+            sizeof(pAck) +
+            sizeof(cAck) +
+            sizeof(priority) +
+            sizeof(pIndex) +
+            sizeof(crc) +
+            sizeof(dataLen) +
+            sizeof(dataLenAnnounced) +
+            sizeof(firstDataLen) +
+            firstDataLen;
+
+    return size;
 }
 
 }

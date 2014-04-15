@@ -39,6 +39,8 @@ class VECTOR_BLF_EXPORT LinBusEvent
 public:
     LinBusEvent();
 
+    virtual char * parse(char * buffer);
+
     /**
      * @brief Start Of Frame timestamp
      *

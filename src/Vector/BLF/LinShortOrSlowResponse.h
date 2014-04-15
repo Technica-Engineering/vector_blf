@@ -43,6 +43,8 @@ class VECTOR_BLF_EXPORT LinShortOrSlowResponse : public ObjectHeader, public Lin
 public:
     LinShortOrSlowResponse();
 
+    virtual char * parse(char * buffer);
+
     /**
      * @brief number of valid response bytes
      *

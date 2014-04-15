@@ -42,6 +42,8 @@ class VECTOR_BLF_EXPORT LinMessage2 : public ObjectHeader, public LinDatabyteTim
 public:
     LinMessage2();
 
+    virtual char * parse(char * buffer);
+
     /**
      * @brief data bytes
      *

@@ -43,6 +43,8 @@ class VECTOR_BLF_EXPORT MostTxLight : public ObjectHeader2
 public:
     MostTxLight();
 
+    virtual char * parse(char * buffer);
+
     /**
      * @brief application channel
      *

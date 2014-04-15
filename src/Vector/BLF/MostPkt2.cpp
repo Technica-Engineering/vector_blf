@@ -47,7 +47,7 @@ MostPkt2::MostPkt2() :
 
 MostPkt2::~MostPkt2()
 {
-    delete pktData;
+    delete[] pktData;
     pktData = nullptr;
 }
 
@@ -132,9 +132,26 @@ char * MostPkt2::parse(char * buffer)
     return buffer;
 }
 
-void MostPkt2::setObjectSize()
+size_t MostPkt2::calculateObjectSize()
 {
-    // @todo objectSize = sizeof(MOSTPkt2) + pktDataLength;
+    size_t size =
+            ObjectHeader2::calculateObjectSize() +
+            sizeof(channel) +
+            sizeof(dir) +
+            sizeof(dummy1) +
+            sizeof(sourceAdr) +
+            sizeof(destAdr) +
+            sizeof(arbitration) +
+            sizeof(timeRes) +
+            sizeof(quadsToFollow) +
+            sizeof(crc) +
+            sizeof(priority) +
+            sizeof(transferType) +
+            sizeof(state) +
+            sizeof(pktDataLength) +
+            pktDataLength;
+
+    return size;
 }
 
 }

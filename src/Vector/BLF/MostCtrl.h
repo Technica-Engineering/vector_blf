@@ -179,7 +179,7 @@ public:
      */
     BYTE ackNack;
 
-    /** @todo somewhere a DWORD is missing */
+    DWORD unknown; // @todo don't know what's behind...
 };
 
 }

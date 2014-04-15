@@ -32,5 +32,32 @@ LinBusEvent::LinBusEvent() :
 {
 }
 
+char * LinBusEvent::parse(char * buffer)
+{
+    size_t size;
+
+    // sof
+    size = sizeof(sof);
+    memcpy((char *) &sof, buffer, size);
+    buffer += size;
+
+    // eventBaudrate
+    size = sizeof(eventBaudrate);
+    memcpy((char *) &eventBaudrate, buffer, size);
+    buffer += size;
+
+    // channel
+    size = sizeof(channel);
+    memcpy((char *) &channel, buffer, size);
+    buffer += size;
+
+    // reserved
+    size = sizeof(reserved);
+    memcpy((char *) &reserved, buffer, size);
+    buffer += size;
+
+    return buffer;
+}
+
 }
 }

@@ -43,9 +43,51 @@ MostEthernetPktFragment::MostEthernetPktFragment() :
 {
 }
 
-void MostEthernetPktFragment::setObjectSize()
+MostEthernetPktFragment::~MostEthernetPktFragment()
 {
-    // @todo objectSize = sizeof(MOSTEthernetPktFragment) + firstDataLen;
+    delete[] firstData;
+    firstData = nullptr;
+}
+
+char * MostEthernetPktFragment::parse(char * buffer)
+{
+    size_t size;
+
+    // previous data
+    buffer = ObjectHeader2::parse(buffer);
+
+#if 0
+    // channel
+    size = sizeof(channel);
+    memcpy((char *) &channel, buffer, size);
+    buffer += size;
+#else
+    // @todo
+#endif
+
+    return buffer;
+}
+
+size_t MostEthernetPktFragment::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader2::calculateObjectSize() +
+            sizeof(channel) +
+            sizeof(dummy1) +
+            sizeof(ackNack) +
+            sizeof(validMask) +
+            sizeof(sourceMacAdr) +
+            sizeof(destMacAdr) +
+            sizeof(pAck) +
+            sizeof(cAck) +
+            sizeof(dummy2) +
+            sizeof(crc) +
+            sizeof(dataLen) +
+            sizeof(dataLenAnnounced) +
+            sizeof(firstDataLen) +
+            firstDataLen;
+
+    return size;
 }
 
 }

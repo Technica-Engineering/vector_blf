@@ -45,9 +45,53 @@ Most150Pkt::Most150Pkt() :
 {
 }
 
-void Most150Pkt::setObjectSize()
+Most150Pkt::~Most150Pkt()
 {
-    // @todo objectSize = sizeof(MOST150Pkt) + pktDataLength;
+    delete[] pktData;
+    pktData = nullptr;
+}
+
+char * Most150Pkt::parse(char * buffer)
+{
+    size_t size;
+
+    // previous data
+    buffer = ObjectHeader2::parse(buffer);
+
+#if 0
+    // channel
+    size = sizeof(channel);
+    memcpy((char *) &channel, buffer, size);
+    buffer += size;
+#else
+    // @todo
+#endif
+
+    return buffer;
+}
+
+size_t Most150Pkt::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader2::calculateObjectSize() +
+            sizeof(channel) +
+            sizeof(dir) +
+            sizeof(dummy1) +
+            sizeof(sourceAdr) +
+            sizeof(destAdr) +
+            sizeof(transferType) +
+            sizeof(state) +
+            sizeof(ackNack) +
+            sizeof(dummy2) +
+            sizeof(crc) +
+            sizeof(pAck) +
+            sizeof(cAck) +
+            sizeof(priority) +
+            sizeof(pIndex) +
+            sizeof(pktDataLength) +
+            pktDataLength;
+
+    return size;
 }
 
 }

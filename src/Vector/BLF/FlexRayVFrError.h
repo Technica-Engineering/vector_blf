@@ -41,6 +41,8 @@ class VECTOR_BLF_EXPORT FlexRayVFrError : public ObjectHeader
 public:
     FlexRayVFrError();
 
+    virtual char * parse(char * buffer);
+
     /**
      * @brief application channel
      *

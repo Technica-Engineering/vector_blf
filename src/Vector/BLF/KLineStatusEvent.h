@@ -39,6 +39,8 @@ class VECTOR_BLF_EXPORT KLineStatusEvent : public ObjectHeader
 public:
     KLineStatusEvent();
 
+    virtual char * parse(char * buffer);
+
     enumclass Type : WORD {
         /** If set in type, direction is tester -> ECU */
         toEcu = 0x8000,

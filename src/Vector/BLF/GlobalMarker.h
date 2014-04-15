@@ -40,8 +40,10 @@ class VECTOR_BLF_EXPORT GlobalMarker : public ObjectHeader
 {
 public:
     GlobalMarker();
+    virtual ~GlobalMarker();
 
-    virtual void setObjectSize();
+    virtual char * parse(char * buffer);
+    virtual size_t calculateObjectSize();
 
     /**
      * @brief commented event type

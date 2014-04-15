@@ -43,6 +43,8 @@ class VECTOR_BLF_EXPORT MostStatisticEx : public ObjectHeader2
 public:
     MostStatisticEx();
 
+    virtual char * parse(char * buffer);
+
     /**
      * @brief application channel
      *

@@ -44,8 +44,7 @@ public:
     virtual ~MostAllocTab();
 
     virtual char * parse(char * buffer);
-
-    virtual void setObjectSize();
+    virtual size_t calculateObjectSize();
 
     /**
      * @brief application channel
@@ -59,6 +58,8 @@ public:
      * MOST25)
      */
     WORD length;
+
+    DWORD unknown; // @todo what is this?
 
     /**
      * Allocation Table

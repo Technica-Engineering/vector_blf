@@ -36,5 +36,24 @@ LinStatisticEvent::LinStatisticEvent() :
 {
 }
 
+char * LinStatisticEvent::parse(char * buffer)
+{
+    size_t size;
+
+    // previous data
+    buffer = ObjectHeader::parse(buffer);
+
+#if 0
+    // channel
+    size = sizeof(channel);
+    memcpy((char *) &channel, buffer, size);
+    buffer += size;
+#else
+    // @todo
+#endif
+
+    return buffer;
+}
+
 }
 }

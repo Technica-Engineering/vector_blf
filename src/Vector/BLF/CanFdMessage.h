@@ -39,6 +39,8 @@ class VECTOR_BLF_EXPORT CanFdMessage : public ObjectHeader
 public:
     CanFdMessage();
 
+    virtual char * parse(char * buffer);
+
     /**
      * @brief application channel
      */

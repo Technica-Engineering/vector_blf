@@ -41,6 +41,8 @@ class VECTOR_BLF_EXPORT J1708Message : public ObjectHeader
 public:
     J1708Message();
 
+    virtual char * parse(char * buffer);
+
     /**
      * @brief application channel
      */

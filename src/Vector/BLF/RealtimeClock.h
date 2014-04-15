@@ -41,6 +41,8 @@ class VECTOR_BLF_EXPORT RealtimeClock : public ObjectHeader
 public:
     RealtimeClock();
 
+    virtual char * parse(char * buffer);
+
     /**
      * @brief logging start time in ns since 00:00 1.1.1970 GMT
      */

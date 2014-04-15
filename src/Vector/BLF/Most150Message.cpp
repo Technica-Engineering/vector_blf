@@ -45,9 +45,53 @@ Most150Message::Most150Message() :
 {
 }
 
-void Most150Message::setObjectSize()
+Most150Message::~Most150Message()
 {
-    // @todo objectSize = sizeof(MOST150Message) + msgLen;
+    delete[] msg;
+    msg = nullptr;
+}
+
+char * Most150Message::parse(char * buffer)
+{
+    size_t size;
+
+    // previous data
+    buffer = ObjectHeader2::parse(buffer);
+
+#if 0
+    // channel
+    size = sizeof(channel);
+    memcpy((char *) &channel, buffer, size);
+    buffer += size;
+#else
+    // @todo
+#endif
+
+    return buffer;
+}
+
+size_t Most150Message::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader2::calculateObjectSize() +
+            sizeof(channel) +
+            sizeof(dir) +
+            sizeof(dummy1) +
+            sizeof(sourceAdr) +
+            sizeof(destAdr) +
+            sizeof(transferType) +
+            sizeof(state) +
+            sizeof(ackNack) +
+            sizeof(dummy2) +
+            sizeof(crc) +
+            sizeof(pAck) +
+            sizeof(cAck) +
+            sizeof(priority) +
+            sizeof(pIndex) +
+            sizeof(msgLen) +
+            msgLen;
+
+    return size;
 }
 
 }

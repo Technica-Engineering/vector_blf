@@ -29,7 +29,8 @@ namespace BLF {
 MostLightLock::MostLightLock() :
     ObjectHeader(),
     channel(),
-    state()
+    state(),
+    reserved()
 {
 }
 
@@ -48,6 +49,11 @@ char * MostLightLock::parse(char * buffer)
     // state
     size = sizeof(state);
     memcpy((char *) &state, buffer, size);
+    buffer += size;
+
+    // reserved
+    size = sizeof(reserved);
+    memcpy((char *) &reserved, buffer, size);
     buffer += size;
 
     return buffer;

@@ -44,9 +44,52 @@ MostEthernetPkt::MostEthernetPkt() :
 {
 }
 
-void MostEthernetPkt::setObjectSize()
+MostEthernetPkt::~MostEthernetPkt()
 {
-    // @todo objectSize = sizeof(MOSTEthernetPkt) + pktDataLength;
+    delete[] pktData;
+    pktData = nullptr;
+}
+
+char * MostEthernetPkt::parse(char * buffer)
+{
+    size_t size;
+
+    // previous data
+    buffer = ObjectHeader2::parse(buffer);
+
+#if 0
+    // channel
+    size = sizeof(channel);
+    memcpy((char *) &channel, buffer, size);
+    buffer += size;
+#else
+    // @todo
+#endif
+
+    return buffer;
+}
+
+size_t MostEthernetPkt::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader2::calculateObjectSize() +
+            sizeof(channel) +
+            sizeof(dir) +
+            sizeof(dummy1) +
+            sizeof(sourceMacAdr) +
+            sizeof(destMacAdr) +
+            sizeof(transferType) +
+            sizeof(state) +
+            sizeof(ackNack) +
+            sizeof(dummy2) +
+            sizeof(crc) +
+            sizeof(pAck) +
+            sizeof(cAck) +
+            sizeof(dummy3) +
+            sizeof(pktDataLength) +
+            pktDataLength;
+
+    return size;
 }
 
 }

@@ -43,6 +43,8 @@ class VECTOR_BLF_EXPORT LinChecksumInfo : public ObjectHeader
 public:
     LinChecksumInfo();
 
+    virtual char * parse(char * buffer);
+
     /**
      * @brief application channel
      *

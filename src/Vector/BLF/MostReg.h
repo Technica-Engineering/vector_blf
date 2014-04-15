@@ -43,6 +43,8 @@ class VECTOR_BLF_EXPORT MostReg : public ObjectHeader2
 public:
     MostReg();
 
+    virtual char * parse(char * buffer);
+
     /**
      * @brief application channel
      *

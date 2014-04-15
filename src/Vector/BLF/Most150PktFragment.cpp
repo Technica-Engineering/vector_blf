@@ -44,9 +44,52 @@ Most150PktFragment::Most150PktFragment() :
 {
 }
 
-void Most150PktFragment::setObjectSize()
+Most150PktFragment::~Most150PktFragment()
 {
-    // @todo objectSize = sizeof(MOST150PktFragment) + firstDataLen;
+    delete[] firstData;
+    firstData = nullptr;
+}
+
+char * Most150PktFragment::parse(char * buffer)
+{
+    size_t size;
+
+    // previous data
+    buffer = ObjectHeader2::parse(buffer);
+
+#if 0
+    // channel
+    size = sizeof(channel);
+    memcpy((char *) &channel, buffer, size);
+    buffer += size;
+#else
+    // @todo
+#endif
+
+    return buffer;
+}
+
+size_t Most150PktFragment::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader2::calculateObjectSize() +
+            sizeof(channel) +
+            sizeof(dummy1) +
+            sizeof(ackNack) +
+            sizeof(validMask) +
+            sizeof(sourceAdr) +
+            sizeof(destAdr) +
+            sizeof(pAck) +
+            sizeof(cAck) +
+            sizeof(priority) +
+            sizeof(pIndex) +
+            sizeof(crc) +
+            sizeof(dataLen) +
+            sizeof(dataLenAnnounced) +
+            sizeof(firstDataLen) +
+            firstDataLen;
+
+    return size;
 }
 
 }

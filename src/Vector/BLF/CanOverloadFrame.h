@@ -41,6 +41,8 @@ class VECTOR_BLF_EXPORT CanOverloadFrame : public ObjectHeader
 public:
     CanOverloadFrame();
 
+    virtual char * parse(char * buffer);
+
     /**
      * @brief application channel
      *

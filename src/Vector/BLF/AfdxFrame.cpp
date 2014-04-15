@@ -113,7 +113,7 @@ char * AfdxFrame::parse(char * buffer)
     buffer += size;
 
     // payLoad
-    size = objectSize - 0x3f;
+    size = objectSize - 0x3f; // @todo this value should be made more plausible (calculated using sizeof(...))
     payLoad = new char[size];
     memcpy(payLoad, buffer, size);
     buffer += size;

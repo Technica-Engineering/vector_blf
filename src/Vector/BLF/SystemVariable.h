@@ -43,8 +43,7 @@ public:
     virtual ~SystemVariable();
 
     virtual char * parse(char * buffer);
-
-    virtual void setObjectSize();
+    virtual size_t calculateObjectSize();
 
     /**
      * @brief type of system variable

@@ -42,6 +42,8 @@ class VECTOR_BLF_EXPORT LinDisturbanceEvent : public ObjectHeader
 public:
     LinDisturbanceEvent();
 
+    virtual char * parse(char * buffer);
+
     /**
      * @brief application channel
      *

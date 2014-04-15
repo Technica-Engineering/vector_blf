@@ -57,6 +57,8 @@ class VECTOR_BLF_EXPORT LinReceiveError : public ObjectHeader
 public:
     LinReceiveError();
 
+    virtual char * parse(char * buffer);
+
     /**
      * @brief application channel
      *

@@ -42,6 +42,8 @@ class VECTOR_BLF_EXPORT LinSendError2 : public ObjectHeader, public LinMessageDe
 public:
     LinSendError2();
 
+    virtual char * parse(char * buffer);
+
     /**
      * @brief EndOfHeader timestamp
      *

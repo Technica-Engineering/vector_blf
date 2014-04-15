@@ -42,6 +42,8 @@ class VECTOR_BLF_EXPORT LinWakeupEvent2 : public ObjectHeader, public LinBusEven
 public:
     LinWakeupEvent2();
 
+    virtual char * parse(char * buffer);
+
     /**
      * Wake-up length validity indicator:
      *   - 0: Wake-up length is OK

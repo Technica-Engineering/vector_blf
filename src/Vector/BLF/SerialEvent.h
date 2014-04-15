@@ -73,6 +73,8 @@ class VECTOR_BLF_EXPORT SerialEvent : public ObjectHeader
 public:
     SerialEvent();
 
+    virtual char * parse(char * buffer);
+
     enumclass Flags : DWORD {
         KLineEvent = 0x000000001,
 

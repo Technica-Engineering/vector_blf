@@ -44,6 +44,8 @@ class VECTOR_BLF_EXPORT LinCrcError : public ObjectHeader
 public:
     LinCrcError();
 
+    virtual char * parse(char * buffer);
+
     /**
      * @brief application channel
      *

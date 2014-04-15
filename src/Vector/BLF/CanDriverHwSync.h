@@ -41,6 +41,8 @@ class VECTOR_BLF_EXPORT CanDriverHwSync : public ObjectHeader
 public:
     CanDriverHwSync();
 
+    virtual char * parse(char * buffer);
+
     /**
      * @brief channel where sync occured
      *

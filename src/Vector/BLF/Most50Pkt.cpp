@@ -45,9 +45,53 @@ Most50Pkt::Most50Pkt() :
 {
 }
 
-void Most50Pkt::setObjectSize()
+Most50Pkt::~Most50Pkt()
 {
-    // @todo objectSize = sizeof(MOST50Pkt) + pktDataLength;
+    delete[] pktData;
+    pktData = nullptr;
+}
+
+char * Most50Pkt::parse(char * buffer)
+{
+    size_t size;
+
+    // previous data
+    buffer = ObjectHeader2::parse(buffer);
+
+#if 0
+    // channel
+    size = sizeof(channel);
+    memcpy((char *) &channel, buffer, size);
+    buffer += size;
+#else
+    // @todo
+#endif
+
+    return buffer;
+}
+
+size_t Most50Pkt::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader2::calculateObjectSize() +
+            sizeof(channel) +
+            sizeof(dir) +
+            sizeof(dummy1) +
+            sizeof(sourceAdr) +
+            sizeof(destAdr) +
+            sizeof(transferType) +
+            sizeof(state) +
+            sizeof(ackNack) +
+            sizeof(dummy2) +
+            sizeof(crc) +
+            sizeof(dummy3) +
+            sizeof(dummy4) +
+            sizeof(priority) +
+            sizeof(dummy5) +
+            sizeof(pktDataLength) +
+            pktDataLength;
+
+    return size;
 }
 
 }

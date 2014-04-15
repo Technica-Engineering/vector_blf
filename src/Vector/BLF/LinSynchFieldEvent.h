@@ -40,6 +40,8 @@ class VECTOR_BLF_EXPORT LinSynchFieldEvent : public LinBusEvent
 public:
     LinSynchFieldEvent();
 
+    virtual char * parse(char * buffer);
+
     /**
      * @brief Sync Break Length in ns
      *

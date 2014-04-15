@@ -37,10 +37,10 @@ EnvironmentVariable::EnvironmentVariable() :
 
 EnvironmentVariable::~EnvironmentVariable()
 {
-    delete name;
+    delete[] name;
     name = nullptr;
 
-    delete data;
+    delete[] data;
     data = nullptr;
 }
 

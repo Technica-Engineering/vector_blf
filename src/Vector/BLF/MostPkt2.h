@@ -43,7 +43,7 @@ public:
     virtual ~MostPkt2();
 
     virtual char * parse(char * buffer);
-    virtual void setObjectSize();
+    virtual size_t calculateObjectSize();
 
     /**
      * @brief application channel

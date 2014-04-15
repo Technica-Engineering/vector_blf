@@ -41,6 +41,8 @@ class VECTOR_BLF_EXPORT FlexRayStatusEvent : public ObjectHeader
 public:
     FlexRayStatusEvent();
 
+    virtual char * parse(char * buffer);
+
     /**
      * @brief application channel
      */

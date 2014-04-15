@@ -202,6 +202,7 @@ void showMostCtrl(Vector::BLF::MostCtrl * mostCtrl)
     std::cout << " state=0x" << std::hex << (unsigned short) mostCtrl->state;
     std::cout << " dummy3=0x" << std::hex << (unsigned short) mostCtrl->dummy3;
     std::cout << " ackNack=0x" << std::hex << (unsigned short) mostCtrl->ackNack;
+    std::cout << " unknown=0x" << std::hex << (unsigned short) mostCtrl->unknown;
     std::cout << std::endl;
 }
 
@@ -209,7 +210,9 @@ void showMostCtrl(Vector::BLF::MostCtrl * mostCtrl)
 void showMostLightLock(Vector::BLF::MostLightLock * mostLightLock)
 {
     std::cout << "MostLightLock:";
-    // @todo
+    std::cout << " ch=" << std::dec << mostLightLock->channel;
+    std::cout << " state=0x" << std::hex << mostLightLock->state;
+    std::cout << " res=0x" << std::hex << mostLightLock->reserved;
     std::cout << std::endl;
 }
 
@@ -234,11 +237,20 @@ void showMostStatistic(Vector::BLF::MostStatistic * mostStatistic)
 // FLEXRAY_SYNC = 30
 
 // CAN_DRIVER_ERROR = 31
+void showCanDriverError(Vector::BLF::CanDriverError * canDriverError)
+{
+    std::cout << "CanDriverError:";
+    std::cout << " ch=" << std::dec << canDriverError->channel;
+    std::cout << " txErr=" << std::dec << (unsigned short) canDriverError->txErrors;
+    std::cout << " rxErr=" << std::dec << (unsigned short) canDriverError->rxErrors;
+    std::cout << " errCode=" << std::dec << canDriverError->errorCode;
+    std::cout << std::endl;
+}
 
 // MOST_PKT  = 32
 void showMostPkt(Vector::BLF::MostPkt * mostPkt)
 {
-    std::cout << "MostPkt:";
+    std::cout << "MostPkt: todo";
     // @todo
     std::cout << std::endl;
 }
@@ -246,7 +258,7 @@ void showMostPkt(Vector::BLF::MostPkt * mostPkt)
 // MOST_PKT2 = 33
 void showMostPkt2(Vector::BLF::MostPkt2 * mostPkt2)
 {
-    std::cout << "MostPkt2:";
+    std::cout << "MostPkt2: todo";
     // @todo
     std::cout << std::endl;
 }
@@ -255,7 +267,10 @@ void showMostPkt2(Vector::BLF::MostPkt2 * mostPkt2)
 void showMostHwMode(Vector::BLF::MostHwMode * mostHwMode)
 {
     std::cout << "MostHwMode:";
-    // @todo
+    std::cout << " ch=" << std::dec << mostHwMode->channel;
+    std::cout << " dummy1=0x" << std::hex << mostHwMode->dummy1;
+    std::cout << " hwMode=0x" << std::hex << mostHwMode->hwMode;
+    std::cout << " hwModeMask=0x" << std::hex << mostHwMode->hwModeMask;
     std::cout << std::endl;
 }
 
@@ -263,7 +278,20 @@ void showMostHwMode(Vector::BLF::MostHwMode * mostHwMode)
 void showMostReg(Vector::BLF::MostReg * mostReg)
 {
     std::cout << "MostReg:";
-    // @todo
+    std::cout << " ch=" << std::dec << mostReg->channel;
+    std::cout << " subType=" << std::dec << (unsigned short) mostReg->subType;
+    std::cout << " dummy1=0x" << std::hex << (unsigned short) mostReg->dummy1;
+    std::cout << " handle=" << std::dec << mostReg->handle;
+    std::cout << " offset=" << std::dec << mostReg->offset;
+    std::cout << " chip=" << std::dec << mostReg->chip;
+    std::cout << " regDataLen=" << std::dec << mostReg->regDataLen;
+    std::cout << " regData=0x" << std::hex;
+    for (int i = 0; i < mostReg->regDataLen; ++i) {
+        if (mostReg->regData[i] < 0x10) {
+            std::cout << "0";
+        }
+        std::cout << (unsigned short) mostReg->regData[i];
+    }
     std::cout << std::endl;
 }
 
@@ -271,7 +299,14 @@ void showMostReg(Vector::BLF::MostReg * mostReg)
 void showMostGenReg(Vector::BLF::MostGenReg * mostGenReg)
 {
     std::cout << "MostGenReg:";
-    // @todo
+    std::cout << " ch=" << std::dec << mostGenReg->channel;
+    std::cout << " subType=" << std::dec << (unsigned short) mostGenReg->subType;
+    std::cout << " dummy1=0x" << std::hex << (unsigned short) mostGenReg->dummy1;
+    std::cout << " handle=" << std::dec << mostGenReg->handle;
+    std::cout << " regId=0x" << std::hex << mostGenReg->regId;
+    std::cout << " dummy2=0x" << std::hex << mostGenReg->dummy2;
+    std::cout << " dummy3=0x" << std::hex << mostGenReg->dummy3;
+    std::cout << " regVal=0x" << std::hex << mostGenReg->regValue;
     std::cout << std::endl;
 }
 
@@ -279,7 +314,10 @@ void showMostGenReg(Vector::BLF::MostGenReg * mostGenReg)
 void showMostNetState(Vector::BLF::MostNetState * mostNetState)
 {
     std::cout << "MostNetState:";
-    // @todo
+    std::cout << " ch=" << std::dec << mostNetState->channel;
+    std::cout << " stNew=" << std::dec << mostNetState->stateNew;
+    std::cout << " stOld=" << std::dec << mostNetState->stateOld;
+    std::cout << " dummy=0x" << std::hex << mostNetState->dummy1;
     std::cout << std::endl;
 }
 
@@ -287,7 +325,13 @@ void showMostNetState(Vector::BLF::MostNetState * mostNetState)
 void showMostDataLost(Vector::BLF::MostDataLost * mostDataLost)
 {
     std::cout << "MostDataLost:";
-    // @todo
+    std::cout << " ch=" << std::dec << mostDataLost->channel;
+    std::cout << " dummy1=0x" << std::hex << mostDataLost->dummy1;
+    std::cout << " info=0x" << std::hex << mostDataLost->info;
+    std::cout << " lostMsgsCtrl=" << std::dec << mostDataLost->lostMsgsCtrl;
+    std::cout << " lostMsgsAsync=" << std::dec << mostDataLost->lostMsgsAsync;
+    std::cout << " lastGoodTimeStampNs=" << std::dec << mostDataLost->lastGoodTimeStampNs;
+    std::cout << " nextGoodTimeStampNs=" << std::dec << mostDataLost->nextGoodTimeStampNs;
     std::cout << std::endl;
 }
 
@@ -295,7 +339,12 @@ void showMostDataLost(Vector::BLF::MostDataLost * mostDataLost)
 void showMostTrigger(Vector::BLF::MostTrigger * mostTrigger)
 {
     std::cout << "MostTrigger:";
-    // @todo
+    std::cout << " ch=" << std::dec << mostTrigger->channel;
+    std::cout << " dummy1=0x" << std::hex << mostTrigger->dummy1;
+    std::cout << " mode=" << std::dec << mostTrigger->mode;
+    std::cout << " hw=" << std::dec << mostTrigger->hw;
+    std::cout << " previousTriggerValue=" << std::dec << mostTrigger->previousTriggerValue;
+    std::cout << " currentTriggerValue=" << std::dec << mostTrigger->currentTriggerValue;
     std::cout << std::endl;
 }
 
@@ -333,6 +382,12 @@ void showMostTrigger(Vector::BLF::MostTrigger * mostTrigger)
 // J1708_VIRTUAL_MSG = 56
 
 // LIN_MESSAGE2 = 57
+void showLinMessage2(Vector::BLF::LinMessage2 * linMessage2)
+{
+    std::cout << "LinMessage2: todo";
+    // @todo
+    std::cout << std::endl;
+}
 
 // LIN_SND_ERROR2 = 58
 
@@ -359,8 +414,17 @@ void showMostTrigger(Vector::BLF::MostTrigger * mostTrigger)
 // MOST_ALLOCTAB = 69
 void showMostAllocTab(Vector::BLF::MostAllocTab * mostAllocTab)
 {
-    std::cout << "MostAllocTab:";
-    // @todo
+    std::cout << "MostAllocTab: todo";
+    std::cout << " ch=" << std::dec << mostAllocTab->channel;
+    std::cout << " len=0x" << std::hex << mostAllocTab->length;
+    std::cout << " unknwn=0x" << std::hex << mostAllocTab->unknown;
+    std::cout << " allocTab=0x" << std::hex;
+    for (int i = 0; i < mostAllocTab->length; ++i) {
+        if (mostAllocTab->tableData[i] < 0x10) {
+            std::cout << "0";
+        }
+        std::cout << (unsigned short) mostAllocTab->tableData[i];
+    }
     std::cout << std::endl;
 }
 
@@ -667,8 +731,7 @@ int main(int argc, char *argv[])
             break;
 
         case Vector::BLF::ObjectType::CAN_DRIVER_ERROR:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
-            // showCanDriverError(reinterpret_cast<Vector::BLF::CanDriverError *>(obj));
+            showCanDriverError(reinterpret_cast<Vector::BLF::CanDriverError *>(obj));
             break;
 
         case Vector::BLF::ObjectType::MOST_PKT:
@@ -761,7 +824,7 @@ int main(int argc, char *argv[])
             break;
 
         case Vector::BLF::ObjectType::LIN_MESSAGE2:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            showLinMessage2(reinterpret_cast<Vector::BLF::LinMessage2 *>(obj));
             break;
 
         case Vector::BLF::ObjectType::LIN_SND_ERROR2:

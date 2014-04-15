@@ -41,6 +41,8 @@ class VECTOR_BLF_EXPORT FlexRayVFrStartCycle : public ObjectHeader
 public:
     FlexRayVFrStartCycle();
 
+    virtual char * parse(char * buffer);
+
     /**
      * @brief application channel
      *
