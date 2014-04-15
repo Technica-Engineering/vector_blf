@@ -36,17 +36,18 @@ char * LinLongDomSignalEvent2::parse(char * buffer)
 
     // previous data
     buffer = ObjectHeader::parse(buffer);
-
-#if 0
-    // channel
-    size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
-    buffer += size;
-#else
-    // @todo
-#endif
+    buffer = LinBusEvent::parse(buffer);
 
     return buffer;
+}
+
+size_t LinLongDomSignalEvent2::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader::calculateObjectSize() +
+            LinBusEvent::calculateObjectSize();
+
+    return size;
 }
 
 }

@@ -63,5 +63,28 @@ char * LinReceiveError2::parse(char * buffer)
     return buffer;
 }
 
+size_t LinReceiveError2::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader::calculateObjectSize() +
+            LinDatabyteTimestampEvent::calculateObjectSize() +
+            sizeof(data) +
+            sizeof(fsmId) +
+            sizeof(fsmState) +
+            sizeof(stateReason) +
+            sizeof(offendingByte) +
+            sizeof(shortError) +
+            sizeof(timeoutDuringDlcDetection) +
+            sizeof(isEtf) +
+            sizeof(hasDatabytes) +
+            sizeof(respBaudrate) +
+            sizeof(reserved) +
+            sizeof(exactHeaderBaudrate) +
+            sizeof(earlyStopbitOffset) +
+            sizeof(earlyStopbitOffsetResponse);
+
+    return size;
+}
+
 }
 }

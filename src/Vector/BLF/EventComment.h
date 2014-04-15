@@ -43,6 +43,7 @@ public:
     virtual ~EventComment();
 
     virtual char * parse(char * buffer);
+    virtual size_t calculateObjectSize();
 
     /**
      * @brief commented event type

@@ -52,5 +52,17 @@ char * MostStress::parse(char * buffer)
     return buffer;
 }
 
+size_t MostStress::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader2::calculateObjectSize() +
+            sizeof(channel) +
+            sizeof(state) +
+            sizeof(mode) +
+            sizeof(dummy1);
+
+    return size;
+}
+
 }
 }

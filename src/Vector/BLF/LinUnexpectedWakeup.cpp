@@ -21,6 +21,8 @@
 
 #include "LinUnexpectedWakeup.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 
@@ -39,17 +41,36 @@ char * LinUnexpectedWakeup::parse(char * buffer)
 
     // previous data
     buffer = ObjectHeader::parse(buffer);
+    buffer = LinBusEvent::parse(buffer);
 
-#if 0
-    // channel
-    size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    // width
+    size = sizeof(width);
+    memcpy((char *) &width, buffer, size);
     buffer += size;
-#else
-    // @todo
-#endif
+
+    // signal
+    size = sizeof(signal);
+    memcpy((char *) &signal, buffer, size);
+    buffer += size;
+
+    // reserved
+    size = sizeof(reserved);
+    memcpy((char *) &reserved, buffer, size);
+    buffer += size;
 
     return buffer;
+}
+
+size_t LinUnexpectedWakeup::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader::calculateObjectSize() +
+            LinBusEvent::calculateObjectSize() +
+            sizeof(width) +
+            sizeof(signal) +
+            sizeof(reserved);
+
+    return size;
 }
 
 }

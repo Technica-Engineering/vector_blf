@@ -21,6 +21,8 @@
 
 #include "LinSyncError2.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 
@@ -37,17 +39,24 @@ char * LinSyncError2::parse(char * buffer)
 
     // previous data
     buffer = ObjectHeader::parse(buffer);
+    buffer = LinSynchFieldEvent::parse(buffer);
 
-#if 0
-    // channel
-    size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    // timeDiff
+    size = sizeof(timeDiff);
+    memcpy((char *) &timeDiff, buffer, size);
     buffer += size;
-#else
-    // @todo
-#endif
 
     return buffer;
+}
+
+size_t LinSyncError2::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader::calculateObjectSize() +
+            LinSynchFieldEvent::calculateObjectSize() +
+            sizeof(timeDiff);
+
+    return size;
 }
 
 }

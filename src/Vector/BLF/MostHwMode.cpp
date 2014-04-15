@@ -65,5 +65,17 @@ char * MostHwMode::parse(char * buffer)
     return buffer;
 }
 
+size_t MostHwMode::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader2::calculateObjectSize() +
+            sizeof(channel) +
+            sizeof(dummy1) +
+            sizeof(hwMode) +
+            sizeof(hwModeMask);
+
+    return size;
+}
+
 }
 }

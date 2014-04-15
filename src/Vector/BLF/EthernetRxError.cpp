@@ -61,5 +61,20 @@ char * EthernetRxError::parse(char * buffer)
     return buffer;
 }
 
+size_t EthernetRxError::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader::calculateObjectSize() +
+            sizeof(structLength) +
+            sizeof(channel) +
+            sizeof(dir) +
+            sizeof(fcs) +
+            sizeof(frameDataLength) +
+            sizeof(error) +
+            frameDataLength;
+
+    return size;
+}
+
 }
 }

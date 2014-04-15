@@ -59,5 +59,24 @@ char * EthernetStatus::parse(char * buffer)
     return buffer;
 }
 
+size_t EthernetStatus::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader::calculateObjectSize() +
+            sizeof(channel) +
+            sizeof(flags) +
+            sizeof(linkStatus) +
+            sizeof(ethernetPhy) +
+            sizeof(duplex) +
+            sizeof(mdi) +
+            sizeof(connector) +
+            sizeof(clockMode) +
+            sizeof(pairs) +
+            sizeof(reserved) +
+            sizeof(bitrate);
+
+    return size;
+}
+
 }
 }

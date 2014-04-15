@@ -44,6 +44,7 @@ public:
     LinShortOrSlowResponse();
 
     virtual char * parse(char * buffer);
+    virtual size_t calculateObjectSize();
 
     /**
      * @brief number of valid response bytes

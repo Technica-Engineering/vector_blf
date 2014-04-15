@@ -53,5 +53,18 @@ char * LinWakeupEvent2::parse(char * buffer)
     return buffer;
 }
 
+size_t LinWakeupEvent2::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader::calculateObjectSize() +
+            LinBusEvent::calculateObjectSize() +
+            sizeof(lengthInfo) +
+            sizeof(signal) +
+            sizeof(external) +
+            sizeof(reserved);
+
+    return size;
+}
+
 }
 }

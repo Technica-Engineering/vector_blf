@@ -21,6 +21,8 @@
 
 #include "LinSpikeEvent.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 
@@ -38,16 +40,27 @@ char * LinSpikeEvent::parse(char * buffer)
     // previous data
     buffer = ObjectHeader::parse(buffer);
 
-#if 0
     // channel
     size = sizeof(channel);
     memcpy((char *) &channel, buffer, size);
     buffer += size;
-#else
-    // @todo
-#endif
+
+    // width
+    size = sizeof(width);
+    memcpy((char *) &width, buffer, size);
+    buffer += size;
 
     return buffer;
+}
+
+size_t LinSpikeEvent::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader::calculateObjectSize() +
+            sizeof(channel) +
+            sizeof(width);
+
+    return size;
 }
 
 }

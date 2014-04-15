@@ -40,6 +40,7 @@ public:
     LinBusEvent();
 
     virtual char * parse(char * buffer);
+    virtual size_t calculateObjectSize();
 
     /**
      * @brief Start Of Frame timestamp

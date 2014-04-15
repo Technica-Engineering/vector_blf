@@ -21,6 +21,8 @@
 
 #include "MostTxLight.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 
@@ -38,16 +40,27 @@ char * MostTxLight::parse(char * buffer)
     // previous data
     buffer = ObjectHeader2::parse(buffer);
 
-#if 0
     // channel
     size = sizeof(channel);
     memcpy((char *) &channel, buffer, size);
     buffer += size;
-#else
-    // @todo
-#endif
+
+    // state
+    size = sizeof(state);
+    memcpy((char *) &state, buffer, size);
+    buffer += size;
 
     return buffer;
+}
+
+size_t MostTxLight::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader2::calculateObjectSize() +
+            sizeof(channel) +
+            sizeof(state);
+
+    return size;
 }
 
 }

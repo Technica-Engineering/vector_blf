@@ -57,6 +57,7 @@ public:
     virtual ~AppText();
 
     virtual char * parse(char * buffer);
+    virtual size_t calculateObjectSize();
 
     /**
      * @brief source of text

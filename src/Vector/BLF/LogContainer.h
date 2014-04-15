@@ -43,6 +43,7 @@ public:
     virtual ~LogContainer();
 
     virtual char * parse(char * buffer);
+    virtual size_t calculateObjectSize();
 
     /**
      * @brief object flags (usually BL_OBJ_FLAG_TIME_ONE_NANS)

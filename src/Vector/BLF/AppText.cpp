@@ -58,5 +58,17 @@ char * AppText::parse(char * buffer)
     return buffer;
 }
 
+size_t AppText::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader::calculateObjectSize() +
+            sizeof(source) +
+            sizeof(reserved) +
+            sizeof(textLength) +
+            textLength;
+
+    return size;
+}
+
 }
 }

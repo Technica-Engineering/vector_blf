@@ -21,6 +21,8 @@
 
 #include "LinMessage2.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 
@@ -131,6 +133,29 @@ char * LinMessage2::parse(char * buffer)
     buffer += size;
 
     return buffer;
+}
+
+size_t LinMessage2::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader::calculateObjectSize() +
+            LinDatabyteTimestampEvent::calculateObjectSize() +
+            sizeof(data) +
+            sizeof(crc) +
+            sizeof(dir) +
+            sizeof(simulated) +
+            sizeof(isEtf) +
+            sizeof(etfAssocIndex) +
+            sizeof(etfAssocEtfId) +
+            sizeof(fsmId) +
+            sizeof(fsmState) +
+            sizeof(reserved) +
+            sizeof(respBaudrate) +
+            sizeof(exactHeaderBaudrate) +
+            sizeof(earlyStopbitOffset) +
+            sizeof(earlyStopbitOffsetResponse);
+
+    return size;
 }
 
 }

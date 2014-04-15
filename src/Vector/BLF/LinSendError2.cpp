@@ -57,5 +57,22 @@ char * LinSendError2::parse(char * buffer)
     return buffer;
 }
 
+size_t LinSendError2::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader::calculateObjectSize() +
+            LinMessageDescriptor::calculateObjectSize() +
+            sizeof(eoh) +
+            sizeof(isEtf) +
+            sizeof(fsmId) +
+            sizeof(fsmState) +
+            sizeof(reserved) +
+            sizeof(reserved2) +
+            sizeof(exactHeaderBaudrate) +
+            sizeof(earlyStopbitOffset);
+
+    return size;
+}
+
 }
 }

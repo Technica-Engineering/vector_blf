@@ -21,6 +21,8 @@
 
 #include "LinSchedulerModeChange.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 
@@ -39,16 +41,33 @@ char * LinSchedulerModeChange::parse(char * buffer)
     // previous data
     buffer = ObjectHeader::parse(buffer);
 
-#if 0
     // channel
     size = sizeof(channel);
     memcpy((char *) &channel, buffer, size);
     buffer += size;
-#else
-    // @todo
-#endif
+
+    // oldMode
+    size = sizeof(oldMode);
+    memcpy((char *) &oldMode, buffer, size);
+    buffer += size;
+
+    // newMode
+    size = sizeof(newMode);
+    memcpy((char *) &newMode, buffer, size);
+    buffer += size;
 
     return buffer;
+}
+
+size_t LinSchedulerModeChange::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader::calculateObjectSize() +
+            sizeof(channel) +
+            sizeof(oldMode) +
+            sizeof(newMode);
+
+    return size;
 }
 
 }

@@ -71,5 +71,18 @@ char * CanMessage::parse(char * buffer)
     return buffer;
 }
 
+size_t CanMessage::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader::calculateObjectSize() +
+            sizeof(channel) +
+            sizeof(flags) +
+            sizeof(dlc) +
+            sizeof(id) +
+            sizeof(data);
+
+    return size;
+}
+
 }
 }

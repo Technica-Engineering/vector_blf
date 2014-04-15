@@ -95,5 +95,22 @@ char * CanDriverStatistic::parse(char * buffer)
     return buffer;
 }
 
+size_t CanDriverStatistic::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader::calculateObjectSize() +
+            sizeof(channel) +
+            sizeof(busLoad) +
+            sizeof(standardDataFrames) +
+            sizeof(extendedDataFrames) +
+            sizeof(standardRemoteFrames) +
+            sizeof(extendedRemoteFrames) +
+            sizeof(errorFrames) +
+            sizeof(overloadFrames) +
+            sizeof(reserved);
+
+    return size;
+}
+
 }
 }

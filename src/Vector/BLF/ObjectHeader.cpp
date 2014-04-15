@@ -65,5 +65,16 @@ char * ObjectHeader::parse(char * buffer)
     return buffer;
 }
 
+size_t ObjectHeader::calculateObjectSize()
+{
+    constexpr size_t size =
+            sizeof(objectFlags) +
+            sizeof(reserved) +
+            sizeof(objectVersion) +
+            sizeof(objectTimeStamp);
+
+    return size;
+}
+
 }
 }

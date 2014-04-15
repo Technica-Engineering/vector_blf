@@ -74,6 +74,7 @@ public:
     SerialEvent();
 
     virtual char * parse(char * buffer);
+    virtual size_t calculateObjectSize();
 
     enumclass Flags : DWORD {
         KLineEvent = 0x000000001,

@@ -57,5 +57,22 @@ char * CanMessage2::parse(char * buffer)
     return buffer;
 }
 
+size_t CanMessage2::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader::calculateObjectSize() +
+            sizeof(channel) +
+            sizeof(flags) +
+            sizeof(dlc) +
+            sizeof(id) +
+            sizeof(data) +
+            sizeof(frameLength) +
+            sizeof(bitCount) +
+            sizeof(reserved1) +
+            sizeof(reserved2);
+
+    return size;
+}
+
 }
 }

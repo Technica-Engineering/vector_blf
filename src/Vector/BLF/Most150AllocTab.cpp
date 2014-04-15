@@ -21,6 +21,8 @@
 
 #include "Most150AllocTab.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 
@@ -67,6 +69,19 @@ char * Most150AllocTab::parse(char * buffer)
     buffer += size;
 
     return buffer;
+}
+
+size_t Most150AllocTab::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader2::calculateObjectSize() +
+            sizeof(channel) +
+            sizeof(eventModeFlags) +
+            sizeof(freeBytes) +
+            sizeof(length) +
+            sizeof(tableData);
+
+    return size;
 }
 
 }

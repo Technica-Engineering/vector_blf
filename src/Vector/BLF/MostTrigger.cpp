@@ -54,5 +54,19 @@ char * MostTrigger::parse(char * buffer)
     return buffer;
 }
 
+size_t MostTrigger::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader2::calculateObjectSize() +
+            sizeof(channel) +
+            sizeof(dummy1) +
+            sizeof(mode) +
+            sizeof(hw) +
+            sizeof(previousTriggerValue) +
+            sizeof(currentTriggerValue);
+
+    return size;
+}
+
 }
 }

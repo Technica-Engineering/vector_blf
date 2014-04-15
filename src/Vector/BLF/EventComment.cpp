@@ -21,6 +21,8 @@
 
 #include "EventComment.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 
@@ -45,16 +47,34 @@ char * EventComment::parse(char * buffer)
     // previous data
     buffer = ObjectHeader::parse(buffer);
 
-#if 0
-    // channel
-    size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    // commentedEventType
+    size = sizeof(commentedEventType);
+    memcpy((char *) &commentedEventType, buffer, size);
     buffer += size;
-#else
-    // @todo
-#endif
+
+    // textLength
+    size = sizeof(textLength);
+    memcpy((char *) &textLength, buffer, size);
+    buffer += size;
+
+    // text
+    size = textLength;
+    text = new char[textLength + 1];
+    memcpy(text, buffer, size);
+    buffer += size;
 
     return buffer;
+}
+
+size_t EventComment::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader::calculateObjectSize() +
+            sizeof(commentedEventType) +
+            sizeof(textLength) +
+            textLength;
+
+    return size;
 }
 
 }

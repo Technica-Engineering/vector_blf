@@ -21,6 +21,8 @@
 
 #include "LinSleepModeEvent.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 
@@ -39,16 +41,33 @@ char * LinSleepModeEvent::parse(char * buffer)
     // previous data
     buffer = ObjectHeader::parse(buffer);
 
-#if 0
     // channel
     size = sizeof(channel);
     memcpy((char *) &channel, buffer, size);
     buffer += size;
-#else
-    // @todo
-#endif
+
+    // reason
+    size = sizeof(reason);
+    memcpy((char *) &reason, buffer, size);
+    buffer += size;
+
+    // flags
+    size = sizeof(flags);
+    memcpy((char *) &flags, buffer, size);
+    buffer += size;
 
     return buffer;
+}
+
+size_t LinSleepModeEvent::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader::calculateObjectSize() +
+            sizeof(channel) +
+            sizeof(reason) +
+            sizeof(flags);
+
+    return size;
 }
 
 }

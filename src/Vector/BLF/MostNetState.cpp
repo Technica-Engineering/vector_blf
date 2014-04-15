@@ -65,5 +65,17 @@ char * MostNetState::parse(char * buffer)
     return buffer;
 }
 
+size_t MostNetState::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader2::calculateObjectSize() +
+            sizeof(channel) +
+            sizeof(stateNew) +
+            sizeof(stateOld) +
+            sizeof(dummy1);
+
+    return size;
+}
+
 }
 }

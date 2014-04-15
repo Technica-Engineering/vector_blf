@@ -89,5 +89,21 @@ char * MostGenReg::parse(char * buffer)
     return buffer;
 }
 
+size_t MostGenReg::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader2::calculateObjectSize() +
+            sizeof(channel) +
+            sizeof(subType) +
+            sizeof(dummy1) +
+            sizeof(handle) +
+            sizeof(regId) +
+            sizeof(dummy2) +
+            sizeof(dummy3) +
+            sizeof(regValue);
+
+    return size;
+}
+
 }
 }

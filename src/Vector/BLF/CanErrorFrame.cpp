@@ -21,6 +21,8 @@
 
 #include "CanErrorFrame.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 
@@ -49,6 +51,16 @@ char * CanErrorFrame::parse(char * buffer)
     buffer += size;
 
     return buffer;
+}
+
+size_t CanErrorFrame::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader::calculateObjectSize() +
+            sizeof(channel) +
+            sizeof(length);
+
+    return size;
 }
 
 }

@@ -42,6 +42,7 @@ public:
     EthernetStatus();
 
     virtual char * parse(char * buffer);
+    virtual size_t calculateObjectSize();
 
     /**
      * The channel of the event.

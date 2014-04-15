@@ -59,5 +59,24 @@ char * FlexRayVFrStatus::parse(char * buffer)
     return buffer;
 }
 
+size_t FlexRayVFrStatus::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader::calculateObjectSize() +
+            sizeof(channel) +
+            sizeof(version) +
+            sizeof(channelMask) +
+            sizeof(cycle) +
+            sizeof(clientIndex) +
+            sizeof(clusterNo) +
+            sizeof(wus) +
+            sizeof(ccSyncState) +
+            sizeof(tag) +
+            sizeof(data) +
+            sizeof(reserved);
+
+    return size;
+}
+
 }
 }

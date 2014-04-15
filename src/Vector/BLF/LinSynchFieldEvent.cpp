@@ -21,6 +21,8 @@
 
 #include "LinSynchFieldEvent.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 
@@ -49,6 +51,16 @@ char * LinSynchFieldEvent::parse(char * buffer)
     buffer += size;
 
     return buffer;
+}
+
+size_t LinSynchFieldEvent::calculateObjectSize()
+{
+    size_t size =
+            LinBusEvent::calculateObjectSize() +
+            sizeof(synchBreakLength) +
+            sizeof(synchDelLength);
+
+    return size;
 }
 
 }

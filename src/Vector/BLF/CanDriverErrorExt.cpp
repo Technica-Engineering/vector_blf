@@ -57,5 +57,22 @@ char * CanDriverErrorExt::parse(char * buffer)
     return buffer;
 }
 
+size_t CanDriverErrorExt::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader::calculateObjectSize() +
+            sizeof(channel) +
+            sizeof(txErrors) +
+            sizeof(rxErrors) +
+            sizeof(errorCode) +
+            sizeof(flags) +
+            sizeof(state) +
+            sizeof(reserved1) +
+            sizeof(reserved2) +
+            sizeof(reserved3);
+
+    return size;
+}
+
 }
 }

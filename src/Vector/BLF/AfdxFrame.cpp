@@ -121,5 +121,25 @@ char * AfdxFrame::parse(char * buffer)
     return buffer;
 }
 
+size_t AfdxFrame::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader::calculateObjectSize() +
+            sizeof(sourceAddress) +
+            sizeof(channel) +
+            sizeof(destinationAddress) +
+            sizeof(dir) +
+            sizeof(type) +
+            sizeof(tpid) +
+            sizeof(tci) +
+            sizeof(ethChannel) +
+            sizeof(afdxFlags) +
+            sizeof(bagUsec) +
+            sizeof(payLoadLength) +
+            payLoadLength;
+
+    return size;
+}
+
 }
 }

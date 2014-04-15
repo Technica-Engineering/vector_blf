@@ -63,5 +63,22 @@ char * EthernetFrame::parse(char * buffer)
     return buffer;
 }
 
+size_t EthernetFrame::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader::calculateObjectSize() +
+            sizeof(sourceAddress) +
+            sizeof(channel) +
+            sizeof(destinationAddress) +
+            sizeof(dir) +
+            sizeof(type) +
+            sizeof(tpid) +
+            sizeof(tci) +
+            sizeof(payLoadLength) +
+            payLoadLength;
+
+    return size;
+}
+
 }
 }

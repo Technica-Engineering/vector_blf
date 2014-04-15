@@ -56,5 +56,21 @@ char * LinDisturbanceEvent::parse(char * buffer)
     return buffer;
 }
 
+size_t LinDisturbanceEvent::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader::calculateObjectSize() +
+            sizeof(channel) +
+            sizeof(id) +
+            sizeof(disturbingFrameId) +
+            sizeof(disturbanceType) +
+            sizeof(byteIndex) +
+            sizeof(bitIndex) +
+            sizeof(bitOffsetInSixteenthBits) +
+            sizeof(disturbanceLengthInSixteenthBits);
+
+    return size;
+}
+
 }
 }

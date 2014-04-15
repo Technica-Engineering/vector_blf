@@ -21,6 +21,8 @@
 
 #include "LinBusEvent.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 
@@ -57,6 +59,17 @@ char * LinBusEvent::parse(char * buffer)
     buffer += size;
 
     return buffer;
+}
+
+size_t LinBusEvent::calculateObjectSize()
+{
+    size_t size =
+            sizeof(sof) +
+            sizeof(eventBaudrate) +
+            sizeof(channel) +
+            sizeof(reserved);
+
+    return size;
 }
 
 }

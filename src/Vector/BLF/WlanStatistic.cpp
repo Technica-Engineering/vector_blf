@@ -56,5 +56,21 @@ char * WlanStatistic::parse(char * buffer)
     return buffer;
 }
 
+size_t WlanStatistic::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader::calculateObjectSize() +
+            sizeof(channel) +
+            sizeof(flags) +
+            sizeof(rxPacketCount) +
+            sizeof(rxByteCount) +
+            sizeof(txPacketCount) +
+            sizeof(txByteCount) +
+            sizeof(collisionCount) +
+            sizeof(errorCount);
+
+    return size;
+}
+
 }
 }

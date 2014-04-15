@@ -59,5 +59,24 @@ char * CanFdMessage::parse(char * buffer)
     return buffer;
 }
 
+size_t CanFdMessage::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader::calculateObjectSize() +
+            sizeof(channel) +
+            sizeof(flags) +
+            sizeof(dlc) +
+            sizeof(id) +
+            sizeof(frameLength) +
+            sizeof(arbBitCount) +
+            sizeof(canFdFlags) +
+            sizeof(validDataBytes) +
+            sizeof(reserved1) +
+            sizeof(reserved2) +
+            sizeof(data);
+
+    return size;
+}
+
 }
 }

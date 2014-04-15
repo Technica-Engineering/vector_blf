@@ -21,6 +21,8 @@
 
 #include "LinChecksumInfo.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 
@@ -39,16 +41,33 @@ char * LinChecksumInfo::parse(char * buffer)
     // previous data
     buffer = ObjectHeader::parse(buffer);
 
-#if 0
     // channel
     size = sizeof(channel);
     memcpy((char *) &channel, buffer, size);
     buffer += size;
-#else
-    // @todo
-#endif
+
+    // id
+    size = sizeof(id);
+    memcpy((char *) &id, buffer, size);
+    buffer += size;
+
+    // checksumModel
+    size = sizeof(checksumModel);
+    memcpy((char *) &checksumModel, buffer, size);
+    buffer += size;
 
     return buffer;
+}
+
+size_t LinChecksumInfo::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader::calculateObjectSize() +
+            sizeof(channel) +
+            sizeof(id) +
+            sizeof(checksumModel);
+
+    return size;
 }
 
 }

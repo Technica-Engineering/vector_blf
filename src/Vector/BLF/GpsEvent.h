@@ -42,6 +42,7 @@ public:
     GpsEvent();
 
     virtual char * parse(char * buffer);
+    virtual size_t calculateObjectSize();
 
     /**
      * Not used, must be 0.

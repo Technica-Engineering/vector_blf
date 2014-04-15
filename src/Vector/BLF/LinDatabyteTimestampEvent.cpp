@@ -21,6 +21,8 @@
 
 #include "LinDatabyteTimestampEvent.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 
@@ -43,6 +45,15 @@ char * LinDatabyteTimestampEvent::parse(char * buffer)
     buffer += size;
 
     return buffer;
+}
+
+size_t LinDatabyteTimestampEvent::calculateObjectSize()
+{
+    size_t size =
+            LinMessageDescriptor::calculateObjectSize() +
+            sizeof(databyteTimestamps);
+
+    return size;
 }
 
 }

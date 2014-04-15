@@ -83,5 +83,19 @@ char * LogContainer::parse(char * buffer)
     return buffer;
 }
 
+size_t LogContainer::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeaderBase::calculateObjectSize() +
+            sizeof(objectFlags) +
+            sizeof(reserved) +
+            sizeof(objectVersion) +
+            sizeof(uncompressedFileSize) +
+            sizeof(compressedFileSize) +
+            compressedFileSize;
+
+    return size;
+}
+
 }
 }

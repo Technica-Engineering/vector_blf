@@ -21,6 +21,8 @@
 
 #include "CanOverloadFrame.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 
@@ -38,16 +40,27 @@ char * CanOverloadFrame::parse(char * buffer)
     // previous data
     buffer = ObjectHeader::parse(buffer);
 
-#if 0
     // channel
     size = sizeof(channel);
     memcpy((char *) &channel, buffer, size);
     buffer += size;
-#else
-    // @todo
-#endif
+
+    // dummy
+    size = sizeof(dummy);
+    memcpy((char *) &dummy, buffer, size);
+    buffer += size;
 
     return buffer;
+}
+
+size_t CanOverloadFrame::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader::calculateObjectSize() +
+            sizeof(channel) +
+            sizeof(dummy);
+
+    return size;
 }
 
 }

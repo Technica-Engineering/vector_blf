@@ -44,6 +44,7 @@ public:
     LinUnexpectedWakeup();
 
     virtual char * parse(char * buffer);
+    virtual size_t calculateObjectSize();
 
     /**
      * @brief width of the unexpected wakeup in nanoseconds (valid for LIN 2.x)

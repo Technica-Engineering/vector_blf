@@ -43,6 +43,7 @@ public:
     virtual ~EthernetFrame();
 
     virtual char * parse(char * buffer);
+    virtual size_t calculateObjectSize();
 
     /**
      * Ethernet (MAC) address of source computer

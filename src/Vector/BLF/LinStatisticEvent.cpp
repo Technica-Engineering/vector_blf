@@ -55,5 +55,20 @@ char * LinStatisticEvent::parse(char * buffer)
     return buffer;
 }
 
+size_t LinStatisticEvent::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader::calculateObjectSize() +
+            sizeof(channel) +
+            sizeof(busLoad) +
+            sizeof(burstsTotal) +
+            sizeof(burstsOverrun) +
+            sizeof(framesSent) +
+            sizeof(framesReceived) +
+            sizeof(framesUnanswered);
+
+    return size;
+}
+
 }
 }

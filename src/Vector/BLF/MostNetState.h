@@ -42,6 +42,7 @@ public:
     MostNetState();
 
     virtual char * parse(char * buffer);
+    virtual size_t calculateObjectSize();
 
     /**
      * @brief application channel

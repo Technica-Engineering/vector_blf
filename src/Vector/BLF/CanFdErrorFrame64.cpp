@@ -66,5 +66,31 @@ char * CanFdErrorFrame64::parse(char * buffer)
     return buffer;
 }
 
+size_t CanFdErrorFrame64::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader::calculateObjectSize() +
+            sizeof(channel) +
+            sizeof(dlc) +
+            sizeof(validDataBytes) +
+            sizeof(ecc) +
+            sizeof(flags) +
+            sizeof(errorCodeExt) +
+            sizeof(extFlags) +
+            sizeof(reserved1) +
+            sizeof(id) +
+            sizeof(frameLength) +
+            sizeof(btrCfgArb) +
+            sizeof(btrCfgData) +
+            sizeof(timeOffsetBrsNs) +
+            sizeof(timeOffsetCrcDelNs) +
+            sizeof(crc) +
+            sizeof(errorPosition) +
+            sizeof(reserved2) +
+            sizeof(data);
+
+    return size;
+}
+
 }
 }

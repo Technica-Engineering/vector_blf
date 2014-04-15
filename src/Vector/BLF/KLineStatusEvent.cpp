@@ -53,5 +53,18 @@ char * KLineStatusEvent::parse(char * buffer)
     return buffer;
 }
 
+size_t KLineStatusEvent::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader::calculateObjectSize() +
+            sizeof(type) +
+            sizeof(dataLen) +
+            sizeof(port) +
+            sizeof(reserved) +
+            sizeof(data);
+
+    return size;
+}
+
 }
 }

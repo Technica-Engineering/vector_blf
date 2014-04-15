@@ -47,6 +47,7 @@ public:
     LinSyncError2();
 
     virtual char * parse(char * buffer);
+    virtual size_t calculateObjectSize();
 
     /**
      * Time intervals [in us] detected between the

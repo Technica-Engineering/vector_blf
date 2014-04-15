@@ -52,5 +52,17 @@ char * SerialEvent::parse(char * buffer)
     return buffer;
 }
 
+size_t SerialEvent::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader::calculateObjectSize() +
+            sizeof(flags) +
+            sizeof(port) +
+            sizeof(baudrate) +
+            sizeof(reserved); // @todo what happens with the union?
+
+    return size;
+}
+
 }
 }

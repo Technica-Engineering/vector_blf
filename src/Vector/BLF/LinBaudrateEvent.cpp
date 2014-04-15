@@ -21,6 +21,8 @@
 
 #include "LinBaudrateEvent.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 
@@ -39,16 +41,33 @@ char * LinBaudrateEvent::parse(char * buffer)
     // previous data
     buffer = ObjectHeader::parse(buffer);
 
-#if 0
     // channel
     size = sizeof(channel);
     memcpy((char *) &channel, buffer, size);
     buffer += size;
-#else
-    // @todo
-#endif
+
+    // dummy
+    size = sizeof(dummy);
+    memcpy((char *) &dummy, buffer, size);
+    buffer += size;
+
+    // baudrate
+    size = sizeof(baudrate);
+    memcpy((char *) &baudrate, buffer, size);
+    buffer += size;
 
     return buffer;
+}
+
+size_t LinBaudrateEvent::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader::calculateObjectSize() +
+            sizeof(channel) +
+            sizeof(dummy) +
+            sizeof(baudrate);
+
+    return size;
 }
 
 }

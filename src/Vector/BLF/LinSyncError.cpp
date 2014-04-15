@@ -51,5 +51,16 @@ char * LinSyncError::parse(char * buffer)
     return buffer;
 }
 
+size_t LinSyncError::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader::calculateObjectSize() +
+            sizeof(channel) +
+            sizeof(dummy) +
+            sizeof(timeDiff);
+
+    return size;
+}
+
 }
 }

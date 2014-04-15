@@ -43,6 +43,7 @@ public:
     AppTrigger();
 
     virtual char * parse(char * buffer);
+    virtual size_t calculateObjectSize();
 
     /**
      * @brief pre-trigger time

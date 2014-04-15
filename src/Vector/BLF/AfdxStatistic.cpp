@@ -131,5 +131,28 @@ char * AfdxStatistic::parse(char * buffer)
     return buffer;
 }
 
+size_t AfdxStatistic::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader::calculateObjectSize() +
+            sizeof(channel) +
+            sizeof(flags) +
+            sizeof(rxPacketCount) +
+            sizeof(rxByteCount) +
+            sizeof(txPacketCount) +
+            sizeof(txByteCount) +
+            sizeof(collisionCount) +
+            sizeof(errorCount) +
+            sizeof(statDroppedRedundantPacketCount) +
+            sizeof(statRedundantErrorPacketCount) +
+            sizeof(statIntegrityErrorPacketCount) +
+            sizeof(statAvrgPeriodMsec) +
+            sizeof(statAvrgJitterMysec) +
+            sizeof(vlid) +
+            sizeof(statDuration);
+
+    return size;
+}
+
 }
 }

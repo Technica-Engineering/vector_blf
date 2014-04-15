@@ -77,5 +77,18 @@ char * ObjectHeader2::parse(char * buffer)
     return buffer;
 }
 
+size_t ObjectHeader2::calculateObjectSize()
+{
+    constexpr size_t size =
+            sizeof(objectFlags) +
+            sizeof(timeStampStatus) +
+            sizeof(reserved) +
+            sizeof(objectVersion) +
+            sizeof(objectTimeStamp) +
+            sizeof(originalTimeStamp);
+
+    return size;
+}
+
 }
 }

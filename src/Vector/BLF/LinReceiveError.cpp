@@ -59,5 +59,24 @@ char * LinReceiveError::parse(char * buffer)
     return buffer;
 }
 
+size_t LinReceiveError::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader::calculateObjectSize() +
+            sizeof(channel) +
+            sizeof(id) +
+            sizeof(dlc) +
+            sizeof(fsmId) +
+            sizeof(fsmState) +
+            sizeof(headerTime) +
+            sizeof(fullTime) +
+            sizeof(stateReason) +
+            sizeof(offendingByte) +
+            sizeof(shortError) +
+            sizeof(timeoutDuringDlcDetection);
+
+    return size;
+}
+
 }
 }

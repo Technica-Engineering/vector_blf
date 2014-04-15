@@ -65,5 +65,30 @@ char * FlexRayVFrReceiveMsg::parse(char * buffer)
     return buffer;
 }
 
+size_t FlexRayVFrReceiveMsg::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader::calculateObjectSize() +
+            sizeof(channel) +
+            sizeof(version) +
+            sizeof(channelMask) +
+            sizeof(dir) +
+            sizeof(clientIndex) +
+            sizeof(clusterNo) +
+            sizeof(frameId) +
+            sizeof(headerCrc1) +
+            sizeof(headerCrc2) +
+            sizeof(byteCount) +
+            sizeof(dataCount) +
+            sizeof(cycle) +
+            sizeof(tag) +
+            sizeof(data) +
+            sizeof(frameFlags) +
+            sizeof(appParameter) +
+            sizeof(dataBytes);
+
+    return size;
+}
+
 }
 }

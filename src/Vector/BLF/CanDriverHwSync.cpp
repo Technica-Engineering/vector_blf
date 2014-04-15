@@ -21,6 +21,8 @@
 
 #include "CanDriverHwSync.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 
@@ -55,6 +57,17 @@ char * CanDriverHwSync::parse(char * buffer)
     buffer += size;
 
     return buffer;
+}
+
+size_t CanDriverHwSync::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader::calculateObjectSize() +
+            sizeof(channel) +
+            sizeof(flags) +
+            sizeof(dummy);
+
+    return size;
 }
 
 }

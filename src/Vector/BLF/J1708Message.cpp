@@ -53,5 +53,18 @@ char * J1708Message::parse(char * buffer)
     return buffer;
 }
 
+size_t J1708Message::calculateObjectSize()
+{
+    size_t size_ =
+            ObjectHeader::calculateObjectSize() +
+            sizeof(channel) +
+            sizeof(dir) +
+            sizeof(error) +
+            sizeof(size) +
+            sizeof(data);
+
+    return size_;
+}
+
 }
 }

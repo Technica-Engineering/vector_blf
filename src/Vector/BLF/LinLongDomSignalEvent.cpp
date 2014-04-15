@@ -21,6 +21,8 @@
 
 #include "LinLongDomSignalEvent.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 
@@ -38,17 +40,30 @@ char * LinLongDomSignalEvent::parse(char * buffer)
 
     // previous data
     buffer = ObjectHeader::parse(buffer);
+    buffer = LinBusEvent::parse(buffer);
 
-#if 0
-    // channel
-    size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    // type
+    size = sizeof(type);
+    memcpy((char *) &type, buffer, size);
     buffer += size;
-#else
-    // @todo
-#endif
+
+    // reserved
+    size = sizeof(reserved);
+    memcpy((char *) &reserved, buffer, size);
+    buffer += size;
 
     return buffer;
+}
+
+size_t LinLongDomSignalEvent::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader::calculateObjectSize() +
+            LinBusEvent::calculateObjectSize() +
+            sizeof(type) +
+            sizeof(reserved);
+
+    return size;
 }
 
 }

@@ -65,5 +65,17 @@ char * CanDriverError::parse(char * buffer)
     return buffer;
 }
 
+size_t CanDriverError::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader::calculateObjectSize() +
+            sizeof(channel) +
+            sizeof(txErrors) +
+            sizeof(rxErrors) +
+            sizeof(errorCode);
+
+    return size;
+}
+
 }
 }

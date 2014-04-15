@@ -52,5 +52,17 @@ char * MostStatisticEx::parse(char * buffer)
     return buffer;
 }
 
+size_t MostStatisticEx::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader2::calculateObjectSize() +
+            sizeof(channel) +
+            sizeof(dummy1) +
+            sizeof(codingErrors) +
+            sizeof(frameCounter);
+
+    return size;
+}
+
 }
 }

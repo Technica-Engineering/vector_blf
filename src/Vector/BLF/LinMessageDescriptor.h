@@ -41,6 +41,7 @@ public:
     LinMessageDescriptor();
 
     virtual char * parse(char * buffer);
+    virtual size_t calculateObjectSize();
 
     /**
      * @brief LIN Sub-Identifier - Supplier ID

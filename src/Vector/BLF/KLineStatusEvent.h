@@ -40,6 +40,7 @@ public:
     KLineStatusEvent();
 
     virtual char * parse(char * buffer);
+    virtual size_t calculateObjectSize();
 
     enumclass Type : WORD {
         /** If set in type, direction is tester -> ECU */

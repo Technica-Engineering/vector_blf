@@ -42,6 +42,7 @@ public:
     RealtimeClock();
 
     virtual char * parse(char * buffer);
+    virtual size_t calculateObjectSize();
 
     /**
      * @brief logging start time in ns since 00:00 1.1.1970 GMT

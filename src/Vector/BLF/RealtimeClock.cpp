@@ -21,6 +21,8 @@
 
 #include "RealtimeClock.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 
@@ -38,16 +40,27 @@ char * RealtimeClock::parse(char * buffer)
     // previous data
     buffer = ObjectHeader::parse(buffer);
 
-#if 0
-    // channel
-    size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    // time
+    size = sizeof(time);
+    memcpy((char *) &time, buffer, size);
     buffer += size;
-#else
-    // @todo
-#endif
+
+    // loggingOffset
+    size = sizeof(loggingOffset);
+    memcpy((char *) &loggingOffset, buffer, size);
+    buffer += size;
 
     return buffer;
+}
+
+size_t RealtimeClock::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader::calculateObjectSize() +
+            sizeof(time) +
+            sizeof(loggingOffset);
+
+    return size;
 }
 
 }

@@ -41,6 +41,7 @@ public:
     LinSynchFieldEvent();
 
     virtual char * parse(char * buffer);
+    virtual size_t calculateObjectSize();
 
     /**
      * @brief Sync Break Length in ns

@@ -68,5 +68,27 @@ char * MostPkt::parse(char * buffer)
     return buffer;
 }
 
+size_t MostPkt::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader::calculateObjectSize() +
+            sizeof(channel) +
+            sizeof(dir) +
+            sizeof(dummy1) +
+            sizeof(sourceAdr) +
+            sizeof(destAdr) +
+            sizeof(arbitration) +
+            sizeof(timeRes) +
+            sizeof(quadsToFollow) +
+            sizeof(crc) +
+            sizeof(priority) +
+            sizeof(transferType) +
+            sizeof(state) +
+            sizeof(pktDataLength) +
+            pktDataLength;
+
+    return size;
+}
+
 }
 }

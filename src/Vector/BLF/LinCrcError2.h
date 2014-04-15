@@ -44,6 +44,7 @@ public:
     LinCrcError2();
 
     virtual char * parse(char * buffer);
+    virtual size_t calculateObjectSize();
 
     /**
      * @brief data bytes.

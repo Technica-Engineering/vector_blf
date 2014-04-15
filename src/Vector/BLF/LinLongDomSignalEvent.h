@@ -46,6 +46,7 @@ public:
     LinLongDomSignalEvent();
 
     virtual char * parse(char * buffer);
+    virtual size_t calculateObjectSize();
 
     /**
      * One dominant signal can be reported with

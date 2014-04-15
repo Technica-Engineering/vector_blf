@@ -21,6 +21,8 @@
 
 #include "LinMessageDescriptor.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 
@@ -73,6 +75,20 @@ char * LinMessageDescriptor::parse(char * buffer)
     buffer += size;
 
     return buffer;
+}
+
+size_t LinMessageDescriptor::calculateObjectSize()
+{
+    size_t size =
+            LinSynchFieldEvent::calculateObjectSize() +
+            sizeof(supplierId) +
+            sizeof(messageId) +
+            sizeof(nad) +
+            sizeof(id) +
+            sizeof(dlc) +
+            sizeof(checksumModel);
+
+    return size;
 }
 
 }

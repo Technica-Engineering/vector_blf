@@ -64,5 +64,29 @@ char * FlexRayV6Message::parse(char * buffer)
     return buffer;
 }
 
+size_t FlexRayV6Message::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader::calculateObjectSize() +
+            sizeof(channel) +
+            sizeof(dir) +
+            sizeof(lowTime) +
+            sizeof(fpgaTick) +
+            sizeof(fpgaTickOverflow) +
+            sizeof(clientIndex) +
+            sizeof(clusterTime) +
+            sizeof(frameId) +
+            sizeof(headerCrc) +
+            sizeof(frameState) +
+            sizeof(length) +
+            sizeof(cycle) +
+            sizeof(headerBitMask) +
+            sizeof(reserved1) +
+            sizeof(reserved2) +
+            sizeof(dataBytes);
+
+    return size;
+}
+
 }
 }

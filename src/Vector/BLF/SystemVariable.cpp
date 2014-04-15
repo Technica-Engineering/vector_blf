@@ -79,14 +79,14 @@ char * SystemVariable::parse(char * buffer)
     memcpy((char *) &unknown, buffer, size);
     buffer += size;
 
-    /* name */
+    // name
     size = nameLength;
-    name = new char[nameLength+1];
+    name = new char[nameLength + 1];
     memcpy(name, buffer, size);
     name[nameLength] = 0;
     buffer += size;
 
-    /* data */
+    // data
     size = dataLength;
     data = new char[dataLength];
     memcpy(data, buffer, size);

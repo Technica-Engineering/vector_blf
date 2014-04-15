@@ -119,5 +119,26 @@ char * MostCtrl::parse(char * buffer)
     return buffer;
 }
 
+size_t MostCtrl::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader::calculateObjectSize() +
+            sizeof(channel) +
+            sizeof(dir) +
+            sizeof(dummy1) +
+            sizeof(sourceAdr) +
+            sizeof(destAdr) +
+            sizeof(msg) +
+            sizeof(dummy2) +
+            sizeof(rTyp) +
+            sizeof(rTypAdr) +
+            sizeof(state) +
+            sizeof(dummy3) +
+            sizeof(ackNack) +
+            sizeof(unknown);
+
+    return size;
+}
+
 }
 }

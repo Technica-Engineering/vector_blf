@@ -56,5 +56,21 @@ char * MostReg::parse(char * buffer)
     return buffer;
 }
 
+size_t MostReg::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader2::calculateObjectSize() +
+            sizeof(channel) +
+            sizeof(subType) +
+            sizeof(dummy1) +
+            sizeof(handle) +
+            sizeof(offset) +
+            sizeof(chip) +
+            sizeof(regDataLen) +
+            sizeof(regData);
+
+    return size;
+}
+
 }
 }

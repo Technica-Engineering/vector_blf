@@ -21,6 +21,8 @@
 
 #include "GpsEvent.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 
@@ -44,16 +46,63 @@ char * GpsEvent::parse(char * buffer)
     // previous data
     buffer = ObjectHeader::parse(buffer);
 
-#if 0
+    // flags
+    size = sizeof(flags);
+    memcpy((char *) &flags, buffer, size);
+    buffer += size;
+
     // channel
     size = sizeof(channel);
     memcpy((char *) &channel, buffer, size);
     buffer += size;
-#else
-    // @todo
-#endif
+
+    // reserved
+    size = sizeof(reserved);
+    memcpy((char *) &reserved, buffer, size);
+    buffer += size;
+
+    // latitude
+    size = sizeof(latitude);
+    memcpy((char *) &latitude, buffer, size);
+    buffer += size;
+
+    // longitude
+    size = sizeof(longitude);
+    memcpy((char *) &longitude, buffer, size);
+    buffer += size;
+
+    // altitude
+    size = sizeof(altitude);
+    memcpy((char *) &altitude, buffer, size);
+    buffer += size;
+
+    // speed
+    size = sizeof(speed);
+    memcpy((char *) &speed, buffer, size);
+    buffer += size;
+
+    // course
+    size = sizeof(course);
+    memcpy((char *) &course, buffer, size);
+    buffer += size;
 
     return buffer;
+}
+
+size_t GpsEvent::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader::calculateObjectSize() +
+            sizeof(flags) +
+            sizeof(channel) +
+            sizeof(reserved) +
+            sizeof(latitude) +
+            sizeof(longitude) +
+            sizeof(altitude) +
+            sizeof(speed) +
+            sizeof(course);
+
+    return size;
 }
 
 }

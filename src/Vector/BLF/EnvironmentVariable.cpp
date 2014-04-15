@@ -66,20 +66,33 @@ char * EnvironmentVariable::parse(char * buffer)
     memcpy((char *) &unknown, buffer, size);
     buffer += size;
 
-    /* name */
+    // name
     size = nameLength;
-    name = new char[nameLength+1];
+    name = new char[nameLength + 1];
     memcpy(name, buffer, size);
     buffer += size;
     name[nameLength] = 0;
 
-    /* data */
+    // data
     size = dataLength;
     data = new char[dataLength];
     memcpy(data, buffer, size);
     buffer += size;
 
     return buffer;
+}
+
+size_t EnvironmentVariable::calculateObjectSize()
+{
+    size_t size =
+            ObjectHeader::calculateObjectSize() +
+            sizeof(nameLength) +
+            sizeof(dataLength) +
+            sizeof(unknown) +
+            nameLength +
+            dataLength;
+
+    return size;
 }
 
 }
