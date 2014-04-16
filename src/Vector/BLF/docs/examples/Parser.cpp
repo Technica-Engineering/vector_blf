@@ -66,6 +66,13 @@ void showCanMessage(Vector::BLF::CanMessage * canMessage)
 }
 
 // CAN_ERROR = 2
+void showCanErrorFrame(Vector::BLF::CanErrorFrame * canErrorFrame)
+{
+     std::cout << "CanErrorFrame:";
+     std::cout << " ch=" << std::dec << canErrorFrame->channel;
+     std::cout << " len=" << std::dec << canErrorFrame->length;
+     std::cout << std::endl;
+}
 
 // CAN_OVERLOAD = 3
 
@@ -361,6 +368,19 @@ void showMostTrigger(Vector::BLF::MostTrigger * mostTrigger)
 // FLEXRAY_STATUS = 45
 
 // GPS_EVENT = 46
+void showGpsEvent(Vector::BLF::GpsEvent * gpsEvent)
+{
+    std::cout << "GpsEvent:";
+    std::cout << " flags=0x" << std::hex << gpsEvent->flags;
+    std::cout << " ch=" << std::dec << gpsEvent->channel;
+    std::cout << " res=0x" << std::hex << gpsEvent->reserved;
+    std::cout << " lon=" << std::fixed << gpsEvent->longitude;
+    std::cout << " lat=" << std::fixed << gpsEvent->latitude;
+    std::cout << " alt=" << std::fixed << gpsEvent->altitude;
+    std::cout << " spd=" << std::fixed << gpsEvent->speed;
+    std::cout << " crs=" << std::fixed << gpsEvent->course;
+    std::cout << std::endl;
+}
 
 // FR_ERROR = 47
 
@@ -477,13 +497,13 @@ void showCanErrorFrameExt(Vector::BLF::CanErrorFrameExt * canErrorFrameExt)
     std::cout << " ch=" << std::dec << canErrorFrameExt->channel;
     std::cout << " len=" << std::dec << canErrorFrameExt->length;
     std::cout << " flags=0x" << std::hex << canErrorFrameExt->flags;
-    std::cout << " ecc=" << std::hex << (unsigned short) canErrorFrameExt->ecc;
+    std::cout << " ecc=0x" << std::hex << (unsigned short) canErrorFrameExt->ecc;
     std::cout << " pos=" << std::dec << (unsigned short) canErrorFrameExt->position;
     std::cout << " dlc=" << std::dec << (unsigned short) canErrorFrameExt->dlc;
     std::cout << " reserved1=" << std::dec << (unsigned short) canErrorFrameExt->reserved1;
     std::cout << " ns=" << std::dec << canErrorFrameExt->frameLengthInNs;
     std::cout << " id=" << std::dec << canErrorFrameExt->id;
-    std::cout << " flagsExt=" << std::dec << canErrorFrameExt->flagsExt;
+    std::cout << " flagsExt=0x" << std::hex << canErrorFrameExt->flagsExt;
     std::cout << " reserved2=" << std::dec << canErrorFrameExt->reserved2;
     std::cout << " msg=" << std::hex;
     for (int i = 0; i < canErrorFrameExt->dlc; ++i) {
@@ -532,6 +552,13 @@ void showCanErrorFrameExt(Vector::BLF::CanErrorFrameExt * canErrorFrameExt)
 // OVERRUN_ERROR = 91
 
 // EVENT_COMMENT = 92
+void showEventComment(Vector::BLF::EventComment * eventComment)
+{
+    std::cout << "EventComment:";
+    std::cout << " type=" << std::dec << eventComment->commentedEventType;
+    std::cout << " text=" << eventComment->text;
+    std::cout << std::endl;
+}
 
 // WLAN_FRAME = 93
 
@@ -540,6 +567,21 @@ void showCanErrorFrameExt(Vector::BLF::CanErrorFrameExt * canErrorFrameExt)
 // MOST_ECL = 95
 
 // GLOBAL_MARKER = 96
+void showGlobalMarker(Vector::BLF::GlobalMarker * globalMarker)
+{
+    std::cout << "GlobalMarker:";
+    std::cout << " type=" << std::dec << globalMarker->commentedEventType;
+    std::cout << " fgcol=0x" << std::hex << globalMarker->foregroundColor;
+    std::cout << " bgcol=0x" << std::hex << globalMarker->backgroundColor;
+    std::cout << " res=0x" << std::hex << globalMarker->reserved1;
+    std::cout << " res2=0x" << std::hex << globalMarker->reserved2[0]
+                                 << '_' << globalMarker->reserved2[1]
+                                 << '_' << globalMarker->reserved2[2];
+    std::cout << " grpNam=" << globalMarker->groupName;
+    std::cout << " mrkNam=" << globalMarker->markerName;
+    std::cout << " descr=" << globalMarker->description;
+    std::cout << std::endl;
+}
 
 // AFDX_FRAME = 97
 void showAfdxFrame(Vector::BLF::AfdxFrame * afdxFrame)
@@ -636,7 +678,7 @@ int main(int argc, char *argv[])
             break;
 
         case Vector::BLF::ObjectType::CAN_ERROR:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            showCanErrorFrame(reinterpret_cast<Vector::BLF::CanErrorFrame *>(obj));
             break;
 
         case Vector::BLF::ObjectType::CAN_OVERLOAD:
@@ -791,7 +833,7 @@ int main(int argc, char *argv[])
             break;
 
         case Vector::BLF::ObjectType::GPS_EVENT:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            showGpsEvent(reinterpret_cast<Vector::BLF::GpsEvent *>(obj));
             break;
 
         case Vector::BLF::ObjectType::FR_ERROR:
@@ -964,7 +1006,7 @@ int main(int argc, char *argv[])
             break;
 
         case Vector::BLF::ObjectType::EVENT_COMMENT:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            showEventComment(reinterpret_cast<Vector::BLF::EventComment *>(obj));
             break;
 
         case Vector::BLF::ObjectType::WLAN_FRAME:
@@ -980,7 +1022,7 @@ int main(int argc, char *argv[])
             break;
 
         case Vector::BLF::ObjectType::GLOBAL_MARKER:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            showGlobalMarker(reinterpret_cast<Vector::BLF::GlobalMarker *>(obj));
             break;
 
         case Vector::BLF::ObjectType::AFDX_FRAME:

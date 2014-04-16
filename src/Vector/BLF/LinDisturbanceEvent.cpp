@@ -44,14 +44,45 @@ char * LinDisturbanceEvent::parse(char * buffer)
     // previous data
     buffer = ObjectHeader::parse(buffer);
 
-#if 0
     // channel
     size = sizeof(channel);
     memcpy((char *) &channel, buffer, size);
     buffer += size;
-#else
-    // @todo
-#endif
+
+    // id
+    size = sizeof(id);
+    memcpy((char *) &id, buffer, size);
+    buffer += size;
+
+    // disturbingFrameId
+    size = sizeof(disturbingFrameId);
+    memcpy((char *) &disturbingFrameId, buffer, size);
+    buffer += size;
+
+    // disturbanceType
+    size = sizeof(disturbanceType);
+    memcpy((char *) &disturbanceType, buffer, size);
+    buffer += size;
+
+    // byteIndex
+    size = sizeof(byteIndex);
+    memcpy((char *) &byteIndex, buffer, size);
+    buffer += size;
+
+    // bitIndex
+    size = sizeof(bitIndex);
+    memcpy((char *) &bitIndex, buffer, size);
+    buffer += size;
+
+    // bitOffsetInSixteenthBits
+    size = sizeof(bitOffsetInSixteenthBits);
+    memcpy((char *) &bitOffsetInSixteenthBits, buffer, size);
+    buffer += size;
+
+    // disturbanceLengthInSixteenthBits
+    size = sizeof(disturbanceLengthInSixteenthBits);
+    memcpy((char *) &disturbanceLengthInSixteenthBits, buffer, size);
+    buffer += size;
 
     return buffer;
 }

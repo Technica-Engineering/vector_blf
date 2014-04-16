@@ -46,14 +46,26 @@ char * AppText::parse(char * buffer)
     // previous data
     buffer = ObjectHeader::parse(buffer);
 
-#if 0
-    // channel
-    size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    // source
+    size = sizeof(source);
+    memcpy((char *) &source, buffer, size);
     buffer += size;
-#else
-    // @todo
-#endif
+
+    // reserved
+    size = sizeof(reserved);
+    memcpy((char *) &reserved, buffer, size);
+    buffer += size;
+
+    // textLength
+    size = sizeof(textLength);
+    memcpy((char *) &textLength, buffer, size);
+    buffer += size;
+
+    // text
+    size = textLength;
+    text = new char[textLength];
+    memcpy(text, buffer, size);
+    buffer += size;
 
     return buffer;
 }

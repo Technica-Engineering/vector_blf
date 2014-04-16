@@ -42,14 +42,35 @@ char * MostTrigger::parse(char * buffer)
     // previous data
     buffer = ObjectHeader2::parse(buffer);
 
-#if 0
     // channel
     size = sizeof(channel);
     memcpy((char *) &channel, buffer, size);
     buffer += size;
-#else
-    // @todo
-#endif
+
+    // dummy1
+    size = sizeof(dummy1);
+    memcpy((char *) &dummy1, buffer, size);
+    buffer += size;
+
+    // mode
+    size = sizeof(mode);
+    memcpy((char *) &mode, buffer, size);
+    buffer += size;
+
+    // hw
+    size = sizeof(hw);
+    memcpy((char *) &hw, buffer, size);
+    buffer += size;
+
+    // previousTriggerValue
+    size = sizeof(previousTriggerValue);
+    memcpy((char *) &previousTriggerValue, buffer, size);
+    buffer += size;
+
+    // currentTriggerValue
+    size = sizeof(currentTriggerValue);
+    memcpy((char *) &currentTriggerValue, buffer, size);
+    buffer += size;
 
     return buffer;
 }

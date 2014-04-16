@@ -43,14 +43,45 @@ char * LinStatisticEvent::parse(char * buffer)
     // previous data
     buffer = ObjectHeader::parse(buffer);
 
-#if 0
     // channel
     size = sizeof(channel);
     memcpy((char *) &channel, buffer, size);
     buffer += size;
-#else
-    // @todo
-#endif
+
+    // busLoad
+    size = sizeof(busLoad);
+    memcpy((char *) &busLoad, buffer, size);
+    buffer += size;
+
+    // burstsTotal
+    size = sizeof(burstsTotal);
+    memcpy((char *) &burstsTotal, buffer, size);
+    buffer += size;
+
+    // burstsOverrun
+    size = sizeof(burstsOverrun);
+    memcpy((char *) &burstsOverrun, buffer, size);
+    buffer += size;
+
+    // channel
+    size = sizeof(channel);
+    memcpy((char *) &channel, buffer, size);
+    buffer += size;
+
+    // framesSent
+    size = sizeof(framesSent);
+    memcpy((char *) &framesSent, buffer, size);
+    buffer += size;
+
+    // framesReceived
+    size = sizeof(framesReceived);
+    memcpy((char *) &framesReceived, buffer, size);
+    buffer += size;
+
+    // framesUnanswered
+    size = sizeof(framesUnanswered);
+    memcpy((char *) &framesUnanswered, buffer, size);
+    buffer += size;
 
     return buffer;
 }

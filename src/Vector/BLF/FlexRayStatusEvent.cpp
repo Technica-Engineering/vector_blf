@@ -43,14 +43,40 @@ char * FlexRayStatusEvent::parse(char * buffer)
     // previous data
     buffer = ObjectHeader::parse(buffer);
 
-#if 0
     // channel
     size = sizeof(channel);
     memcpy((char *) &channel, buffer, size);
     buffer += size;
-#else
-    // @todo
-#endif
+
+    // version
+    size = sizeof(version);
+    memcpy((char *) &version, buffer, size);
+    buffer += size;
+
+    // statusType
+    size = sizeof(statusType);
+    memcpy((char *) &statusType, buffer, size);
+    buffer += size;
+
+    // infoMask1
+    size = sizeof(infoMask1);
+    memcpy((char *) &infoMask1, buffer, size);
+    buffer += size;
+
+    // infoMask2
+    size = sizeof(infoMask2);
+    memcpy((char *) &infoMask2, buffer, size);
+    buffer += size;
+
+    // infoMask3
+    size = sizeof(infoMask3);
+    memcpy((char *) &infoMask3, buffer, size);
+    buffer += size;
+
+    // reserved
+    size = sizeof(reserved);
+    memcpy((char *) &reserved, buffer, size);
+    buffer += size;
 
     return buffer;
 }

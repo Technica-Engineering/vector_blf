@@ -52,14 +52,85 @@ char * FlexRayV6Message::parse(char * buffer)
     // previous data
     buffer = ObjectHeader::parse(buffer);
 
-#if 0
     // channel
     size = sizeof(channel);
     memcpy((char *) &channel, buffer, size);
     buffer += size;
-#else
-    // @todo
-#endif
+
+    // dir
+    size = sizeof(dir);
+    memcpy((char *) &dir, buffer, size);
+    buffer += size;
+
+    // lowTime
+    size = sizeof(lowTime);
+    memcpy((char *) &lowTime, buffer, size);
+    buffer += size;
+
+    // fpgaTick
+    size = sizeof(fpgaTick);
+    memcpy((char *) &fpgaTick, buffer, size);
+    buffer += size;
+
+    // fpgaTickOverflow
+    size = sizeof(fpgaTickOverflow);
+    memcpy((char *) &fpgaTickOverflow, buffer, size);
+    buffer += size;
+
+    // clientIndex
+    size = sizeof(clientIndex);
+    memcpy((char *) &clientIndex, buffer, size);
+    buffer += size;
+
+    // clusterTime
+    size = sizeof(clusterTime);
+    memcpy((char *) &clusterTime, buffer, size);
+    buffer += size;
+
+    // frameId
+    size = sizeof(frameId);
+    memcpy((char *) &frameId, buffer, size);
+    buffer += size;
+
+    // headerCrc
+    size = sizeof(headerCrc);
+    memcpy((char *) &headerCrc, buffer, size);
+    buffer += size;
+
+    // frameState
+    size = sizeof(frameState);
+    memcpy((char *) &frameState, buffer, size);
+    buffer += size;
+
+    // length
+    size = sizeof(length);
+    memcpy((char *) &length, buffer, size);
+    buffer += size;
+
+    // cycle
+    size = sizeof(cycle);
+    memcpy((char *) &cycle, buffer, size);
+    buffer += size;
+
+    // headerBitMask
+    size = sizeof(headerBitMask);
+    memcpy((char *) &headerBitMask, buffer, size);
+    buffer += size;
+
+    // reserved1
+    size = sizeof(reserved1);
+    memcpy((char *) &reserved1, buffer, size);
+    buffer += size;
+
+    // reserved2
+    size = sizeof(reserved2);
+    memcpy((char *) &reserved2, buffer, size);
+    buffer += size;
+
+    // dataBytes
+    size = sizeof(dataBytes);
+    memcpy((char *) &dataBytes, buffer, size);
+    buffer += size;
 
     return buffer;
 }

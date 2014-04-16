@@ -41,14 +41,30 @@ char * AppTrigger::parse(char * buffer)
     // previous data
     buffer = ObjectHeader::parse(buffer);
 
-#if 0
+    // preTriggerTime
+    size = sizeof(preTriggerTime);
+    memcpy((char *) &preTriggerTime, buffer, size);
+    buffer += size;
+
+    // postTriggerTime
+    size = sizeof(postTriggerTime);
+    memcpy((char *) &postTriggerTime, buffer, size);
+    buffer += size;
+
     // channel
     size = sizeof(channel);
     memcpy((char *) &channel, buffer, size);
     buffer += size;
-#else
-    // @todo
-#endif
+
+    // flags
+    size = sizeof(flags);
+    memcpy((char *) &flags, buffer, size);
+    buffer += size;
+
+    // appSpecific2
+    size = sizeof(appSpecific2);
+    memcpy((char *) &appSpecific2, buffer, size);
+    buffer += size;
 
     return buffer;
 }

@@ -51,14 +51,51 @@ char * EthernetFrame::parse(char * buffer)
     // previous data
     buffer = ObjectHeader::parse(buffer);
 
-#if 0
+    // sourceAddress
+    size = sizeof(sourceAddress);
+    memcpy((char *) &sourceAddress, buffer, size);
+    buffer += size;
+
     // channel
     size = sizeof(channel);
     memcpy((char *) &channel, buffer, size);
     buffer += size;
-#else
-    // @todo
-#endif
+
+    // destinationAddress
+    size = sizeof(destinationAddress);
+    memcpy((char *) &destinationAddress, buffer, size);
+    buffer += size;
+
+    // dir
+    size = sizeof(dir);
+    memcpy((char *) &dir, buffer, size);
+    buffer += size;
+
+    // type
+    size = sizeof(type);
+    memcpy((char *) &type, buffer, size);
+    buffer += size;
+
+    // tpid
+    size = sizeof(tpid);
+    memcpy((char *) &tpid, buffer, size);
+    buffer += size;
+
+    // tci
+    size = sizeof(tci);
+    memcpy((char *) &tci, buffer, size);
+    buffer += size;
+
+    // payLoadLength
+    size = sizeof(payLoadLength);
+    memcpy((char *) &payLoadLength, buffer, size);
+    buffer += size;
+
+    // payLoad
+    size = payLoadLength;
+    payLoad = new char[payLoadLength];
+    memcpy(payLoad, buffer, size);
+    buffer += size;
 
     return buffer;
 }

@@ -46,14 +46,55 @@ char * FlexRaySync::parse(char * buffer)
     // previous data
     buffer = ObjectHeader::parse(buffer);
 
-#if 0
     // channel
     size = sizeof(channel);
     memcpy((char *) &channel, buffer, size);
     buffer += size;
-#else
-    // @todo
-#endif
+
+    // mux
+    size = sizeof(mux);
+    memcpy((char *) &mux, buffer, size);
+    buffer += size;
+
+    // len
+    size = sizeof(len);
+    memcpy((char *) &len, buffer, size);
+    buffer += size;
+
+    // messageId
+    size = sizeof(messageId);
+    memcpy((char *) &messageId, buffer, size);
+    buffer += size;
+
+    // crc
+    size = sizeof(crc);
+    memcpy((char *) &crc, buffer, size);
+    buffer += size;
+
+    // dir
+    size = sizeof(dir);
+    memcpy((char *) &dir, buffer, size);
+    buffer += size;
+
+    // dummy1
+    size = sizeof(dummy1);
+    memcpy((char *) &dummy1, buffer, size);
+    buffer += size;
+
+    // dummy2
+    size = sizeof(dummy2);
+    memcpy((char *) &dummy2, buffer, size);
+    buffer += size;
+
+    // dataBytes
+    size = sizeof(dataBytes);
+    memcpy((char *) &dataBytes, buffer, size);
+    buffer += size;
+
+    // cycle
+    size = sizeof(cycle);
+    memcpy((char *) &cycle, buffer, size);
+    buffer += size;
 
     return buffer;
 }

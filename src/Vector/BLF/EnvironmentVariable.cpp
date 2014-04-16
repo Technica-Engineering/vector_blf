@@ -69,9 +69,9 @@ char * EnvironmentVariable::parse(char * buffer)
     // name
     size = nameLength;
     name = new char[nameLength + 1];
+    name[nameLength] = 0;
     memcpy(name, buffer, size);
     buffer += size;
-    name[nameLength] = 0;
 
     // data
     size = dataLength;

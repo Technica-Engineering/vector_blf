@@ -59,6 +59,8 @@ public:
      */
     DWORD textLength;
 
+    DWORD reserved[2]; // @todo don't know what this is?
+
     /**
      * @brief text in MBCS
      *

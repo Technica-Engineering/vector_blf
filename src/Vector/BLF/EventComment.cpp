@@ -30,6 +30,7 @@ EventComment::EventComment() :
     ObjectHeader(),
     commentedEventType(),
     textLength(),
+    reserved(),
     text(nullptr)
 {
 }
@@ -57,9 +58,15 @@ char * EventComment::parse(char * buffer)
     memcpy((char *) &textLength, buffer, size);
     buffer += size;
 
+    // reserved
+    size = sizeof(reserved);
+    memcpy((char *) &reserved, buffer, size);
+    buffer += size;
+
     // text
     size = textLength;
     text = new char[textLength + 1];
+    text[textLength] = 0;
     memcpy(text, buffer, size);
     buffer += size;
 
@@ -72,6 +79,7 @@ size_t EventComment::calculateObjectSize()
             ObjectHeader::calculateObjectSize() +
             sizeof(commentedEventType) +
             sizeof(textLength) +
+            sizeof(reserved) +
             textLength;
 
     return size;

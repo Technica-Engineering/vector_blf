@@ -60,14 +60,125 @@ char * FlexRayVFrReceiveMsgEx::parse(char * buffer)
     // previous data
     buffer = ObjectHeader::parse(buffer);
 
-#if 0
     // channel
     size = sizeof(channel);
     memcpy((char *) &channel, buffer, size);
     buffer += size;
-#else
-    // @todo
-#endif
+
+    // version
+    size = sizeof(version);
+    memcpy((char *) &version, buffer, size);
+    buffer += size;
+
+    // channelMask
+    size = sizeof(channelMask);
+    memcpy((char *) &channelMask, buffer, size);
+    buffer += size;
+
+    // dir
+    size = sizeof(dir);
+    memcpy((char *) &dir, buffer, size);
+    buffer += size;
+
+    // clientIndex
+    size = sizeof(clientIndex);
+    memcpy((char *) &clientIndex, buffer, size);
+    buffer += size;
+
+    // clusterNo
+    size = sizeof(clusterNo);
+    memcpy((char *) &clusterNo, buffer, size);
+    buffer += size;
+
+    // frameId
+    size = sizeof(frameId);
+    memcpy((char *) &frameId, buffer, size);
+    buffer += size;
+
+    // headerCrc1
+    size = sizeof(headerCrc1);
+    memcpy((char *) &headerCrc1, buffer, size);
+    buffer += size;
+
+    // headerCrc2
+    size = sizeof(headerCrc2);
+    memcpy((char *) &headerCrc2, buffer, size);
+    buffer += size;
+
+    // byteCount
+    size = sizeof(byteCount);
+    memcpy((char *) &byteCount, buffer, size);
+    buffer += size;
+
+    // dataCount
+    size = sizeof(dataCount);
+    memcpy((char *) &dataCount, buffer, size);
+    buffer += size;
+
+    // cycle
+    size = sizeof(cycle);
+    memcpy((char *) &cycle, buffer, size);
+    buffer += size;
+
+    // tag
+    size = sizeof(tag);
+    memcpy((char *) &tag, buffer, size);
+    buffer += size;
+
+    // data
+    size = sizeof(data);
+    memcpy((char *) &data, buffer, size);
+    buffer += size;
+
+    // frameFlags
+    size = sizeof(frameFlags);
+    memcpy((char *) &frameFlags, buffer, size);
+    buffer += size;
+
+    // appParameter
+    size = sizeof(appParameter);
+    memcpy((char *) &appParameter, buffer, size);
+    buffer += size;
+
+    // frameCrc
+    size = sizeof(frameCrc);
+    memcpy((char *) &frameCrc, buffer, size);
+    buffer += size;
+
+    // frameLengthNs
+    size = sizeof(frameLengthNs);
+    memcpy((char *) &frameLengthNs, buffer, size);
+    buffer += size;
+
+    // frameId1
+    size = sizeof(frameId1);
+    memcpy((char *) &frameId1, buffer, size);
+    buffer += size;
+
+    // pduOffset
+    size = sizeof(pduOffset);
+    memcpy((char *) &pduOffset, buffer, size);
+    buffer += size;
+
+    // blfLogMask
+    size = sizeof(blfLogMask);
+    memcpy((char *) &blfLogMask, buffer, size);
+    buffer += size;
+
+    // reservedW
+    size = sizeof(reservedW);
+    memcpy((char *) &reservedW, buffer, size);
+    buffer += size;
+
+    // reserved
+    size = sizeof(reserved);
+    memcpy((char *) &reserved, buffer, size);
+    buffer += size;
+
+    // dataBytes
+    size = sizeof(dataBytes);
+    memcpy((char *) &dataBytes, buffer, size);
+    buffer += size;
 
     return buffer;
 }

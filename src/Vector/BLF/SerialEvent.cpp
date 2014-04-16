@@ -40,14 +40,27 @@ char * SerialEvent::parse(char * buffer)
     // previous data
     buffer = ObjectHeader::parse(buffer);
 
-#if 0
-    // channel
-    size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    // flags
+    size = sizeof(flags);
+    memcpy((char *) &flags, buffer, size);
     buffer += size;
-#else
-    // @todo
-#endif
+
+    // port
+    size = sizeof(port);
+    memcpy((char *) &port, buffer, size);
+    buffer += size;
+
+    // baudrate
+    size = sizeof(baudrate);
+    memcpy((char *) &baudrate, buffer, size);
+    buffer += size;
+
+    // reserved
+    size = sizeof(reserved);
+    memcpy((char *) &reserved, buffer, size);
+    buffer += size;
+
+    // @todo what happens with the union?
 
     return buffer;
 }

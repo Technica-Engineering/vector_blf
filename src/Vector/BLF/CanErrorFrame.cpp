@@ -29,7 +29,8 @@ namespace BLF {
 CanErrorFrame::CanErrorFrame() :
     ObjectHeader(),
     channel(),
-    length()
+    length(),
+    reserved()
 {
 }
 
@@ -50,6 +51,11 @@ char * CanErrorFrame::parse(char * buffer)
     memcpy((char *) &length, buffer, size);
     buffer += size;
 
+    // reserved
+    size = sizeof(reserved);
+    memcpy((char *) &reserved, buffer, size);
+    buffer += size;
+
     return buffer;
 }
 
@@ -58,7 +64,8 @@ size_t CanErrorFrame::calculateObjectSize()
     size_t size =
             ObjectHeader::calculateObjectSize() +
             sizeof(channel) +
-            sizeof(length);
+            sizeof(length) +
+            sizeof(reserved);
 
     return size;
 }

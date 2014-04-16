@@ -41,14 +41,30 @@ char * J1708Message::parse(char * buffer)
     // previous data
     buffer = ObjectHeader::parse(buffer);
 
-#if 0
     // channel
     size = sizeof(channel);
     memcpy((char *) &channel, buffer, size);
     buffer += size;
-#else
-    // @todo
-#endif
+
+    // dir
+    size = sizeof(dir);
+    memcpy((char *) &dir, buffer, size);
+    buffer += size;
+
+    // error
+    size = sizeof(error);
+    memcpy((char *) &error, buffer, size);
+    buffer += size;
+
+    // size
+    size = sizeof(size);
+    memcpy((char *) &size, buffer, size);
+    buffer += size;
+
+    // data
+    size = sizeof(data);
+    memcpy((char *) &data, buffer, size);
+    buffer += size;
 
     return buffer;
 }

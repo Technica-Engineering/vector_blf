@@ -39,14 +39,20 @@ char * LinSyncError::parse(char * buffer)
     // previous data
     buffer = ObjectHeader::parse(buffer);
 
-#if 0
     // channel
     size = sizeof(channel);
     memcpy((char *) &channel, buffer, size);
     buffer += size;
-#else
-    // @todo
-#endif
+
+    // dummy
+    size = sizeof(dummy);
+    memcpy((char *) &dummy, buffer, size);
+    buffer += size;
+
+    // timeDiff
+    size = sizeof(timeDiff);
+    memcpy((char *) &timeDiff, buffer, size);
+    buffer += size;
 
     return buffer;
 }

@@ -40,14 +40,25 @@ char * MostStress::parse(char * buffer)
     // previous data
     buffer = ObjectHeader2::parse(buffer);
 
-#if 0
     // channel
     size = sizeof(channel);
     memcpy((char *) &channel, buffer, size);
     buffer += size;
-#else
-    // @todo
-#endif
+
+    // state
+    size = sizeof(state);
+    memcpy((char *) &state, buffer, size);
+    buffer += size;
+
+    // mode
+    size = sizeof(mode);
+    memcpy((char *) &mode, buffer, size);
+    buffer += size;
+
+    // dummy1
+    size = sizeof(dummy1);
+    memcpy((char *) &dummy1, buffer, size);
+    buffer += size;
 
     return buffer;
 }

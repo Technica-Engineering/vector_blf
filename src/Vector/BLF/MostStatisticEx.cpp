@@ -40,14 +40,25 @@ char * MostStatisticEx::parse(char * buffer)
     // previous data
     buffer = ObjectHeader2::parse(buffer);
 
-#if 0
     // channel
     size = sizeof(channel);
     memcpy((char *) &channel, buffer, size);
     buffer += size;
-#else
-    // @todo
-#endif
+
+    // dummy1
+    size = sizeof(dummy1);
+    memcpy((char *) &dummy1, buffer, size);
+    buffer += size;
+
+    // codingErrors
+    size = sizeof(codingErrors);
+    memcpy((char *) &codingErrors, buffer, size);
+    buffer += size;
+
+    // frameCounter
+    size = sizeof(frameCounter);
+    memcpy((char *) &frameCounter, buffer, size);
+    buffer += size;
 
     return buffer;
 }

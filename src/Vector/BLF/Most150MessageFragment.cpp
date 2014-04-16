@@ -57,14 +57,81 @@ char * Most150MessageFragment::parse(char * buffer)
     // previous data
     buffer = ObjectHeader2::parse(buffer);
 
-#if 0
     // channel
     size = sizeof(channel);
     memcpy((char *) &channel, buffer, size);
     buffer += size;
-#else
-    // @todo
-#endif
+
+    // dummy1
+    size = sizeof(dummy1);
+    memcpy((char *) &dummy1, buffer, size);
+    buffer += size;
+
+    // ackNack
+    size = sizeof(ackNack);
+    memcpy((char *) &ackNack, buffer, size);
+    buffer += size;
+
+    // validMask
+    size = sizeof(validMask);
+    memcpy((char *) &validMask, buffer, size);
+    buffer += size;
+
+    // sourceAdr
+    size = sizeof(sourceAdr);
+    memcpy((char *) &sourceAdr, buffer, size);
+    buffer += size;
+
+    // destAdr
+    size = sizeof(destAdr);
+    memcpy((char *) &destAdr, buffer, size);
+    buffer += size;
+
+    // pAck
+    size = sizeof(pAck);
+    memcpy((char *) &pAck, buffer, size);
+    buffer += size;
+
+    // cAck
+    size = sizeof(cAck);
+    memcpy((char *) &cAck, buffer, size);
+    buffer += size;
+
+    // priority
+    size = sizeof(priority);
+    memcpy((char *) &priority, buffer, size);
+    buffer += size;
+
+    // pIndex
+    size = sizeof(pIndex);
+    memcpy((char *) &pIndex, buffer, size);
+    buffer += size;
+
+    // crc
+    size = sizeof(crc);
+    memcpy((char *) &crc, buffer, size);
+    buffer += size;
+
+    // dataLen
+    size = sizeof(dataLen);
+    memcpy((char *) &dataLen, buffer, size);
+    buffer += size;
+
+    // dataLenAnnounced
+    size = sizeof(dataLenAnnounced);
+    memcpy((char *) &dataLenAnnounced, buffer, size);
+    buffer += size;
+
+    // firstDataLen
+    size = sizeof(firstDataLen);
+    memcpy((char *) &firstDataLen, buffer, size);
+    buffer += size;
+
+    // firstData
+    size = sizeof(firstDataLen);
+    firstData = new char[firstDataLen];
+    memcpy(firstData, buffer, size);
+    buffer += size;
 
     return buffer;
 }

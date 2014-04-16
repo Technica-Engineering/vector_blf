@@ -40,15 +40,27 @@ char * LinWakeupEvent2::parse(char * buffer)
 
     // previous data
     buffer = ObjectHeader::parse(buffer);
+    buffer = LinBusEvent::parse(buffer);
 
-#if 0
-    // channel
-    size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    // lengthInfo
+    size = sizeof(lengthInfo);
+    memcpy((char *) &lengthInfo, buffer, size);
     buffer += size;
-#else
-    // @todo
-#endif
+
+    // signal
+    size = sizeof(signal);
+    memcpy((char *) &signal, buffer, size);
+    buffer += size;
+
+    // external
+    size = sizeof(external);
+    memcpy((char *) &external, buffer, size);
+    buffer += size;
+
+    // reserved
+    size = sizeof(reserved);
+    memcpy((char *) &reserved, buffer, size);
+    buffer += size;
 
     return buffer;
 }

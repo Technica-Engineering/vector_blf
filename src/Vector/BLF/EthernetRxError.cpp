@@ -49,14 +49,41 @@ char * EthernetRxError::parse(char * buffer)
     // previous data
     buffer = ObjectHeader::parse(buffer);
 
-#if 0
+    // structLength
+    size = sizeof(structLength);
+    memcpy((char *) &structLength, buffer, size);
+    buffer += size;
+
     // channel
     size = sizeof(channel);
     memcpy((char *) &channel, buffer, size);
     buffer += size;
-#else
-    // @todo
-#endif
+
+    // dir
+    size = sizeof(dir);
+    memcpy((char *) &dir, buffer, size);
+    buffer += size;
+
+    // fcs
+    size = sizeof(fcs);
+    memcpy((char *) &fcs, buffer, size);
+    buffer += size;
+
+    // frameDataLength
+    size = sizeof(frameDataLength);
+    memcpy((char *) &frameDataLength, buffer, size);
+    buffer += size;
+
+    // error
+    size = sizeof(error);
+    memcpy((char *) &error, buffer, size);
+    buffer += size;
+
+    // frameData
+    size = frameDataLength;
+    frameData = new char[frameDataLength];
+    memcpy(frameData, buffer, size);
+    buffer += size;
 
     return buffer;
 }

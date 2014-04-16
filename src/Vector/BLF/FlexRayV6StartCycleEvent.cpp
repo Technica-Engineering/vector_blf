@@ -45,14 +45,50 @@ char * FlexRayV6StartCycleEvent::parse(char * buffer)
     // previous data
     buffer = ObjectHeader::parse(buffer);
 
-#if 0
     // channel
     size = sizeof(channel);
     memcpy((char *) &channel, buffer, size);
     buffer += size;
-#else
-    // @todo
-#endif
+
+    // dir
+    size = sizeof(dir);
+    memcpy((char *) &dir, buffer, size);
+    buffer += size;
+
+    // lowTime
+    size = sizeof(lowTime);
+    memcpy((char *) &lowTime, buffer, size);
+    buffer += size;
+
+    // fpgaTick
+    size = sizeof(fpgaTick);
+    memcpy((char *) &fpgaTick, buffer, size);
+    buffer += size;
+
+    // fpgaTickOverflow
+    size = sizeof(fpgaTickOverflow);
+    memcpy((char *) &fpgaTickOverflow, buffer, size);
+    buffer += size;
+
+    // clientIndex
+    size = sizeof(clientIndex);
+    memcpy((char *) &clientIndex, buffer, size);
+    buffer += size;
+
+    // clusterTime
+    size = sizeof(clusterTime);
+    memcpy((char *) &clusterTime, buffer, size);
+    buffer += size;
+
+    // dataBytes
+    size = sizeof(dataBytes);
+    memcpy((char *) &dataBytes, buffer, size);
+    buffer += size;
+
+    // reserved
+    size = sizeof(reserved);
+    memcpy((char *) &reserved, buffer, size);
+    buffer += size;
 
     return buffer;
 }

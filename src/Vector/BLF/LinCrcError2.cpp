@@ -48,15 +48,67 @@ char * LinCrcError2::parse(char * buffer)
 
     // previous data
     buffer = ObjectHeader::parse(buffer);
+    buffer = LinDatabyteTimestampEvent::parse(buffer);
 
-#if 0
-    // channel
-    size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    // data
+    size = sizeof(data);
+    memcpy((char *) &data, buffer, size);
     buffer += size;
-#else
-    // @todo
-#endif
+
+    // crc
+    size = sizeof(crc);
+    memcpy((char *) &crc, buffer, size);
+    buffer += size;
+
+    // dir
+    size = sizeof(dir);
+    memcpy((char *) &dir, buffer, size);
+    buffer += size;
+
+    // fsmId
+    size = sizeof(fsmId);
+    memcpy((char *) &fsmId, buffer, size);
+    buffer += size;
+
+    // fsmState
+    size = sizeof(fsmState);
+    memcpy((char *) &fsmState, buffer, size);
+    buffer += size;
+
+    // simulated
+    size = sizeof(simulated);
+    memcpy((char *) &simulated, buffer, size);
+    buffer += size;
+
+    // reserved
+    size = sizeof(reserved);
+    memcpy((char *) &reserved, buffer, size);
+    buffer += size;
+
+    // respBaudrate
+    size = sizeof(respBaudrate);
+    memcpy((char *) &respBaudrate, buffer, size);
+    buffer += size;
+
+    // reserved2
+    size = sizeof(reserved2);
+    memcpy((char *) &reserved2, buffer, size);
+    buffer += size;
+
+    // exactHeaderBaudrate
+    size = sizeof(exactHeaderBaudrate);
+    memcpy((char *) &exactHeaderBaudrate, buffer, size);
+    buffer += size;
+
+    // earlyStopbitOffset
+    size = sizeof(earlyStopbitOffset);
+    memcpy((char *) &earlyStopbitOffset, buffer, size);
+    buffer += size;
+
+    // earlyStopbitOffsetResponse
+    size = sizeof(earlyStopbitOffsetResponse);
+    memcpy((char *) &earlyStopbitOffsetResponse, buffer, size);
+    buffer += size;
 
     return buffer;
 }

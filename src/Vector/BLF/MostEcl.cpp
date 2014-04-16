@@ -40,14 +40,25 @@ char * MostEcl::parse(char * buffer)
     // previous data
     buffer = ObjectHeader2::parse(buffer);
 
-#if 0
     // channel
     size = sizeof(channel);
     memcpy((char *) &channel, buffer, size);
     buffer += size;
-#else
-    // @todo
-#endif
+
+    // mode
+    size = sizeof(mode);
+    memcpy((char *) &mode, buffer, size);
+    buffer += size;
+
+    // eclState
+    size = sizeof(eclState);
+    memcpy((char *) &eclState, buffer, size);
+    buffer += size;
+
+    // dummy2
+    size = sizeof(dummy2);
+    memcpy((char *) &dummy2, buffer, size);
+    buffer += size;
 
     return buffer;
 }

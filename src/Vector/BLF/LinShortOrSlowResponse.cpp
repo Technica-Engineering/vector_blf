@@ -41,15 +41,32 @@ char * LinShortOrSlowResponse::parse(char * buffer)
 
     // previous data
     buffer = ObjectHeader::parse(buffer);
+    buffer = LinDatabyteTimestampEvent::parse(buffer);
 
-#if 0
-    // channel
-    size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    // numberOfRespBtes
+    size = sizeof(numberOfRespBtes);
+    memcpy((char *) &numberOfRespBtes, buffer, size);
     buffer += size;
-#else
-    // @todo
-#endif
+
+    // respBytes
+    size = sizeof(respBytes);
+    memcpy((char *) &respBytes, buffer, size);
+    buffer += size;
+
+    // slowResponse
+    size = sizeof(slowResponse);
+    memcpy((char *) &slowResponse, buffer, size);
+    buffer += size;
+
+    // interruptedByBreak
+    size = sizeof(interruptedByBreak);
+    memcpy((char *) &interruptedByBreak, buffer, size);
+    buffer += size;
+
+    // reserved
+    size = sizeof(reserved);
+    memcpy((char *) &reserved, buffer, size);
+    buffer += size;
 
     return buffer;
 }

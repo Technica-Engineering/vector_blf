@@ -54,14 +54,95 @@ char * CanFdErrorFrame64::parse(char * buffer)
     // previous data
     buffer = ObjectHeader::parse(buffer);
 
-#if 0
     // channel
     size = sizeof(channel);
     memcpy((char *) &channel, buffer, size);
     buffer += size;
-#else
-    // @todo
-#endif
+
+    // dlc
+    size = sizeof(dlc);
+    memcpy((char *) &dlc, buffer, size);
+    buffer += size;
+
+    // validDataBytes
+    size = sizeof(validDataBytes);
+    memcpy((char *) &validDataBytes, buffer, size);
+    buffer += size;
+
+    // ecc
+    size = sizeof(ecc);
+    memcpy((char *) &ecc, buffer, size);
+    buffer += size;
+
+    // flags
+    size = sizeof(flags);
+    memcpy((char *) &flags, buffer, size);
+    buffer += size;
+
+    // errorCodeExt
+    size = sizeof(errorCodeExt);
+    memcpy((char *) &errorCodeExt, buffer, size);
+    buffer += size;
+
+    // extFlags
+    size = sizeof(extFlags);
+    memcpy((char *) &extFlags, buffer, size);
+    buffer += size;
+
+    // reserved1
+    size = sizeof(reserved1);
+    memcpy((char *) &reserved1, buffer, size);
+    buffer += size;
+
+    // id
+    size = sizeof(id);
+    memcpy((char *) &id, buffer, size);
+    buffer += size;
+
+    // frameLength
+    size = sizeof(frameLength);
+    memcpy((char *) &frameLength, buffer, size);
+    buffer += size;
+
+    // btrCfgArb
+    size = sizeof(btrCfgArb);
+    memcpy((char *) &btrCfgArb, buffer, size);
+    buffer += size;
+
+    // btrCfgData
+    size = sizeof(btrCfgData);
+    memcpy((char *) &btrCfgData, buffer, size);
+    buffer += size;
+
+    // timeOffsetBrsNs
+    size = sizeof(timeOffsetBrsNs);
+    memcpy((char *) &timeOffsetBrsNs, buffer, size);
+    buffer += size;
+
+    // timeOffsetCrcDelNs
+    size = sizeof(timeOffsetCrcDelNs);
+    memcpy((char *) &timeOffsetCrcDelNs, buffer, size);
+    buffer += size;
+
+    // crc
+    size = sizeof(crc);
+    memcpy((char *) &crc, buffer, size);
+    buffer += size;
+
+    // errorPosition
+    size = sizeof(errorPosition);
+    memcpy((char *) &errorPosition, buffer, size);
+    buffer += size;
+
+    // reserved2
+    size = sizeof(reserved2);
+    memcpy((char *) &reserved2, buffer, size);
+    buffer += size;
+
+    // data
+    size = sizeof(data);
+    memcpy((char *) &data, buffer, size);
+    buffer += size;
 
     return buffer;
 }

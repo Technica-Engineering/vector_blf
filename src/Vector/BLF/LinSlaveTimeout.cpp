@@ -40,14 +40,25 @@ char * LinSlaveTimeout::parse(char * buffer)
     // previous data
     buffer = ObjectHeader::parse(buffer);
 
-#if 0
     // channel
     size = sizeof(channel);
     memcpy((char *) &channel, buffer, size);
     buffer += size;
-#else
-    // @todo
-#endif
+
+    // slaveId
+    size = sizeof(slaveId);
+    memcpy((char *) &slaveId, buffer, size);
+    buffer += size;
+
+    // stateId
+    size = sizeof(stateId);
+    memcpy((char *) &stateId, buffer, size);
+    buffer += size;
+
+    // followStateId
+    size = sizeof(followStateId);
+    memcpy((char *) &followStateId, buffer, size);
+    buffer += size;
 
     return buffer;
 }

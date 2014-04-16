@@ -45,14 +45,50 @@ char * CanDriverErrorExt::parse(char * buffer)
     // previous data
     buffer = ObjectHeader::parse(buffer);
 
-#if 0
     // channel
     size = sizeof(channel);
     memcpy((char *) &channel, buffer, size);
     buffer += size;
-#else
-    // @todo
-#endif
+
+    // txErrors
+    size = sizeof(txErrors);
+    memcpy((char *) &txErrors, buffer, size);
+    buffer += size;
+
+    // rxErrors
+    size = sizeof(rxErrors);
+    memcpy((char *) &rxErrors, buffer, size);
+    buffer += size;
+
+    // errorCode
+    size = sizeof(errorCode);
+    memcpy((char *) &errorCode, buffer, size);
+    buffer += size;
+
+    // flags
+    size = sizeof(flags);
+    memcpy((char *) &flags, buffer, size);
+    buffer += size;
+
+    // state
+    size = sizeof(state);
+    memcpy((char *) &state, buffer, size);
+    buffer += size;
+
+    // reserved1
+    size = sizeof(reserved1);
+    memcpy((char *) &reserved1, buffer, size);
+    buffer += size;
+
+    // reserved2
+    size = sizeof(reserved2);
+    memcpy((char *) &reserved2, buffer, size);
+    buffer += size;
+
+    // reserved3
+    size = sizeof(reserved3);
+    memcpy((char *) &reserved3, buffer, size);
+    buffer += size;
 
     return buffer;
 }

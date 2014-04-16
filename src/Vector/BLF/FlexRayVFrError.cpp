@@ -45,14 +45,50 @@ char * FlexRayVFrError::parse(char * buffer)
     // previous data
     buffer = ObjectHeader::parse(buffer);
 
-#if 0
     // channel
     size = sizeof(channel);
     memcpy((char *) &channel, buffer, size);
     buffer += size;
-#else
-    // @todo
-#endif
+
+    // version
+    size = sizeof(version);
+    memcpy((char *) &version, buffer, size);
+    buffer += size;
+
+    // channelMask
+    size = sizeof(channelMask);
+    memcpy((char *) &channelMask, buffer, size);
+    buffer += size;
+
+    // cycle
+    size = sizeof(cycle);
+    memcpy((char *) &cycle, buffer, size);
+    buffer += size;
+
+    // clientIndex
+    size = sizeof(clientIndex);
+    memcpy((char *) &clientIndex, buffer, size);
+    buffer += size;
+
+    // clusterNo
+    size = sizeof(clusterNo);
+    memcpy((char *) &clusterNo, buffer, size);
+    buffer += size;
+
+    // tag
+    size = sizeof(tag);
+    memcpy((char *) &tag, buffer, size);
+    buffer += size;
+
+    // data
+    size = sizeof(data);
+    memcpy((char *) &data, buffer, size);
+    buffer += size;
+
+    // reserved
+    size = sizeof(reserved);
+    memcpy((char *) &reserved, buffer, size);
+    buffer += size;
 
     return buffer;
 }

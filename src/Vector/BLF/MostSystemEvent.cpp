@@ -40,14 +40,25 @@ char * MostSystemEvent::parse(char * buffer)
     // previous data
     buffer = ObjectHeader2::parse(buffer);
 
-#if 0
     // channel
     size = sizeof(channel);
     memcpy((char *) &channel, buffer, size);
     buffer += size;
-#else
-    // @todo
-#endif
+
+    // id
+    size = sizeof(id);
+    memcpy((char *) &id, buffer, size);
+    buffer += size;
+
+    // value
+    size = sizeof(value);
+    memcpy((char *) &value, buffer, size);
+    buffer += size;
+
+    // valueOld
+    size = sizeof(valueOld);
+    memcpy((char *) &valueOld, buffer, size);
+    buffer += size;
 
     return buffer;
 }

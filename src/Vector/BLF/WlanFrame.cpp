@@ -50,14 +50,46 @@ char * WlanFrame::parse(char * buffer)
     // previous data
     buffer = ObjectHeader::parse(buffer);
 
-#if 0
     // channel
     size = sizeof(channel);
     memcpy((char *) &channel, buffer, size);
     buffer += size;
-#else
-    // @todo
-#endif
+
+    // flags
+    size = sizeof(flags);
+    memcpy((char *) &flags, buffer, size);
+    buffer += size;
+
+    // dir
+    size = sizeof(dir);
+    memcpy((char *) &dir, buffer, size);
+    buffer += size;
+
+    // radioChannel
+    size = sizeof(radioChannel);
+    memcpy((char *) &radioChannel, buffer, size);
+    buffer += size;
+
+    // signalStrength
+    size = sizeof(signalStrength);
+    memcpy((char *) &signalStrength, buffer, size);
+    buffer += size;
+
+    // signalQuality
+    size = sizeof(signalQuality);
+    memcpy((char *) &signalQuality, buffer, size);
+    buffer += size;
+
+    // frameLength
+    size = sizeof(frameLength);
+    memcpy((char *) &frameLength, buffer, size);
+    buffer += size;
+
+    // frameData
+    size = sizeof(frameLength);
+    frameData = new char[frameLength];
+    memcpy(frameData, buffer, size);
+    buffer += size;
 
     return buffer;
 }

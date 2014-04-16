@@ -57,14 +57,81 @@ char * MostEthernetPkt::parse(char * buffer)
     // previous data
     buffer = ObjectHeader2::parse(buffer);
 
-#if 0
     // channel
     size = sizeof(channel);
     memcpy((char *) &channel, buffer, size);
     buffer += size;
-#else
-    // @todo
-#endif
+
+    // dir
+    size = sizeof(dir);
+    memcpy((char *) &dir, buffer, size);
+    buffer += size;
+
+    // dummy1
+    size = sizeof(dummy1);
+    memcpy((char *) &dummy1, buffer, size);
+    buffer += size;
+
+    // sourceMacAdr
+    size = sizeof(sourceMacAdr);
+    memcpy((char *) &sourceMacAdr, buffer, size);
+    buffer += size;
+
+    // destMacAdr
+    size = sizeof(destMacAdr);
+    memcpy((char *) &destMacAdr, buffer, size);
+    buffer += size;
+
+    // transferType
+    size = sizeof(transferType);
+    memcpy((char *) &transferType, buffer, size);
+    buffer += size;
+
+    // state
+    size = sizeof(state);
+    memcpy((char *) &state, buffer, size);
+    buffer += size;
+
+    // ackNack
+    size = sizeof(ackNack);
+    memcpy((char *) &ackNack, buffer, size);
+    buffer += size;
+
+    // dummy2
+    size = sizeof(dummy2);
+    memcpy((char *) &dummy2, buffer, size);
+    buffer += size;
+
+    // crc
+    size = sizeof(crc);
+    memcpy((char *) &crc, buffer, size);
+    buffer += size;
+
+    // pAck
+    size = sizeof(pAck);
+    memcpy((char *) &pAck, buffer, size);
+    buffer += size;
+
+    // cAck
+    size = sizeof(cAck);
+    memcpy((char *) &cAck, buffer, size);
+    buffer += size;
+
+    // dummy3
+    size = sizeof(dummy3);
+    memcpy((char *) &dummy3, buffer, size);
+    buffer += size;
+
+    // pktDataLength
+    size = sizeof(pktDataLength);
+    memcpy((char *) &pktDataLength, buffer, size);
+    buffer += size;
+
+    // pktData
+    size = pktDataLength;
+    pktData = new char[pktDataLength];
+    memcpy(pktData, buffer, size);
+    buffer += size;
 
     return buffer;
 }

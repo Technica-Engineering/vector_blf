@@ -43,14 +43,40 @@ char * MostDataLost::parse(char * buffer)
     // previous data
     buffer = ObjectHeader2::parse(buffer);
 
-#if 0
     // channel
     size = sizeof(channel);
     memcpy((char *) &channel, buffer, size);
     buffer += size;
-#else
-    // @todo
-#endif
+
+    // dummy1
+    size = sizeof(dummy1);
+    memcpy((char *) &dummy1, buffer, size);
+    buffer += size;
+
+    // info
+    size = sizeof(info);
+    memcpy((char *) &info, buffer, size);
+    buffer += size;
+
+    // lostMsgsCtrl
+    size = sizeof(lostMsgsCtrl);
+    memcpy((char *) &lostMsgsCtrl, buffer, size);
+    buffer += size;
+
+    // lostMsgsAsync
+    size = sizeof(lostMsgsAsync);
+    memcpy((char *) &lostMsgsAsync, buffer, size);
+    buffer += size;
+
+    // lastGoodTimeStampNs
+    size = sizeof(lastGoodTimeStampNs);
+    memcpy((char *) &lastGoodTimeStampNs, buffer, size);
+    buffer += size;
+
+    // nextGoodTimeStampNs
+    size = sizeof(nextGoodTimeStampNs);
+    memcpy((char *) &nextGoodTimeStampNs, buffer, size);
+    buffer += size;
 
     return buffer;
 }

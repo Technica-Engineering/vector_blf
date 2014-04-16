@@ -57,6 +57,8 @@ public:
      * Length of error frame - can be left 0.
      */
     WORD length;
+
+    DWORD reserved; // @todo what is this?
 };
 
 }

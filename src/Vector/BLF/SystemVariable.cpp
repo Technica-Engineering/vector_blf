@@ -82,8 +82,8 @@ char * SystemVariable::parse(char * buffer)
     // name
     size = nameLength;
     name = new char[nameLength + 1];
-    memcpy(name, buffer, size);
     name[nameLength] = 0;
+    memcpy(name, buffer, size);
     buffer += size;
 
     // data

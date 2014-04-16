@@ -44,15 +44,47 @@ char * LinSendError2::parse(char * buffer)
 
     // previous data
     buffer = ObjectHeader::parse(buffer);
+    buffer = LinMessageDescriptor::parse(buffer);
 
-#if 0
-    // channel
-    size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    // eoh
+    size = sizeof(eoh);
+    memcpy((char *) &eoh, buffer, size);
     buffer += size;
-#else
-    // @todo
-#endif
+
+    // isEtf
+    size = sizeof(isEtf);
+    memcpy((char *) &isEtf, buffer, size);
+    buffer += size;
+
+    // fsmId
+    size = sizeof(fsmId);
+    memcpy((char *) &fsmId, buffer, size);
+    buffer += size;
+
+    // fsmState
+    size = sizeof(fsmState);
+    memcpy((char *) &fsmState, buffer, size);
+    buffer += size;
+
+    // reserved
+    size = sizeof(reserved);
+    memcpy((char *) &reserved, buffer, size);
+    buffer += size;
+
+    // reserved2
+    size = sizeof(reserved2);
+    memcpy((char *) &reserved2, buffer, size);
+    buffer += size;
+
+    // exactHeaderBaudrate
+    size = sizeof(exactHeaderBaudrate);
+    memcpy((char *) &exactHeaderBaudrate, buffer, size);
+    buffer += size;
+
+    // earlyStopbitOffset
+    size = sizeof(earlyStopbitOffset);
+    memcpy((char *) &earlyStopbitOffset, buffer, size);
+    buffer += size;
 
     return buffer;
 }

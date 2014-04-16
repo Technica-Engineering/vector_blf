@@ -44,14 +44,45 @@ char * WlanStatistic::parse(char * buffer)
     // previous data
     buffer = ObjectHeader::parse(buffer);
 
-#if 0
     // channel
     size = sizeof(channel);
     memcpy((char *) &channel, buffer, size);
     buffer += size;
-#else
-    // @todo
-#endif
+
+    // flags
+    size = sizeof(flags);
+    memcpy((char *) &flags, buffer, size);
+    buffer += size;
+
+    // rxPacketCount
+    size = sizeof(rxPacketCount);
+    memcpy((char *) &rxPacketCount, buffer, size);
+    buffer += size;
+
+    // rxByteCount
+    size = sizeof(rxByteCount);
+    memcpy((char *) &rxByteCount, buffer, size);
+    buffer += size;
+
+    // txPacketCount
+    size = sizeof(txPacketCount);
+    memcpy((char *) &txPacketCount, buffer, size);
+    buffer += size;
+
+    // txByteCount
+    size = sizeof(txByteCount);
+    memcpy((char *) &txByteCount, buffer, size);
+    buffer += size;
+
+    // collisionCount
+    size = sizeof(collisionCount);
+    memcpy((char *) &collisionCount, buffer, size);
+    buffer += size;
+
+    // errorCount
+    size = sizeof(errorCount);
+    memcpy((char *) &errorCount, buffer, size);
+    buffer += size;
 
     return buffer;
 }

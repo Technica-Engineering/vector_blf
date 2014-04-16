@@ -29,10 +29,12 @@ GlobalMarker::GlobalMarker() :
     commentedEventType(),
     foregroundColor(),
     backgroundColor(),
-    isRelocatable(),
+    //isRelocatable(),
+    reserved1(),
     groupNameLength(),
     markerNameLength(),
     descriptionLength(),
+    reserved2(),
     groupName(nullptr),
     markerName(nullptr),
     description(nullptr)
@@ -58,14 +60,73 @@ char * GlobalMarker::parse(char * buffer)
     // previous data
     buffer = ObjectHeader::parse(buffer);
 
+    // commentedEventType
+    size = sizeof(commentedEventType);
+    memcpy((char *) &commentedEventType, buffer, size);
+    buffer += size;
+
+    // foregroundColor
+    size = sizeof(foregroundColor);
+    memcpy((char *) &foregroundColor, buffer, size);
+    buffer += size;
+
+    // backgroundColor
+    size = sizeof(backgroundColor);
+    memcpy((char *) &backgroundColor, buffer, size);
+    buffer += size;
+
 #if 0
-    // channel
-    size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    // isRelocatable
+    size = sizeof(isRelocatable);
+    memcpy((char *) &isRelocatable, buffer, size);
     buffer += size;
 #else
-    // @todo
+    // reserved1
+    size = sizeof(reserved1);
+    memcpy((char *) &reserved1, buffer, size);
+    buffer += size;
 #endif
+
+    // groupNameLength
+    size = sizeof(groupNameLength);
+    memcpy((char *) &groupNameLength, buffer, size);
+    buffer += size;
+
+    // markerNameLength
+    size = sizeof(markerNameLength);
+    memcpy((char *) &markerNameLength, buffer, size);
+    buffer += size;
+
+    // descriptionLength
+    size = sizeof(descriptionLength);
+    memcpy((char *) &descriptionLength, buffer, size);
+    buffer += size;
+
+    // reserved2
+    size = sizeof(reserved2);
+    memcpy((char *) &reserved2, buffer, size);
+    buffer += size;
+
+    // groupName
+    size = groupNameLength;
+    groupName = new char[groupNameLength + 1];
+    groupName[groupNameLength] = 0;
+    memcpy(groupName, buffer, size);
+    buffer += size;
+
+    // markerName
+    size = markerNameLength;
+    markerName = new char[markerNameLength + 1];
+    markerName[markerNameLength] = 0;
+    memcpy(markerName, buffer, size);
+    buffer += size;
+
+    // description
+    size = descriptionLength;
+    description = new char[descriptionLength + 1];
+    description[descriptionLength] = 0;
+    memcpy(description, buffer, size);
+    buffer += size;
 
     return buffer;
 }
@@ -77,10 +138,15 @@ size_t GlobalMarker::calculateObjectSize()
             sizeof(commentedEventType) +
             sizeof(foregroundColor) +
             sizeof(backgroundColor) +
+#if 0
             sizeof(isRelocatable) +
+#else
+            sizeof(reserved1) +
+#endif
             sizeof(groupNameLength) +
             sizeof(markerNameLength) +
             sizeof(descriptionLength) +
+            sizeof(reserved2) +
             groupNameLength +
             markerNameLength +
             descriptionLength;

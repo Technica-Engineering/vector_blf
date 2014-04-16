@@ -44,14 +44,45 @@ char * MostReg::parse(char * buffer)
     // previous data
     buffer = ObjectHeader2::parse(buffer);
 
-#if 0
     // channel
     size = sizeof(channel);
     memcpy((char *) &channel, buffer, size);
     buffer += size;
-#else
-    // @todo
-#endif
+
+    // subType
+    size = sizeof(subType);
+    memcpy((char *) &subType, buffer, size);
+    buffer += size;
+
+    // dummy1
+    size = sizeof(dummy1);
+    memcpy((char *) &dummy1, buffer, size);
+    buffer += size;
+
+    // handle
+    size = sizeof(handle);
+    memcpy((char *) &handle, buffer, size);
+    buffer += size;
+
+    // offset
+    size = sizeof(offset);
+    memcpy((char *) &offset, buffer, size);
+    buffer += size;
+
+    // chip
+    size = sizeof(chip);
+    memcpy((char *) &chip, buffer, size);
+    buffer += size;
+
+    // regDataLen
+    size = sizeof(regDataLen);
+    memcpy((char *) &regDataLen, buffer, size);
+    buffer += size;
+
+    // regData
+    size = sizeof(regData);
+    memcpy((char *) &regData, buffer, size);
+    buffer += size;
 
     return buffer;
 }
