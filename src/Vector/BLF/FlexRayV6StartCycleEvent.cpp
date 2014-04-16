@@ -21,6 +21,8 @@
 
 #include "FlexRayV6StartCycleEvent.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 

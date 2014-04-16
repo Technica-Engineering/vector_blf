@@ -21,6 +21,8 @@
 
 #include "EthernetRxError.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 

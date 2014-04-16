@@ -21,6 +21,8 @@
 
 #include "LinCrcError.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 

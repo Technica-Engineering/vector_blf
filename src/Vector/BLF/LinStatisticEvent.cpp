@@ -21,12 +21,15 @@
 
 #include "LinStatisticEvent.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 
 LinStatisticEvent::LinStatisticEvent() :
     ObjectHeader(),
     channel(),
+    reserved(),
     busLoad(),
     burstsTotal(),
     burstsOverrun(),
@@ -48,6 +51,11 @@ char * LinStatisticEvent::parse(char * buffer)
     memcpy((char *) &channel, buffer, size);
     buffer += size;
 
+    // reserved
+    size = sizeof(reserved);
+    memcpy((char *) &reserved, buffer, size);
+    buffer += size;
+
     // busLoad
     size = sizeof(busLoad);
     memcpy((char *) &busLoad, buffer, size);
@@ -61,11 +69,6 @@ char * LinStatisticEvent::parse(char * buffer)
     // burstsOverrun
     size = sizeof(burstsOverrun);
     memcpy((char *) &burstsOverrun, buffer, size);
-    buffer += size;
-
-    // channel
-    size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
     buffer += size;
 
     // framesSent
@@ -91,6 +94,7 @@ size_t LinStatisticEvent::calculateObjectSize()
     size_t size =
             ObjectHeader::calculateObjectSize() +
             sizeof(channel) +
+            sizeof(reserved) +
             sizeof(busLoad) +
             sizeof(burstsTotal) +
             sizeof(burstsOverrun) +

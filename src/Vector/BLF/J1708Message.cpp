@@ -21,6 +21,8 @@
 
 #include "J1708Message.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 

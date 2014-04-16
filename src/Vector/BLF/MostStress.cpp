@@ -21,6 +21,8 @@
 
 #include "MostStress.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 

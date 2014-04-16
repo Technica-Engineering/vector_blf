@@ -21,6 +21,8 @@
 
 #include "MostReg.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 

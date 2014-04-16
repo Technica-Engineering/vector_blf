@@ -21,6 +21,8 @@
 
 #include "LinSendError2.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 

@@ -21,6 +21,8 @@
 
 #include "MostEcl.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 

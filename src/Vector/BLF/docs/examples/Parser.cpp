@@ -254,7 +254,7 @@ void showCanDriverError(Vector::BLF::CanDriverError * canDriverError)
     std::cout << std::endl;
 }
 
-// MOST_PKT  = 32
+// MOST_PKT = 32
 void showMostPkt(Vector::BLF::MostPkt * mostPkt)
 {
     std::cout << "MostPkt: todo";
@@ -396,6 +396,18 @@ void showGpsEvent(Vector::BLF::GpsEvent * gpsEvent)
 // AVAILABLE3 = 53
 
 // LIN_STATISTIC = 54
+void showLinStatisticEvent(Vector::BLF::LinStatisticEvent * linStatisticEvent)
+{
+    std::cout << "LinStatisticEvent:";
+    std::cout << " ch=" << std::dec << linStatisticEvent->channel;
+    std::cout << " busload=" << std::fixed << linStatisticEvent->busLoad;
+    std::cout << " burstsTotal=" << std::dec << linStatisticEvent->burstsTotal;
+    std::cout << " burstsOverrun=" << std::dec << linStatisticEvent->burstsOverrun;
+    std::cout << " framesSent=" << std::dec << linStatisticEvent->framesSent;
+    std::cout << " framesRecv=" << std::dec << linStatisticEvent->framesReceived;
+    std::cout << " framesUnansw=" << std::dec << linStatisticEvent->framesUnanswered;
+    std::cout << std::endl;
+}
 
 // J1708_MESSAGE = 55
 
@@ -404,8 +416,33 @@ void showGpsEvent(Vector::BLF::GpsEvent * gpsEvent)
 // LIN_MESSAGE2 = 57
 void showLinMessage2(Vector::BLF::LinMessage2 * linMessage2)
 {
-    std::cout << "LinMessage2: todo";
-    // @todo
+    std::cout << "LinMessage2:";
+    std::cout << " data=0x";
+    for (int i = 0; i < linMessage2->dlc; ++i) {
+        if (linMessage2->data[i] < 0x10) {
+            std::cout << "0";
+        }
+        std::cout << std::hex << (unsigned short) linMessage2->data[i];
+    }
+    std::cout << " crc=0x" << std::hex << linMessage2->crc;
+    std::cout << " dir=" << std::dec << (unsigned short) linMessage2->dir;
+    std::cout << " sim=" << std::dec << (unsigned short) linMessage2->simulated;
+    std::cout << " etf=" << std::dec << (unsigned short) linMessage2->isEtf;
+    std::cout << " etfAI=" << std::dec << (unsigned short) linMessage2->etfAssocIndex;
+    std::cout << " etfAEI=" << std::dec << (unsigned short) linMessage2->etfAssocEtfId;
+    std::cout << " fsmId=" << std::dec << (unsigned short) linMessage2->fsmId;
+    std::cout << " fsmState=" << std::dec << (unsigned short) linMessage2->fsmState;
+    std::cout << " res=0x";
+    for (int i = 0; i < 3; ++i) {
+        if (linMessage2->reserved[i] < 0x10) {
+            std::cout << "0";
+        }
+        std::cout << std::hex << (unsigned short) linMessage2->reserved[i];
+    }
+    std::cout << " respBaudrate=" << std::dec << linMessage2->respBaudrate;
+    std::cout << " exactHeaderBaudrate=" << std::dec << linMessage2->exactHeaderBaudrate;
+    std::cout << " earlyStopbitOffset=" << std::dec << linMessage2->earlyStopbitOffset;
+    std::cout << " earlyStopbitOffsetResponse=" << std::dec << linMessage2->earlyStopbitOffsetResponse;
     std::cout << std::endl;
 }
 
@@ -857,7 +894,7 @@ int main(int argc, char *argv[])
             break;
 
         case Vector::BLF::ObjectType::LIN_STATISTIC:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            showLinStatisticEvent(reinterpret_cast<Vector::BLF::LinStatisticEvent *>(obj));
             break;
 
         case Vector::BLF::ObjectType::J1708_MESSAGE:

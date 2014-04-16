@@ -21,6 +21,8 @@
 
 #include "Most150PktFragment.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 

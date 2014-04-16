@@ -21,6 +21,8 @@
 
 #include "MostSystemEvent.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 

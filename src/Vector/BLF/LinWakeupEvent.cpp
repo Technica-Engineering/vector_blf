@@ -21,6 +21,8 @@
 
 #include "LinWakeupEvent.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 

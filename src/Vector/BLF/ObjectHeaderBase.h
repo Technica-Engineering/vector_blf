@@ -54,7 +54,7 @@ enumclass ObjectType : DWORD {
     LIN_MESSAGE = 11, /**< LIN message object */
     LIN_CRC_ERROR = 12, /**< LIN CRC error object */
     LIN_DLC_INFO = 13, /**< LIN DLC info object */
-    LIN_RCV_ERROR =  14, /**< LIN receive error object */
+    LIN_RCV_ERROR = 14, /**< LIN receive error object */
     LIN_SND_ERROR = 15, /**< LIN send error object */
     LIN_SLV_TIMEOUT = 16, /**< LIN slave timeout object */
     LIN_SCHED_MODCH = 17, /**< LIN scheduler mode change object */
@@ -72,7 +72,7 @@ enumclass ObjectType : DWORD {
     FLEXRAY_DATA = 29, /**< FLEXRAY data object */
     FLEXRAY_SYNC = 30, /**< FLEXRAY sync object */
     CAN_DRIVER_ERROR = 31, /**< CAN driver error object */
-    MOST_PKT  = 32, /**< MOST Packet */
+    MOST_PKT = 32, /**< MOST Packet */
     MOST_PKT2 = 33, /**< MOST Packet including original timestamp */
     MOST_HWMODE = 34, /**< MOST hardware mode event */
     MOST_REG = 35, /**< MOST register data (various chips)*/

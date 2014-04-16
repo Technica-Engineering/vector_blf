@@ -21,6 +21,8 @@
 
 #include "KLineStatusEvent.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 

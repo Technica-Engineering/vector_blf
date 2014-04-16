@@ -21,6 +21,8 @@
 
 #include "MostDataLost.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 

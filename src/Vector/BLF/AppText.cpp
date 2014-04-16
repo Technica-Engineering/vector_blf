@@ -21,6 +21,8 @@
 
 #include "AppText.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 

@@ -53,6 +53,8 @@ public:
      */
     WORD channel;
 
+    WORD reserved[3]; // @todo: don't know what this is.
+
     /**
      * @brief bus load
      *

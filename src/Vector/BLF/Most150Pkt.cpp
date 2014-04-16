@@ -21,6 +21,8 @@
 
 #include "Most150Pkt.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 

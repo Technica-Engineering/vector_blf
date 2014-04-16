@@ -21,6 +21,8 @@
 
 #include "Most150Message.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 

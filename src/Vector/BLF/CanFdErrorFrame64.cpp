@@ -21,6 +21,8 @@
 
 #include "CanFdErrorFrame64.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 

@@ -21,6 +21,8 @@
 
 #include "LinReceiveError.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 

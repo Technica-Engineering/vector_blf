@@ -21,6 +21,8 @@
 
 #include "FlexRayVFrReceiveMsgEx.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 

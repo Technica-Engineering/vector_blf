@@ -21,6 +21,8 @@
 
 #include "CanFdMessage.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 
