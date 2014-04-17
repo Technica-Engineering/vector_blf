@@ -62,7 +62,8 @@ public:
      */
     BYTE dir;
 
-    BYTE dummy1;
+    /** reserved */
+    BYTE reserved1;
 
     /**
      * @brief source address
@@ -163,7 +164,8 @@ public:
      */
     BYTE ackNack;
 
-    BYTE dummy2;
+    /** reserved */
+    BYTE reserved2;
 
     /**
      * @brief Cyclic Redundancy Check
@@ -213,6 +215,9 @@ public:
      * Length of variable data in bytes (1524 max)
      */
     DWORD pktDataLength;
+
+    /** reserved */
+    BYTE reserved3[4];
 
     /**
      * @brief variable data

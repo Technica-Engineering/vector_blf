@@ -68,6 +68,9 @@ public:
         TxRq = 2
     } dir;
 
+    /** reserved */
+    BYTE reserved1[2];
+
     /**
      * @brief Frame Check Sum
      *
@@ -82,6 +85,9 @@ public:
      * with Target MAC ID.
      */
     WORD frameDataLength;
+
+    /** reserved */
+    BYTE reserved2[2];
 
     /**
      * Error code

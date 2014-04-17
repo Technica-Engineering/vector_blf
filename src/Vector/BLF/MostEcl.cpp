@@ -31,7 +31,7 @@ MostEcl::MostEcl() :
     channel(),
     mode(),
     eclState(),
-    dummy2()
+    reserved()
 {
 }
 
@@ -57,9 +57,9 @@ char * MostEcl::parse(char * buffer)
     memcpy((char *) &eclState, buffer, size);
     buffer += size;
 
-    // dummy2
-    size = sizeof(dummy2);
-    memcpy((char *) &dummy2, buffer, size);
+    // reserved
+    size = sizeof(reserved);
+    memcpy((char *) &reserved, buffer, size);
     buffer += size;
 
     return buffer;
@@ -72,7 +72,7 @@ size_t MostEcl::calculateObjectSize()
             sizeof(channel) +
             sizeof(mode) +
             sizeof(eclState) +
-            sizeof(dummy2);
+            sizeof(reserved);
 
     return size;
 }

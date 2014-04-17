@@ -34,8 +34,7 @@ FlexRaySync::FlexRaySync() :
     messageId(),
     crc(),
     dir(),
-    dummy1(),
-    dummy2(),
+    reserved(),
     dataBytes(),
     cycle()
 {
@@ -78,14 +77,9 @@ char * FlexRaySync::parse(char * buffer)
     memcpy((char *) &dir, buffer, size);
     buffer += size;
 
-    // dummy1
-    size = sizeof(dummy1);
-    memcpy((char *) &dummy1, buffer, size);
-    buffer += size;
-
-    // dummy2
-    size = sizeof(dummy2);
-    memcpy((char *) &dummy2, buffer, size);
+    // reserved
+    size = sizeof(reserved);
+    memcpy((char *) &reserved, buffer, size);
     buffer += size;
 
     // dataBytes
@@ -111,8 +105,7 @@ size_t FlexRaySync::calculateObjectSize()
             sizeof(messageId) +
             sizeof(crc) +
             sizeof(dir) +
-            sizeof(dummy1) +
-            sizeof(dummy2) +
+            sizeof(reserved) +
             sizeof(dataBytes) +
             sizeof(cycle);
 

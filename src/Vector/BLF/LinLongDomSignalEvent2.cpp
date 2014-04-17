@@ -26,7 +26,10 @@ namespace BLF {
 
 LinLongDomSignalEvent2::LinLongDomSignalEvent2() :
     ObjectHeader(),
-    LinBusEvent()
+    LinBusEvent(),
+    type(),
+    reserved(),
+    length()
 {
 }
 
@@ -38,6 +41,21 @@ char * LinLongDomSignalEvent2::parse(char * buffer)
     buffer = ObjectHeader::parse(buffer);
     buffer = LinBusEvent::parse(buffer);
 
+    // type
+    size = sizeof(type);
+    memcpy((char *) &type, buffer, size);
+    buffer += size;
+
+    // reserved
+    size = sizeof(reserved);
+    memcpy((char *) &reserved, buffer, size);
+    buffer += size;
+
+    // length
+    size = sizeof(length);
+    memcpy((char *) &length, buffer, size);
+    buffer += size;
+
     return buffer;
 }
 
@@ -45,7 +63,10 @@ size_t LinLongDomSignalEvent2::calculateObjectSize()
 {
     size_t size =
             ObjectHeader::calculateObjectSize() +
-            LinBusEvent::calculateObjectSize();
+            LinBusEvent::calculateObjectSize() +
+            sizeof(type) +
+            sizeof(reserved) +
+            sizeof(length);
 
     return size;
 }

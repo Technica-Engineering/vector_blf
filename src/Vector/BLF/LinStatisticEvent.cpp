@@ -29,13 +29,14 @@ namespace BLF {
 LinStatisticEvent::LinStatisticEvent() :
     ObjectHeader(),
     channel(),
-    reserved(),
+    reserved1(),
     busLoad(),
     burstsTotal(),
     burstsOverrun(),
     framesSent(),
     framesReceived(),
-    framesUnanswered()
+    framesUnanswered(),
+    reserved2()
 {
 }
 
@@ -51,9 +52,9 @@ char * LinStatisticEvent::parse(char * buffer)
     memcpy((char *) &channel, buffer, size);
     buffer += size;
 
-    // reserved
-    size = sizeof(reserved);
-    memcpy((char *) &reserved, buffer, size);
+    // reserved1
+    size = sizeof(reserved1);
+    memcpy((char *) &reserved1, buffer, size);
     buffer += size;
 
     // busLoad
@@ -86,6 +87,11 @@ char * LinStatisticEvent::parse(char * buffer)
     memcpy((char *) &framesUnanswered, buffer, size);
     buffer += size;
 
+    // reserved2
+    size = sizeof(reserved2);
+    memcpy((char *) &reserved2, buffer, size);
+    buffer += size;
+
     return buffer;
 }
 
@@ -94,13 +100,14 @@ size_t LinStatisticEvent::calculateObjectSize()
     size_t size =
             ObjectHeader::calculateObjectSize() +
             sizeof(channel) +
-            sizeof(reserved) +
+            sizeof(reserved1) +
             sizeof(busLoad) +
             sizeof(burstsTotal) +
             sizeof(burstsOverrun) +
             sizeof(framesSent) +
             sizeof(framesReceived) +
-            sizeof(framesUnanswered);
+            sizeof(framesUnanswered) +
+            sizeof(reserved2);
 
     return size;
 }

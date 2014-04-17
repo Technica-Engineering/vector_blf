@@ -68,7 +68,8 @@ public:
      */
     BYTE subType;
 
-    BYTE dummy1;
+    /** reserved */
+    BYTE reserved;
 
     /**
      * @brief operation handle

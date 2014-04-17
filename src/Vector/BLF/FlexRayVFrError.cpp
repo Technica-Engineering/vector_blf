@@ -32,11 +32,12 @@ FlexRayVFrError::FlexRayVFrError() :
     version(),
     channelMask(),
     cycle(),
+    reserved1(),
     clientIndex(),
     clusterNo(),
     tag(),
     data(),
-    reserved()
+    reserved2()
 {
 }
 
@@ -67,6 +68,11 @@ char * FlexRayVFrError::parse(char * buffer)
     memcpy((char *) &cycle, buffer, size);
     buffer += size;
 
+    // reserved1
+    size = sizeof(reserved1);
+    memcpy((char *) &reserved1, buffer, size);
+    buffer += size;
+
     // clientIndex
     size = sizeof(clientIndex);
     memcpy((char *) &clientIndex, buffer, size);
@@ -87,9 +93,9 @@ char * FlexRayVFrError::parse(char * buffer)
     memcpy((char *) &data, buffer, size);
     buffer += size;
 
-    // reserved
-    size = sizeof(reserved);
-    memcpy((char *) &reserved, buffer, size);
+    // reserved2
+    size = sizeof(reserved2);
+    memcpy((char *) &reserved2, buffer, size);
     buffer += size;
 
     return buffer;
@@ -103,11 +109,12 @@ size_t FlexRayVFrError::calculateObjectSize()
             sizeof(version) +
             sizeof(channelMask) +
             sizeof(cycle) +
+            sizeof(reserved1) +
             sizeof(clientIndex) +
             sizeof(clusterNo) +
             sizeof(tag) +
             sizeof(data) +
-            sizeof(reserved);
+            sizeof(reserved2);
 
     return size;
 }

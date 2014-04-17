@@ -29,7 +29,8 @@ namespace BLF {
 LinSpikeEvent::LinSpikeEvent() :
     ObjectHeader(),
     channel(),
-    width()
+    width(),
+    reserved()
 {
 }
 
@@ -50,6 +51,11 @@ char * LinSpikeEvent::parse(char * buffer)
     memcpy((char *) &width, buffer, size);
     buffer += size;
 
+    // reserved
+    size = sizeof(reserved);
+    memcpy((char *) &reserved, buffer, size);
+    buffer += size;
+
     return buffer;
 }
 
@@ -58,7 +64,8 @@ size_t LinSpikeEvent::calculateObjectSize()
     size_t size =
             ObjectHeader::calculateObjectSize() +
             sizeof(channel) +
-            sizeof(width);
+            sizeof(width) +
+            sizeof(reserved);
 
     return size;
 }

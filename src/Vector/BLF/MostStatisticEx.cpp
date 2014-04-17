@@ -29,7 +29,7 @@ namespace BLF {
 MostStatisticEx::MostStatisticEx() :
     ObjectHeader2(),
     channel(),
-    dummy1(),
+    reserved(),
     codingErrors(),
     frameCounter()
 {
@@ -47,9 +47,9 @@ char * MostStatisticEx::parse(char * buffer)
     memcpy((char *) &channel, buffer, size);
     buffer += size;
 
-    // dummy1
-    size = sizeof(dummy1);
-    memcpy((char *) &dummy1, buffer, size);
+    // reserved
+    size = sizeof(reserved);
+    memcpy((char *) &reserved, buffer, size);
     buffer += size;
 
     // codingErrors
@@ -70,7 +70,7 @@ size_t MostStatisticEx::calculateObjectSize()
     size_t size =
             ObjectHeader2::calculateObjectSize() +
             sizeof(channel) +
-            sizeof(dummy1) +
+            sizeof(reserved) +
             sizeof(codingErrors) +
             sizeof(frameCounter);
 

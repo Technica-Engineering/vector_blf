@@ -80,6 +80,9 @@ public:
      */
     BYTE dir;
 
+    /** reserved */
+    BYTE reserved1;
+
     /**
      * @brief clientindex of send node
      *
@@ -139,6 +142,9 @@ public:
      * Cycle number
      */
     BYTE cycle;
+
+    /** reserved */
+    BYTE reserved2;
 
     /**
      * @brief type of cc

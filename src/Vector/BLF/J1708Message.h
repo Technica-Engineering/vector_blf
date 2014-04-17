@@ -54,6 +54,9 @@ public:
      */
     BYTE dir;
 
+    /** reserved */
+    BYTE reserved1;
+
     /**
      * @brief error code
      */
@@ -68,6 +71,9 @@ public:
      * @brief data
      */
     BYTE data[255];
+
+    /** reserved */
+    BYTE reserved2[2];
 };
 
 }

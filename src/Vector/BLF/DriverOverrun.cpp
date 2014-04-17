@@ -30,7 +30,7 @@ DriverOverrun::DriverOverrun() :
     ObjectHeader(),
     busType(),
     channel(),
-    dummy()
+    reserved()
 {
 }
 
@@ -51,9 +51,9 @@ char * DriverOverrun::parse(char * buffer)
     memcpy((char *) &channel, buffer, size);
     buffer += size;
 
-    // dummy
-    size = sizeof(dummy);
-    memcpy((char *) &dummy, buffer, size);
+    // reserved
+    size = sizeof(reserved);
+    memcpy((char *) &reserved, buffer, size);
     buffer += size;
 
     return buffer;
@@ -65,7 +65,7 @@ size_t DriverOverrun::calculateObjectSize()
             ObjectHeader::calculateObjectSize() +
             sizeof(busType) +
             sizeof(channel) +
-            sizeof(dummy);
+            sizeof(reserved);
 
     return size;
 }

@@ -34,9 +34,7 @@ CanDriverErrorExt::CanDriverErrorExt() :
     errorCode(),
     flags(),
     state(),
-    reserved1(),
-    reserved2(),
-    reserved3()
+    reserved()
 {
 }
 
@@ -77,19 +75,9 @@ char * CanDriverErrorExt::parse(char * buffer)
     memcpy((char *) &state, buffer, size);
     buffer += size;
 
-    // reserved1
-    size = sizeof(reserved1);
-    memcpy((char *) &reserved1, buffer, size);
-    buffer += size;
-
-    // reserved2
-    size = sizeof(reserved2);
-    memcpy((char *) &reserved2, buffer, size);
-    buffer += size;
-
-    // reserved3
-    size = sizeof(reserved3);
-    memcpy((char *) &reserved3, buffer, size);
+    // reserved
+    size = sizeof(reserved);
+    memcpy((char *) &reserved, buffer, size);
     buffer += size;
 
     return buffer;
@@ -105,9 +93,7 @@ size_t CanDriverErrorExt::calculateObjectSize()
             sizeof(errorCode) +
             sizeof(flags) +
             sizeof(state) +
-            sizeof(reserved1) +
-            sizeof(reserved2) +
-            sizeof(reserved3);
+            sizeof(reserved);
 
     return size;
 }

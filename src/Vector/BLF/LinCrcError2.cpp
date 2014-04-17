@@ -35,7 +35,7 @@ LinCrcError2::LinCrcError2() :
     fsmId(),
     fsmState(),
     simulated(),
-    reserved(),
+    reserved1(),
     respBaudrate(),
     reserved2(),
     exactHeaderBaudrate(),
@@ -82,9 +82,9 @@ char * LinCrcError2::parse(char * buffer)
     memcpy((char *) &simulated, buffer, size);
     buffer += size;
 
-    // reserved
-    size = sizeof(reserved);
-    memcpy((char *) &reserved, buffer, size);
+    // reserved1
+    size = sizeof(reserved1);
+    memcpy((char *) &reserved1, buffer, size);
     buffer += size;
 
     // respBaudrate
@@ -126,7 +126,7 @@ size_t LinCrcError2::calculateObjectSize()
             sizeof(fsmId) +
             sizeof(fsmState) +
             sizeof(simulated) +
-            sizeof(reserved) +
+            sizeof(reserved1) +
             sizeof(respBaudrate) +
             sizeof(reserved2) +
             sizeof(exactHeaderBaudrate) +

@@ -31,7 +31,7 @@ MostStress::MostStress() :
     channel(),
     state(),
     mode(),
-    dummy1()
+    reserved()
 {
 }
 
@@ -57,9 +57,9 @@ char * MostStress::parse(char * buffer)
     memcpy((char *) &mode, buffer, size);
     buffer += size;
 
-    // dummy1
-    size = sizeof(dummy1);
-    memcpy((char *) &dummy1, buffer, size);
+    // reserved
+    size = sizeof(reserved);
+    memcpy((char *) &reserved, buffer, size);
     buffer += size;
 
     return buffer;
@@ -72,7 +72,7 @@ size_t MostStress::calculateObjectSize()
             sizeof(channel) +
             sizeof(state) +
             sizeof(mode) +
-            sizeof(dummy1);
+            sizeof(reserved);
 
     return size;
 }

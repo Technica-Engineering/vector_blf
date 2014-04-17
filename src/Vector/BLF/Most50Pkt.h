@@ -62,7 +62,8 @@ public:
      */
     BYTE dir;
 
-    BYTE dummy1;
+    /** reserved */
+    BYTE reserved1;
 
     /**
      * @brief source address
@@ -163,7 +164,8 @@ public:
      */
     BYTE ackNack;
 
-    BYTE dummy2;
+    /** reserved */
+    BYTE reserved2;
 
     /**
      * @brief Cyclic Redundancy Check
@@ -172,15 +174,8 @@ public:
      */
     DWORD crc;
 
-    /**
-     * @brief reserved
-     */
-    BYTE dummy3;
-
-    /**
-     * @brief reserved
-     */
-    BYTE dummy4;
+    /** reserved */
+    BYTE reserved3[2];
 
     /**
      * @brief priority of the message
@@ -189,10 +184,8 @@ public:
      */
     BYTE priority;
 
-    /**
-     * @brief reserved
-     */
-    BYTE dummy5;
+    /** reserved */
+    BYTE reserved4;
 
     /**
      * @brief length of variable data in bytes (1014 max)
@@ -200,6 +193,9 @@ public:
      * Length of variable data in bytes (1014 max)
      */
     DWORD pktDataLength;
+
+    /** reserved */
+    BYTE reserved5;
 
     /**
      * @brief variable data

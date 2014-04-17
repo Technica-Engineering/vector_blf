@@ -37,9 +37,10 @@ FlexRayVFrStartCycle::FlexRayVFrStartCycle() :
     clusterNo(),
     nmSize(),
     dataBytes(),
+    reserved1(),
     tag(),
     data(),
-    reserved()
+    reserved2()
 {
 }
 
@@ -95,6 +96,11 @@ char * FlexRayVFrStartCycle::parse(char * buffer)
     memcpy((char *) &dataBytes, buffer, size);
     buffer += size;
 
+    // reserved1
+    size = sizeof(reserved1);
+    memcpy((char *) &reserved1, buffer, size);
+    buffer += size;
+
     // tag
     size = sizeof(tag);
     memcpy((char *) &tag, buffer, size);
@@ -105,9 +111,9 @@ char * FlexRayVFrStartCycle::parse(char * buffer)
     memcpy((char *) &data, buffer, size);
     buffer += size;
 
-    // reserved
-    size = sizeof(reserved);
-    memcpy((char *) &reserved, buffer, size);
+    // reserved2
+    size = sizeof(reserved2);
+    memcpy((char *) &reserved2, buffer, size);
     buffer += size;
 
     return buffer;
@@ -126,9 +132,10 @@ size_t FlexRayVFrStartCycle::calculateObjectSize()
             sizeof(clusterNo) +
             sizeof(nmSize) +
             sizeof(dataBytes) +
+            sizeof(reserved1) +
             sizeof(tag) +
             sizeof(data) +
-            sizeof(reserved);
+            sizeof(reserved2);
 
     return size;
 }

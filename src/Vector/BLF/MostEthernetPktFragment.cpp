@@ -29,18 +29,19 @@ namespace BLF {
 MostEthernetPktFragment::MostEthernetPktFragment() :
     ObjectHeader2(),
     channel(),
-    dummy1(),
+    reserved1(),
     ackNack(),
     validMask(),
     sourceMacAdr(),
     destMacAdr(),
     pAck(),
     cAck(),
-    dummy2(),
+    reserved2(),
     crc(),
     dataLen(),
     dataLenAnnounced(),
     firstDataLen(),
+    reserved3(),
     firstData(nullptr)
 {
 }
@@ -63,9 +64,9 @@ char * MostEthernetPktFragment::parse(char * buffer)
     memcpy((char *) &channel, buffer, size);
     buffer += size;
 
-    // dummy1
-    size = sizeof(dummy1);
-    memcpy((char *) &dummy1, buffer, size);
+    // reserved1
+    size = sizeof(reserved1);
+    memcpy((char *) &reserved1, buffer, size);
     buffer += size;
 
     // ackNack
@@ -98,9 +99,9 @@ char * MostEthernetPktFragment::parse(char * buffer)
     memcpy((char *) &cAck, buffer, size);
     buffer += size;
 
-    // dummy2
-    size = sizeof(dummy2);
-    memcpy((char *) &dummy2, buffer, size);
+    // reserved2
+    size = sizeof(reserved2);
+    memcpy((char *) &reserved2, buffer, size);
     buffer += size;
 
     // crc
@@ -123,6 +124,11 @@ char * MostEthernetPktFragment::parse(char * buffer)
     memcpy((char *) &firstDataLen, buffer, size);
     buffer += size;
 
+    // reserved3
+    size = sizeof(reserved3);
+    memcpy((char *) &reserved3, buffer, size);
+    buffer += size;
+
     // firstData
     size = firstDataLen;
     firstData = new char[firstDataLen];
@@ -137,18 +143,19 @@ size_t MostEthernetPktFragment::calculateObjectSize()
     size_t size =
             ObjectHeader2::calculateObjectSize() +
             sizeof(channel) +
-            sizeof(dummy1) +
+            sizeof(reserved1) +
             sizeof(ackNack) +
             sizeof(validMask) +
             sizeof(sourceMacAdr) +
             sizeof(destMacAdr) +
             sizeof(pAck) +
             sizeof(cAck) +
-            sizeof(dummy2) +
+            sizeof(reserved2) +
             sizeof(crc) +
             sizeof(dataLen) +
             sizeof(dataLenAnnounced) +
             sizeof(firstDataLen) +
+            sizeof(reserved3) +
             firstDataLen;
 
     return size;

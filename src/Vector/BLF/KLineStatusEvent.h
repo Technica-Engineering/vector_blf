@@ -65,7 +65,8 @@ public:
      */
     DWORD port;
 
-    DWORD reserved;
+    /** reserved */
+    BYTE reserved[4];
 
     /**
      * @brief the actual data, but only dataLen BYTES are used!

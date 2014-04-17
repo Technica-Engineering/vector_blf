@@ -30,19 +30,20 @@ Most150Pkt::Most150Pkt() :
     ObjectHeader2(),
     channel(),
     dir(),
-    dummy1(),
+    reserved1(),
     sourceAdr(),
     destAdr(),
     transferType(),
     state(),
     ackNack(),
-    dummy2(),
+    reserved2(),
     crc(),
     pAck(),
     cAck(),
     priority(),
     pIndex(),
     pktDataLength(),
+    reserved3(),
     pktData(nullptr)
 {
 }
@@ -70,9 +71,9 @@ char * Most150Pkt::parse(char * buffer)
     memcpy((char *) &dir, buffer, size);
     buffer += size;
 
-    // dummy1
-    size = sizeof(dummy1);
-    memcpy((char *) &dummy1, buffer, size);
+    // reserved1
+    size = sizeof(reserved1);
+    memcpy((char *) &reserved1, buffer, size);
     buffer += size;
 
     // sourceAdr
@@ -100,9 +101,9 @@ char * Most150Pkt::parse(char * buffer)
     memcpy((char *) &ackNack, buffer, size);
     buffer += size;
 
-    // dummy2
-    size = sizeof(dummy2);
-    memcpy((char *) &dummy2, buffer, size);
+    // reserved2
+    size = sizeof(reserved2);
+    memcpy((char *) &reserved2, buffer, size);
     buffer += size;
 
     // crc
@@ -135,6 +136,11 @@ char * Most150Pkt::parse(char * buffer)
     memcpy((char *) &pktDataLength, buffer, size);
     buffer += size;
 
+    // reserved3
+    size = sizeof(reserved3);
+    memcpy((char *) &reserved3, buffer, size);
+    buffer += size;
+
     // pktData
     size = pktDataLength;
     pktData = new char[pktDataLength];
@@ -150,19 +156,20 @@ size_t Most150Pkt::calculateObjectSize()
             ObjectHeader2::calculateObjectSize() +
             sizeof(channel) +
             sizeof(dir) +
-            sizeof(dummy1) +
+            sizeof(reserved1) +
             sizeof(sourceAdr) +
             sizeof(destAdr) +
             sizeof(transferType) +
             sizeof(state) +
             sizeof(ackNack) +
-            sizeof(dummy2) +
+            sizeof(reserved2) +
             sizeof(crc) +
             sizeof(pAck) +
             sizeof(cAck) +
             sizeof(priority) +
             sizeof(pIndex) +
             sizeof(pktDataLength) +
+            sizeof(reserved3) +
             pktDataLength;
 
     return size;

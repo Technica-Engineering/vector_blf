@@ -30,19 +30,19 @@ Most50Message::Most50Message() :
     ObjectHeader2(),
     channel(),
     dir(),
-    dummy1(),
+    reserved1(),
     sourceAdr(),
     destAdr(),
     transferType(),
     state(),
     ackNack(),
-    dummy2(),
+    reserved2(),
     crc(),
-    dummy3(),
-    dummy4(),
+    reserved3(),
     priority(),
-    dummy5(),
+    reserved4(),
     msgLen(),
+    reserved5(),
     msg(nullptr)
 {
 }
@@ -70,9 +70,9 @@ char * Most50Message::parse(char * buffer)
     memcpy((char *) &dir, buffer, size);
     buffer += size;
 
-    // dummy1
-    size = sizeof(dummy1);
-    memcpy((char *) &dummy1, buffer, size);
+    // reserved1
+    size = sizeof(reserved1);
+    memcpy((char *) &reserved1, buffer, size);
     buffer += size;
 
     // sourceAdr
@@ -101,8 +101,8 @@ char * Most50Message::parse(char * buffer)
     buffer += size;
 
     // dummy2
-    size = sizeof(dummy2);
-    memcpy((char *) &dummy2, buffer, size);
+    size = sizeof(reserved2);
+    memcpy((char *) &reserved2, buffer, size);
     buffer += size;
 
     // crc
@@ -110,14 +110,9 @@ char * Most50Message::parse(char * buffer)
     memcpy((char *) &crc, buffer, size);
     buffer += size;
 
-    // dummy3
-    size = sizeof(dummy3);
-    memcpy((char *) &dummy3, buffer, size);
-    buffer += size;
-
-    // dummy4
-    size = sizeof(dummy4);
-    memcpy((char *) &dummy4, buffer, size);
+    // reserved3
+    size = sizeof(reserved3);
+    memcpy((char *) &reserved3, buffer, size);
     buffer += size;
 
     // priority
@@ -125,14 +120,19 @@ char * Most50Message::parse(char * buffer)
     memcpy((char *) &priority, buffer, size);
     buffer += size;
 
-    // dummy5
-    size = sizeof(dummy5);
-    memcpy((char *) &dummy5, buffer, size);
+    // reserved4
+    size = sizeof(reserved4);
+    memcpy((char *) &reserved4, buffer, size);
     buffer += size;
 
     // msgLen
     size = sizeof(msgLen);
     memcpy((char *) &msgLen, buffer, size);
+    buffer += size;
+
+    // reserved5
+    size = sizeof(reserved5);
+    memcpy((char *) &reserved5, buffer, size);
     buffer += size;
 
     // msg
@@ -150,19 +150,19 @@ size_t Most50Message::calculateObjectSize()
             ObjectHeader2::calculateObjectSize() +
             sizeof(channel) +
             sizeof(dir) +
-            sizeof(dummy1) +
+            sizeof(reserved1) +
             sizeof(sourceAdr) +
             sizeof(destAdr) +
             sizeof(transferType) +
             sizeof(state) +
             sizeof(ackNack) +
-            sizeof(dummy2) +
+            sizeof(reserved2) +
             sizeof(crc) +
-            sizeof(dummy3) +
-            sizeof(dummy4) +
+            sizeof(reserved3) +
             sizeof(priority) +
-            sizeof(dummy5) +
+            sizeof(reserved4) +
             sizeof(msgLen) +
+            sizeof(reserved5) +
             msgLen;
 
     return size;

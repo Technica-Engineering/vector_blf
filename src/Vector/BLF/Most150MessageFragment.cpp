@@ -29,7 +29,7 @@ namespace BLF {
 Most150MessageFragment::Most150MessageFragment() :
     ObjectHeader2(),
     channel(),
-    dummy1(),
+    reserved1(),
     ackNack(),
     validMask(),
     sourceAdr(),
@@ -64,9 +64,9 @@ char * Most150MessageFragment::parse(char * buffer)
     memcpy((char *) &channel, buffer, size);
     buffer += size;
 
-    // dummy1
-    size = sizeof(dummy1);
-    memcpy((char *) &dummy1, buffer, size);
+    // reserved1
+    size = sizeof(reserved1);
+    memcpy((char *) &reserved1, buffer, size);
     buffer += size;
 
     // ackNack
@@ -143,7 +143,7 @@ size_t Most150MessageFragment::calculateObjectSize()
     size_t size =
             ObjectHeader2::calculateObjectSize() +
             sizeof(channel) +
-            sizeof(dummy1) +
+            sizeof(reserved1) +
             sizeof(ackNack) +
             sizeof(validMask) +
             sizeof(sourceAdr) +

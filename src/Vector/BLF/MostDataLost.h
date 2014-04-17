@@ -52,7 +52,8 @@ public:
      */
     WORD channel;
 
-    WORD dummy1;
+    /** reserved */
+    BYTE reserved[2];
 
     /**
      * @brief info about data loss

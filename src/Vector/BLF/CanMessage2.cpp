@@ -35,8 +35,7 @@ CanMessage2::CanMessage2() :
     data(),
     frameLength(),
     bitCount(),
-    reserved1(),
-    reserved2()
+    reserved()
 {
 }
 
@@ -82,14 +81,9 @@ char * CanMessage2::parse(char * buffer)
     memcpy((char *) &bitCount, buffer, size);
     buffer += size;
 
-    // reserved1
-    size = sizeof(reserved1);
-    memcpy((char *) &reserved1, buffer, size);
-    buffer += size;
-
-    // reserved2
-    size = sizeof(reserved2);
-    memcpy((char *) &reserved2, buffer, size);
+    // reserved
+    size = sizeof(reserved);
+    memcpy((char *) &reserved, buffer, size);
     buffer += size;
 
     return buffer;
@@ -106,8 +100,7 @@ size_t CanMessage2::calculateObjectSize()
             sizeof(data) +
             sizeof(frameLength) +
             sizeof(bitCount) +
-            sizeof(reserved1) +
-            sizeof(reserved2);
+            sizeof(reserved);
 
     return size;
 }

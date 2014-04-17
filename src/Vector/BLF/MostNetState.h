@@ -79,7 +79,8 @@ public:
      */
     WORD stateOld;
 
-    WORD dummy1;
+    /** reserved */
+    WORD reserved;
 };
 
 }

@@ -68,12 +68,8 @@ public:
         TimeOneNans = 0x00000002
     } objectFlags;
 
-    /**
-     * @brief reserved
-     *
-     * Reserved, must be 0.
-     */
-    WORD reserved;
+    /** reserved */
+    BYTE reserved[2];
 
     /**
      * @brief object specific version

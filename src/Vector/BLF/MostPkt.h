@@ -54,11 +54,15 @@ public:
     WORD channel;
 
     /**
-     * @se 3.1.4
+     * Direction of message events:
+     *   - 0: Rx (received)
+     *   - 1: Tx (transmit receipt)
+     *   - 2: Tx Request (transmit request)
      */
     BYTE dir;
 
-    BYTE dummy1;
+    /** reserved */
+    BYTE reserved1;
 
     /**
      * Source address
@@ -84,6 +88,9 @@ public:
      * Number of quadlets
      */
     BYTE quadsToFollow;
+
+    /** reserved */
+    BYTE reserved2;
 
     /**
      * Cyclic Redundancy Check
@@ -116,12 +123,18 @@ public:
      */
     BYTE state;
 
+    /** reserved */
+    BYTE reserved3[3];
+
     /**
      * @brief length of variable data in bytes
      *
      * Length of variable data in bytes (1014 max)
      */
     DWORD pktDataLength;
+
+    /** reserved */
+    BYTE reserved4[4];
 
     /**
      * @brief variable data

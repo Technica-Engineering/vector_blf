@@ -119,12 +119,11 @@ public:
      */
     BYTE fsmState;
 
-    /**
-     * @brief 4-byte alignment
-     *
-     * Reserved, has to be set to 0.
-     */
+    /** reserved */
     BYTE reserved[3];
+
+    /** reserved (in version 1 only) */
+    BYTE reserved_ver1_only[4];
 
     /* the following variables are only available in Version 2 and above */
 

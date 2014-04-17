@@ -109,9 +109,7 @@ public:
      */
     BYTE dir;
 
-    /**
-     * Reserved, has to be set to 0.
-     */
+    /** reserved */
     BYTE reserved;
 };
 

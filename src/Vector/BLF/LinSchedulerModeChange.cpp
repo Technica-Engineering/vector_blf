@@ -30,7 +30,8 @@ LinSchedulerModeChange::LinSchedulerModeChange() :
     ObjectHeader(),
     channel(),
     oldMode(),
-    newMode()
+    newMode(),
+    reserved()
 {
 }
 
@@ -56,6 +57,11 @@ char * LinSchedulerModeChange::parse(char * buffer)
     memcpy((char *) &newMode, buffer, size);
     buffer += size;
 
+    // reserved
+    size = sizeof(reserved);
+    memcpy((char *) &reserved, buffer, size);
+    buffer += size;
+
     return buffer;
 }
 
@@ -65,7 +71,8 @@ size_t LinSchedulerModeChange::calculateObjectSize()
             ObjectHeader::calculateObjectSize() +
             sizeof(channel) +
             sizeof(oldMode) +
-            sizeof(newMode);
+            sizeof(newMode) +
+            sizeof(reserved);
 
     return size;
 }

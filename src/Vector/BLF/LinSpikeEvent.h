@@ -60,6 +60,9 @@ public:
      * Spike length in microseconds
      */
     ULONG width;
+
+    /** reserved */
+    BYTE reserved[2];
 };
 
 }

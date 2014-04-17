@@ -103,19 +103,8 @@ public:
      */
     BYTE bitCount;
 
-    /**
-     * @brief reserved
-     *
-     * Reserved, must be 0
-     */
-    BYTE reserved1;
-
-    /**
-     * @brief reserved
-     *
-     * Reserved, must be 0
-     */
-    WORD reserved2;
+    /** reserved */
+    BYTE reserved[3];
 };
 
 }

@@ -31,8 +31,10 @@ EthernetRxError::EthernetRxError() :
     structLength(),
     channel(),
     dir(),
+    reserved1(),
     fcs(),
     frameDataLength(),
+    reserved2(),
     error(),
     frameData(nullptr)
 {
@@ -66,6 +68,11 @@ char * EthernetRxError::parse(char * buffer)
     memcpy((char *) &dir, buffer, size);
     buffer += size;
 
+    // reserved1
+    size = sizeof(reserved1);
+    memcpy((char *) &reserved1, buffer, size);
+    buffer += size;
+
     // fcs
     size = sizeof(fcs);
     memcpy((char *) &fcs, buffer, size);
@@ -74,6 +81,11 @@ char * EthernetRxError::parse(char * buffer)
     // frameDataLength
     size = sizeof(frameDataLength);
     memcpy((char *) &frameDataLength, buffer, size);
+    buffer += size;
+
+    // reserved2
+    size = sizeof(reserved2);
+    memcpy((char *) &reserved2, buffer, size);
     buffer += size;
 
     // error
@@ -97,8 +109,10 @@ size_t EthernetRxError::calculateObjectSize()
             sizeof(structLength) +
             sizeof(channel) +
             sizeof(dir) +
+            sizeof(reserved1) +
             sizeof(fcs) +
             sizeof(frameDataLength) +
+            sizeof(reserved2) +
             sizeof(error) +
             frameDataLength;
 

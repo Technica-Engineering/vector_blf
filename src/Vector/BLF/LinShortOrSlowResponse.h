@@ -78,12 +78,8 @@ public:
      */
     BYTE interruptedByBreak;
 
-    /**
-     * @brief 8-byte alignment
-     *
-     * Reserved, has to be set to 0.
-     */
-    BYTE reserved[1];
+    /** reserved */
+    BYTE reserved;
 };
 
 }

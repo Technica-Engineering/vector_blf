@@ -29,7 +29,7 @@ namespace BLF {
 LinBaudrateEvent::LinBaudrateEvent() :
     ObjectHeader(),
     channel(),
-    dummy(),
+    reserved(),
     baudrate()
 {
 }
@@ -46,9 +46,9 @@ char * LinBaudrateEvent::parse(char * buffer)
     memcpy((char *) &channel, buffer, size);
     buffer += size;
 
-    // dummy
-    size = sizeof(dummy);
-    memcpy((char *) &dummy, buffer, size);
+    // reserved
+    size = sizeof(reserved);
+    memcpy((char *) &reserved, buffer, size);
     buffer += size;
 
     // baudrate
@@ -64,7 +64,7 @@ size_t LinBaudrateEvent::calculateObjectSize()
     size_t size =
             ObjectHeader::calculateObjectSize() +
             sizeof(channel) +
-            sizeof(dummy) +
+            sizeof(reserved) +
             sizeof(baudrate);
 
     return size;

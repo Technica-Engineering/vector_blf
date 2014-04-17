@@ -59,7 +59,8 @@ public:
      */
     WORD length;
 
-    DWORD unknown; // @todo what is this?
+    /** reserved */
+    BYTE reserved[4];
 
     /**
      * Allocation Table

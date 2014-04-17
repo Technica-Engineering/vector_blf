@@ -181,9 +181,7 @@ public:
      */
     DWORD respBaudrate;
 
-    /**
-     * @brief 4-byte alignment, reserved since BLF 3.9.3.0, BLF files from older versions may have junk data here
-     */
+    /** reserved */
     BYTE reserved[4];
 
     /* the following variables are only available in Version 3 and above */

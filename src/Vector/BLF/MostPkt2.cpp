@@ -30,17 +30,20 @@ MostPkt2::MostPkt2() :
     ObjectHeader2(),
     channel(),
     dir(),
-    dummy1(),
+    reserved1(),
     sourceAdr(),
     destAdr(),
     arbitration(),
     timeRes(),
     quadsToFollow(),
+    reserved2(),
     crc(),
     priority(),
     transferType(),
     state(),
+    reserved3(),
     pktDataLength(),
+    reserved4(),
     pktData(nullptr)
 {
 }
@@ -68,9 +71,9 @@ char * MostPkt2::parse(char * buffer)
     memcpy((char *) &dir, buffer, size);
     buffer += size;
 
-    // dummy1
-    size = sizeof(dummy1);
-    memcpy((char *) &dummy1, buffer, size);
+    // reserved1
+    size = sizeof(reserved1);
+    memcpy((char *) &reserved1, buffer, size);
     buffer += size;
 
     // sourceAdr
@@ -98,6 +101,11 @@ char * MostPkt2::parse(char * buffer)
     memcpy((char *) &quadsToFollow, buffer, size);
     buffer += size;
 
+    // reserved2
+    size = sizeof(reserved2);
+    memcpy((char *) &reserved2, buffer, size);
+    buffer += size;
+
     // crc
     size = sizeof(crc);
     memcpy((char *) &crc, buffer, size);
@@ -118,9 +126,19 @@ char * MostPkt2::parse(char * buffer)
     memcpy((char *) &state, buffer, size);
     buffer += size;
 
+    // reserved3
+    size = sizeof(reserved3);
+    memcpy((char *) &reserved3, buffer, size);
+    buffer += size;
+
     // pktDataLength
     size = sizeof(pktDataLength);
     memcpy((char *) &pktDataLength, buffer, size);
+    buffer += size;
+
+    // reserved4
+    size = sizeof(reserved4);
+    memcpy((char *) &reserved4, buffer, size);
     buffer += size;
 
     // pktData
@@ -138,17 +156,20 @@ size_t MostPkt2::calculateObjectSize()
             ObjectHeader2::calculateObjectSize() +
             sizeof(channel) +
             sizeof(dir) +
-            sizeof(dummy1) +
+            sizeof(reserved1) +
             sizeof(sourceAdr) +
             sizeof(destAdr) +
             sizeof(arbitration) +
             sizeof(timeRes) +
             sizeof(quadsToFollow) +
+            sizeof(reserved2) +
             sizeof(crc) +
             sizeof(priority) +
             sizeof(transferType) +
             sizeof(state) +
+            sizeof(reserved3) +
             sizeof(pktDataLength) +
+            sizeof(reserved4) +
             pktDataLength;
 
     return size;

@@ -30,7 +30,7 @@ MostAllocTab::MostAllocTab() :
     ObjectHeader2(),
     channel(),
     length(),
-    unknown(),
+    reserved(),
     tableData(nullptr)
 {
 }
@@ -58,9 +58,9 @@ char * MostAllocTab::parse(char * buffer)
     memcpy((char *) &length, buffer, size);
     buffer += size;
 
-    // unknown
-    size = sizeof(unknown);
-    memcpy((char *) &unknown, buffer, size);
+    // reserved
+    size = sizeof(reserved);
+    memcpy((char *) &reserved, buffer, size);
     buffer += size;
 
     // tableData
@@ -78,7 +78,7 @@ size_t MostAllocTab::calculateObjectSize()
             ObjectHeader2::calculateObjectSize() +
             sizeof(channel) +
             sizeof(length) +
-            sizeof(unknown) +
+            sizeof(reserved) +
             length;
 
     return size;

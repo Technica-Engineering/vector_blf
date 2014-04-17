@@ -176,15 +176,8 @@ public:
      */
     BYTE dir;
 
-    /**
-     * Reserved, must be 0
-     */
-    BYTE reserved1;
-
-    /**
-     * Reserved, must be 0
-     */
-    DWORD reserved2;
+    /** reserved */
+    BYTE reserved[5];
 
     /**
      * @brief CAN FD data

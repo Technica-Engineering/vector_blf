@@ -105,10 +105,8 @@ public:
      */
     BYTE dataBytes[2];
 
-    /**
-     * Reserved
-     */
-    WORD reserved;
+    /** reserved */
+    BYTE reserved[2];
 };
 
 }

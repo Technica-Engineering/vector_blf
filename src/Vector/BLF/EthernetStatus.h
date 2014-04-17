@@ -171,6 +171,7 @@ public:
         Br4Pair = 3
     } pairs;
 
+    /** reserved */
     BYTE reserved;
 
     /**

@@ -155,15 +155,8 @@ public:
      */
     BYTE headerBitMask;
 
-    /**
-     * Reserved
-     */
-    BYTE reserved1;
-
-    /**
-     * Reserved
-     */
-    WORD reserved2;
+    /** reserved */
+    BYTE reserved[3];
 
     /**
      * @brief array of databytes

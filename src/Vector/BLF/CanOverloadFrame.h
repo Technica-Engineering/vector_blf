@@ -51,12 +51,8 @@ public:
      */
     WORD channel;
 
-    /**
-     * @brief pad
-     *
-     * Reserved, must be 0
-     */
-    WORD dummy;
+    /** reserved */
+    BYTE reserved[2];
 };
 
 }

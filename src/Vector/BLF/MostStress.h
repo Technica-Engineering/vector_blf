@@ -73,7 +73,8 @@ public:
      */
     WORD mode;
 
-    WORD dummy1;
+    /** reserved */
+    WORD reserved;
 };
 
 }

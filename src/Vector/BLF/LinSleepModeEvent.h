@@ -107,6 +107,9 @@ public:
      *   - 0: Internal event
      */
     BYTE flags;
+
+    /** reserved */
+    BYTE reserved[4];
 };
 
 }

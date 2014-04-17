@@ -30,7 +30,8 @@ LinSleepModeEvent::LinSleepModeEvent() :
     ObjectHeader(),
     channel(),
     reason(),
-    flags()
+    flags(),
+    reserved()
 {
 }
 
@@ -56,6 +57,11 @@ char * LinSleepModeEvent::parse(char * buffer)
     memcpy((char *) &flags, buffer, size);
     buffer += size;
 
+    // reserved
+    size = sizeof(reserved);
+    memcpy((char *) &reserved, buffer, size);
+    buffer += size;
+
     return buffer;
 }
 
@@ -65,7 +71,8 @@ size_t LinSleepModeEvent::calculateObjectSize()
             ObjectHeader::calculateObjectSize() +
             sizeof(channel) +
             sizeof(reason) +
-            sizeof(flags);
+            sizeof(flags) +
+            sizeof(reserved);
 
     return size;
 }

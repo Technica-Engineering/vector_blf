@@ -53,7 +53,8 @@ public:
      */
     WORD channel;
 
-    BYTE dummy1;
+    /** reserved */
+    BYTE reserved1;
 
     /**
      * @brief acknowledge code

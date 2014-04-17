@@ -30,9 +30,11 @@ J1708Message::J1708Message() :
     ObjectHeader(),
     channel(),
     dir(),
+    reserved1(),
     error(),
     size(),
-    data()
+    data(),
+    reserved2()
 {
 }
 
@@ -53,6 +55,11 @@ char * J1708Message::parse(char * buffer)
     memcpy((char *) &dir, buffer, size);
     buffer += size;
 
+    // reserved1
+    size = sizeof(reserved1);
+    memcpy((char *) &reserved1, buffer, size);
+    buffer += size;
+
     // error
     size = sizeof(error);
     memcpy((char *) &error, buffer, size);
@@ -68,6 +75,11 @@ char * J1708Message::parse(char * buffer)
     memcpy((char *) &data, buffer, size);
     buffer += size;
 
+    // reserved2
+    size = sizeof(reserved2);
+    memcpy((char *) &reserved2, buffer, size);
+    buffer += size;
+
     return buffer;
 }
 
@@ -77,9 +89,11 @@ size_t J1708Message::calculateObjectSize()
             ObjectHeader::calculateObjectSize() +
             sizeof(channel) +
             sizeof(dir) +
+            sizeof(reserved1) +
             sizeof(error) +
             sizeof(size) +
-            sizeof(data);
+            sizeof(data) +
+            sizeof(reserved2);
 
     return size_;
 }

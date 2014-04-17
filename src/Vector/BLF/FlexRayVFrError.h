@@ -76,6 +76,9 @@ public:
      */
     BYTE cycle;
 
+    /** reserved */
+    BYTE reserved1;
+
     /**
      * @brief clientindex of send node
      *
@@ -216,10 +219,8 @@ public:
      */
     DWORD data[4];
 
-    /**
-     * Reserved
-     */
-    WORD reserved;
+    /** reserved */
+    BYTE reserved2[4];
 };
 
 }

@@ -53,7 +53,8 @@ public:
      */
     WORD channel;
 
-    WORD dummy1;
+    /** reserved */
+    WORD reserved;
 
     /**
      * Number of coding errors

@@ -30,15 +30,15 @@ MostSpy::MostSpy() :
     ObjectHeader(),
     channel(),
     dir(),
-    dummy1(),
+    reserved1(),
     sourceAdr(),
     destAdr(),
     msg(),
-    dummy2(),
+    reserved2(),
     rTyp(),
     rTypAdr(),
     state(),
-    dummy3(),
+    reserved3(),
     ackNack(),
     crc()
 {
@@ -61,9 +61,9 @@ char * MostSpy::parse(char * buffer)
     memcpy((char *) &dir, buffer, size);
     buffer += size;
 
-    // dummy1
-    size = sizeof(dummy1);
-    memcpy((char *) &dummy1, buffer, size);
+    // reserved1
+    size = sizeof(reserved1);
+    memcpy((char *) &reserved1, buffer, size);
     buffer += size;
 
     // sourceAdr
@@ -81,9 +81,9 @@ char * MostSpy::parse(char * buffer)
     memcpy((char *) &msg, buffer, size);
     buffer += size;
 
-    // dummy2
-    size = sizeof(dummy2);
-    memcpy((char *) &dummy2, buffer, size);
+    // reserved2
+    size = sizeof(reserved2);
+    memcpy((char *) &reserved2, buffer, size);
     buffer += size;
 
     // rTyp
@@ -101,9 +101,9 @@ char * MostSpy::parse(char * buffer)
     memcpy((char *) &state, buffer, size);
     buffer += size;
 
-    // dummy3
-    size = sizeof(dummy3);
-    memcpy((char *) &dummy3, buffer, size);
+    // reserved3
+    size = sizeof(reserved3);
+    memcpy((char *) &reserved3, buffer, size);
     buffer += size;
 
     // ackNack
@@ -125,15 +125,15 @@ size_t MostSpy::calculateObjectSize()
             ObjectHeader::calculateObjectSize() +
             sizeof(channel) +
             sizeof(dir) +
-            sizeof(dummy1) +
+            sizeof(reserved1) +
             sizeof(sourceAdr) +
             sizeof(destAdr) +
             sizeof(msg) +
-            sizeof(dummy2) +
+            sizeof(reserved2) +
             sizeof(rTyp) +
             sizeof(rTypAdr) +
             sizeof(state) +
-            sizeof(dummy3) +
+            sizeof(reserved3) +
             sizeof(ackNack) +
             sizeof(crc);
 

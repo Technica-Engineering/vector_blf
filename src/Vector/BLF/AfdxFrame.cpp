@@ -37,9 +37,12 @@ AfdxFrame::AfdxFrame() :
     tpid(),
     tci(),
     ethChannel(),
+    reserved1(),
     afdxFlags(),
+    reserved2(),
     bagUsec(),
     payLoadLength(),
+    reserved3(),
     payLoad(nullptr)
 {
 }
@@ -97,9 +100,19 @@ char * AfdxFrame::parse(char * buffer)
     memcpy((char *) &ethChannel, buffer, size);
     buffer += size;
 
+    // reserved1
+    size = sizeof(reserved1);
+    memcpy((char *) &reserved1, buffer, size);
+    buffer += size;
+
     // afdxFlags
     size = sizeof(afdxFlags);
     memcpy((char *) &afdxFlags, buffer, size);
+    buffer += size;
+
+    // reserved2
+    size = sizeof(reserved2);
+    memcpy((char *) &reserved2, buffer, size);
     buffer += size;
 
     // bagUsec
@@ -112,8 +125,13 @@ char * AfdxFrame::parse(char * buffer)
     memcpy((char *) &payLoadLength, buffer, size);
     buffer += size;
 
+    // reserved3
+    size = sizeof(reserved3);
+    memcpy((char *) &reserved3, buffer, size);
+    buffer += size;
+
     // payLoad
-    size = objectSize - 0x3f; // @todo this value should be made more plausible (calculated using sizeof(...))
+    size = payLoadLength;
     payLoad = new char[size];
     memcpy(payLoad, buffer, size);
     buffer += size;
@@ -133,9 +151,12 @@ size_t AfdxFrame::calculateObjectSize()
             sizeof(tpid) +
             sizeof(tci) +
             sizeof(ethChannel) +
+            sizeof(reserved1) +
             sizeof(afdxFlags) +
+            sizeof(reserved2) +
             sizeof(bagUsec) +
             sizeof(payLoadLength) +
+            sizeof(reserved3) +
             payLoadLength;
 
     return size;

@@ -50,11 +50,11 @@ void showFileStatistics(Vector::BLF::FileStatistics * fileStatistics)
 void showCanMessage(Vector::BLF::CanMessage * canMessage)
 {
     std::cout << "CanMessage:"
-              << " Channel=" << canMessage->channel
-              << " Flags=" << (unsigned short) canMessage->flags
-              << " DLC=" << (unsigned short) canMessage->dlc
-              << " ID=0x" << std::hex << canMessage->id
-              << " Data=";
+              << " ch=" << canMessage->channel
+              << " flags=" << (unsigned short) canMessage->flags
+              << " dlc=" << (unsigned short) canMessage->dlc
+              << " id=0x" << std::hex << canMessage->id
+              << " data=";
     for (int i = 0; (i < canMessage->dlc) && (i < 8); ++i) {
         std::cout << std::hex;
         if (canMessage->data[i] <= 0xf)
@@ -88,7 +88,6 @@ void showCanDriverStatistic(Vector::BLF::CanDriverStatistic * canDriverStatistic
     std::cout << " extRmtFrm=" << std::dec << canDriverStatistic->extendedRemoteFrames;
     std::cout << " errFrm=" << std::dec << canDriverStatistic->errorFrames;
     std::cout << " ovrldFrm=" << std::dec << canDriverStatistic->overloadFrames;
-    std::cout << " res=0x" << std::hex << canDriverStatistic->reserved;
     std::cout << std::endl;
 }
 
@@ -133,7 +132,6 @@ void showLogContainer(Vector::BLF::LogContainer * logContainer)
     std::cout << "objectType: " << std::dec << (int) logContainer->objectType << std::endl;
 
     std::cout << "objectFlags: 0x" << std::hex << logContainer->objectFlags << std::endl;
-    std::cout << "reserved: 0x" << std::hex << logContainer->reserved << std::endl;
     std::cout << "objectVersion: 0x" << std::hex << logContainer->objectVersion << std::endl;
     std::cout << "uncompressedFileSize: " << std::dec << logContainer->uncompressedFileSize << std::endl;
     std::cout << std::endl;
@@ -152,12 +150,28 @@ void showLogContainer(Vector::BLF::LogContainer * logContainer)
 // LIN_SLV_TIMEOUT = 16
 
 // LIN_SCHED_MODCH = 17
+void showLinSchedulerModeChange(Vector::BLF::LinSchedulerModeChange * linSchedulerModeChange)
+{
+    std::cout << "LinSchedulerModeChange:";
+    std::cout << " ch=" << std::dec << linSchedulerModeChange->channel;
+    std::cout << " old=" << std::dec << (unsigned short) linSchedulerModeChange->oldMode;
+    std::cout << " new=" << std::dec << (unsigned short) linSchedulerModeChange->newMode;
+    std::cout << std::endl;
+}
 
 // LIN_SYN_ERROR = 18
 
 // LIN_BAUDRATE = 19
 
 // LIN_SLEEP = 20
+void showLinSleepModeEvent(Vector::BLF::LinSleepModeEvent * linSleepModeEvent)
+{
+    std::cout << "LinSleepModeEvent:";
+    std::cout << " ch=" << std::dec << linSleepModeEvent->channel;
+    std::cout << " rsn=" << std::dec << (unsigned short) linSleepModeEvent->reason;
+    std::cout << " flags=0x" << std::hex << (unsigned short) linSleepModeEvent->flags;
+    std::cout << std::endl;
+}
 
 // LIN_WAKEUP = 21
 
@@ -167,7 +181,6 @@ void showMostSpy(Vector::BLF::MostSpy * mostSpy)
     std::cout << "MostSpy:";
     std::cout << " ch=" << std::dec << mostSpy->channel;
     std::cout << " dir=" << std::dec << (unsigned short) mostSpy->dir;
-    std::cout << " dummy1=0x" << std::hex << (unsigned short) mostSpy->dummy1;
     std::cout << " sourceAdr=" << std::dec << mostSpy->sourceAdr;
     std::cout << " destAdr=" << std::dec << mostSpy->destAdr;
     std::cout << " msg=" << std::hex;
@@ -177,11 +190,9 @@ void showMostSpy(Vector::BLF::MostSpy * mostSpy)
         }
         std::cout << (unsigned short) mostSpy->msg[i];
     }
-    std::cout << " dummy2=0x" << std::hex << (unsigned short) mostSpy->dummy2;
     std::cout << " rTyp=0x" << std::hex << mostSpy->rTyp;
     std::cout << " rTypAdr=0x" << std::hex << (unsigned short) mostSpy->rTypAdr;
     std::cout << " state=0x" << std::hex << (unsigned short) mostSpy->state;
-    std::cout << " dummy3=0x" << std::hex << (unsigned short) mostSpy->dummy3;
     std::cout << " ackNack=0x" << std::hex << (unsigned short) mostSpy->ackNack;
     std::cout << " crc=0x" << std::hex << mostSpy->crc;
     std::cout << std::endl;
@@ -193,7 +204,6 @@ void showMostCtrl(Vector::BLF::MostCtrl * mostCtrl)
     std::cout << "MostCtrl:";
     std::cout << " ch=" << std::dec << mostCtrl->channel;
     std::cout << " dir=" << std::dec << (unsigned short) mostCtrl->dir;
-    std::cout << " dummy1=0x" << std::hex << (unsigned short) mostCtrl->dummy1;
     std::cout << " sourceAdr=" << std::dec << mostCtrl->sourceAdr;
     std::cout << " destAdr=" << std::dec << mostCtrl->destAdr;
     std::cout << " msg=" << std::hex;
@@ -203,13 +213,10 @@ void showMostCtrl(Vector::BLF::MostCtrl * mostCtrl)
         }
         std::cout << (unsigned short) mostCtrl->msg[i];
     }
-    std::cout << " dummy2=0x" << std::hex << (unsigned short) mostCtrl->dummy2;
     std::cout << " rTyp=0x" << std::hex << mostCtrl->rTyp;
     std::cout << " rTypAdr=0x" << std::hex << (unsigned short) mostCtrl->rTypAdr;
     std::cout << " state=0x" << std::hex << (unsigned short) mostCtrl->state;
-    std::cout << " dummy3=0x" << std::hex << (unsigned short) mostCtrl->dummy3;
     std::cout << " ackNack=0x" << std::hex << (unsigned short) mostCtrl->ackNack;
-    std::cout << " unknown=0x" << std::hex << (unsigned short) mostCtrl->unknown;
     std::cout << std::endl;
 }
 
@@ -219,7 +226,6 @@ void showMostLightLock(Vector::BLF::MostLightLock * mostLightLock)
     std::cout << "MostLightLock:";
     std::cout << " ch=" << std::dec << mostLightLock->channel;
     std::cout << " state=0x" << std::hex << mostLightLock->state;
-    std::cout << " res=0x" << std::hex << mostLightLock->reserved;
     std::cout << std::endl;
 }
 
@@ -257,16 +263,52 @@ void showCanDriverError(Vector::BLF::CanDriverError * canDriverError)
 // MOST_PKT = 32
 void showMostPkt(Vector::BLF::MostPkt * mostPkt)
 {
-    std::cout << "MostPkt: todo";
-    // @todo
+    std::cout << "MostPkt:";
+    std::cout << " ch=" << std::dec << mostPkt->channel;
+    std::cout << " dir=" << std::dec << (unsigned short) mostPkt->dir;
+    std::cout << " sa=" << std::dec << mostPkt->sourceAdr;
+    std::cout << " da=" << std::dec << mostPkt->destAdr;
+    std::cout << " arb=" << std::dec << (unsigned short) mostPkt->arbitration;
+    std::cout << " tr=" << std::dec << (unsigned short) mostPkt->timeRes;
+    std::cout << " qtf=" << std::dec << (unsigned short) mostPkt->quadsToFollow;
+    std::cout << " crc=" << std::dec << mostPkt->crc;
+    std::cout << " prio=" << std::dec << (unsigned short) mostPkt->priority;
+    std::cout << " tt=" << std::dec << (unsigned short) mostPkt->transferType;
+    std::cout << " st=0x" << std::hex << (unsigned short) mostPkt->state;
+    std::cout << " len=" << std::dec << mostPkt->pktDataLength;
+    std::cout << " data=" << std::hex;
+    for (int i = 0; i < mostPkt->pktDataLength; ++i) {
+        if (mostPkt->pktData[i] < 0x10) {
+            std::cout << "0";
+        }
+        std::cout << (unsigned short) mostPkt->pktData[i];
+    }
     std::cout << std::endl;
 }
 
 // MOST_PKT2 = 33
 void showMostPkt2(Vector::BLF::MostPkt2 * mostPkt2)
 {
-    std::cout << "MostPkt2: todo";
-    // @todo
+    std::cout << "MostPkt2:";
+    std::cout << " ch=" << std::dec << mostPkt2->channel;
+    std::cout << " dir=" << std::dec << (unsigned short) mostPkt2->dir;
+    std::cout << " sa=" << std::dec << mostPkt2->sourceAdr;
+    std::cout << " da=" << std::dec << mostPkt2->destAdr;
+    std::cout << " arb=" << std::dec << (unsigned short) mostPkt2->arbitration;
+    std::cout << " tr=" << std::dec << (unsigned short) mostPkt2->timeRes;
+    std::cout << " qtf=" << std::dec << (unsigned short) mostPkt2->quadsToFollow;
+    std::cout << " crc=" << std::dec << mostPkt2->crc;
+    std::cout << " prio=" << std::dec << (unsigned short) mostPkt2->priority;
+    std::cout << " tt=" << std::dec << (unsigned short) mostPkt2->transferType;
+    std::cout << " st=0x" << std::hex << (unsigned short) mostPkt2->state;
+    std::cout << " len=" << std::dec << mostPkt2->pktDataLength;
+    std::cout << " data=" << std::hex;
+    for (int i = 0; i < mostPkt2->pktDataLength; ++i) {
+        if (mostPkt2->pktData[i] < 0x10) {
+            std::cout << "0";
+        }
+        std::cout << (unsigned short) mostPkt2->pktData[i];
+    }
     std::cout << std::endl;
 }
 
@@ -275,7 +317,6 @@ void showMostHwMode(Vector::BLF::MostHwMode * mostHwMode)
 {
     std::cout << "MostHwMode:";
     std::cout << " ch=" << std::dec << mostHwMode->channel;
-    std::cout << " dummy1=0x" << std::hex << mostHwMode->dummy1;
     std::cout << " hwMode=0x" << std::hex << mostHwMode->hwMode;
     std::cout << " hwModeMask=0x" << std::hex << mostHwMode->hwModeMask;
     std::cout << std::endl;
@@ -287,7 +328,6 @@ void showMostReg(Vector::BLF::MostReg * mostReg)
     std::cout << "MostReg:";
     std::cout << " ch=" << std::dec << mostReg->channel;
     std::cout << " subType=" << std::dec << (unsigned short) mostReg->subType;
-    std::cout << " dummy1=0x" << std::hex << (unsigned short) mostReg->dummy1;
     std::cout << " handle=" << std::dec << mostReg->handle;
     std::cout << " offset=" << std::dec << mostReg->offset;
     std::cout << " chip=" << std::dec << mostReg->chip;
@@ -308,11 +348,8 @@ void showMostGenReg(Vector::BLF::MostGenReg * mostGenReg)
     std::cout << "MostGenReg:";
     std::cout << " ch=" << std::dec << mostGenReg->channel;
     std::cout << " subType=" << std::dec << (unsigned short) mostGenReg->subType;
-    std::cout << " dummy1=0x" << std::hex << (unsigned short) mostGenReg->dummy1;
     std::cout << " handle=" << std::dec << mostGenReg->handle;
     std::cout << " regId=0x" << std::hex << mostGenReg->regId;
-    std::cout << " dummy2=0x" << std::hex << mostGenReg->dummy2;
-    std::cout << " dummy3=0x" << std::hex << mostGenReg->dummy3;
     std::cout << " regVal=0x" << std::hex << mostGenReg->regValue;
     std::cout << std::endl;
 }
@@ -324,7 +361,6 @@ void showMostNetState(Vector::BLF::MostNetState * mostNetState)
     std::cout << " ch=" << std::dec << mostNetState->channel;
     std::cout << " stNew=" << std::dec << mostNetState->stateNew;
     std::cout << " stOld=" << std::dec << mostNetState->stateOld;
-    std::cout << " dummy=0x" << std::hex << mostNetState->dummy1;
     std::cout << std::endl;
 }
 
@@ -333,7 +369,6 @@ void showMostDataLost(Vector::BLF::MostDataLost * mostDataLost)
 {
     std::cout << "MostDataLost:";
     std::cout << " ch=" << std::dec << mostDataLost->channel;
-    std::cout << " dummy1=0x" << std::hex << mostDataLost->dummy1;
     std::cout << " info=0x" << std::hex << mostDataLost->info;
     std::cout << " lostMsgsCtrl=" << std::dec << mostDataLost->lostMsgsCtrl;
     std::cout << " lostMsgsAsync=" << std::dec << mostDataLost->lostMsgsAsync;
@@ -347,7 +382,6 @@ void showMostTrigger(Vector::BLF::MostTrigger * mostTrigger)
 {
     std::cout << "MostTrigger:";
     std::cout << " ch=" << std::dec << mostTrigger->channel;
-    std::cout << " dummy1=0x" << std::hex << mostTrigger->dummy1;
     std::cout << " mode=" << std::dec << mostTrigger->mode;
     std::cout << " hw=" << std::dec << mostTrigger->hw;
     std::cout << " previousTriggerValue=" << std::dec << mostTrigger->previousTriggerValue;
@@ -373,7 +407,6 @@ void showGpsEvent(Vector::BLF::GpsEvent * gpsEvent)
     std::cout << "GpsEvent:";
     std::cout << " flags=0x" << std::hex << gpsEvent->flags;
     std::cout << " ch=" << std::dec << gpsEvent->channel;
-    std::cout << " res=0x" << std::hex << gpsEvent->reserved;
     std::cout << " lon=" << std::fixed << gpsEvent->longitude;
     std::cout << " lat=" << std::fixed << gpsEvent->latitude;
     std::cout << " alt=" << std::fixed << gpsEvent->altitude;
@@ -432,13 +465,6 @@ void showLinMessage2(Vector::BLF::LinMessage2 * linMessage2)
     std::cout << " etfAEI=" << std::dec << (unsigned short) linMessage2->etfAssocEtfId;
     std::cout << " fsmId=" << std::dec << (unsigned short) linMessage2->fsmId;
     std::cout << " fsmState=" << std::dec << (unsigned short) linMessage2->fsmState;
-    std::cout << " res=0x";
-    for (int i = 0; i < 3; ++i) {
-        if (linMessage2->reserved[i] < 0x10) {
-            std::cout << "0";
-        }
-        std::cout << std::hex << (unsigned short) linMessage2->reserved[i];
-    }
     std::cout << " respBaudrate=" << std::dec << linMessage2->respBaudrate;
     std::cout << " exactHeaderBaudrate=" << std::dec << linMessage2->exactHeaderBaudrate;
     std::cout << " earlyStopbitOffset=" << std::dec << linMessage2->earlyStopbitOffset;
@@ -455,6 +481,14 @@ void showLinMessage2(Vector::BLF::LinMessage2 * linMessage2)
 // LIN_RCV_ERROR2 = 61
 
 // LIN_WAKEUP2 = 62
+void showLinWakeupEvent2(Vector::BLF::LinWakeupEvent2 * linWakeupEvent2)
+{
+    std::cout << "LinWakeupEvent2:";
+    std::cout << " len=" << std::dec << (unsigned short) linWakeupEvent2->lengthInfo;
+    std::cout << " sig=" << std::dec << (unsigned short) linWakeupEvent2->signal;
+    std::cout << " ext=" << std::dec << (unsigned short) linWakeupEvent2->external;
+    std::cout << std::endl;
+}
 
 // LIN_SPIKE_EVENT2 = 63
 
@@ -471,10 +505,9 @@ void showLinMessage2(Vector::BLF::LinMessage2 * linMessage2)
 // MOST_ALLOCTAB = 69
 void showMostAllocTab(Vector::BLF::MostAllocTab * mostAllocTab)
 {
-    std::cout << "MostAllocTab: todo";
+    std::cout << "MostAllocTab:";
     std::cout << " ch=" << std::dec << mostAllocTab->channel;
     std::cout << " len=0x" << std::hex << mostAllocTab->length;
-    std::cout << " unknwn=0x" << std::hex << mostAllocTab->unknown;
     std::cout << " allocTab=0x" << std::hex;
     for (int i = 0; i < mostAllocTab->length; ++i) {
         if (mostAllocTab->tableData[i] < 0x10) {
@@ -537,11 +570,9 @@ void showCanErrorFrameExt(Vector::BLF::CanErrorFrameExt * canErrorFrameExt)
     std::cout << " ecc=0x" << std::hex << (unsigned short) canErrorFrameExt->ecc;
     std::cout << " pos=" << std::dec << (unsigned short) canErrorFrameExt->position;
     std::cout << " dlc=" << std::dec << (unsigned short) canErrorFrameExt->dlc;
-    std::cout << " reserved1=" << std::dec << (unsigned short) canErrorFrameExt->reserved1;
     std::cout << " ns=" << std::dec << canErrorFrameExt->frameLengthInNs;
-    std::cout << " id=" << std::dec << canErrorFrameExt->id;
+    std::cout << " id=0x" << std::hex << canErrorFrameExt->id;
     std::cout << " flagsExt=0x" << std::hex << canErrorFrameExt->flagsExt;
-    std::cout << " reserved2=" << std::dec << canErrorFrameExt->reserved2;
     std::cout << " msg=" << std::hex;
     for (int i = 0; i < canErrorFrameExt->dlc; ++i) {
         if (canErrorFrameExt->data[i] < 0x10) {
@@ -610,10 +641,6 @@ void showGlobalMarker(Vector::BLF::GlobalMarker * globalMarker)
     std::cout << " type=" << std::dec << globalMarker->commentedEventType;
     std::cout << " fgcol=0x" << std::hex << globalMarker->foregroundColor;
     std::cout << " bgcol=0x" << std::hex << globalMarker->backgroundColor;
-    std::cout << " res=0x" << std::hex << globalMarker->reserved1;
-    std::cout << " res2=0x" << std::hex << globalMarker->reserved2[0]
-                                 << '_' << globalMarker->reserved2[1]
-                                 << '_' << globalMarker->reserved2[2];
     std::cout << " grpNam=" << globalMarker->groupName;
     std::cout << " mrkNam=" << globalMarker->markerName;
     std::cout << " descr=" << globalMarker->description;
@@ -766,7 +793,7 @@ int main(int argc, char *argv[])
             break;
 
         case Vector::BLF::ObjectType::LIN_SCHED_MODCH:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            showLinSchedulerModeChange(reinterpret_cast<Vector::BLF::LinSchedulerModeChange *>(obj));
             break;
 
         case Vector::BLF::ObjectType::LIN_SYN_ERROR:
@@ -778,7 +805,7 @@ int main(int argc, char *argv[])
             break;
 
         case Vector::BLF::ObjectType::LIN_SLEEP:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            showLinSleepModeEvent(reinterpret_cast<Vector::BLF::LinSleepModeEvent *>(obj));
             break;
 
         case Vector::BLF::ObjectType::LIN_WAKEUP:
@@ -923,7 +950,7 @@ int main(int argc, char *argv[])
             break;
 
         case Vector::BLF::ObjectType::LIN_WAKEUP2:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            showLinWakeupEvent2(reinterpret_cast<Vector::BLF::LinWakeupEvent2 *>(obj));
             break;
 
         case Vector::BLF::ObjectType::LIN_SPIKE_EVENT2:

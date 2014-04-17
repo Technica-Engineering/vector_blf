@@ -100,11 +100,7 @@ public:
      */
     BYTE timeStampStatus;
 
-    /**
-     * @brief reserved
-     *
-     * Reserved, must be 0.
-     */
+    /** reserved */
     BYTE reserved;
 
     /**

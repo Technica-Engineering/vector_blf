@@ -29,7 +29,7 @@ namespace BLF {
 LinSyncError::LinSyncError() :
     ObjectHeader(),
     channel(),
-    dummy(),
+    reserved(),
     timeDiff()
 {
 }
@@ -46,9 +46,9 @@ char * LinSyncError::parse(char * buffer)
     memcpy((char *) &channel, buffer, size);
     buffer += size;
 
-    // dummy
-    size = sizeof(dummy);
-    memcpy((char *) &dummy, buffer, size);
+    // reserved
+    size = sizeof(reserved);
+    memcpy((char *) &reserved, buffer, size);
     buffer += size;
 
     // timeDiff
@@ -64,7 +64,7 @@ size_t LinSyncError::calculateObjectSize()
     size_t size =
             ObjectHeader::calculateObjectSize() +
             sizeof(channel) +
-            sizeof(dummy) +
+            sizeof(reserved) +
             sizeof(timeDiff);
 
     return size;

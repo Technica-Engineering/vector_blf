@@ -106,10 +106,8 @@ public:
      */
     WORD extFlags;
 
-    /**
-     * Reserved, must be 0.
-     */
-    WORD reserved1;
+    /** reserved */
+    BYTE reserved1[2];
 
     /**
      * @brief CAN ID
@@ -179,10 +177,8 @@ public:
      */
     WORD errorPosition;
 
-    /**
-     * Reserved, must be 0.
-     */
-    WORD reserved2;
+    /** reserved */
+    BYTE reserved2[2];
 
     /**
      * @brief CAN FD data

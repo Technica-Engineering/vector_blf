@@ -62,12 +62,8 @@ public:
      */
     BYTE signal;
 
-    /**
-     * @brief 8-byte alignment
-     *
-     * Reserved, has to be set to 0.
-     */
-    BYTE reserved[7];
+    /** reserved */
+    BYTE reserved[3];
 };
 
 }

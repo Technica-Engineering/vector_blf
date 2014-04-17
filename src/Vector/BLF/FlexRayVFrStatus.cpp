@@ -32,13 +32,14 @@ FlexRayVFrStatus::FlexRayVFrStatus() :
     version(),
     channelMask(),
     cycle(),
+    reserved1(),
     clientIndex(),
     clusterNo(),
     wus(),
     ccSyncState(),
     tag(),
     data(),
-    reserved()
+    reserved2()
 {
 }
 
@@ -67,6 +68,11 @@ char * FlexRayVFrStatus::parse(char * buffer)
     // cycle
     size = sizeof(cycle);
     memcpy((char *) &cycle, buffer, size);
+    buffer += size;
+
+    // reserved1
+    size = sizeof(reserved1);
+    memcpy((char *) &reserved1, buffer, size);
     buffer += size;
 
     // clientIndex
@@ -99,9 +105,9 @@ char * FlexRayVFrStatus::parse(char * buffer)
     memcpy((char *) &data, buffer, size);
     buffer += size;
 
-    // reserved
-    size = sizeof(reserved);
-    memcpy((char *) &reserved, buffer, size);
+    // reserved2
+    size = sizeof(reserved2);
+    memcpy((char *) &reserved2, buffer, size);
     buffer += size;
 
     return buffer;
@@ -115,13 +121,14 @@ size_t FlexRayVFrStatus::calculateObjectSize()
             sizeof(version) +
             sizeof(channelMask) +
             sizeof(cycle) +
+            sizeof(reserved1) +
             sizeof(clientIndex) +
             sizeof(clusterNo) +
             sizeof(wus) +
             sizeof(ccSyncState) +
             sizeof(tag) +
             sizeof(data) +
-            sizeof(reserved);
+            sizeof(reserved2);
 
     return size;
 }

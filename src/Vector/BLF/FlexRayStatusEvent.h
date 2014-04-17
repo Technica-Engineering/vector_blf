@@ -74,7 +74,8 @@ public:
      */
     WORD infoMask3;
 
-    WORD reserved[16];
+    /** reserved */
+    BYTE reserved[32];
 };
 
 }

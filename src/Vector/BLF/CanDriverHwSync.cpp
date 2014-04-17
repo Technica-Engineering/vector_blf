@@ -30,7 +30,7 @@ CanDriverHwSync::CanDriverHwSync() :
     ObjectHeader(),
     channel(),
     flags(),
-    dummy()
+    reserved()
 {
 }
 
@@ -51,9 +51,9 @@ char * CanDriverHwSync::parse(char * buffer)
     memcpy((char *) &flags, buffer, size);
     buffer += size;
 
-    // dummy
-    size = sizeof(dummy);
-    memcpy((char *) &dummy, buffer, size);
+    // reserved
+    size = sizeof(reserved);
+    memcpy((char *) &reserved, buffer, size);
     buffer += size;
 
     return buffer;
@@ -65,7 +65,7 @@ size_t CanDriverHwSync::calculateObjectSize()
             ObjectHeader::calculateObjectSize() +
             sizeof(channel) +
             sizeof(flags) +
-            sizeof(dummy);
+            sizeof(reserved);
 
     return size;
 }

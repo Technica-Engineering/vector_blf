@@ -299,17 +299,8 @@ public:
      */
     WORD blfLogMask;
 
-    /**
-     * Reserved
-     */
-    WORD reservedW;
-
-    /**
-     * @brief reserved
-     *
-     * Reserved
-     */
-    DWORD reserved[6];
+    /** reserved */
+    BYTE reserved[26];
 
     /**
      * @brief array of databytes

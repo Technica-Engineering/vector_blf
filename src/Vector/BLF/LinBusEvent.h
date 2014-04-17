@@ -63,11 +63,7 @@ public:
      */
     WORD channel;
 
-    /**
-     * @brief 4-byte alignment
-     *
-     * Reserved, has to be set to 0.
-     */
+    /** reserved */
     BYTE reserved[2];
 };
 

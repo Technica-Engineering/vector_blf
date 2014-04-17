@@ -31,7 +31,7 @@ MostNetState::MostNetState() :
     channel(),
     stateNew(),
     stateOld(),
-    dummy1()
+    reserved()
 {
 }
 
@@ -57,9 +57,9 @@ char * MostNetState::parse(char * buffer)
     memcpy((char *) &stateOld, buffer, size);
     buffer += size;
 
-    // dummy1
-    size = sizeof(dummy1);
-    memcpy((char *) &dummy1, buffer, size);
+    // reserved
+    size = sizeof(reserved);
+    memcpy((char *) &reserved, buffer, size);
     buffer += size;
 
     return buffer;
@@ -72,7 +72,7 @@ size_t MostNetState::calculateObjectSize()
             sizeof(channel) +
             sizeof(stateNew) +
             sizeof(stateOld) +
-            sizeof(dummy1);
+            sizeof(reserved);
 
     return size;
 }

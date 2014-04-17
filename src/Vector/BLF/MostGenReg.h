@@ -69,7 +69,8 @@ public:
      */
     BYTE subType;
 
-    BYTE dummy1;
+    /** reserved */
+    BYTE reserved1;
 
     /**
      * @brief operation handle
@@ -103,9 +104,8 @@ public:
      */
     WORD regId;
 
-    WORD dummy2;
-
-    DWORD dummy3;
+    /** reserved */
+    BYTE reserved2[6];
 
     /**
      * @brief register value

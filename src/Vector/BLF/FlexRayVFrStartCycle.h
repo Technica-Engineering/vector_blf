@@ -115,6 +115,9 @@ public:
      */
     BYTE dataBytes[12];
 
+    /** reserved */
+    BYTE reserved1[2];
+
     /**
      * @brief type of cc
      *
@@ -157,7 +160,7 @@ public:
     /**
      * Reserved
      */
-    WORD reserved;
+    BYTE reserved2[4];
 };
 
 }

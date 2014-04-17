@@ -32,6 +32,7 @@ FlexRayVFrReceiveMsg::FlexRayVFrReceiveMsg() :
     version(),
     channelMask(),
     dir(),
+    reserved1(),
     clientIndex(),
     clusterNo(),
     frameId(),
@@ -40,6 +41,7 @@ FlexRayVFrReceiveMsg::FlexRayVFrReceiveMsg() :
     byteCount(),
     dataCount(),
     cycle(),
+    reserved2(),
     tag(),
     data(),
     frameFlags(),
@@ -73,6 +75,11 @@ char * FlexRayVFrReceiveMsg::parse(char * buffer)
     // dir
     size = sizeof(dir);
     memcpy((char *) &dir, buffer, size);
+    buffer += size;
+
+    // reserved1
+    size = sizeof(reserved1);
+    memcpy((char *) &reserved1, buffer, size);
     buffer += size;
 
     // clientIndex
@@ -115,6 +122,11 @@ char * FlexRayVFrReceiveMsg::parse(char * buffer)
     memcpy((char *) &cycle, buffer, size);
     buffer += size;
 
+    // reserved2
+    size = sizeof(reserved2);
+    memcpy((char *) &reserved2, buffer, size);
+    buffer += size;
+
     // tag
     size = sizeof(tag);
     memcpy((char *) &tag, buffer, size);
@@ -151,6 +163,7 @@ size_t FlexRayVFrReceiveMsg::calculateObjectSize()
             sizeof(version) +
             sizeof(channelMask) +
             sizeof(dir) +
+            sizeof(reserved1) +
             sizeof(clientIndex) +
             sizeof(clusterNo) +
             sizeof(frameId) +
@@ -159,6 +172,7 @@ size_t FlexRayVFrReceiveMsg::calculateObjectSize()
             sizeof(byteCount) +
             sizeof(dataCount) +
             sizeof(cycle) +
+            sizeof(reserved2) +
             sizeof(tag) +
             sizeof(data) +
             sizeof(frameFlags) +

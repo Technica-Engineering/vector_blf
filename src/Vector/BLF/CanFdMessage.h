@@ -105,15 +105,8 @@ public:
      */
     BYTE validDataBytes;
 
-    /**
-     * @brief reserved
-     */
-    BYTE reserved1;
-
-    /**
-     * @brief reserved
-     */
-    DWORD reserved2;
+    /** reserved */
+    BYTE reserved[5];
 
     /**
      * @brief CAN FD data

@@ -69,7 +69,8 @@ public:
      */
     WORD eclState;
 
-    WORD dummy2;
+    /** reserved */
+    WORD reserved;
 };
 
 }

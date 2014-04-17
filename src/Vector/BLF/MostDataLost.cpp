@@ -29,7 +29,7 @@ namespace BLF {
 MostDataLost::MostDataLost() :
     ObjectHeader2(),
     channel(),
-    dummy1(),
+    reserved(),
     info(),
     lostMsgsCtrl(),
     lostMsgsAsync(),
@@ -50,9 +50,9 @@ char * MostDataLost::parse(char * buffer)
     memcpy((char *) &channel, buffer, size);
     buffer += size;
 
-    // dummy1
-    size = sizeof(dummy1);
-    memcpy((char *) &dummy1, buffer, size);
+    // reserved
+    size = sizeof(reserved);
+    memcpy((char *) &reserved, buffer, size);
     buffer += size;
 
     // info
@@ -88,7 +88,7 @@ size_t MostDataLost::calculateObjectSize()
     size_t size =
             ObjectHeader2::calculateObjectSize() +
             sizeof(channel) +
-            sizeof(dummy1) +
+            sizeof(reserved) +
             sizeof(info) +
             sizeof(lostMsgsCtrl) +
             sizeof(lostMsgsAsync) +

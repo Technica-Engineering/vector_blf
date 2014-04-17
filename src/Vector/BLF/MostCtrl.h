@@ -59,7 +59,8 @@ public:
      */
     BYTE dir;
 
-    BYTE dummy1;
+    /** reserved */
+    BYTE reserved1;
 
     /**
      * Source address
@@ -76,7 +77,8 @@ public:
      */
     BYTE msg[17];
 
-    BYTE dummy2;
+    /** reserved */
+    BYTE reserved2;
 
     /**
      * @brief Control message sub type
@@ -139,7 +141,8 @@ public:
      */
     BYTE state;
 
-    BYTE dummy3;
+    /** reserved */
+    BYTE reserved3;
 
     /**
      * @brief acknowledge bits
@@ -180,7 +183,8 @@ public:
      */
     BYTE ackNack;
 
-    DWORD unknown; // @todo don't know what's behind...
+    /** reserved */
+    BYTE reserved4[4];
 };
 
 }

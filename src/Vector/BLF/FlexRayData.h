@@ -62,9 +62,8 @@ public:
      */
     BYTE dir;
 
-    BYTE dummy1;
-
-    WORD dummy2;
+    /** reserved */
+    BYTE reserved[3];
 
     BYTE dataBytes[12];
 };

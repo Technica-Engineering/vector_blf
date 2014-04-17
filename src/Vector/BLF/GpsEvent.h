@@ -59,7 +59,7 @@ public:
     /**
      * Reserved, must be 0.
      */
-    WORD reserved;
+    BYTE reserved[2];
 
     /**
      * Latitude, possible values reach from -180 to 180.

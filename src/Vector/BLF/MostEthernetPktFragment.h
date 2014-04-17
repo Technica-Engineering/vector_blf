@@ -52,7 +52,8 @@ public:
      */
     WORD channel;
 
-    BYTE dummy1;
+    /** reserved */
+    BYTE reserved1;
 
     /**
      * @brief acknowledge code
@@ -147,7 +148,8 @@ public:
      */
     BYTE cAck;
 
-    WORD dummy2;
+    /** reserved */
+    BYTE reserved2[2];
 
     /**
      * @brief Cyclic Redundancy Check
@@ -195,6 +197,9 @@ public:
      * payload of the logging event.
      */
     DWORD firstDataLen;
+
+    /** reserved */
+    BYTE reserved3[4];
 
     /**
      * @brief variable data

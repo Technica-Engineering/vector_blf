@@ -49,7 +49,6 @@ FlexRayVFrReceiveMsgEx::FlexRayVFrReceiveMsgEx() :
     frameId1(),
     pduOffset(),
     blfLogMask(),
-    reservedW(),
     reserved(),
     dataBytes()
 {
@@ -167,11 +166,6 @@ char * FlexRayVFrReceiveMsgEx::parse(char * buffer)
     memcpy((char *) &blfLogMask, buffer, size);
     buffer += size;
 
-    // reservedW
-    size = sizeof(reservedW);
-    memcpy((char *) &reservedW, buffer, size);
-    buffer += size;
-
     // reserved
     size = sizeof(reserved);
     memcpy((char *) &reserved, buffer, size);
@@ -210,7 +204,6 @@ size_t FlexRayVFrReceiveMsgEx::calculateObjectSize()
             sizeof(frameId1) +
             sizeof(pduOffset) +
             sizeof(blfLogMask) +
-            sizeof(reservedW) +
             sizeof(reserved) +
             sizeof(dataBytes);
 

@@ -89,20 +89,8 @@ public:
      */
     BYTE state;
 
-    /**
-     * Reserved, must be 0
-     */
-    BYTE reserved1;
-
-    /**
-     * Reserved, must be 0
-     */
-    WORD reserved2;
-
-    /**
-     * Reserved, must be 0
-     */
-    DWORD reserved3[4];
+    /** reserved */
+    BYTE reserved[3];
 };
 
 }

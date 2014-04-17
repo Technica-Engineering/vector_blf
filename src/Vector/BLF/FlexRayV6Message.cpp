@@ -41,8 +41,7 @@ FlexRayV6Message::FlexRayV6Message() :
     length(),
     cycle(),
     headerBitMask(),
-    reserved1(),
-    reserved2(),
+    reserved(),
     dataBytes()
 {
 }
@@ -120,13 +119,8 @@ char * FlexRayV6Message::parse(char * buffer)
     buffer += size;
 
     // reserved1
-    size = sizeof(reserved1);
-    memcpy((char *) &reserved1, buffer, size);
-    buffer += size;
-
-    // reserved2
-    size = sizeof(reserved2);
-    memcpy((char *) &reserved2, buffer, size);
+    size = sizeof(reserved);
+    memcpy((char *) &reserved, buffer, size);
     buffer += size;
 
     // dataBytes
@@ -154,8 +148,7 @@ size_t FlexRayV6Message::calculateObjectSize()
             sizeof(length) +
             sizeof(cycle) +
             sizeof(headerBitMask) +
-            sizeof(reserved1) +
-            sizeof(reserved2) +
+            sizeof(reserved) +
             sizeof(dataBytes);
 
     return size;

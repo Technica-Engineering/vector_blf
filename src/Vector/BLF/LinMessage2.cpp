@@ -39,6 +39,7 @@ LinMessage2::LinMessage2() :
     fsmId(),
     fsmState(),
     reserved(),
+    reserved_ver1_only(),
     respBaudrate(),
     exactHeaderBaudrate(),
     earlyStopbitOffset(),
@@ -105,8 +106,14 @@ char * LinMessage2::parse(char * buffer)
     buffer += size;
 
     /* the following variables are only available in Version 2 and above */
-    if (objectVersion < 2)
+    if (objectVersion < 2) {
+        // reserved_ver1_only
+        size = sizeof(reserved_ver1_only);
+        memcpy((char *) &reserved_ver1_only, buffer, size);
+        buffer += size;
+
         return buffer;
+    }
 
     // respBaudrate
     size = sizeof(respBaudrate);
@@ -149,9 +156,20 @@ size_t LinMessage2::calculateObjectSize()
             sizeof(etfAssocEtfId) +
             sizeof(fsmId) +
             sizeof(fsmState) +
-            sizeof(reserved) +
-            sizeof(respBaudrate) +
-            sizeof(exactHeaderBaudrate) +
+            sizeof(reserved);
+
+    if (objectVersion < 2) {
+        size += sizeof(reserved_ver1_only);
+        return size;
+    }
+
+    size += sizeof(respBaudrate);
+
+    if (objectVersion < 3) {
+        return size;
+    }
+
+    size += sizeof(exactHeaderBaudrate) +
             sizeof(earlyStopbitOffset) +
             sizeof(earlyStopbitOffsetResponse);
 

@@ -495,9 +495,9 @@ void File::close()
 
 bool File::eof()
 {
-    bool compressedFileDone = (compressedFile.tellg() >= fileStatistics.fileSize);
-    bool uncompressedFileDone = (uncompressedFile.size() <= 0);
-    return compressedFileDone && uncompressedFileDone;
+    bool compressedFileEmpty = (compressedFile.tellg() >= fileStatistics.fileSize);
+    bool uncompressedFileEmpty = (uncompressedFile.size() <= 0);
+    return compressedFileEmpty && uncompressedFileEmpty;
 }
 
 ObjectHeaderBase * File::readObjectFromCompressedFile()
@@ -529,7 +529,11 @@ ObjectHeaderBase * File::readObjectFromCompressedFile()
     }
 
     /* skip padding */
-    compressedFile.seekg(ohb.objectSize%4, std::iostream::cur);
+    size_t padding = ohb.objectSize%4;
+    if (padding > 0) {
+        // std::cout << "padding=" << std::dec << padding << std::endl;
+        compressedFile.seekg(padding, std::iostream::cur);
+    }
 
     /* delete buffers */
     delete[] ohbBuffer;
@@ -566,7 +570,11 @@ ObjectHeaderBase * File::readObjectFromUncompressedFile()
     }
 
     /* skip padding */
-    uncompressedFile.skipg(ohb.objectSize%4);
+    size_t padding = ohb.objectSize%4;
+    if (padding > 0) {
+        // std::cout << "padding=" << std::dec << padding << std::endl;
+        uncompressedFile.skipg(padding);
+    }
 
     /* delete buffers */
     delete[] ohbBuffer;

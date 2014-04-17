@@ -64,12 +64,8 @@ public:
 
     BYTE flags;
 
-    /**
-     * @brief pad
-     *
-     * Reserved, must be 0
-     */
-    BYTE dummy;
+    /** reserved */
+    BYTE reserved;
 };
 
 }

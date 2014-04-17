@@ -98,6 +98,9 @@ public:
      */
     BYTE ethChannel;
 
+    /** reserved */
+    BYTE reserved1;
+
     /**
      * Status- and error flags as:
      *
@@ -114,6 +117,9 @@ public:
      */
     WORD afdxFlags;
 
+    /** reserved */
+    BYTE reserved2[2];
+
     /**
      * Time period since last received frame on this
      * virtual link in micro-seconds
@@ -127,6 +133,9 @@ public:
      * 1500 Bytes (without Ethernet header)
      */
     WORD payLoadLength;
+
+    /** reserved */
+    BYTE reserved3[6];
 
     /**
      * @brief Ethernet payload data

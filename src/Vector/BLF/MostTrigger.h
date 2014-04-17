@@ -51,7 +51,8 @@ public:
      */
     WORD channel;
 
-    WORD dummy1;
+    /** reserved */
+    WORD reserved;
 
     /**
      * @brief trigger mode

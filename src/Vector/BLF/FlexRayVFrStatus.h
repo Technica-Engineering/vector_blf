@@ -80,6 +80,9 @@ public:
      */
     BYTE cycle;
 
+    /** reserved */
+    BYTE reserved1;
+
     /**
      * @brief clientindex of send node
      *
@@ -228,7 +231,7 @@ public:
      * reserver[1..15]:
      * Reserved
      */
-    WORD reserved[16];
+    BYTE reserved2[32];
 };
 
 }

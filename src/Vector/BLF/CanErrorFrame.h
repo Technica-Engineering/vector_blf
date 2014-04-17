@@ -58,7 +58,8 @@ public:
      */
     WORD length;
 
-    DWORD reserved; // @todo what is this?
+    /** reserved */
+    BYTE reserved[4];
 };
 
 }

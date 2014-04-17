@@ -53,7 +53,8 @@ public:
      */
     WORD channel;
 
-    WORD reserved[3]; // @todo: don't know what this is.
+    /** reserved */
+    BYTE reserved1[6];
 
     /**
      * @brief bus load
@@ -96,6 +97,9 @@ public:
      * Number of frames without response
      */
     ULONG framesUnanswered;
+
+    /** reserved */
+    BYTE reserved2[4];
 };
 
 }

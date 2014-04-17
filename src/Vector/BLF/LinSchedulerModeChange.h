@@ -64,6 +64,9 @@ public:
      * table
      */
     BYTE newMode;
+
+    /** reserved */
+    BYTE reserved[4];
 };
 
 }

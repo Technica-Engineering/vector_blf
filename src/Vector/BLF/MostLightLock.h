@@ -73,7 +73,8 @@ public:
      */
     SHORT state;
 
-    DWORD reserved; // @todo not sure if this is right
+    /** reserved */
+    BYTE reserved[4];
 };
 
 }

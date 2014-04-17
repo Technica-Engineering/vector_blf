@@ -115,9 +115,7 @@ public:
      */
     BYTE dlc;
 
-    /**
-     * Reserved, must be 0.
-     */
+    /** reserved */
     BYTE reserved1;
 
     /**
@@ -159,10 +157,8 @@ public:
      */
     WORD flagsExt;
 
-    /**
-     * Reserved, must be 0.
-     */
-    WORD reserved2;
+    /** reserved */
+    BYTE reserved2[2];
 
     /**
      * @brief Payload, only for CAN-Core

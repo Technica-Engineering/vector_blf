@@ -33,7 +33,7 @@ LinSendError2::LinSendError2() :
     isEtf(),
     fsmId(),
     fsmState(),
-    reserved(),
+    reserved1(),
     reserved2(),
     exactHeaderBaudrate(),
     earlyStopbitOffset()
@@ -68,9 +68,9 @@ char * LinSendError2::parse(char * buffer)
     memcpy((char *) &fsmState, buffer, size);
     buffer += size;
 
-    // reserved
-    size = sizeof(reserved);
-    memcpy((char *) &reserved, buffer, size);
+    // reserved1
+    size = sizeof(reserved1);
+    memcpy((char *) &reserved1, buffer, size);
     buffer += size;
 
     // reserved2
@@ -100,7 +100,7 @@ size_t LinSendError2::calculateObjectSize()
             sizeof(isEtf) +
             sizeof(fsmId) +
             sizeof(fsmState) +
-            sizeof(reserved) +
+            sizeof(reserved1) +
             sizeof(reserved2) +
             sizeof(exactHeaderBaudrate) +
             sizeof(earlyStopbitOffset);

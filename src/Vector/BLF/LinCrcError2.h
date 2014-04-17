@@ -92,12 +92,8 @@ public:
      */
     BYTE simulated;
 
-    /**
-     * @brief 4-byte alignment
-     *
-     * Reserved, has to be set to 0.
-     */
-    BYTE reserved[2];
+    /** reserved */
+    BYTE reserved1[2];
 
     /* the following variables are only available in Version 2 and above */
 
@@ -109,11 +105,7 @@ public:
      */
     DWORD respBaudrate;
 
-    /**
-     * @brief 4-byte alignment, reserved since BLF 3.9.3.0, BLF files from older versions may have junk data here
-     *
-     * Reserved, has to be set to 0.
-     */
+    /** reserved2 */
     BYTE reserved2[4];
 
     /* the following variables are only available in Version 3 and above */

@@ -57,7 +57,8 @@ public:
      */
     BYTE dir;
 
-    BYTE dummy1;
+    /** reserved */
+    BYTE reserved1;
 
     /**
      * Source address
@@ -74,7 +75,8 @@ public:
      */
     BYTE msg[17];
 
-    BYTE dummy2;
+    /** reserved */
+    BYTE reserved2;
 
     /**
      * @brief Control message sub type
@@ -137,7 +139,8 @@ public:
      */
     BYTE state;
 
-    BYTE dummy3;
+    /** reserved */
+    BYTE reserved3;
 
     /**
      * AckNack holds the transmit status of a control message (see Transmit Status Register of OS8104

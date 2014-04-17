@@ -66,12 +66,8 @@ public:
      */
     BYTE external;
 
-    /**
-     * @brief 4-byte alignment
-     *
-     * Reserved, has to be set to 0.
-     */
-    BYTE reserved;
+    /** reserved */
+    BYTE reserved[5];
 };
 
 }

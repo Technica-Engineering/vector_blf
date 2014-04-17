@@ -30,7 +30,7 @@ MostReg::MostReg() :
     ObjectHeader2(),
     channel(),
     subType(),
-    dummy1(),
+    reserved(),
     handle(),
     offset(),
     chip(),
@@ -56,9 +56,9 @@ char * MostReg::parse(char * buffer)
     memcpy((char *) &subType, buffer, size);
     buffer += size;
 
-    // dummy1
-    size = sizeof(dummy1);
-    memcpy((char *) &dummy1, buffer, size);
+    // reserved
+    size = sizeof(reserved);
+    memcpy((char *) &reserved, buffer, size);
     buffer += size;
 
     // handle
@@ -95,7 +95,7 @@ size_t MostReg::calculateObjectSize()
             ObjectHeader2::calculateObjectSize() +
             sizeof(channel) +
             sizeof(subType) +
-            sizeof(dummy1) +
+            sizeof(reserved) +
             sizeof(handle) +
             sizeof(offset) +
             sizeof(chip) +

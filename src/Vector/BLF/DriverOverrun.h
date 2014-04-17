@@ -61,7 +61,8 @@ public:
      */
     WORD channel;
 
-    WORD dummy;
+    /** reserved */
+    BYTE reserved[2];
 };
 
 }

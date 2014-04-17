@@ -37,13 +37,18 @@ UncompressedFile::UncompressedFile() :
 UncompressedFile::~UncompressedFile()
 {
     while (!content.empty()) {
-        delete content.front().data;
+        delete[] content.front().data;
         content.pop();
     }
 }
 
 void UncompressedFile::write(const char * s, std::streamsize n)
 {
+    /* do nothing if block is empty */
+    if (n <= 0) {
+        return;
+    }
+
     /* create a new data block */
     DataBlock db;
     db.data = new char[n];
@@ -63,9 +68,9 @@ void UncompressedFile::read(char * s, std::streamsize n)
 {
     gcount = 0;
 
-    /* nothing to read */
+    /* while more should be read */
     while (n > 0) {
-        /* no content left to read */
+        /* check if there are content blocks available */
         if (content.empty()) {
             return;
         }
@@ -76,6 +81,9 @@ void UncompressedFile::read(char * s, std::streamsize n)
         content.front().tellg += size;
         content.front().remainingSize -= size;
 
+        /* advance pointer */
+        s += size;
+
         /* increase read count */
         gcount += size;
 
@@ -85,9 +93,9 @@ void UncompressedFile::read(char * s, std::streamsize n)
         /* advance read pointer */
         tellg += size;
 
-        /* drop block if empty */
-        if (content.front().remainingSize == 0) {
-            delete content.front().data;
+        /* drop empty blocks */
+        while(content.front().remainingSize <= 0) {
+            delete[] content.front().data;
             content.pop();
         }
     }
@@ -95,9 +103,9 @@ void UncompressedFile::read(char * s, std::streamsize n)
 
 void UncompressedFile::skipg(std::streamsize n)
 {
-    /* nothing to read */
+    /* while more should be read */
     while (n > 0) {
-        /* no content left to read */
+        /* check if there are content blocks available */
         if (content.empty()) {
             return;
         }
@@ -113,9 +121,9 @@ void UncompressedFile::skipg(std::streamsize n)
         /* advance read pointer */
         tellg += size;
 
-        /* drop block if empty */
-        if (content.front().remainingSize == 0) {
-            delete content.front().data;
+        /* drop empty blocks */
+        while (content.front().remainingSize <= 0) {
+            delete[] content.front().data;
             content.pop();
         }
     }
@@ -123,7 +131,7 @@ void UncompressedFile::skipg(std::streamsize n)
 
 std::streamsize UncompressedFile::size()
 {
-    return tellp-tellg;
+    return tellp - tellg;
 }
 
 }
