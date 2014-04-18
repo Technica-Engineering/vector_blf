@@ -75,15 +75,12 @@ private:
         /** read pointer */
         char * tellg;
 
-        /** data size */
-        std::streamsize size;
-
         /** remaining size */
         std::streamsize remainingSize;
     };
 
     /** contains the file content in blocks */
-    std::queue<DataBlock> content;
+    std::queue<DataBlock *> content;
 };
 
 }

@@ -545,14 +545,16 @@ ObjectHeaderBase * File::readObjectFromCompressedFile()
 ObjectHeaderBase * File::readObjectFromUncompressedFile()
 {
     /* read object header base */
-    char * ohbBuffer = readFromUncompressedFile(0x10);
     ObjectHeaderBase ohb;
+    char * ohbBuffer = readFromUncompressedFile(0x10);
     ohb.parse(ohbBuffer);
 
     /* read full object */
     char * objBuffer = new char[ohb.objectSize];
+    char * objBuffer2 = readFromUncompressedFile(ohb.objectSize - 0x10);
     memcpy(objBuffer, ohbBuffer, 0x10); // copy object header base
-    memcpy(objBuffer + 0x10, readFromUncompressedFile(ohb.objectSize - 0x10), ohb.objectSize - 0x10);
+    memcpy(objBuffer + 0x10, objBuffer2, ohb.objectSize - 0x10);
+    delete[] objBuffer2;
 
     /* create object */
     ObjectHeaderBase * obj = createObject(ohb.objectType);
@@ -619,7 +621,7 @@ char * File::readFromUncompressedFile(size_t size)
         ObjectHeaderBase * obj = readObjectFromCompressedFile();
         if (obj->objectType == ObjectType::LOG_CONTAINER) {
             LogContainer * logContainer = reinterpret_cast<LogContainer *>(obj);
-            currentUncompressedFileSize += 0x20; // header
+            currentUncompressedFileSize += 0x20; // ObjectHeaderBase + ObjectHeader
             currentUncompressedFileSize += logContainer->uncompressedFileSize;
 
             /* inflate the log container */
