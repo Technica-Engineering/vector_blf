@@ -10,6 +10,7 @@ if(CPPCHECK_FOUND)
     ${CPPCHECK_EXECUTABLE}
     --xml-version=2 --enable=all --suppressions ${CMAKE_CURRENT_SOURCE_DIR}/suppressions.txt
     ${source_files_with_path}
+    -I "${PROJECT_BINARY_DIR}/src/Vector/BLF"
     > cppcheck-out.txt 2> cppcheck-err.xml)
 
   install(
