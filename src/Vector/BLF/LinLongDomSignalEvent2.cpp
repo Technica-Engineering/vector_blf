@@ -21,6 +21,8 @@
 
 #include "LinLongDomSignalEvent2.h"
 
+#include <cstring>
+
 namespace Vector {
 namespace BLF {
 

@@ -67,7 +67,8 @@ char * ObjectHeader::parse(char * buffer)
 
 size_t ObjectHeader::calculateObjectSize()
 {
-    constexpr size_t size =
+    size_t size =
+            ObjectHeaderBase::calculateObjectSize() +
             sizeof(objectFlags) +
             sizeof(reserved) +
             sizeof(objectVersion) +

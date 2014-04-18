@@ -80,7 +80,7 @@ char * ObjectHeaderBase::parse(char * buffer)
 
 size_t ObjectHeaderBase::calculateObjectSize()
 {
-    constexpr size_t size =
+    size_t size =
             sizeof(signature) +
             sizeof(headerSize) +
             sizeof(headerVersion) +
