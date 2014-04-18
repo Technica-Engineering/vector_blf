@@ -636,6 +636,10 @@ char * File::readFromUncompressedFile(size_t size)
     /* read back */
     char * buffer = new char[size];
     uncompressedFile.read(buffer, size);
+    if (uncompressedFile.gcount < size) {
+        std::cerr << "Not able to read this much" << std::endl;
+        throw 0;
+    }
     return buffer;
 }
 

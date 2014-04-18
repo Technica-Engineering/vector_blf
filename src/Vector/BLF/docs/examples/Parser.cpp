@@ -1124,6 +1124,13 @@ int main(int argc, char *argv[])
         default:
             std::cout << "Unexpected ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
         }
+
+        /* check objectSize */
+        if (obj->objectSize != obj->calculateObjectSize()) {
+            std::cout << "ObjectSize=" << obj->objectSize << " doesn't match calculatedObjectSize()=" << obj->calculateObjectSize() << std::endl;
+        }
+
+        /* delete object */
         delete obj;
     }
 
