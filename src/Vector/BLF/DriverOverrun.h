@@ -21,8 +21,6 @@
 
 #pragma once
 
-#include "platform.h"
-
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 
@@ -45,7 +43,7 @@ public:
     /**
      * @brief bus type
      */
-    enumclass BusType : DWORD {
+    enum class BusType : DWORD {
         CAN = 1,
         LIN = 5,
         MOST = 6,

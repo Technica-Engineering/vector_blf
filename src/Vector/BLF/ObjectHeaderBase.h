@@ -21,8 +21,6 @@
 
 #pragma once
 
-#include "platform.h"
-
 #include <fstream>
 
 #include "VectorTypes.h"
@@ -39,7 +37,7 @@ namespace BLF {
  *
  * Object type.
  */
-enumclass ObjectType : DWORD {
+enum class ObjectType : DWORD {
     UNKNOWN = 0, /**< unknown object */
     CAN_MESSAGE = 1, /**< CAN message object */
     CAN_ERROR = 2, /**< CAN error frame object */

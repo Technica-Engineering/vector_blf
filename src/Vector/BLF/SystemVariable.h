@@ -21,8 +21,6 @@
 
 #pragma once
 
-#include "platform.h"
-
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 
@@ -48,7 +46,7 @@ public:
     /**
      * @brief type of system variable
      */
-    enumclass Type : DWORD {
+    enum class Type : DWORD {
         /** DOUBLE */
         Double = 1,
 

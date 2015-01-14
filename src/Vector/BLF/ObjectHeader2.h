@@ -21,8 +21,6 @@
 
 #pragma once
 
-#include "platform.h"
-
 #include "VectorTypes.h"
 #include "ObjectHeaderBase.h"
 
@@ -49,7 +47,7 @@ public:
      *
      * Unit of object timestamp.
      */
-    enumclass ObjectFlag : DWORD {
+    enum class ObjectFlag : DWORD {
         /**
          * @brief 10 micro second timestamp
          *
@@ -68,7 +66,7 @@ public:
         TimeOneNans = 0x00000002
     } objectFlags;
 
-    enumclass TimeStampStatus : BYTE {
+    enum class TimeStampStatus : BYTE {
         /**
          * @brief 1: valid orig. timestamp
          *

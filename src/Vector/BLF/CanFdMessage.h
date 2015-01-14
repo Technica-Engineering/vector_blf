@@ -21,8 +21,6 @@
 
 #pragma once
 
-#include "platform.h"
-
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 
@@ -54,7 +52,7 @@ public:
      *
      * @todo does this make sense here?
      */
-    enumclass CanMessageFlags : BYTE {
+    enum class CanMessageFlags : BYTE {
         TX = (1<<0),
         NERR = (1<<5),
         WU = (1<<6),
@@ -89,7 +87,7 @@ public:
     /**
      * @todo does this make sense here?
      */
-    enumclass CanFdMessageFlags : BYTE {
+    enum class CanFdMessageFlags : BYTE {
         EDL = (1<<0),
         BRS = (1<<1),
         ESI = (1<<2)

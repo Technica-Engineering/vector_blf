@@ -21,8 +21,6 @@
 
 #pragma once
 
-#include "platform.h"
-
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 
@@ -69,7 +67,7 @@ public:
     /**
      * @brief trigger type
      */
-    enumclass Flags : WORD {
+    enum class Flags : WORD {
         /** single trigger type */
         SingleTrigger = 0x0000,
 

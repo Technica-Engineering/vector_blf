@@ -21,8 +21,6 @@
 
 #pragma once
 
-#include "platform.h"
-
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 
@@ -52,7 +50,7 @@ public:
      */
     WORD channel;
 
-    enumclass Flags : WORD {
+    enum class Flags : WORD {
         /** Genuine MAC Header */
         GenuineMacHeader = 0x0001
     };
@@ -63,7 +61,7 @@ public:
      *
      * Direction flag
      */
-    enumclass Dir : BYTE {
+    enum class Dir : BYTE {
         Rx = 0,
         Tx = 1,
         TxRq = 2

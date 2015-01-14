@@ -215,7 +215,6 @@ set(header_files
   ObjectHeader2.h
   ObjectHeaderBase.h
   ObjectHeader.h
-  platform.h
   RealtimeClock.h
   SerialEvent.h
   SystemVariable.h

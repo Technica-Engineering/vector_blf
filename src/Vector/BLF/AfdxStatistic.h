@@ -21,8 +21,6 @@
 
 #pragma once
 
-#include "platform.h"
-
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 
@@ -51,7 +49,7 @@ public:
      */
     WORD channel;
 
-    enumclass Flags : WORD {
+    enum class Flags : WORD {
         /** Valid Rx/Tx counter */
         ValidRxTxCounter = 0x01,
 

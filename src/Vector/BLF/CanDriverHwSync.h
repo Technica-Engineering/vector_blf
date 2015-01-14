@@ -21,8 +21,6 @@
 
 #pragma once
 
-#include "platform.h"
-
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 
@@ -51,7 +49,7 @@ public:
      */
     WORD channel;
 
-    enumclass Flags : BYTE {
+    enum class Flags : BYTE {
         /** sync was sent from this channel */
         Tx = 1,
 

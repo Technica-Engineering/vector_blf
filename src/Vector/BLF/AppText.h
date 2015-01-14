@@ -21,8 +21,6 @@
 
 #pragma once
 
-#include "platform.h"
-
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 
@@ -95,7 +93,7 @@ public:
      *   If for a database there's no cluster name available, an
      *   empty string is written as cluster name.
      */
-    enumclass Source : DWORD {
+    enum class Source : DWORD {
         MeasurementComment = 0,
         DbChannelInfo = 1
     } source;

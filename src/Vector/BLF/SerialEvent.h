@@ -21,8 +21,6 @@
 
 #pragma once
 
-#include "platform.h"
-
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 
@@ -76,7 +74,7 @@ public:
     virtual char * parse(char * buffer);
     virtual size_t calculateObjectSize();
 
-    enumclass Flags : DWORD {
+    enum class Flags : DWORD {
         KLineEvent = 0x000000001,
 
         /** only valid if BL_SERIAL_TYPE_KLINE_EVENT is set */

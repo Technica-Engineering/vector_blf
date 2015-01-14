@@ -21,8 +21,6 @@
 
 #pragma once
 
-#include "platform.h"
-
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 
@@ -77,7 +75,7 @@ public:
     BYTE reason;
 
     /** Bit values for flags */
-    enumclass Flags : BYTE {
+    enum class Flags : BYTE {
         /** @brief LIN "was awake" */
         WasAwake = 0x01,
 

@@ -21,8 +21,6 @@
 
 #pragma once
 
-#include "platform.h"
-
 #include <cstddef>
 
 #include "VectorTypes.h"

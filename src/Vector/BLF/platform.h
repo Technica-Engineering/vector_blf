@@ -35,9 +35,3 @@
 #pragma warning (disable: 4482)
 
 #endif
-
-#ifdef OPTION_USE_CPP11_ENUM_CLASS
-#define enumclass enum class
-#else
-#define enumclass enum
-#endif

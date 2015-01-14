@@ -21,8 +21,6 @@
 
 #pragma once
 
-#include "platform.h"
-
 #include <fstream>
 #include "zlib.h"
 

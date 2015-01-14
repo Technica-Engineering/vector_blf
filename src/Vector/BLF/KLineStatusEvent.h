@@ -21,8 +21,6 @@
 
 #pragma once
 
-#include "platform.h"
-
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 
@@ -42,7 +40,7 @@ public:
     virtual char * parse(char * buffer);
     virtual size_t calculateObjectSize();
 
-    enumclass Type : WORD {
+    enum class Type : WORD {
         /** If set in type, direction is tester -> ECU */
         toEcu = 0x8000,
 

@@ -21,8 +21,6 @@
 
 #pragma once
 
-#include "platform.h"
-
 #include <fstream>
 
 #include "VectorTypes.h"
@@ -35,7 +33,7 @@ namespace BLF {
 /** File signature */
 const DWORD FileSignature = 0x47474F4C; /* LOGG */
 
-enumclass ApplicationId : BYTE {
+enum class ApplicationId : BYTE {
     UNKNOWN = 0,
     CANALYZER = 1,
     CANOE = 2,

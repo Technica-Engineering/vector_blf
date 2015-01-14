@@ -21,8 +21,6 @@
 
 #pragma once
 
-#include "platform.h"
-
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 
@@ -62,7 +60,7 @@ public:
     /**
      * Direction flag
      */
-    enumclass Dir : WORD {
+    enum class Dir : WORD {
         Rx = 0,
         Tx = 1,
         TxRq = 2

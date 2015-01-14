@@ -21,8 +21,6 @@
 
 #pragma once
 
-#include "platform.h"
-
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 
@@ -49,7 +47,7 @@ public:
      */
     WORD channel;
 
-    enumclass Flags : WORD {
+    enum class Flags : WORD {
         /** Link Status */
         LinkStatus = 0x0001,
 
@@ -79,7 +77,7 @@ public:
     /**
      * @brief Link Status
      */
-    enumclass LinkStatus : BYTE {
+    enum class LinkStatus : BYTE {
         /** Unknown */
         UnknownLinkStatus = 0,
 
@@ -99,7 +97,7 @@ public:
     /**
      * @brief Ethernet Phy
      */
-    enumclass EthernetPhy : BYTE {
+    enum class EthernetPhy : BYTE {
         /** Unknown */
         UnknownEthernetPhy = 0,
 
@@ -113,7 +111,7 @@ public:
     /**
      * @brief Duplex
      */
-    enumclass Duplex : BYTE {
+    enum class Duplex : BYTE {
         /** Unknown */
         UnknownDuplex = 0,
 
@@ -124,7 +122,7 @@ public:
         FullDuplex = 2
     } duplex;
 
-    enumclass Mdi : BYTE {
+    enum class Mdi : BYTE {
         /** Unknown */
         UnknownMdi = 0,
 
@@ -135,7 +133,7 @@ public:
         Crossover = 2
     } mdi;
 
-    enumclass Connector : BYTE {
+    enum class Connector : BYTE {
         /** Unknown */
         UnknownConnector = 0,
 
@@ -146,7 +144,7 @@ public:
         DSub = 2
     } connector;
 
-    enumclass ClockMode : BYTE {
+    enum class ClockMode : BYTE {
         /** Unknown */
         UnknownClockMode = 0,
 
@@ -157,7 +155,7 @@ public:
         Slave = 2
     } clockMode;
 
-    enumclass Pairs : BYTE {
+    enum class Pairs : BYTE {
         /** Unknown */
         UnknownPairs = 0,
 
