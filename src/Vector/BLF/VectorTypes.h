@@ -21,37 +21,39 @@
 
 #pragma once
 
+#include <cstdint>
+
 namespace Vector {
 namespace BLF {
 
 /* unsigned 8 bit */
-typedef unsigned char BYTE;
+typedef uint8_t BYTE;
 
 /* unsigned 16 bit */
-typedef unsigned short WORD;
+typedef uint16_t WORD;
 
 /* signed 16 bit */
-typedef short SHORT;
+typedef int16_t SHORT;
 
 /* unsigned 32 bit */
-typedef unsigned long DWORD;
-typedef unsigned long ULONG;
+typedef uint32_t DWORD;
+typedef uint32_t ULONG;
 
 /* signed 32 bit */
-typedef long LONG;
+typedef int32_t LONG;
 
 /* unsigned 64 bit */
-typedef unsigned long long ULONGLONG;
-typedef unsigned long long UINT64;
+typedef uint64_t ULONGLONG;
+typedef uint64_t UINT64;
 
 /* signed 64 bit */
-typedef long long LONGLONG;
+typedef int64_t LONGLONG;
 
 /* double */
 typedef double DOUBLE;
 
 /* color reference */
-typedef unsigned long COLORREF;
+typedef uint32_t COLORREF;
 
 /* system time */
 struct SYSTEMTIME {
