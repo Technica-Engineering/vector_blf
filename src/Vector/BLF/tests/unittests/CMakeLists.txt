@@ -1,6 +1,6 @@
 include_directories(${PROJECT_SOURCE_DIR}/src)
 
-find_package(Boost 1.54 COMPONENTS system filesystem unit_test_framework REQUIRED)
+find_package(Boost 1.55 COMPONENTS system filesystem unit_test_framework REQUIRED)
 include_directories(${Boost_INCLUDE_DIR})
 link_directories(${Boost_LIBRARY_DIRS})
 
