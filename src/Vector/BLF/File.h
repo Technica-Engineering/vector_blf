@@ -165,10 +165,19 @@ public:
 
     ObjectHeaderBase * createObject(ObjectType type);
 
+    /** open file */
     void open(const char * filename);
+
+    /** open file */
+    void open(std::string & filename);
+
+    /** close file */
     void close();
+
+    /** check for end-of-file */
     bool eof();
 
+    /** read object from uncompressed file */
     ObjectHeaderBase * read();
 
 private:
@@ -178,11 +187,17 @@ private:
     /** uncompressed file */
     UncompressedFile uncompressedFile;
 
+    /** read object from compressed file */
     ObjectHeaderBase * readObjectFromCompressedFile();
+
+    /** read object from uncompressed file */
     ObjectHeaderBase * readObjectFromUncompressedFile();
+
+    /** read data from uncompressed sfile */
     char * readFromUncompressedFile(size_t size);
+
+    /** inflate date from compressed file into uncompressed file */
     void inflateLogContainer(LogContainer * logContainer);
-    ObjectHeaderBase * read(std::iostream & ios);
 };
 
 }

@@ -483,6 +483,11 @@ void File::open(const char * filename)
     }
 }
 
+void File::open(std::string & filename)
+{
+    open(filename.c_str());
+}
+
 void File::close()
 {
     if (openMode == OpenMode::Write) {
