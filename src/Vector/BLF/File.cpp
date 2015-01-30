@@ -49,7 +49,7 @@ File::File() :
     compressionLevel(Z_DEFAULT_COMPRESSION),
     fileStatistics(),
     currentUncompressedFileSize(0),
-    currentObjectCount(0),
+    currentObjectCount(-1),
     compressedFile(),
     uncompressedFile()
 {
@@ -500,7 +500,7 @@ void File::close()
 
 bool File::eof()
 {
-    bool compressedFileEmpty = (compressedFile.tellg() >= fileStatistics.fileSize);
+    bool compressedFileEmpty = (compressedFile.tellg() >= fileStatistics.fileSize) || compressedFile.eof();
     bool uncompressedFileEmpty = (uncompressedFile.size() <= 0);
     return compressedFileEmpty && uncompressedFileEmpty;
 }

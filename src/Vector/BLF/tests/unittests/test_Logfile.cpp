@@ -59,10 +59,10 @@ BOOST_AUTO_TEST_CASE(Logfile)
     /* go through all records */
     while(!infile.eof()) {
         Vector::BLF::ObjectHeaderBase * obj = infile.read();
-        BOOST_WARN(obj != nullptr);
-        if (obj == nullptr)
+        if (obj == nullptr) {
+            std::cerr << "obj == nullptr at currentObjectCount=" << std::dec << infile.currentObjectCount << std::endl;
             continue;
-        std::cout << "object: coc=" << std::dec << infile.currentObjectCount << " ucfs=" << infile.currentUncompressedFileSize << " ot=" << (unsigned short) obj->objectType << std::endl;
+        }
 
 #ifdef OUTFILE_EXISTS
         outfile.write(obj);
@@ -72,10 +72,10 @@ BOOST_AUTO_TEST_CASE(Logfile)
     }
 
     /* show file statistics */
-    std::cout << "currentUncompressedFileSize: " << std::dec << infile.currentUncompressedFileSize << " = 0x" << std::hex << infile.currentUncompressedFileSize << std::endl;
-    std::cout << "currentObjectCount: " << std::dec << infile.currentObjectCount << " = 0x" << std::hex << infile.currentObjectCount << std::endl;
+    //std::cout << "currentUncompressedFileSize: " << std::dec << infile.currentUncompressedFileSize << " = 0x" << std::hex << infile.currentUncompressedFileSize << std::endl;
     BOOST_CHECK(infile.fileStatistics.uncompressedFileSize == infile.currentUncompressedFileSize);
-    BOOST_CHECK(infile.fileStatistics.objectCount == infile.currentObjectCount);
+    //std::cout << "currentObjectCount: " << std::dec << (infile.currentObjectCount + 1) << " = 0x" << std::hex << (infile.currentObjectCount + 1) << std::endl;
+    BOOST_CHECK(infile.fileStatistics.objectCount == (infile.currentObjectCount + 1));
 
     /* input and output log file should be equivalent */
 #ifdef OUTFILE_EXISTS

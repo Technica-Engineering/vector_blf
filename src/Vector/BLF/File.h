@@ -161,7 +161,7 @@ public:
     unsigned long currentUncompressedFileSize;
 
     /** current number of objects read */
-    unsigned long currentObjectCount;
+    long currentObjectCount;
 
     ObjectHeaderBase * createObject(ObjectType type);
 
