@@ -26,6 +26,34 @@
 namespace Vector {
 namespace BLF {
 
+UncompressedFile::DataBlock::DataBlock() :
+    DataBlock(0)
+{
+}
+
+UncompressedFile::DataBlock::DataBlock(size_t size) :
+    data(nullptr),
+    tellg(nullptr),
+    remainingSize(0)
+{
+    data = new char[size];
+    if (data == nullptr) {
+        std::cerr << "out of memory" << std::endl;
+        return;
+    }
+
+    tellg = data;
+    remainingSize = size;
+}
+
+UncompressedFile::DataBlock::~DataBlock()
+{
+    delete[] data;
+    data = nullptr;
+    tellg = nullptr;
+    remainingSize = 0;
+}
+
 UncompressedFile::UncompressedFile() :
     tellp(0),
     tellg(0),
@@ -36,8 +64,8 @@ UncompressedFile::UncompressedFile() :
 
 UncompressedFile::~UncompressedFile()
 {
+    /* delete all content blocks */
     while (!content.empty()) {
-        delete[] content.front()->data;
         delete content.front();
         content.pop();
     }
@@ -51,10 +79,7 @@ void UncompressedFile::write(const char * s, std::streamsize n)
     }
 
     /* create a new data block */
-    DataBlock * db = new DataBlock();
-    db->data = new char[n];
-    db->tellg = db->data;
-    db->remainingSize = n;
+    DataBlock * db = new DataBlock(n);
     memcpy(db->data, s, n);
 
     /* insert it into the content buffer */
@@ -91,8 +116,7 @@ void UncompressedFile::read(char * s, std::streamsize n)
         gcount += size;
 
         /* drop empty blocks */
-        while(content.front()->remainingSize <= 0) {
-            delete[] content.front()->data;
+        if (content.front()->remainingSize <= 0) {
             delete content.front();
             content.pop();
         }
@@ -122,8 +146,7 @@ void UncompressedFile::skipg(std::streamsize n)
         count += size;
 
         /* drop empty blocks */
-        while (content.front()->remainingSize <= 0) {
-            delete[] content.front()->data;
+        if (content.front()->remainingSize <= 0) {
             delete content.front();
             content.pop();
         }
