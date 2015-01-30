@@ -194,7 +194,7 @@ private:
     ObjectHeaderBase * readObjectFromUncompressedFile();
 
     /** read data from uncompressed sfile */
-    char * readFromUncompressedFile(size_t size);
+    size_t readFromUncompressedFile(char ** buffer, size_t size);
 
     /** inflate date from compressed file into uncompressed file */
     void inflateLogContainer(LogContainer * logContainer);

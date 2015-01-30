@@ -578,15 +578,34 @@ ObjectHeaderBase * File::readObjectFromUncompressedFile()
 {
     /* read and parse object header base */
     ObjectHeaderBase ohb;
-    char * ohbBuffer = readFromUncompressedFile(0x10);
+    char * ohbBuffer = nullptr;
+    if (readFromUncompressedFile(&ohbBuffer, 0x10) == 0)
+        return nullptr;
     ohb.parse(ohbBuffer);
 
     /* read full object */
-    char * objBuffer = new char[ohb.objectSize];
-    char * objBuffer2 = readFromUncompressedFile(ohb.objectSize - 0x10);
-    memcpy(objBuffer, ohbBuffer, 0x10); // copy object header base
-    memcpy(objBuffer + 0x10, objBuffer2, ohb.objectSize - 0x10);
-    delete[] objBuffer2;
+    char * objBuffer = nullptr;
+    if ((ohb.objectSize - 0x10) > 0) {
+        objBuffer = new char[ohb.objectSize];
+        if (objBuffer == nullptr) {
+            std::cerr << "out of memory" << std::endl;
+            delete[] ohbBuffer;
+            return nullptr;
+        }
+
+        /* copy object header base */
+        memcpy(objBuffer, ohbBuffer, 0x10);
+        delete[] ohbBuffer;
+
+        /* read rest of object */
+        char * objBuffer2 = nullptr;
+        if (readFromUncompressedFile(&objBuffer2, ohb.objectSize - 0x10) == 0) {
+            std::cerr << "readFromUncompressedFile returned nullptr" << std::endl;
+        } else {
+            memcpy(objBuffer + 0x10, objBuffer2, ohb.objectSize - 0x10);
+            delete[] objBuffer2;
+        }
+    }
 
     /* create object */
     ObjectHeaderBase * obj = createObject(ohb.objectType);
@@ -598,28 +617,21 @@ ObjectHeaderBase * File::readObjectFromUncompressedFile()
     }
 
     /* parse object data or skip */
-    if (obj != nullptr) {
-        char * ptr = obj->parse(objBuffer);
+    char * ptr = obj->parse(objBuffer);
 
-        /* handle if there is size remaining */
-        size_t remainingSize = obj->objectSize - (ptr - objBuffer);
-        if (remainingSize != 0) {
-          std::cout << "remainingSize: 0x" << std::hex << remainingSize << std::endl;
-          hexDump(objBuffer, ohb.objectSize);
-        }
-    }
-
-    /* skip padding */
-    size_t padding = ohb.objectSize%4;
-    if (padding > 0) {
-        // std::cout << "padding=" << std::dec << padding << std::endl;
-        uncompressedFile.skipg(padding);
+    /* handle if there is size remaining */
+    size_t remainingSize = obj->objectSize - (ptr - objBuffer);
+    if (remainingSize != 0) {
+      std::cerr << "remainingSize: 0x" << std::hex << remainingSize << std::endl;
+      hexDump(objBuffer, ohb.objectSize);
     }
 
     /* delete buffers */
-    delete[] ohbBuffer;
     if (objBuffer != nullptr)
         delete[] objBuffer;
+
+    /* skip padding */
+    uncompressedFile.skipg(ohb.objectSize % 4);
 
     currentObjectCount++;
     return obj;
@@ -655,8 +667,15 @@ void File::inflateLogContainer(LogContainer * logContainer)
     delete[] buffer;
 }
 
-char * File::readFromUncompressedFile(size_t size)
+size_t File::readFromUncompressedFile(char ** buffer, size_t size)
 {
+    /* safety check */
+    if (buffer == nullptr) {
+        std::cerr << "readFromUncompressedFile with nullptr argument" << std::endl;
+        *buffer = nullptr;
+        return 0;
+    }
+
     /* first read some more compressed data and inflate it */
     while (uncompressedFile.size() < size) {
         ObjectHeaderBase * obj = readObjectFromCompressedFile();
@@ -679,13 +698,19 @@ char * File::readFromUncompressedFile(size_t size)
     }
 
     /* read back */
-    char * buffer = new char[size];
-    uncompressedFile.read(buffer, size);
-    if (uncompressedFile.gcount < size) {
-        std::cerr << "Not able to read this much" << std::endl;
-        throw 0;
+    *buffer = new char[size];
+    if (*buffer == nullptr) {
+        std::cerr << "out of memory" << std::endl;
+        return 0;
     }
-    return buffer;
+    uncompressedFile.read(*buffer, size);
+    if (uncompressedFile.gcount < size) {
+        std::cerr << "1uncompressed data exhausted" << std::endl;
+        delete[] *buffer;
+        *buffer = nullptr;
+        return 0;
+    }
+    return size;
 }
 
 ObjectHeaderBase * File::read()
