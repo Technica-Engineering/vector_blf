@@ -74,7 +74,12 @@ UncompressedFile::~UncompressedFile()
 void UncompressedFile::write(const char * s, std::streamsize n)
 {
     /* do nothing if block is empty */
+    if (s == nullptr) {
+        std::cerr << "write with nullptr argument" << std::endl;
+        return;
+    }
     if (n <= 0) {
+        std::cerr << "write with null argument" << std::endl;
         return;
     }
 
@@ -93,14 +98,21 @@ void UncompressedFile::read(char * s, std::streamsize n)
 {
     gcount = 0;
 
+    /* safety check */
+    if (s == nullptr) {
+        std::cerr << "read with nullptr argument" << std::endl;
+        return;
+    }
+
     /* while more should be read */
     while (gcount < n) {
         /* check if there are content blocks available */
         if (content.empty()) {
+            std::cerr << "uncompressed data exhausted" << std::endl;
             return;
         }
 
-        /* consume container */
+        /* read data from container */
         std::streamsize size = std::min(content.front()->remainingSize, n - gcount);
         memcpy(s, content.front()->tellg, size);
         content.front()->tellg += size;
@@ -125,17 +137,18 @@ void UncompressedFile::read(char * s, std::streamsize n)
 
 void UncompressedFile::skipg(std::streamsize n)
 {
-    std::streamsize count = 0;
+    std::streamsize scount = 0;
 
     /* while more should be read */
-    while (count < n) {
+    while (scount < n) {
         /* check if there are content blocks available */
         if (content.empty()) {
+            std::cerr << "uncompressed data exhausted" << std::endl;
             return;
         }
 
-        /* consume container */
-        std::streamsize size = std::min(content.front()->remainingSize, n - count);
+        /* skip data from container */
+        std::streamsize size = std::min(content.front()->remainingSize, n - scount);
         content.front()->tellg += size;
         content.front()->remainingSize -= size;
 
@@ -143,7 +156,7 @@ void UncompressedFile::skipg(std::streamsize n)
         tellg += size;
 
         /* increase skip count */
-        count += size;
+        scount += size;
 
         /* drop empty blocks */
         if (content.front()->remainingSize <= 0) {
