@@ -20,6 +20,7 @@
  */
 
 #include <iostream>
+#include <string>
 
 #include "FileStatistics.h"
 
@@ -148,6 +149,28 @@ void FileStatistics::write(std::ostream & os)
             sizeof(lastObjectTime) +
             sizeof(reserved);
     os.write((char *) &signature, size);
+}
+
+std::string FileStatistics::applicationName()
+{
+    switch(applicationId) {
+    case Vector::BLF::ApplicationId::UNKNOWN:
+        return "unknown";
+    case Vector::BLF::ApplicationId::CANALYZER:
+        return "CANalyzer";
+    case Vector::BLF::ApplicationId::CANOE:
+        return "CANoe";
+    case Vector::BLF::ApplicationId::CANSTRESS:
+        return "CANstress";
+    case Vector::BLF::ApplicationId::CANLOG:
+        return "CANlog";
+    case Vector::BLF::ApplicationId::CANAPE:
+        return "CANape";
+    case Vector::BLF::ApplicationId::CANCASEXLLOG:
+        return "CANcaseXL log";
+    default:
+        return std::to_string((unsigned short) applicationId);
+    };
 }
 
 }

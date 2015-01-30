@@ -26,37 +26,11 @@ BOOST_AUTO_TEST_CASE(Logfile)
     std::string infilename = inpath.string();
     infile.open(infilename);
 
+#ifdef SHOW_FILE_STATISTICS
     /* show file statistics */
     std::cout << "signature: 0x" << std::hex << infile.fileStatistics.signature << std::endl;
     BOOST_REQUIRE(infile.fileStatistics.signature == Vector::BLF::FileSignature);
-    std::cout << "applicationId: ";
-    switch(infile.fileStatistics.applicationId) {
-    case Vector::BLF::ApplicationId::UNKNOWN:
-        std::cout << "Unknown";
-        break;
-    case Vector::BLF::ApplicationId::CANALYZER:
-        std::cout << "CANalyzer";
-        break;
-    case Vector::BLF::ApplicationId::CANOE:
-        std::cout << "CANoe";
-        break;
-    case Vector::BLF::ApplicationId::CANSTRESS:
-        std::cout << "CANstress";
-        break;
-    case Vector::BLF::ApplicationId::CANLOG:
-        std::cout << "CANlog";
-        break;
-    case Vector::BLF::ApplicationId::CANAPE:
-        std::cout << "CANape";
-        break;
-    case Vector::BLF::ApplicationId::CANCASEXLLOG:
-        std::cout << "CANcaseXL log";
-        break;
-    default:
-        std::cout << std::dec << (unsigned short) infile.fileStatistics.applicationId;
-        break;
-    };
-    std::cout << std::endl;
+    std::cout << "applicationName: " << infile.fileStatistics.applicationName() << std::endl;
     std::cout << "applicationNumber: " << std::dec << (unsigned short) infile.fileStatistics.applicationMajor << "." << (unsigned short) infile.fileStatistics.applicationMinor << "." << (unsigned short) infile.fileStatistics.applicationBuild << std::endl;
     std::cout << "apiNumber: " << std::dec << (unsigned short) infile.fileStatistics.apiMajor << "." << (unsigned short) infile.fileStatistics.apiMinor << "." << (unsigned short) infile.fileStatistics.apiBuild << "." << (unsigned short) infile.fileStatistics.apiPatch << std::endl;
     std::cout << "fileSize: " << std::dec << infile.fileStatistics.fileSize << " = 0x" << std::hex << infile.fileStatistics.fileSize << std::endl;
@@ -65,6 +39,7 @@ BOOST_AUTO_TEST_CASE(Logfile)
     std::cout << "objectsRead: " << std::dec << infile.fileStatistics.objectsRead << std::endl;
     //std::cout << "measurementStartTime: " << std::dec << infile.fileStatistics.measurementStartTime << std::endl;
     //std::cout << "lastObjectTime: " << std::dec << infile.fileStatistics.lastObjectTime << std::endl;
+#endif
 
 #ifdef OUTFILE_EXISTS
     /* create output directory */
@@ -77,12 +52,11 @@ BOOST_AUTO_TEST_CASE(Logfile)
     boost::filesystem::path outpath(CMAKE_CURRENT_BINARY_DIR "/data/logfile.blf");
     std::string outfilename = outpath.string();
     outfile.open(outfilename);
+    outfile.fileStatistics = infile.fileStatistics;
+    // outfile.write(fileStatistics);
 #endif
 
     /* go through all records */
-#ifdef OUTFILE_EXISTS
-    outfile.fileStatistics = infile.fileStatistics;
-#endif
     while(!infile.eof()) {
         Vector::BLF::ObjectHeaderBase * obj = infile.read();
         BOOST_WARN(obj != nullptr);
