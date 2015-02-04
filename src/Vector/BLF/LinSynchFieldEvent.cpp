@@ -42,12 +42,12 @@ char * LinSynchFieldEvent::parse(char * buffer)
 
     // synchBreakLength
     size = sizeof(synchBreakLength);
-    memcpy((char *) &synchBreakLength, buffer, size);
+    memcpy((void *) &synchBreakLength, buffer, size);
     buffer += size;
 
     // synchDelLength
     size = sizeof(synchDelLength);
-    memcpy((char *) &synchDelLength, buffer, size);
+    memcpy((void *) &synchDelLength, buffer, size);
     buffer += size;
 
     return buffer;

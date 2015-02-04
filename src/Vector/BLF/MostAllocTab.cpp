@@ -50,17 +50,17 @@ char * MostAllocTab::parse(char * buffer)
 
     // channel
     size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    memcpy((void *) &channel, buffer, size);
     buffer += size;
 
     // length
     size = sizeof(length);
-    memcpy((char *) &length, buffer, size);
+    memcpy((void *) &length, buffer, size);
     buffer += size;
 
     // reserved
     size = sizeof(reserved);
-    memcpy((char *) &reserved, buffer, size);
+    memcpy((void *) &reserved, buffer, size);
     buffer += size;
 
     // tableData

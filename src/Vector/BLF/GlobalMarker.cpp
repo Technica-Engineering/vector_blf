@@ -64,49 +64,49 @@ char * GlobalMarker::parse(char * buffer)
 
     // commentedEventType
     size = sizeof(commentedEventType);
-    memcpy((char *) &commentedEventType, buffer, size);
+    memcpy((void *) &commentedEventType, buffer, size);
     buffer += size;
 
     // foregroundColor
     size = sizeof(foregroundColor);
-    memcpy((char *) &foregroundColor, buffer, size);
+    memcpy((void *) &foregroundColor, buffer, size);
     buffer += size;
 
     // backgroundColor
     size = sizeof(backgroundColor);
-    memcpy((char *) &backgroundColor, buffer, size);
+    memcpy((void *) &backgroundColor, buffer, size);
     buffer += size;
 
 #if 0
     // isRelocatable
     size = sizeof(isRelocatable);
-    memcpy((char *) &isRelocatable, buffer, size);
+    memcpy((void *) &isRelocatable, buffer, size);
     buffer += size;
 #else
     // reserved1
     size = sizeof(reserved1);
-    memcpy((char *) &reserved1, buffer, size);
+    memcpy((void *) &reserved1, buffer, size);
     buffer += size;
 #endif
 
     // groupNameLength
     size = sizeof(groupNameLength);
-    memcpy((char *) &groupNameLength, buffer, size);
+    memcpy((void *) &groupNameLength, buffer, size);
     buffer += size;
 
     // markerNameLength
     size = sizeof(markerNameLength);
-    memcpy((char *) &markerNameLength, buffer, size);
+    memcpy((void *) &markerNameLength, buffer, size);
     buffer += size;
 
     // descriptionLength
     size = sizeof(descriptionLength);
-    memcpy((char *) &descriptionLength, buffer, size);
+    memcpy((void *) &descriptionLength, buffer, size);
     buffer += size;
 
     // reserved2
     size = sizeof(reserved2);
-    memcpy((char *) &reserved2, buffer, size);
+    memcpy((void *) &reserved2, buffer, size);
     buffer += size;
 
     // groupName

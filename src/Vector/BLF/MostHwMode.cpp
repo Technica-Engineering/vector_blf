@@ -44,22 +44,22 @@ char * MostHwMode::parse(char * buffer)
 
     // channel
     size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    memcpy((void *) &channel, buffer, size);
     buffer += size;
 
     // reserved1
     size = sizeof(reserved1);
-    memcpy((char *) &reserved1, buffer, size);
+    memcpy((void *) &reserved1, buffer, size);
     buffer += size;
 
     // hwMode
     size = sizeof(hwMode);
-    memcpy((char *) &hwMode, buffer, size);
+    memcpy((void *) &hwMode, buffer, size);
     buffer += size;
 
     // hwModeMask
     size = sizeof(hwModeMask);
-    memcpy((char *) &hwModeMask, buffer, size);
+    memcpy((void *) &hwModeMask, buffer, size);
     buffer += size;
 
     return buffer;

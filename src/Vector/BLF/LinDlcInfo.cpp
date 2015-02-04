@@ -43,17 +43,17 @@ char * LinDlcInfo::parse(char * buffer)
 
     // channel
     size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    memcpy((void *) &channel, buffer, size);
     buffer += size;
 
     // id
     size = sizeof(id);
-    memcpy((char *) &id, buffer, size);
+    memcpy((void *) &id, buffer, size);
     buffer += size;
 
     // dlc
     size = sizeof(dlc);
-    memcpy((char *) &dlc, buffer, size);
+    memcpy((void *) &dlc, buffer, size);
     buffer += size;
 
     return buffer;

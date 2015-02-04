@@ -56,27 +56,27 @@ char * SystemVariable::parse(char * buffer)
 
     // type
     size = sizeof(type);
-    memcpy((char *) &type, buffer, size);
+    memcpy((void *) &type, buffer, size);
     buffer += size;
 
     // reserved
     size = sizeof(reserved);
-    memcpy((char *) &reserved, buffer, size);
+    memcpy((void *) &reserved, buffer, size);
     buffer += size;
 
     // nameLength
     size = sizeof(nameLength);
-    memcpy((char *) &nameLength, buffer, size);
+    memcpy((void *) &nameLength, buffer, size);
     buffer += size;
 
     // dataLength
     size = sizeof(dataLength);
-    memcpy((char *) &dataLength, buffer, size);
+    memcpy((void *) &dataLength, buffer, size);
     buffer += size;
 
     // unknown
     size = sizeof(unknown);
-    memcpy((char *) &unknown, buffer, size);
+    memcpy((void *) &unknown, buffer, size);
     buffer += size;
 
     // name

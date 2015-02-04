@@ -62,77 +62,77 @@ char * MostEthernetPkt::parse(char * buffer)
 
     // channel
     size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    memcpy((void *) &channel, buffer, size);
     buffer += size;
 
     // dir
     size = sizeof(dir);
-    memcpy((char *) &dir, buffer, size);
+    memcpy((void *) &dir, buffer, size);
     buffer += size;
 
     // reserved1
     size = sizeof(reserved1);
-    memcpy((char *) &reserved1, buffer, size);
+    memcpy((void *) &reserved1, buffer, size);
     buffer += size;
 
     // sourceMacAdr
     size = sizeof(sourceMacAdr);
-    memcpy((char *) &sourceMacAdr, buffer, size);
+    memcpy((void *) &sourceMacAdr, buffer, size);
     buffer += size;
 
     // destMacAdr
     size = sizeof(destMacAdr);
-    memcpy((char *) &destMacAdr, buffer, size);
+    memcpy((void *) &destMacAdr, buffer, size);
     buffer += size;
 
     // transferType
     size = sizeof(transferType);
-    memcpy((char *) &transferType, buffer, size);
+    memcpy((void *) &transferType, buffer, size);
     buffer += size;
 
     // state
     size = sizeof(state);
-    memcpy((char *) &state, buffer, size);
+    memcpy((void *) &state, buffer, size);
     buffer += size;
 
     // ackNack
     size = sizeof(ackNack);
-    memcpy((char *) &ackNack, buffer, size);
+    memcpy((void *) &ackNack, buffer, size);
     buffer += size;
 
     // reserved2
     size = sizeof(reserved2);
-    memcpy((char *) &reserved2, buffer, size);
+    memcpy((void *) &reserved2, buffer, size);
     buffer += size;
 
     // crc
     size = sizeof(crc);
-    memcpy((char *) &crc, buffer, size);
+    memcpy((void *) &crc, buffer, size);
     buffer += size;
 
     // pAck
     size = sizeof(pAck);
-    memcpy((char *) &pAck, buffer, size);
+    memcpy((void *) &pAck, buffer, size);
     buffer += size;
 
     // cAck
     size = sizeof(cAck);
-    memcpy((char *) &cAck, buffer, size);
+    memcpy((void *) &cAck, buffer, size);
     buffer += size;
 
     // reserved3
     size = sizeof(reserved3);
-    memcpy((char *) &reserved3, buffer, size);
+    memcpy((void *) &reserved3, buffer, size);
     buffer += size;
 
     // pktDataLength
     size = sizeof(pktDataLength);
-    memcpy((char *) &pktDataLength, buffer, size);
+    memcpy((void *) &pktDataLength, buffer, size);
     buffer += size;
 
     // reserved4
     size = sizeof(reserved4);
-    memcpy((char *) &reserved4, buffer, size);
+    memcpy((void *) &reserved4, buffer, size);
     buffer += size;
 
     // pktData

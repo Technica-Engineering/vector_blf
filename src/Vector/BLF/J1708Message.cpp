@@ -47,37 +47,37 @@ char * J1708Message::parse(char * buffer)
 
     // channel
     size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    memcpy((void *) &channel, buffer, size);
     buffer += size;
 
     // dir
     size = sizeof(dir);
-    memcpy((char *) &dir, buffer, size);
+    memcpy((void *) &dir, buffer, size);
     buffer += size;
 
     // reserved1
     size = sizeof(reserved1);
-    memcpy((char *) &reserved1, buffer, size);
+    memcpy((void *) &reserved1, buffer, size);
     buffer += size;
 
     // error
     size = sizeof(error);
-    memcpy((char *) &error, buffer, size);
+    memcpy((void *) &error, buffer, size);
     buffer += size;
 
     // size
     size = sizeof(size);
-    memcpy((char *) &size, buffer, size);
+    memcpy((void *) &size, buffer, size);
     buffer += size;
 
     // data
     size = sizeof(data);
-    memcpy((char *) &data, buffer, size);
+    memcpy((void *) &data, buffer, size);
     buffer += size;
 
     // reserved2
     size = sizeof(reserved2);
-    memcpy((char *) &reserved2, buffer, size);
+    memcpy((void *) &reserved2, buffer, size);
     buffer += size;
 
     return buffer;

@@ -49,47 +49,47 @@ char * LinStatisticEvent::parse(char * buffer)
 
     // channel
     size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    memcpy((void *) &channel, buffer, size);
     buffer += size;
 
     // reserved1
     size = sizeof(reserved1);
-    memcpy((char *) &reserved1, buffer, size);
+    memcpy((void *) &reserved1, buffer, size);
     buffer += size;
 
     // busLoad
     size = sizeof(busLoad);
-    memcpy((char *) &busLoad, buffer, size);
+    memcpy((void *) &busLoad, buffer, size);
     buffer += size;
 
     // burstsTotal
     size = sizeof(burstsTotal);
-    memcpy((char *) &burstsTotal, buffer, size);
+    memcpy((void *) &burstsTotal, buffer, size);
     buffer += size;
 
     // burstsOverrun
     size = sizeof(burstsOverrun);
-    memcpy((char *) &burstsOverrun, buffer, size);
+    memcpy((void *) &burstsOverrun, buffer, size);
     buffer += size;
 
     // framesSent
     size = sizeof(framesSent);
-    memcpy((char *) &framesSent, buffer, size);
+    memcpy((void *) &framesSent, buffer, size);
     buffer += size;
 
     // framesReceived
     size = sizeof(framesReceived);
-    memcpy((char *) &framesReceived, buffer, size);
+    memcpy((void *) &framesReceived, buffer, size);
     buffer += size;
 
     // framesUnanswered
     size = sizeof(framesUnanswered);
-    memcpy((char *) &framesUnanswered, buffer, size);
+    memcpy((void *) &framesUnanswered, buffer, size);
     buffer += size;
 
     // reserved2
     size = sizeof(reserved2);
-    memcpy((char *) &reserved2, buffer, size);
+    memcpy((void *) &reserved2, buffer, size);
     buffer += size;
 
     return buffer;

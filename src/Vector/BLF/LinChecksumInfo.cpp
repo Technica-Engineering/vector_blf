@@ -43,17 +43,17 @@ char * LinChecksumInfo::parse(char * buffer)
 
     // channel
     size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    memcpy((void *) &channel, buffer, size);
     buffer += size;
 
     // id
     size = sizeof(id);
-    memcpy((char *) &id, buffer, size);
+    memcpy((void *) &id, buffer, size);
     buffer += size;
 
     // checksumModel
     size = sizeof(checksumModel);
-    memcpy((char *) &checksumModel, buffer, size);
+    memcpy((void *) &checksumModel, buffer, size);
     buffer += size;
 
     return buffer;

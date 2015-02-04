@@ -50,42 +50,42 @@ char * LinSendError2::parse(char * buffer)
 
     // eoh
     size = sizeof(eoh);
-    memcpy((char *) &eoh, buffer, size);
+    memcpy((void *) &eoh, buffer, size);
     buffer += size;
 
     // isEtf
     size = sizeof(isEtf);
-    memcpy((char *) &isEtf, buffer, size);
+    memcpy((void *) &isEtf, buffer, size);
     buffer += size;
 
     // fsmId
     size = sizeof(fsmId);
-    memcpy((char *) &fsmId, buffer, size);
+    memcpy((void *) &fsmId, buffer, size);
     buffer += size;
 
     // fsmState
     size = sizeof(fsmState);
-    memcpy((char *) &fsmState, buffer, size);
+    memcpy((void *) &fsmState, buffer, size);
     buffer += size;
 
     // reserved1
     size = sizeof(reserved1);
-    memcpy((char *) &reserved1, buffer, size);
+    memcpy((void *) &reserved1, buffer, size);
     buffer += size;
 
     // reserved2
     size = sizeof(reserved2);
-    memcpy((char *) &reserved2, buffer, size);
+    memcpy((void *) &reserved2, buffer, size);
     buffer += size;
 
     // exactHeaderBaudrate
     size = sizeof(exactHeaderBaudrate);
-    memcpy((char *) &exactHeaderBaudrate, buffer, size);
+    memcpy((void *) &exactHeaderBaudrate, buffer, size);
     buffer += size;
 
     // earlyStopbitOffset
     size = sizeof(earlyStopbitOffset);
-    memcpy((char *) &earlyStopbitOffset, buffer, size);
+    memcpy((void *) &earlyStopbitOffset, buffer, size);
     buffer += size;
 
     return buffer;

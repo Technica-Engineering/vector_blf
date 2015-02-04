@@ -63,82 +63,82 @@ char * Most150Message::parse(char * buffer)
 
     // channel
     size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    memcpy((void *) &channel, buffer, size);
     buffer += size;
 
     // dir
     size = sizeof(dir);
-    memcpy((char *) &dir, buffer, size);
+    memcpy((void *) &dir, buffer, size);
     buffer += size;
 
     // reserved1
     size = sizeof(reserved1);
-    memcpy((char *) &reserved1, buffer, size);
+    memcpy((void *) &reserved1, buffer, size);
     buffer += size;
 
     // sourceAdr
     size = sizeof(sourceAdr);
-    memcpy((char *) &sourceAdr, buffer, size);
+    memcpy((void *) &sourceAdr, buffer, size);
     buffer += size;
 
     // destAdr
     size = sizeof(destAdr);
-    memcpy((char *) &destAdr, buffer, size);
+    memcpy((void *) &destAdr, buffer, size);
     buffer += size;
 
     // transferType
     size = sizeof(transferType);
-    memcpy((char *) &transferType, buffer, size);
+    memcpy((void *) &transferType, buffer, size);
     buffer += size;
 
     // state
     size = sizeof(state);
-    memcpy((char *) &state, buffer, size);
+    memcpy((void *) &state, buffer, size);
     buffer += size;
 
     // ackNack
     size = sizeof(ackNack);
-    memcpy((char *) &ackNack, buffer, size);
+    memcpy((void *) &ackNack, buffer, size);
     buffer += size;
 
     // reserved2
     size = sizeof(reserved2);
-    memcpy((char *) &reserved2, buffer, size);
+    memcpy((void *) &reserved2, buffer, size);
     buffer += size;
 
     // crc
     size = sizeof(crc);
-    memcpy((char *) &crc, buffer, size);
+    memcpy((void *) &crc, buffer, size);
     buffer += size;
 
     // pAck
     size = sizeof(pAck);
-    memcpy((char *) &pAck, buffer, size);
+    memcpy((void *) &pAck, buffer, size);
     buffer += size;
 
     // cAck
     size = sizeof(cAck);
-    memcpy((char *) &cAck, buffer, size);
+    memcpy((void *) &cAck, buffer, size);
     buffer += size;
 
     // priority
     size = sizeof(priority);
-    memcpy((char *) &priority, buffer, size);
+    memcpy((void *) &priority, buffer, size);
     buffer += size;
 
     // pIndex
     size = sizeof(pIndex);
-    memcpy((char *) &pIndex, buffer, size);
+    memcpy((void *) &pIndex, buffer, size);
     buffer += size;
 
     // msgLen
     size = sizeof(msgLen);
-    memcpy((char *) &msgLen, buffer, size);
+    memcpy((void *) &msgLen, buffer, size);
     buffer += size;
 
     // reserved3
     size = sizeof(reserved3);
-    memcpy((char *) &reserved3, buffer, size);
+    memcpy((void *) &reserved3, buffer, size);
     buffer += size;
 
     // msg

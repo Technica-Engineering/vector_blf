@@ -55,42 +55,42 @@ char * EthernetRxError::parse(char * buffer)
 
     // structLength
     size = sizeof(structLength);
-    memcpy((char *) &structLength, buffer, size);
+    memcpy((void *) &structLength, buffer, size);
     buffer += size;
 
     // channel
     size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    memcpy((void *) &channel, buffer, size);
     buffer += size;
 
     // dir
     size = sizeof(dir);
-    memcpy((char *) &dir, buffer, size);
+    memcpy((void *) &dir, buffer, size);
     buffer += size;
 
     // reserved1
     size = sizeof(reserved1);
-    memcpy((char *) &reserved1, buffer, size);
+    memcpy((void *) &reserved1, buffer, size);
     buffer += size;
 
     // fcs
     size = sizeof(fcs);
-    memcpy((char *) &fcs, buffer, size);
+    memcpy((void *) &fcs, buffer, size);
     buffer += size;
 
     // frameDataLength
     size = sizeof(frameDataLength);
-    memcpy((char *) &frameDataLength, buffer, size);
+    memcpy((void *) &frameDataLength, buffer, size);
     buffer += size;
 
     // reserved2
     size = sizeof(reserved2);
-    memcpy((char *) &reserved2, buffer, size);
+    memcpy((void *) &reserved2, buffer, size);
     buffer += size;
 
     // error
     size = sizeof(error);
-    memcpy((char *) &error, buffer, size);
+    memcpy((void *) &error, buffer, size);
     buffer += size;
 
     // frameData

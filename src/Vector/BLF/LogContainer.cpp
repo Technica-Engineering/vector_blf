@@ -53,22 +53,22 @@ char * LogContainer::parse(char * buffer)
 
     // objectFlags
     size = sizeof(objectFlags);
-    memcpy((char *) &objectFlags, buffer, size);
+    memcpy((void *) &objectFlags, buffer, size);
     buffer += size;
 
     // reserved
     size = sizeof(reserved);
-    memcpy((char *) &reserved, buffer, size);
+    memcpy((void *) &reserved, buffer, size);
     buffer += size;
 
     // objectVersion
     size = sizeof(objectVersion);
-    memcpy((char *) &objectVersion, buffer, size);
+    memcpy((void *) &objectVersion, buffer, size);
     buffer += size;
 
     // uncompressedFileSize
     size = sizeof(uncompressedFileSize);
-    memcpy((char *) &uncompressedFileSize, buffer, size);
+    memcpy((void *) &uncompressedFileSize, buffer, size);
     buffer += size;
 
     // compressedFile

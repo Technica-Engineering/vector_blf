@@ -45,17 +45,17 @@ char * LinUnexpectedWakeup::parse(char * buffer)
 
     // width
     size = sizeof(width);
-    memcpy((char *) &width, buffer, size);
+    memcpy((void *) &width, buffer, size);
     buffer += size;
 
     // signal
     size = sizeof(signal);
-    memcpy((char *) &signal, buffer, size);
+    memcpy((void *) &signal, buffer, size);
     buffer += size;
 
     // reserved
     size = sizeof(reserved);
-    memcpy((char *) &reserved, buffer, size);
+    memcpy((void *) &reserved, buffer, size);
     buffer += size;
 
     return buffer;

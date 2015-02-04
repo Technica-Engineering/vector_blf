@@ -53,67 +53,67 @@ char * MostSpy::parse(char * buffer)
 
     // channel
     size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    memcpy((void *) &channel, buffer, size);
     buffer += size;
 
     // dir
     size = sizeof(dir);
-    memcpy((char *) &dir, buffer, size);
+    memcpy((void *) &dir, buffer, size);
     buffer += size;
 
     // reserved1
     size = sizeof(reserved1);
-    memcpy((char *) &reserved1, buffer, size);
+    memcpy((void *) &reserved1, buffer, size);
     buffer += size;
 
     // sourceAdr
     size = sizeof(sourceAdr);
-    memcpy((char *) &sourceAdr, buffer, size);
+    memcpy((void *) &sourceAdr, buffer, size);
     buffer += size;
 
     // destAdr
     size = sizeof(destAdr);
-    memcpy((char *) &destAdr, buffer, size);
+    memcpy((void *) &destAdr, buffer, size);
     buffer += size;
 
     // msg
     size = sizeof(msg);
-    memcpy((char *) &msg, buffer, size);
+    memcpy((void *) &msg, buffer, size);
     buffer += size;
 
     // reserved2
     size = sizeof(reserved2);
-    memcpy((char *) &reserved2, buffer, size);
+    memcpy((void *) &reserved2, buffer, size);
     buffer += size;
 
     // rTyp
     size = sizeof(rTyp);
-    memcpy((char *) &rTyp, buffer, size);
+    memcpy((void *) &rTyp, buffer, size);
     buffer += size;
 
     // rTypAdr
     size = sizeof(rTypAdr);
-    memcpy((char *) &rTypAdr, buffer, size);
+    memcpy((void *) &rTypAdr, buffer, size);
     buffer += size;
 
     // state
     size = sizeof(state);
-    memcpy((char *) &state, buffer, size);
+    memcpy((void *) &state, buffer, size);
     buffer += size;
 
     // reserved3
     size = sizeof(reserved3);
-    memcpy((char *) &reserved3, buffer, size);
+    memcpy((void *) &reserved3, buffer, size);
     buffer += size;
 
     // ackNack
     size = sizeof(ackNack);
-    memcpy((char *) &ackNack, buffer, size);
+    memcpy((void *) &ackNack, buffer, size);
     buffer += size;
 
     // crc
     size = sizeof(crc);
-    memcpy((char *) &crc, buffer, size);
+    memcpy((void *) &crc, buffer, size);
     buffer += size;
 
     return buffer;

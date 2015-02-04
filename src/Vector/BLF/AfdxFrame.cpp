@@ -62,72 +62,72 @@ char * AfdxFrame::parse(char * buffer)
 
     // sourceAddress
     size = sizeof(sourceAddress);
-    memcpy((char *) &sourceAddress, buffer, size);
+    memcpy((void *) &sourceAddress, buffer, size);
     buffer += size;
 
     // channel
     size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    memcpy((void *) &channel, buffer, size);
     buffer += size;
 
     // destinationAddress
     size = sizeof(destinationAddress);
-    memcpy((char *) &destinationAddress, buffer, size);
+    memcpy((void *) &destinationAddress, buffer, size);
     buffer += size;
 
     // dir
     size = sizeof(dir);
-    memcpy((char *) &dir, buffer, size);
+    memcpy((void *) &dir, buffer, size);
     buffer += size;
 
     // type
     size = sizeof(type);
-    memcpy((char *) &type, buffer, size);
+    memcpy((void *) &type, buffer, size);
     buffer += size;
 
     // tpid
     size = sizeof(tpid);
-    memcpy((char *) &tpid, buffer, size);
+    memcpy((void *) &tpid, buffer, size);
     buffer += size;
 
     // tci
     size = sizeof(tci);
-    memcpy((char *) &tci, buffer, size);
+    memcpy((void *) &tci, buffer, size);
     buffer += size;
 
     // ethChannel
     size = sizeof(ethChannel);
-    memcpy((char *) &ethChannel, buffer, size);
+    memcpy((void *) &ethChannel, buffer, size);
     buffer += size;
 
     // reserved1
     size = sizeof(reserved1);
-    memcpy((char *) &reserved1, buffer, size);
+    memcpy((void *) &reserved1, buffer, size);
     buffer += size;
 
     // afdxFlags
     size = sizeof(afdxFlags);
-    memcpy((char *) &afdxFlags, buffer, size);
+    memcpy((void *) &afdxFlags, buffer, size);
     buffer += size;
 
     // reserved2
     size = sizeof(reserved2);
-    memcpy((char *) &reserved2, buffer, size);
+    memcpy((void *) &reserved2, buffer, size);
     buffer += size;
 
     // bagUsec
     size = sizeof(bagUsec);
-    memcpy((char *) &bagUsec, buffer, size);
+    memcpy((void *) &bagUsec, buffer, size);
     buffer += size;
 
     // payLoadLength
     size = sizeof(payLoadLength);
-    memcpy((char *) &payLoadLength, buffer, size);
+    memcpy((void *) &payLoadLength, buffer, size);
     buffer += size;
 
     // reserved3
     size = sizeof(reserved3);
-    memcpy((char *) &reserved3, buffer, size);
+    memcpy((void *) &reserved3, buffer, size);
     buffer += size;
 
     // payLoad

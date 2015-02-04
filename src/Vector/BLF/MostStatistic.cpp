@@ -45,27 +45,27 @@ char * MostStatistic::parse(char * buffer)
 
     // channel
     size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    memcpy((void *) &channel, buffer, size);
     buffer += size;
 
     // pktCnt
     size = sizeof(pktCnt);
-    memcpy((char *) &pktCnt, buffer, size);
+    memcpy((void *) &pktCnt, buffer, size);
     buffer += size;
 
     // frmCnt
     size = sizeof(frmCnt);
-    memcpy((char *) &frmCnt, buffer, size);
+    memcpy((void *) &frmCnt, buffer, size);
     buffer += size;
 
     // lightCnt
     size = sizeof(lightCnt);
-    memcpy((char *) &lightCnt, buffer, size);
+    memcpy((void *) &lightCnt, buffer, size);
     buffer += size;
 
     // bufferLevel
     size = sizeof(bufferLevel);
-    memcpy((char *) &bufferLevel, buffer, size);
+    memcpy((void *) &bufferLevel, buffer, size);
     buffer += size;
 
     return buffer;

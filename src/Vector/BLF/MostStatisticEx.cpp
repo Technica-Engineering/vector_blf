@@ -44,22 +44,22 @@ char * MostStatisticEx::parse(char * buffer)
 
     // channel
     size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    memcpy((void *) &channel, buffer, size);
     buffer += size;
 
     // reserved
     size = sizeof(reserved);
-    memcpy((char *) &reserved, buffer, size);
+    memcpy((void *) &reserved, buffer, size);
     buffer += size;
 
     // codingErrors
     size = sizeof(codingErrors);
-    memcpy((char *) &codingErrors, buffer, size);
+    memcpy((void *) &codingErrors, buffer, size);
     buffer += size;
 
     // frameCounter
     size = sizeof(frameCounter);
-    memcpy((char *) &frameCounter, buffer, size);
+    memcpy((void *) &frameCounter, buffer, size);
     buffer += size;
 
     return buffer;

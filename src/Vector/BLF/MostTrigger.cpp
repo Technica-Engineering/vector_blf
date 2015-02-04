@@ -46,32 +46,32 @@ char * MostTrigger::parse(char * buffer)
 
     // channel
     size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    memcpy((void *) &channel, buffer, size);
     buffer += size;
 
     // reserved
     size = sizeof(reserved);
-    memcpy((char *) &reserved, buffer, size);
+    memcpy((void *) &reserved, buffer, size);
     buffer += size;
 
     // mode
     size = sizeof(mode);
-    memcpy((char *) &mode, buffer, size);
+    memcpy((void *) &mode, buffer, size);
     buffer += size;
 
     // hw
     size = sizeof(hw);
-    memcpy((char *) &hw, buffer, size);
+    memcpy((void *) &hw, buffer, size);
     buffer += size;
 
     // previousTriggerValue
     size = sizeof(previousTriggerValue);
-    memcpy((char *) &previousTriggerValue, buffer, size);
+    memcpy((void *) &previousTriggerValue, buffer, size);
     buffer += size;
 
     // currentTriggerValue
     size = sizeof(currentTriggerValue);
-    memcpy((char *) &currentTriggerValue, buffer, size);
+    memcpy((void *) &currentTriggerValue, buffer, size);
     buffer += size;
 
     return buffer;

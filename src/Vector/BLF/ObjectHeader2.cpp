@@ -46,32 +46,32 @@ char * ObjectHeader2::parse(char * buffer)
 
     // objectFlags
     size = sizeof(objectFlags);
-    memcpy((char *) &objectFlags, buffer, size);
+    memcpy((void *) &objectFlags, buffer, size);
     buffer += size;
 
     // timeStampStatus
     size = sizeof(timeStampStatus);
-    memcpy((char *) &timeStampStatus, buffer, size);
+    memcpy((void *) &timeStampStatus, buffer, size);
     buffer += size;
 
     // reserved
     size = sizeof(reserved);
-    memcpy((char *) &reserved, buffer, size);
+    memcpy((void *) &reserved, buffer, size);
     buffer += size;
 
     // objectVersion
     size = sizeof(objectVersion);
-    memcpy((char *) &objectVersion, buffer, size);
+    memcpy((void *) &objectVersion, buffer, size);
     buffer += size;
 
     // objectTimeStamp
     size = sizeof(objectTimeStamp);
-    memcpy((char *) &objectTimeStamp, buffer, size);
+    memcpy((void *) &objectTimeStamp, buffer, size);
     buffer += size;
 
     // originalTimeStamp
     size = sizeof(originalTimeStamp);
-    memcpy((char *) &originalTimeStamp, buffer, size);
+    memcpy((void *) &originalTimeStamp, buffer, size);
     buffer += size;
 
     return buffer;

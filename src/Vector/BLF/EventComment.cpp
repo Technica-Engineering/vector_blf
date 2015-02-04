@@ -50,17 +50,17 @@ char * EventComment::parse(char * buffer)
 
     // commentedEventType
     size = sizeof(commentedEventType);
-    memcpy((char *) &commentedEventType, buffer, size);
+    memcpy((void *) &commentedEventType, buffer, size);
     buffer += size;
 
     // textLength
     size = sizeof(textLength);
-    memcpy((char *) &textLength, buffer, size);
+    memcpy((void *) &textLength, buffer, size);
     buffer += size;
 
     // reserved
     size = sizeof(reserved);
-    memcpy((char *) &reserved, buffer, size);
+    memcpy((void *) &reserved, buffer, size);
     buffer += size;
 
     // text

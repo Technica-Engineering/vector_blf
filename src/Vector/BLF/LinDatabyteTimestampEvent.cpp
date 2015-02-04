@@ -41,7 +41,7 @@ char * LinDatabyteTimestampEvent::parse(char * buffer)
 
     // databyteTimestamps
     size = sizeof(databyteTimestamps);
-    memcpy((char *) &databyteTimestamps, buffer, size);
+    memcpy((void *) &databyteTimestamps, buffer, size);
     buffer += size;
 
     return buffer;

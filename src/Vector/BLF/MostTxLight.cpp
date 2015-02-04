@@ -42,12 +42,12 @@ char * MostTxLight::parse(char * buffer)
 
     // channel
     size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    memcpy((void *) &channel, buffer, size);
     buffer += size;
 
     // state
     size = sizeof(state);
-    memcpy((char *) &state, buffer, size);
+    memcpy((void *) &state, buffer, size);
     buffer += size;
 
     return buffer;

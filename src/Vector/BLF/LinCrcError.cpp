@@ -51,57 +51,57 @@ char * LinCrcError::parse(char * buffer)
 
     // channel
     size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    memcpy((void *) &channel, buffer, size);
     buffer += size;
 
     // id
     size = sizeof(id);
-    memcpy((char *) &id, buffer, size);
+    memcpy((void *) &id, buffer, size);
     buffer += size;
 
     // dlc
     size = sizeof(dlc);
-    memcpy((char *) &dlc, buffer, size);
+    memcpy((void *) &dlc, buffer, size);
     buffer += size;
 
     // data
     size = sizeof(data);
-    memcpy((char *) &data, buffer, size);
+    memcpy((void *) &data, buffer, size);
     buffer += size;
 
     // fsmId
     size = sizeof(fsmId);
-    memcpy((char *) &fsmId, buffer, size);
+    memcpy((void *) &fsmId, buffer, size);
     buffer += size;
 
     // fsmState
     size = sizeof(fsmState);
-    memcpy((char *) &fsmState, buffer, size);
+    memcpy((void *) &fsmState, buffer, size);
     buffer += size;
 
     // headerTime
     size = sizeof(headerTime);
-    memcpy((char *) &headerTime, buffer, size);
+    memcpy((void *) &headerTime, buffer, size);
     buffer += size;
 
     // fullTime
     size = sizeof(fullTime);
-    memcpy((char *) &fullTime, buffer, size);
+    memcpy((void *) &fullTime, buffer, size);
     buffer += size;
 
     // crc
     size = sizeof(crc);
-    memcpy((char *) &crc, buffer, size);
+    memcpy((void *) &crc, buffer, size);
     buffer += size;
 
     // dir
     size = sizeof(dir);
-    memcpy((char *) &dir, buffer, size);
+    memcpy((void *) &dir, buffer, size);
     buffer += size;
 
     // reserved
     size = sizeof(reserved);
-    memcpy((char *) &reserved, buffer, size);
+    memcpy((void *) &reserved, buffer, size);
     buffer += size;
 
     return buffer;

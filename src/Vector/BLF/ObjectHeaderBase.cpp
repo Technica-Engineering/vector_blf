@@ -46,27 +46,27 @@ char * ObjectHeaderBase::parse(char * buffer)
 
     // signature
     size = sizeof(signature);
-    memcpy((char *) &signature, buffer, size);
+    memcpy((void *) &signature, buffer, size);
     buffer += size;
 
     // headerSize
     size = sizeof(headerSize);
-    memcpy((char *) &headerSize, buffer, size);
+    memcpy((void *) &headerSize, buffer, size);
     buffer += size;
 
     // headerVersion
     size = sizeof(headerVersion);
-    memcpy((char *) &headerVersion, buffer, size);
+    memcpy((void *) &headerVersion, buffer, size);
     buffer += size;
 
     // objectSize
     size = sizeof(objectSize);
-    memcpy((char *) &objectSize, buffer, size);
+    memcpy((void *) &objectSize, buffer, size);
     buffer += size;
 
     // objectType
     size = sizeof(objectType);
-    memcpy((char *) &objectType, buffer, size);
+    memcpy((void *) &objectType, buffer, size);
     buffer += size;
 
     /* checks */

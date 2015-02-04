@@ -49,47 +49,47 @@ char * CanDriverStatistic::parse(char * buffer)
 
     // channel
     size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    memcpy((void *) &channel, buffer, size);
     buffer += size;
 
     // busLoad
     size = sizeof(busLoad);
-    memcpy((char *) &busLoad, buffer, size);
+    memcpy((void *) &busLoad, buffer, size);
     buffer += size;
 
     // standardDataFrames
     size = sizeof(standardDataFrames);
-    memcpy((char *) &standardDataFrames, buffer, size);
+    memcpy((void *) &standardDataFrames, buffer, size);
     buffer += size;
 
     // extendedDataFrames
     size = sizeof(extendedDataFrames);
-    memcpy((char *) &extendedDataFrames, buffer, size);
+    memcpy((void *) &extendedDataFrames, buffer, size);
     buffer += size;
 
     // standardRemoteFrames
     size = sizeof(standardRemoteFrames);
-    memcpy((char *) &standardRemoteFrames, buffer, size);
+    memcpy((void *) &standardRemoteFrames, buffer, size);
     buffer += size;
 
     // extendedRemoteFrames
     size = sizeof(extendedRemoteFrames);
-    memcpy((char *) &extendedRemoteFrames, buffer, size);
+    memcpy((void *) &extendedRemoteFrames, buffer, size);
     buffer += size;
 
     // errorFrames
     size = sizeof(errorFrames);
-    memcpy((char *) &errorFrames, buffer, size);
+    memcpy((void *) &errorFrames, buffer, size);
     buffer += size;
 
     // overloadFrames
     size = sizeof(overloadFrames);
-    memcpy((char *) &overloadFrames, buffer, size);
+    memcpy((void *) &overloadFrames, buffer, size);
     buffer += size;
 
     // reserved
     size = sizeof(reserved);
-    memcpy((char *) &reserved, buffer, size);
+    memcpy((void *) &reserved, buffer, size);
     buffer += size;
 
     return buffer;

@@ -43,17 +43,17 @@ char * LinSpikeEvent::parse(char * buffer)
 
     // channel
     size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    memcpy((void *) &channel, buffer, size);
     buffer += size;
 
     // width
     size = sizeof(width);
-    memcpy((char *) &width, buffer, size);
+    memcpy((void *) &width, buffer, size);
     buffer += size;
 
     // reserved
     size = sizeof(reserved);
-    memcpy((char *) &reserved, buffer, size);
+    memcpy((void *) &reserved, buffer, size);
     buffer += size;
 
     return buffer;

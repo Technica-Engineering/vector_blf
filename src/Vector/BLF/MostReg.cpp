@@ -48,42 +48,42 @@ char * MostReg::parse(char * buffer)
 
     // channel
     size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    memcpy((void *) &channel, buffer, size);
     buffer += size;
 
     // subType
     size = sizeof(subType);
-    memcpy((char *) &subType, buffer, size);
+    memcpy((void *) &subType, buffer, size);
     buffer += size;
 
     // reserved
     size = sizeof(reserved);
-    memcpy((char *) &reserved, buffer, size);
+    memcpy((void *) &reserved, buffer, size);
     buffer += size;
 
     // handle
     size = sizeof(handle);
-    memcpy((char *) &handle, buffer, size);
+    memcpy((void *) &handle, buffer, size);
     buffer += size;
 
     // offset
     size = sizeof(offset);
-    memcpy((char *) &offset, buffer, size);
+    memcpy((void *) &offset, buffer, size);
     buffer += size;
 
     // chip
     size = sizeof(chip);
-    memcpy((char *) &chip, buffer, size);
+    memcpy((void *) &chip, buffer, size);
     buffer += size;
 
     // regDataLen
     size = sizeof(regDataLen);
-    memcpy((char *) &regDataLen, buffer, size);
+    memcpy((void *) &regDataLen, buffer, size);
     buffer += size;
 
     // regData
     size = sizeof(regData);
-    memcpy((char *) &regData, buffer, size);
+    memcpy((void *) &regData, buffer, size);
     buffer += size;
 
     return buffer;

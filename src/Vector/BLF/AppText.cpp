@@ -50,17 +50,17 @@ char * AppText::parse(char * buffer)
 
     // source
     size = sizeof(source);
-    memcpy((char *) &source, buffer, size);
+    memcpy((void *) &source, buffer, size);
     buffer += size;
 
     // reserved
     size = sizeof(reserved);
-    memcpy((char *) &reserved, buffer, size);
+    memcpy((void *) &reserved, buffer, size);
     buffer += size;
 
     // textLength
     size = sizeof(textLength);
-    memcpy((char *) &textLength, buffer, size);
+    memcpy((void *) &textLength, buffer, size);
     buffer += size;
 
     // text

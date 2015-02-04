@@ -42,12 +42,12 @@ char * RealtimeClock::parse(char * buffer)
 
     // time
     size = sizeof(time);
-    memcpy((char *) &time, buffer, size);
+    memcpy((void *) &time, buffer, size);
     buffer += size;
 
     // loggingOffset
     size = sizeof(loggingOffset);
-    memcpy((char *) &loggingOffset, buffer, size);
+    memcpy((void *) &loggingOffset, buffer, size);
     buffer += size;
 
     return buffer;

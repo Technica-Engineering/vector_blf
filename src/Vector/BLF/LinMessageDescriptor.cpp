@@ -46,32 +46,32 @@ char * LinMessageDescriptor::parse(char * buffer)
 
     // supplierId
     size = sizeof(supplierId);
-    memcpy((char *) &supplierId, buffer, size);
+    memcpy((void *) &supplierId, buffer, size);
     buffer += size;
 
     // messageId
     size = sizeof(messageId);
-    memcpy((char *) &messageId, buffer, size);
+    memcpy((void *) &messageId, buffer, size);
     buffer += size;
 
     // nad
     size = sizeof(nad);
-    memcpy((char *) &nad, buffer, size);
+    memcpy((void *) &nad, buffer, size);
     buffer += size;
 
     // id
     size = sizeof(id);
-    memcpy((char *) &id, buffer, size);
+    memcpy((void *) &id, buffer, size);
     buffer += size;
 
     // dlc
     size = sizeof(dlc);
-    memcpy((char *) &dlc, buffer, size);
+    memcpy((void *) &dlc, buffer, size);
     buffer += size;
 
     // checksumModel
     size = sizeof(checksumModel);
-    memcpy((char *) &checksumModel, buffer, size);
+    memcpy((void *) &checksumModel, buffer, size);
     buffer += size;
 
     return buffer;

@@ -45,22 +45,22 @@ char * Most150AllocTab::parse(char * buffer)
 
     // channel
     size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    memcpy((void *) &channel, buffer, size);
     buffer += size;
 
     // eventModeFlags
     size = sizeof(eventModeFlags);
-    memcpy((char *) &eventModeFlags, buffer, size);
+    memcpy((void *) &eventModeFlags, buffer, size);
     buffer += size;
 
     // freeBytes
     size = sizeof(freeBytes);
-    memcpy((char *) &freeBytes, buffer, size);
+    memcpy((void *) &freeBytes, buffer, size);
     buffer += size;
 
     // length
     size = sizeof(length);
-    memcpy((char *) &length, buffer, size);
+    memcpy((void *) &length, buffer, size);
     buffer += size;
 
     // tableData

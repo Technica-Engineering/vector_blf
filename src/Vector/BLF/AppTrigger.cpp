@@ -45,27 +45,27 @@ char * AppTrigger::parse(char * buffer)
 
     // preTriggerTime
     size = sizeof(preTriggerTime);
-    memcpy((char *) &preTriggerTime, buffer, size);
+    memcpy((void *) &preTriggerTime, buffer, size);
     buffer += size;
 
     // postTriggerTime
     size = sizeof(postTriggerTime);
-    memcpy((char *) &postTriggerTime, buffer, size);
+    memcpy((void *) &postTriggerTime, buffer, size);
     buffer += size;
 
     // channel
     size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    memcpy((void *) &channel, buffer, size);
     buffer += size;
 
     // flags
     size = sizeof(flags);
-    memcpy((char *) &flags, buffer, size);
+    memcpy((void *) &flags, buffer, size);
     buffer += size;
 
     // appSpecific2
     size = sizeof(appSpecific2);
-    memcpy((char *) &appSpecific2, buffer, size);
+    memcpy((void *) &appSpecific2, buffer, size);
     buffer += size;
 
     return buffer;

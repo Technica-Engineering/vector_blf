@@ -44,22 +44,22 @@ char * LinSleepModeEvent::parse(char * buffer)
 
     // channel
     size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    memcpy((void *) &channel, buffer, size);
     buffer += size;
 
     // reason
     size = sizeof(reason);
-    memcpy((char *) &reason, buffer, size);
+    memcpy((void *) &reason, buffer, size);
     buffer += size;
 
     // flags
     size = sizeof(flags);
-    memcpy((char *) &flags, buffer, size);
+    memcpy((void *) &flags, buffer, size);
     buffer += size;
 
     // reserved
     size = sizeof(reserved);
-    memcpy((char *) &reserved, buffer, size);
+    memcpy((void *) &reserved, buffer, size);
     buffer += size;
 
     return buffer;

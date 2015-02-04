@@ -58,92 +58,92 @@ char * CanFdErrorFrame64::parse(char * buffer)
 
     // channel
     size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    memcpy((void *) &channel, buffer, size);
     buffer += size;
 
     // dlc
     size = sizeof(dlc);
-    memcpy((char *) &dlc, buffer, size);
+    memcpy((void *) &dlc, buffer, size);
     buffer += size;
 
     // validDataBytes
     size = sizeof(validDataBytes);
-    memcpy((char *) &validDataBytes, buffer, size);
+    memcpy((void *) &validDataBytes, buffer, size);
     buffer += size;
 
     // ecc
     size = sizeof(ecc);
-    memcpy((char *) &ecc, buffer, size);
+    memcpy((void *) &ecc, buffer, size);
     buffer += size;
 
     // flags
     size = sizeof(flags);
-    memcpy((char *) &flags, buffer, size);
+    memcpy((void *) &flags, buffer, size);
     buffer += size;
 
     // errorCodeExt
     size = sizeof(errorCodeExt);
-    memcpy((char *) &errorCodeExt, buffer, size);
+    memcpy((void *) &errorCodeExt, buffer, size);
     buffer += size;
 
     // extFlags
     size = sizeof(extFlags);
-    memcpy((char *) &extFlags, buffer, size);
+    memcpy((void *) &extFlags, buffer, size);
     buffer += size;
 
     // reserved1
     size = sizeof(reserved1);
-    memcpy((char *) &reserved1, buffer, size);
+    memcpy((void *) &reserved1, buffer, size);
     buffer += size;
 
     // id
     size = sizeof(id);
-    memcpy((char *) &id, buffer, size);
+    memcpy((void *) &id, buffer, size);
     buffer += size;
 
     // frameLength
     size = sizeof(frameLength);
-    memcpy((char *) &frameLength, buffer, size);
+    memcpy((void *) &frameLength, buffer, size);
     buffer += size;
 
     // btrCfgArb
     size = sizeof(btrCfgArb);
-    memcpy((char *) &btrCfgArb, buffer, size);
+    memcpy((void *) &btrCfgArb, buffer, size);
     buffer += size;
 
     // btrCfgData
     size = sizeof(btrCfgData);
-    memcpy((char *) &btrCfgData, buffer, size);
+    memcpy((void *) &btrCfgData, buffer, size);
     buffer += size;
 
     // timeOffsetBrsNs
     size = sizeof(timeOffsetBrsNs);
-    memcpy((char *) &timeOffsetBrsNs, buffer, size);
+    memcpy((void *) &timeOffsetBrsNs, buffer, size);
     buffer += size;
 
     // timeOffsetCrcDelNs
     size = sizeof(timeOffsetCrcDelNs);
-    memcpy((char *) &timeOffsetCrcDelNs, buffer, size);
+    memcpy((void *) &timeOffsetCrcDelNs, buffer, size);
     buffer += size;
 
     // crc
     size = sizeof(crc);
-    memcpy((char *) &crc, buffer, size);
+    memcpy((void *) &crc, buffer, size);
     buffer += size;
 
     // errorPosition
     size = sizeof(errorPosition);
-    memcpy((char *) &errorPosition, buffer, size);
+    memcpy((void *) &errorPosition, buffer, size);
     buffer += size;
 
     // reserved2
     size = sizeof(reserved2);
-    memcpy((char *) &reserved2, buffer, size);
+    memcpy((void *) &reserved2, buffer, size);
     buffer += size;
 
     // data
     size = sizeof(data);
-    memcpy((char *) &data, buffer, size);
+    memcpy((void *) &data, buffer, size);
     buffer += size;
 
     return buffer;

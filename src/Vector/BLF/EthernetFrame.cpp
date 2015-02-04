@@ -55,42 +55,42 @@ char * EthernetFrame::parse(char * buffer)
 
     // sourceAddress
     size = sizeof(sourceAddress);
-    memcpy((char *) &sourceAddress, buffer, size);
+    memcpy((void *) &sourceAddress, buffer, size);
     buffer += size;
 
     // channel
     size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    memcpy((void *) &channel, buffer, size);
     buffer += size;
 
     // destinationAddress
     size = sizeof(destinationAddress);
-    memcpy((char *) &destinationAddress, buffer, size);
+    memcpy((void *) &destinationAddress, buffer, size);
     buffer += size;
 
     // dir
     size = sizeof(dir);
-    memcpy((char *) &dir, buffer, size);
+    memcpy((void *) &dir, buffer, size);
     buffer += size;
 
     // type
     size = sizeof(type);
-    memcpy((char *) &type, buffer, size);
+    memcpy((void *) &type, buffer, size);
     buffer += size;
 
     // tpid
     size = sizeof(tpid);
-    memcpy((char *) &tpid, buffer, size);
+    memcpy((void *) &tpid, buffer, size);
     buffer += size;
 
     // tci
     size = sizeof(tci);
-    memcpy((char *) &tci, buffer, size);
+    memcpy((void *) &tci, buffer, size);
     buffer += size;
 
     // payLoadLength
     size = sizeof(payLoadLength);
-    memcpy((char *) &payLoadLength, buffer, size);
+    memcpy((void *) &payLoadLength, buffer, size);
     buffer += size;
 
     // payLoad

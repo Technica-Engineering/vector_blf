@@ -51,57 +51,57 @@ char * EthernetStatus::parse(char * buffer)
 
     // channel
     size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    memcpy((void *) &channel, buffer, size);
     buffer += size;
 
     // flags
     size = sizeof(flags);
-    memcpy((char *) &flags, buffer, size);
+    memcpy((void *) &flags, buffer, size);
     buffer += size;
 
     // linkStatus
     size = sizeof(linkStatus);
-    memcpy((char *) &linkStatus, buffer, size);
+    memcpy((void *) &linkStatus, buffer, size);
     buffer += size;
 
     // ethernetPhy
     size = sizeof(ethernetPhy);
-    memcpy((char *) &ethernetPhy, buffer, size);
+    memcpy((void *) &ethernetPhy, buffer, size);
     buffer += size;
 
     // duplex
     size = sizeof(duplex);
-    memcpy((char *) &duplex, buffer, size);
+    memcpy((void *) &duplex, buffer, size);
     buffer += size;
 
     // mdi
     size = sizeof(mdi);
-    memcpy((char *) &mdi, buffer, size);
+    memcpy((void *) &mdi, buffer, size);
     buffer += size;
 
     // connector
     size = sizeof(connector);
-    memcpy((char *) &connector, buffer, size);
+    memcpy((void *) &connector, buffer, size);
     buffer += size;
 
     // clockMode
     size = sizeof(clockMode);
-    memcpy((char *) &clockMode, buffer, size);
+    memcpy((void *) &clockMode, buffer, size);
     buffer += size;
 
     // pairs
     size = sizeof(pairs);
-    memcpy((char *) &pairs, buffer, size);
+    memcpy((void *) &pairs, buffer, size);
     buffer += size;
 
     // reserved
     size = sizeof(reserved);
-    memcpy((char *) &reserved, buffer, size);
+    memcpy((void *) &reserved, buffer, size);
     buffer += size;
 
     // bitrate
     size = sizeof(bitrate);
-    memcpy((char *) &bitrate, buffer, size);
+    memcpy((void *) &bitrate, buffer, size);
     buffer += size;
 
     return buffer;

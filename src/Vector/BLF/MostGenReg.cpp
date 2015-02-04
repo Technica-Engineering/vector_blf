@@ -47,37 +47,37 @@ char * MostGenReg::parse(char * buffer)
 
     // channel
     size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    memcpy((void *) &channel, buffer, size);
     buffer += size;
 
     // subType
     size = sizeof(subType);
-    memcpy((char *) &subType, buffer, size);
+    memcpy((void *) &subType, buffer, size);
     buffer += size;
 
     // reserved1
     size = sizeof(reserved1);
-    memcpy((char *) &reserved1, buffer, size);
+    memcpy((void *) &reserved1, buffer, size);
     buffer += size;
 
     // handle
     size = sizeof(handle);
-    memcpy((char *) &handle, buffer, size);
+    memcpy((void *) &handle, buffer, size);
     buffer += size;
 
     // regId
     size = sizeof(regId);
-    memcpy((char *) &regId, buffer, size);
+    memcpy((void *) &regId, buffer, size);
     buffer += size;
 
     // reserved2
     size = sizeof(reserved2);
-    memcpy((char *) &reserved2, buffer, size);
+    memcpy((void *) &reserved2, buffer, size);
     buffer += size;
 
     // regValue
     size = sizeof(regValue);
-    memcpy((char *) &regValue, buffer, size);
+    memcpy((void *) &regValue, buffer, size);
     buffer += size;
 
     return buffer;

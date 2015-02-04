@@ -46,22 +46,22 @@ char * LinWakeupEvent2::parse(char * buffer)
 
     // lengthInfo
     size = sizeof(lengthInfo);
-    memcpy((char *) &lengthInfo, buffer, size);
+    memcpy((void *) &lengthInfo, buffer, size);
     buffer += size;
 
     // signal
     size = sizeof(signal);
-    memcpy((char *) &signal, buffer, size);
+    memcpy((void *) &signal, buffer, size);
     buffer += size;
 
     // external
     size = sizeof(external);
-    memcpy((char *) &external, buffer, size);
+    memcpy((void *) &external, buffer, size);
     buffer += size;
 
     // reserved
     size = sizeof(reserved);
-    memcpy((char *) &reserved, buffer, size);
+    memcpy((void *) &reserved, buffer, size);
     buffer += size;
 
     return buffer;

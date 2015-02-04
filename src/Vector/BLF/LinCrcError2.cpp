@@ -54,62 +54,62 @@ char * LinCrcError2::parse(char * buffer)
 
     // data
     size = sizeof(data);
-    memcpy((char *) &data, buffer, size);
+    memcpy((void *) &data, buffer, size);
     buffer += size;
 
     // crc
     size = sizeof(crc);
-    memcpy((char *) &crc, buffer, size);
+    memcpy((void *) &crc, buffer, size);
     buffer += size;
 
     // dir
     size = sizeof(dir);
-    memcpy((char *) &dir, buffer, size);
+    memcpy((void *) &dir, buffer, size);
     buffer += size;
 
     // fsmId
     size = sizeof(fsmId);
-    memcpy((char *) &fsmId, buffer, size);
+    memcpy((void *) &fsmId, buffer, size);
     buffer += size;
 
     // fsmState
     size = sizeof(fsmState);
-    memcpy((char *) &fsmState, buffer, size);
+    memcpy((void *) &fsmState, buffer, size);
     buffer += size;
 
     // simulated
     size = sizeof(simulated);
-    memcpy((char *) &simulated, buffer, size);
+    memcpy((void *) &simulated, buffer, size);
     buffer += size;
 
     // reserved1
     size = sizeof(reserved1);
-    memcpy((char *) &reserved1, buffer, size);
+    memcpy((void *) &reserved1, buffer, size);
     buffer += size;
 
     // respBaudrate
     size = sizeof(respBaudrate);
-    memcpy((char *) &respBaudrate, buffer, size);
+    memcpy((void *) &respBaudrate, buffer, size);
     buffer += size;
 
     // reserved2
     size = sizeof(reserved2);
-    memcpy((char *) &reserved2, buffer, size);
+    memcpy((void *) &reserved2, buffer, size);
     buffer += size;
 
     // exactHeaderBaudrate
     size = sizeof(exactHeaderBaudrate);
-    memcpy((char *) &exactHeaderBaudrate, buffer, size);
+    memcpy((void *) &exactHeaderBaudrate, buffer, size);
     buffer += size;
 
     // earlyStopbitOffset
     size = sizeof(earlyStopbitOffset);
-    memcpy((char *) &earlyStopbitOffset, buffer, size);
+    memcpy((void *) &earlyStopbitOffset, buffer, size);
     buffer += size;
 
     // earlyStopbitOffsetResponse
     size = sizeof(earlyStopbitOffsetResponse);
-    memcpy((char *) &earlyStopbitOffsetResponse, buffer, size);
+    memcpy((void *) &earlyStopbitOffsetResponse, buffer, size);
     buffer += size;
 
     return buffer;

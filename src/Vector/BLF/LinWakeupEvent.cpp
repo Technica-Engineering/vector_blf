@@ -43,17 +43,17 @@ char * LinWakeupEvent::parse(char * buffer)
 
     // channel
     size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    memcpy((void *) &channel, buffer, size);
     buffer += size;
 
     // signal
     size = sizeof(signal);
-    memcpy((char *) &signal, buffer, size);
+    memcpy((void *) &signal, buffer, size);
     buffer += size;
 
     // external
     size = sizeof(external);
-    memcpy((char *) &external, buffer, size);
+    memcpy((void *) &external, buffer, size);
     buffer += size;
 
     return buffer;

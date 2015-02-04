@@ -55,77 +55,77 @@ char * AfdxStatistic::parse(char * buffer)
 
     // channel
     size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    memcpy((void *) &channel, buffer, size);
     buffer += size;
 
     // flags
     size = sizeof(flags);
-    memcpy((char *) &flags, buffer, size);
+    memcpy((void *) &flags, buffer, size);
     buffer += size;
 
     // rxPacketCount
     size = sizeof(rxPacketCount);
-    memcpy((char *) &rxPacketCount, buffer, size);
+    memcpy((void *) &rxPacketCount, buffer, size);
     buffer += size;
 
     // rxByteCount
     size = sizeof(rxByteCount);
-    memcpy((char *) &rxByteCount, buffer, size);
+    memcpy((void *) &rxByteCount, buffer, size);
     buffer += size;
 
     // txPacketCount
     size = sizeof(txPacketCount);
-    memcpy((char *) &txPacketCount, buffer, size);
+    memcpy((void *) &txPacketCount, buffer, size);
     buffer += size;
 
     // txByteCount
     size = sizeof(txByteCount);
-    memcpy((char *) &txByteCount, buffer, size);
+    memcpy((void *) &txByteCount, buffer, size);
     buffer += size;
 
     // collisionCount
     size = sizeof(collisionCount);
-    memcpy((char *) &collisionCount, buffer, size);
+    memcpy((void *) &collisionCount, buffer, size);
     buffer += size;
 
     // errorCount
     size = sizeof(errorCount);
-    memcpy((char *) &errorCount, buffer, size);
+    memcpy((void *) &errorCount, buffer, size);
     buffer += size;
 
     // statDroppedRedundantPacketCount
     size = sizeof(statDroppedRedundantPacketCount);
-    memcpy((char *) &statDroppedRedundantPacketCount, buffer, size);
+    memcpy((void *) &statDroppedRedundantPacketCount, buffer, size);
     buffer += size;
 
     // statRedundantErrorPacketCount
     size = sizeof(statRedundantErrorPacketCount);
-    memcpy((char *) &statRedundantErrorPacketCount, buffer, size);
+    memcpy((void *) &statRedundantErrorPacketCount, buffer, size);
     buffer += size;
 
     // statIntegrityErrorPacketCount
     size = sizeof(statIntegrityErrorPacketCount);
-    memcpy((char *) &statIntegrityErrorPacketCount, buffer, size);
+    memcpy((void *) &statIntegrityErrorPacketCount, buffer, size);
     buffer += size;
 
     // statAvrgPeriodMsec
     size = sizeof(statAvrgPeriodMsec);
-    memcpy((char *) &statAvrgPeriodMsec, buffer, size);
+    memcpy((void *) &statAvrgPeriodMsec, buffer, size);
     buffer += size;
 
     // statAvrgJitterMysec
     size = sizeof(statAvrgJitterMysec);
-    memcpy((char *) &statAvrgJitterMysec, buffer, size);
+    memcpy((void *) &statAvrgJitterMysec, buffer, size);
     buffer += size;
 
     // vlid
     size = sizeof(vlid);
-    memcpy((char *) &vlid, buffer, size);
+    memcpy((void *) &vlid, buffer, size);
     buffer += size;
 
     // statDuration
     size = sizeof(statDuration);
-    memcpy((char *) &statDuration, buffer, size);
+    memcpy((void *) &statDuration, buffer, size);
     buffer += size;
 
     return buffer;

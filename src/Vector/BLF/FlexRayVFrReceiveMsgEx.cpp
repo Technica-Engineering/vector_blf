@@ -63,117 +63,117 @@ char * FlexRayVFrReceiveMsgEx::parse(char * buffer)
 
     // channel
     size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    memcpy((void *) &channel, buffer, size);
     buffer += size;
 
     // version
     size = sizeof(version);
-    memcpy((char *) &version, buffer, size);
+    memcpy((void *) &version, buffer, size);
     buffer += size;
 
     // channelMask
     size = sizeof(channelMask);
-    memcpy((char *) &channelMask, buffer, size);
+    memcpy((void *) &channelMask, buffer, size);
     buffer += size;
 
     // dir
     size = sizeof(dir);
-    memcpy((char *) &dir, buffer, size);
+    memcpy((void *) &dir, buffer, size);
     buffer += size;
 
     // clientIndex
     size = sizeof(clientIndex);
-    memcpy((char *) &clientIndex, buffer, size);
+    memcpy((void *) &clientIndex, buffer, size);
     buffer += size;
 
     // clusterNo
     size = sizeof(clusterNo);
-    memcpy((char *) &clusterNo, buffer, size);
+    memcpy((void *) &clusterNo, buffer, size);
     buffer += size;
 
     // frameId
     size = sizeof(frameId);
-    memcpy((char *) &frameId, buffer, size);
+    memcpy((void *) &frameId, buffer, size);
     buffer += size;
 
     // headerCrc1
     size = sizeof(headerCrc1);
-    memcpy((char *) &headerCrc1, buffer, size);
+    memcpy((void *) &headerCrc1, buffer, size);
     buffer += size;
 
     // headerCrc2
     size = sizeof(headerCrc2);
-    memcpy((char *) &headerCrc2, buffer, size);
+    memcpy((void *) &headerCrc2, buffer, size);
     buffer += size;
 
     // byteCount
     size = sizeof(byteCount);
-    memcpy((char *) &byteCount, buffer, size);
+    memcpy((void *) &byteCount, buffer, size);
     buffer += size;
 
     // dataCount
     size = sizeof(dataCount);
-    memcpy((char *) &dataCount, buffer, size);
+    memcpy((void *) &dataCount, buffer, size);
     buffer += size;
 
     // cycle
     size = sizeof(cycle);
-    memcpy((char *) &cycle, buffer, size);
+    memcpy((void *) &cycle, buffer, size);
     buffer += size;
 
     // tag
     size = sizeof(tag);
-    memcpy((char *) &tag, buffer, size);
+    memcpy((void *) &tag, buffer, size);
     buffer += size;
 
     // data
     size = sizeof(data);
-    memcpy((char *) &data, buffer, size);
+    memcpy((void *) &data, buffer, size);
     buffer += size;
 
     // frameFlags
     size = sizeof(frameFlags);
-    memcpy((char *) &frameFlags, buffer, size);
+    memcpy((void *) &frameFlags, buffer, size);
     buffer += size;
 
     // appParameter
     size = sizeof(appParameter);
-    memcpy((char *) &appParameter, buffer, size);
+    memcpy((void *) &appParameter, buffer, size);
     buffer += size;
 
     // frameCrc
     size = sizeof(frameCrc);
-    memcpy((char *) &frameCrc, buffer, size);
+    memcpy((void *) &frameCrc, buffer, size);
     buffer += size;
 
     // frameLengthNs
     size = sizeof(frameLengthNs);
-    memcpy((char *) &frameLengthNs, buffer, size);
+    memcpy((void *) &frameLengthNs, buffer, size);
     buffer += size;
 
     // frameId1
     size = sizeof(frameId1);
-    memcpy((char *) &frameId1, buffer, size);
+    memcpy((void *) &frameId1, buffer, size);
     buffer += size;
 
     // pduOffset
     size = sizeof(pduOffset);
-    memcpy((char *) &pduOffset, buffer, size);
+    memcpy((void *) &pduOffset, buffer, size);
     buffer += size;
 
     // blfLogMask
     size = sizeof(blfLogMask);
-    memcpy((char *) &blfLogMask, buffer, size);
+    memcpy((void *) &blfLogMask, buffer, size);
     buffer += size;
 
     // reserved
     size = sizeof(reserved);
-    memcpy((char *) &reserved, buffer, size);
+    memcpy((void *) &reserved, buffer, size);
     buffer += size;
 
     // dataBytes
     size = sizeof(dataBytes);
-    memcpy((char *) &dataBytes, buffer, size);
+    memcpy((void *) &dataBytes, buffer, size);
     buffer += size;
 
     return buffer;

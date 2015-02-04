@@ -44,22 +44,22 @@ char * MostEcl::parse(char * buffer)
 
     // channel
     size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    memcpy((void *) &channel, buffer, size);
     buffer += size;
 
     // mode
     size = sizeof(mode);
-    memcpy((char *) &mode, buffer, size);
+    memcpy((void *) &mode, buffer, size);
     buffer += size;
 
     // eclState
     size = sizeof(eclState);
-    memcpy((char *) &eclState, buffer, size);
+    memcpy((void *) &eclState, buffer, size);
     buffer += size;
 
     // reserved
     size = sizeof(reserved);
-    memcpy((char *) &reserved, buffer, size);
+    memcpy((void *) &reserved, buffer, size);
     buffer += size;
 
     return buffer;

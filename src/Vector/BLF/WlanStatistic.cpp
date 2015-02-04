@@ -48,42 +48,42 @@ char * WlanStatistic::parse(char * buffer)
 
     // channel
     size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    memcpy((void *) &channel, buffer, size);
     buffer += size;
 
     // flags
     size = sizeof(flags);
-    memcpy((char *) &flags, buffer, size);
+    memcpy((void *) &flags, buffer, size);
     buffer += size;
 
     // rxPacketCount
     size = sizeof(rxPacketCount);
-    memcpy((char *) &rxPacketCount, buffer, size);
+    memcpy((void *) &rxPacketCount, buffer, size);
     buffer += size;
 
     // rxByteCount
     size = sizeof(rxByteCount);
-    memcpy((char *) &rxByteCount, buffer, size);
+    memcpy((void *) &rxByteCount, buffer, size);
     buffer += size;
 
     // txPacketCount
     size = sizeof(txPacketCount);
-    memcpy((char *) &txPacketCount, buffer, size);
+    memcpy((void *) &txPacketCount, buffer, size);
     buffer += size;
 
     // txByteCount
     size = sizeof(txByteCount);
-    memcpy((char *) &txByteCount, buffer, size);
+    memcpy((void *) &txByteCount, buffer, size);
     buffer += size;
 
     // collisionCount
     size = sizeof(collisionCount);
-    memcpy((char *) &collisionCount, buffer, size);
+    memcpy((void *) &collisionCount, buffer, size);
     buffer += size;
 
     // errorCount
     size = sizeof(errorCount);
-    memcpy((char *) &errorCount, buffer, size);
+    memcpy((void *) &errorCount, buffer, size);
     buffer += size;
 
     return buffer;

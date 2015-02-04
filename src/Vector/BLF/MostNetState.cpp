@@ -44,22 +44,22 @@ char * MostNetState::parse(char * buffer)
 
     // channel
     size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    memcpy((void *) &channel, buffer, size);
     buffer += size;
 
     // stateNew
     size = sizeof(stateNew);
-    memcpy((char *) &stateNew, buffer, size);
+    memcpy((void *) &stateNew, buffer, size);
     buffer += size;
 
     // stateOld
     size = sizeof(stateOld);
-    memcpy((char *) &stateOld, buffer, size);
+    memcpy((void *) &stateOld, buffer, size);
     buffer += size;
 
     // reserved
     size = sizeof(reserved);
-    memcpy((char *) &reserved, buffer, size);
+    memcpy((void *) &reserved, buffer, size);
     buffer += size;
 
     return buffer;

@@ -44,22 +44,22 @@ char * SerialEvent::parse(char * buffer)
 
     // flags
     size = sizeof(flags);
-    memcpy((char *) &flags, buffer, size);
+    memcpy((void *) &flags, buffer, size);
     buffer += size;
 
     // port
     size = sizeof(port);
-    memcpy((char *) &port, buffer, size);
+    memcpy((void *) &port, buffer, size);
     buffer += size;
 
     // baudrate
     size = sizeof(baudrate);
-    memcpy((char *) &baudrate, buffer, size);
+    memcpy((void *) &baudrate, buffer, size);
     buffer += size;
 
     // reserved
     size = sizeof(reserved);
-    memcpy((char *) &reserved, buffer, size);
+    memcpy((void *) &reserved, buffer, size);
     buffer += size;
 
     // @todo what happens with the union?

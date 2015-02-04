@@ -44,22 +44,22 @@ char * LinSchedulerModeChange::parse(char * buffer)
 
     // channel
     size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    memcpy((void *) &channel, buffer, size);
     buffer += size;
 
     // oldMode
     size = sizeof(oldMode);
-    memcpy((char *) &oldMode, buffer, size);
+    memcpy((void *) &oldMode, buffer, size);
     buffer += size;
 
     // newMode
     size = sizeof(newMode);
-    memcpy((char *) &newMode, buffer, size);
+    memcpy((void *) &newMode, buffer, size);
     buffer += size;
 
     // reserved
     size = sizeof(reserved);
-    memcpy((char *) &reserved, buffer, size);
+    memcpy((void *) &reserved, buffer, size);
     buffer += size;
 
     return buffer;

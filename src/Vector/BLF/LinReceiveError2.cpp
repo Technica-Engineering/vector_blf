@@ -56,72 +56,72 @@ char * LinReceiveError2::parse(char * buffer)
 
     // data
     size = sizeof(data);
-    memcpy((char *) &data, buffer, size);
+    memcpy((void *) &data, buffer, size);
     buffer += size;
 
     // fsmId
     size = sizeof(fsmId);
-    memcpy((char *) &fsmId, buffer, size);
+    memcpy((void *) &fsmId, buffer, size);
     buffer += size;
 
     // fsmState
     size = sizeof(fsmState);
-    memcpy((char *) &fsmState, buffer, size);
+    memcpy((void *) &fsmState, buffer, size);
     buffer += size;
 
     // stateReason
     size = sizeof(stateReason);
-    memcpy((char *) &stateReason, buffer, size);
+    memcpy((void *) &stateReason, buffer, size);
     buffer += size;
 
     // offendingByte
     size = sizeof(offendingByte);
-    memcpy((char *) &offendingByte, buffer, size);
+    memcpy((void *) &offendingByte, buffer, size);
     buffer += size;
 
     // shortError
     size = sizeof(shortError);
-    memcpy((char *) &shortError, buffer, size);
+    memcpy((void *) &shortError, buffer, size);
     buffer += size;
 
     // timeoutDuringDlcDetection
     size = sizeof(timeoutDuringDlcDetection);
-    memcpy((char *) &timeoutDuringDlcDetection, buffer, size);
+    memcpy((void *) &timeoutDuringDlcDetection, buffer, size);
     buffer += size;
 
     // isEtf
     size = sizeof(isEtf);
-    memcpy((char *) &isEtf, buffer, size);
+    memcpy((void *) &isEtf, buffer, size);
     buffer += size;
 
     // hasDatabytes
     size = sizeof(hasDatabytes);
-    memcpy((char *) &hasDatabytes, buffer, size);
+    memcpy((void *) &hasDatabytes, buffer, size);
     buffer += size;
 
     // respBaudrate
     size = sizeof(respBaudrate);
-    memcpy((char *) &respBaudrate, buffer, size);
+    memcpy((void *) &respBaudrate, buffer, size);
     buffer += size;
 
     // reserved
     size = sizeof(reserved);
-    memcpy((char *) &reserved, buffer, size);
+    memcpy((void *) &reserved, buffer, size);
     buffer += size;
 
     // exactHeaderBaudrate
     size = sizeof(exactHeaderBaudrate);
-    memcpy((char *) &exactHeaderBaudrate, buffer, size);
+    memcpy((void *) &exactHeaderBaudrate, buffer, size);
     buffer += size;
 
     // earlyStopbitOffset
     size = sizeof(earlyStopbitOffset);
-    memcpy((char *) &earlyStopbitOffset, buffer, size);
+    memcpy((void *) &earlyStopbitOffset, buffer, size);
     buffer += size;
 
     // earlyStopbitOffsetResponse
     size = sizeof(earlyStopbitOffsetResponse);
-    memcpy((char *) &earlyStopbitOffsetResponse, buffer, size);
+    memcpy((void *) &earlyStopbitOffsetResponse, buffer, size);
     buffer += size;
 
     return buffer;

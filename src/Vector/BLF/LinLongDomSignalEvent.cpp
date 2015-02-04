@@ -44,12 +44,12 @@ char * LinLongDomSignalEvent::parse(char * buffer)
 
     // type
     size = sizeof(type);
-    memcpy((char *) &type, buffer, size);
+    memcpy((void *) &type, buffer, size);
     buffer += size;
 
     // reserved
     size = sizeof(reserved);
-    memcpy((char *) &reserved, buffer, size);
+    memcpy((void *) &reserved, buffer, size);
     buffer += size;
 
     return buffer;

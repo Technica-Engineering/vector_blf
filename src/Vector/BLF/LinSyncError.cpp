@@ -43,17 +43,17 @@ char * LinSyncError::parse(char * buffer)
 
     // channel
     size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    memcpy((void *) &channel, buffer, size);
     buffer += size;
 
     // reserved
     size = sizeof(reserved);
-    memcpy((char *) &reserved, buffer, size);
+    memcpy((void *) &reserved, buffer, size);
     buffer += size;
 
     // timeDiff
     size = sizeof(timeDiff);
-    memcpy((char *) &timeDiff, buffer, size);
+    memcpy((void *) &timeDiff, buffer, size);
     buffer += size;
 
     return buffer;

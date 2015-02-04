@@ -47,37 +47,37 @@ char * FlexRayStatusEvent::parse(char * buffer)
 
     // channel
     size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    memcpy((void *) &channel, buffer, size);
     buffer += size;
 
     // version
     size = sizeof(version);
-    memcpy((char *) &version, buffer, size);
+    memcpy((void *) &version, buffer, size);
     buffer += size;
 
     // statusType
     size = sizeof(statusType);
-    memcpy((char *) &statusType, buffer, size);
+    memcpy((void *) &statusType, buffer, size);
     buffer += size;
 
     // infoMask1
     size = sizeof(infoMask1);
-    memcpy((char *) &infoMask1, buffer, size);
+    memcpy((void *) &infoMask1, buffer, size);
     buffer += size;
 
     // infoMask2
     size = sizeof(infoMask2);
-    memcpy((char *) &infoMask2, buffer, size);
+    memcpy((void *) &infoMask2, buffer, size);
     buffer += size;
 
     // infoMask3
     size = sizeof(infoMask3);
-    memcpy((char *) &infoMask3, buffer, size);
+    memcpy((void *) &infoMask3, buffer, size);
     buffer += size;
 
     // reserved
     size = sizeof(reserved);
-    memcpy((char *) &reserved, buffer, size);
+    memcpy((void *) &reserved, buffer, size);
     buffer += size;
 
     return buffer;

@@ -47,37 +47,37 @@ char * MostDataLost::parse(char * buffer)
 
     // channel
     size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    memcpy((void *) &channel, buffer, size);
     buffer += size;
 
     // reserved
     size = sizeof(reserved);
-    memcpy((char *) &reserved, buffer, size);
+    memcpy((void *) &reserved, buffer, size);
     buffer += size;
 
     // info
     size = sizeof(info);
-    memcpy((char *) &info, buffer, size);
+    memcpy((void *) &info, buffer, size);
     buffer += size;
 
     // lostMsgsCtrl
     size = sizeof(lostMsgsCtrl);
-    memcpy((char *) &lostMsgsCtrl, buffer, size);
+    memcpy((void *) &lostMsgsCtrl, buffer, size);
     buffer += size;
 
     // lostMsgsAsync
     size = sizeof(lostMsgsAsync);
-    memcpy((char *) &lostMsgsAsync, buffer, size);
+    memcpy((void *) &lostMsgsAsync, buffer, size);
     buffer += size;
 
     // lastGoodTimeStampNs
     size = sizeof(lastGoodTimeStampNs);
-    memcpy((char *) &lastGoodTimeStampNs, buffer, size);
+    memcpy((void *) &lastGoodTimeStampNs, buffer, size);
     buffer += size;
 
     // nextGoodTimeStampNs
     size = sizeof(nextGoodTimeStampNs);
-    memcpy((char *) &nextGoodTimeStampNs, buffer, size);
+    memcpy((void *) &nextGoodTimeStampNs, buffer, size);
     buffer += size;
 
     return buffer;

@@ -49,47 +49,47 @@ char * FlexRaySync::parse(char * buffer)
 
     // channel
     size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    memcpy((void *) &channel, buffer, size);
     buffer += size;
 
     // mux
     size = sizeof(mux);
-    memcpy((char *) &mux, buffer, size);
+    memcpy((void *) &mux, buffer, size);
     buffer += size;
 
     // len
     size = sizeof(len);
-    memcpy((char *) &len, buffer, size);
+    memcpy((void *) &len, buffer, size);
     buffer += size;
 
     // messageId
     size = sizeof(messageId);
-    memcpy((char *) &messageId, buffer, size);
+    memcpy((void *) &messageId, buffer, size);
     buffer += size;
 
     // crc
     size = sizeof(crc);
-    memcpy((char *) &crc, buffer, size);
+    memcpy((void *) &crc, buffer, size);
     buffer += size;
 
     // dir
     size = sizeof(dir);
-    memcpy((char *) &dir, buffer, size);
+    memcpy((void *) &dir, buffer, size);
     buffer += size;
 
     // reserved
     size = sizeof(reserved);
-    memcpy((char *) &reserved, buffer, size);
+    memcpy((void *) &reserved, buffer, size);
     buffer += size;
 
     // dataBytes
     size = sizeof(dataBytes);
-    memcpy((char *) &dataBytes, buffer, size);
+    memcpy((void *) &dataBytes, buffer, size);
     buffer += size;
 
     // cycle
     size = sizeof(cycle);
-    memcpy((char *) &cycle, buffer, size);
+    memcpy((void *) &cycle, buffer, size);
     buffer += size;
 
     return buffer;

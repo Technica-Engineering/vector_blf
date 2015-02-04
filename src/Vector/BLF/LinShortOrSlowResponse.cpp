@@ -47,27 +47,27 @@ char * LinShortOrSlowResponse::parse(char * buffer)
 
     // numberOfRespBtes
     size = sizeof(numberOfRespBtes);
-    memcpy((char *) &numberOfRespBtes, buffer, size);
+    memcpy((void *) &numberOfRespBtes, buffer, size);
     buffer += size;
 
     // respBytes
     size = sizeof(respBytes);
-    memcpy((char *) &respBytes, buffer, size);
+    memcpy((void *) &respBytes, buffer, size);
     buffer += size;
 
     // slowResponse
     size = sizeof(slowResponse);
-    memcpy((char *) &slowResponse, buffer, size);
+    memcpy((void *) &slowResponse, buffer, size);
     buffer += size;
 
     // interruptedByBreak
     size = sizeof(interruptedByBreak);
-    memcpy((char *) &interruptedByBreak, buffer, size);
+    memcpy((void *) &interruptedByBreak, buffer, size);
     buffer += size;
 
     // reserved
     size = sizeof(reserved);
-    memcpy((char *) &reserved, buffer, size);
+    memcpy((void *) &reserved, buffer, size);
     buffer += size;
 
     return buffer;

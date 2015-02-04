@@ -43,17 +43,17 @@ char * DriverOverrun::parse(char * buffer)
 
     // busType
     size = sizeof(busType);
-    memcpy((char *) &busType, buffer, size);
+    memcpy((void *) &busType, buffer, size);
     buffer += size;
 
     // channel
     size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    memcpy((void *) &channel, buffer, size);
     buffer += size;
 
     // reserved
     size = sizeof(reserved);
-    memcpy((char *) &reserved, buffer, size);
+    memcpy((void *) &reserved, buffer, size);
     buffer += size;
 
     return buffer;

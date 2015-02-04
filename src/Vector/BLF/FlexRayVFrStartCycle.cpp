@@ -53,67 +53,67 @@ char * FlexRayVFrStartCycle::parse(char * buffer)
 
     // channel
     size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    memcpy((void *) &channel, buffer, size);
     buffer += size;
 
     // version
     size = sizeof(version);
-    memcpy((char *) &version, buffer, size);
+    memcpy((void *) &version, buffer, size);
     buffer += size;
 
     // channelMask
     size = sizeof(channelMask);
-    memcpy((char *) &channelMask, buffer, size);
+    memcpy((void *) &channelMask, buffer, size);
     buffer += size;
 
     // dir
     size = sizeof(dir);
-    memcpy((char *) &dir, buffer, size);
+    memcpy((void *) &dir, buffer, size);
     buffer += size;
 
     // cycle
     size = sizeof(cycle);
-    memcpy((char *) &cycle, buffer, size);
+    memcpy((void *) &cycle, buffer, size);
     buffer += size;
 
     // clientIndex
     size = sizeof(clientIndex);
-    memcpy((char *) &clientIndex, buffer, size);
+    memcpy((void *) &clientIndex, buffer, size);
     buffer += size;
 
     // clusterNo
     size = sizeof(clusterNo);
-    memcpy((char *) &clusterNo, buffer, size);
+    memcpy((void *) &clusterNo, buffer, size);
     buffer += size;
 
     // nmSize
     size = sizeof(nmSize);
-    memcpy((char *) &nmSize, buffer, size);
+    memcpy((void *) &nmSize, buffer, size);
     buffer += size;
 
     // dataBytes
     size = sizeof(dataBytes);
-    memcpy((char *) &dataBytes, buffer, size);
+    memcpy((void *) &dataBytes, buffer, size);
     buffer += size;
 
     // reserved1
     size = sizeof(reserved1);
-    memcpy((char *) &reserved1, buffer, size);
+    memcpy((void *) &reserved1, buffer, size);
     buffer += size;
 
     // tag
     size = sizeof(tag);
-    memcpy((char *) &tag, buffer, size);
+    memcpy((void *) &tag, buffer, size);
     buffer += size;
 
     // data
     size = sizeof(data);
-    memcpy((char *) &data, buffer, size);
+    memcpy((void *) &data, buffer, size);
     buffer += size;
 
     // reserved2
     size = sizeof(reserved2);
-    memcpy((char *) &reserved2, buffer, size);
+    memcpy((void *) &reserved2, buffer, size);
     buffer += size;
 
     return buffer;

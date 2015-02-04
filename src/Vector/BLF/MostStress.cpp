@@ -44,22 +44,22 @@ char * MostStress::parse(char * buffer)
 
     // channel
     size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    memcpy((void *) &channel, buffer, size);
     buffer += size;
 
     // state
     size = sizeof(state);
-    memcpy((char *) &state, buffer, size);
+    memcpy((void *) &state, buffer, size);
     buffer += size;
 
     // mode
     size = sizeof(mode);
-    memcpy((char *) &mode, buffer, size);
+    memcpy((void *) &mode, buffer, size);
     buffer += size;
 
     // reserved
     size = sizeof(reserved);
-    memcpy((char *) &reserved, buffer, size);
+    memcpy((void *) &reserved, buffer, size);
     buffer += size;
 
     return buffer;

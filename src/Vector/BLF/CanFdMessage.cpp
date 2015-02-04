@@ -50,52 +50,52 @@ char * CanFdMessage::parse(char * buffer)
 
     // channel
     size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    memcpy((void *) &channel, buffer, size);
     buffer += size;
 
     // flags
     size = sizeof(flags);
-    memcpy((char *) &flags, buffer, size);
+    memcpy((void *) &flags, buffer, size);
     buffer += size;
 
     // dlc
     size = sizeof(dlc);
-    memcpy((char *) &dlc, buffer, size);
+    memcpy((void *) &dlc, buffer, size);
     buffer += size;
 
     // id
     size = sizeof(id);
-    memcpy((char *) &id, buffer, size);
+    memcpy((void *) &id, buffer, size);
     buffer += size;
 
     // frameLength
     size = sizeof(frameLength);
-    memcpy((char *) &frameLength, buffer, size);
+    memcpy((void *) &frameLength, buffer, size);
     buffer += size;
 
     // arbBitCount
     size = sizeof(arbBitCount);
-    memcpy((char *) &arbBitCount, buffer, size);
+    memcpy((void *) &arbBitCount, buffer, size);
     buffer += size;
 
     // canFdFlags
     size = sizeof(canFdFlags);
-    memcpy((char *) &canFdFlags, buffer, size);
+    memcpy((void *) &canFdFlags, buffer, size);
     buffer += size;
 
     // validDataBytes
     size = sizeof(validDataBytes);
-    memcpy((char *) &validDataBytes, buffer, size);
+    memcpy((void *) &validDataBytes, buffer, size);
     buffer += size;
 
     // reserved
     size = sizeof(reserved);
-    memcpy((char *) &reserved, buffer, size);
+    memcpy((void *) &reserved, buffer, size);
     buffer += size;
 
     // data
     size = sizeof(data);
-    memcpy((char *) &data, buffer, size);
+    memcpy((void *) &data, buffer, size);
     buffer += size;
 
     return buffer;

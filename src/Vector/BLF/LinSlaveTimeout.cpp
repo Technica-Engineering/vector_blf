@@ -44,22 +44,22 @@ char * LinSlaveTimeout::parse(char * buffer)
 
     // channel
     size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    memcpy((void *) &channel, buffer, size);
     buffer += size;
 
     // slaveId
     size = sizeof(slaveId);
-    memcpy((char *) &slaveId, buffer, size);
+    memcpy((void *) &slaveId, buffer, size);
     buffer += size;
 
     // stateId
     size = sizeof(stateId);
-    memcpy((char *) &stateId, buffer, size);
+    memcpy((void *) &stateId, buffer, size);
     buffer += size;
 
     // followStateId
     size = sizeof(followStateId);
-    memcpy((char *) &followStateId, buffer, size);
+    memcpy((void *) &followStateId, buffer, size);
     buffer += size;
 
     return buffer;

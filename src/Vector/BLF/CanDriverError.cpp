@@ -44,22 +44,22 @@ char * CanDriverError::parse(char * buffer)
 
     // channel
     size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    memcpy((void *) &channel, buffer, size);
     buffer += size;
 
     // txErrors
     size = sizeof(txErrors);
-    memcpy((char *) &txErrors, buffer, size);
+    memcpy((void *) &txErrors, buffer, size);
     buffer += size;
 
     // rxErrors
     size = sizeof(rxErrors);
-    memcpy((char *) &rxErrors, buffer, size);
+    memcpy((void *) &rxErrors, buffer, size);
     buffer += size;
 
     // errorCode
     size = sizeof(errorCode);
-    memcpy((char *) &errorCode, buffer, size);
+    memcpy((void *) &errorCode, buffer, size);
     buffer += size;
 
     return buffer;

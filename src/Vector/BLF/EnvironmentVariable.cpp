@@ -53,17 +53,17 @@ char * EnvironmentVariable::parse(char * buffer)
 
     // nameLength
     size = sizeof(nameLength);
-    memcpy((char *) &nameLength, buffer, size);
+    memcpy((void *) &nameLength, buffer, size);
     buffer += size;
 
     // dataLength
     size = sizeof(dataLength);
-    memcpy((char *) &dataLength, buffer, size);
+    memcpy((void *) &dataLength, buffer, size);
     buffer += size;
 
     // unknown
     size = sizeof(unknown);
-    memcpy((char *) &unknown, buffer, size);
+    memcpy((void *) &unknown, buffer, size);
     buffer += size;
 
     // name

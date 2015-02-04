@@ -45,27 +45,27 @@ char * KLineStatusEvent::parse(char * buffer)
 
     // type
     size = sizeof(type);
-    memcpy((char *) &type, buffer, size);
+    memcpy((void *) &type, buffer, size);
     buffer += size;
 
     // dataLen
     size = sizeof(dataLen);
-    memcpy((char *) &dataLen, buffer, size);
+    memcpy((void *) &dataLen, buffer, size);
     buffer += size;
 
     // port
     size = sizeof(port);
-    memcpy((char *) &port, buffer, size);
+    memcpy((void *) &port, buffer, size);
     buffer += size;
 
     // reserved
     size = sizeof(reserved);
-    memcpy((char *) &reserved, buffer, size);
+    memcpy((void *) &reserved, buffer, size);
     buffer += size;
 
     // data
     size = sizeof(data);
-    memcpy((char *) &data, buffer, size);
+    memcpy((void *) &data, buffer, size);
     buffer += size;
 
     return buffer;

@@ -43,7 +43,7 @@ char * LinSyncError2::parse(char * buffer)
 
     // timeDiff
     size = sizeof(timeDiff);
-    memcpy((char *) &timeDiff, buffer, size);
+    memcpy((void *) &timeDiff, buffer, size);
     buffer += size;
 
     return buffer;

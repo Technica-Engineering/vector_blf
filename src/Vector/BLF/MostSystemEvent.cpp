@@ -44,22 +44,22 @@ char * MostSystemEvent::parse(char * buffer)
 
     // channel
     size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    memcpy((void *) &channel, buffer, size);
     buffer += size;
 
     // id
     size = sizeof(id);
-    memcpy((char *) &id, buffer, size);
+    memcpy((void *) &id, buffer, size);
     buffer += size;
 
     // value
     size = sizeof(value);
-    memcpy((char *) &value, buffer, size);
+    memcpy((void *) &value, buffer, size);
     buffer += size;
 
     // valueOld
     size = sizeof(valueOld);
-    memcpy((char *) &valueOld, buffer, size);
+    memcpy((void *) &valueOld, buffer, size);
     buffer += size;
 
     return buffer;

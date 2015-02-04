@@ -48,42 +48,42 @@ char * LinDisturbanceEvent::parse(char * buffer)
 
     // channel
     size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    memcpy((void *) &channel, buffer, size);
     buffer += size;
 
     // id
     size = sizeof(id);
-    memcpy((char *) &id, buffer, size);
+    memcpy((void *) &id, buffer, size);
     buffer += size;
 
     // disturbingFrameId
     size = sizeof(disturbingFrameId);
-    memcpy((char *) &disturbingFrameId, buffer, size);
+    memcpy((void *) &disturbingFrameId, buffer, size);
     buffer += size;
 
     // disturbanceType
     size = sizeof(disturbanceType);
-    memcpy((char *) &disturbanceType, buffer, size);
+    memcpy((void *) &disturbanceType, buffer, size);
     buffer += size;
 
     // byteIndex
     size = sizeof(byteIndex);
-    memcpy((char *) &byteIndex, buffer, size);
+    memcpy((void *) &byteIndex, buffer, size);
     buffer += size;
 
     // bitIndex
     size = sizeof(bitIndex);
-    memcpy((char *) &bitIndex, buffer, size);
+    memcpy((void *) &bitIndex, buffer, size);
     buffer += size;
 
     // bitOffsetInSixteenthBits
     size = sizeof(bitOffsetInSixteenthBits);
-    memcpy((char *) &bitOffsetInSixteenthBits, buffer, size);
+    memcpy((void *) &bitOffsetInSixteenthBits, buffer, size);
     buffer += size;
 
     // disturbanceLengthInSixteenthBits
     size = sizeof(disturbanceLengthInSixteenthBits);
-    memcpy((char *) &disturbanceLengthInSixteenthBits, buffer, size);
+    memcpy((void *) &disturbanceLengthInSixteenthBits, buffer, size);
     buffer += size;
 
     return buffer;

@@ -48,42 +48,42 @@ char * GpsEvent::parse(char * buffer)
 
     // flags
     size = sizeof(flags);
-    memcpy((char *) &flags, buffer, size);
+    memcpy((void *) &flags, buffer, size);
     buffer += size;
 
     // channel
     size = sizeof(channel);
-    memcpy((char *) &channel, buffer, size);
+    memcpy((void *) &channel, buffer, size);
     buffer += size;
 
     // reserved
     size = sizeof(reserved);
-    memcpy((char *) &reserved, buffer, size);
+    memcpy((void *) &reserved, buffer, size);
     buffer += size;
 
     // latitude
     size = sizeof(latitude);
-    memcpy((char *) &latitude, buffer, size);
+    memcpy((void *) &latitude, buffer, size);
     buffer += size;
 
     // longitude
     size = sizeof(longitude);
-    memcpy((char *) &longitude, buffer, size);
+    memcpy((void *) &longitude, buffer, size);
     buffer += size;
 
     // altitude
     size = sizeof(altitude);
-    memcpy((char *) &altitude, buffer, size);
+    memcpy((void *) &altitude, buffer, size);
     buffer += size;
 
     // speed
     size = sizeof(speed);
-    memcpy((char *) &speed, buffer, size);
+    memcpy((void *) &speed, buffer, size);
     buffer += size;
 
     // course
     size = sizeof(course);
-    memcpy((char *) &course, buffer, size);
+    memcpy((void *) &course, buffer, size);
     buffer += size;
 
     return buffer;
