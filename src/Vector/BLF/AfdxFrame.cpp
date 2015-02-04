@@ -132,7 +132,7 @@ char * AfdxFrame::parse(char * buffer)
 
     // payLoad
     size = payLoadLength;
-    payLoad = new char[size];
+    payLoad = new uint8_t[size];
     memcpy(payLoad, buffer, size);
     buffer += size;
 

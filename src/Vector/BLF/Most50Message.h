@@ -200,7 +200,7 @@ public:
      *
      * Variable data
      */
-    char * msg;
+    uint8_t * msg;
 };
 
 }

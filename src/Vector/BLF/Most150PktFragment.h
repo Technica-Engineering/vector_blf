@@ -212,7 +212,7 @@ public:
      *
      * Variable data
      */
-    char * firstData;
+    uint8_t * firstData;
 };
 
 }

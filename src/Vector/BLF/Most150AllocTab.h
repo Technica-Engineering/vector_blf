@@ -101,7 +101,7 @@ public:
      * - WWWW: label width
      * - < channels >: list of 16-bit channel numbers (size = label width)
      */
-    char * tableData;
+    uint8_t * tableData;
 };
 
 }

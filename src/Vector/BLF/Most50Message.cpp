@@ -137,7 +137,7 @@ char * Most50Message::parse(char * buffer)
 
     // msg
     size = msgLen;
-    msg = new char[msgLen];
+    msg = new uint8_t[msgLen];
     memcpy(msg, buffer, size);
     buffer += size;
 

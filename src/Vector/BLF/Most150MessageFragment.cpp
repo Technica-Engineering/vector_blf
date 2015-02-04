@@ -131,7 +131,7 @@ char * Most150MessageFragment::parse(char * buffer)
 
     // firstData
     size = sizeof(firstDataLen);
-    firstData = new char[firstDataLen];
+    firstData = new uint8_t[firstDataLen];
     memcpy(firstData, buffer, size);
     buffer += size;
 

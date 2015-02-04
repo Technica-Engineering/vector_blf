@@ -106,7 +106,7 @@ public:
      * Ethernet payload data (without Ethernet
      * header)
      */
-    char * payLoad;
+    uint8_t * payLoad;
 };
 
 }

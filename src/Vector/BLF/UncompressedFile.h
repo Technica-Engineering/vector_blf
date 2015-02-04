@@ -72,10 +72,10 @@ private:
         virtual ~DataBlock();
 
         /** data */
-        char * data;
+        uint8_t * data;
 
         /** read pointer */
-        char * tellg;
+        uint8_t * tellg;
 
         /** remaining size */
         std::streamsize remainingSize;

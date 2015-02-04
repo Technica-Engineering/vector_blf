@@ -75,7 +75,7 @@ char * EnvironmentVariable::parse(char * buffer)
 
     // data
     size = dataLength;
-    data = new char[dataLength];
+    data = new uint8_t[dataLength];
     memcpy(data, buffer, size);
     buffer += size;
 

@@ -143,7 +143,7 @@ char * Most150Pkt::parse(char * buffer)
 
     // pktData
     size = pktDataLength;
-    pktData = new char[pktDataLength];
+    pktData = new uint8_t[pktDataLength];
     memcpy(pktData, buffer, size);
     buffer += size;
 

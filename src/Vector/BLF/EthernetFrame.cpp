@@ -95,7 +95,7 @@ char * EthernetFrame::parse(char * buffer)
 
     // payLoad
     size = payLoadLength;
-    payLoad = new char[payLoadLength];
+    payLoad = new uint8_t[payLoadLength];
     memcpy(payLoad, buffer, size);
     buffer += size;
 

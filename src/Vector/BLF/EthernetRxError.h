@@ -103,7 +103,7 @@ public:
      * Raw Ethernet frame data.
      * Max 1522 data bytes per frame.
      */
-    char * frameData;
+    uint8_t * frameData;
 };
 
 }
