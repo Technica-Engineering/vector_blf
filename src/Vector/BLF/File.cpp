@@ -467,18 +467,18 @@ void File::open(const char * filename)
 {
     if (openMode == OpenMode::Read) {
         compressedFile.open(filename, std::ios_base::in | std::ios_base::binary);
-        if (!compressedFile.is_open()) {
-            std::cerr << "open failed." << std::endl;
-        }
+        if (!is_open())
+            return;
 
+        /* do file statistics */
         fileStatistics.read(compressedFile);
         currentUncompressedFileSize += 0x90;
     } else {
         compressedFile.open(filename, std::ios_base::out | std::ios_base::binary);
-        if (!compressedFile.is_open()) {
-            std::cerr << "open failed." << std::endl;
-        }
+        if (!is_open())
+            return;
 
+        /* do file statistics */
         fileStatistics.write(compressedFile);
     }
 }
@@ -486,6 +486,11 @@ void File::open(const char * filename)
 void File::open(std::string & filename)
 {
     open(filename.c_str());
+}
+
+bool File::is_open() const
+{
+    return compressedFile.is_open();
 }
 
 void File::close()

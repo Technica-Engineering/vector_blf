@@ -171,6 +171,9 @@ public:
     /** open file */
     void open(std::string & filename);
 
+    /** is file open? */
+    bool is_open() const;
+
     /** close file */
     void close();
 
