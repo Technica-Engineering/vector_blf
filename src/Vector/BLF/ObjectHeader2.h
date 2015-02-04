@@ -47,7 +47,7 @@ public:
      *
      * Unit of object timestamp.
      */
-    enum class ObjectFlag : DWORD {
+    enum class ObjectFlags : DWORD {
         /**
          * @brief 10 micro second timestamp
          *
