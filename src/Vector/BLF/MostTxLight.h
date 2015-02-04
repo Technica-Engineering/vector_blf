@@ -57,6 +57,9 @@ public:
      * - 2 – TxLight/Signal forced on
      */
     WORD state;
+
+    /** reserved */
+    BYTE reserved[4];
 };
 
 }

@@ -29,7 +29,8 @@ namespace BLF {
 MostTxLight::MostTxLight() :
     ObjectHeader2(),
     channel(),
-    state()
+    state(),
+    reserved()
 {
 }
 
@@ -50,6 +51,11 @@ char * MostTxLight::parse(char * buffer)
     memcpy((void *) &state, buffer, size);
     buffer += size;
 
+    // reserved
+    size = sizeof(reserved);
+    memcpy((void *) &reserved, buffer, size);
+    buffer += size;
+
     return buffer;
 }
 
@@ -58,7 +64,8 @@ size_t MostTxLight::calculateObjectSize()
     size_t size =
             ObjectHeader2::calculateObjectSize() +
             sizeof(channel) +
-            sizeof(state);
+            sizeof(state) +
+            sizeof(reserved);
 
     return size;
 }
