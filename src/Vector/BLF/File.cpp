@@ -565,8 +565,9 @@ ObjectHeaderBase * File::readObjectFromCompressedFile()
     /* handle if there is size remaining */
     size_t remainingSize = obj->objectSize - (ptr - objBuffer);
     if (remainingSize != 0) {
-      std::cerr << "remainingSize: 0x" << std::hex << remainingSize << std::endl;
-      hexDump(objBuffer, ohb.objectSize);
+        std::cerr << "objectType: " << std::dec << (unsigned short) ohb.objectType << std::endl;
+        std::cerr << "remainingSize: 0x" << std::hex << remainingSize << std::endl;
+        hexDump(objBuffer, ohb.objectSize);
     }
 
     /* delete buffers */
@@ -627,8 +628,9 @@ ObjectHeaderBase * File::readObjectFromUncompressedFile()
     /* handle if there is size remaining */
     size_t remainingSize = obj->objectSize - (ptr - objBuffer);
     if (remainingSize != 0) {
-      std::cerr << "remainingSize: 0x" << std::hex << remainingSize << std::endl;
-      hexDump(objBuffer, ohb.objectSize);
+        std::cerr << "objectType: " << std::dec << (unsigned short) ohb.objectType << std::endl;
+        std::cerr << "remainingSize: 0x" << std::hex << remainingSize << std::endl;
+        hexDump(objBuffer, ohb.objectSize);
     }
 
     /* delete buffers */
