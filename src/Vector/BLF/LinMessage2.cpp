@@ -105,15 +105,18 @@ char * LinMessage2::parse(char * buffer)
     memcpy((char *) &reserved, buffer, size);
     buffer += size;
 
-    /* the following variables are only available in Version 2 and above */
-    if (objectVersion < 2) {
-        // reserved_ver1_only
+    // reserved_ver1_only
+    if (objectVersion == 1) {
         size = sizeof(reserved_ver1_only);
         memcpy((char *) &reserved_ver1_only, buffer, size);
         buffer += size;
-
-        return buffer;
     }
+
+    // @todo with objectVersion == 1 there are still 0x10 bytes remaining...
+
+    /* the following variables are only available in Version 2 and above */
+    if (objectVersion < 2)
+        return buffer;
 
     // respBaudrate
     size = sizeof(respBaudrate);
