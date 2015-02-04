@@ -65,7 +65,8 @@ char * AppText::parse(char * buffer)
 
     // text
     size = textLength;
-    text = new char[textLength];
+    text = new char[textLength + 1];
+    text[textLength] = 0;
     memcpy(text, buffer, size);
     buffer += size;
 
