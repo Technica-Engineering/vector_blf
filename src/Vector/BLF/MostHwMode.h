@@ -52,7 +52,7 @@ public:
      */
     WORD channel;
 
-    WORD dummy1;
+    WORD reserved1;
 
     /**
      * @brief bypass/master/slave/spy

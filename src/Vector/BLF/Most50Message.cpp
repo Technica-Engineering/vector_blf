@@ -100,7 +100,7 @@ char * Most50Message::parse(char * buffer)
     memcpy((char *) &ackNack, buffer, size);
     buffer += size;
 
-    // dummy2
+    // reserved2
     size = sizeof(reserved2);
     memcpy((char *) &reserved2, buffer, size);
     buffer += size;
