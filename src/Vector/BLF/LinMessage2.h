@@ -118,10 +118,7 @@ public:
     BYTE fsmState;
 
     /** reserved */
-    BYTE reserved[3];
-
-    /** reserved (in version 1 only) */
-    BYTE reserved_ver1_only[4];
+    BYTE reserved1[3];
 
     /* the following variables are only available in Version 2 and above */
 

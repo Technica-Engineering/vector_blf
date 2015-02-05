@@ -38,8 +38,7 @@ LinMessage2::LinMessage2() :
     etfAssocEtfId(),
     fsmId(),
     fsmState(),
-    reserved(),
-    reserved_ver1_only(),
+    reserved1(),
     respBaudrate(),
     exactHeaderBaudrate(),
     earlyStopbitOffset(),
@@ -101,21 +100,12 @@ char * LinMessage2::parse(char * buffer)
     buffer += size;
 
     // reserved
-    size = sizeof(reserved);
-    memcpy((void *) &reserved, buffer, size);
+    size = sizeof(reserved1);
+    memcpy((void *) &reserved1, buffer, size);
     buffer += size;
 
-    // reserved_ver1_only
-    if (objectVersion == 1) {
-        size = sizeof(reserved_ver1_only);
-        memcpy((void *) &reserved_ver1_only, buffer, size);
-        buffer += size;
-    }
-
-    // @todo with objectVersion == 1 there are still 0x10 bytes remaining...
-
     /* the following variables are only available in Version 2 and above */
-    if (objectVersion < 2)
+    if (objectVersion < 0) // this is probably a bug in Vector's original implementation
         return buffer;
 
     // respBaudrate
@@ -124,7 +114,7 @@ char * LinMessage2::parse(char * buffer)
     buffer += size;
 
     /* the following variables are only available in Version 3 and above */
-    if (objectVersion < 3)
+    if (objectVersion < 1) // this is probably a bug in Vector's original implementation
         return buffer;
 
     // exactHeaderBaudrate
@@ -159,22 +149,15 @@ size_t LinMessage2::calculateObjectSize()
             sizeof(etfAssocEtfId) +
             sizeof(fsmId) +
             sizeof(fsmState) +
-            sizeof(reserved);
+            sizeof(reserved1);
 
-    if (objectVersion < 2) {
-        size += sizeof(reserved_ver1_only);
-        return size;
-    }
+    if (objectVersion >= 0) // this is probably a bug in Vector's original implementation
+        size += sizeof(respBaudrate);
 
-    size += sizeof(respBaudrate);
-
-    if (objectVersion < 3) {
-        return size;
-    }
-
-    size += sizeof(exactHeaderBaudrate) +
-            sizeof(earlyStopbitOffset) +
-            sizeof(earlyStopbitOffsetResponse);
+    if (objectVersion >= 1) // this is probably a bug in Vector's original implementation
+        size += sizeof(exactHeaderBaudrate) +
+                sizeof(earlyStopbitOffset) +
+                sizeof(earlyStopbitOffsetResponse);
 
     return size;
 }
