@@ -63,7 +63,12 @@ The following files are products of installation and building:
 # Wanted features
 
 * Search for the todos. Not everything is available yet.
+* memory operations (memcpy, ...) should use char/void/uint8_t consistently
+* write support
+* add example
 
 # Missing test coverage
 
-* Stubs should be fully covered
+* calculateObjectSize() functions
+* all objectTypes for which I had no templates to define a test case
+* write functions
