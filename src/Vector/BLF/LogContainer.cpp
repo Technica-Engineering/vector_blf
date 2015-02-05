@@ -22,7 +22,6 @@
 #include "LogContainer.h"
 
 #include <cstring>
-#include <iostream>
 
 namespace Vector {
 namespace BLF {
