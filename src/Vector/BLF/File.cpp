@@ -679,7 +679,6 @@ size_t File::readFromUncompressedFile(char ** buffer, size_t size)
     /* safety check */
     if (buffer == nullptr) {
         std::cerr << "readFromUncompressedFile with nullptr argument" << std::endl;
-        *buffer = nullptr;
         return 0;
     }
 

@@ -32,8 +32,14 @@ Most150AllocTab::Most150AllocTab() :
     eventModeFlags(),
     freeBytes(),
     length(),
-    tableData()
+    tableData(nullptr)
 {
+}
+
+Most150AllocTab::~Most150AllocTab()
+{
+    delete[] tableData;
+    tableData = nullptr;
 }
 
 char * Most150AllocTab::parse(char * buffer)
@@ -80,7 +86,7 @@ size_t Most150AllocTab::calculateObjectSize()
             sizeof(eventModeFlags) +
             sizeof(freeBytes) +
             sizeof(length) +
-            sizeof(tableData);
+            length;
 
     return size;
 }
