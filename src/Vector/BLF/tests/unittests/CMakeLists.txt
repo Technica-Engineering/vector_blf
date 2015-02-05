@@ -10,9 +10,9 @@ add_definitions(
 
 add_executable(test_Logfile test_Logfile.cpp)
 
-if(OPTION_USE_GCOV)
+if(OPTION_USE_GCOV_LCOV)
   add_definitions(-g -O0 -fprofile-arcs -ftest-coverage)
-  target_link_libraries(test_Logfile cov)
+  target_link_libraries(test_Logfile gcov)
 endif()
 
 target_link_libraries(test_Logfile
