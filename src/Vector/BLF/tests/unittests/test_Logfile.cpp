@@ -922,7 +922,7 @@ BOOST_AUTO_TEST_CASE(CloseLogfile)
 {
     /* check file statistics */
     BOOST_CHECK(file.fileStatistics.uncompressedFileSize == file.currentUncompressedFileSize);
-    BOOST_CHECK(file.fileStatistics.objectCount == (file.currentObjectCount + 1));
+    BOOST_CHECK(file.fileStatistics.objectCount == file.currentObjectCount);
 
     /* close file */
     file.close();

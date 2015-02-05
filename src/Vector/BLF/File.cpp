@@ -49,7 +49,7 @@ File::File() :
     compressionLevel(Z_DEFAULT_COMPRESSION),
     fileStatistics(),
     currentUncompressedFileSize(0),
-    currentObjectCount(-1),
+    currentObjectCount(0),
     compressedFile(),
     uncompressedFile()
 {
