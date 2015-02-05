@@ -1,6 +1,6 @@
 include_directories(${PROJECT_SOURCE_DIR}/src)
 
-find_package(Boost 1.55 COMPONENTS system filesystem unit_test_framework REQUIRED)
+find_package(Boost 1.55 COMPONENTS unit_test_framework REQUIRED)
 include_directories(${Boost_INCLUDE_DIR})
 link_directories(${Boost_LIBRARY_DIRS})
 
@@ -17,8 +17,6 @@ endif()
 
 target_link_libraries(test_Logfile
   Vector_BLF
-  ${Boost_SYSTEM_LIBRARY}
-  ${Boost_FILESYSTEM_LIBRARY}
   ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
 
 enable_testing()
