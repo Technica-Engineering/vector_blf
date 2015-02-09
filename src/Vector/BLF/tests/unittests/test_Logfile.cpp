@@ -53,6 +53,7 @@ BOOST_AUTO_TEST_CASE(ObjectTypes_001)
     BOOST_REQUIRE(ohb->signature == Vector::BLF::ObjectSignature);
     BOOST_REQUIRE(ohb->headerSize == 0x20);
     BOOST_REQUIRE(ohb->headerVersion == 1);
+    BOOST_CHECK(ohb->objectSize == ohb->calculateObjectSize());
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::CAN_MESSAGE);
 
     /* ObjectHeader */
@@ -98,6 +99,7 @@ BOOST_AUTO_TEST_CASE(ObjectTypes_004)
     BOOST_REQUIRE(ohb->signature == Vector::BLF::ObjectSignature);
     BOOST_REQUIRE(ohb->headerSize == 0x20);
     BOOST_REQUIRE(ohb->headerVersion == 1);
+    BOOST_CHECK(ohb->objectSize == ohb->calculateObjectSize());
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::CAN_STATISTIC);
 
     /* ObjectHeader */
@@ -140,6 +142,7 @@ BOOST_AUTO_TEST_CASE(ObjectTypes_017)
     BOOST_REQUIRE(ohb->signature == Vector::BLF::ObjectSignature);
     BOOST_REQUIRE(ohb->headerSize == 0x20);
     BOOST_REQUIRE(ohb->headerVersion == 1);
+    BOOST_CHECK(ohb->objectSize == ohb->calculateObjectSize());
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_SCHED_MODCH);
 
     /* ObjectHeader */
@@ -174,6 +177,10 @@ BOOST_AUTO_TEST_CASE(ObjectTypes_020)
     /* ObjectHeaderBase */
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->signature == Vector::BLF::ObjectSignature);
+    BOOST_REQUIRE(ohb->headerSize == 0x20);
+    BOOST_REQUIRE(ohb->headerVersion == 1);
+    BOOST_CHECK(ohb->objectSize == ohb->calculateObjectSize());
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_SLEEP);
 
     /* ObjectHeader */
@@ -208,6 +215,10 @@ BOOST_AUTO_TEST_CASE(ObjectTypes_022)
     /* ObjectHeaderBase */
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->signature == Vector::BLF::ObjectSignature);
+    BOOST_REQUIRE(ohb->headerSize == 0x20);
+    BOOST_REQUIRE(ohb->headerVersion == 1);
+    BOOST_CHECK(ohb->objectSize == ohb->calculateObjectSize());
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_SPY);
 
     /* ObjectHeader */
@@ -267,6 +278,10 @@ BOOST_AUTO_TEST_CASE(ObjectTypes_023)
     /* ObjectHeaderBase */
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->signature == Vector::BLF::ObjectSignature);
+    BOOST_REQUIRE(ohb->headerSize == 0x20);
+    BOOST_REQUIRE(ohb->headerVersion == 1);
+    BOOST_CHECK(ohb->objectSize == ohb->calculateObjectSize());
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_CTRL);
 
     /* ObjectHeader */
@@ -326,6 +341,10 @@ BOOST_AUTO_TEST_CASE(ObjectTypes_024)
     /* ObjectHeaderBase */
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->signature == Vector::BLF::ObjectSignature);
+    BOOST_REQUIRE(ohb->headerSize == 0x20);
+    BOOST_REQUIRE(ohb->headerVersion == 1);
+    BOOST_CHECK(ohb->objectSize == ohb->calculateObjectSize());
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_LIGHTLOCK);
 
     /* ObjectHeader */
@@ -359,6 +378,10 @@ BOOST_AUTO_TEST_CASE(ObjectTypes_025)
     /* ObjectHeaderBase */
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->signature == Vector::BLF::ObjectSignature);
+    BOOST_REQUIRE(ohb->headerSize == 0x20);
+    BOOST_REQUIRE(ohb->headerVersion == 1);
+    BOOST_CHECK(ohb->objectSize == ohb->calculateObjectSize());
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_STATISTIC);
 
     /* ObjectHeader */
@@ -394,6 +417,10 @@ BOOST_AUTO_TEST_CASE(ObjectTypes_034)
     /* ObjectHeaderBase */
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->signature == Vector::BLF::ObjectSignature);
+    BOOST_REQUIRE(ohb->headerSize == 0x28);
+    BOOST_REQUIRE(ohb->headerVersion == 1);
+    BOOST_CHECK(ohb->objectSize == ohb->calculateObjectSize());
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_HWMODE);
 
     /* ObjectHeader2 */
@@ -430,6 +457,10 @@ BOOST_AUTO_TEST_CASE(ObjectTypes_036)
     /* ObjectHeaderBase */
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->signature == Vector::BLF::ObjectSignature);
+    BOOST_REQUIRE(ohb->headerSize == 0x28);
+    BOOST_REQUIRE(ohb->headerVersion == 1);
+    BOOST_CHECK(ohb->objectSize == ohb->calculateObjectSize());
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_GENREG);
 
     /* ObjectHeader2 */
@@ -469,6 +500,10 @@ BOOST_AUTO_TEST_CASE(ObjectTypes_037)
     /* ObjectHeaderBase */
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->signature == Vector::BLF::ObjectSignature);
+    BOOST_REQUIRE(ohb->headerSize == 0x28);
+    BOOST_REQUIRE(ohb->headerVersion == 1);
+    BOOST_CHECK(ohb->objectSize == ohb->calculateObjectSize());
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_NETSTATE);
 
     /* ObjectHeader2 */
@@ -505,6 +540,10 @@ BOOST_AUTO_TEST_CASE(ObjectTypes_054)
     /* ObjectHeaderBase */
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->signature == Vector::BLF::ObjectSignature);
+    BOOST_REQUIRE(ohb->headerSize == 0x20);
+    BOOST_REQUIRE(ohb->headerVersion == 1);
+    BOOST_CHECK(ohb->objectSize == ohb->calculateObjectSize());
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_STATISTIC);
 
     /* ObjectHeader */
@@ -547,6 +586,7 @@ BOOST_AUTO_TEST_CASE(ObjectTypes_057)
     BOOST_REQUIRE(ohb->signature == Vector::BLF::ObjectSignature);
     BOOST_REQUIRE(ohb->headerSize == 0x20);
     BOOST_REQUIRE(ohb->headerVersion == 1);
+    BOOST_CHECK(ohb->objectSize == ohb->calculateObjectSize());
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_MESSAGE2);
 
     /* ObjectHeader */
@@ -633,6 +673,10 @@ BOOST_AUTO_TEST_CASE(ObjectTypes_062)
     /* ObjectHeaderBase */
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->signature == Vector::BLF::ObjectSignature);
+    BOOST_REQUIRE(ohb->headerSize == 0x20);
+    BOOST_REQUIRE(ohb->headerVersion == 1);
+    BOOST_CHECK(ohb->objectSize == ohb->calculateObjectSize());
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_WAKEUP2);
 
     /* ObjectHeader */
@@ -673,6 +717,10 @@ BOOST_AUTO_TEST_CASE(ObjectTypes_069)
     /* ObjectHeaderBase */
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->signature == Vector::BLF::ObjectSignature);
+    BOOST_REQUIRE(ohb->headerSize == 0x28);
+    BOOST_REQUIRE(ohb->headerVersion == 1);
+    BOOST_CHECK(ohb->objectSize == ohb->calculateObjectSize());
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_ALLOCTAB);
 
     /* ObjectHeader */
@@ -771,6 +819,7 @@ BOOST_AUTO_TEST_CASE(ObjectTypes_073)
     BOOST_REQUIRE(ohb->signature == Vector::BLF::ObjectSignature);
     BOOST_REQUIRE(ohb->headerSize == 0x20);
     BOOST_REQUIRE(ohb->headerVersion == 1);
+    BOOST_CHECK(ohb->objectSize == ohb->calculateObjectSize());
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::CAN_ERROR_EXT);
 
     /* ObjectHeader */
@@ -820,6 +869,10 @@ BOOST_AUTO_TEST_CASE(ObjectTypes_097)
     /* ObjectHeaderBase */
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->signature == Vector::BLF::ObjectSignature);
+    BOOST_REQUIRE(ohb->headerSize == 0x20);
+    BOOST_REQUIRE(ohb->headerVersion == 1);
+    BOOST_CHECK(ohb->objectSize == ohb->calculateObjectSize());
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
 
     /* ObjectHeader */
