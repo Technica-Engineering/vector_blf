@@ -142,16 +142,29 @@
 namespace Vector {
 namespace BLF {
 
+/**
+ * File
+ *
+ * This is similar to std::fstream for BLFs
+ */
 class VECTOR_BLF_EXPORT File
 {
 public:
     File();
 
+    /** enumeration for openMode */
     enum class OpenMode {
+        /** Read */
         Read,
-        Write
-    } openMode;
 
+        /** Write */
+        Write
+    };
+
+    /** open mode */
+    OpenMode openMode;
+
+    /** zlib compression level (0=no compression, 1=best speed, 2=best compression, -1=default compression */
     int compressionLevel;
 
     /** file statistics from file header. contains total counts/sizes */
@@ -163,24 +176,42 @@ public:
     /** current number of objects read */
     unsigned long currentObjectCount;
 
-    ObjectHeaderBase * createObject(ObjectType type);
-
-    /** open file */
+    /**
+     * open file
+     *
+     * @param filename file name
+     */
     void open(const char * filename);
 
-    /** open file */
+    /**
+     * open file
+     *
+     * @param filename file name
+     */
     void open(const std::string & filename);
 
-    /** is file open? */
+    /**
+     * is file open?
+     *
+     * @return true if file is open
+     */
     bool is_open() const;
 
     /** close file */
     void close();
 
-    /** check for end-of-file */
+    /**
+     * check for end-of-file
+     *
+     * @return true if end-of-file reached
+     */
     bool eof();
 
-    /** read object from uncompressed file */
+    /**
+     * read object from uncompressed file
+     *
+     * @return read object or nullptr
+     */
     ObjectHeaderBase * read();
 
 private:
@@ -190,16 +221,42 @@ private:
     /** uncompressed file */
     UncompressedFile uncompressedFile;
 
-    /** read object from compressed file */
+    /**
+     * create object of given type
+     *
+     * @param type object type
+     * @return new object
+     */
+    ObjectHeaderBase * createObject(ObjectType type);
+
+    /**
+     * read object from compressed file
+     *
+     * @return object from compressed file or nullptr
+     */
     ObjectHeaderBase * readObjectFromCompressedFile();
 
-    /** read object from uncompressed file */
+    /**
+     * read object from uncompressed file
+     *
+     * @return object from uncompressed file or nullptr
+     */
     ObjectHeaderBase * readObjectFromUncompressedFile();
 
-    /** read data from uncompressed sfile */
+    /**
+     * read data from uncompressed file
+     *
+     * @param buffer manipulates pointer to buffer
+     * @param size bytes to read
+     * @return actual bytes read
+     */
     size_t readFromUncompressedFile(char ** buffer, size_t size);
 
-    /** inflate date from compressed file into uncompressed file */
+    /**
+     * inflate date from compressed file into uncompressed file
+     *
+     * @param logContainer
+     */
     void inflateLogContainer(LogContainer * logContainer);
 };
 

@@ -64,9 +64,7 @@ public:
      */
     WORD channel;
 
-    /**
-     * @brief trigger type
-     */
+    /** enumeration for flags */
     enum class Flags : WORD {
         /** single trigger type */
         SingleTrigger = 0x0000,
@@ -76,7 +74,12 @@ public:
 
         /** stop of logging trigger type */
         LoggingStop = 0x0002
-    } flags;
+    };
+
+    /**
+     * @brief trigger type
+     */
+    Flags flags;
 
     /**
      * @brief app specific member 2

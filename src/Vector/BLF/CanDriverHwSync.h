@@ -49,6 +49,7 @@ public:
      */
     WORD channel;
 
+    /** enumeration for flags */
     enum class Flags : BYTE {
         /** sync was sent from this channel */
         Tx = 1,
@@ -60,6 +61,7 @@ public:
         RxThis = 4
     };
 
+    /** flags */
     BYTE flags;
 
     /** reserved */

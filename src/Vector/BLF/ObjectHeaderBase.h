@@ -164,18 +164,22 @@ public:
     /**
      * Read the data of this object
      *
-     * @param data Data buffer
+     * @param buffer Data buffer
      * @return data pointer after parse
      */
     virtual char * parse(char * buffer);
 
     /**
      * Calculates the headerSize
+     *
+     * @return header size
      */
     virtual size_t calculateHeaderSize();
 
     /**
      * Calculates the objectSize
+     *
+     * @return object size
      */
     virtual size_t calculateObjectSize();
 

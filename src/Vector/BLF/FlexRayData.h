@@ -47,12 +47,16 @@ public:
      */
     WORD channel;
 
+    /** multiplexer */
     BYTE mux;
 
+    /** length */
     BYTE len;
 
+    /** message id */
     WORD messageId;
 
+    /** CRC */
     WORD crc;
 
     /**
@@ -63,6 +67,7 @@ public:
     /** reserved */
     BYTE reserved[3];
 
+    /** data bytes */
     BYTE dataBytes[12];
 };
 

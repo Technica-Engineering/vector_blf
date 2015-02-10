@@ -57,14 +57,22 @@ public:
      */
     WORD channel;
 
+    /** enumeration for dir */
+    enum class Dir : WORD {
+        /** receive */
+        Rx = 0,
+
+        /** transmit */
+        Tx = 1,
+
+        /** transmit request */
+        TxRq = 2
+    };
+
     /**
      * Direction flag
      */
-    enum class Dir : WORD {
-        Rx = 0,
-        Tx = 1,
-        TxRq = 2
-    } dir;
+    Dir dir;
 
     /** reserved */
     BYTE reserved1[2];

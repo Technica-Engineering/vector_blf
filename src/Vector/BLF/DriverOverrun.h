@@ -40,19 +40,37 @@ public:
     virtual char * parse(char * buffer);
     virtual size_t calculateObjectSize();
 
+    /** enumeration for busType */
+    enum class BusType : DWORD {
+        /** CAN */
+        Can = 1,
+
+        /** LIN */
+        Lin = 5,
+
+        /** MOST */
+        Most = 6,
+
+        /** FlexRay */
+        FlexRay = 7,
+
+        /** J1708 */
+        J1708 = 9,
+
+        /** Ethernet */
+        Ethernet = 10,
+
+        /** WLAN */
+        Wlan = 13,
+
+        /** AFDX */
+        Afdx = 14
+    };
+
     /**
      * @brief bus type
      */
-    enum class BusType : DWORD {
-        CAN = 1,
-        LIN = 5,
-        MOST = 6,
-        FlexRay = 7,
-        J1708 = 9,
-        Ethernet = 10,
-        WLAN = 13,
-        AFDX = 14
-    } busType;
+    busType;
 
     /**
      * @brief channel where overrun occured

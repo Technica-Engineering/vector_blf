@@ -50,22 +50,33 @@ public:
      */
     WORD channel;
 
+    /** enumeration for flags */
     enum class Flags : WORD {
         /** Genuine MAC Header */
         GenuineMacHeader = 0x0001
     };
+
+    /** flags */
     WORD flags;
+
+    /** enumeration for dir */
+    enum class Dir : BYTE {
+        /** receive */
+        Rx = 0,
+
+        /** transmit */
+        Tx = 1,
+
+        /** transmit request */
+        TxRq = 2
+    };
 
     /**
      * @brief Direction flag
      *
      * Direction flag
      */
-    enum class Dir : BYTE {
-        Rx = 0,
-        Tx = 1,
-        TxRq = 2
-    } dir;
+    Dir dir;
 
     /**
      * @brief channel number of the radio frequency

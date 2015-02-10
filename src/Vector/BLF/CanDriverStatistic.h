@@ -104,7 +104,12 @@ public:
      */
     DWORD overloadFrames;
 
-    DWORD reserved; // @todo don't know if this is right, but there is often just garbage in there...
+    /**
+     * reserved
+     *
+     * @todo don't know if this is right, but there is often just garbage in there...
+     */
+    DWORD reserved;
 };
 
 }

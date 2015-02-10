@@ -38,7 +38,10 @@ class VECTOR_BLF_EXPORT LinMessageDescriptor : public LinSynchFieldEvent
 public:
     LinMessageDescriptor();
 
+    /** @copydoc ObjectHeader::parse */
     virtual char * parse(char * buffer);
+
+    /** @copydoc ObjectHeader::calculateObjectSize */
     virtual size_t calculateObjectSize();
 
     /**

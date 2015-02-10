@@ -57,6 +57,15 @@ public:
     virtual char * parse(char * buffer);
     virtual size_t calculateObjectSize();
 
+    /** enumeration for source */
+    enum class Source : DWORD {
+        /** measurement comment */
+        MeasurementComment = 0,
+
+        /** database channel info */
+        DbChannelInfo = 1
+    };
+
     /**
      * @brief source of text
      *
@@ -93,10 +102,7 @@ public:
      *   If for a database there's no cluster name available, an
      *   empty string is written as cluster name.
      */
-    enum class Source : DWORD {
-        MeasurementComment = 0,
-        DbChannelInfo = 1
-    } source;
+    Source source;
 
     /**
      * @brief reserved

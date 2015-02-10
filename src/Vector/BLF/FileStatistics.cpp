@@ -154,19 +154,19 @@ void FileStatistics::write(std::ostream & os)
 std::string FileStatistics::applicationName()
 {
     switch(applicationId) {
-    case Vector::BLF::ApplicationId::UNKNOWN:
+    case Vector::BLF::ApplicationId::Unknown:
         return "unknown";
-    case Vector::BLF::ApplicationId::CANALYZER:
+    case Vector::BLF::ApplicationId::Canalyzer:
         return "CANalyzer";
-    case Vector::BLF::ApplicationId::CANOE:
+    case Vector::BLF::ApplicationId::Canoe:
         return "CANoe";
-    case Vector::BLF::ApplicationId::CANSTRESS:
+    case Vector::BLF::ApplicationId::Canstress:
         return "CANstress";
-    case Vector::BLF::ApplicationId::CANLOG:
+    case Vector::BLF::ApplicationId::Canlog:
         return "CANlog";
-    case Vector::BLF::ApplicationId::CANAPE:
+    case Vector::BLF::ApplicationId::Canape:
         return "CANape";
-    case Vector::BLF::ApplicationId::CANCASEXLLOG:
+    case Vector::BLF::ApplicationId::Cancasexllog:
         return "CANcaseXL log";
     default:
         return std::to_string((unsigned short) applicationId);

@@ -43,11 +43,7 @@ public:
     virtual size_t calculateHeaderSize();
     virtual size_t calculateObjectSize();
 
-    /**
-     * @brief object flags
-     *
-     * Unit of object timestamp.
-     */
+    /** enumeration for objectFlags */
     enum class ObjectFlags : DWORD {
         /**
          * @brief 10 micro second timestamp
@@ -65,8 +61,16 @@ public:
          * (BL_OBJ_FLAG_TIME_ONE_NANS)
          */
         TimeOneNans = 0x00000002
-    } objectFlags;
+    };
 
+    /**
+     * @brief object flags
+     *
+     * Unit of object timestamp.
+     */
+    ObjectFlags objectFlags;
+
+    /** enumeration for timeStampStatus */
     enum class TimeStampStatus : BYTE {
         /**
          * @brief 1: valid orig. timestamp

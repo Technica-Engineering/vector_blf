@@ -43,9 +43,7 @@ public:
     virtual char * parse(char * buffer);
     virtual size_t calculateObjectSize();
 
-    /**
-     * @brief type of system variable
-     */
+    /** enumeration for type */
     enum class Type : DWORD {
         /** DOUBLE */
         Double = 1,
@@ -67,7 +65,12 @@ public:
 
         /** Array of BYTE */
         ByteArray = 7
-    } type;
+    };
+
+    /**
+     * @brief type of system variable
+     */
+    Type type;
 
     /**
      * Reserved, must be 0.

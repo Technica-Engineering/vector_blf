@@ -68,7 +68,12 @@ public:
      */
     BYTE isRelocatable;
 #else
-    DWORD reserved1; // @todo what is this?
+    /**
+     * reserved
+     *
+     * @todo what is this?
+     */
+    DWORD reserved1;
 #endif
 
     /**
@@ -92,7 +97,12 @@ public:
      */
     DWORD descriptionLength;
 
-    DWORD reserved2[3]; // @todo what is this?
+    /**
+     * reserved
+     *
+     * @todo what is this?
+     */
+    DWORD reserved2[3];
 
     /**
      * @brief group name in MBCS

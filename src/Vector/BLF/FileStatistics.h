@@ -33,14 +33,28 @@ namespace BLF {
 /** File signature */
 const DWORD FileSignature = 0x47474F4C; /* LOGG */
 
+/** Application ID */
 enum class ApplicationId : BYTE {
-    UNKNOWN = 0,
-    CANALYZER = 1,
-    CANOE = 2,
-    CANSTRESS = 3,
-    CANLOG = 4,
-    CANAPE = 5,
-    CANCASEXLLOG = 6
+    /** Unknown */
+    Unknown = 0,
+
+    /** CANalyzer */
+    Canalyzer = 1,
+
+    /** CANoe */
+    Canoe = 2,
+
+    /** CANstress */
+    Canstress = 3,
+
+    /** CANlog */
+    Canlog = 4,
+
+    /** CANape */
+    Canape = 5,
+
+    /** CANcaseXL log */
+    Cancasexllog = 6
 };
 
 /**
@@ -53,7 +67,18 @@ class VECTOR_BLF_EXPORT FileStatistics
 public:
     FileStatistics();
 
+    /**
+     * read file statistics
+     *
+     * @param is input stream
+     */
     virtual void read(std::istream & is);
+
+    /**
+     * write file statistics
+     *
+     * @param os output stream
+     */
     virtual void write(std::ostream & os);
 
     /** signature (signature) */
@@ -65,7 +90,11 @@ public:
     /** application ID (usually CANoe) */
     ApplicationId applicationId;
 
-    /** application name */
+    /**
+     * application name
+     *
+     * @return application name or number if undefined
+     */
     std::string applicationName();
 
     /** application major number (usually 0) */

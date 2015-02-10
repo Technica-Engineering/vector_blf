@@ -26,45 +26,64 @@
 namespace Vector {
 namespace BLF {
 
-/* unsigned 8 bit */
+/** unsigned 8 bit */
 typedef uint8_t BYTE;
 
-/* unsigned 16 bit */
+/** unsigned 16 bit */
 typedef uint16_t WORD;
 
-/* signed 16 bit */
+/** signed 16 bit */
 typedef int16_t SHORT;
 
-/* unsigned 32 bit */
+/** unsigned 32 bit */
 typedef uint32_t DWORD;
+
+/** unsigned 32 bit */
 typedef uint32_t ULONG;
 
-/* signed 32 bit */
+/** signed 32 bit */
 typedef int32_t LONG;
 
-/* unsigned 64 bit */
+/** unsigned 64 bit */
 typedef uint64_t ULONGLONG;
+
+/** unsigned 64 bit */
 typedef uint64_t UINT64;
 
-/* signed 64 bit */
+/** signed 64 bit */
 typedef int64_t LONGLONG;
 
-/* double */
+/** double */
 typedef double DOUBLE;
 
-/* color reference */
+/** color reference */
 typedef uint32_t COLORREF;
 
-/* system time */
+/** system time */
 struct SYSTEMTIME {
-  WORD year;
-  WORD month;
-  WORD dayOfWeek;
-  WORD day;
-  WORD hour;
-  WORD minute;
-  WORD second;
-  WORD milliseconds;
+    /** year */
+    WORD year;
+
+    /** month */
+    WORD month;
+
+    /** day of week */
+    WORD dayOfWeek;
+
+    /** day */
+    WORD day;
+
+    /** hour */
+    WORD hour;
+
+    /** minute */
+    WORD minute;
+
+    /** second */
+    WORD second;
+
+    /** milliseconds */
+    WORD milliseconds;
 };
 
 }

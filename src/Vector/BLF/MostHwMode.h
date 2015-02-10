@@ -52,6 +52,7 @@ public:
      */
     WORD channel;
 
+    /** reserved */
     WORD reserved1;
 
     /**

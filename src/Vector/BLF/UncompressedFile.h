@@ -43,25 +43,43 @@ public:
     UncompressedFile();
     virtual ~UncompressedFile();
 
-    /** Write block of data */
-    void write(const char *s, std::streamsize n);
+    /**
+     * Write block of data
+     *
+     * @param s pointer to buffer
+     * @param n bytes to write
+     */
+    void write(const char * s, std::streamsize n);
 
     /** Write position */
     std::streampos tellp;
 
-    /** Read block of data */
+    /**
+     * Read block of data
+     *
+     * @param s pointer to buffer
+     * @param n bytes to read
+     */
     void read(char * s, std::streamsize n);
 
     /** Read position */
     std::streampos tellg;
 
-    /** skip block of data */
+    /**
+     * skip block of data
+     *
+     * @param n number of bytes to skip
+     */
     void skipg(std::streamsize n);
 
     /** Get character count */
     std::streamsize gcount;
 
-    /** Get the size */
+    /**
+     * Get the size
+     *
+     * @return size
+     */
     std::streamsize size();
 
 private:

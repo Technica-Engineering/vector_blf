@@ -49,6 +49,7 @@ public:
      */
     WORD channel;
 
+    /** enumeration for flags */
     enum class Flags : WORD {
         /** Valid Rx/Tx Counter */
         ValidRxTxCounter = 0x01,
@@ -56,6 +57,8 @@ public:
         /** Valid Error Counter */
         ValidErrorCounter = 0x02
     };
+
+    /** flags */
     WORD flags;
 
     /**

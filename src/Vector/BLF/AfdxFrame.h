@@ -60,14 +60,22 @@ public:
      */
     BYTE destinationAddress[6];
 
+    /** enumeration for dir */
+    enum class Dir : WORD {
+        /** Receive */
+        Rx = 0,
+
+        /** Transmit */
+        Tx = 1,
+
+        /** Transmit Request */
+        TxRq = 2
+    };
+
     /**
      * @brief Direction flag
      */
-    enum class Dir : WORD {
-        Rx = 0,
-        Tx = 1,
-        TxRq = 2
-    } dir;
+    Dir dir;
 
     /**
      * EtherType which indicates protocol for
