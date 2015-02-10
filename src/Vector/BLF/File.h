@@ -169,7 +169,7 @@ public:
     void open(const char * filename);
 
     /** open file */
-    void open(std::string & filename);
+    void open(const std::string & filename);
 
     /** is file open? */
     bool is_open() const;
