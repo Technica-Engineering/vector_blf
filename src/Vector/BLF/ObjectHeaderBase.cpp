@@ -77,7 +77,7 @@ char * ObjectHeaderBase::parse(char * buffer)
     return buffer;
 }
 
-size_t ObjectHeaderBase::calculateObjectSize()
+size_t ObjectHeaderBase::calculateHeaderSize()
 {
     size_t size =
             sizeof(signature) +
@@ -87,6 +87,11 @@ size_t ObjectHeaderBase::calculateObjectSize()
             sizeof(objectType);
 
     return size;
+}
+
+size_t ObjectHeaderBase::calculateObjectSize()
+{
+    return calculateHeaderSize();
 }
 
 }

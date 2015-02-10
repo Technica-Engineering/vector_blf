@@ -170,6 +170,11 @@ public:
     virtual char * parse(char * buffer);
 
     /**
+     * Calculates the headerSize
+     */
+    virtual size_t calculateHeaderSize();
+
+    /**
      * Calculates the objectSize
      */
     virtual size_t calculateObjectSize();
