@@ -70,7 +70,7 @@ public:
     /**
      * @brief bus type
      */
-    busType;
+    BusType busType;
 
     /**
      * @brief channel where overrun occured
