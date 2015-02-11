@@ -1,10 +1,1 @@
 #pragma once
-
-/* strict names */
-#cmakedefine OPTION_USE_STRICT_NAMES
-
-/* regex support by C++11 or BOOST */
-#cmakedefine OPTION_USE_CPP11_REGEX
-
-/* use enum class instead of enum */
-#cmakedefine OPTION_USE_CPP11_ENUM_CLASS
