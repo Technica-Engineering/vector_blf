@@ -71,7 +71,7 @@ char * Most150AllocTab::parse(char * buffer)
 
     // tableData
     size = length;
-    tableData = new uint8_t[length];
+    tableData = new char[length];
     memcpy(tableData, buffer, size);
     buffer += size;
 

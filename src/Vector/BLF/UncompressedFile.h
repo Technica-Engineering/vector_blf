@@ -90,10 +90,10 @@ private:
         virtual ~DataBlock();
 
         /** data */
-        uint8_t * data;
+        char * data;
 
         /** read pointer */
-        uint8_t * tellg;
+        char * tellg;
 
         /** remaining size */
         std::streamsize remainingSize;

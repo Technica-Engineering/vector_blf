@@ -108,7 +108,7 @@ public:
      *
      * Data value of the system variable.
      */
-    uint8_t * data;
+    char * data;
 };
 
 }

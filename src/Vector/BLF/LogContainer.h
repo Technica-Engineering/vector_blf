@@ -67,7 +67,7 @@ public:
     std::streamsize compressedFileSize;
 
     /** compressed file content */
-    uint8_t * compressedFile;
+    char * compressedFile;
 };
 
 }

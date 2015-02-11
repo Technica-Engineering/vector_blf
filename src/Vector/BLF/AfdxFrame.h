@@ -149,7 +149,7 @@ public:
      * Ethernet payload data (without Ethernet
      * header). Max 1500 data bytes per frame
      */
-    uint8_t * payLoad;
+    char * payLoad;
 };
 
 }

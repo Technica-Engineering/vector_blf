@@ -74,7 +74,7 @@ public:
      *
      * Data value of the environment variable.
      */
-    uint8_t * data;
+    char * data;
 };
 
 }

@@ -88,7 +88,7 @@ char * SystemVariable::parse(char * buffer)
 
     // data
     size = dataLength;
-    data = new uint8_t[dataLength];
+    data = new char[dataLength];
     memcpy(data, buffer, size);
     buffer += size;
 

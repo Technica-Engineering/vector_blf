@@ -77,7 +77,7 @@ public:
      * label number is 0x70, the byte is not used for any
      * label.
      */
-    uint8_t * tableData;
+    char * tableData;
 };
 
 }

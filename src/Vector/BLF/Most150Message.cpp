@@ -143,7 +143,7 @@ char * Most150Message::parse(char * buffer)
 
     // msg
     size = msgLen;
-    msg = new uint8_t[msgLen];
+    msg = new char[msgLen];
     memcpy(msg, buffer, size);
     buffer += size;
 

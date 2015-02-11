@@ -115,7 +115,7 @@ public:
      * header.
      * Max. 2342 data bytes per frame
      */
-    uint8_t * frameData;
+    char * frameData;
 };
 
 }

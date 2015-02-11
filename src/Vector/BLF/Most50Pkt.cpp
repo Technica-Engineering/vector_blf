@@ -137,7 +137,7 @@ char * Most50Pkt::parse(char * buffer)
 
     // pktData
     size = pktDataLength;
-    pktData = new uint8_t[pktDataLength];
+    pktData = new char[pktDataLength];
     memcpy(pktData, buffer, size);
     buffer += size;
 

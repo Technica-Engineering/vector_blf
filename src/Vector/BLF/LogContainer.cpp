@@ -75,7 +75,7 @@ char * LogContainer::parse(char * buffer)
             - 0x10  // ObjectHeaderBase
             - 0x10; // sizeof(LogContainer.header)
     size = compressedFileSize;
-    compressedFile = new uint8_t[compressedFileSize];
+    compressedFile = new char[compressedFileSize];
     memcpy(compressedFile, buffer, size);
     buffer += size;
 

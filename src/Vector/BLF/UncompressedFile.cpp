@@ -36,7 +36,7 @@ UncompressedFile::DataBlock::DataBlock(size_t size) :
     tellg(nullptr),
     remainingSize(0)
 {
-    data = new uint8_t[size];
+    data = new char[size];
     if (data == nullptr) {
         std::cerr << "out of memory" << std::endl;
         return;

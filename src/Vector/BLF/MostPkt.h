@@ -139,7 +139,7 @@ public:
      *
      * Variable data
      */
-    uint8_t * pktData;
+    char * pktData;
 };
 
 }

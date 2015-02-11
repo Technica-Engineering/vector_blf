@@ -63,7 +63,6 @@ The following files are products of installation and building:
 # Wanted features
 
 * Search for the todos. Not everything is available yet.
-* memory operations (memcpy, ...) should use char/void/uint8_t consistently
 * write support
 * add example
 
