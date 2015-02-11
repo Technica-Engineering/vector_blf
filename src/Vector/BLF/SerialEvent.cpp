@@ -62,7 +62,47 @@ char * SerialEvent::parse(char * buffer)
     memcpy((void *) &reserved, buffer, size);
     buffer += size;
 
-    // @todo what happens with the union?
+    /* union */
+    if (flags & Flags::SingleByte != 0) {
+        // singleByte.byte
+        size = sizeof(singleByte.byte);
+        memcpy((void *) &singleByte.byte, buffer, size);
+        buffer += size;
+    } else {
+        if (flags & Flags::CompactByte != 0) {
+            // compact.compactLength
+            size = sizeof(compact.compactLength);
+            memcpy((void *) &compact.compactLength, buffer, size);
+            buffer += size;
+
+            // compact.compactData
+            size = compact.compactLength;
+            memcpy((void *) &compact.compactData, buffer, size);
+            buffer += size;
+        } else {
+            // general.dataLength
+            size = sizeof(GeneralSerialEvent::dataLength);
+            memcpy((void *) &general.dataLength, buffer, size);
+            buffer += size;
+
+            // general.timeStampsLength
+            size = sizeof(GeneralSerialEvent::timeStampsLength);
+            memcpy((void *) &general.timeStampsLength, buffer, size);
+            buffer += size;
+
+            // general.data
+            size = general.dataLength;
+            general.data = new char[size];
+            memcpy((void *) &general.data, buffer, size);
+            buffer += size;
+
+            // general.timeStamps
+            size = general.timeStampsLength;
+            general.timeStamps = new char[size];
+            memcpy((void *) &general.timeStamps, buffer, size);
+            buffer += size;
+        }
+    }
 
     return buffer;
 }
@@ -74,7 +114,18 @@ size_t SerialEvent::calculateObjectSize()
             sizeof(flags) +
             sizeof(port) +
             sizeof(baudrate) +
-            sizeof(reserved); // @todo what happens with the union?
+            sizeof(reserved);
+
+    if (flags & Flags::SingleByte != 0)
+        size += sizeof(SingleByteSerialEvent);
+    else
+        if (flags & Flags::CompactByte != 0)
+            size += sizeof(CompactSerialEvent);
+        else
+            size += sizeof(GeneralSerialEvent::dataLength) +
+                    sizeof(GeneralSerialEvent::timeStampsLength) +
+                    general.dataLength +
+                    general.timeStampsLength;
 
     return size;
 }
