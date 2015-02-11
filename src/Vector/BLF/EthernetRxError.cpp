@@ -95,8 +95,8 @@ char * EthernetRxError::parse(char * buffer)
 
     // frameData
     size = frameDataLength;
-    frameData = new char[frameDataLength];
-    memcpy(frameData, buffer, size);
+    frameData = new char[size];
+    memcpy((void *) frameData, buffer, size);
     buffer += size;
 
     return buffer;

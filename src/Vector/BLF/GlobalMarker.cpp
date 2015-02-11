@@ -109,23 +109,23 @@ char * GlobalMarker::parse(char * buffer)
 
     // groupName
     size = groupNameLength;
-    groupName = new char[groupNameLength + 1];
-    groupName[groupNameLength] = 0;
-    memcpy(groupName, buffer, size);
+    groupName = new char[size + 1];
+    groupName[size] = 0;
+    memcpy((void *) groupName, buffer, size);
     buffer += size;
 
     // markerName
     size = markerNameLength;
-    markerName = new char[markerNameLength + 1];
-    markerName[markerNameLength] = 0;
-    memcpy(markerName, buffer, size);
+    markerName = new char[size + 1];
+    markerName[size] = 0;
+    memcpy((void *) markerName, buffer, size);
     buffer += size;
 
     // description
     size = descriptionLength;
-    description = new char[descriptionLength + 1];
-    description[descriptionLength] = 0;
-    memcpy(description, buffer, size);
+    description = new char[size + 1];
+    description[size] = 0;
+    memcpy((void *) description, buffer, size);
     buffer += size;
 
     return buffer;

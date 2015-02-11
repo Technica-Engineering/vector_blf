@@ -88,9 +88,9 @@ char * WlanFrame::parse(char * buffer)
     buffer += size;
 
     // frameData
-    size = sizeof(frameLength);
-    frameData = new char[frameLength];
-    memcpy(frameData, buffer, size);
+    size = frameLength;
+    frameData = new char[size];
+    memcpy((void *) frameData, buffer, size);
     buffer += size;
 
     return buffer;

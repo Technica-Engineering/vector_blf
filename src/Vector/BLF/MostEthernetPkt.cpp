@@ -137,8 +137,8 @@ char * MostEthernetPkt::parse(char * buffer)
 
     // pktData
     size = pktDataLength;
-    pktData = new char[pktDataLength];
-    memcpy(pktData, buffer, size);
+    pktData = new char[size];
+    memcpy((void *) pktData, buffer, size);
     buffer += size;
 
     return buffer;

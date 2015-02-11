@@ -130,9 +130,9 @@ char * Most150MessageFragment::parse(char * buffer)
     buffer += size;
 
     // firstData
-    size = sizeof(firstDataLen);
-    firstData = new char[firstDataLen];
-    memcpy(firstData, buffer, size);
+    size = firstDataLen;
+    firstData = new char[size];
+    memcpy((void *) firstData, buffer, size);
     buffer += size;
 
     return buffer;
