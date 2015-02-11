@@ -46,21 +46,28 @@ public:
     WORD channel;
 
     /**
-     * CAN Message Flags
-     *
-     * CAN dir, rtr, wu & nerr encoded into flags
-     *
-     * @todo does this make sense here?
+     * enumeration for flags
      */
-    enum class CanMessageFlags : BYTE {
+    enum class Flags : BYTE {
+        /** transmit direction */
         TX = (1<<0),
+
+        /** single wire operation */
         NERR = (1<<5),
+
+        /** wake up message (high voltage) */
         WU = (1<<6),
+
+        /** remote transmission request */
         RTR = (1<<7)
     };
 
     /**
      * @brief CAN dir & rtr
+     *
+     * CAN Message Flags
+     *
+     * CAN dir, rtr, wu & nerr encoded into flags
      */
     BYTE flags;
 
@@ -85,11 +92,16 @@ public:
     BYTE arbBitCount;
 
     /**
-     * @todo does this make sense here?
+     * enumeration for canFdFlags
      */
-    enum class CanFdMessageFlags : BYTE {
+    enum class CanFdFlags : BYTE {
+        /** extended data length */
         EDL = (1<<0),
+
+        /** bit rate switch */
         BRS = (1<<1),
+
+        /** error state indicator */
         ESI = (1<<2)
     };
 

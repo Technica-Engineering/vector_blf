@@ -29,7 +29,7 @@ EnvironmentVariable::EnvironmentVariable() :
     ObjectHeader(),
     nameLength(),
     dataLength(),
-    unknown(),
+    reserved(),
     name(nullptr),
     data(nullptr)
 {
@@ -62,8 +62,8 @@ char * EnvironmentVariable::parse(char * buffer)
     buffer += size;
 
     // unknown
-    size = sizeof(unknown);
-    memcpy((void *) &unknown, buffer, size);
+    size = sizeof(reserved);
+    memcpy((void *) &reserved, buffer, size);
     buffer += size;
 
     // name
@@ -88,7 +88,7 @@ size_t EnvironmentVariable::calculateObjectSize()
             ObjectHeader::calculateObjectSize() +
             sizeof(nameLength) +
             sizeof(dataLength) +
-            sizeof(unknown) +
+            sizeof(reserved) +
             nameLength +
             dataLength;
 

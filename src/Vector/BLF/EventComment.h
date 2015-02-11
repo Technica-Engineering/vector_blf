@@ -59,8 +59,6 @@ public:
 
     /**
      * reserved
-     *
-     * @todo don't know what this is?
      */
     DWORD reserved[2];
 

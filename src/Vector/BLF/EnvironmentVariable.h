@@ -59,8 +59,8 @@ public:
      */
     DWORD dataLength;
 
-    /** @todo what is this? */
-    DWORD unknown[2];
+    /** reserved */
+    DWORD reserved[2];
 
     /**
      * @brief variable name in MBCS

@@ -68,7 +68,8 @@ The following files are products of installation and building:
 
 # Wanted features
 
-* Search for the todos. Not everything is available yet.
+* Parsing of SerialEvent union incomplete, see @todo
+* Reserved fields might contain useful data.
 * write support
 * add example
 

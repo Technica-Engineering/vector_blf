@@ -60,21 +60,13 @@ public:
      */
     COLORREF backgroundColor;
 
-#if 0
     /**
      * Defines whether a marker can be relocated
-     *
-     * @todo don't know how this works. reserved is read instead.
      */
     BYTE isRelocatable;
-#else
-    /**
-     * reserved
-     *
-     * @todo what is this?
-     */
-    DWORD reserved1;
-#endif
+
+    /** reserved */
+    BYTE reserved1[3];
 
     /**
      * @brief group name length in bytes
@@ -97,11 +89,7 @@ public:
      */
     DWORD descriptionLength;
 
-    /**
-     * reserved
-     *
-     * @todo what is this?
-     */
+    /** reserved */
     DWORD reserved2[3];
 
     /**

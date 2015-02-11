@@ -93,7 +93,7 @@ public:
      */
     DWORD dataLength;
 
-    /** @todo what is this? */
+    /** reserved */
     DWORD unknown[2];
 
     /**

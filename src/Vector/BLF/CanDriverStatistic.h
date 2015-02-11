@@ -104,11 +104,7 @@ public:
      */
     DWORD overloadFrames;
 
-    /**
-     * reserved
-     *
-     * @todo don't know if this is right, but there is often just garbage in there...
-     */
+    /** reserved */
     DWORD reserved;
 };
 
