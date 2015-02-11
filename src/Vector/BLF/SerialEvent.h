@@ -51,7 +51,7 @@ struct GeneralSerialEvent
      *
      * variable data
      */
-    BYTE * data;
+    char * data;
 
     /**
      * @brief variable timestamps (optional)
