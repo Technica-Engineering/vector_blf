@@ -31,6 +31,12 @@ Static tests are
 * Cppcheck (if OPTION_RUN_CPPCHECK is set)
 * CCCC (if OPTION_RUN_CCCC is set)
 
+Dynamic tests are
+
+* Unit tests (if OPTION_RUN_TESTS is set)
+* Example runs (if OPTION_RUN_EXAMPLES is set)
+* Coverage (if OPTION_USE_LCOV_GCOV is set)
+
 The test execution can be triggered using
 
     make test
@@ -68,6 +74,5 @@ The following files are products of installation and building:
 
 # Missing test coverage
 
-* calculateObjectSize() functions
 * all objectTypes for which I had no templates to define a test case
 * write functions
