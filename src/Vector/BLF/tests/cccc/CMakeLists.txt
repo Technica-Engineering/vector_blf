@@ -16,10 +16,10 @@ if(CCCC_FOUND)
 
   install(
     DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/cccc
-    DESTINATION share/doc/Vector_BLF)
+    DESTINATION share/doc/${PROJECT_NAME})
 
   install(
     FILES ${CMAKE_CURRENT_BINARY_DIR}/cccc-out.txt ${CMAKE_CURRENT_BINARY_DIR}/cccc-err.txt
-    DESTINATION share/doc/Vector_BLF/cccc)
+    DESTINATION share/doc/${PROJECT_NAME}/cccc)
 
 endif()

@@ -12,22 +12,22 @@ if(OPTION_RUN_EXAMPLES)
   if(WIN32)
 #    add_custom_target(Vector_DLL-Copy ALL
 #      COMMAND ${CMAKE_COMMAND} -E copy_if_different
-#      "${PROJECT_BINARY_DIR}/src/Vector/BLF/${CMAKE_BUILD_TYPE}/Vector_BLF.dll"
+#      "${PROJECT_BINARY_DIR}/src/Vector/BLF/${CMAKE_BUILD_TYPE}/${PROJECT_NAME}.dll"
 #      "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_BUILD_TYPE}"
-#      COMMENT "Copy ${PROJECT_BINARY_DIR}/src/Vector/BLF/${CMAKE_BUILD_TYPE}/Vector_BLF.dll to ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_BUILD_TYPE}")
+#      COMMENT "Copy ${PROJECT_BINARY_DIR}/src/Vector/BLF/${CMAKE_BUILD_TYPE}/${PROJECT_NAME}.dll to ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_BUILD_TYPE}")
     add_custom_target(Vector_DLL-Copy ALL
       COMMAND ${CMAKE_COMMAND} -E copy_if_different
-      "${PROJECT_BINARY_DIR}/src/Vector/BLF/Vector_BLF.dll"
+      "${PROJECT_BINARY_DIR}/src/Vector/BLF/${PROJECT_NAME}.dll"
       "${CMAKE_CURRENT_BINARY_DIR}"
-      COMMENT "Copy ${PROJECT_BINARY_DIR}/src/Vector/BLF/Vector_BLF.dll to ${CMAKE_CURRENT_BINARY_DIR}")
+      COMMENT "Copy ${PROJECT_BINARY_DIR}/src/Vector/BLF/${PROJECT_NAME}.dll to ${CMAKE_CURRENT_BINARY_DIR}")
   endif()
 
   add_executable(example_Parser Parser.cpp)
 
-  target_link_libraries(example_Parser Vector_BLF)
+  target_link_libraries(example_Parser ${PROJECT_NAME})
 
 endif()
 
 install(
   FILES ${CMAKE_CURRENT_SOURCE_DIR}/Parser.cpp
-  DESTINATION share/doc/Vector_BLF/examples)
+  DESTINATION share/doc/${PROJECT_NAME}/examples)

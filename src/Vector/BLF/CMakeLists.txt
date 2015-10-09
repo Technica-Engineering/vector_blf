@@ -225,14 +225,14 @@ set(header_files
 
 add_compiler_export_flags()
 
-add_library(Vector_BLF SHARED ${source_files} ${header_files})
+add_library(${PROJECT_NAME} SHARED ${source_files} ${header_files})
 
 if(OPTION_USE_GCOV_LCOV)
-  target_link_libraries(Vector_BLF gcov)
+  target_link_libraries(${PROJECT_NAME} gcov)
   add_definitions(-g -O0 -fprofile-arcs -ftest-coverage)
 endif()
 
-generate_export_header(Vector_BLF)
+generate_export_header(${PROJECT_NAME})
 
 if(CMAKE_COMPILER_IS_GNUCXX)
   add_definitions(-std=c++11)
@@ -240,10 +240,10 @@ endif()
 
 find_package(ZLIB)
 include_directories(${ZLIB_INCLUDE_DIRS})
-target_link_libraries(Vector_BLF -lz ${ZLIB_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} -lz ${ZLIB_LIBRARIES})
 
 install(
-  TARGETS Vector_BLF
+  TARGETS ${PROJECT_NAME}
   DESTINATION lib)
 
 install(

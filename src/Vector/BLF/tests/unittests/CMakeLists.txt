@@ -16,7 +16,7 @@ if(OPTION_USE_GCOV_LCOV)
 endif()
 
 target_link_libraries(test_Logfile
-  Vector_BLF
+  ${PROJECT_NAME}
   ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
 
 enable_testing()

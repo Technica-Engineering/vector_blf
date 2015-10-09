@@ -15,6 +15,6 @@ if(LCOV_FOUND)
 
   install(
     DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lcov
-    DESTINATION share/doc/Vector_BLF)
+    DESTINATION share/doc/${PROJECT_NAME})
 
 endif()

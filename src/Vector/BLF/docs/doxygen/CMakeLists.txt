@@ -22,11 +22,11 @@ if(DOXYGEN_FOUND)
 
   install(
     DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/html/
-    DESTINATION share/doc/Vector_BLF/doxygen)
+    DESTINATION share/doc/${PROJECT_NAME}/doxygen)
 
   install(
     FILES ${CMAKE_CURRENT_BINARY_DIR}/doxygen-out.txt ${CMAKE_CURRENT_BINARY_DIR}/doxygen-err.txt
-    DESTINATION share/doc/Vector_BLF/doxygen)
+    DESTINATION share/doc/${PROJECT_NAME}/doxygen)
 
   if(NOT WIN32)
     install(
