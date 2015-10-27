@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 
-#include "Vector/BLF/File.h"
+#include "Vector/BLF.h"
 
 void showFileStatistics(Vector::BLF::FileStatistics * fileStatistics)
 {

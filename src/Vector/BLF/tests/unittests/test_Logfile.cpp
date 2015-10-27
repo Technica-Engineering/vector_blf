@@ -9,7 +9,7 @@
 #include <iterator>
 #include <string>
 
-#include "Vector/BLF/File.h"
+#include "Vector/BLF.h"
 
 #define SUCCEEDED(code) ((int)(code) >= 0)
 #define WARNED(code) ((int)(code) & 0x40000000)
