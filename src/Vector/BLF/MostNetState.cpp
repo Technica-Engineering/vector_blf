@@ -68,11 +68,11 @@ char * MostNetState::parse(char * buffer)
 size_t MostNetState::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader2::calculateObjectSize() +
-            sizeof(channel) +
-            sizeof(stateNew) +
-            sizeof(stateOld) +
-            sizeof(reserved);
+        ObjectHeader2::calculateObjectSize() +
+        sizeof(channel) +
+        sizeof(stateNew) +
+        sizeof(stateOld) +
+        sizeof(reserved);
 
     return size;
 }

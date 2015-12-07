@@ -62,10 +62,10 @@ char * LinBaudrateEvent::parse(char * buffer)
 size_t LinBaudrateEvent::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            sizeof(channel) +
-            sizeof(reserved) +
-            sizeof(baudrate);
+        ObjectHeader::calculateObjectSize() +
+        sizeof(channel) +
+        sizeof(reserved) +
+        sizeof(baudrate);
 
     return size;
 }

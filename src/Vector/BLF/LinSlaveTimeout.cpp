@@ -68,11 +68,11 @@ char * LinSlaveTimeout::parse(char * buffer)
 size_t LinSlaveTimeout::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            sizeof(channel) +
-            sizeof(slaveId) +
-            sizeof(stateId) +
-            sizeof(followStateId);
+        ObjectHeader::calculateObjectSize() +
+        sizeof(channel) +
+        sizeof(slaveId) +
+        sizeof(stateId) +
+        sizeof(followStateId);
 
     return size;
 }

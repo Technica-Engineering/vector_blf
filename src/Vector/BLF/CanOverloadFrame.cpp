@@ -56,9 +56,9 @@ char * CanOverloadFrame::parse(char * buffer)
 size_t CanOverloadFrame::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            sizeof(channel) +
-            sizeof(reserved);
+        ObjectHeader::calculateObjectSize() +
+        sizeof(channel) +
+        sizeof(reserved);
 
     return size;
 }

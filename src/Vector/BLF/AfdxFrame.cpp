@@ -141,22 +141,22 @@ char * AfdxFrame::parse(char * buffer)
 size_t AfdxFrame::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            sizeof(sourceAddress) +
-            sizeof(channel) +
-            sizeof(destinationAddress) +
-            sizeof(dir) +
-            sizeof(type) +
-            sizeof(tpid) +
-            sizeof(tci) +
-            sizeof(ethChannel) +
-            sizeof(reserved1) +
-            sizeof(afdxFlags) +
-            sizeof(reserved2) +
-            sizeof(bagUsec) +
-            sizeof(payLoadLength) +
-            sizeof(reserved3) +
-            payLoadLength;
+        ObjectHeader::calculateObjectSize() +
+        sizeof(sourceAddress) +
+        sizeof(channel) +
+        sizeof(destinationAddress) +
+        sizeof(dir) +
+        sizeof(type) +
+        sizeof(tpid) +
+        sizeof(tci) +
+        sizeof(ethChannel) +
+        sizeof(reserved1) +
+        sizeof(afdxFlags) +
+        sizeof(reserved2) +
+        sizeof(bagUsec) +
+        sizeof(payLoadLength) +
+        sizeof(reserved3) +
+        payLoadLength;
 
     return size;
 }

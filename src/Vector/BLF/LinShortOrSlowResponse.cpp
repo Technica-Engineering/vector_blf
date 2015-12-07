@@ -76,13 +76,13 @@ char * LinShortOrSlowResponse::parse(char * buffer)
 size_t LinShortOrSlowResponse::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            LinDatabyteTimestampEvent::calculateObjectSize() +
-            sizeof(numberOfRespBtes) +
-            sizeof(respBytes) +
-            sizeof(slowResponse) +
-            sizeof(interruptedByBreak) +
-            sizeof(reserved);
+        ObjectHeader::calculateObjectSize() +
+        LinDatabyteTimestampEvent::calculateObjectSize() +
+        sizeof(numberOfRespBtes) +
+        sizeof(respBytes) +
+        sizeof(slowResponse) +
+        sizeof(interruptedByBreak) +
+        sizeof(reserved);
 
     return size;
 }

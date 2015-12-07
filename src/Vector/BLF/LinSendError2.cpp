@@ -94,16 +94,16 @@ char * LinSendError2::parse(char * buffer)
 size_t LinSendError2::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            LinMessageDescriptor::calculateObjectSize() +
-            sizeof(eoh) +
-            sizeof(isEtf) +
-            sizeof(fsmId) +
-            sizeof(fsmState) +
-            sizeof(reserved1) +
-            sizeof(reserved2) +
-            sizeof(exactHeaderBaudrate) +
-            sizeof(earlyStopbitOffset);
+        ObjectHeader::calculateObjectSize() +
+        LinMessageDescriptor::calculateObjectSize() +
+        sizeof(eoh) +
+        sizeof(isEtf) +
+        sizeof(fsmId) +
+        sizeof(fsmState) +
+        sizeof(reserved1) +
+        sizeof(reserved2) +
+        sizeof(exactHeaderBaudrate) +
+        sizeof(earlyStopbitOffset);
 
     return size;
 }

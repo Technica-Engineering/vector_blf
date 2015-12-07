@@ -86,14 +86,14 @@ char * MostDataLost::parse(char * buffer)
 size_t MostDataLost::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader2::calculateObjectSize() +
-            sizeof(channel) +
-            sizeof(reserved) +
-            sizeof(info) +
-            sizeof(lostMsgsCtrl) +
-            sizeof(lostMsgsAsync) +
-            sizeof(lastGoodTimeStampNs) +
-            sizeof(nextGoodTimeStampNs);
+        ObjectHeader2::calculateObjectSize() +
+        sizeof(channel) +
+        sizeof(reserved) +
+        sizeof(info) +
+        sizeof(lostMsgsCtrl) +
+        sizeof(lostMsgsAsync) +
+        sizeof(lastGoodTimeStampNs) +
+        sizeof(nextGoodTimeStampNs);
 
     return size;
 }

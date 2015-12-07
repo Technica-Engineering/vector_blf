@@ -62,10 +62,10 @@ char * LinSpikeEvent::parse(char * buffer)
 size_t LinSpikeEvent::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            sizeof(channel) +
-            sizeof(width) +
-            sizeof(reserved);
+        ObjectHeader::calculateObjectSize() +
+        sizeof(channel) +
+        sizeof(width) +
+        sizeof(reserved);
 
     return size;
 }

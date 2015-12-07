@@ -141,22 +141,22 @@ char * Most150MessageFragment::parse(char * buffer)
 size_t Most150MessageFragment::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader2::calculateObjectSize() +
-            sizeof(channel) +
-            sizeof(reserved1) +
-            sizeof(ackNack) +
-            sizeof(validMask) +
-            sizeof(sourceAdr) +
-            sizeof(destAdr) +
-            sizeof(pAck) +
-            sizeof(cAck) +
-            sizeof(priority) +
-            sizeof(pIndex) +
-            sizeof(crc) +
-            sizeof(dataLen) +
-            sizeof(dataLenAnnounced) +
-            sizeof(firstDataLen) +
-            firstDataLen;
+        ObjectHeader2::calculateObjectSize() +
+        sizeof(channel) +
+        sizeof(reserved1) +
+        sizeof(ackNack) +
+        sizeof(validMask) +
+        sizeof(sourceAdr) +
+        sizeof(destAdr) +
+        sizeof(pAck) +
+        sizeof(cAck) +
+        sizeof(priority) +
+        sizeof(pIndex) +
+        sizeof(crc) +
+        sizeof(dataLen) +
+        sizeof(dataLenAnnounced) +
+        sizeof(firstDataLen) +
+        firstDataLen;
 
     return size;
 }

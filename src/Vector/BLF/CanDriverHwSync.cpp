@@ -62,10 +62,10 @@ char * CanDriverHwSync::parse(char * buffer)
 size_t CanDriverHwSync::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            sizeof(channel) +
-            sizeof(flags) +
-            sizeof(reserved);
+        ObjectHeader::calculateObjectSize() +
+        sizeof(channel) +
+        sizeof(flags) +
+        sizeof(reserved);
 
     return size;
 }

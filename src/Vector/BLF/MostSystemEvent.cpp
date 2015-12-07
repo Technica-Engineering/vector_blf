@@ -68,11 +68,11 @@ char * MostSystemEvent::parse(char * buffer)
 size_t MostSystemEvent::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader2::calculateObjectSize() +
-            sizeof(channel) +
-            sizeof(id) +
-            sizeof(value) +
-            sizeof(valueOld);
+        ObjectHeader2::calculateObjectSize() +
+        sizeof(channel) +
+        sizeof(id) +
+        sizeof(value) +
+        sizeof(valueOld);
 
     return size;
 }

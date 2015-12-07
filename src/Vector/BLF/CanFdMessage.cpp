@@ -104,17 +104,17 @@ char * CanFdMessage::parse(char * buffer)
 size_t CanFdMessage::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            sizeof(channel) +
-            sizeof(flags) +
-            sizeof(dlc) +
-            sizeof(id) +
-            sizeof(frameLength) +
-            sizeof(arbBitCount) +
-            sizeof(canFdFlags) +
-            sizeof(validDataBytes) +
-            sizeof(reserved) +
-            sizeof(data);
+        ObjectHeader::calculateObjectSize() +
+        sizeof(channel) +
+        sizeof(flags) +
+        sizeof(dlc) +
+        sizeof(id) +
+        sizeof(frameLength) +
+        sizeof(arbBitCount) +
+        sizeof(canFdFlags) +
+        sizeof(validDataBytes) +
+        sizeof(reserved) +
+        sizeof(data);
 
     return size;
 }

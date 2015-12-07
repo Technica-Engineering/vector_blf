@@ -86,14 +86,14 @@ char * CanDriverErrorExt::parse(char * buffer)
 size_t CanDriverErrorExt::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            sizeof(channel) +
-            sizeof(txErrors) +
-            sizeof(rxErrors) +
-            sizeof(errorCode) +
-            sizeof(flags) +
-            sizeof(state) +
-            sizeof(reserved);
+        ObjectHeader::calculateObjectSize() +
+        sizeof(channel) +
+        sizeof(txErrors) +
+        sizeof(rxErrors) +
+        sizeof(errorCode) +
+        sizeof(flags) +
+        sizeof(state) +
+        sizeof(reserved);
 
     return size;
 }

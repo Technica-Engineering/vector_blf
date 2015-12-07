@@ -116,19 +116,19 @@ char * FlexRayVFrStatus::parse(char * buffer)
 size_t FlexRayVFrStatus::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            sizeof(channel) +
-            sizeof(version) +
-            sizeof(channelMask) +
-            sizeof(cycle) +
-            sizeof(reserved1) +
-            sizeof(clientIndex) +
-            sizeof(clusterNo) +
-            sizeof(wus) +
-            sizeof(ccSyncState) +
-            sizeof(tag) +
-            sizeof(data) +
-            sizeof(reserved2);
+        ObjectHeader::calculateObjectSize() +
+        sizeof(channel) +
+        sizeof(version) +
+        sizeof(channelMask) +
+        sizeof(cycle) +
+        sizeof(reserved1) +
+        sizeof(clientIndex) +
+        sizeof(clusterNo) +
+        sizeof(wus) +
+        sizeof(ccSyncState) +
+        sizeof(tag) +
+        sizeof(data) +
+        sizeof(reserved2);
 
     return size;
 }

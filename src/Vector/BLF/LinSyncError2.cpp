@@ -52,9 +52,9 @@ char * LinSyncError2::parse(char * buffer)
 size_t LinSyncError2::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            LinSynchFieldEvent::calculateObjectSize() +
-            sizeof(timeDiff);
+        ObjectHeader::calculateObjectSize() +
+        LinSynchFieldEvent::calculateObjectSize() +
+        sizeof(timeDiff);
 
     return size;
 }

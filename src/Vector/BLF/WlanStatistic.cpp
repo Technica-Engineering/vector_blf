@@ -92,15 +92,15 @@ char * WlanStatistic::parse(char * buffer)
 size_t WlanStatistic::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            sizeof(channel) +
-            sizeof(flags) +
-            sizeof(rxPacketCount) +
-            sizeof(rxByteCount) +
-            sizeof(txPacketCount) +
-            sizeof(txByteCount) +
-            sizeof(collisionCount) +
-            sizeof(errorCount);
+        ObjectHeader::calculateObjectSize() +
+        sizeof(channel) +
+        sizeof(flags) +
+        sizeof(rxPacketCount) +
+        sizeof(rxByteCount) +
+        sizeof(txPacketCount) +
+        sizeof(txByteCount) +
+        sizeof(collisionCount) +
+        sizeof(errorCount);
 
     return size;
 }

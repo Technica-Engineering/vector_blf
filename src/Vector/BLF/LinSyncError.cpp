@@ -62,10 +62,10 @@ char * LinSyncError::parse(char * buffer)
 size_t LinSyncError::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            sizeof(channel) +
-            sizeof(reserved) +
-            sizeof(timeDiff);
+        ObjectHeader::calculateObjectSize() +
+        sizeof(channel) +
+        sizeof(reserved) +
+        sizeof(timeDiff);
 
     return size;
 }

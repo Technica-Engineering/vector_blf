@@ -62,10 +62,10 @@ char * DriverOverrun::parse(char * buffer)
 size_t DriverOverrun::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            sizeof(busType) +
-            sizeof(channel) +
-            sizeof(reserved);
+        ObjectHeader::calculateObjectSize() +
+        sizeof(busType) +
+        sizeof(channel) +
+        sizeof(reserved);
 
     return size;
 }

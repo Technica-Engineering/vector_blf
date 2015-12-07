@@ -68,11 +68,11 @@ char * MostStress::parse(char * buffer)
 size_t MostStress::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader2::calculateObjectSize() +
-            sizeof(channel) +
-            sizeof(state) +
-            sizeof(mode) +
-            sizeof(reserved);
+        ObjectHeader2::calculateObjectSize() +
+        sizeof(channel) +
+        sizeof(state) +
+        sizeof(mode) +
+        sizeof(reserved);
 
     return size;
 }

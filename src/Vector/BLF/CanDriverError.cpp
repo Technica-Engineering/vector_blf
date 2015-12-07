@@ -68,11 +68,11 @@ char * CanDriverError::parse(char * buffer)
 size_t CanDriverError::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            sizeof(channel) +
-            sizeof(txErrors) +
-            sizeof(rxErrors) +
-            sizeof(errorCode);
+        ObjectHeader::calculateObjectSize() +
+        sizeof(channel) +
+        sizeof(txErrors) +
+        sizeof(rxErrors) +
+        sizeof(errorCode);
 
     return size;
 }

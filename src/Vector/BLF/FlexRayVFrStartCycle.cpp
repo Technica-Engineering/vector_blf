@@ -122,20 +122,20 @@ char * FlexRayVFrStartCycle::parse(char * buffer)
 size_t FlexRayVFrStartCycle::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            sizeof(channel) +
-            sizeof(version) +
-            sizeof(channelMask) +
-            sizeof(dir) +
-            sizeof(cycle) +
-            sizeof(clientIndex) +
-            sizeof(clusterNo) +
-            sizeof(nmSize) +
-            sizeof(dataBytes) +
-            sizeof(reserved1) +
-            sizeof(tag) +
-            sizeof(data) +
-            sizeof(reserved2);
+        ObjectHeader::calculateObjectSize() +
+        sizeof(channel) +
+        sizeof(version) +
+        sizeof(channelMask) +
+        sizeof(dir) +
+        sizeof(cycle) +
+        sizeof(clientIndex) +
+        sizeof(clusterNo) +
+        sizeof(nmSize) +
+        sizeof(dataBytes) +
+        sizeof(reserved1) +
+        sizeof(tag) +
+        sizeof(data) +
+        sizeof(reserved2);
 
     return size;
 }

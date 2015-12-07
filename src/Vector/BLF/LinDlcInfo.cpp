@@ -62,10 +62,10 @@ char * LinDlcInfo::parse(char * buffer)
 size_t LinDlcInfo::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            sizeof(channel) +
-            sizeof(id) +
-            sizeof(dlc);
+        ObjectHeader::calculateObjectSize() +
+        sizeof(channel) +
+        sizeof(id) +
+        sizeof(dlc);
 
     return size;
 }

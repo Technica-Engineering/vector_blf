@@ -64,10 +64,10 @@ char * LinBusEvent::parse(char * buffer)
 size_t LinBusEvent::calculateObjectSize()
 {
     size_t size =
-            sizeof(sof) +
-            sizeof(eventBaudrate) +
-            sizeof(channel) +
-            sizeof(reserved);
+        sizeof(sof) +
+        sizeof(eventBaudrate) +
+        sizeof(channel) +
+        sizeof(reserved);
 
     return size;
 }

@@ -74,12 +74,12 @@ char * CanMessage::parse(char * buffer)
 size_t CanMessage::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            sizeof(channel) +
-            sizeof(flags) +
-            sizeof(dlc) +
-            sizeof(id) +
-            sizeof(data);
+        ObjectHeader::calculateObjectSize() +
+        sizeof(channel) +
+        sizeof(flags) +
+        sizeof(dlc) +
+        sizeof(id) +
+        sizeof(data);
 
     return size;
 }

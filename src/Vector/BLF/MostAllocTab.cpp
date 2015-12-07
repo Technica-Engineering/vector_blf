@@ -75,11 +75,11 @@ char * MostAllocTab::parse(char * buffer)
 size_t MostAllocTab::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader2::calculateObjectSize() +
-            sizeof(channel) +
-            sizeof(length) +
-            sizeof(reserved) +
-            length;
+        ObjectHeader2::calculateObjectSize() +
+        sizeof(channel) +
+        sizeof(length) +
+        sizeof(reserved) +
+        length;
 
     return size;
 }

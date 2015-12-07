@@ -85,12 +85,12 @@ char * EnvironmentVariable::parse(char * buffer)
 size_t EnvironmentVariable::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            sizeof(nameLength) +
-            sizeof(dataLength) +
-            sizeof(reserved) +
-            nameLength +
-            dataLength;
+        ObjectHeader::calculateObjectSize() +
+        sizeof(nameLength) +
+        sizeof(dataLength) +
+        sizeof(reserved) +
+        nameLength +
+        dataLength;
 
     return size;
 }

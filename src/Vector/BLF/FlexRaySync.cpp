@@ -98,16 +98,16 @@ char * FlexRaySync::parse(char * buffer)
 size_t FlexRaySync::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            sizeof(channel) +
-            sizeof(mux) +
-            sizeof(len) +
-            sizeof(messageId) +
-            sizeof(crc) +
-            sizeof(dir) +
-            sizeof(reserved) +
-            sizeof(dataBytes) +
-            sizeof(cycle);
+        ObjectHeader::calculateObjectSize() +
+        sizeof(channel) +
+        sizeof(mux) +
+        sizeof(len) +
+        sizeof(messageId) +
+        sizeof(crc) +
+        sizeof(dir) +
+        sizeof(reserved) +
+        sizeof(dataBytes) +
+        sizeof(cycle);
 
     return size;
 }

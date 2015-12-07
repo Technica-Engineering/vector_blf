@@ -62,10 +62,10 @@ char * LinChecksumInfo::parse(char * buffer)
 size_t LinChecksumInfo::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            sizeof(channel) +
-            sizeof(id) +
-            sizeof(checksumModel);
+        ObjectHeader::calculateObjectSize() +
+        sizeof(channel) +
+        sizeof(id) +
+        sizeof(checksumModel);
 
     return size;
 }

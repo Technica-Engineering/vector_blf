@@ -153,24 +153,24 @@ char * Most150Pkt::parse(char * buffer)
 size_t Most150Pkt::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader2::calculateObjectSize() +
-            sizeof(channel) +
-            sizeof(dir) +
-            sizeof(reserved1) +
-            sizeof(sourceAdr) +
-            sizeof(destAdr) +
-            sizeof(transferType) +
-            sizeof(state) +
-            sizeof(ackNack) +
-            sizeof(reserved2) +
-            sizeof(crc) +
-            sizeof(pAck) +
-            sizeof(cAck) +
-            sizeof(priority) +
-            sizeof(pIndex) +
-            sizeof(pktDataLength) +
-            sizeof(reserved3) +
-            pktDataLength;
+        ObjectHeader2::calculateObjectSize() +
+        sizeof(channel) +
+        sizeof(dir) +
+        sizeof(reserved1) +
+        sizeof(sourceAdr) +
+        sizeof(destAdr) +
+        sizeof(transferType) +
+        sizeof(state) +
+        sizeof(ackNack) +
+        sizeof(reserved2) +
+        sizeof(crc) +
+        sizeof(pAck) +
+        sizeof(cAck) +
+        sizeof(priority) +
+        sizeof(pIndex) +
+        sizeof(pktDataLength) +
+        sizeof(reserved3) +
+        pktDataLength;
 
     return size;
 }

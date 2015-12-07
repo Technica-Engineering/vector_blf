@@ -116,19 +116,19 @@ char * CanErrorFrameExt::parse(char * buffer)
 size_t CanErrorFrameExt::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            sizeof(channel) +
-            sizeof(length) +
-            sizeof(flags) +
-            sizeof(ecc) +
-            sizeof(position) +
-            sizeof(dlc) +
-            sizeof(reserved1) +
-            sizeof(frameLengthInNs) +
-            sizeof(id) +
-            sizeof(flagsExt) +
-            sizeof(reserved2) +
-            sizeof(data);
+        ObjectHeader::calculateObjectSize() +
+        sizeof(channel) +
+        sizeof(length) +
+        sizeof(flags) +
+        sizeof(ecc) +
+        sizeof(position) +
+        sizeof(dlc) +
+        sizeof(reserved1) +
+        sizeof(frameLengthInNs) +
+        sizeof(id) +
+        sizeof(flagsExt) +
+        sizeof(reserved2) +
+        sizeof(data);
 
     return size;
 }

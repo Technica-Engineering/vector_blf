@@ -92,15 +92,15 @@ char * FlexRayData::parse(char * buffer)
 size_t FlexRayData::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            sizeof(channel) +
-            sizeof(mux) +
-            sizeof(len) +
-            sizeof(messageId) +
-            sizeof(crc) +
-            sizeof(dir) +
-            sizeof(reserved) +
-            sizeof(dataBytes);
+        ObjectHeader::calculateObjectSize() +
+        sizeof(channel) +
+        sizeof(mux) +
+        sizeof(len) +
+        sizeof(messageId) +
+        sizeof(crc) +
+        sizeof(dir) +
+        sizeof(reserved) +
+        sizeof(dataBytes);
 
     return size;
 }

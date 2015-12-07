@@ -74,12 +74,12 @@ char * AppTrigger::parse(char * buffer)
 size_t AppTrigger::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            sizeof(preTriggerTime) +
-            sizeof(postTriggerTime) +
-            sizeof(channel) +
-            sizeof(flags) +
-            sizeof(appSpecific2);
+        ObjectHeader::calculateObjectSize() +
+        sizeof(preTriggerTime) +
+        sizeof(postTriggerTime) +
+        sizeof(channel) +
+        sizeof(flags) +
+        sizeof(appSpecific2);
 
     return size;
 }

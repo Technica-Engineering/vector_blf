@@ -110,18 +110,18 @@ char * LinCrcError::parse(char * buffer)
 size_t LinCrcError::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            sizeof(channel) +
-            sizeof(id) +
-            sizeof(dlc) +
-            sizeof(data) +
-            sizeof(fsmId) +
-            sizeof(fsmState) +
-            sizeof(headerTime) +
-            sizeof(fullTime) +
-            sizeof(crc) +
-            sizeof(dir) +
-            sizeof(reserved);
+        ObjectHeader::calculateObjectSize() +
+        sizeof(channel) +
+        sizeof(id) +
+        sizeof(dlc) +
+        sizeof(data) +
+        sizeof(fsmId) +
+        sizeof(fsmState) +
+        sizeof(headerTime) +
+        sizeof(fullTime) +
+        sizeof(crc) +
+        sizeof(dir) +
+        sizeof(reserved);
 
     return size;
 }

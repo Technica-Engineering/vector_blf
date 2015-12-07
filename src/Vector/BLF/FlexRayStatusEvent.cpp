@@ -86,14 +86,14 @@ char * FlexRayStatusEvent::parse(char * buffer)
 size_t FlexRayStatusEvent::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            sizeof(channel) +
-            sizeof(version) +
-            sizeof(statusType) +
-            sizeof(infoMask1) +
-            sizeof(infoMask2) +
-            sizeof(infoMask3) +
-            sizeof(reserved);
+        ObjectHeader::calculateObjectSize() +
+        sizeof(channel) +
+        sizeof(version) +
+        sizeof(statusType) +
+        sizeof(infoMask1) +
+        sizeof(infoMask2) +
+        sizeof(infoMask3) +
+        sizeof(reserved);
 
     return size;
 }

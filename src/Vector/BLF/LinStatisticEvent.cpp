@@ -98,16 +98,16 @@ char * LinStatisticEvent::parse(char * buffer)
 size_t LinStatisticEvent::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            sizeof(channel) +
-            sizeof(reserved1) +
-            sizeof(busLoad) +
-            sizeof(burstsTotal) +
-            sizeof(burstsOverrun) +
-            sizeof(framesSent) +
-            sizeof(framesReceived) +
-            sizeof(framesUnanswered) +
-            sizeof(reserved2);
+        ObjectHeader::calculateObjectSize() +
+        sizeof(channel) +
+        sizeof(reserved1) +
+        sizeof(busLoad) +
+        sizeof(burstsTotal) +
+        sizeof(burstsOverrun) +
+        sizeof(framesSent) +
+        sizeof(framesReceived) +
+        sizeof(framesUnanswered) +
+        sizeof(reserved2);
 
     return size;
 }

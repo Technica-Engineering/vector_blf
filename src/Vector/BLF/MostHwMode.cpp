@@ -68,11 +68,11 @@ char * MostHwMode::parse(char * buffer)
 size_t MostHwMode::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader2::calculateObjectSize() +
-            sizeof(channel) +
-            sizeof(reserved1) +
-            sizeof(hwMode) +
-            sizeof(hwModeMask);
+        ObjectHeader2::calculateObjectSize() +
+        sizeof(channel) +
+        sizeof(reserved1) +
+        sizeof(hwMode) +
+        sizeof(hwModeMask);
 
     return size;
 }

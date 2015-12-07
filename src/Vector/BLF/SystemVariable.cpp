@@ -98,14 +98,14 @@ char * SystemVariable::parse(char * buffer)
 size_t SystemVariable::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            sizeof(type) +
-            sizeof(reserved) +
-            sizeof(nameLength) +
-            sizeof(dataLength) +
-            sizeof(unknown) +
-            nameLength +
-            dataLength;
+        ObjectHeader::calculateObjectSize() +
+        sizeof(type) +
+        sizeof(reserved) +
+        sizeof(nameLength) +
+        sizeof(dataLength) +
+        sizeof(unknown) +
+        nameLength +
+        dataLength;
 
     return size;
 }

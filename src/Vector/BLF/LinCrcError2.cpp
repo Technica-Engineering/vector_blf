@@ -118,20 +118,20 @@ char * LinCrcError2::parse(char * buffer)
 size_t LinCrcError2::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            LinDatabyteTimestampEvent::calculateObjectSize() +
-            sizeof(data) +
-            sizeof(crc) +
-            sizeof(dir) +
-            sizeof(fsmId) +
-            sizeof(fsmState) +
-            sizeof(simulated) +
-            sizeof(reserved1) +
-            sizeof(respBaudrate) +
-            sizeof(reserved2) +
-            sizeof(exactHeaderBaudrate) +
-            sizeof(earlyStopbitOffset) +
-            sizeof(earlyStopbitOffsetResponse);
+        ObjectHeader::calculateObjectSize() +
+        LinDatabyteTimestampEvent::calculateObjectSize() +
+        sizeof(data) +
+        sizeof(crc) +
+        sizeof(dir) +
+        sizeof(fsmId) +
+        sizeof(fsmState) +
+        sizeof(simulated) +
+        sizeof(reserved1) +
+        sizeof(respBaudrate) +
+        sizeof(reserved2) +
+        sizeof(exactHeaderBaudrate) +
+        sizeof(earlyStopbitOffset) +
+        sizeof(earlyStopbitOffsetResponse);
 
     return size;
 }

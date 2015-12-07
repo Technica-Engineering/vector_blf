@@ -122,20 +122,20 @@ char * MostCtrl::parse(char * buffer)
 size_t MostCtrl::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            sizeof(channel) +
-            sizeof(dir) +
-            sizeof(reserved1) +
-            sizeof(sourceAdr) +
-            sizeof(destAdr) +
-            sizeof(msg) +
-            sizeof(reserved2) +
-            sizeof(rTyp) +
-            sizeof(rTypAdr) +
-            sizeof(state) +
-            sizeof(reserved3) +
-            sizeof(ackNack) +
-            sizeof(reserved4);
+        ObjectHeader::calculateObjectSize() +
+        sizeof(channel) +
+        sizeof(dir) +
+        sizeof(reserved1) +
+        sizeof(sourceAdr) +
+        sizeof(destAdr) +
+        sizeof(msg) +
+        sizeof(reserved2) +
+        sizeof(rTyp) +
+        sizeof(rTypAdr) +
+        sizeof(state) +
+        sizeof(reserved3) +
+        sizeof(ackNack) +
+        sizeof(reserved4);
 
     return size;
 }

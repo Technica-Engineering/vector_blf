@@ -99,15 +99,15 @@ char * WlanFrame::parse(char * buffer)
 size_t WlanFrame::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            sizeof(channel) +
-            sizeof(flags) +
-            sizeof(dir) +
-            sizeof(radioChannel) +
-            sizeof(signalStrength) +
-            sizeof(signalQuality) +
-            sizeof(frameLength) +
-            frameLength;
+        ObjectHeader::calculateObjectSize() +
+        sizeof(channel) +
+        sizeof(flags) +
+        sizeof(dir) +
+        sizeof(radioChannel) +
+        sizeof(signalStrength) +
+        sizeof(signalQuality) +
+        sizeof(frameLength) +
+        frameLength;
 
     return size;
 }

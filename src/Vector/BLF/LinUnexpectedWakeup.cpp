@@ -64,11 +64,11 @@ char * LinUnexpectedWakeup::parse(char * buffer)
 size_t LinUnexpectedWakeup::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            LinBusEvent::calculateObjectSize() +
-            sizeof(width) +
-            sizeof(signal) +
-            sizeof(reserved);
+        ObjectHeader::calculateObjectSize() +
+        LinBusEvent::calculateObjectSize() +
+        sizeof(width) +
+        sizeof(signal) +
+        sizeof(reserved);
 
     return size;
 }

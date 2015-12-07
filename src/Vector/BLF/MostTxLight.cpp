@@ -62,10 +62,10 @@ char * MostTxLight::parse(char * buffer)
 size_t MostTxLight::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader2::calculateObjectSize() +
-            sizeof(channel) +
-            sizeof(state) +
-            sizeof(reserved);
+        ObjectHeader2::calculateObjectSize() +
+        sizeof(channel) +
+        sizeof(state) +
+        sizeof(reserved);
 
     return size;
 }

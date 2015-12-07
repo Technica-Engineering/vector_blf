@@ -80,13 +80,13 @@ char * LinMessageDescriptor::parse(char * buffer)
 size_t LinMessageDescriptor::calculateObjectSize()
 {
     size_t size =
-            LinSynchFieldEvent::calculateObjectSize() +
-            sizeof(supplierId) +
-            sizeof(messageId) +
-            sizeof(nad) +
-            sizeof(id) +
-            sizeof(dlc) +
-            sizeof(checksumModel);
+        LinSynchFieldEvent::calculateObjectSize() +
+        sizeof(supplierId) +
+        sizeof(messageId) +
+        sizeof(nad) +
+        sizeof(id) +
+        sizeof(dlc) +
+        sizeof(checksumModel);
 
     return size;
 }

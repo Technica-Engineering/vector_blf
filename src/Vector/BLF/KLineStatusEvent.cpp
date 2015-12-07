@@ -74,12 +74,12 @@ char * KLineStatusEvent::parse(char * buffer)
 size_t KLineStatusEvent::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            sizeof(type) +
-            sizeof(dataLen) +
-            sizeof(port) +
-            sizeof(reserved) +
-            sizeof(data);
+        ObjectHeader::calculateObjectSize() +
+        sizeof(type) +
+        sizeof(dataLen) +
+        sizeof(port) +
+        sizeof(reserved) +
+        sizeof(data);
 
     return size;
 }

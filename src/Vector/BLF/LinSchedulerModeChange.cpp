@@ -68,11 +68,11 @@ char * LinSchedulerModeChange::parse(char * buffer)
 size_t LinSchedulerModeChange::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            sizeof(channel) +
-            sizeof(oldMode) +
-            sizeof(newMode) +
-            sizeof(reserved);
+        ObjectHeader::calculateObjectSize() +
+        sizeof(channel) +
+        sizeof(oldMode) +
+        sizeof(newMode) +
+        sizeof(reserved);
 
     return size;
 }

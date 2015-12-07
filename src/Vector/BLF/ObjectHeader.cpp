@@ -68,11 +68,11 @@ char * ObjectHeader::parse(char * buffer)
 size_t ObjectHeader::calculateHeaderSize()
 {
     size_t size =
-            ObjectHeaderBase::calculateHeaderSize() +
-            sizeof(objectFlags) +
-            sizeof(reserved) +
-            sizeof(objectVersion) +
-            sizeof(objectTimeStamp);
+        ObjectHeaderBase::calculateHeaderSize() +
+        sizeof(objectFlags) +
+        sizeof(reserved) +
+        sizeof(objectVersion) +
+        sizeof(objectTimeStamp);
 
     return size;
 }

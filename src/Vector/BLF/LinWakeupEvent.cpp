@@ -62,10 +62,10 @@ char * LinWakeupEvent::parse(char * buffer)
 size_t LinWakeupEvent::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            sizeof(channel) +
-            sizeof(signal) +
-            sizeof(external);
+        ObjectHeader::calculateObjectSize() +
+        sizeof(channel) +
+        sizeof(signal) +
+        sizeof(external);
 
     return size;
 }

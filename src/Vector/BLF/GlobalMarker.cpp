@@ -134,19 +134,19 @@ char * GlobalMarker::parse(char * buffer)
 size_t GlobalMarker::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            sizeof(commentedEventType) +
-            sizeof(foregroundColor) +
-            sizeof(backgroundColor) +
-            sizeof(isRelocatable) +
-            sizeof(reserved1) +
-            sizeof(groupNameLength) +
-            sizeof(markerNameLength) +
-            sizeof(descriptionLength) +
-            sizeof(reserved2) +
-            groupNameLength +
-            markerNameLength +
-            descriptionLength;
+        ObjectHeader::calculateObjectSize() +
+        sizeof(commentedEventType) +
+        sizeof(foregroundColor) +
+        sizeof(backgroundColor) +
+        sizeof(isRelocatable) +
+        sizeof(reserved1) +
+        sizeof(groupNameLength) +
+        sizeof(markerNameLength) +
+        sizeof(descriptionLength) +
+        sizeof(reserved2) +
+        groupNameLength +
+        markerNameLength +
+        descriptionLength;
 
     return size;
 }

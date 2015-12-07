@@ -56,9 +56,9 @@ char * RealtimeClock::parse(char * buffer)
 size_t RealtimeClock::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            sizeof(time) +
-            sizeof(loggingOffset);
+        ObjectHeader::calculateObjectSize() +
+        sizeof(time) +
+        sizeof(loggingOffset);
 
     return size;
 }

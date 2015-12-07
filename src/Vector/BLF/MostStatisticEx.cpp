@@ -68,11 +68,11 @@ char * MostStatisticEx::parse(char * buffer)
 size_t MostStatisticEx::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader2::calculateObjectSize() +
-            sizeof(channel) +
-            sizeof(reserved) +
-            sizeof(codingErrors) +
-            sizeof(frameCounter);
+        ObjectHeader2::calculateObjectSize() +
+        sizeof(channel) +
+        sizeof(reserved) +
+        sizeof(codingErrors) +
+        sizeof(frameCounter);
 
     return size;
 }

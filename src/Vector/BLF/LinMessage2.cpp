@@ -138,18 +138,18 @@ char * LinMessage2::parse(char * buffer)
 size_t LinMessage2::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            LinDatabyteTimestampEvent::calculateObjectSize() +
-            sizeof(data) +
-            sizeof(crc) +
-            sizeof(dir) +
-            sizeof(simulated) +
-            sizeof(isEtf) +
-            sizeof(etfAssocIndex) +
-            sizeof(etfAssocEtfId) +
-            sizeof(fsmId) +
-            sizeof(fsmState) +
-            sizeof(reserved1);
+        ObjectHeader::calculateObjectSize() +
+        LinDatabyteTimestampEvent::calculateObjectSize() +
+        sizeof(data) +
+        sizeof(crc) +
+        sizeof(dir) +
+        sizeof(simulated) +
+        sizeof(isEtf) +
+        sizeof(etfAssocIndex) +
+        sizeof(etfAssocEtfId) +
+        sizeof(fsmId) +
+        sizeof(fsmState) +
+        sizeof(reserved1);
 
     if (objectVersion >= 0) // this is probably a bug in Vector's original implementation
         size += sizeof(respBaudrate);

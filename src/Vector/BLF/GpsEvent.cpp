@@ -92,15 +92,15 @@ char * GpsEvent::parse(char * buffer)
 size_t GpsEvent::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            sizeof(flags) +
-            sizeof(channel) +
-            sizeof(reserved) +
-            sizeof(latitude) +
-            sizeof(longitude) +
-            sizeof(altitude) +
-            sizeof(speed) +
-            sizeof(course);
+        ObjectHeader::calculateObjectSize() +
+        sizeof(flags) +
+        sizeof(channel) +
+        sizeof(reserved) +
+        sizeof(latitude) +
+        sizeof(longitude) +
+        sizeof(altitude) +
+        sizeof(speed) +
+        sizeof(course);
 
     return size;
 }

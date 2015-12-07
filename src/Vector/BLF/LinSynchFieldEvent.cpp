@@ -56,9 +56,9 @@ char * LinSynchFieldEvent::parse(char * buffer)
 size_t LinSynchFieldEvent::calculateObjectSize()
 {
     size_t size =
-            LinBusEvent::calculateObjectSize() +
-            sizeof(synchBreakLength) +
-            sizeof(synchDelLength);
+        LinBusEvent::calculateObjectSize() +
+        sizeof(synchBreakLength) +
+        sizeof(synchDelLength);
 
     return size;
 }

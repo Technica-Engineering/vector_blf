@@ -64,11 +64,11 @@ char * LinSpikeEvent2::parse(char * buffer)
 size_t LinSpikeEvent2::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            LinBusEvent::calculateObjectSize() +
-            sizeof(width) +
-            sizeof(internal) +
-            sizeof(reserved);
+        ObjectHeader::calculateObjectSize() +
+        LinBusEvent::calculateObjectSize() +
+        sizeof(width) +
+        sizeof(internal) +
+        sizeof(reserved);
 
     return size;
 }

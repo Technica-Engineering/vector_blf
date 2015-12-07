@@ -131,23 +131,23 @@ void FileStatistics::write(std::ostream & os)
 {
     /* read header */
     const std::streamsize size =
-            sizeof(signature) +
-            sizeof(statisticsSize) +
-            sizeof(applicationId) +
-            sizeof(applicationMajor) +
-            sizeof(applicationMinor) +
-            sizeof(applicationBuild) +
-            sizeof(apiMajor) +
-            sizeof(apiMinor) +
-            sizeof(apiBuild) +
-            sizeof(apiPatch) +
-            sizeof(fileSize) +
-            sizeof(uncompressedFileSize) +
-            sizeof(objectCount) +
-            sizeof(objectsRead) +
-            sizeof(measurementStartTime) +
-            sizeof(lastObjectTime) +
-            sizeof(reserved);
+        sizeof(signature) +
+        sizeof(statisticsSize) +
+        sizeof(applicationId) +
+        sizeof(applicationMajor) +
+        sizeof(applicationMinor) +
+        sizeof(applicationBuild) +
+        sizeof(apiMajor) +
+        sizeof(apiMinor) +
+        sizeof(apiBuild) +
+        sizeof(apiPatch) +
+        sizeof(fileSize) +
+        sizeof(uncompressedFileSize) +
+        sizeof(objectCount) +
+        sizeof(objectsRead) +
+        sizeof(measurementStartTime) +
+        sizeof(lastObjectTime) +
+        sizeof(reserved);
     os.write((char *) &signature, size);
 }
 

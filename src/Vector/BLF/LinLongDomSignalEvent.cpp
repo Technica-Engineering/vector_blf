@@ -58,10 +58,10 @@ char * LinLongDomSignalEvent::parse(char * buffer)
 size_t LinLongDomSignalEvent::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            LinBusEvent::calculateObjectSize() +
-            sizeof(type) +
-            sizeof(reserved);
+        ObjectHeader::calculateObjectSize() +
+        LinBusEvent::calculateObjectSize() +
+        sizeof(type) +
+        sizeof(reserved);
 
     return size;
 }

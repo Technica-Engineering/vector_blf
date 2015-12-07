@@ -98,16 +98,16 @@ char * FlexRayV6StartCycleEvent::parse(char * buffer)
 size_t FlexRayV6StartCycleEvent::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            sizeof(channel) +
-            sizeof(dir) +
-            sizeof(lowTime) +
-            sizeof(fpgaTick) +
-            sizeof(fpgaTickOverflow) +
-            sizeof(clientIndex) +
-            sizeof(clusterTime) +
-            sizeof(dataBytes) +
-            sizeof(reserved);
+        ObjectHeader::calculateObjectSize() +
+        sizeof(channel) +
+        sizeof(dir) +
+        sizeof(lowTime) +
+        sizeof(fpgaTick) +
+        sizeof(fpgaTickOverflow) +
+        sizeof(clientIndex) +
+        sizeof(clusterTime) +
+        sizeof(dataBytes) +
+        sizeof(reserved);
 
     return size;
 }

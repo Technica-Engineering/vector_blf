@@ -80,11 +80,11 @@ char * ObjectHeaderBase::parse(char * buffer)
 size_t ObjectHeaderBase::calculateHeaderSize()
 {
     size_t size =
-            sizeof(signature) +
-            sizeof(headerSize) +
-            sizeof(headerVersion) +
-            sizeof(objectSize) +
-            sizeof(objectType);
+        sizeof(signature) +
+        sizeof(headerSize) +
+        sizeof(headerVersion) +
+        sizeof(objectSize) +
+        sizeof(objectType);
 
     return size;
 }

@@ -86,14 +86,14 @@ char * LinSendError::parse(char * buffer)
 size_t LinSendError::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            sizeof(channel) +
-            sizeof(id) +
-            sizeof(dlc) +
-            sizeof(fsmId) +
-            sizeof(fsmState) +
-            sizeof(headerTime) +
-            sizeof(fullTime);
+        ObjectHeader::calculateObjectSize() +
+        sizeof(channel) +
+        sizeof(id) +
+        sizeof(dlc) +
+        sizeof(fsmId) +
+        sizeof(fsmState) +
+        sizeof(headerTime) +
+        sizeof(fullTime);
 
     return size;
 }

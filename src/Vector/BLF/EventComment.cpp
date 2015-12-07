@@ -76,11 +76,11 @@ char * EventComment::parse(char * buffer)
 size_t EventComment::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            sizeof(commentedEventType) +
-            sizeof(textLength) +
-            sizeof(reserved) +
-            textLength;
+        ObjectHeader::calculateObjectSize() +
+        sizeof(commentedEventType) +
+        sizeof(textLength) +
+        sizeof(reserved) +
+        textLength;
 
     return size;
 }

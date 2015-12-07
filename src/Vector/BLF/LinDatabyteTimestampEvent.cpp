@@ -50,8 +50,8 @@ char * LinDatabyteTimestampEvent::parse(char * buffer)
 size_t LinDatabyteTimestampEvent::calculateObjectSize()
 {
     size_t size =
-            LinMessageDescriptor::calculateObjectSize() +
-            sizeof(databyteTimestamps);
+        LinMessageDescriptor::calculateObjectSize() +
+        sizeof(databyteTimestamps);
 
     return size;
 }

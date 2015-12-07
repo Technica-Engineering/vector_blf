@@ -68,11 +68,11 @@ char * LinSleepModeEvent::parse(char * buffer)
 size_t LinSleepModeEvent::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            sizeof(channel) +
-            sizeof(reason) +
-            sizeof(flags) +
-            sizeof(reserved);
+        ObjectHeader::calculateObjectSize() +
+        sizeof(channel) +
+        sizeof(reason) +
+        sizeof(flags) +
+        sizeof(reserved);
 
     return size;
 }

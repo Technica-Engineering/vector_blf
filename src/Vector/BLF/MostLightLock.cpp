@@ -62,10 +62,10 @@ char * MostLightLock::parse(char * buffer)
 size_t MostLightLock::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            sizeof(channel) +
-            sizeof(state) +
-            sizeof(reserved);
+        ObjectHeader::calculateObjectSize() +
+        sizeof(channel) +
+        sizeof(state) +
+        sizeof(reserved);
 
     return size;
 }

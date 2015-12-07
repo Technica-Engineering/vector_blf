@@ -68,11 +68,11 @@ char * MostEcl::parse(char * buffer)
 size_t MostEcl::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader2::calculateObjectSize() +
-            sizeof(channel) +
-            sizeof(mode) +
-            sizeof(eclState) +
-            sizeof(reserved);
+        ObjectHeader2::calculateObjectSize() +
+        sizeof(channel) +
+        sizeof(mode) +
+        sizeof(eclState) +
+        sizeof(reserved);
 
     return size;
 }

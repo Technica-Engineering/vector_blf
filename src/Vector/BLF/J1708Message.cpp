@@ -86,14 +86,14 @@ char * J1708Message::parse(char * buffer)
 size_t J1708Message::calculateObjectSize()
 {
     size_t size_ =
-            ObjectHeader::calculateObjectSize() +
-            sizeof(channel) +
-            sizeof(dir) +
-            sizeof(reserved1) +
-            sizeof(error) +
-            sizeof(size) +
-            sizeof(data) +
-            sizeof(reserved2);
+        ObjectHeader::calculateObjectSize() +
+        sizeof(channel) +
+        sizeof(dir) +
+        sizeof(reserved1) +
+        sizeof(error) +
+        sizeof(size) +
+        sizeof(data) +
+        sizeof(reserved2);
 
     return size_;
 }

@@ -86,14 +86,14 @@ char * MostGenReg::parse(char * buffer)
 size_t MostGenReg::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader2::calculateObjectSize() +
-            sizeof(channel) +
-            sizeof(subType) +
-            sizeof(reserved1) +
-            sizeof(handle) +
-            sizeof(regId) +
-            sizeof(reserved2) +
-            sizeof(regValue);
+        ObjectHeader2::calculateObjectSize() +
+        sizeof(channel) +
+        sizeof(subType) +
+        sizeof(reserved1) +
+        sizeof(handle) +
+        sizeof(regId) +
+        sizeof(reserved2) +
+        sizeof(regValue);
 
     return size;
 }

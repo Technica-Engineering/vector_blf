@@ -81,12 +81,12 @@ char * Most150AllocTab::parse(char * buffer)
 size_t Most150AllocTab::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader2::calculateObjectSize() +
-            sizeof(channel) +
-            sizeof(eventModeFlags) +
-            sizeof(freeBytes) +
-            sizeof(length) +
-            length;
+        ObjectHeader2::calculateObjectSize() +
+        sizeof(channel) +
+        sizeof(eventModeFlags) +
+        sizeof(freeBytes) +
+        sizeof(length) +
+        length;
 
     return size;
 }

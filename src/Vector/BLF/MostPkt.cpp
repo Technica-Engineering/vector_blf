@@ -153,24 +153,24 @@ char * MostPkt::parse(char * buffer)
 size_t MostPkt::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            sizeof(channel) +
-            sizeof(dir) +
-            sizeof(reserved1) +
-            sizeof(sourceAdr) +
-            sizeof(destAdr) +
-            sizeof(arbitration) +
-            sizeof(timeRes) +
-            sizeof(quadsToFollow) +
-            sizeof(reserved2) +
-            sizeof(crc) +
-            sizeof(priority) +
-            sizeof(transferType) +
-            sizeof(state) +
-            sizeof(reserved3) +
-            sizeof(pktDataLength) +
-            sizeof(reserved4) +
-            pktDataLength;
+        ObjectHeader::calculateObjectSize() +
+        sizeof(channel) +
+        sizeof(dir) +
+        sizeof(reserved1) +
+        sizeof(sourceAdr) +
+        sizeof(destAdr) +
+        sizeof(arbitration) +
+        sizeof(timeRes) +
+        sizeof(quadsToFollow) +
+        sizeof(reserved2) +
+        sizeof(crc) +
+        sizeof(priority) +
+        sizeof(transferType) +
+        sizeof(state) +
+        sizeof(reserved3) +
+        sizeof(pktDataLength) +
+        sizeof(reserved4) +
+        pktDataLength;
 
     return size;
 }

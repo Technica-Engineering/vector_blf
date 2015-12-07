@@ -110,22 +110,21 @@ char * SerialEvent::parse(char * buffer)
 size_t SerialEvent::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            sizeof(flags) +
-            sizeof(port) +
-            sizeof(baudrate) +
-            sizeof(reserved);
+        ObjectHeader::calculateObjectSize() +
+        sizeof(flags) +
+        sizeof(port) +
+        sizeof(baudrate) +
+        sizeof(reserved);
 
     if ((flags & ((DWORD) Flags::SingleByte)) != 0)
         size += sizeof(SingleByteSerialEvent);
+    else if ((flags & ((DWORD) Flags::CompactByte)) != 0)
+        size += sizeof(CompactSerialEvent);
     else
-        if ((flags & ((DWORD) Flags::CompactByte)) != 0)
-            size += sizeof(CompactSerialEvent);
-        else
-            size += sizeof(GeneralSerialEvent::dataLength) +
-                    sizeof(GeneralSerialEvent::timeStampsLength) +
-                    general.dataLength +
-                    general.timeStampsLength;
+        size += sizeof(GeneralSerialEvent::dataLength) +
+                sizeof(GeneralSerialEvent::timeStampsLength) +
+                general.dataLength +
+                general.timeStampsLength;
 
     return size;
 }

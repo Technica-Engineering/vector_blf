@@ -62,10 +62,10 @@ char * CanErrorFrame::parse(char * buffer)
 size_t CanErrorFrame::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            sizeof(channel) +
-            sizeof(length) +
-            sizeof(reserved);
+        ObjectHeader::calculateObjectSize() +
+        sizeof(channel) +
+        sizeof(length) +
+        sizeof(reserved);
 
     return size;
 }

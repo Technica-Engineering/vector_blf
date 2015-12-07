@@ -147,23 +147,23 @@ char * MostEthernetPkt::parse(char * buffer)
 size_t MostEthernetPkt::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader2::calculateObjectSize() +
-            sizeof(channel) +
-            sizeof(dir) +
-            sizeof(reserved1) +
-            sizeof(sourceMacAdr) +
-            sizeof(destMacAdr) +
-            sizeof(transferType) +
-            sizeof(state) +
-            sizeof(ackNack) +
-            sizeof(reserved2) +
-            sizeof(crc) +
-            sizeof(pAck) +
-            sizeof(cAck) +
-            sizeof(reserved3) +
-            sizeof(pktDataLength) +
-            sizeof(reserved4) +
-            pktDataLength;
+        ObjectHeader2::calculateObjectSize() +
+        sizeof(channel) +
+        sizeof(dir) +
+        sizeof(reserved1) +
+        sizeof(sourceMacAdr) +
+        sizeof(destMacAdr) +
+        sizeof(transferType) +
+        sizeof(state) +
+        sizeof(ackNack) +
+        sizeof(reserved2) +
+        sizeof(crc) +
+        sizeof(pAck) +
+        sizeof(cAck) +
+        sizeof(reserved3) +
+        sizeof(pktDataLength) +
+        sizeof(reserved4) +
+        pktDataLength;
 
     return size;
 }

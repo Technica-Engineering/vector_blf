@@ -122,20 +122,20 @@ char * MostSpy::parse(char * buffer)
 size_t MostSpy::calculateObjectSize()
 {
     size_t size =
-            ObjectHeader::calculateObjectSize() +
-            sizeof(channel) +
-            sizeof(dir) +
-            sizeof(reserved1) +
-            sizeof(sourceAdr) +
-            sizeof(destAdr) +
-            sizeof(msg) +
-            sizeof(reserved2) +
-            sizeof(rTyp) +
-            sizeof(rTypAdr) +
-            sizeof(state) +
-            sizeof(reserved3) +
-            sizeof(ackNack) +
-            sizeof(crc);
+        ObjectHeader::calculateObjectSize() +
+        sizeof(channel) +
+        sizeof(dir) +
+        sizeof(reserved1) +
+        sizeof(sourceAdr) +
+        sizeof(destAdr) +
+        sizeof(msg) +
+        sizeof(reserved2) +
+        sizeof(rTyp) +
+        sizeof(rTypAdr) +
+        sizeof(state) +
+        sizeof(reserved3) +
+        sizeof(ackNack) +
+        sizeof(crc);
 
     return size;
 }
