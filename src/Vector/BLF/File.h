@@ -180,15 +180,17 @@ public:
      * open file
      *
      * @param filename file name
+     * @param openMode open in read or write mode
      */
-    void open(const char * filename);
+    void open(const char * filename, OpenMode openMode = OpenMode::Read);
 
     /**
      * open file
      *
      * @param filename file name
+     * @param openMode open in read or write mode
      */
-    void open(const std::string & filename);
+    void open(const std::string & filename, OpenMode openMode = OpenMode::Read);
 
     /**
      * is file open?

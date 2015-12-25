@@ -463,9 +463,11 @@ ObjectHeaderBase * File::createObject(ObjectType type)
     return obj;
 }
 
-void File::open(const char * filename)
+void File::open(const char * filename, OpenMode openMode)
 {
-    if (openMode == OpenMode::Read) {
+    this->openMode = openMode;
+
+    if (this->openMode == OpenMode::Read) {
         compressedFile.open(filename, std::ios_base::in | std::ios_base::binary);
         if (!is_open())
             return;
@@ -483,9 +485,9 @@ void File::open(const char * filename)
     }
 }
 
-void File::open(const std::string & filename)
+void File::open(const std::string & filename, OpenMode openMode)
 {
-    open(filename.c_str());
+    open(filename.c_str(), openMode);
 }
 
 bool File::is_open() const
@@ -721,6 +723,9 @@ size_t File::readFromUncompressedFile(char ** buffer, size_t size)
 
 ObjectHeaderBase * File::read()
 {
+    if (openMode == OpenMode::Write)
+        return nullptr;
+
     return readObjectFromUncompressedFile();
 }
 
