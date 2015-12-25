@@ -164,9 +164,6 @@ public:
     /** open mode */
     OpenMode openMode;
 
-    /** zlib compression level (0=no compression, 1=best speed, 2=best compression, -1=default compression */
-    int compressionLevel;
-
     /** file statistics from file header. contains total counts/sizes */
     FileStatistics fileStatistics;
 
@@ -175,6 +172,12 @@ public:
 
     /** current number of objects read */
     unsigned long currentObjectCount;
+
+    /** zlib compression level (0=no compression, 1=best speed, 9=best compression, -1=default compression */
+    int compressionLevel;
+
+    /** default log container size */
+    size_t defaultLogContainerSize;
 
     /**
      * open file

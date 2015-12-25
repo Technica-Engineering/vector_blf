@@ -46,10 +46,11 @@ static void hexDump(char * data, size_t size)
 
 File::File() :
     openMode(OpenMode::Read),
-    compressionLevel(Z_DEFAULT_COMPRESSION),
     fileStatistics(),
     currentUncompressedFileSize(0),
     currentObjectCount(0),
+    compressionLevel(Z_DEFAULT_COMPRESSION),
+    defaultLogContainerSize(0x20000),
     compressedFile(),
     uncompressedFile()
 {
@@ -474,7 +475,6 @@ void File::open(const char * filename, OpenMode openMode)
 
         /* do file statistics */
         fileStatistics.read(compressedFile);
-        currentUncompressedFileSize += 0x90;
     } else {
         compressedFile.open(filename, std::ios_base::out | std::ios_base::binary);
         if (!is_open())
@@ -483,6 +483,7 @@ void File::open(const char * filename, OpenMode openMode)
         /* do file statistics */
         fileStatistics.write(compressedFile);
     }
+    currentUncompressedFileSize += 0x90;
 }
 
 void File::open(const std::string & filename, OpenMode openMode)
@@ -663,9 +664,8 @@ void File::inflateLogContainer(LogContainer * logContainer)
     }
 
     /* inflate */
-    uLongf bufferSize2 = bufferSize;
     uncompress(reinterpret_cast<Bytef *>(buffer),
-               &bufferSize2,
+               reinterpret_cast<size_t *>(&bufferSize),
                reinterpret_cast<Bytef *>(logContainer->compressedFile),
                logContainer->compressedFileSize);
 
@@ -738,7 +738,7 @@ bool File::write(ObjectHeaderBase * objectHeaderBase)
     size_t remainingSize = objectHeaderBase->calculateObjectSize();
 
     /* copy as many data as possible in existing uncompressed file */
-    if (uncompressedFile.size() < remainaingSize) {
+    if (uncompressedFile.size() < remainingSize) {
 
     }
 
