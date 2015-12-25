@@ -155,10 +155,10 @@ public:
     /** enumeration for openMode */
     enum class OpenMode {
         /** Read */
-        Read,
+        Read = 0,
 
         /** Write */
-        Write
+        Write = 1
     };
 
     /** open mode */
@@ -208,7 +208,7 @@ public:
     bool eof();
 
     /**
-     * read object from uncompressed file
+     * read object from file
      *
      * @return read object or nullptr
      */

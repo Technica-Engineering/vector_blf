@@ -698,7 +698,7 @@ size_t File::readFromUncompressedFile(char ** buffer, size_t size)
             inflateLogContainer(logContainer);
             delete logContainer;
         } else {
-            std::cerr << "Unexpected object in compressed file" << std::endl;
+            std::cerr << "unexpected object in compressed file" << std::endl;
             return 0;
         }
     }
@@ -711,7 +711,7 @@ size_t File::readFromUncompressedFile(char ** buffer, size_t size)
     }
     uncompressedFile.read(*buffer, size);
     if (uncompressedFile.gcount < size) {
-        std::cerr << "1uncompressed data exhausted" << std::endl;
+        std::cerr << "uncompressed data exhausted" << std::endl;
         delete[] *buffer;
         *buffer = nullptr;
         return 0;

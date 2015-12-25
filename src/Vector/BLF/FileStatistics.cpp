@@ -122,7 +122,7 @@ void FileStatistics::read(std::istream & is)
 
     /* checks */
     if (signature != FileSignature) {
-        std::cerr << "Unexpected file signature" << std::endl;
+        std::cerr << "unexpected file signature" << std::endl;
         return;
     }
 }
