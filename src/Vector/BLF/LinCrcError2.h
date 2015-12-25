@@ -41,10 +41,8 @@ class VECTOR_BLF_EXPORT LinCrcError2 : public ObjectHeader, public LinDatabyteTi
 public:
     LinCrcError2();
 
-    /** @copydoc ObjectHeader::read */
     virtual char * read(char * buffer);
-
-    /** @copydoc ObjectHeader::calculateObjectSize */
+    virtual char * write(char * buffer);
     virtual size_t calculateObjectSize();
 
     /**

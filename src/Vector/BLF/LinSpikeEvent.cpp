@@ -59,6 +59,11 @@ char * LinSpikeEvent::read(char * buffer)
     return buffer;
 }
 
+char * LinSpikeEvent::write(char * buffer)
+{
+    // @todo
+}
+
 size_t LinSpikeEvent::calculateObjectSize()
 {
     size_t size =

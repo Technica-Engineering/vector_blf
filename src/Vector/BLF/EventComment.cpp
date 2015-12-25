@@ -73,6 +73,11 @@ char * EventComment::read(char * buffer)
     return buffer;
 }
 
+char * EventComment::write(char * buffer)
+{
+    // @todo
+}
+
 size_t EventComment::calculateObjectSize()
 {
     size_t size =

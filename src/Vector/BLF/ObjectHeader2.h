@@ -40,6 +40,7 @@ public:
     ObjectHeader2();
 
     virtual char * read(char * buffer);
+    virtual char * write(char * buffer);
     virtual size_t calculateHeaderSize();
     virtual size_t calculateObjectSize();
 

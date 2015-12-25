@@ -72,6 +72,11 @@ char * MostAllocTab::read(char * buffer)
     return buffer;
 }
 
+char * MostAllocTab::write(char * buffer)
+{
+    // @todo
+}
+
 size_t MostAllocTab::calculateObjectSize()
 {
     size_t size =

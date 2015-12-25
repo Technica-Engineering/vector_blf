@@ -95,6 +95,11 @@ char * SystemVariable::read(char * buffer)
     return buffer;
 }
 
+char * SystemVariable::write(char * buffer)
+{
+    // @todo
+}
+
 size_t SystemVariable::calculateObjectSize()
 {
     size_t size =

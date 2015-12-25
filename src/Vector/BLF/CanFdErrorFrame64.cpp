@@ -149,6 +149,11 @@ char * CanFdErrorFrame64::read(char * buffer)
     return buffer;
 }
 
+char * CanFdErrorFrame64::write(char * buffer)
+{
+    // @todo
+}
+
 size_t CanFdErrorFrame64::calculateObjectSize()
 {
     size_t size =

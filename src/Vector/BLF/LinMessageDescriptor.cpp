@@ -77,6 +77,11 @@ char * LinMessageDescriptor::read(char * buffer)
     return buffer;
 }
 
+char * LinMessageDescriptor::write(char * buffer)
+{
+    // @todo
+}
+
 size_t LinMessageDescriptor::calculateObjectSize()
 {
     size_t size =

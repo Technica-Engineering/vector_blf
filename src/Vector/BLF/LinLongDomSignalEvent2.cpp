@@ -61,6 +61,11 @@ char * LinLongDomSignalEvent2::read(char * buffer)
     return buffer;
 }
 
+char * LinLongDomSignalEvent2::write(char * buffer)
+{
+    // @todo
+}
+
 size_t LinLongDomSignalEvent2::calculateObjectSize()
 {
     size_t size =

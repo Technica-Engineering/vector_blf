@@ -170,6 +170,14 @@ public:
     virtual char * read(char * buffer);
 
     /**
+     * Write the data into a memory buffer
+     *
+     * @param buffer Data buffer
+     * @return data pointer after write
+     */
+    virtual char * write(char * buffer);
+
+    /**
      * Calculates the headerSize
      *
      * @return header size

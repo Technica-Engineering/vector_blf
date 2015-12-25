@@ -138,6 +138,11 @@ char * Most150PktFragment::read(char * buffer)
     return buffer;
 }
 
+char * Most150PktFragment::write(char * buffer)
+{
+    // @todo
+}
+
 size_t Most150PktFragment::calculateObjectSize()
 {
     size_t size =

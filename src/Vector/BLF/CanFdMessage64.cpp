@@ -131,6 +131,11 @@ char * CanFdMessage64::read(char * buffer)
     return buffer;
 }
 
+char * CanFdMessage64::write(char * buffer)
+{
+    // @todo
+}
+
 size_t CanFdMessage64::calculateObjectSize()
 {
     size_t size =

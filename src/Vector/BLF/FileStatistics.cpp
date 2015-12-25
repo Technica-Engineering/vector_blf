@@ -149,6 +149,7 @@ void FileStatistics::write(std::ostream & os)
         sizeof(lastObjectTime) +
         sizeof(reserved);
     os.write((char *) &signature, size);
+    // @todo
 }
 
 std::string FileStatistics::applicationName()

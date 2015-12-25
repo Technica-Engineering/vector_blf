@@ -107,6 +107,11 @@ char * EthernetStatus::read(char * buffer)
     return buffer;
 }
 
+char * EthernetStatus::write(char * buffer)
+{
+    // @todo
+}
+
 size_t EthernetStatus::calculateObjectSize()
 {
     size_t size =

@@ -59,6 +59,11 @@ char * MostLightLock::read(char * buffer)
     return buffer;
 }
 
+char * MostLightLock::write(char * buffer)
+{
+    // @todo
+}
+
 size_t MostLightLock::calculateObjectSize()
 {
     size_t size =

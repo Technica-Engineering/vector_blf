@@ -59,6 +59,11 @@ char * DriverOverrun::read(char * buffer)
     return buffer;
 }
 
+char * DriverOverrun::write(char * buffer)
+{
+    // @todo
+}
+
 size_t DriverOverrun::calculateObjectSize()
 {
     size_t size =

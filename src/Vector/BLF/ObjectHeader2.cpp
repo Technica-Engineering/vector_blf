@@ -77,6 +77,11 @@ char * ObjectHeader2::read(char * buffer)
     return buffer;
 }
 
+char * ObjectHeader2::write(char * buffer)
+{
+    // @todo
+}
+
 size_t ObjectHeader2::calculateHeaderSize()
 {
     size_t size =

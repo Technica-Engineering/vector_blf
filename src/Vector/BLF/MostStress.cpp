@@ -65,6 +65,11 @@ char * MostStress::read(char * buffer)
     return buffer;
 }
 
+char * MostStress::write(char * buffer)
+{
+    // @todo
+}
+
 size_t MostStress::calculateObjectSize()
 {
     size_t size =

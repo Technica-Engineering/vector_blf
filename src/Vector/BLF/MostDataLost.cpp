@@ -83,6 +83,11 @@ char * MostDataLost::read(char * buffer)
     return buffer;
 }
 
+char * MostDataLost::write(char * buffer)
+{
+    // @todo
+}
+
 size_t MostDataLost::calculateObjectSize()
 {
     size_t size =

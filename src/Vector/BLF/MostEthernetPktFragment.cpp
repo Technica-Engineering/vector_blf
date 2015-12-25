@@ -138,6 +138,11 @@ char * MostEthernetPktFragment::read(char * buffer)
     return buffer;
 }
 
+char * MostEthernetPktFragment::write(char * buffer)
+{
+    // @todo
+}
+
 size_t MostEthernetPktFragment::calculateObjectSize()
 {
     size_t size =

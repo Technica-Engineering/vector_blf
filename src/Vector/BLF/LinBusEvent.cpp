@@ -61,6 +61,11 @@ char * LinBusEvent::read(char * buffer)
     return buffer;
 }
 
+char * LinBusEvent::write(char * buffer)
+{
+    // @todo
+}
+
 size_t LinBusEvent::calculateObjectSize()
 {
     size_t size =

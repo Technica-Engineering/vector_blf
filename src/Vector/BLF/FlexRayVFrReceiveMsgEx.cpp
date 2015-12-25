@@ -179,6 +179,11 @@ char * FlexRayVFrReceiveMsgEx::read(char * buffer)
     return buffer;
 }
 
+char * FlexRayVFrReceiveMsgEx::write(char * buffer)
+{
+    // @todo
+}
+
 size_t FlexRayVFrReceiveMsgEx::calculateObjectSize()
 {
     size_t size =

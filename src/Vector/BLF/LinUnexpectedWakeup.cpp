@@ -61,6 +61,11 @@ char * LinUnexpectedWakeup::read(char * buffer)
     return buffer;
 }
 
+char * LinUnexpectedWakeup::write(char * buffer)
+{
+    // @todo
+}
+
 size_t LinUnexpectedWakeup::calculateObjectSize()
 {
     size_t size =

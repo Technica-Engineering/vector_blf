@@ -127,6 +127,11 @@ char * LinReceiveError2::read(char * buffer)
     return buffer;
 }
 
+char * LinReceiveError2::write(char * buffer)
+{
+    // @todo
+}
+
 size_t LinReceiveError2::calculateObjectSize()
 {
     size_t size =

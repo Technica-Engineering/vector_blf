@@ -96,6 +96,11 @@ char * WlanFrame::read(char * buffer)
     return buffer;
 }
 
+char * WlanFrame::write(char * buffer)
+{
+    // @todo
+}
+
 size_t WlanFrame::calculateObjectSize()
 {
     size_t size =

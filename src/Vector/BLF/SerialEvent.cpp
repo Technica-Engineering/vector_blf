@@ -107,6 +107,11 @@ char * SerialEvent::read(char * buffer)
     return buffer;
 }
 
+char * SerialEvent::write(char * buffer)
+{
+    // @todo
+}
+
 size_t SerialEvent::calculateObjectSize()
 {
     size_t size =

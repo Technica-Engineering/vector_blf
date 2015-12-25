@@ -83,6 +83,11 @@ char * LinSendError::read(char * buffer)
     return buffer;
 }
 
+char * LinSendError::write(char * buffer)
+{
+    // @todo
+}
+
 size_t LinSendError::calculateObjectSize()
 {
     size_t size =

@@ -65,6 +65,11 @@ char * MostSystemEvent::read(char * buffer)
     return buffer;
 }
 
+char * MostSystemEvent::write(char * buffer)
+{
+    // @todo
+}
+
 size_t MostSystemEvent::calculateObjectSize()
 {
     size_t size =

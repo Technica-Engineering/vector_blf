@@ -144,6 +144,11 @@ char * Most50Pkt::read(char * buffer)
     return buffer;
 }
 
+char * Most50Pkt::write(char * buffer)
+{
+    // @todo
+}
+
 size_t Most50Pkt::calculateObjectSize()
 {
     size_t size =

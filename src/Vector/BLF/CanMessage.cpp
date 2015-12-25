@@ -71,6 +71,11 @@ char * CanMessage::read(char * buffer)
     return buffer;
 }
 
+char * CanMessage::write(char * buffer)
+{
+    // @todo
+}
+
 size_t CanMessage::calculateObjectSize()
 {
     size_t size =

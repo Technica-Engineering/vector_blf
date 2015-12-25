@@ -77,6 +77,11 @@ char * MostTrigger::read(char * buffer)
     return buffer;
 }
 
+char * MostTrigger::write(char * buffer)
+{
+    // @todo
+}
+
 size_t MostTrigger::calculateObjectSize()
 {
     size_t size =

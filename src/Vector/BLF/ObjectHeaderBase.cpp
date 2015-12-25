@@ -77,6 +77,42 @@ char * ObjectHeaderBase::read(char * buffer)
     return buffer;
 }
 
+char * ObjectHeaderBase::write(char * buffer)
+{
+    size_t size;
+
+    /* calculate header and object size */
+    headerSize = calculateHeaderSize();
+    objectSize = calculateObjectSize();
+
+    // signature
+    size = sizeof(signature);
+    memcpy(buffer, (void *) &signature, size);
+    buffer += size;
+
+    // headerSize
+    size = sizeof(headerSize);
+    memcpy(buffer, (void *) &headerSize, size);
+    buffer += size;
+
+    // headerVersion
+    size = sizeof(headerVersion);
+    memcpy(buffer, (void *) &headerVersion, size);
+    buffer += size;
+
+    // objectSize
+    size = sizeof(objectSize);
+    memcpy(buffer, (void *) &objectSize, size);
+    buffer += size;
+
+    // objectType
+    size = sizeof(objectType);
+    memcpy(buffer, (void *) &objectType, size);
+    buffer += size;
+
+    return buffer;
+}
+
 size_t ObjectHeaderBase::calculateHeaderSize()
 {
     size_t size =

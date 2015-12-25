@@ -83,6 +83,11 @@ char * FlexRayStatusEvent::read(char * buffer)
     return buffer;
 }
 
+char * FlexRayStatusEvent::write(char * buffer)
+{
+    // @todo
+}
+
 size_t FlexRayStatusEvent::calculateObjectSize()
 {
     size_t size =

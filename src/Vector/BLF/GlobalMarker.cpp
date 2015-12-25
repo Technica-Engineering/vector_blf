@@ -131,6 +131,11 @@ char * GlobalMarker::read(char * buffer)
     return buffer;
 }
 
+char * GlobalMarker::write(char * buffer)
+{
+    // @todo
+}
+
 size_t GlobalMarker::calculateObjectSize()
 {
     size_t size =

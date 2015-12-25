@@ -107,6 +107,11 @@ char * LinCrcError::read(char * buffer)
     return buffer;
 }
 
+char * LinCrcError::write(char * buffer)
+{
+    // @todo
+}
+
 size_t LinCrcError::calculateObjectSize()
 {
     size_t size =

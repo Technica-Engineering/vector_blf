@@ -83,6 +83,11 @@ char * MostGenReg::read(char * buffer)
     return buffer;
 }
 
+char * MostGenReg::write(char * buffer)
+{
+    // @todo
+}
+
 size_t MostGenReg::calculateObjectSize()
 {
     size_t size =

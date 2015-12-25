@@ -40,6 +40,9 @@ public:
     /** @copydoc ObjectHeader::read */
     virtual char * read(char * buffer);
 
+    /** @copydoc ObjectHeader::write */
+    virtual char * write(char * buffer);
+
     /** @copydoc ObjectHeader::calculateObjectSize */
     virtual size_t calculateObjectSize();
 

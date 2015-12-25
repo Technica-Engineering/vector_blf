@@ -82,6 +82,11 @@ char * EnvironmentVariable::read(char * buffer)
     return buffer;
 }
 
+char * EnvironmentVariable::write(char * buffer)
+{
+    // @todo
+}
+
 size_t EnvironmentVariable::calculateObjectSize()
 {
     size_t size =

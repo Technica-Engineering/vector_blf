@@ -65,6 +65,11 @@ char * MostHwMode::read(char * buffer)
     return buffer;
 }
 
+char * MostHwMode::write(char * buffer)
+{
+    // @todo
+}
+
 size_t MostHwMode::calculateObjectSize()
 {
     size_t size =

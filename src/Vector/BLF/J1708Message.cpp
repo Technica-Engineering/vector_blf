@@ -83,6 +83,11 @@ char * J1708Message::read(char * buffer)
     return buffer;
 }
 
+char * J1708Message::write(char * buffer)
+{
+    // @todo
+}
+
 size_t J1708Message::calculateObjectSize()
 {
     size_t size_ =

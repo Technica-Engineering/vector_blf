@@ -89,6 +89,11 @@ char * WlanStatistic::read(char * buffer)
     return buffer;
 }
 
+char * WlanStatistic::write(char * buffer)
+{
+    // @todo
+}
+
 size_t WlanStatistic::calculateObjectSize()
 {
     size_t size =

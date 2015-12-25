@@ -59,6 +59,11 @@ char * LinSyncError::read(char * buffer)
     return buffer;
 }
 
+char * LinSyncError::write(char * buffer)
+{
+    // @todo
+}
+
 size_t LinSyncError::calculateObjectSize()
 {
     size_t size =

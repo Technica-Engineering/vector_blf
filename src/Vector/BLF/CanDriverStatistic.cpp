@@ -95,6 +95,11 @@ char * CanDriverStatistic::read(char * buffer)
     return buffer;
 }
 
+char * CanDriverStatistic::write(char * buffer)
+{
+    // @todo
+}
+
 size_t CanDriverStatistic::calculateObjectSize()
 {
     size_t size =

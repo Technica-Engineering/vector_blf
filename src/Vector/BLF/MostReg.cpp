@@ -89,6 +89,11 @@ char * MostReg::read(char * buffer)
     return buffer;
 }
 
+char * MostReg::write(char * buffer)
+{
+    // @todo
+}
+
 size_t MostReg::calculateObjectSize()
 {
     size_t size =

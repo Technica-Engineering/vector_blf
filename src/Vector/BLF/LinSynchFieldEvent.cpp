@@ -53,6 +53,11 @@ char * LinSynchFieldEvent::read(char * buffer)
     return buffer;
 }
 
+char * LinSynchFieldEvent::write(char * buffer)
+{
+    // @todo
+}
+
 size_t LinSynchFieldEvent::calculateObjectSize()
 {
     size_t size =

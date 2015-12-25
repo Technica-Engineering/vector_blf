@@ -95,6 +95,11 @@ char * LinStatisticEvent::read(char * buffer)
     return buffer;
 }
 
+char * LinStatisticEvent::write(char * buffer)
+{
+    // @todo
+}
+
 size_t LinStatisticEvent::calculateObjectSize()
 {
     size_t size =

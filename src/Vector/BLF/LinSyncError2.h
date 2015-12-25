@@ -44,10 +44,8 @@ class VECTOR_BLF_EXPORT LinSyncError2 : public ObjectHeader, public LinSynchFiel
 public:
     LinSyncError2();
 
-    /** @copydoc ObjectHeader::read */
     virtual char * read(char * buffer);
-
-    /** @copydoc ObjectHeader::calculateObjectSize */
+    virtual char * write(char * buffer);
     virtual size_t calculateObjectSize();
 
     /**

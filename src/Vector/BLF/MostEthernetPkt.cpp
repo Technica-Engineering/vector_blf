@@ -144,6 +144,11 @@ char * MostEthernetPkt::read(char * buffer)
     return buffer;
 }
 
+char * MostEthernetPkt::write(char * buffer)
+{
+    // @todo
+}
+
 size_t MostEthernetPkt::calculateObjectSize()
 {
     size_t size =

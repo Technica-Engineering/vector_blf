@@ -113,6 +113,11 @@ char * FlexRayVFrStatus::read(char * buffer)
     return buffer;
 }
 
+char * FlexRayVFrStatus::write(char * buffer)
+{
+    // @todo
+}
+
 size_t FlexRayVFrStatus::calculateObjectSize()
 {
     size_t size =

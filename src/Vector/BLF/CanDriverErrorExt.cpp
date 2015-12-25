@@ -83,6 +83,11 @@ char * CanDriverErrorExt::read(char * buffer)
     return buffer;
 }
 
+char * CanDriverErrorExt::write(char * buffer)
+{
+    // @todo
+}
+
 size_t CanDriverErrorExt::calculateObjectSize()
 {
     size_t size =

@@ -78,6 +78,11 @@ char * Most150AllocTab::read(char * buffer)
     return buffer;
 }
 
+char * Most150AllocTab::write(char * buffer)
+{
+    // @todo
+}
+
 size_t Most150AllocTab::calculateObjectSize()
 {
     size_t size =

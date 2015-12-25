@@ -102,6 +102,11 @@ char * EthernetRxError::read(char * buffer)
     return buffer;
 }
 
+char * EthernetRxError::write(char * buffer)
+{
+    // @todo
+}
+
 size_t EthernetRxError::calculateObjectSize()
 {
     size_t size =

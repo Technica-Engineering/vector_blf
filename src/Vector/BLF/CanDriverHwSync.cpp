@@ -59,6 +59,11 @@ char * CanDriverHwSync::read(char * buffer)
     return buffer;
 }
 
+char * CanDriverHwSync::write(char * buffer)
+{
+    // @todo
+}
+
 size_t CanDriverHwSync::calculateObjectSize()
 {
     size_t size =

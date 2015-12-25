@@ -40,10 +40,8 @@ class VECTOR_BLF_EXPORT LinSendError2 : public ObjectHeader, public LinMessageDe
 public:
     LinSendError2();
 
-    /** @copydoc ObjectHeader::read */
     virtual char * read(char * buffer);
-
-    /** @copydoc ObjectHeader::calculateObjectSize */
+    virtual char * write(char * buffer);
     virtual size_t calculateObjectSize();
 
     /**

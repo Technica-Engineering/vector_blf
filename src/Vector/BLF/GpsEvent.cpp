@@ -89,6 +89,11 @@ char * GpsEvent::read(char * buffer)
     return buffer;
 }
 
+char * GpsEvent::write(char * buffer)
+{
+    // @todo
+}
+
 size_t GpsEvent::calculateObjectSize()
 {
     size_t size =

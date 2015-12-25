@@ -53,6 +53,11 @@ char * CanOverloadFrame::read(char * buffer)
     return buffer;
 }
 
+char * CanOverloadFrame::write(char * buffer)
+{
+    // @todo
+}
+
 size_t CanOverloadFrame::calculateObjectSize()
 {
     size_t size =

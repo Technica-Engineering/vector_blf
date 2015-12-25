@@ -47,6 +47,11 @@ char * LinDatabyteTimestampEvent::read(char * buffer)
     return buffer;
 }
 
+char * LinDatabyteTimestampEvent::write(char * buffer)
+{
+    // @todo
+}
+
 size_t LinDatabyteTimestampEvent::calculateObjectSize()
 {
     size_t size =

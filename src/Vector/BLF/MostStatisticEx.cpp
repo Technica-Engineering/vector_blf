@@ -65,6 +65,11 @@ char * MostStatisticEx::read(char * buffer)
     return buffer;
 }
 
+char * MostStatisticEx::write(char * buffer)
+{
+    // @todo
+}
+
 size_t MostStatisticEx::calculateObjectSize()
 {
     size_t size =

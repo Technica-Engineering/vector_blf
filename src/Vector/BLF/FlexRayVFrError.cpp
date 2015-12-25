@@ -101,6 +101,11 @@ char * FlexRayVFrError::read(char * buffer)
     return buffer;
 }
 
+char * FlexRayVFrError::write(char * buffer)
+{
+    // @todo
+}
+
 size_t FlexRayVFrError::calculateObjectSize()
 {
     size_t size =

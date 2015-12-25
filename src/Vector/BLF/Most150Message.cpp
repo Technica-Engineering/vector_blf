@@ -150,6 +150,11 @@ char * Most150Message::read(char * buffer)
     return buffer;
 }
 
+char * Most150Message::write(char * buffer)
+{
+    // @todo
+}
+
 size_t Most150Message::calculateObjectSize()
 {
     size_t size =

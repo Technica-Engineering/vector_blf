@@ -113,6 +113,11 @@ char * CanErrorFrameExt::read(char * buffer)
     return buffer;
 }
 
+char * CanErrorFrameExt::write(char * buffer)
+{
+    // @todo
+}
+
 size_t CanErrorFrameExt::calculateObjectSize()
 {
     size_t size =

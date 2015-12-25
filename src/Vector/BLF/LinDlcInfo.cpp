@@ -59,6 +59,11 @@ char * LinDlcInfo::read(char * buffer)
     return buffer;
 }
 
+char * LinDlcInfo::write(char * buffer)
+{
+    // @todo
+}
+
 size_t LinDlcInfo::calculateObjectSize()
 {
     size_t size =

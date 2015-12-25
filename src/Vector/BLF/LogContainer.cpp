@@ -82,6 +82,11 @@ char * LogContainer::read(char * buffer)
     return buffer;
 }
 
+char * LogContainer::write(char * buffer)
+{
+    // @todo
+}
+
 size_t LogContainer::calculateObjectSize()
 {
     size_t size =

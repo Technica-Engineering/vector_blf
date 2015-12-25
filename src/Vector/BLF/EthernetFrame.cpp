@@ -102,6 +102,11 @@ char * EthernetFrame::read(char * buffer)
     return buffer;
 }
 
+char * EthernetFrame::write(char * buffer)
+{
+    // @todo
+}
+
 size_t EthernetFrame::calculateObjectSize()
 {
     size_t size =

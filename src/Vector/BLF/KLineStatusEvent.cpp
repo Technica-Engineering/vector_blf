@@ -71,6 +71,11 @@ char * KLineStatusEvent::read(char * buffer)
     return buffer;
 }
 
+char * KLineStatusEvent::write(char * buffer)
+{
+    // @todo
+}
+
 size_t KLineStatusEvent::calculateObjectSize()
 {
     size_t size =

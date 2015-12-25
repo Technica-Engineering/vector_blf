@@ -89,6 +89,7 @@ public:
     SerialEvent();
 
     virtual char * read(char * buffer);
+    virtual char * write(char * buffer);
     virtual size_t calculateObjectSize();
 
     /** enumeration for flags */

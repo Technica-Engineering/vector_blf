@@ -73,6 +73,11 @@ char * LinShortOrSlowResponse::read(char * buffer)
     return buffer;
 }
 
+char * LinShortOrSlowResponse::write(char * buffer)
+{
+    // @todo
+}
+
 size_t LinShortOrSlowResponse::calculateObjectSize()
 {
     size_t size =

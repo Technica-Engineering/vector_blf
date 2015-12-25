@@ -119,6 +119,11 @@ char * MostCtrl::read(char * buffer)
     return buffer;
 }
 
+char * MostCtrl::write(char * buffer)
+{
+    // @todo
+}
+
 size_t MostCtrl::calculateObjectSize()
 {
     size_t size =

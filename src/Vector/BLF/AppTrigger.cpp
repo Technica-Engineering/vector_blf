@@ -71,6 +71,11 @@ char * AppTrigger::read(char * buffer)
     return buffer;
 }
 
+char * AppTrigger::write(char * buffer)
+{
+    // @todo
+}
+
 size_t AppTrigger::calculateObjectSize()
 {
     size_t size =

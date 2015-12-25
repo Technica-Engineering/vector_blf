@@ -65,6 +65,11 @@ char * MostEcl::read(char * buffer)
     return buffer;
 }
 
+char * MostEcl::write(char * buffer)
+{
+    // @todo
+}
+
 size_t MostEcl::calculateObjectSize()
 {
     size_t size =

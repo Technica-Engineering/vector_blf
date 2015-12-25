@@ -144,6 +144,11 @@ char * Most50Message::read(char * buffer)
     return buffer;
 }
 
+char * Most50Message::write(char * buffer)
+{
+    // @todo
+}
+
 size_t Most50Message::calculateObjectSize()
 {
     size_t size =

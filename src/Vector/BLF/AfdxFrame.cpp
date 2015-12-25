@@ -138,6 +138,11 @@ char * AfdxFrame::read(char * buffer)
     return buffer;
 }
 
+char * AfdxFrame::write(char * buffer)
+{
+    // @todo
+}
+
 size_t AfdxFrame::calculateObjectSize()
 {
     size_t size =

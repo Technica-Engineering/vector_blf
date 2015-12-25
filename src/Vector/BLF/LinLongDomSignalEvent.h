@@ -43,10 +43,8 @@ class VECTOR_BLF_EXPORT LinLongDomSignalEvent : public ObjectHeader, public LinB
 public:
     LinLongDomSignalEvent();
 
-    /** @copydoc ObjectHeader::read */
     virtual char * read(char * buffer);
-
-    /** @copydoc ObjectHeader::calculateObjectSize */
+    virtual char * write(char * buffer);
     virtual size_t calculateObjectSize();
 
     /**

@@ -65,6 +65,11 @@ char * LinSchedulerModeChange::read(char * buffer)
     return buffer;
 }
 
+char * LinSchedulerModeChange::write(char * buffer)
+{
+    // @todo
+}
+
 size_t LinSchedulerModeChange::calculateObjectSize()
 {
     size_t size =

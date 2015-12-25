@@ -131,6 +131,11 @@ char * FlexRayV6Message::read(char * buffer)
     return buffer;
 }
 
+char * FlexRayV6Message::write(char * buffer)
+{
+    // @todo
+}
+
 size_t FlexRayV6Message::calculateObjectSize()
 {
     size_t size =

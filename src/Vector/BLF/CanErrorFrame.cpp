@@ -59,6 +59,11 @@ char * CanErrorFrame::read(char * buffer)
     return buffer;
 }
 
+char * CanErrorFrame::write(char * buffer)
+{
+    // @todo
+}
+
 size_t CanErrorFrame::calculateObjectSize()
 {
     size_t size =

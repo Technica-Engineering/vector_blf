@@ -73,6 +73,11 @@ char * AppText::read(char * buffer)
     return buffer;
 }
 
+char * AppText::write(char * buffer)
+{
+    // @todo
+}
+
 size_t AppText::calculateObjectSize()
 {
     size_t size =

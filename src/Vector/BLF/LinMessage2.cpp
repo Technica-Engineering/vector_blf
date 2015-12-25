@@ -135,6 +135,11 @@ char * LinMessage2::read(char * buffer)
     return buffer;
 }
 
+char * LinMessage2::write(char * buffer)
+{
+    // @todo
+}
+
 size_t LinMessage2::calculateObjectSize()
 {
     size_t size =

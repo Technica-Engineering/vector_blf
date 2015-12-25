@@ -95,6 +95,11 @@ char * FlexRaySync::read(char * buffer)
     return buffer;
 }
 
+char * FlexRaySync::write(char * buffer)
+{
+    // @todo
+}
+
 size_t FlexRaySync::calculateObjectSize()
 {
     size_t size =

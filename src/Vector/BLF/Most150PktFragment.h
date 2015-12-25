@@ -41,6 +41,7 @@ public:
     virtual ~Most150PktFragment();
 
     virtual char * read(char * buffer);
+    virtual char * write(char * buffer);
     virtual size_t calculateObjectSize();
 
     /**

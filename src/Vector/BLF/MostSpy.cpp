@@ -119,6 +119,11 @@ char * MostSpy::read(char * buffer)
     return buffer;
 }
 
+char * MostSpy::write(char * buffer)
+{
+    // @todo
+}
+
 size_t MostSpy::calculateObjectSize()
 {
     size_t size =

@@ -89,6 +89,11 @@ char * LinDisturbanceEvent::read(char * buffer)
     return buffer;
 }
 
+char * LinDisturbanceEvent::write(char * buffer)
+{
+    // @todo
+}
+
 size_t LinDisturbanceEvent::calculateObjectSize()
 {
     size_t size =

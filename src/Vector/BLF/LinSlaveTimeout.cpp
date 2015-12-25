@@ -65,6 +65,11 @@ char * LinSlaveTimeout::read(char * buffer)
     return buffer;
 }
 
+char * LinSlaveTimeout::write(char * buffer)
+{
+    // @todo
+}
+
 size_t LinSlaveTimeout::calculateObjectSize()
 {
     size_t size =

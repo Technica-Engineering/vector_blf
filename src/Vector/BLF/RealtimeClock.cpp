@@ -53,6 +53,11 @@ char * RealtimeClock::read(char * buffer)
     return buffer;
 }
 
+char * RealtimeClock::write(char * buffer)
+{
+    // @todo
+}
+
 size_t RealtimeClock::calculateObjectSize()
 {
     size_t size =

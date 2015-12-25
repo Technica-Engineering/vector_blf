@@ -65,6 +65,11 @@ char * MostNetState::read(char * buffer)
     return buffer;
 }
 
+char * MostNetState::write(char * buffer)
+{
+    // @todo
+}
+
 size_t MostNetState::calculateObjectSize()
 {
     size_t size =

@@ -59,6 +59,11 @@ char * LinBaudrateEvent::read(char * buffer)
     return buffer;
 }
 
+char * LinBaudrateEvent::write(char * buffer)
+{
+    // @todo
+}
+
 size_t LinBaudrateEvent::calculateObjectSize()
 {
     size_t size =

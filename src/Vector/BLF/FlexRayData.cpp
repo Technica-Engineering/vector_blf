@@ -89,6 +89,11 @@ char * FlexRayData::read(char * buffer)
     return buffer;
 }
 
+char * FlexRayData::write(char * buffer)
+{
+    // @todo
+}
+
 size_t FlexRayData::calculateObjectSize()
 {
     size_t size =

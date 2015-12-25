@@ -59,6 +59,11 @@ char * LinWakeupEvent::read(char * buffer)
     return buffer;
 }
 
+char * LinWakeupEvent::write(char * buffer)
+{
+    // @todo
+}
+
 size_t LinWakeupEvent::calculateObjectSize()
 {
     size_t size =

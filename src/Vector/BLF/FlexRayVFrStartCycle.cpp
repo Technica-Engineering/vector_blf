@@ -119,6 +119,11 @@ char * FlexRayVFrStartCycle::read(char * buffer)
     return buffer;
 }
 
+char * FlexRayVFrStartCycle::write(char * buffer)
+{
+    // @todo
+}
+
 size_t FlexRayVFrStartCycle::calculateObjectSize()
 {
     size_t size =

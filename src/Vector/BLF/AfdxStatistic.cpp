@@ -131,6 +131,11 @@ char * AfdxStatistic::read(char * buffer)
     return buffer;
 }
 
+char * AfdxStatistic::write(char * buffer)
+{
+    // @todo
+}
+
 size_t AfdxStatistic::calculateObjectSize()
 {
     size_t size =

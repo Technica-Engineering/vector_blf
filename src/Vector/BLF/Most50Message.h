@@ -41,6 +41,7 @@ public:
     virtual ~Most50Message();
 
     virtual char * read(char * buffer);
+    virtual char * write(char * buffer);
     virtual size_t calculateObjectSize();
 
     /**

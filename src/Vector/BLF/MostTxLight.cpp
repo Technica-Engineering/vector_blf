@@ -59,6 +59,11 @@ char * MostTxLight::read(char * buffer)
     return buffer;
 }
 
+char * MostTxLight::write(char * buffer)
+{
+    // @todo
+}
+
 size_t MostTxLight::calculateObjectSize()
 {
     size_t size =

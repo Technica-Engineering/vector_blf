@@ -65,6 +65,11 @@ char * LinSleepModeEvent::read(char * buffer)
     return buffer;
 }
 
+char * LinSleepModeEvent::write(char * buffer)
+{
+    // @todo
+}
+
 size_t LinSleepModeEvent::calculateObjectSize()
 {
     size_t size =

@@ -150,6 +150,11 @@ char * Most150Pkt::read(char * buffer)
     return buffer;
 }
 
+char * Most150Pkt::write(char * buffer)
+{
+    // @todo
+}
+
 size_t Most150Pkt::calculateObjectSize()
 {
     size_t size =

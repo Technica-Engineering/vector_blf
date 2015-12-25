@@ -59,6 +59,11 @@ char * LinChecksumInfo::read(char * buffer)
     return buffer;
 }
 
+char * LinChecksumInfo::write(char * buffer)
+{
+    // @todo
+}
+
 size_t LinChecksumInfo::calculateObjectSize()
 {
     size_t size =
