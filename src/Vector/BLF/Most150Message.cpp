@@ -54,12 +54,12 @@ Most150Message::~Most150Message()
     msg = nullptr;
 }
 
-char * Most150Message::parse(char * buffer)
+char * Most150Message::read(char * buffer)
 {
     size_t size;
 
     // previous data
-    buffer = ObjectHeader2::parse(buffer);
+    buffer = ObjectHeader2::read(buffer);
 
     // channel
     size = sizeof(channel);

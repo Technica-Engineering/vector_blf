@@ -36,12 +36,12 @@ AppTrigger::AppTrigger() :
 {
 }
 
-char * AppTrigger::parse(char * buffer)
+char * AppTrigger::read(char * buffer)
 {
     size_t size;
 
     // previous data
-    buffer = ObjectHeader::parse(buffer);
+    buffer = ObjectHeader::read(buffer);
 
     // preTriggerTime
     size = sizeof(preTriggerTime);

@@ -55,12 +55,12 @@ GlobalMarker::~GlobalMarker()
     description = nullptr;
 }
 
-char * GlobalMarker::parse(char * buffer)
+char * GlobalMarker::read(char * buffer)
 {
     size_t size;
 
     // previous data
-    buffer = ObjectHeader::parse(buffer);
+    buffer = ObjectHeader::read(buffer);
 
     // commentedEventType
     size = sizeof(commentedEventType);

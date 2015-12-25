@@ -52,12 +52,12 @@ Most150MessageFragment::~Most150MessageFragment()
     firstData = nullptr;
 }
 
-char * Most150MessageFragment::parse(char * buffer)
+char * Most150MessageFragment::read(char * buffer)
 {
     size_t size;
 
     // previous data
-    buffer = ObjectHeader2::parse(buffer);
+    buffer = ObjectHeader2::read(buffer);
 
     // channel
     size = sizeof(channel);

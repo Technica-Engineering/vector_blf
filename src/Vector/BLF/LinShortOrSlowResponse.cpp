@@ -37,13 +37,13 @@ LinShortOrSlowResponse::LinShortOrSlowResponse() :
 {
 }
 
-char * LinShortOrSlowResponse::parse(char * buffer)
+char * LinShortOrSlowResponse::read(char * buffer)
 {
     size_t size;
 
     // previous data
-    buffer = ObjectHeader::parse(buffer);
-    buffer = LinDatabyteTimestampEvent::parse(buffer);
+    buffer = ObjectHeader::read(buffer);
+    buffer = LinDatabyteTimestampEvent::read(buffer);
 
     // numberOfRespBtes
     size = sizeof(numberOfRespBtes);

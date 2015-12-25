@@ -40,13 +40,13 @@ LinSendError2::LinSendError2() :
 {
 }
 
-char * LinSendError2::parse(char * buffer)
+char * LinSendError2::read(char * buffer)
 {
     size_t size;
 
     // previous data
-    buffer = ObjectHeader::parse(buffer);
-    buffer = LinMessageDescriptor::parse(buffer);
+    buffer = ObjectHeader::read(buffer);
+    buffer = LinMessageDescriptor::read(buffer);
 
     // eoh
     size = sizeof(eoh);

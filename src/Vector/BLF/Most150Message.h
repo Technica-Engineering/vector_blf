@@ -40,7 +40,7 @@ public:
     Most150Message();
     virtual ~Most150Message();
 
-    virtual char * parse(char * buffer);
+    virtual char * read(char * buffer);
     virtual size_t calculateObjectSize();
 
     /**

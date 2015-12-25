@@ -42,7 +42,7 @@ class VECTOR_BLF_EXPORT MostHwMode : public ObjectHeader2
 public:
     MostHwMode();
 
-    virtual char * parse(char * buffer);
+    virtual char * read(char * buffer);
     virtual size_t calculateObjectSize();
 
     /**

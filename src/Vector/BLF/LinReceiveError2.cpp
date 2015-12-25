@@ -46,13 +46,13 @@ LinReceiveError2::LinReceiveError2() :
 {
 }
 
-char * LinReceiveError2::parse(char * buffer)
+char * LinReceiveError2::read(char * buffer)
 {
     size_t size;
 
     // previous data
-    buffer = ObjectHeader::parse(buffer);
-    buffer = LinDatabyteTimestampEvent::parse(buffer);
+    buffer = ObjectHeader::read(buffer);
+    buffer = LinDatabyteTimestampEvent::read(buffer);
 
     // data
     size = sizeof(data);

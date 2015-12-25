@@ -46,12 +46,12 @@ FlexRayV6Message::FlexRayV6Message() :
 {
 }
 
-char * FlexRayV6Message::parse(char * buffer)
+char * FlexRayV6Message::read(char * buffer)
 {
     size_t size;
 
     // previous data
-    buffer = ObjectHeader::parse(buffer);
+    buffer = ObjectHeader::read(buffer);
 
     // channel
     size = sizeof(channel);

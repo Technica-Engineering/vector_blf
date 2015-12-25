@@ -46,12 +46,12 @@ CanFdMessage64::CanFdMessage64() :
 {
 }
 
-char * CanFdMessage64::parse(char * buffer)
+char * CanFdMessage64::read(char * buffer)
 {
     size_t size;
 
     // previous data
-    buffer = ObjectHeader::parse(buffer);
+    buffer = ObjectHeader::read(buffer);
 
     // channel
     size = sizeof(channel);

@@ -37,7 +37,7 @@ class VECTOR_BLF_EXPORT KLineStatusEvent : public ObjectHeader
 public:
     KLineStatusEvent();
 
-    virtual char * parse(char * buffer);
+    virtual char * read(char * buffer);
     virtual size_t calculateObjectSize();
 
     /** enumeration for type */

@@ -41,7 +41,7 @@ class VECTOR_BLF_EXPORT CanMessage : public ObjectHeader
 public:
     CanMessage();
 
-    virtual char * parse(char * buffer);
+    virtual char * read(char * buffer);
     virtual size_t calculateObjectSize();
 
     /**

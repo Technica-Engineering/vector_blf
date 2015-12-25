@@ -39,7 +39,7 @@ class VECTOR_BLF_EXPORT CanFdErrorFrame64 : public ObjectHeader
 public:
     CanFdErrorFrame64();
 
-    virtual char * parse(char * buffer);
+    virtual char * read(char * buffer);
     virtual size_t calculateObjectSize();
 
     /**

@@ -42,12 +42,12 @@ EthernetStatus::EthernetStatus() :
 {
 }
 
-char * EthernetStatus::parse(char * buffer)
+char * EthernetStatus::read(char * buffer)
 {
     size_t size;
 
     // previous data
-    buffer = ObjectHeader::parse(buffer);
+    buffer = ObjectHeader::read(buffer);
 
     // channel
     size = sizeof(channel);

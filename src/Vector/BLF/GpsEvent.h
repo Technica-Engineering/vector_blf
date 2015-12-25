@@ -39,7 +39,7 @@ class VECTOR_BLF_EXPORT GpsEvent : public ObjectHeader
 public:
     GpsEvent();
 
-    virtual char * parse(char * buffer);
+    virtual char * read(char * buffer);
     virtual size_t calculateObjectSize();
 
     /**

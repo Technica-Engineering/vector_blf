@@ -44,12 +44,12 @@ EnvironmentVariable::~EnvironmentVariable()
     data = nullptr;
 }
 
-char * EnvironmentVariable::parse(char * buffer)
+char * EnvironmentVariable::read(char * buffer)
 {
     size_t size;
 
     // previous data
-    buffer = ObjectHeader::parse(buffer);
+    buffer = ObjectHeader::read(buffer);
 
     // nameLength
     size = sizeof(nameLength);

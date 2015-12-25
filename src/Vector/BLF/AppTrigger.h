@@ -40,7 +40,7 @@ class VECTOR_BLF_EXPORT AppTrigger : public ObjectHeader
 public:
     AppTrigger();
 
-    virtual char * parse(char * buffer);
+    virtual char * read(char * buffer);
     virtual size_t calculateObjectSize();
 
     /**

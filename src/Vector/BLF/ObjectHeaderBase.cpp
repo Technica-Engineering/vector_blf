@@ -40,7 +40,7 @@ ObjectHeaderBase::~ObjectHeaderBase()
 {
 }
 
-char * ObjectHeaderBase::parse(char * buffer)
+char * ObjectHeaderBase::read(char * buffer)
 {
     size_t size;
 

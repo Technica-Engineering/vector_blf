@@ -35,13 +35,13 @@ LinSpikeEvent2::LinSpikeEvent2() :
 {
 }
 
-char * LinSpikeEvent2::parse(char * buffer)
+char * LinSpikeEvent2::read(char * buffer)
 {
     size_t size;
 
     // previous data
-    buffer = ObjectHeader::parse(buffer);
-    buffer = LinBusEvent::parse(buffer);
+    buffer = ObjectHeader::read(buffer);
+    buffer = LinBusEvent::read(buffer);
 
     // width
     size = sizeof(width);

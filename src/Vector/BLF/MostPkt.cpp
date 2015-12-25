@@ -54,12 +54,12 @@ MostPkt::~MostPkt()
     pktData = nullptr;
 }
 
-char * MostPkt::parse(char * buffer)
+char * MostPkt::read(char * buffer)
 {
     size_t size;
 
     // previous data
-    buffer = ObjectHeader::parse(buffer);
+    buffer = ObjectHeader::read(buffer);
 
     // channel
     size = sizeof(channel);

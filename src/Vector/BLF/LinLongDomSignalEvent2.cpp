@@ -35,13 +35,13 @@ LinLongDomSignalEvent2::LinLongDomSignalEvent2() :
 {
 }
 
-char * LinLongDomSignalEvent2::parse(char * buffer)
+char * LinLongDomSignalEvent2::read(char * buffer)
 {
     size_t size;
 
     // previous data
-    buffer = ObjectHeader::parse(buffer);
-    buffer = LinBusEvent::parse(buffer);
+    buffer = ObjectHeader::read(buffer);
+    buffer = LinBusEvent::read(buffer);
 
     // type
     size = sizeof(type);

@@ -35,12 +35,12 @@ MostEcl::MostEcl() :
 {
 }
 
-char * MostEcl::parse(char * buffer)
+char * MostEcl::read(char * buffer)
 {
     size_t size;
 
     // previous data
-    buffer = ObjectHeader2::parse(buffer);
+    buffer = ObjectHeader2::read(buffer);
 
     // channel
     size = sizeof(channel);

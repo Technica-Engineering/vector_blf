@@ -34,12 +34,12 @@ LinWakeupEvent::LinWakeupEvent() :
 {
 }
 
-char * LinWakeupEvent::parse(char * buffer)
+char * LinWakeupEvent::read(char * buffer)
 {
     size_t size;
 
     // previous data
-    buffer = ObjectHeader::parse(buffer);
+    buffer = ObjectHeader::read(buffer);
 
     // channel
     size = sizeof(channel);

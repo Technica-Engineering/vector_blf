@@ -38,7 +38,7 @@ class VECTOR_BLF_EXPORT LinDatabyteTimestampEvent : public LinMessageDescriptor
 public:
     LinDatabyteTimestampEvent();
 
-    virtual char * parse(char * buffer);
+    virtual char * read(char * buffer);
     virtual size_t calculateObjectSize();
 
     /**

@@ -37,12 +37,12 @@ LinMessageDescriptor::LinMessageDescriptor() :
 {
 }
 
-char * LinMessageDescriptor::parse(char * buffer)
+char * LinMessageDescriptor::read(char * buffer)
 {
     size_t size;
 
     // previous data
-    buffer = LinSynchFieldEvent::parse(buffer);
+    buffer = LinSynchFieldEvent::read(buffer);
 
     // supplierId
     size = sizeof(supplierId);

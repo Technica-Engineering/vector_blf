@@ -41,7 +41,7 @@ class VECTOR_BLF_EXPORT LinStatisticEvent : public ObjectHeader
 public:
     LinStatisticEvent();
 
-    virtual char * parse(char * buffer);
+    virtual char * read(char * buffer);
     virtual size_t calculateObjectSize();
 
     /**

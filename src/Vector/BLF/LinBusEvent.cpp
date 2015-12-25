@@ -34,7 +34,7 @@ LinBusEvent::LinBusEvent() :
 {
 }
 
-char * LinBusEvent::parse(char * buffer)
+char * LinBusEvent::read(char * buffer)
 {
     size_t size;
 

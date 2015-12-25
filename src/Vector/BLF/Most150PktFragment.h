@@ -40,7 +40,7 @@ public:
     Most150PktFragment();
     virtual ~Most150PktFragment();
 
-    virtual char * parse(char * buffer);
+    virtual char * read(char * buffer);
     virtual size_t calculateObjectSize();
 
     /**

@@ -41,8 +41,8 @@ class VECTOR_BLF_EXPORT LinShortOrSlowResponse : public ObjectHeader, public Lin
 public:
     LinShortOrSlowResponse();
 
-    /** @copydoc ObjectHeader::parse */
-    virtual char * parse(char * buffer);
+    /** @copydoc ObjectHeader::read */
+    virtual char * read(char * buffer);
 
     /** @copydoc ObjectHeader::calculateObjectSize */
     virtual size_t calculateObjectSize();

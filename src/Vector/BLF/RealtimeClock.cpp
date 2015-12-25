@@ -33,12 +33,12 @@ RealtimeClock::RealtimeClock() :
 {
 }
 
-char * RealtimeClock::parse(char * buffer)
+char * RealtimeClock::read(char * buffer)
 {
     size_t size;
 
     // previous data
-    buffer = ObjectHeader::parse(buffer);
+    buffer = ObjectHeader::read(buffer);
 
     // time
     size = sizeof(time);

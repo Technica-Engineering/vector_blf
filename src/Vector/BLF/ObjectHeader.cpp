@@ -35,12 +35,12 @@ ObjectHeader::ObjectHeader() :
 {
 }
 
-char * ObjectHeader::parse(char * buffer)
+char * ObjectHeader::read(char * buffer)
 {
     size_t size;
 
     // previous data
-    buffer = ObjectHeaderBase::parse(buffer);
+    buffer = ObjectHeaderBase::read(buffer);
 
     // objectFlags
     size = sizeof(objectFlags);

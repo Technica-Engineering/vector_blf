@@ -40,7 +40,7 @@ public:
     Most150AllocTab();
     virtual ~Most150AllocTab();
 
-    virtual char * parse(char * buffer);
+    virtual char * read(char * buffer);
     virtual size_t calculateObjectSize();
 
     /**

@@ -36,13 +36,13 @@ LinWakeupEvent2::LinWakeupEvent2() :
 {
 }
 
-char * LinWakeupEvent2::parse(char * buffer)
+char * LinWakeupEvent2::read(char * buffer)
 {
     size_t size;
 
     // previous data
-    buffer = ObjectHeader::parse(buffer);
-    buffer = LinBusEvent::parse(buffer);
+    buffer = ObjectHeader::read(buffer);
+    buffer = LinBusEvent::read(buffer);
 
     // lengthInfo
     size = sizeof(lengthInfo);

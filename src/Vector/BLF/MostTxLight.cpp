@@ -34,12 +34,12 @@ MostTxLight::MostTxLight() :
 {
 }
 
-char * MostTxLight::parse(char * buffer)
+char * MostTxLight::read(char * buffer)
 {
     size_t size;
 
     // previous data
-    buffer = ObjectHeader2::parse(buffer);
+    buffer = ObjectHeader2::read(buffer);
 
     // channel
     size = sizeof(channel);

@@ -55,7 +55,7 @@ class VECTOR_BLF_EXPORT LinReceiveError : public ObjectHeader
 public:
     LinReceiveError();
 
-    virtual char * parse(char * buffer);
+    virtual char * read(char * buffer);
     virtual size_t calculateObjectSize();
 
     /**

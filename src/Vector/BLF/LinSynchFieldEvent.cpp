@@ -33,12 +33,12 @@ LinSynchFieldEvent::LinSynchFieldEvent() :
 {
 }
 
-char * LinSynchFieldEvent::parse(char * buffer)
+char * LinSynchFieldEvent::read(char * buffer)
 {
     size_t size;
 
     // previous data
-    buffer = LinBusEvent::parse(buffer);
+    buffer = LinBusEvent::read(buffer);
 
     // synchBreakLength
     size = sizeof(synchBreakLength);

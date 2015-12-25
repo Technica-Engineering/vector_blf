@@ -40,7 +40,7 @@ class VECTOR_BLF_EXPORT MostDataLost : public ObjectHeader2
 public:
     MostDataLost();
 
-    virtual char * parse(char * buffer);
+    virtual char * read(char * buffer);
     virtual size_t calculateObjectSize();
 
     /**

@@ -41,7 +41,7 @@ class VECTOR_BLF_EXPORT MostReg : public ObjectHeader2
 public:
     MostReg();
 
-    virtual char * parse(char * buffer);
+    virtual char * read(char * buffer);
     virtual size_t calculateObjectSize();
 
     /**

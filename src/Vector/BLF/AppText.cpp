@@ -41,12 +41,12 @@ AppText::~AppText()
     text = nullptr;
 }
 
-char * AppText::parse(char * buffer)
+char * AppText::read(char * buffer)
 {
     size_t size;
 
     // previous data
-    buffer = ObjectHeader::parse(buffer);
+    buffer = ObjectHeader::read(buffer);
 
     // source
     size = sizeof(source);

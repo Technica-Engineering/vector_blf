@@ -39,7 +39,7 @@ class VECTOR_BLF_EXPORT FlexRayVFrReceiveMsgEx : public ObjectHeader
 public:
     FlexRayVFrReceiveMsgEx();
 
-    virtual char * parse(char * buffer);
+    virtual char * read(char * buffer);
     virtual size_t calculateObjectSize();
 
     /**

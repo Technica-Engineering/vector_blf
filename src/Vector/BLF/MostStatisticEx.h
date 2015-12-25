@@ -41,7 +41,7 @@ class VECTOR_BLF_EXPORT MostStatisticEx : public ObjectHeader2
 public:
     MostStatisticEx();
 
-    virtual char * parse(char * buffer);
+    virtual char * read(char * buffer);
     virtual size_t calculateObjectSize();
 
     /**

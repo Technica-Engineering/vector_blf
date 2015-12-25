@@ -34,12 +34,12 @@ MostLightLock::MostLightLock() :
 {
 }
 
-char * MostLightLock::parse(char * buffer)
+char * MostLightLock::read(char * buffer)
 {
     size_t size;
 
     // previous data
-    buffer = ObjectHeader::parse(buffer);
+    buffer = ObjectHeader::read(buffer);
 
     // channel
     size = sizeof(channel);

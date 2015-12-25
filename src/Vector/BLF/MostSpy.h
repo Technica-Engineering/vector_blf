@@ -39,7 +39,7 @@ class VECTOR_BLF_EXPORT MostSpy : public ObjectHeader
 public:
     MostSpy();
 
-    virtual char * parse(char * buffer);
+    virtual char * read(char * buffer);
     virtual size_t calculateObjectSize();
 
     /**

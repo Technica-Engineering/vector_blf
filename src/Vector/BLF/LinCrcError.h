@@ -42,7 +42,7 @@ class VECTOR_BLF_EXPORT LinCrcError : public ObjectHeader
 public:
     LinCrcError();
 
-    virtual char * parse(char * buffer);
+    virtual char * read(char * buffer);
     virtual size_t calculateObjectSize();
 
     /**

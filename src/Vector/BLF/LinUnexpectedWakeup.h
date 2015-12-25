@@ -41,7 +41,7 @@ class VECTOR_BLF_EXPORT LinUnexpectedWakeup : public ObjectHeader, public LinBus
 public:
     LinUnexpectedWakeup();
 
-    virtual char * parse(char * buffer);
+    virtual char * read(char * buffer);
     virtual size_t calculateObjectSize();
 
     /**

@@ -41,12 +41,12 @@ EventComment::~EventComment()
     text = nullptr;
 }
 
-char * EventComment::parse(char * buffer)
+char * EventComment::read(char * buffer)
 {
     size_t size;
 
     // previous data
-    buffer = ObjectHeader::parse(buffer);
+    buffer = ObjectHeader::read(buffer);
 
     // commentedEventType
     size = sizeof(commentedEventType);

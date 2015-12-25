@@ -54,12 +54,12 @@ Most150Pkt::~Most150Pkt()
     pktData = nullptr;
 }
 
-char * Most150Pkt::parse(char * buffer)
+char * Most150Pkt::read(char * buffer)
 {
     size_t size;
 
     // previous data
-    buffer = ObjectHeader2::parse(buffer);
+    buffer = ObjectHeader2::read(buffer);
 
     // channel
     size = sizeof(channel);

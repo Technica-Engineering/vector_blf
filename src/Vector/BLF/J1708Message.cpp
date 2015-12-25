@@ -38,12 +38,12 @@ J1708Message::J1708Message() :
 {
 }
 
-char * J1708Message::parse(char * buffer)
+char * J1708Message::read(char * buffer)
 {
     size_t size;
 
     // previous data
-    buffer = ObjectHeader::parse(buffer);
+    buffer = ObjectHeader::read(buffer);
 
     // channel
     size = sizeof(channel);

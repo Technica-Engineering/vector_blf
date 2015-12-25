@@ -35,13 +35,13 @@ LinUnexpectedWakeup::LinUnexpectedWakeup() :
 {
 }
 
-char * LinUnexpectedWakeup::parse(char * buffer)
+char * LinUnexpectedWakeup::read(char * buffer)
 {
     size_t size;
 
     // previous data
-    buffer = ObjectHeader::parse(buffer);
-    buffer = LinBusEvent::parse(buffer);
+    buffer = ObjectHeader::read(buffer);
+    buffer = LinBusEvent::read(buffer);
 
     // width
     size = sizeof(width);

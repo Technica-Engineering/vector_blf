@@ -42,12 +42,12 @@ Most150AllocTab::~Most150AllocTab()
     tableData = nullptr;
 }
 
-char * Most150AllocTab::parse(char * buffer)
+char * Most150AllocTab::read(char * buffer)
 {
     size_t size;
 
     // previous data
-    buffer = ObjectHeader2::parse(buffer);
+    buffer = ObjectHeader2::read(buffer);
 
     // channel
     size = sizeof(channel);

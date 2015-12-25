@@ -165,9 +165,9 @@ public:
      * Read the data of this object
      *
      * @param buffer Data buffer
-     * @return data pointer after parse
+     * @return data pointer after read
      */
-    virtual char * parse(char * buffer);
+    virtual char * read(char * buffer);
 
     /**
      * Calculates the headerSize

@@ -40,12 +40,12 @@ CanDriverStatistic::CanDriverStatistic() :
 {
 }
 
-char * CanDriverStatistic::parse(char * buffer)
+char * CanDriverStatistic::read(char * buffer)
 {
     size_t size;
 
     // previous data
-    buffer = ObjectHeader::parse(buffer);
+    buffer = ObjectHeader::read(buffer);
 
     // channel
     size = sizeof(channel);

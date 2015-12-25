@@ -39,7 +39,7 @@ class VECTOR_BLF_EXPORT CanOverloadFrame : public ObjectHeader
 public:
     CanOverloadFrame();
 
-    virtual char * parse(char * buffer);
+    virtual char * read(char * buffer);
     virtual size_t calculateObjectSize();
 
     /**

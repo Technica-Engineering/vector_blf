@@ -34,12 +34,12 @@ DriverOverrun::DriverOverrun() :
 {
 }
 
-char * DriverOverrun::parse(char * buffer)
+char * DriverOverrun::read(char * buffer)
 {
     size_t size;
 
     // previous data
-    buffer = ObjectHeader::parse(buffer);
+    buffer = ObjectHeader::read(buffer);
 
     // busType
     size = sizeof(busType);

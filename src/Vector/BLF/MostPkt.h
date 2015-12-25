@@ -41,7 +41,7 @@ public:
     MostPkt();
     virtual ~MostPkt();
 
-    virtual char * parse(char * buffer);
+    virtual char * read(char * buffer);
     virtual size_t calculateObjectSize();
 
     /**

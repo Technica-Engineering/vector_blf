@@ -41,12 +41,12 @@ FlexRayVFrError::FlexRayVFrError() :
 {
 }
 
-char * FlexRayVFrError::parse(char * buffer)
+char * FlexRayVFrError::read(char * buffer)
 {
     size_t size;
 
     // previous data
-    buffer = ObjectHeader::parse(buffer);
+    buffer = ObjectHeader::read(buffer);
 
     // channel
     size = sizeof(channel);

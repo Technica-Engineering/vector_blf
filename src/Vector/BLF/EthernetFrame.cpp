@@ -46,12 +46,12 @@ EthernetFrame::~EthernetFrame()
     payLoad = nullptr;
 }
 
-char * EthernetFrame::parse(char * buffer)
+char * EthernetFrame::read(char * buffer)
 {
     size_t size;
 
     // previous data
-    buffer = ObjectHeader::parse(buffer);
+    buffer = ObjectHeader::read(buffer);
 
     // sourceAddress
     size = sizeof(sourceAddress);

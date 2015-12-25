@@ -41,7 +41,7 @@ class VECTOR_BLF_EXPORT LinSendError : public ObjectHeader
 public:
     LinSendError();
 
-    virtual char * parse(char * buffer);
+    virtual char * read(char * buffer);
     virtual size_t calculateObjectSize();
 
     /**

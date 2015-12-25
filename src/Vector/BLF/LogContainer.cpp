@@ -43,12 +43,12 @@ LogContainer::~LogContainer()
     compressedFile = nullptr;
 }
 
-char * LogContainer::parse(char * buffer)
+char * LogContainer::read(char * buffer)
 {
     size_t size;
 
     // previous data
-    buffer = ObjectHeaderBase::parse(buffer);
+    buffer = ObjectHeaderBase::read(buffer);
 
     // objectFlags
     size = sizeof(objectFlags);

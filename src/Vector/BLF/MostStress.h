@@ -39,7 +39,7 @@ class VECTOR_BLF_EXPORT MostStress : public ObjectHeader2
 public:
     MostStress();
 
-    virtual char * parse(char * buffer);
+    virtual char * read(char * buffer);
     virtual size_t calculateObjectSize();
 
     /**

@@ -39,7 +39,7 @@ class VECTOR_BLF_EXPORT MostTrigger : public ObjectHeader2
 public:
     MostTrigger();
 
-    virtual char * parse(char * buffer);
+    virtual char * read(char * buffer);
     virtual size_t calculateObjectSize();
 
     /**

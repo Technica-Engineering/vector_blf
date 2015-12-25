@@ -47,12 +47,12 @@ SystemVariable::~SystemVariable()
     data = nullptr;
 }
 
-char * SystemVariable::parse(char * buffer)
+char * SystemVariable::read(char * buffer)
 {
     size_t size;
 
     // previous data
-    buffer = ObjectHeader::parse(buffer);
+    buffer = ObjectHeader::read(buffer);
 
     // type
     size = sizeof(type);

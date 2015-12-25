@@ -40,12 +40,12 @@ FlexRayV6StartCycleEvent::FlexRayV6StartCycleEvent() :
 {
 }
 
-char * FlexRayV6StartCycleEvent::parse(char * buffer)
+char * FlexRayV6StartCycleEvent::read(char * buffer)
 {
     size_t size;
 
     // previous data
-    buffer = ObjectHeader::parse(buffer);
+    buffer = ObjectHeader::read(buffer);
 
     // channel
     size = sizeof(channel);

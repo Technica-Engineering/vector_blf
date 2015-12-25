@@ -33,13 +33,13 @@ LinSyncError2::LinSyncError2() :
 {
 }
 
-char * LinSyncError2::parse(char * buffer)
+char * LinSyncError2::read(char * buffer)
 {
     size_t size;
 
     // previous data
-    buffer = ObjectHeader::parse(buffer);
-    buffer = LinSynchFieldEvent::parse(buffer);
+    buffer = ObjectHeader::read(buffer);
+    buffer = LinSynchFieldEvent::read(buffer);
 
     // timeDiff
     size = sizeof(timeDiff);

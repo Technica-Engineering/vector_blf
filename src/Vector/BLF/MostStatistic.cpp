@@ -36,12 +36,12 @@ MostStatistic::MostStatistic() :
 {
 }
 
-char * MostStatistic::parse(char * buffer)
+char * MostStatistic::read(char * buffer)
 {
     size_t size;
 
     // previous data
-    buffer = ObjectHeader::parse(buffer);
+    buffer = ObjectHeader::read(buffer);
 
     // channel
     size = sizeof(channel);

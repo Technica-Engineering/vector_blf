@@ -40,12 +40,12 @@ FlexRaySync::FlexRaySync() :
 {
 }
 
-char * FlexRaySync::parse(char * buffer)
+char * FlexRaySync::read(char * buffer)
 {
     size_t size;
 
     // previous data
-    buffer = ObjectHeader::parse(buffer);
+    buffer = ObjectHeader::read(buffer);
 
     // channel
     size = sizeof(channel);

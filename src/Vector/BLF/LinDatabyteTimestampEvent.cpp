@@ -32,12 +32,12 @@ LinDatabyteTimestampEvent::LinDatabyteTimestampEvent() :
 {
 }
 
-char * LinDatabyteTimestampEvent::parse(char * buffer)
+char * LinDatabyteTimestampEvent::read(char * buffer)
 {
     size_t size;
 
     // previous data
-    buffer = LinMessageDescriptor::parse(buffer);
+    buffer = LinMessageDescriptor::read(buffer);
 
     // databyteTimestamps
     size = sizeof(databyteTimestamps);

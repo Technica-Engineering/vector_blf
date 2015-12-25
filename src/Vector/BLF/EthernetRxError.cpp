@@ -46,12 +46,12 @@ EthernetRxError::~EthernetRxError()
     frameData = nullptr;
 }
 
-char * EthernetRxError::parse(char * buffer)
+char * EthernetRxError::read(char * buffer)
 {
     size_t size;
 
     // previous data
-    buffer = ObjectHeader::parse(buffer);
+    buffer = ObjectHeader::read(buffer);
 
     // structLength
     size = sizeof(structLength);

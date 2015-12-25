@@ -39,7 +39,7 @@ class VECTOR_BLF_EXPORT ObjectHeader : public ObjectHeaderBase
 public:
     ObjectHeader();
 
-    virtual char * parse(char * buffer);
+    virtual char * read(char * buffer);
     virtual size_t calculateHeaderSize();
     virtual size_t calculateObjectSize();
 

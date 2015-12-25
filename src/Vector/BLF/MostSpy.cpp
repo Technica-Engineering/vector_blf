@@ -44,12 +44,12 @@ MostSpy::MostSpy() :
 {
 }
 
-char * MostSpy::parse(char * buffer)
+char * MostSpy::read(char * buffer)
 {
     size_t size;
 
     // previous data
-    buffer = ObjectHeader::parse(buffer);
+    buffer = ObjectHeader::read(buffer);
 
     // channel
     size = sizeof(channel);

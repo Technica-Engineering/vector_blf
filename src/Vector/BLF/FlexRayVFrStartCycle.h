@@ -39,7 +39,7 @@ class VECTOR_BLF_EXPORT FlexRayVFrStartCycle : public ObjectHeader
 public:
     FlexRayVFrStartCycle();
 
-    virtual char * parse(char * buffer);
+    virtual char * read(char * buffer);
     virtual size_t calculateObjectSize();
 
     /**

@@ -515,7 +515,7 @@ bool File::eof()
 
 ObjectHeaderBase * File::readObjectFromCompressedFile()
 {
-    /* read and parse object header base */
+    /* read object header base */
     char * ohbBuffer = new char[0x10];
     if (ohbBuffer == nullptr) {
         std::cerr << "out of memory" << std::endl;
@@ -528,7 +528,7 @@ ObjectHeaderBase * File::readObjectFromCompressedFile()
         return nullptr;
     }
     ObjectHeaderBase ohb;
-    ohb.parse(ohbBuffer);
+    ohb.read(ohbBuffer);
 
     /* read full object */
     char * objBuffer = nullptr;
@@ -562,8 +562,8 @@ ObjectHeaderBase * File::readObjectFromCompressedFile()
         return nullptr;
     }
 
-    /* parse object data or skip */
-    char * ptr = obj->parse(objBuffer);
+    /* read object data or skip */
+    char * ptr = obj->read(objBuffer);
 
     /* handle if there is size remaining */
     size_t remainingSize = obj->objectSize - (ptr - objBuffer);
@@ -585,12 +585,12 @@ ObjectHeaderBase * File::readObjectFromCompressedFile()
 
 ObjectHeaderBase * File::readObjectFromUncompressedFile()
 {
-    /* read and parse object header base */
+    /* read object header base */
     ObjectHeaderBase ohb;
     char * ohbBuffer = nullptr;
     if (readFromUncompressedFile(&ohbBuffer, 0x10) == 0)
         return nullptr;
-    ohb.parse(ohbBuffer);
+    ohb.read(ohbBuffer);
 
     /* read full object */
     char * objBuffer = nullptr;
@@ -625,8 +625,8 @@ ObjectHeaderBase * File::readObjectFromUncompressedFile()
         return nullptr;
     }
 
-    /* parse object data or skip */
-    char * ptr = obj->parse(objBuffer);
+    /* read object data or skip */
+    char * ptr = obj->read(objBuffer);
 
     /* handle if there is size remaining */
     size_t remainingSize = obj->objectSize - (ptr - objBuffer);

@@ -38,12 +38,12 @@ MostGenReg::MostGenReg() :
 {
 }
 
-char * MostGenReg::parse(char * buffer)
+char * MostGenReg::read(char * buffer)
 {
     size_t size;
 
     // previous data
-    buffer = ObjectHeader2::parse(buffer);
+    buffer = ObjectHeader2::read(buffer);
 
     // channel
     size = sizeof(channel);

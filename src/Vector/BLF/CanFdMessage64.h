@@ -39,7 +39,7 @@ class VECTOR_BLF_EXPORT CanFdMessage64 : public ObjectHeader
 public:
     CanFdMessage64();
 
-    virtual char * parse(char * buffer);
+    virtual char * read(char * buffer);
     virtual size_t calculateObjectSize();
 
     /**

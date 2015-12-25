@@ -36,12 +36,12 @@ CanMessage::CanMessage() :
 {
 }
 
-char * CanMessage::parse(char * buffer)
+char * CanMessage::read(char * buffer)
 {
     size_t size;
 
     // previous data
-    buffer = ObjectHeader::parse(buffer);
+    buffer = ObjectHeader::read(buffer);
 
     // channel
     size = sizeof(channel);

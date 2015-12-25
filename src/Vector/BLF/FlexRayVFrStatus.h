@@ -43,7 +43,7 @@ class VECTOR_BLF_EXPORT FlexRayVFrStatus : public ObjectHeader
 public:
     FlexRayVFrStatus();
 
-    virtual char * parse(char * buffer);
+    virtual char * read(char * buffer);
     virtual size_t calculateObjectSize();
 
     /**

@@ -39,12 +39,12 @@ LinDisturbanceEvent::LinDisturbanceEvent() :
 {
 }
 
-char * LinDisturbanceEvent::parse(char * buffer)
+char * LinDisturbanceEvent::read(char * buffer)
 {
     size_t size;
 
     // previous data
-    buffer = ObjectHeader::parse(buffer);
+    buffer = ObjectHeader::read(buffer);
 
     // channel
     size = sizeof(channel);

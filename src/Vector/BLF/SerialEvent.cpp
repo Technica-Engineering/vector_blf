@@ -35,12 +35,12 @@ SerialEvent::SerialEvent() :
 {
 }
 
-char * SerialEvent::parse(char * buffer)
+char * SerialEvent::read(char * buffer)
 {
     size_t size;
 
     // previous data
-    buffer = ObjectHeader::parse(buffer);
+    buffer = ObjectHeader::read(buffer);
 
     // flags
     size = sizeof(flags);

@@ -88,7 +88,7 @@ class VECTOR_BLF_EXPORT SerialEvent : public ObjectHeader
 public:
     SerialEvent();
 
-    virtual char * parse(char * buffer);
+    virtual char * read(char * buffer);
     virtual size_t calculateObjectSize();
 
     /** enumeration for flags */

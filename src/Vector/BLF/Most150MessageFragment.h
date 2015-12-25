@@ -41,7 +41,7 @@ public:
     Most150MessageFragment();
     virtual ~Most150MessageFragment();
 
-    virtual char * parse(char * buffer);
+    virtual char * read(char * buffer);
     virtual size_t calculateObjectSize();
 
     /**

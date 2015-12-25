@@ -40,7 +40,7 @@ class VECTOR_BLF_EXPORT LinWakeupEvent2 : public ObjectHeader, public LinBusEven
 public:
     LinWakeupEvent2();
 
-    virtual char * parse(char * buffer);
+    virtual char * read(char * buffer);
     virtual size_t calculateObjectSize();
 
     /**

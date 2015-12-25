@@ -46,12 +46,12 @@ AfdxStatistic::AfdxStatistic() :
 {
 }
 
-char * AfdxStatistic::parse(char * buffer)
+char * AfdxStatistic::read(char * buffer)
 {
     size_t size;
 
     // previous data
-    buffer = ObjectHeader::parse(buffer);
+    buffer = ObjectHeader::read(buffer);
 
     // channel
     size = sizeof(channel);
