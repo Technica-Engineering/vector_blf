@@ -216,6 +216,14 @@ public:
      */
     ObjectHeaderBase * read();
 
+    /**
+     * write object to file
+     *
+     * @param objectHeaderBase write object
+     * @return true if successful, false otherwise
+     */
+    bool write(ObjectHeaderBase * objectHeaderBase);
+
 private:
     /** compressed file */
     std::fstream compressedFile;

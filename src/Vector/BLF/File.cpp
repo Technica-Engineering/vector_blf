@@ -729,5 +729,26 @@ ObjectHeaderBase * File::read()
     return readObjectFromUncompressedFile();
 }
 
+bool File::write(ObjectHeaderBase * objectHeaderBase)
+{
+    if (openMode == OpenMode::Read)
+        return false;
+
+    /* get size of object */
+    size_t remainingSize = objectHeaderBase->calculateObjectSize();
+
+    /* copy as many data as possible in existing uncompressed file */
+    if (uncompressedFile.size() < remainaingSize) {
+
+    }
+
+    /* if data remaining, compress data and extend uncompressed file */
+    if (remainingSize > 0) {
+
+    }
+
+    return true;
+}
+
 }
 }

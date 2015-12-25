@@ -76,7 +76,7 @@ public:
     std::streamsize gcount;
 
     /**
-     * Get the size
+     * Get the remaining size
      *
      * @return size
      */
