@@ -38,7 +38,7 @@ char * LinWakeupEvent::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeader::read(buffer);
 
     // channel
@@ -61,7 +61,27 @@ char * LinWakeupEvent::read(char * buffer)
 
 char * LinWakeupEvent::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeader::write(buffer);
+
+    // channel
+    size = sizeof(channel);
+    memcpy(buffer, (void *) &channel, size);
+    buffer += size;
+
+    // signal
+    size = sizeof(signal);
+    memcpy(buffer, (void *) &signal, size);
+    buffer += size;
+
+    // external
+    size = sizeof(external);
+    memcpy(buffer, (void *) &external, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t LinWakeupEvent::calculateObjectSize()

@@ -36,7 +36,7 @@ char * LinDatabyteTimestampEvent::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = LinMessageDescriptor::read(buffer);
 
     // databyteTimestamps
@@ -49,7 +49,17 @@ char * LinDatabyteTimestampEvent::read(char * buffer)
 
 char * LinDatabyteTimestampEvent::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = LinMessageDescriptor::write(buffer);
+
+    // databyteTimestamps
+    size = sizeof(databyteTimestamps);
+    memcpy(buffer, (void *) &databyteTimestamps, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t LinDatabyteTimestampEvent::calculateObjectSize()

@@ -45,7 +45,7 @@ char * EventComment::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeader::read(buffer);
 
     // commentedEventType
@@ -67,7 +67,7 @@ char * EventComment::read(char * buffer)
     size = textLength;
     text = new char[size + 1];
     text[size] = 0;
-    memcpy((void *) text, buffer, size);
+    memcpy(text, buffer, size);
     buffer += size;
 
     return buffer;
@@ -75,7 +75,32 @@ char * EventComment::read(char * buffer)
 
 char * EventComment::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeader::write(buffer);
+
+    // commentedEventType
+    size = sizeof(commentedEventType);
+    memcpy(buffer, (void *) &commentedEventType, size);
+    buffer += size;
+
+    // textLength
+    size = sizeof(textLength);
+    memcpy(buffer, (void *) &textLength, size);
+    buffer += size;
+
+    // reserved
+    size = sizeof(reserved);
+    memcpy(buffer, (void *) &reserved, size);
+    buffer += size;
+
+    // text
+    size = textLength;
+    memcpy(buffer, text, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t EventComment::calculateObjectSize()

@@ -45,7 +45,7 @@ char * CanFdMessage::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeader::read(buffer);
 
     // channel
@@ -103,7 +103,62 @@ char * CanFdMessage::read(char * buffer)
 
 char * CanFdMessage::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeader::write(buffer);
+
+    // channel
+    size = sizeof(channel);
+    memcpy(buffer, (void *) &channel, size);
+    buffer += size;
+
+    // flags
+    size = sizeof(flags);
+    memcpy(buffer, (void *) &flags, size);
+    buffer += size;
+
+    // dlc
+    size = sizeof(dlc);
+    memcpy(buffer, (void *) &dlc, size);
+    buffer += size;
+
+    // id
+    size = sizeof(id);
+    memcpy(buffer, (void *) &id, size);
+    buffer += size;
+
+    // frameLength
+    size = sizeof(frameLength);
+    memcpy(buffer, (void *) &frameLength, size);
+    buffer += size;
+
+    // arbBitCount
+    size = sizeof(arbBitCount);
+    memcpy(buffer, (void *) &arbBitCount, size);
+    buffer += size;
+
+    // canFdFlags
+    size = sizeof(canFdFlags);
+    memcpy(buffer, (void *) &canFdFlags, size);
+    buffer += size;
+
+    // validDataBytes
+    size = sizeof(validDataBytes);
+    memcpy(buffer, (void *) &validDataBytes, size);
+    buffer += size;
+
+    // reserved
+    size = sizeof(reserved);
+    memcpy(buffer, (void *) &reserved, size);
+    buffer += size;
+
+    // data
+    size = sizeof(data);
+    memcpy(buffer, (void *) &data, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t CanFdMessage::calculateObjectSize()

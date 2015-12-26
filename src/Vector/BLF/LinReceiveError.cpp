@@ -46,7 +46,7 @@ char * LinReceiveError::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeader::read(buffer);
 
     // channel
@@ -109,7 +109,67 @@ char * LinReceiveError::read(char * buffer)
 
 char * LinReceiveError::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeader::write(buffer);
+
+    // channel
+    size = sizeof(channel);
+    memcpy(buffer, (void *) &channel, size);
+    buffer += size;
+
+    // id
+    size = sizeof(id);
+    memcpy(buffer, (void *) &id, size);
+    buffer += size;
+
+    // dlc
+    size = sizeof(dlc);
+    memcpy(buffer, (void *) &dlc, size);
+    buffer += size;
+
+    // fsmId
+    size = sizeof(fsmId);
+    memcpy(buffer, (void *) &fsmId, size);
+    buffer += size;
+
+    // fsmState
+    size = sizeof(fsmState);
+    memcpy(buffer, (void *) &fsmState, size);
+    buffer += size;
+
+    // headerTime
+    size = sizeof(headerTime);
+    memcpy(buffer, (void *) &headerTime, size);
+    buffer += size;
+
+    // fullTime
+    size = sizeof(fullTime);
+    memcpy(buffer, (void *) &fullTime, size);
+    buffer += size;
+
+    // stateReason
+    size = sizeof(stateReason);
+    memcpy(buffer, (void *) &stateReason, size);
+    buffer += size;
+
+    // offendingByte
+    size = sizeof(offendingByte);
+    memcpy(buffer, (void *) &offendingByte, size);
+    buffer += size;
+
+    // shortError
+    size = sizeof(shortError);
+    memcpy(buffer, (void *) &shortError, size);
+    buffer += size;
+
+    // timeoutDuringDlcDetection
+    size = sizeof(timeoutDuringDlcDetection);
+    memcpy(buffer, (void *) &timeoutDuringDlcDetection, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t LinReceiveError::calculateObjectSize()

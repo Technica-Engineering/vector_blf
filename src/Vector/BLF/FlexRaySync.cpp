@@ -44,7 +44,7 @@ char * FlexRaySync::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeader::read(buffer);
 
     // channel
@@ -97,7 +97,57 @@ char * FlexRaySync::read(char * buffer)
 
 char * FlexRaySync::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeader::write(buffer);
+
+    // channel
+    size = sizeof(channel);
+    memcpy(buffer, (void *) &channel, size);
+    buffer += size;
+
+    // mux
+    size = sizeof(mux);
+    memcpy(buffer, (void *) &mux, size);
+    buffer += size;
+
+    // len
+    size = sizeof(len);
+    memcpy(buffer, (void *) &len, size);
+    buffer += size;
+
+    // messageId
+    size = sizeof(messageId);
+    memcpy(buffer, (void *) &messageId, size);
+    buffer += size;
+
+    // crc
+    size = sizeof(crc);
+    memcpy(buffer, (void *) &crc, size);
+    buffer += size;
+
+    // dir
+    size = sizeof(dir);
+    memcpy(buffer, (void *) &dir, size);
+    buffer += size;
+
+    // reserved
+    size = sizeof(reserved);
+    memcpy(buffer, (void *) &reserved, size);
+    buffer += size;
+
+    // dataBytes
+    size = sizeof(dataBytes);
+    memcpy(buffer, (void *) &dataBytes, size);
+    buffer += size;
+
+    // cycle
+    size = sizeof(cycle);
+    memcpy(buffer, (void *) &cycle, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t FlexRaySync::calculateObjectSize()

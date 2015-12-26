@@ -40,7 +40,7 @@ char * LinWakeupEvent2::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeader::read(buffer);
     buffer = LinBusEvent::read(buffer);
 
@@ -69,7 +69,33 @@ char * LinWakeupEvent2::read(char * buffer)
 
 char * LinWakeupEvent2::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeader::write(buffer);
+    buffer = LinBusEvent::write(buffer);
+
+    // lengthInfo
+    size = sizeof(lengthInfo);
+    memcpy(buffer, (void *) &lengthInfo, size);
+    buffer += size;
+
+    // signal
+    size = sizeof(signal);
+    memcpy(buffer, (void *) &signal, size);
+    buffer += size;
+
+    // external
+    size = sizeof(external);
+    memcpy(buffer, (void *) &external, size);
+    buffer += size;
+
+    // reserved
+    size = sizeof(reserved);
+    memcpy(buffer, (void *) &reserved, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t LinWakeupEvent2::calculateObjectSize()

@@ -48,7 +48,7 @@ char * LinCrcError2::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeader::read(buffer);
     buffer = LinDatabyteTimestampEvent::read(buffer);
 
@@ -117,7 +117,73 @@ char * LinCrcError2::read(char * buffer)
 
 char * LinCrcError2::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeader::write(buffer);
+    buffer = LinDatabyteTimestampEvent::write(buffer);
+
+    // data
+    size = sizeof(data);
+    memcpy(buffer, (void *) &data, size);
+    buffer += size;
+
+    // crc
+    size = sizeof(crc);
+    memcpy(buffer, (void *) &crc, size);
+    buffer += size;
+
+    // dir
+    size = sizeof(dir);
+    memcpy(buffer, (void *) &dir, size);
+    buffer += size;
+
+    // fsmId
+    size = sizeof(fsmId);
+    memcpy(buffer, (void *) &fsmId, size);
+    buffer += size;
+
+    // fsmState
+    size = sizeof(fsmState);
+    memcpy(buffer, (void *) &fsmState, size);
+    buffer += size;
+
+    // simulated
+    size = sizeof(simulated);
+    memcpy(buffer, (void *) &simulated, size);
+    buffer += size;
+
+    // reserved1
+    size = sizeof(reserved1);
+    memcpy(buffer, (void *) &reserved1, size);
+    buffer += size;
+
+    // respBaudrate
+    size = sizeof(respBaudrate);
+    memcpy(buffer, (void *) &respBaudrate, size);
+    buffer += size;
+
+    // reserved2
+    size = sizeof(reserved2);
+    memcpy(buffer, (void *) &reserved2, size);
+    buffer += size;
+
+    // exactHeaderBaudrate
+    size = sizeof(exactHeaderBaudrate);
+    memcpy(buffer, (void *) &exactHeaderBaudrate, size);
+    buffer += size;
+
+    // earlyStopbitOffset
+    size = sizeof(earlyStopbitOffset);
+    memcpy(buffer, (void *) &earlyStopbitOffset, size);
+    buffer += size;
+
+    // earlyStopbitOffsetResponse
+    size = sizeof(earlyStopbitOffsetResponse);
+    memcpy(buffer, (void *) &earlyStopbitOffsetResponse, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t LinCrcError2::calculateObjectSize()

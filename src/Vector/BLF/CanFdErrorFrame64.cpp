@@ -53,7 +53,7 @@ char * CanFdErrorFrame64::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeader::read(buffer);
 
     // channel
@@ -151,7 +151,102 @@ char * CanFdErrorFrame64::read(char * buffer)
 
 char * CanFdErrorFrame64::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeader::write(buffer);
+
+    // channel
+    size = sizeof(channel);
+    memcpy(buffer, (void *) &channel, size);
+    buffer += size;
+
+    // dlc
+    size = sizeof(dlc);
+    memcpy(buffer, (void *) &dlc, size);
+    buffer += size;
+
+    // validDataBytes
+    size = sizeof(validDataBytes);
+    memcpy(buffer, (void *) &validDataBytes, size);
+    buffer += size;
+
+    // ecc
+    size = sizeof(ecc);
+    memcpy(buffer, (void *) &ecc, size);
+    buffer += size;
+
+    // flags
+    size = sizeof(flags);
+    memcpy(buffer, (void *) &flags, size);
+    buffer += size;
+
+    // errorCodeExt
+    size = sizeof(errorCodeExt);
+    memcpy(buffer, (void *) &errorCodeExt, size);
+    buffer += size;
+
+    // extFlags
+    size = sizeof(extFlags);
+    memcpy(buffer, (void *) &extFlags, size);
+    buffer += size;
+
+    // reserved1
+    size = sizeof(reserved1);
+    memcpy(buffer, (void *) &reserved1, size);
+    buffer += size;
+
+    // id
+    size = sizeof(id);
+    memcpy(buffer, (void *) &id, size);
+    buffer += size;
+
+    // frameLength
+    size = sizeof(frameLength);
+    memcpy(buffer, (void *) &frameLength, size);
+    buffer += size;
+
+    // btrCfgArb
+    size = sizeof(btrCfgArb);
+    memcpy(buffer, (void *) &btrCfgArb, size);
+    buffer += size;
+
+    // btrCfgData
+    size = sizeof(btrCfgData);
+    memcpy(buffer, (void *) &btrCfgData, size);
+    buffer += size;
+
+    // timeOffsetBrsNs
+    size = sizeof(timeOffsetBrsNs);
+    memcpy(buffer, (void *) &timeOffsetBrsNs, size);
+    buffer += size;
+
+    // timeOffsetCrcDelNs
+    size = sizeof(timeOffsetCrcDelNs);
+    memcpy(buffer, (void *) &timeOffsetCrcDelNs, size);
+    buffer += size;
+
+    // crc
+    size = sizeof(crc);
+    memcpy(buffer, (void *) &crc, size);
+    buffer += size;
+
+    // errorPosition
+    size = sizeof(errorPosition);
+    memcpy(buffer, (void *) &errorPosition, size);
+    buffer += size;
+
+    // reserved2
+    size = sizeof(reserved2);
+    memcpy(buffer, (void *) &reserved2, size);
+    buffer += size;
+
+    // data
+    size = sizeof(data);
+    memcpy(buffer, (void *) &data, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t CanFdErrorFrame64::calculateObjectSize()

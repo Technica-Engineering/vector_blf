@@ -39,7 +39,7 @@ char * MostStatisticEx::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeader2::read(buffer);
 
     // channel
@@ -67,7 +67,32 @@ char * MostStatisticEx::read(char * buffer)
 
 char * MostStatisticEx::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeader2::write(buffer);
+
+    // channel
+    size = sizeof(channel);
+    memcpy(buffer, (void *) &channel, size);
+    buffer += size;
+
+    // reserved
+    size = sizeof(reserved);
+    memcpy(buffer, (void *) &reserved, size);
+    buffer += size;
+
+    // codingErrors
+    size = sizeof(codingErrors);
+    memcpy(buffer, (void *) &codingErrors, size);
+    buffer += size;
+
+    // frameCounter
+    size = sizeof(frameCounter);
+    memcpy(buffer, (void *) &frameCounter, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t MostStatisticEx::calculateObjectSize()

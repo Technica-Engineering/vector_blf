@@ -38,7 +38,7 @@ char * DriverOverrun::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeader::read(buffer);
 
     // busType
@@ -61,7 +61,27 @@ char * DriverOverrun::read(char * buffer)
 
 char * DriverOverrun::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeader::write(buffer);
+
+    // busType
+    size = sizeof(busType);
+    memcpy(buffer, (void *) &busType, size);
+    buffer += size;
+
+    // channel
+    size = sizeof(channel);
+    memcpy(buffer, (void *) &channel, size);
+    buffer += size;
+
+    // reserved
+    size = sizeof(reserved);
+    memcpy(buffer, (void *) &reserved, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t DriverOverrun::calculateObjectSize()

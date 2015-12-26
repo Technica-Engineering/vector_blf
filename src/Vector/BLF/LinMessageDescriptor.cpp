@@ -41,7 +41,7 @@ char * LinMessageDescriptor::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = LinSynchFieldEvent::read(buffer);
 
     // supplierId
@@ -79,7 +79,42 @@ char * LinMessageDescriptor::read(char * buffer)
 
 char * LinMessageDescriptor::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = LinSynchFieldEvent::write(buffer);
+
+    // supplierId
+    size = sizeof(supplierId);
+    memcpy(buffer, (void *) &supplierId, size);
+    buffer += size;
+
+    // messageId
+    size = sizeof(messageId);
+    memcpy(buffer, (void *) &messageId, size);
+    buffer += size;
+
+    // nad
+    size = sizeof(nad);
+    memcpy(buffer, (void *) &nad, size);
+    buffer += size;
+
+    // id
+    size = sizeof(id);
+    memcpy(buffer, (void *) &id, size);
+    buffer += size;
+
+    // dlc
+    size = sizeof(dlc);
+    memcpy(buffer, (void *) &dlc, size);
+    buffer += size;
+
+    // checksumModel
+    size = sizeof(checksumModel);
+    memcpy(buffer, (void *) &checksumModel, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t LinMessageDescriptor::calculateObjectSize()

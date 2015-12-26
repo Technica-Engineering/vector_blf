@@ -39,7 +39,7 @@ char * MostStress::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeader2::read(buffer);
 
     // channel
@@ -67,7 +67,32 @@ char * MostStress::read(char * buffer)
 
 char * MostStress::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeader2::write(buffer);
+
+    // channel
+    size = sizeof(channel);
+    memcpy(buffer, (void *) &channel, size);
+    buffer += size;
+
+    // state
+    size = sizeof(state);
+    memcpy(buffer, (void *) &state, size);
+    buffer += size;
+
+    // mode
+    size = sizeof(mode);
+    memcpy(buffer, (void *) &mode, size);
+    buffer += size;
+
+    // reserved
+    size = sizeof(reserved);
+    memcpy(buffer, (void *) &reserved, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t MostStress::calculateObjectSize()

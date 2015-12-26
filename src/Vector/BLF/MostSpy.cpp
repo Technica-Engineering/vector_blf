@@ -48,7 +48,7 @@ char * MostSpy::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeader::read(buffer);
 
     // channel
@@ -121,7 +121,77 @@ char * MostSpy::read(char * buffer)
 
 char * MostSpy::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeader::write(buffer);
+
+    // channel
+    size = sizeof(channel);
+    memcpy(buffer, (void *) &channel, size);
+    buffer += size;
+
+    // dir
+    size = sizeof(dir);
+    memcpy(buffer, (void *) &dir, size);
+    buffer += size;
+
+    // reserved1
+    size = sizeof(reserved1);
+    memcpy(buffer, (void *) &reserved1, size);
+    buffer += size;
+
+    // sourceAdr
+    size = sizeof(sourceAdr);
+    memcpy(buffer, (void *) &sourceAdr, size);
+    buffer += size;
+
+    // destAdr
+    size = sizeof(destAdr);
+    memcpy(buffer, (void *) &destAdr, size);
+    buffer += size;
+
+    // msg
+    size = sizeof(msg);
+    memcpy(buffer, (void *) &msg, size);
+    buffer += size;
+
+    // reserved2
+    size = sizeof(reserved2);
+    memcpy(buffer, (void *) &reserved2, size);
+    buffer += size;
+
+    // rTyp
+    size = sizeof(rTyp);
+    memcpy(buffer, (void *) &rTyp, size);
+    buffer += size;
+
+    // rTypAdr
+    size = sizeof(rTypAdr);
+    memcpy(buffer, (void *) &rTypAdr, size);
+    buffer += size;
+
+    // state
+    size = sizeof(state);
+    memcpy(buffer, (void *) &state, size);
+    buffer += size;
+
+    // reserved3
+    size = sizeof(reserved3);
+    memcpy(buffer, (void *) &reserved3, size);
+    buffer += size;
+
+    // ackNack
+    size = sizeof(ackNack);
+    memcpy(buffer, (void *) &ackNack, size);
+    buffer += size;
+
+    // crc
+    size = sizeof(crc);
+    memcpy(buffer, (void *) &crc, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t MostSpy::calculateObjectSize()

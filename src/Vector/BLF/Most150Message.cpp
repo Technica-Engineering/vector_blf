@@ -58,7 +58,7 @@ char * Most150Message::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeader2::read(buffer);
 
     // channel
@@ -144,7 +144,7 @@ char * Most150Message::read(char * buffer)
     // msg
     size = msgLen;
     msg = new char[size];
-    memcpy((void *) msg, buffer, size);
+    memcpy(msg, buffer, size);
     buffer += size;
 
     return buffer;
@@ -152,7 +152,97 @@ char * Most150Message::read(char * buffer)
 
 char * Most150Message::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeader2::write(buffer);
+
+    // channel
+    size = sizeof(channel);
+    memcpy(buffer, (void *) &channel, size);
+    buffer += size;
+
+    // dir
+    size = sizeof(dir);
+    memcpy(buffer, (void *) &dir, size);
+    buffer += size;
+
+    // reserved1
+    size = sizeof(reserved1);
+    memcpy(buffer, (void *) &reserved1, size);
+    buffer += size;
+
+    // sourceAdr
+    size = sizeof(sourceAdr);
+    memcpy(buffer, (void *) &sourceAdr, size);
+    buffer += size;
+
+    // destAdr
+    size = sizeof(destAdr);
+    memcpy(buffer, (void *) &destAdr, size);
+    buffer += size;
+
+    // transferType
+    size = sizeof(transferType);
+    memcpy(buffer, (void *) &transferType, size);
+    buffer += size;
+
+    // state
+    size = sizeof(state);
+    memcpy(buffer, (void *) &state, size);
+    buffer += size;
+
+    // ackNack
+    size = sizeof(ackNack);
+    memcpy(buffer, (void *) &ackNack, size);
+    buffer += size;
+
+    // reserved2
+    size = sizeof(reserved2);
+    memcpy(buffer, (void *) &reserved2, size);
+    buffer += size;
+
+    // crc
+    size = sizeof(crc);
+    memcpy(buffer, (void *) &crc, size);
+    buffer += size;
+
+    // pAck
+    size = sizeof(pAck);
+    memcpy(buffer, (void *) &pAck, size);
+    buffer += size;
+
+    // cAck
+    size = sizeof(cAck);
+    memcpy(buffer, (void *) &cAck, size);
+    buffer += size;
+
+    // priority
+    size = sizeof(priority);
+    memcpy(buffer, (void *) &priority, size);
+    buffer += size;
+
+    // pIndex
+    size = sizeof(pIndex);
+    memcpy(buffer, (void *) &pIndex, size);
+    buffer += size;
+
+    // msgLen
+    size = sizeof(msgLen);
+    memcpy(buffer, (void *) &msgLen, size);
+    buffer += size;
+
+    // reserved3
+    size = sizeof(reserved3);
+    memcpy(buffer, (void *) &reserved3, size);
+    buffer += size;
+
+    // msg
+    size = msgLen;
+    memcpy(buffer, msg, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t Most150Message::calculateObjectSize()

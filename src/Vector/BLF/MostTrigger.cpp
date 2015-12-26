@@ -41,7 +41,7 @@ char * MostTrigger::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeader2::read(buffer);
 
     // channel
@@ -79,7 +79,42 @@ char * MostTrigger::read(char * buffer)
 
 char * MostTrigger::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeader2::write(buffer);
+
+    // channel
+    size = sizeof(channel);
+    memcpy(buffer, (void *) &channel, size);
+    buffer += size;
+
+    // reserved
+    size = sizeof(reserved);
+    memcpy(buffer, (void *) &reserved, size);
+    buffer += size;
+
+    // mode
+    size = sizeof(mode);
+    memcpy(buffer, (void *) &mode, size);
+    buffer += size;
+
+    // hw
+    size = sizeof(hw);
+    memcpy(buffer, (void *) &hw, size);
+    buffer += size;
+
+    // previousTriggerValue
+    size = sizeof(previousTriggerValue);
+    memcpy(buffer, (void *) &previousTriggerValue, size);
+    buffer += size;
+
+    // currentTriggerValue
+    size = sizeof(currentTriggerValue);
+    memcpy(buffer, (void *) &currentTriggerValue, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t MostTrigger::calculateObjectSize()

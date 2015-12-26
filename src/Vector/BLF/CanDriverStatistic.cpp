@@ -44,7 +44,7 @@ char * CanDriverStatistic::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeader::read(buffer);
 
     // channel
@@ -97,7 +97,57 @@ char * CanDriverStatistic::read(char * buffer)
 
 char * CanDriverStatistic::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeader::write(buffer);
+
+    // channel
+    size = sizeof(channel);
+    memcpy(buffer, (void *) &channel, size);
+    buffer += size;
+
+    // busLoad
+    size = sizeof(busLoad);
+    memcpy(buffer, (void *) &busLoad, size);
+    buffer += size;
+
+    // standardDataFrames
+    size = sizeof(standardDataFrames);
+    memcpy(buffer, (void *) &standardDataFrames, size);
+    buffer += size;
+
+    // extendedDataFrames
+    size = sizeof(extendedDataFrames);
+    memcpy(buffer, (void *) &extendedDataFrames, size);
+    buffer += size;
+
+    // standardRemoteFrames
+    size = sizeof(standardRemoteFrames);
+    memcpy(buffer, (void *) &standardRemoteFrames, size);
+    buffer += size;
+
+    // extendedRemoteFrames
+    size = sizeof(extendedRemoteFrames);
+    memcpy(buffer, (void *) &extendedRemoteFrames, size);
+    buffer += size;
+
+    // errorFrames
+    size = sizeof(errorFrames);
+    memcpy(buffer, (void *) &errorFrames, size);
+    buffer += size;
+
+    // overloadFrames
+    size = sizeof(overloadFrames);
+    memcpy(buffer, (void *) &overloadFrames, size);
+    buffer += size;
+
+    // reserved
+    size = sizeof(reserved);
+    memcpy(buffer, (void *) &reserved, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t CanDriverStatistic::calculateObjectSize()

@@ -42,7 +42,7 @@ char * CanDriverErrorExt::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeader::read(buffer);
 
     // channel
@@ -85,7 +85,47 @@ char * CanDriverErrorExt::read(char * buffer)
 
 char * CanDriverErrorExt::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeader::write(buffer);
+
+    // channel
+    size = sizeof(channel);
+    memcpy(buffer, (void *) &channel, size);
+    buffer += size;
+
+    // txErrors
+    size = sizeof(txErrors);
+    memcpy(buffer, (void *) &txErrors, size);
+    buffer += size;
+
+    // rxErrors
+    size = sizeof(rxErrors);
+    memcpy(buffer, (void *) &rxErrors, size);
+    buffer += size;
+
+    // errorCode
+    size = sizeof(errorCode);
+    memcpy(buffer, (void *) &errorCode, size);
+    buffer += size;
+
+    // flags
+    size = sizeof(flags);
+    memcpy(buffer, (void *) &flags, size);
+    buffer += size;
+
+    // state
+    size = sizeof(state);
+    memcpy(buffer, (void *) &state, size);
+    buffer += size;
+
+    // reserved
+    size = sizeof(reserved);
+    memcpy(buffer, (void *) &reserved, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t CanDriverErrorExt::calculateObjectSize()

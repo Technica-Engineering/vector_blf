@@ -63,7 +63,29 @@ char * LinBusEvent::read(char * buffer)
 
 char * LinBusEvent::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // sof
+    size = sizeof(sof);
+    memcpy(buffer, (void *) &sof, size);
+    buffer += size;
+
+    // eventBaudrate
+    size = sizeof(eventBaudrate);
+    memcpy(buffer, (void *) &eventBaudrate, size);
+    buffer += size;
+
+    // channel
+    size = sizeof(channel);
+    memcpy(buffer, (void *) &channel, size);
+    buffer += size;
+
+    // reserved
+    size = sizeof(reserved);
+    memcpy(buffer, (void *) &reserved, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t LinBusEvent::calculateObjectSize()

@@ -38,7 +38,7 @@ char * LinSyncError::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeader::read(buffer);
 
     // channel
@@ -61,7 +61,27 @@ char * LinSyncError::read(char * buffer)
 
 char * LinSyncError::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeader::write(buffer);
+
+    // channel
+    size = sizeof(channel);
+    memcpy(buffer, (void *) &channel, size);
+    buffer += size;
+
+    // reserved
+    size = sizeof(reserved);
+    memcpy(buffer, (void *) &reserved, size);
+    buffer += size;
+
+    // timeDiff
+    size = sizeof(timeDiff);
+    memcpy(buffer, (void *) &timeDiff, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t LinSyncError::calculateObjectSize()

@@ -38,7 +38,7 @@ char * LinDlcInfo::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeader::read(buffer);
 
     // channel
@@ -61,7 +61,27 @@ char * LinDlcInfo::read(char * buffer)
 
 char * LinDlcInfo::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeader::write(buffer);
+
+    // channel
+    size = sizeof(channel);
+    memcpy(buffer, (void *) &channel, size);
+    buffer += size;
+
+    // id
+    size = sizeof(id);
+    memcpy(buffer, (void *) &id, size);
+    buffer += size;
+
+    // dlc
+    size = sizeof(dlc);
+    memcpy(buffer, (void *) &dlc, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t LinDlcInfo::calculateObjectSize()

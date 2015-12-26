@@ -50,7 +50,7 @@ char * AfdxStatistic::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeader::read(buffer);
 
     // channel
@@ -133,7 +133,87 @@ char * AfdxStatistic::read(char * buffer)
 
 char * AfdxStatistic::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeader::write(buffer);
+
+    // channel
+    size = sizeof(channel);
+    memcpy(buffer, (void *) &channel, size);
+    buffer += size;
+
+    // flags
+    size = sizeof(flags);
+    memcpy(buffer, (void *) &flags, size);
+    buffer += size;
+
+    // rxPacketCount
+    size = sizeof(rxPacketCount);
+    memcpy(buffer, (void *) &rxPacketCount, size);
+    buffer += size;
+
+    // rxByteCount
+    size = sizeof(rxByteCount);
+    memcpy(buffer, (void *) &rxByteCount, size);
+    buffer += size;
+
+    // txPacketCount
+    size = sizeof(txPacketCount);
+    memcpy(buffer, (void *) &txPacketCount, size);
+    buffer += size;
+
+    // txByteCount
+    size = sizeof(txByteCount);
+    memcpy(buffer, (void *) &txByteCount, size);
+    buffer += size;
+
+    // collisionCount
+    size = sizeof(collisionCount);
+    memcpy(buffer, (void *) &collisionCount, size);
+    buffer += size;
+
+    // errorCount
+    size = sizeof(errorCount);
+    memcpy(buffer, (void *) &errorCount, size);
+    buffer += size;
+
+    // statDroppedRedundantPacketCount
+    size = sizeof(statDroppedRedundantPacketCount);
+    memcpy(buffer, (void *) &statDroppedRedundantPacketCount, size);
+    buffer += size;
+
+    // statRedundantErrorPacketCount
+    size = sizeof(statRedundantErrorPacketCount);
+    memcpy(buffer, (void *) &statRedundantErrorPacketCount, size);
+    buffer += size;
+
+    // statIntegrityErrorPacketCount
+    size = sizeof(statIntegrityErrorPacketCount);
+    memcpy(buffer, (void *) &statIntegrityErrorPacketCount, size);
+    buffer += size;
+
+    // statAvrgPeriodMsec
+    size = sizeof(statAvrgPeriodMsec);
+    memcpy(buffer, (void *) &statAvrgPeriodMsec, size);
+    buffer += size;
+
+    // statAvrgJitterMysec
+    size = sizeof(statAvrgJitterMysec);
+    memcpy(buffer, (void *) &statAvrgJitterMysec, size);
+    buffer += size;
+
+    // vlid
+    size = sizeof(vlid);
+    memcpy(buffer, (void *) &vlid, size);
+    buffer += size;
+
+    // statDuration
+    size = sizeof(statDuration);
+    memcpy(buffer, (void *) &statDuration, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t AfdxStatistic::calculateObjectSize()

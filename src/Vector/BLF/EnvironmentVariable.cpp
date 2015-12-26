@@ -48,7 +48,7 @@ char * EnvironmentVariable::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeader::read(buffer);
 
     // nameLength
@@ -70,13 +70,13 @@ char * EnvironmentVariable::read(char * buffer)
     size = nameLength;
     name = new char[size + 1];
     name[nameLength] = 0;
-    memcpy((void *) name, buffer, size);
+    memcpy(name, buffer, size);
     buffer += size;
 
     // data
     size = dataLength;
     data = new char[size];
-    memcpy((void *) data, buffer, size);
+    memcpy(data, buffer, size);
     buffer += size;
 
     return buffer;
@@ -84,7 +84,37 @@ char * EnvironmentVariable::read(char * buffer)
 
 char * EnvironmentVariable::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeader::write(buffer);
+
+    // nameLength
+    size = sizeof(nameLength);
+    memcpy(buffer, (void *) &nameLength, size);
+    buffer += size;
+
+    // dataLength
+    size = sizeof(dataLength);
+    memcpy(buffer, (void *) &dataLength, size);
+    buffer += size;
+
+    // unknown
+    size = sizeof(reserved);
+    memcpy(buffer, (void *) &reserved, size);
+    buffer += size;
+
+    // name
+    size = nameLength;
+    memcpy(buffer, name, size);
+    buffer += size;
+
+    // data
+    size = dataLength;
+    memcpy(buffer, data, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t EnvironmentVariable::calculateObjectSize()

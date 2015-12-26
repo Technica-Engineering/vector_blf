@@ -39,7 +39,7 @@ char * MostHwMode::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeader2::read(buffer);
 
     // channel
@@ -67,7 +67,32 @@ char * MostHwMode::read(char * buffer)
 
 char * MostHwMode::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeader2::write(buffer);
+
+    // channel
+    size = sizeof(channel);
+    memcpy(buffer, (void *) &channel, size);
+    buffer += size;
+
+    // reserved1
+    size = sizeof(reserved1);
+    memcpy(buffer, (void *) &reserved1, size);
+    buffer += size;
+
+    // hwMode
+    size = sizeof(hwMode);
+    memcpy(buffer, (void *) &hwMode, size);
+    buffer += size;
+
+    // hwModeMask
+    size = sizeof(hwModeMask);
+    memcpy(buffer, (void *) &hwModeMask, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t MostHwMode::calculateObjectSize()

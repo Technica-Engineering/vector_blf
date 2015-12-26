@@ -39,7 +39,7 @@ char * LinSpikeEvent2::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeader::read(buffer);
     buffer = LinBusEvent::read(buffer);
 
@@ -63,7 +63,28 @@ char * LinSpikeEvent2::read(char * buffer)
 
 char * LinSpikeEvent2::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeader::write(buffer);
+    buffer = LinBusEvent::write(buffer);
+
+    // width
+    size = sizeof(width);
+    memcpy(buffer, (void *) &width, size);
+    buffer += size;
+
+    // internal
+    size = sizeof(internal);
+    memcpy(buffer, (void *) &internal, size);
+    buffer += size;
+
+    // reserved
+    size = sizeof(reserved);
+    memcpy(buffer, (void *) &reserved, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t LinSpikeEvent2::calculateObjectSize()

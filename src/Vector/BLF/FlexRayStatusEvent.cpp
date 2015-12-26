@@ -42,7 +42,7 @@ char * FlexRayStatusEvent::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeader::read(buffer);
 
     // channel
@@ -85,7 +85,47 @@ char * FlexRayStatusEvent::read(char * buffer)
 
 char * FlexRayStatusEvent::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeader::write(buffer);
+
+    // channel
+    size = sizeof(channel);
+    memcpy(buffer, (void *) &channel, size);
+    buffer += size;
+
+    // version
+    size = sizeof(version);
+    memcpy(buffer, (void *) &version, size);
+    buffer += size;
+
+    // statusType
+    size = sizeof(statusType);
+    memcpy(buffer, (void *) &statusType, size);
+    buffer += size;
+
+    // infoMask1
+    size = sizeof(infoMask1);
+    memcpy(buffer, (void *) &infoMask1, size);
+    buffer += size;
+
+    // infoMask2
+    size = sizeof(infoMask2);
+    memcpy(buffer, (void *) &infoMask2, size);
+    buffer += size;
+
+    // infoMask3
+    size = sizeof(infoMask3);
+    memcpy(buffer, (void *) &infoMask3, size);
+    buffer += size;
+
+    // reserved
+    size = sizeof(reserved);
+    memcpy(buffer, (void *) &reserved, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t FlexRayStatusEvent::calculateObjectSize()

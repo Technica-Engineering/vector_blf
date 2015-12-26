@@ -49,7 +49,7 @@ char * WlanFrame::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeader::read(buffer);
 
     // channel
@@ -90,7 +90,7 @@ char * WlanFrame::read(char * buffer)
     // frameData
     size = frameLength;
     frameData = new char[size];
-    memcpy((void *) frameData, buffer, size);
+    memcpy(frameData, buffer, size);
     buffer += size;
 
     return buffer;
@@ -98,7 +98,53 @@ char * WlanFrame::read(char * buffer)
 
 char * WlanFrame::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeader::write(buffer);
+
+    // channel
+    size = sizeof(channel);
+    memcpy(buffer, (void *) &channel, size);
+    buffer += size;
+
+    // flags
+    size = sizeof(flags);
+    memcpy(buffer, (void *) &flags, size);
+    buffer += size;
+
+    // dir
+    size = sizeof(dir);
+    memcpy(buffer, (void *) &dir, size);
+    buffer += size;
+
+    // radioChannel
+    size = sizeof(radioChannel);
+    memcpy(buffer, (void *) &radioChannel, size);
+    buffer += size;
+
+    // signalStrength
+    size = sizeof(signalStrength);
+    memcpy(buffer, (void *) &signalStrength, size);
+    buffer += size;
+
+    // signalQuality
+    size = sizeof(signalQuality);
+    memcpy(buffer, (void *) &signalQuality, size);
+    buffer += size;
+
+    // frameLength
+    size = sizeof(frameLength);
+    memcpy(buffer, (void *) &frameLength, size);
+    buffer += size;
+
+    // frameData
+    size = frameLength;
+    frameData = new char[size];
+    memcpy(buffer, frameData, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t WlanFrame::calculateObjectSize()

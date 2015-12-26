@@ -44,7 +44,7 @@ char * LinStatisticEvent::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeader::read(buffer);
 
     // channel
@@ -97,7 +97,57 @@ char * LinStatisticEvent::read(char * buffer)
 
 char * LinStatisticEvent::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeader::write(buffer);
+
+    // channel
+    size = sizeof(channel);
+    memcpy(buffer, (void *) &channel, size);
+    buffer += size;
+
+    // reserved1
+    size = sizeof(reserved1);
+    memcpy(buffer, (void *) &reserved1, size);
+    buffer += size;
+
+    // busLoad
+    size = sizeof(busLoad);
+    memcpy(buffer, (void *) &busLoad, size);
+    buffer += size;
+
+    // burstsTotal
+    size = sizeof(burstsTotal);
+    memcpy(buffer, (void *) &burstsTotal, size);
+    buffer += size;
+
+    // burstsOverrun
+    size = sizeof(burstsOverrun);
+    memcpy(buffer, (void *) &burstsOverrun, size);
+    buffer += size;
+
+    // framesSent
+    size = sizeof(framesSent);
+    memcpy(buffer, (void *) &framesSent, size);
+    buffer += size;
+
+    // framesReceived
+    size = sizeof(framesReceived);
+    memcpy(buffer, (void *) &framesReceived, size);
+    buffer += size;
+
+    // framesUnanswered
+    size = sizeof(framesUnanswered);
+    memcpy(buffer, (void *) &framesUnanswered, size);
+    buffer += size;
+
+    // reserved2
+    size = sizeof(reserved2);
+    memcpy(buffer, (void *) &reserved2, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t LinStatisticEvent::calculateObjectSize()

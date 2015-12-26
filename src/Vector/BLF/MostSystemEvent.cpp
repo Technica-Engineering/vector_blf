@@ -39,7 +39,7 @@ char * MostSystemEvent::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeader2::read(buffer);
 
     // channel
@@ -67,7 +67,32 @@ char * MostSystemEvent::read(char * buffer)
 
 char * MostSystemEvent::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeader2::write(buffer);
+
+    // channel
+    size = sizeof(channel);
+    memcpy(buffer, (void *) &channel, size);
+    buffer += size;
+
+    // id
+    size = sizeof(id);
+    memcpy(buffer, (void *) &id, size);
+    buffer += size;
+
+    // value
+    size = sizeof(value);
+    memcpy(buffer, (void *) &value, size);
+    buffer += size;
+
+    // valueOld
+    size = sizeof(valueOld);
+    memcpy(buffer, (void *) &valueOld, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t MostSystemEvent::calculateObjectSize()

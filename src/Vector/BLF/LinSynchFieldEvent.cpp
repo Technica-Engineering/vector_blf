@@ -37,7 +37,7 @@ char * LinSynchFieldEvent::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = LinBusEvent::read(buffer);
 
     // synchBreakLength
@@ -55,7 +55,22 @@ char * LinSynchFieldEvent::read(char * buffer)
 
 char * LinSynchFieldEvent::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = LinBusEvent::write(buffer);
+
+    // synchBreakLength
+    size = sizeof(synchBreakLength);
+    memcpy(buffer, (void *) &synchBreakLength, size);
+    buffer += size;
+
+    // synchDelLength
+    size = sizeof(synchDelLength);
+    memcpy(buffer, (void *) &synchDelLength, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t LinSynchFieldEvent::calculateObjectSize()

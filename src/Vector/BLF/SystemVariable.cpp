@@ -51,7 +51,7 @@ char * SystemVariable::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeader::read(buffer);
 
     // type
@@ -83,13 +83,13 @@ char * SystemVariable::read(char * buffer)
     size = nameLength;
     name = new char[size + 1];
     name[size] = 0;
-    memcpy((void *) name, buffer, size);
+    memcpy(name, buffer, size);
     buffer += size;
 
     // data
     size = dataLength;
     data = new char[size];
-    memcpy((void *) data, buffer, size);
+    memcpy(data, buffer, size);
     buffer += size;
 
     return buffer;
@@ -97,7 +97,47 @@ char * SystemVariable::read(char * buffer)
 
 char * SystemVariable::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeader::write(buffer);
+
+    // type
+    size = sizeof(type);
+    memcpy(buffer, (void *) &type, size);
+    buffer += size;
+
+    // reserved
+    size = sizeof(reserved);
+    memcpy(buffer, (void *) &reserved, size);
+    buffer += size;
+
+    // nameLength
+    size = sizeof(nameLength);
+    memcpy(buffer, (void *) &nameLength, size);
+    buffer += size;
+
+    // dataLength
+    size = sizeof(dataLength);
+    memcpy(buffer, (void *) &dataLength, size);
+    buffer += size;
+
+    // unknown
+    size = sizeof(unknown);
+    memcpy(buffer, (void *) &unknown, size);
+    buffer += size;
+
+    // name
+    size = nameLength;
+    memcpy(buffer, name, size);
+    buffer += size;
+
+    // data
+    size = dataLength;
+    memcpy(buffer, data, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t SystemVariable::calculateObjectSize()

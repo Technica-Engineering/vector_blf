@@ -42,7 +42,7 @@ char * MostDataLost::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeader2::read(buffer);
 
     // channel
@@ -85,7 +85,47 @@ char * MostDataLost::read(char * buffer)
 
 char * MostDataLost::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeader2::write(buffer);
+
+    // channel
+    size = sizeof(channel);
+    memcpy(buffer, (void *) &channel, size);
+    buffer += size;
+
+    // reserved
+    size = sizeof(reserved);
+    memcpy(buffer, (void *) &reserved, size);
+    buffer += size;
+
+    // info
+    size = sizeof(info);
+    memcpy(buffer, (void *) &info, size);
+    buffer += size;
+
+    // lostMsgsCtrl
+    size = sizeof(lostMsgsCtrl);
+    memcpy(buffer, (void *) &lostMsgsCtrl, size);
+    buffer += size;
+
+    // lostMsgsAsync
+    size = sizeof(lostMsgsAsync);
+    memcpy(buffer, (void *) &lostMsgsAsync, size);
+    buffer += size;
+
+    // lastGoodTimeStampNs
+    size = sizeof(lastGoodTimeStampNs);
+    memcpy(buffer, (void *) &lastGoodTimeStampNs, size);
+    buffer += size;
+
+    // nextGoodTimeStampNs
+    size = sizeof(nextGoodTimeStampNs);
+    memcpy(buffer, (void *) &nextGoodTimeStampNs, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t MostDataLost::calculateObjectSize()

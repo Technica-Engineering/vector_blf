@@ -41,7 +41,7 @@ char * ObjectHeader2::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeaderBase::read(buffer);
 
     // objectFlags
@@ -79,7 +79,42 @@ char * ObjectHeader2::read(char * buffer)
 
 char * ObjectHeader2::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeaderBase::write(buffer);
+
+    // objectFlags
+    size = sizeof(objectFlags);
+    memcpy(buffer, (void *) &objectFlags, size);
+    buffer += size;
+
+    // timeStampStatus
+    size = sizeof(timeStampStatus);
+    memcpy(buffer, (void *) &timeStampStatus, size);
+    buffer += size;
+
+    // reserved
+    size = sizeof(reserved);
+    memcpy(buffer, (void *) &reserved, size);
+    buffer += size;
+
+    // objectVersion
+    size = sizeof(objectVersion);
+    memcpy(buffer, (void *) &objectVersion, size);
+    buffer += size;
+
+    // objectTimeStamp
+    size = sizeof(objectTimeStamp);
+    memcpy(buffer, (void *) &objectTimeStamp, size);
+    buffer += size;
+
+    // originalTimeStamp
+    size = sizeof(originalTimeStamp);
+    memcpy(buffer, (void *) &originalTimeStamp, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t ObjectHeader2::calculateHeaderSize()

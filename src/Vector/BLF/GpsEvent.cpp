@@ -43,7 +43,7 @@ char * GpsEvent::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeader::read(buffer);
 
     // flags
@@ -91,7 +91,52 @@ char * GpsEvent::read(char * buffer)
 
 char * GpsEvent::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeader::write(buffer);
+
+    // flags
+    size = sizeof(flags);
+    memcpy(buffer, (void *) &flags, size);
+    buffer += size;
+
+    // channel
+    size = sizeof(channel);
+    memcpy(buffer, (void *) &channel, size);
+    buffer += size;
+
+    // reserved
+    size = sizeof(reserved);
+    memcpy(buffer, (void *) &reserved, size);
+    buffer += size;
+
+    // latitude
+    size = sizeof(latitude);
+    memcpy(buffer, (void *) &latitude, size);
+    buffer += size;
+
+    // longitude
+    size = sizeof(longitude);
+    memcpy(buffer, (void *) &longitude, size);
+    buffer += size;
+
+    // altitude
+    size = sizeof(altitude);
+    memcpy(buffer, (void *) &altitude, size);
+    buffer += size;
+
+    // speed
+    size = sizeof(speed);
+    memcpy(buffer, (void *) &speed, size);
+    buffer += size;
+
+    // course
+    size = sizeof(course);
+    memcpy(buffer, (void *) &course, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t GpsEvent::calculateObjectSize()

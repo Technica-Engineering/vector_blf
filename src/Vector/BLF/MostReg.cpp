@@ -43,7 +43,7 @@ char * MostReg::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeader2::read(buffer);
 
     // channel
@@ -91,7 +91,52 @@ char * MostReg::read(char * buffer)
 
 char * MostReg::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeader2::write(buffer);
+
+    // channel
+    size = sizeof(channel);
+    memcpy(buffer, (void *) &channel, size);
+    buffer += size;
+
+    // subType
+    size = sizeof(subType);
+    memcpy(buffer, (void *) &subType, size);
+    buffer += size;
+
+    // reserved
+    size = sizeof(reserved);
+    memcpy(buffer, (void *) &reserved, size);
+    buffer += size;
+
+    // handle
+    size = sizeof(handle);
+    memcpy(buffer, (void *) &handle, size);
+    buffer += size;
+
+    // offset
+    size = sizeof(offset);
+    memcpy(buffer, (void *) &offset, size);
+    buffer += size;
+
+    // chip
+    size = sizeof(chip);
+    memcpy(buffer, (void *) &chip, size);
+    buffer += size;
+
+    // regDataLen
+    size = sizeof(regDataLen);
+    memcpy(buffer, (void *) &regDataLen, size);
+    buffer += size;
+
+    // regData
+    size = sizeof(regData);
+    memcpy(buffer, (void *) &regData, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t MostReg::calculateObjectSize()

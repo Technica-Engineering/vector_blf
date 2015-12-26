@@ -50,7 +50,7 @@ char * LinMessage2::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeader::read(buffer);
     buffer = LinDatabyteTimestampEvent::read(buffer);
 
@@ -137,7 +137,91 @@ char * LinMessage2::read(char * buffer)
 
 char * LinMessage2::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeader::write(buffer);
+    buffer = LinDatabyteTimestampEvent::write(buffer);
+
+    // data
+    size = sizeof(data);
+    memcpy(buffer, (void *) &data, size);
+    buffer += size;
+
+    // crc
+    size = sizeof(crc);
+    memcpy(buffer, (void *) &crc, size);
+    buffer += size;
+
+    // dir
+    size = sizeof(dir);
+    memcpy(buffer, (void *) &dir, size);
+    buffer += size;
+
+    // simulated
+    size = sizeof(simulated);
+    memcpy(buffer, (void *) &simulated, size);
+    buffer += size;
+
+    // isEtf
+    size = sizeof(isEtf);
+    memcpy(buffer, (void *) &isEtf, size);
+    buffer += size;
+
+    // etfAssocIndex
+    size = sizeof(etfAssocIndex);
+    memcpy(buffer, (void *) &etfAssocIndex, size);
+    buffer += size;
+
+    // etfAssocEtfId
+    size = sizeof(etfAssocEtfId);
+    memcpy(buffer, (void *) &etfAssocEtfId, size);
+    buffer += size;
+
+    // fsmId
+    size = sizeof(fsmId);
+    memcpy(buffer, (void *) &fsmId, size);
+    buffer += size;
+
+    // fsmState
+    size = sizeof(fsmState);
+    memcpy(buffer, (void *) &fsmState, size);
+    buffer += size;
+
+    // reserved
+    size = sizeof(reserved1);
+    memcpy(buffer, (void *) &reserved1, size);
+    buffer += size;
+
+    /* the following variables are only available in Version 2 and above */
+    if (objectVersion < 0) // this is probably a bug in Vector's original implementation
+        return buffer;
+
+    // respBaudrate
+    size = sizeof(respBaudrate);
+    memcpy(buffer, (void *) &respBaudrate, size);
+    buffer += size;
+
+    /* the following variables are only available in Version 3 and above */
+    if (objectVersion < 1) // this is probably a bug in Vector's original implementation
+        return buffer;
+
+    // exactHeaderBaudrate
+    size = sizeof(exactHeaderBaudrate);
+    memcpy(buffer, (void *) &exactHeaderBaudrate, size);
+    buffer += size;
+
+    // earlyStopbitOffset
+    size = sizeof(earlyStopbitOffset);
+    memcpy(buffer, (void *) &earlyStopbitOffset, size);
+    buffer += size;
+
+    // earlyStopbitOffsetResponse
+    size = sizeof(earlyStopbitOffsetResponse);
+    memcpy(buffer, (void *) &earlyStopbitOffsetResponse, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t LinMessage2::calculateObjectSize()

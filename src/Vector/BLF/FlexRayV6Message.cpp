@@ -50,7 +50,7 @@ char * FlexRayV6Message::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeader::read(buffer);
 
     // channel
@@ -133,7 +133,87 @@ char * FlexRayV6Message::read(char * buffer)
 
 char * FlexRayV6Message::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeader::write(buffer);
+
+    // channel
+    size = sizeof(channel);
+    memcpy(buffer, (void *) &channel, size);
+    buffer += size;
+
+    // dir
+    size = sizeof(dir);
+    memcpy(buffer, (void *) &dir, size);
+    buffer += size;
+
+    // lowTime
+    size = sizeof(lowTime);
+    memcpy(buffer, (void *) &lowTime, size);
+    buffer += size;
+
+    // fpgaTick
+    size = sizeof(fpgaTick);
+    memcpy(buffer, (void *) &fpgaTick, size);
+    buffer += size;
+
+    // fpgaTickOverflow
+    size = sizeof(fpgaTickOverflow);
+    memcpy(buffer, (void *) &fpgaTickOverflow, size);
+    buffer += size;
+
+    // clientIndex
+    size = sizeof(clientIndex);
+    memcpy(buffer, (void *) &clientIndex, size);
+    buffer += size;
+
+    // clusterTime
+    size = sizeof(clusterTime);
+    memcpy(buffer, (void *) &clusterTime, size);
+    buffer += size;
+
+    // frameId
+    size = sizeof(frameId);
+    memcpy(buffer, (void *) &frameId, size);
+    buffer += size;
+
+    // headerCrc
+    size = sizeof(headerCrc);
+    memcpy(buffer, (void *) &headerCrc, size);
+    buffer += size;
+
+    // frameState
+    size = sizeof(frameState);
+    memcpy(buffer, (void *) &frameState, size);
+    buffer += size;
+
+    // length
+    size = sizeof(length);
+    memcpy(buffer, (void *) &length, size);
+    buffer += size;
+
+    // cycle
+    size = sizeof(cycle);
+    memcpy(buffer, (void *) &cycle, size);
+    buffer += size;
+
+    // headerBitMask
+    size = sizeof(headerBitMask);
+    memcpy(buffer, (void *) &headerBitMask, size);
+    buffer += size;
+
+    // reserved1
+    size = sizeof(reserved);
+    memcpy(buffer, (void *) &reserved, size);
+    buffer += size;
+
+    // dataBytes
+    size = sizeof(dataBytes);
+    memcpy(buffer, (void *) &dataBytes, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t FlexRayV6Message::calculateObjectSize()

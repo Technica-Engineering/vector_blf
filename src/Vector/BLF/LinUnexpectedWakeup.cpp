@@ -39,7 +39,7 @@ char * LinUnexpectedWakeup::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeader::read(buffer);
     buffer = LinBusEvent::read(buffer);
 
@@ -63,7 +63,28 @@ char * LinUnexpectedWakeup::read(char * buffer)
 
 char * LinUnexpectedWakeup::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeader::write(buffer);
+    buffer = LinBusEvent::write(buffer);
+
+    // width
+    size = sizeof(width);
+    memcpy(buffer, (void *) &width, size);
+    buffer += size;
+
+    // signal
+    size = sizeof(signal);
+    memcpy(buffer, (void *) &signal, size);
+    buffer += size;
+
+    // reserved
+    size = sizeof(reserved);
+    memcpy(buffer, (void *) &reserved, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t LinUnexpectedWakeup::calculateObjectSize()

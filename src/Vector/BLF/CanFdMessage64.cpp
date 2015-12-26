@@ -50,7 +50,7 @@ char * CanFdMessage64::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeader::read(buffer);
 
     // channel
@@ -133,7 +133,87 @@ char * CanFdMessage64::read(char * buffer)
 
 char * CanFdMessage64::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeader::write(buffer);
+
+    // channel
+    size = sizeof(channel);
+    memcpy(buffer, (void *) &channel, size);
+    buffer += size;
+
+    // dlc
+    size = sizeof(dlc);
+    memcpy(buffer, (void *) &dlc, size);
+    buffer += size;
+
+    // validDataBytes
+    size = sizeof(validDataBytes);
+    memcpy(buffer, (void *) &validDataBytes, size);
+    buffer += size;
+
+    // txCount
+    size = sizeof(txCount);
+    memcpy(buffer, (void *) &txCount, size);
+    buffer += size;
+
+    // id
+    size = sizeof(id);
+    memcpy(buffer, (void *) &id, size);
+    buffer += size;
+
+    // frameLength
+    size = sizeof(frameLength);
+    memcpy(buffer, (void *) &frameLength, size);
+    buffer += size;
+
+    // flags
+    size = sizeof(flags);
+    memcpy(buffer, (void *) &flags, size);
+    buffer += size;
+
+    // btrCfgArb
+    size = sizeof(btrCfgArb);
+    memcpy(buffer, (void *) &btrCfgArb, size);
+    buffer += size;
+
+    // btrCfgData
+    size = sizeof(btrCfgData);
+    memcpy(buffer, (void *) &btrCfgData, size);
+    buffer += size;
+
+    // timeOffsetBrsNs
+    size = sizeof(timeOffsetBrsNs);
+    memcpy(buffer, (void *) &timeOffsetBrsNs, size);
+    buffer += size;
+
+    // timeOffsetCrcDelNs
+    size = sizeof(timeOffsetCrcDelNs);
+    memcpy(buffer, (void *) &timeOffsetCrcDelNs, size);
+    buffer += size;
+
+    // bitCount
+    size = sizeof(bitCount);
+    memcpy(buffer, (void *) &bitCount, size);
+    buffer += size;
+
+    // dir
+    size = sizeof(dir);
+    memcpy(buffer, (void *) &dir, size);
+    buffer += size;
+
+    // reserved
+    size = sizeof(reserved);
+    memcpy(buffer, (void *) &reserved, size);
+    buffer += size;
+
+    // data
+    size = sizeof(data);
+    memcpy(buffer, (void *) &data, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t CanFdMessage64::calculateObjectSize()

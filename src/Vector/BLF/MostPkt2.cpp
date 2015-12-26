@@ -58,7 +58,7 @@ char * MostPkt2::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeader2::read(buffer);
 
     // channel
@@ -144,7 +144,7 @@ char * MostPkt2::read(char * buffer)
     // pktData
     size = pktDataLength;
     pktData = new char[size];
-    memcpy((void *) pktData, buffer, size);
+    memcpy(pktData, buffer, size);
     buffer += size;
 
     return buffer;
@@ -152,7 +152,97 @@ char * MostPkt2::read(char * buffer)
 
 char * MostPkt2::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeader2::write(buffer);
+
+    // channel
+    size = sizeof(channel);
+    memcpy(buffer, (void *) &channel, size);
+    buffer += size;
+
+    // dir
+    size = sizeof(dir);
+    memcpy(buffer, (void *) &dir, size);
+    buffer += size;
+
+    // reserved1
+    size = sizeof(reserved1);
+    memcpy(buffer, (void *) &reserved1, size);
+    buffer += size;
+
+    // sourceAdr
+    size = sizeof(sourceAdr);
+    memcpy(buffer, (void *) &sourceAdr, size);
+    buffer += size;
+
+    // destAdr
+    size = sizeof(destAdr);
+    memcpy(buffer, (void *) &destAdr, size);
+    buffer += size;
+
+    // arbitration
+    size = sizeof(arbitration);
+    memcpy(buffer, (void *) &arbitration, size);
+    buffer += size;
+
+    // timeRes
+    size = sizeof(timeRes);
+    memcpy(buffer, (void *) &timeRes, size);
+    buffer += size;
+
+    // quadsToFollow
+    size = sizeof(quadsToFollow);
+    memcpy(buffer, (void *) &quadsToFollow, size);
+    buffer += size;
+
+    // reserved2
+    size = sizeof(reserved2);
+    memcpy(buffer, (void *) &reserved2, size);
+    buffer += size;
+
+    // crc
+    size = sizeof(crc);
+    memcpy(buffer, (void *) &crc, size);
+    buffer += size;
+
+    // priority
+    size = sizeof(priority);
+    memcpy(buffer, (void *) &priority, size);
+    buffer += size;
+
+    // transferType
+    size = sizeof(transferType);
+    memcpy(buffer, (void *) &transferType, size);
+    buffer += size;
+
+    // state
+    size = sizeof(state);
+    memcpy(buffer, (void *) &state, size);
+    buffer += size;
+
+    // reserved3
+    size = sizeof(reserved3);
+    memcpy(buffer, (void *) &reserved3, size);
+    buffer += size;
+
+    // pktDataLength
+    size = sizeof(pktDataLength);
+    memcpy(buffer, (void *) &pktDataLength, size);
+    buffer += size;
+
+    // reserved4
+    size = sizeof(reserved4);
+    memcpy(buffer, (void *) &reserved4, size);
+    buffer += size;
+
+    // pktData
+    size = pktDataLength;
+    memcpy(buffer, pktData, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t MostPkt2::calculateObjectSize()

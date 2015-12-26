@@ -46,7 +46,7 @@ char * EthernetStatus::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeader::read(buffer);
 
     // channel
@@ -109,7 +109,67 @@ char * EthernetStatus::read(char * buffer)
 
 char * EthernetStatus::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeader::write(buffer);
+
+    // channel
+    size = sizeof(channel);
+    memcpy(buffer, (void *) &channel, size);
+    buffer += size;
+
+    // flags
+    size = sizeof(flags);
+    memcpy(buffer, (void *) &flags, size);
+    buffer += size;
+
+    // linkStatus
+    size = sizeof(linkStatus);
+    memcpy(buffer, (void *) &linkStatus, size);
+    buffer += size;
+
+    // ethernetPhy
+    size = sizeof(ethernetPhy);
+    memcpy(buffer, (void *) &ethernetPhy, size);
+    buffer += size;
+
+    // duplex
+    size = sizeof(duplex);
+    memcpy(buffer, (void *) &duplex, size);
+    buffer += size;
+
+    // mdi
+    size = sizeof(mdi);
+    memcpy(buffer, (void *) &mdi, size);
+    buffer += size;
+
+    // connector
+    size = sizeof(connector);
+    memcpy(buffer, (void *) &connector, size);
+    buffer += size;
+
+    // clockMode
+    size = sizeof(clockMode);
+    memcpy(buffer, (void *) &clockMode, size);
+    buffer += size;
+
+    // pairs
+    size = sizeof(pairs);
+    memcpy(buffer, (void *) &pairs, size);
+    buffer += size;
+
+    // reserved
+    size = sizeof(reserved);
+    memcpy(buffer, (void *) &reserved, size);
+    buffer += size;
+
+    // bitrate
+    size = sizeof(bitrate);
+    memcpy(buffer, (void *) &bitrate, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t EthernetStatus::calculateObjectSize()

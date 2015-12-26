@@ -40,7 +40,7 @@ char * MostStatistic::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeader::read(buffer);
 
     // channel
@@ -73,7 +73,37 @@ char * MostStatistic::read(char * buffer)
 
 char * MostStatistic::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeader::write(buffer);
+
+    // channel
+    size = sizeof(channel);
+    memcpy(buffer, (void *) &channel, size);
+    buffer += size;
+
+    // pktCnt
+    size = sizeof(pktCnt);
+    memcpy(buffer, (void *) &pktCnt, size);
+    buffer += size;
+
+    // frmCnt
+    size = sizeof(frmCnt);
+    memcpy(buffer, (void *) &frmCnt, size);
+    buffer += size;
+
+    // lightCnt
+    size = sizeof(lightCnt);
+    memcpy(buffer, (void *) &lightCnt, size);
+    buffer += size;
+
+    // bufferLevel
+    size = sizeof(bufferLevel);
+    memcpy(buffer, (void *) &bufferLevel, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t MostStatistic::calculateObjectSize()

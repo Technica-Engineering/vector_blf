@@ -39,7 +39,7 @@ char * LinSlaveTimeout::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeader::read(buffer);
 
     // channel
@@ -67,7 +67,32 @@ char * LinSlaveTimeout::read(char * buffer)
 
 char * LinSlaveTimeout::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeader::write(buffer);
+
+    // channel
+    size = sizeof(channel);
+    memcpy(buffer, (void *) &channel, size);
+    buffer += size;
+
+    // slaveId
+    size = sizeof(slaveId);
+    memcpy(buffer, (void *) &slaveId, size);
+    buffer += size;
+
+    // stateId
+    size = sizeof(stateId);
+    memcpy(buffer, (void *) &stateId, size);
+    buffer += size;
+
+    // followStateId
+    size = sizeof(followStateId);
+    memcpy(buffer, (void *) &followStateId, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t LinSlaveTimeout::calculateObjectSize()

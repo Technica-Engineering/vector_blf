@@ -46,7 +46,7 @@ char * Most150AllocTab::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeader2::read(buffer);
 
     // channel
@@ -72,7 +72,7 @@ char * Most150AllocTab::read(char * buffer)
     // tableData
     size = length;
     tableData = new char[size];
-    memcpy((void *) tableData, buffer, size);
+    memcpy(tableData, buffer, size);
     buffer += size;
 
     return buffer;
@@ -80,7 +80,37 @@ char * Most150AllocTab::read(char * buffer)
 
 char * Most150AllocTab::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeader2::write(buffer);
+
+    // channel
+    size = sizeof(channel);
+    memcpy(buffer, (void *) &channel, size);
+    buffer += size;
+
+    // eventModeFlags
+    size = sizeof(eventModeFlags);
+    memcpy(buffer, (void *) &eventModeFlags, size);
+    buffer += size;
+
+    // freeBytes
+    size = sizeof(freeBytes);
+    memcpy(buffer, (void *) &freeBytes, size);
+    buffer += size;
+
+    // length
+    size = sizeof(length);
+    memcpy(buffer, (void *) &length, size);
+    buffer += size;
+
+    // tableData
+    size = length;
+    memcpy(buffer, tableData, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t Most150AllocTab::calculateObjectSize()

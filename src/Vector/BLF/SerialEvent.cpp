@@ -39,7 +39,7 @@ char * SerialEvent::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeader::read(buffer);
 
     // flags
@@ -93,13 +93,13 @@ char * SerialEvent::read(char * buffer)
             // general.data
             size = general.dataLength;
             general.data = new char[size];
-            memcpy((void *) &general.data, buffer, size);
+            memcpy(general.data, buffer, size);
             buffer += size;
 
             // general.timeStamps
             size = general.timeStampsLength;
             general.timeStamps = (LONGLONG *) new char[size];
-            memcpy((void *) &general.timeStamps, buffer, size);
+            memcpy(general.timeStamps, buffer, size);
             buffer += size;
         }
     }
@@ -109,7 +109,72 @@ char * SerialEvent::read(char * buffer)
 
 char * SerialEvent::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeader::write(buffer);
+
+    // flags
+    size = sizeof(flags);
+    memcpy(buffer, (void *) &flags, size);
+    buffer += size;
+
+    // port
+    size = sizeof(port);
+    memcpy(buffer, (void *) &port, size);
+    buffer += size;
+
+    // baudrate
+    size = sizeof(baudrate);
+    memcpy(buffer, (void *) &baudrate, size);
+    buffer += size;
+
+    // reserved
+    size = sizeof(reserved);
+    memcpy(buffer, (void *) &reserved, size);
+    buffer += size;
+
+    /* union */
+    if ((flags & ((DWORD) Flags::SingleByte)) != 0) {
+        // singleByte.byte
+        size = sizeof(singleByte.byte);
+        memcpy(buffer, (void *) &singleByte.byte, size);
+        buffer += size;
+    } else {
+        if ((flags & ((DWORD) Flags::CompactByte)) != 0) {
+            // compact.compactLength
+            size = sizeof(compact.compactLength);
+            memcpy(buffer, (void *) &compact.compactLength, size);
+            buffer += size;
+
+            // compact.compactData
+            size = compact.compactLength;
+            memcpy(buffer, (void *) &compact.compactData, size);
+            buffer += size;
+        } else {
+            // general.dataLength
+            size = sizeof(GeneralSerialEvent::dataLength);
+            memcpy(buffer, (void *) &general.dataLength, size);
+            buffer += size;
+
+            // general.timeStampsLength
+            size = sizeof(GeneralSerialEvent::timeStampsLength);
+            memcpy(buffer, (void *) &general.timeStampsLength, size);
+            buffer += size;
+
+            // general.data
+            size = general.dataLength;
+            memcpy(buffer, general.data, size);
+            buffer += size;
+
+            // general.timeStamps
+            size = general.timeStampsLength;
+            memcpy(buffer, general.timeStamps, size);
+            buffer += size;
+        }
+    }
+
+    return buffer;
 }
 
 size_t SerialEvent::calculateObjectSize()

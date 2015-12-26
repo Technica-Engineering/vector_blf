@@ -37,7 +37,7 @@ char * RealtimeClock::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeader::read(buffer);
 
     // time
@@ -55,7 +55,22 @@ char * RealtimeClock::read(char * buffer)
 
 char * RealtimeClock::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeader::write(buffer);
+
+    // time
+    size = sizeof(time);
+    memcpy(buffer, (void *) &time, size);
+    buffer += size;
+
+    // loggingOffset
+    size = sizeof(loggingOffset);
+    memcpy(buffer, (void *) &loggingOffset, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t RealtimeClock::calculateObjectSize()

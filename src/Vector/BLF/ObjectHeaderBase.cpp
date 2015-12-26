@@ -81,16 +81,13 @@ char * ObjectHeaderBase::write(char * buffer)
 {
     size_t size;
 
-    /* calculate header and object size */
-    headerSize = calculateHeaderSize();
-    objectSize = calculateObjectSize();
-
     // signature
     size = sizeof(signature);
     memcpy(buffer, (void *) &signature, size);
     buffer += size;
 
     // headerSize
+    headerSize = calculateHeaderSize();
     size = sizeof(headerSize);
     memcpy(buffer, (void *) &headerSize, size);
     buffer += size;
@@ -101,6 +98,7 @@ char * ObjectHeaderBase::write(char * buffer)
     buffer += size;
 
     // objectSize
+    objectSize = calculateObjectSize();
     size = sizeof(objectSize);
     memcpy(buffer, (void *) &objectSize, size);
     buffer += size;

@@ -57,7 +57,7 @@ char * MostEthernetPkt::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeader2::read(buffer);
 
     // channel
@@ -138,7 +138,7 @@ char * MostEthernetPkt::read(char * buffer)
     // pktData
     size = pktDataLength;
     pktData = new char[size];
-    memcpy((void *) pktData, buffer, size);
+    memcpy(pktData, buffer, size);
     buffer += size;
 
     return buffer;
@@ -146,7 +146,92 @@ char * MostEthernetPkt::read(char * buffer)
 
 char * MostEthernetPkt::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeader2::write(buffer);
+
+    // channel
+    size = sizeof(channel);
+    memcpy(buffer, (void *) &channel, size);
+    buffer += size;
+
+    // dir
+    size = sizeof(dir);
+    memcpy(buffer, (void *) &dir, size);
+    buffer += size;
+
+    // reserved1
+    size = sizeof(reserved1);
+    memcpy(buffer, (void *) &reserved1, size);
+    buffer += size;
+
+    // sourceMacAdr
+    size = sizeof(sourceMacAdr);
+    memcpy(buffer, (void *) &sourceMacAdr, size);
+    buffer += size;
+
+    // destMacAdr
+    size = sizeof(destMacAdr);
+    memcpy(buffer, (void *) &destMacAdr, size);
+    buffer += size;
+
+    // transferType
+    size = sizeof(transferType);
+    memcpy(buffer, (void *) &transferType, size);
+    buffer += size;
+
+    // state
+    size = sizeof(state);
+    memcpy(buffer, (void *) &state, size);
+    buffer += size;
+
+    // ackNack
+    size = sizeof(ackNack);
+    memcpy(buffer, (void *) &ackNack, size);
+    buffer += size;
+
+    // reserved2
+    size = sizeof(reserved2);
+    memcpy(buffer, (void *) &reserved2, size);
+    buffer += size;
+
+    // crc
+    size = sizeof(crc);
+    memcpy(buffer, (void *) &crc, size);
+    buffer += size;
+
+    // pAck
+    size = sizeof(pAck);
+    memcpy(buffer, (void *) &pAck, size);
+    buffer += size;
+
+    // cAck
+    size = sizeof(cAck);
+    memcpy(buffer, (void *) &cAck, size);
+    buffer += size;
+
+    // reserved3
+    size = sizeof(reserved3);
+    memcpy(buffer, (void *) &reserved3, size);
+    buffer += size;
+
+    // pktDataLength
+    size = sizeof(pktDataLength);
+    memcpy(buffer, (void *) &pktDataLength, size);
+    buffer += size;
+
+    // reserved4
+    size = sizeof(reserved4);
+    memcpy(buffer, (void *) &reserved4, size);
+    buffer += size;
+
+    // pktData
+    size = pktDataLength;
+    memcpy(buffer, pktData, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t MostEthernetPkt::calculateObjectSize()

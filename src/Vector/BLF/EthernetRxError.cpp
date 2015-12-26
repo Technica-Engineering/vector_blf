@@ -50,7 +50,7 @@ char * EthernetRxError::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeader::read(buffer);
 
     // structLength
@@ -96,7 +96,7 @@ char * EthernetRxError::read(char * buffer)
     // frameData
     size = frameDataLength;
     frameData = new char[size];
-    memcpy((void *) frameData, buffer, size);
+    memcpy(frameData, buffer, size);
     buffer += size;
 
     return buffer;
@@ -104,7 +104,57 @@ char * EthernetRxError::read(char * buffer)
 
 char * EthernetRxError::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeader::write(buffer);
+
+    // structLength
+    size = sizeof(structLength);
+    memcpy(buffer, (void *) &structLength, size);
+    buffer += size;
+
+    // channel
+    size = sizeof(channel);
+    memcpy(buffer, (void *) &channel, size);
+    buffer += size;
+
+    // dir
+    size = sizeof(dir);
+    memcpy(buffer, (void *) &dir, size);
+    buffer += size;
+
+    // reserved1
+    size = sizeof(reserved1);
+    memcpy(buffer, (void *) &reserved1, size);
+    buffer += size;
+
+    // fcs
+    size = sizeof(fcs);
+    memcpy(buffer, (void *) &fcs, size);
+    buffer += size;
+
+    // frameDataLength
+    size = sizeof(frameDataLength);
+    memcpy(buffer, (void *) &frameDataLength, size);
+    buffer += size;
+
+    // reserved2
+    size = sizeof(reserved2);
+    memcpy(buffer, (void *) &reserved2, size);
+    buffer += size;
+
+    // error
+    size = sizeof(error);
+    memcpy(buffer, (void *) &error, size);
+    buffer += size;
+
+    // frameData
+    size = frameDataLength;
+    memcpy(buffer, frameData, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t EthernetRxError::calculateObjectSize()

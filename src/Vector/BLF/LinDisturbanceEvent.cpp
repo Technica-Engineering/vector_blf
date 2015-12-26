@@ -43,7 +43,7 @@ char * LinDisturbanceEvent::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeader::read(buffer);
 
     // channel
@@ -91,7 +91,52 @@ char * LinDisturbanceEvent::read(char * buffer)
 
 char * LinDisturbanceEvent::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeader::write(buffer);
+
+    // channel
+    size = sizeof(channel);
+    memcpy(buffer, (void *) &channel, size);
+    buffer += size;
+
+    // id
+    size = sizeof(id);
+    memcpy(buffer, (void *) &id, size);
+    buffer += size;
+
+    // disturbingFrameId
+    size = sizeof(disturbingFrameId);
+    memcpy(buffer, (void *) &disturbingFrameId, size);
+    buffer += size;
+
+    // disturbanceType
+    size = sizeof(disturbanceType);
+    memcpy(buffer, (void *) &disturbanceType, size);
+    buffer += size;
+
+    // byteIndex
+    size = sizeof(byteIndex);
+    memcpy(buffer, (void *) &byteIndex, size);
+    buffer += size;
+
+    // bitIndex
+    size = sizeof(bitIndex);
+    memcpy(buffer, (void *) &bitIndex, size);
+    buffer += size;
+
+    // bitOffsetInSixteenthBits
+    size = sizeof(bitOffsetInSixteenthBits);
+    memcpy(buffer, (void *) &bitOffsetInSixteenthBits, size);
+    buffer += size;
+
+    // disturbanceLengthInSixteenthBits
+    size = sizeof(disturbanceLengthInSixteenthBits);
+    memcpy(buffer, (void *) &disturbanceLengthInSixteenthBits, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t LinDisturbanceEvent::calculateObjectSize()

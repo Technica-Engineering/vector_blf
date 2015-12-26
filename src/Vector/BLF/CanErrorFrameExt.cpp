@@ -47,7 +47,7 @@ char * CanErrorFrameExt::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeader::read(buffer);
 
     // channel
@@ -115,7 +115,72 @@ char * CanErrorFrameExt::read(char * buffer)
 
 char * CanErrorFrameExt::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeader::write(buffer);
+
+    // channel
+    size = sizeof(channel);
+    memcpy(buffer, (void *) &channel, size);
+    buffer += size;
+
+    // length
+    size = sizeof(length);
+    memcpy(buffer, (void *) &length, size);
+    buffer += size;
+
+    // flags
+    size = sizeof(flags);
+    memcpy(buffer, (void *) &flags, size);
+    buffer += size;
+
+    // ecc
+    size = sizeof(ecc);
+    memcpy(buffer, (void *) &ecc, size);
+    buffer += size;
+
+    // position
+    size = sizeof(position);
+    memcpy(buffer, (void *) &position, size);
+    buffer += size;
+
+    // dlc
+    size = sizeof(dlc);
+    memcpy(buffer, (void *) &dlc, size);
+    buffer += size;
+
+    // reserved1
+    size = sizeof(reserved1);
+    memcpy(buffer, (void *) &reserved1, size);
+    buffer += size;
+
+    // frameLengthInNs
+    size = sizeof(frameLengthInNs);
+    memcpy(buffer, (void *) &frameLengthInNs, size);
+    buffer += size;
+
+    // id
+    size = sizeof(id);
+    memcpy(buffer, (void *) &id, size);
+    buffer += size;
+
+    // flagsExt
+    size = sizeof(flagsExt);
+    memcpy(buffer, (void *) &flagsExt, size);
+    buffer += size;
+
+    // reserved2
+    size = sizeof(reserved2);
+    memcpy(buffer, (void *) &reserved2, size);
+    buffer += size;
+
+    // data
+    size = sizeof(data);
+    memcpy(buffer, (void *) &data, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t CanErrorFrameExt::calculateObjectSize()

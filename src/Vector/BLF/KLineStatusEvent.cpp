@@ -40,7 +40,7 @@ char * KLineStatusEvent::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeader::read(buffer);
 
     // type
@@ -73,7 +73,37 @@ char * KLineStatusEvent::read(char * buffer)
 
 char * KLineStatusEvent::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeader::write(buffer);
+
+    // type
+    size = sizeof(type);
+    memcpy(buffer, (void *) &type, size);
+    buffer += size;
+
+    // dataLen
+    size = sizeof(dataLen);
+    memcpy(buffer, (void *) &dataLen, size);
+    buffer += size;
+
+    // port
+    size = sizeof(port);
+    memcpy(buffer, (void *) &port, size);
+    buffer += size;
+
+    // reserved
+    size = sizeof(reserved);
+    memcpy(buffer, (void *) &reserved, size);
+    buffer += size;
+
+    // data
+    size = sizeof(data);
+    memcpy(buffer, (void *) &data, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t KLineStatusEvent::calculateObjectSize()

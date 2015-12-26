@@ -58,7 +58,7 @@ char * FlexRayVFrReceiveMsgEx::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeader::read(buffer);
 
     // channel
@@ -181,7 +181,127 @@ char * FlexRayVFrReceiveMsgEx::read(char * buffer)
 
 char * FlexRayVFrReceiveMsgEx::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeader::write(buffer);
+
+    // channel
+    size = sizeof(channel);
+    memcpy(buffer, (void *) &channel, size);
+    buffer += size;
+
+    // version
+    size = sizeof(version);
+    memcpy(buffer, (void *) &version, size);
+    buffer += size;
+
+    // channelMask
+    size = sizeof(channelMask);
+    memcpy(buffer, (void *) &channelMask, size);
+    buffer += size;
+
+    // dir
+    size = sizeof(dir);
+    memcpy(buffer, (void *) &dir, size);
+    buffer += size;
+
+    // clientIndex
+    size = sizeof(clientIndex);
+    memcpy(buffer, (void *) &clientIndex, size);
+    buffer += size;
+
+    // clusterNo
+    size = sizeof(clusterNo);
+    memcpy(buffer, (void *) &clusterNo, size);
+    buffer += size;
+
+    // frameId
+    size = sizeof(frameId);
+    memcpy(buffer, (void *) &frameId, size);
+    buffer += size;
+
+    // headerCrc1
+    size = sizeof(headerCrc1);
+    memcpy(buffer, (void *) &headerCrc1, size);
+    buffer += size;
+
+    // headerCrc2
+    size = sizeof(headerCrc2);
+    memcpy(buffer, (void *) &headerCrc2, size);
+    buffer += size;
+
+    // byteCount
+    size = sizeof(byteCount);
+    memcpy(buffer, (void *) &byteCount, size);
+    buffer += size;
+
+    // dataCount
+    size = sizeof(dataCount);
+    memcpy(buffer, (void *) &dataCount, size);
+    buffer += size;
+
+    // cycle
+    size = sizeof(cycle);
+    memcpy(buffer, (void *) &cycle, size);
+    buffer += size;
+
+    // tag
+    size = sizeof(tag);
+    memcpy(buffer, (void *) &tag, size);
+    buffer += size;
+
+    // data
+    size = sizeof(data);
+    memcpy(buffer, (void *) &data, size);
+    buffer += size;
+
+    // frameFlags
+    size = sizeof(frameFlags);
+    memcpy(buffer, (void *) &frameFlags, size);
+    buffer += size;
+
+    // appParameter
+    size = sizeof(appParameter);
+    memcpy(buffer, (void *) &appParameter, size);
+    buffer += size;
+
+    // frameCrc
+    size = sizeof(frameCrc);
+    memcpy(buffer, (void *) &frameCrc, size);
+    buffer += size;
+
+    // frameLengthNs
+    size = sizeof(frameLengthNs);
+    memcpy(buffer, (void *) &frameLengthNs, size);
+    buffer += size;
+
+    // frameId1
+    size = sizeof(frameId1);
+    memcpy(buffer, (void *) &frameId1, size);
+    buffer += size;
+
+    // pduOffset
+    size = sizeof(pduOffset);
+    memcpy(buffer, (void *) &pduOffset, size);
+    buffer += size;
+
+    // blfLogMask
+    size = sizeof(blfLogMask);
+    memcpy(buffer, (void *) &blfLogMask, size);
+    buffer += size;
+
+    // reserved
+    size = sizeof(reserved);
+    memcpy(buffer, (void *) &reserved, size);
+    buffer += size;
+
+    // dataBytes
+    size = sizeof(dataBytes);
+    memcpy(buffer, (void *) &dataBytes, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t FlexRayVFrReceiveMsgEx::calculateObjectSize()

@@ -42,7 +42,7 @@ char * MostGenReg::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeader2::read(buffer);
 
     // channel
@@ -85,7 +85,47 @@ char * MostGenReg::read(char * buffer)
 
 char * MostGenReg::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeader2::write(buffer);
+
+    // channel
+    size = sizeof(channel);
+    memcpy(buffer, (void *) &channel, size);
+    buffer += size;
+
+    // subType
+    size = sizeof(subType);
+    memcpy(buffer, (void *) &subType, size);
+    buffer += size;
+
+    // reserved1
+    size = sizeof(reserved1);
+    memcpy(buffer, (void *) &reserved1, size);
+    buffer += size;
+
+    // handle
+    size = sizeof(handle);
+    memcpy(buffer, (void *) &handle, size);
+    buffer += size;
+
+    // regId
+    size = sizeof(regId);
+    memcpy(buffer, (void *) &regId, size);
+    buffer += size;
+
+    // reserved2
+    size = sizeof(reserved2);
+    memcpy(buffer, (void *) &reserved2, size);
+    buffer += size;
+
+    // regValue
+    size = sizeof(regValue);
+    memcpy(buffer, (void *) &regValue, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t MostGenReg::calculateObjectSize()

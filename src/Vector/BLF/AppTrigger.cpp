@@ -40,7 +40,7 @@ char * AppTrigger::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeader::read(buffer);
 
     // preTriggerTime
@@ -73,7 +73,37 @@ char * AppTrigger::read(char * buffer)
 
 char * AppTrigger::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeader::write(buffer);
+
+    // preTriggerTime
+    size = sizeof(preTriggerTime);
+    memcpy(buffer, (void *) &preTriggerTime, size);
+    buffer += size;
+
+    // postTriggerTime
+    size = sizeof(postTriggerTime);
+    memcpy(buffer, (void *) &postTriggerTime, size);
+    buffer += size;
+
+    // channel
+    size = sizeof(channel);
+    memcpy(buffer, (void *) &channel, size);
+    buffer += size;
+
+    // flags
+    size = sizeof(flags);
+    memcpy(buffer, (void *) &flags, size);
+    buffer += size;
+
+    // appSpecific2
+    size = sizeof(appSpecific2);
+    memcpy(buffer, (void *) &appSpecific2, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t AppTrigger::calculateObjectSize()

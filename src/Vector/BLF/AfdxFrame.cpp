@@ -56,7 +56,7 @@ char * AfdxFrame::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeader::read(buffer);
 
     // sourceAddress
@@ -132,7 +132,7 @@ char * AfdxFrame::read(char * buffer)
     // payLoad
     size = payLoadLength;
     payLoad = new char[size];
-    memcpy((void *) payLoad, buffer, size);
+    memcpy(payLoad, buffer, size);
     buffer += size;
 
     return buffer;
@@ -140,7 +140,87 @@ char * AfdxFrame::read(char * buffer)
 
 char * AfdxFrame::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeader::write(buffer);
+
+    // sourceAddress
+    size = sizeof(sourceAddress);
+    memcpy(buffer, (void *) &sourceAddress, size);
+    buffer += size;
+
+    // channel
+    size = sizeof(channel);
+    memcpy(buffer, (void *) &channel, size);
+    buffer += size;
+
+    // destinationAddress
+    size = sizeof(destinationAddress);
+    memcpy(buffer, (void *) &destinationAddress, size);
+    buffer += size;
+
+    // dir
+    size = sizeof(dir);
+    memcpy(buffer, (void *) &dir, size);
+    buffer += size;
+
+    // type
+    size = sizeof(type);
+    memcpy(buffer, (void *) &type, size);
+    buffer += size;
+
+    // tpid
+    size = sizeof(tpid);
+    memcpy(buffer, (void *) &tpid, size);
+    buffer += size;
+
+    // tci
+    size = sizeof(tci);
+    memcpy(buffer, (void *) &tci, size);
+    buffer += size;
+
+    // ethChannel
+    size = sizeof(ethChannel);
+    memcpy(buffer, (void *) &ethChannel, size);
+    buffer += size;
+
+    // reserved1
+    size = sizeof(reserved1);
+    memcpy(buffer, (void *) &reserved1, size);
+    buffer += size;
+
+    // afdxFlags
+    size = sizeof(afdxFlags);
+    memcpy(buffer, (void *) &afdxFlags, size);
+    buffer += size;
+
+    // reserved2
+    size = sizeof(reserved2);
+    memcpy(buffer, (void *) &reserved2, size);
+    buffer += size;
+
+    // bagUsec
+    size = sizeof(bagUsec);
+    memcpy(buffer, (void *) &bagUsec, size);
+    buffer += size;
+
+    // payLoadLength
+    size = sizeof(payLoadLength);
+    memcpy(buffer, (void *) &payLoadLength, size);
+    buffer += size;
+
+    // reserved3
+    size = sizeof(reserved3);
+    memcpy(buffer, (void *) &reserved3, size);
+    buffer += size;
+
+    // payLoad
+    size = payLoadLength;
+    memcpy(buffer, payLoad, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t AfdxFrame::calculateObjectSize()

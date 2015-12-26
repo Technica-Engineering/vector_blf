@@ -47,7 +47,7 @@ char * LogContainer::read(char * buffer)
 {
     size_t size;
 
-    // previous data
+    // preceding data
     buffer = ObjectHeaderBase::read(buffer);
 
     // objectFlags
@@ -76,7 +76,7 @@ char * LogContainer::read(char * buffer)
                          - 0x10; // sizeof(LogContainer.header)
     size = compressedFileSize;
     compressedFile = new char[size];
-    memcpy((void *) compressedFile, buffer, size);
+    memcpy(compressedFile, buffer, size);
     buffer += size;
 
     return buffer;
@@ -84,7 +84,40 @@ char * LogContainer::read(char * buffer)
 
 char * LogContainer::write(char * buffer)
 {
-    // @todo
+    size_t size;
+
+    // preceding data
+    buffer = ObjectHeaderBase::write(buffer);
+
+    // objectFlags
+    size = sizeof(objectFlags);
+    memcpy(buffer, (void *) &objectFlags, size);
+    buffer += size;
+
+    // reserved
+    size = sizeof(reserved);
+    memcpy(buffer, (void *) &reserved, size);
+    buffer += size;
+
+    // objectVersion
+    size = sizeof(objectVersion);
+    memcpy(buffer, (void *) &objectVersion, size);
+    buffer += size;
+
+    // uncompressedFileSize
+    size = sizeof(uncompressedFileSize);
+    memcpy(buffer, (void *) &uncompressedFileSize, size);
+    buffer += size;
+
+    // compressedFile
+    compressedFileSize = objectSize
+                         - 0x10  // ObjectHeaderBase
+                         - 0x10; // sizeof(LogContainer.header)
+    size = compressedFileSize;
+    memcpy(buffer, compressedFile, size);
+    buffer += size;
+
+    return buffer;
 }
 
 size_t LogContainer::calculateObjectSize()
