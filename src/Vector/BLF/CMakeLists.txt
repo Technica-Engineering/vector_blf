@@ -115,7 +115,7 @@ set(source_files
   WlanFrame.cpp
   WlanStatistic.cpp)
 
-set(header_files
+set(public_header_files
   AfdxFrame.h
   AfdxStatistic.h
   AppText.h
@@ -223,9 +223,12 @@ set(header_files
   WlanFrame.h
   WlanStatistic.h)
 
+set(private_header_files
+  )
+
 add_compiler_export_flags()
 
-add_library(${PROJECT_NAME} SHARED ${source_files} ${header_files})
+add_library(${PROJECT_NAME} SHARED ${source_files} ${public_header_files} ${private_header_files})
 
 if(OPTION_USE_GCOV_LCOV)
   target_link_libraries(${PROJECT_NAME} gcov)
@@ -251,7 +254,7 @@ install(
   DESTINATION include/Vector/BLF)
 
 install(
-  FILES ${CMAKE_CURRENT_BINARY_DIR}/config.h ${header_files}
+  FILES ${CMAKE_CURRENT_BINARY_DIR}/config.h ${public_header_files}
   DESTINATION include/Vector/BLF)
 
 add_subdirectory(docs)
