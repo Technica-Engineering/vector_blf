@@ -29,7 +29,7 @@ namespace BLF {
 
 FileStatistics::FileStatistics() :
     signature(),
-    statisticsSize(),
+    statisticsSize(0x90),
     applicationId(),
     applicationMajor(),
     applicationMinor(),
@@ -55,10 +55,17 @@ void FileStatistics::read(std::istream & is)
     // signature
     size = sizeof(signature);
     is.read((char *) &signature, size);
+    if (signature != FileSignature) {
+        std::cerr << "unexpected file signature" << std::endl;
+        return;
+    }
 
     // statisticsSize
     size = sizeof(statisticsSize);
     is.read((char *) &statisticsSize, size);
+    if (statisticsSize != calculateStatisticsSize()) {
+        std::cerr << "unexpected file statistics size" << std::endl;
+    }
 
     // applicationId
     size = sizeof(applicationId);
@@ -119,18 +126,86 @@ void FileStatistics::read(std::istream & is)
     // reserved
     size = sizeof(reserved);
     is.read((char *) &reserved, size);
-
-    /* checks */
-    if (signature != FileSignature) {
-        std::cerr << "unexpected file signature" << std::endl;
-        return;
-    }
 }
 
 void FileStatistics::write(std::ostream & os)
 {
-    /* read header */
-    const std::streamsize size =
+    size_t size;
+
+    // signature
+    signature = FileSignature;
+    size = sizeof(signature);
+    os.write((char *) &signature, size);
+
+    // statisticsSize
+    statisticsSize = calculateStatisticsSize();
+    size = sizeof(statisticsSize);
+    os.write((char *) &statisticsSize, size);
+
+    // applicationId
+    size = sizeof(applicationId);
+    os.write((char *) &applicationId, size);
+
+    // applicationMajor
+    size = sizeof(applicationMajor);
+    os.write((char *) &applicationMajor, size);
+
+    // applicationMinor
+    size = sizeof(applicationMinor);
+    os.write((char *) &applicationMinor, size);
+
+    // applicationBuild
+    size = sizeof(applicationBuild);
+    os.write((char *) &applicationBuild, size);
+
+    // apiMajor
+    size = sizeof(apiMajor);
+    os.write((char *) &apiMajor, size);
+
+    // apiMinor
+    size = sizeof(apiMinor);
+    os.write((char *) &apiMinor, size);
+
+    // apiBuild
+    size = sizeof(apiBuild);
+    os.write((char *) &apiBuild, size);
+
+    // apiPatch
+    size = sizeof(apiPatch);
+    os.write((char *) &apiPatch, size);
+
+    // fileSize
+    size = sizeof(fileSize);
+    os.write((char *) &fileSize, size);
+
+    // uncompressedFileSize
+    size = sizeof(uncompressedFileSize);
+    os.write((char *) &uncompressedFileSize, size);
+
+    // objectCount
+    size = sizeof(objectCount);
+    os.write((char *) &objectCount, size);
+
+    // objectsRead
+    size = sizeof(objectsRead);
+    os.write((char *) &objectsRead, size);
+
+    // measurementStartTime
+    size = sizeof(measurementStartTime);
+    os.write((char *) &measurementStartTime, size);
+
+    // lastObjectTime
+    size = sizeof(lastObjectTime);
+    os.write((char *) &lastObjectTime, size);
+
+    // reserved
+    size = sizeof(reserved);
+    os.write((char *) &reserved, size);
+}
+
+constexpr size_t FileStatistics::calculateStatisticsSize()
+{
+    return
         sizeof(signature) +
         sizeof(statisticsSize) +
         sizeof(applicationId) +
@@ -148,8 +223,6 @@ void FileStatistics::write(std::ostream & os)
         sizeof(measurementStartTime) +
         sizeof(lastObjectTime) +
         sizeof(reserved);
-    os.write((char *) &signature, size);
-    // @todo
 }
 
 std::string FileStatistics::applicationName()

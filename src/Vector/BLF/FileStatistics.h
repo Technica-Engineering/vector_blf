@@ -81,6 +81,13 @@ public:
      */
     virtual void write(std::ostream & os);
 
+    /**
+     * Calculates the statisticsSize
+     *
+     * @return statistics size
+     */
+    static constexpr size_t calculateStatisticsSize();
+
     /** signature (signature) */
     DWORD signature;
 
