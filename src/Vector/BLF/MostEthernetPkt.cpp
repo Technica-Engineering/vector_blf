@@ -45,6 +45,7 @@ MostEthernetPkt::MostEthernetPkt() :
     reserved4(),
     pktData(nullptr)
 {
+    objectType = ObjectType::MOST_ETHERNET_PKT;
 }
 
 MostEthernetPkt::~MostEthernetPkt()

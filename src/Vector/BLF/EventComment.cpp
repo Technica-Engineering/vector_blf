@@ -33,6 +33,7 @@ EventComment::EventComment() :
     reserved(),
     text(nullptr)
 {
+    objectType = ObjectType::EVENT_COMMENT;
 }
 
 EventComment::~EventComment()

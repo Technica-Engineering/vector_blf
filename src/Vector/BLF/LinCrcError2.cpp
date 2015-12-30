@@ -42,6 +42,7 @@ LinCrcError2::LinCrcError2() :
     earlyStopbitOffset(),
     earlyStopbitOffsetResponse()
 {
+    objectType = ObjectType::LIN_CRC_ERROR2;
 }
 
 char * LinCrcError2::read(char * buffer)

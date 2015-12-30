@@ -36,6 +36,7 @@ MostGenReg::MostGenReg() :
     reserved2(),
     regValue()
 {
+    objectType = ObjectType::MOST_GENREG;
 }
 
 char * MostGenReg::read(char * buffer)

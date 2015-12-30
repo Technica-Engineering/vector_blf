@@ -33,6 +33,7 @@ LinSlaveTimeout::LinSlaveTimeout() :
     stateId(),
     followStateId()
 {
+    objectType = ObjectType::LIN_SLV_TIMEOUT;
 }
 
 char * LinSlaveTimeout::read(char * buffer)

@@ -38,6 +38,7 @@ EthernetFrame::EthernetFrame() :
     payLoadLength(),
     payLoad(nullptr)
 {
+    objectType = ObjectType::ETHERNET_FRAME;
 }
 
 EthernetFrame::~EthernetFrame()

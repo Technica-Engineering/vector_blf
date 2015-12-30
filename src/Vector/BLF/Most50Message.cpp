@@ -45,6 +45,7 @@ Most50Message::Most50Message() :
     reserved5(),
     msg(nullptr)
 {
+    objectType = ObjectType::MOST_50_MESSAGE;
 }
 
 Most50Message::~Most50Message()

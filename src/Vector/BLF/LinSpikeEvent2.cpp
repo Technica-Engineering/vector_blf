@@ -33,6 +33,7 @@ LinSpikeEvent2::LinSpikeEvent2() :
     internal(),
     reserved()
 {
+    objectType = ObjectType::LIN_SPIKE_EVENT2;
 }
 
 char * LinSpikeEvent2::read(char * buffer)

@@ -42,6 +42,7 @@ FlexRayVFrStartCycle::FlexRayVFrStartCycle() :
     data(),
     reserved2()
 {
+    objectType = ObjectType::FR_STARTCYCLE;
 }
 
 char * FlexRayVFrStartCycle::read(char * buffer)

@@ -39,6 +39,7 @@ CanFdMessage::CanFdMessage() :
     reserved(),
     data()
 {
+    objectType = ObjectType::CAN_FD_MESSAGE;
 }
 
 char * CanFdMessage::read(char * buffer)

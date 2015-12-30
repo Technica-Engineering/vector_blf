@@ -34,6 +34,7 @@ KLineStatusEvent::KLineStatusEvent() :
     reserved(),
     data()
 {
+    objectType = ObjectType::KLINE_STATUSEVENT;
 }
 
 char * KLineStatusEvent::read(char * buffer)

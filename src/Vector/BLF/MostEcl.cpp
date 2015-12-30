@@ -33,6 +33,7 @@ MostEcl::MostEcl() :
     eclState(),
     reserved()
 {
+    objectType = ObjectType::MOST_ECL;
 }
 
 char * MostEcl::read(char * buffer)

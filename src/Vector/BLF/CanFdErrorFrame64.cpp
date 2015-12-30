@@ -47,6 +47,7 @@ CanFdErrorFrame64::CanFdErrorFrame64() :
     reserved2(),
     data()
 {
+    objectType = ObjectType::CAN_FD_ERROR_64;
 }
 
 char * CanFdErrorFrame64::read(char * buffer)

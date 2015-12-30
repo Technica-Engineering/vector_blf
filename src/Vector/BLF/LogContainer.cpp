@@ -35,6 +35,7 @@ LogContainer::LogContainer() :
     compressedFileSize(),
     compressedFile(nullptr)
 {
+    objectType = ObjectType::LOG_CONTAINER;
 }
 
 LogContainer::~LogContainer()

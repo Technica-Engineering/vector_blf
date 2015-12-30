@@ -33,6 +33,7 @@ CanDriverError::CanDriverError() :
     rxErrors(),
     errorCode()
 {
+    objectType = ObjectType::CAN_DRIVER_ERROR;
 }
 
 char * CanDriverError::read(char * buffer)

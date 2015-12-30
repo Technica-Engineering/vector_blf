@@ -37,6 +37,7 @@ LinDisturbanceEvent::LinDisturbanceEvent() :
     bitOffsetInSixteenthBits(),
     disturbanceLengthInSixteenthBits()
 {
+    objectType = ObjectType::LIN_DISTURBANCE_EVENT;
 }
 
 char * LinDisturbanceEvent::read(char * buffer)

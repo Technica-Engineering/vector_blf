@@ -36,6 +36,7 @@ MostDataLost::MostDataLost() :
     lastGoodTimeStampNs(),
     nextGoodTimeStampNs()
 {
+    objectType = ObjectType::MOST_DATALOST;
 }
 
 char * MostDataLost::read(char * buffer)

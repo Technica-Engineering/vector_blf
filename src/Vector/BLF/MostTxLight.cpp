@@ -32,6 +32,7 @@ MostTxLight::MostTxLight() :
     state(),
     reserved()
 {
+    objectType = ObjectType::MOST_TXLIGHT;
 }
 
 char * MostTxLight::read(char * buffer)

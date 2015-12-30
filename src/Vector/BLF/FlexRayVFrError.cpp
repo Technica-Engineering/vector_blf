@@ -39,6 +39,7 @@ FlexRayVFrError::FlexRayVFrError() :
     data(),
     reserved2()
 {
+    objectType = ObjectType::FR_ERROR;
 }
 
 char * FlexRayVFrError::read(char * buffer)

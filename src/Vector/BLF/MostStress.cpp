@@ -33,6 +33,7 @@ MostStress::MostStress() :
     mode(),
     reserved()
 {
+    objectType = ObjectType::MOST_STRESS;
 }
 
 char * MostStress::read(char * buffer)

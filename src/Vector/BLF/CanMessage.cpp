@@ -34,6 +34,7 @@ CanMessage::CanMessage() :
     id(),
     data()
 {
+    objectType = ObjectType::CAN_MESSAGE;
 }
 
 char * CanMessage::read(char * buffer)

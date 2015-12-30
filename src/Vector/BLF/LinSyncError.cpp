@@ -32,6 +32,7 @@ LinSyncError::LinSyncError() :
     reserved(),
     timeDiff()
 {
+    objectType = ObjectType::LIN_SYN_ERROR;
 }
 
 char * LinSyncError::read(char * buffer)

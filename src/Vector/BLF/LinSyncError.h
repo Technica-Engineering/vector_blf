@@ -30,7 +30,7 @@ namespace Vector {
 namespace BLF {
 
 /**
- * @brief LIN_SYNC_ERROR
+ * @brief LIN_SYN_ERROR
  *
  * Synchronization errors occur if the LIN hardware cannot synchronize with an external
  * Master. This might happen if the baud rate actually used by the Master deviates by more than 15 %

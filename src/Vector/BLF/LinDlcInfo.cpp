@@ -32,6 +32,7 @@ LinDlcInfo::LinDlcInfo() :
     id(),
     dlc()
 {
+    objectType = ObjectType::LIN_DLC_INFO;
 }
 
 char * LinDlcInfo::read(char * buffer)

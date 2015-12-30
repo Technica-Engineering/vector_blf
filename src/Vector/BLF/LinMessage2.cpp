@@ -44,6 +44,7 @@ LinMessage2::LinMessage2() :
     earlyStopbitOffset(),
     earlyStopbitOffsetResponse()
 {
+    objectType = ObjectType::LIN_MESSAGE2;
 }
 
 char * LinMessage2::read(char * buffer)

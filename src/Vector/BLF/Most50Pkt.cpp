@@ -45,6 +45,7 @@ Most50Pkt::Most50Pkt() :
     reserved5(),
     pktData(nullptr)
 {
+    objectType = ObjectType::MOST_50_PKT;
 }
 
 Most50Pkt::~Most50Pkt()

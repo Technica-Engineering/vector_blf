@@ -34,6 +34,7 @@ MostStatistic::MostStatistic() :
     lightCnt(),
     bufferLevel()
 {
+    objectType = ObjectType::MOST_STATISTIC;
 }
 
 char * MostStatistic::read(char * buffer)

@@ -40,6 +40,7 @@ LinReceiveError::LinReceiveError() :
     shortError(),
     timeoutDuringDlcDetection()
 {
+    objectType = ObjectType::LIN_RCV_ERROR;
 }
 
 char * LinReceiveError::read(char * buffer)

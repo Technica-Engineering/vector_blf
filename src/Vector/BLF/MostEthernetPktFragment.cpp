@@ -44,6 +44,7 @@ MostEthernetPktFragment::MostEthernetPktFragment() :
     reserved3(),
     firstData(nullptr)
 {
+    objectType = ObjectType::MOST_ETHERNET_PKT_FRAGMENT;
 }
 
 MostEthernetPktFragment::~MostEthernetPktFragment()

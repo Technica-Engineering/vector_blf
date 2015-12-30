@@ -33,6 +33,7 @@ MostStatisticEx::MostStatisticEx() :
     codingErrors(),
     frameCounter()
 {
+    objectType = ObjectType::MOST_STATISTICEX;
 }
 
 char * MostStatisticEx::read(char * buffer)

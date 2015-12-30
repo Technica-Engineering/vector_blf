@@ -44,6 +44,7 @@ LinReceiveError2::LinReceiveError2() :
     earlyStopbitOffset(),
     earlyStopbitOffsetResponse()
 {
+    objectType = ObjectType::LIN_RCV_ERROR2;
 }
 
 char * LinReceiveError2::read(char * buffer)

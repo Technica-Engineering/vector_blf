@@ -31,6 +31,7 @@ CanOverloadFrame::CanOverloadFrame() :
     channel(),
     reserved()
 {
+    objectType = ObjectType::CAN_OVERLOAD;
 }
 
 char * CanOverloadFrame::read(char * buffer)

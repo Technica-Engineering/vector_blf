@@ -41,6 +41,7 @@ CanErrorFrameExt::CanErrorFrameExt() :
     reserved2(),
     data()
 {
+    objectType = ObjectType::CAN_ERROR_EXT;
 }
 
 char * CanErrorFrameExt::read(char * buffer)

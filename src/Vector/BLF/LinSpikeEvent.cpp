@@ -32,6 +32,7 @@ LinSpikeEvent::LinSpikeEvent() :
     width(),
     reserved()
 {
+    objectType = ObjectType::LIN_SPIKE_EVENT;
 }
 
 char * LinSpikeEvent::read(char * buffer)

@@ -41,6 +41,7 @@ GlobalMarker::GlobalMarker() :
     markerName(nullptr),
     description(nullptr)
 {
+    objectType = ObjectType::GLOBAL_MARKER;
 }
 
 GlobalMarker::~GlobalMarker()

@@ -33,6 +33,7 @@ MostSystemEvent::MostSystemEvent() :
     value(),
     valueOld()
 {
+    objectType = ObjectType::MOST_SYSTEM_EVENT;
 }
 
 char * MostSystemEvent::read(char * buffer)

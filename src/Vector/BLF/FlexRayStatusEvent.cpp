@@ -36,6 +36,7 @@ FlexRayStatusEvent::FlexRayStatusEvent() :
     infoMask3(),
     reserved()
 {
+    objectType = ObjectType::FLEXRAY_STATUS;
 }
 
 char * FlexRayStatusEvent::read(char * buffer)

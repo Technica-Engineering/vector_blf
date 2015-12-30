@@ -32,6 +32,7 @@ LinBaudrateEvent::LinBaudrateEvent() :
     reserved(),
     baudrate()
 {
+    objectType = ObjectType::LIN_BAUDRATE;
 }
 
 char * LinBaudrateEvent::read(char * buffer)

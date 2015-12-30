@@ -38,6 +38,7 @@ LinSendError2::LinSendError2() :
     exactHeaderBaudrate(),
     earlyStopbitOffset()
 {
+    objectType = ObjectType::LIN_SND_ERROR2;
 }
 
 char * LinSendError2::read(char * buffer)

@@ -35,6 +35,7 @@ LinShortOrSlowResponse::LinShortOrSlowResponse() :
     interruptedByBreak(),
     reserved()
 {
+    objectType = ObjectType::LIN_SHORT_OR_SLOW_RESPONSE;
 }
 
 char * LinShortOrSlowResponse::read(char * buffer)

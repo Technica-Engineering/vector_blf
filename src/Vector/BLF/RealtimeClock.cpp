@@ -31,6 +31,7 @@ RealtimeClock::RealtimeClock() :
     time(),
     loggingOffset()
 {
+    objectType = ObjectType::REALTIMECLOCK;
 }
 
 char * RealtimeClock::read(char * buffer)

@@ -33,6 +33,7 @@ LinSchedulerModeChange::LinSchedulerModeChange() :
     newMode(),
     reserved()
 {
+    objectType = ObjectType::LIN_SCHED_MODCH;
 }
 
 char * LinSchedulerModeChange::read(char * buffer)

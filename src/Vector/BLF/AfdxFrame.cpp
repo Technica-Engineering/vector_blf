@@ -44,6 +44,7 @@ AfdxFrame::AfdxFrame() :
     reserved3(),
     payLoad(nullptr)
 {
+    objectType = ObjectType::AFDX_FRAME;
 }
 
 AfdxFrame::~AfdxFrame()

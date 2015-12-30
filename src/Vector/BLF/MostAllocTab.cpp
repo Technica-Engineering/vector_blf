@@ -33,6 +33,7 @@ MostAllocTab::MostAllocTab() :
     reserved(),
     tableData(nullptr)
 {
+    objectType = ObjectType::MOST_ALLOCTAB;
 }
 
 MostAllocTab::~MostAllocTab()

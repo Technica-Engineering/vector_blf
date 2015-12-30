@@ -38,6 +38,7 @@ FlexRayV6StartCycleEvent::FlexRayV6StartCycleEvent() :
     dataBytes(),
     reserved()
 {
+    objectType = ObjectType::FLEXRAY_CYCLE;
 }
 
 char * FlexRayV6StartCycleEvent::read(char * buffer)

@@ -40,6 +40,7 @@ LinMessage::LinMessage() :
     dir(),
     reserved()
 {
+    objectType = ObjectType::LIN_MESSAGE;
 }
 
 char * LinMessage::read(char * buffer)

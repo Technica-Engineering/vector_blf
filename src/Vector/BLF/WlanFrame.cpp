@@ -37,6 +37,7 @@ WlanFrame::WlanFrame() :
     frameLength(),
     frameData(nullptr)
 {
+    objectType = ObjectType::WLAN_FRAME;
 }
 
 WlanFrame::~WlanFrame()

@@ -40,6 +40,7 @@ LinCrcError::LinCrcError() :
     dir(),
     reserved()
 {
+    objectType = ObjectType::LIN_CRC_ERROR;
 }
 
 char * LinCrcError::read(char * buffer)

@@ -37,6 +37,7 @@ CanMessage2::CanMessage2() :
     bitCount(),
     reserved()
 {
+    objectType = ObjectType::CAN_MESSAGE2;
 }
 
 char * CanMessage2::read(char * buffer)

@@ -33,6 +33,7 @@ LinUnexpectedWakeup::LinUnexpectedWakeup() :
     signal(),
     reserved()
 {
+    objectType = ObjectType::LIN_UNEXPECTED_WAKEUP;
 }
 
 char * LinUnexpectedWakeup::read(char * buffer)

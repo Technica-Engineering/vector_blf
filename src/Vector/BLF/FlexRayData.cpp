@@ -37,6 +37,7 @@ FlexRayData::FlexRayData() :
     reserved(),
     dataBytes()
 {
+    objectType = ObjectType::FLEXRAY_DATA;
 }
 
 char * FlexRayData::read(char * buffer)

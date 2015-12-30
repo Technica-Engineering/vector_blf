@@ -33,6 +33,7 @@ LinLongDomSignalEvent2::LinLongDomSignalEvent2() :
     reserved(),
     length()
 {
+    objectType = ObjectType::LIN_LONG_DOM_SIG2;
 }
 
 char * LinLongDomSignalEvent2::read(char * buffer)

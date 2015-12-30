@@ -37,6 +37,7 @@ WlanStatistic::WlanStatistic() :
     collisionCount(),
     errorCount()
 {
+    objectType = ObjectType::WLAN_STATISTIC;
 }
 
 char * WlanStatistic::read(char * buffer)

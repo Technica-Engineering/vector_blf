@@ -44,6 +44,7 @@ FlexRayV6Message::FlexRayV6Message() :
     reserved(),
     dataBytes()
 {
+    objectType = ObjectType::FLEXRAY_MESSAGE;
 }
 
 char * FlexRayV6Message::read(char * buffer)

@@ -31,6 +31,7 @@ LinSyncError2::LinSyncError2() :
     LinSynchFieldEvent(),
     timeDiff()
 {
+    objectType = ObjectType::LIN_SYN_ERROR2;
 }
 
 char * LinSyncError2::read(char * buffer)

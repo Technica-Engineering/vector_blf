@@ -36,6 +36,7 @@ SystemVariable::SystemVariable() :
     name(nullptr),
     data(nullptr)
 {
+    objectType = ObjectType::SYS_VARIABLE;
 }
 
 SystemVariable::~SystemVariable()

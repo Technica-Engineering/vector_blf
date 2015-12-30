@@ -32,6 +32,7 @@ CanErrorFrame::CanErrorFrame() :
     length(),
     reserved()
 {
+    objectType = ObjectType::CAN_ERROR;
 }
 
 char * CanErrorFrame::read(char * buffer)

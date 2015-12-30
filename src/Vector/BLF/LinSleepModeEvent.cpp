@@ -33,6 +33,7 @@ LinSleepModeEvent::LinSleepModeEvent() :
     flags(),
     reserved()
 {
+    objectType = ObjectType::LIN_SLEEP;
 }
 
 char * LinSleepModeEvent::read(char * buffer)

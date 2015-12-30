@@ -44,6 +44,7 @@ AfdxStatistic::AfdxStatistic() :
     vlid(),
     statDuration()
 {
+    objectType = ObjectType::AFDX_STATISTIC;
 }
 
 char * AfdxStatistic::read(char * buffer)

@@ -34,6 +34,7 @@ AppTrigger::AppTrigger() :
     flags(),
     appSpecific2()
 {
+    objectType = ObjectType::APP_TRIGGER;
 }
 
 char * AppTrigger::read(char * buffer)

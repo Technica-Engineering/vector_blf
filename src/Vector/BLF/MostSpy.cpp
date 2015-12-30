@@ -42,6 +42,7 @@ MostSpy::MostSpy() :
     ackNack(),
     crc()
 {
+    objectType = ObjectType::MOST_SPY;
 }
 
 char * MostSpy::read(char * buffer)

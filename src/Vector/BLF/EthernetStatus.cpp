@@ -40,6 +40,7 @@ EthernetStatus::EthernetStatus() :
     reserved(),
     bitrate()
 {
+    objectType = ObjectType::ETHERNET_STATUS;
 }
 
 char * EthernetStatus::read(char * buffer)

@@ -42,6 +42,7 @@ MostCtrl::MostCtrl() :
     ackNack(),
     reserved4()
 {
+    objectType = ObjectType::MOST_CTRL;
 }
 
 char * MostCtrl::read(char * buffer)

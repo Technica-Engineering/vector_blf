@@ -32,6 +32,7 @@ CanDriverHwSync::CanDriverHwSync() :
     flags(),
     reserved()
 {
+    objectType = ObjectType::CAN_DRIVER_SYNC;
 }
 
 char * CanDriverHwSync::read(char * buffer)

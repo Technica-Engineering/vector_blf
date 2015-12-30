@@ -33,6 +33,7 @@ SerialEvent::SerialEvent() :
     baudrate(),
     reserved()
 {
+    objectType = ObjectType::SERIAL_EVENT;
 }
 
 char * SerialEvent::read(char * buffer)

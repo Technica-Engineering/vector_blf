@@ -46,6 +46,7 @@ Most150Pkt::Most150Pkt() :
     reserved3(),
     pktData(nullptr)
 {
+    objectType = ObjectType::MOST_150_PKT;
 }
 
 Most150Pkt::~Most150Pkt()

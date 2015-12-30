@@ -32,6 +32,7 @@ DriverOverrun::DriverOverrun() :
     channel(),
     reserved()
 {
+    objectType = ObjectType::OVERRUN_ERROR;
 }
 
 char * DriverOverrun::read(char * buffer)

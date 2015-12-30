@@ -34,6 +34,7 @@ Most150AllocTab::Most150AllocTab() :
     length(),
     tableData(nullptr)
 {
+    objectType = ObjectType::MOST_150_ALLOCTAB;
 }
 
 Most150AllocTab::~Most150AllocTab()

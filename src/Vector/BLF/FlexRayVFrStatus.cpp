@@ -41,6 +41,7 @@ FlexRayVFrStatus::FlexRayVFrStatus() :
     data(),
     reserved2()
 {
+    objectType = ObjectType::FR_STATUS;
 }
 
 char * FlexRayVFrStatus::read(char * buffer)

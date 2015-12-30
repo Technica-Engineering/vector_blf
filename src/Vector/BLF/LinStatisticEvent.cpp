@@ -38,6 +38,7 @@ LinStatisticEvent::LinStatisticEvent() :
     framesUnanswered(),
     reserved2()
 {
+    objectType = ObjectType::LIN_STATISTIC;
 }
 
 char * LinStatisticEvent::read(char * buffer)

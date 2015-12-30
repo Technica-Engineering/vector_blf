@@ -33,6 +33,7 @@ MostNetState::MostNetState() :
     stateOld(),
     reserved()
 {
+    objectType = ObjectType::MOST_NETSTATE;
 }
 
 char * MostNetState::read(char * buffer)

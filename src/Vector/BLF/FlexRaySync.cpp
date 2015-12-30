@@ -38,6 +38,7 @@ FlexRaySync::FlexRaySync() :
     dataBytes(),
     cycle()
 {
+    objectType = ObjectType::FLEXRAY_SYNC;
 }
 
 char * FlexRaySync::read(char * buffer)

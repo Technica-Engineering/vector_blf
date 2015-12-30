@@ -38,6 +38,7 @@ CanDriverStatistic::CanDriverStatistic() :
     overloadFrames(),
     reserved()
 {
+    objectType = ObjectType::CAN_STATISTIC;
 }
 
 char * CanDriverStatistic::read(char * buffer)

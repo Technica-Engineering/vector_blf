@@ -32,6 +32,7 @@ LinChecksumInfo::LinChecksumInfo() :
     id(),
     checksumModel()
 {
+    objectType = ObjectType::LIN_CHECKSUM_INFO;
 }
 
 char * LinChecksumInfo::read(char * buffer)

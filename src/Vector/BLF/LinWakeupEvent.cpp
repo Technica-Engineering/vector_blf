@@ -32,6 +32,7 @@ LinWakeupEvent::LinWakeupEvent() :
     signal(),
     external()
 {
+    objectType = ObjectType::LIN_WAKEUP;
 }
 
 char * LinWakeupEvent::read(char * buffer)

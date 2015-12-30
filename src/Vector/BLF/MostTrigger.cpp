@@ -35,6 +35,7 @@ MostTrigger::MostTrigger() :
     previousTriggerValue(),
     currentTriggerValue()
 {
+    objectType = ObjectType::MOST_TRIGGER;
 }
 
 char * MostTrigger::read(char * buffer)

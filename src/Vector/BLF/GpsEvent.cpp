@@ -37,6 +37,7 @@ GpsEvent::GpsEvent() :
     speed(),
     course()
 {
+    objectType = ObjectType::GPS_EVENT;
 }
 
 char * GpsEvent::read(char * buffer)

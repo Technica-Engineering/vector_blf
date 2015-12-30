@@ -44,6 +44,7 @@ Most150MessageFragment::Most150MessageFragment() :
     firstDataLen(),
     firstData(nullptr)
 {
+    objectType = ObjectType::MOST_150_MESSAGE_FRAGMENT;
 }
 
 Most150MessageFragment::~Most150MessageFragment()

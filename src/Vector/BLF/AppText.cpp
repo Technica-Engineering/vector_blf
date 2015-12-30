@@ -33,6 +33,7 @@ AppText::AppText() :
     textLength(),
     text(nullptr)
 {
+    objectType = ObjectType::APP_TEXT;
 }
 
 AppText::~AppText()

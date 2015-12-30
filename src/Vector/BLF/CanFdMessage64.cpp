@@ -44,6 +44,7 @@ CanFdMessage64::CanFdMessage64() :
     reserved(),
     data()
 {
+    objectType = ObjectType::CAN_FD_MESSAGE_64;
 }
 
 char * CanFdMessage64::read(char * buffer)

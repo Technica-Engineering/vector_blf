@@ -46,6 +46,7 @@ MostPkt::MostPkt() :
     reserved4(),
     pktData(nullptr)
 {
+    objectType = ObjectType::MOST_PKT;
 }
 
 MostPkt::~MostPkt()

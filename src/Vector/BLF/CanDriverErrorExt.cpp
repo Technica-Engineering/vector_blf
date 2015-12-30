@@ -36,6 +36,7 @@ CanDriverErrorExt::CanDriverErrorExt() :
     state(),
     reserved()
 {
+    objectType = ObjectType::CAN_DRIVER_ERROR_EXT;
 }
 
 char * CanDriverErrorExt::read(char * buffer)

@@ -44,6 +44,7 @@ Most150PktFragment::Most150PktFragment() :
     firstDataLen(),
     firstData(nullptr)
 {
+    objectType = ObjectType::MOST_150_PKT_FRAGMENT;
 }
 
 Most150PktFragment::~Most150PktFragment()

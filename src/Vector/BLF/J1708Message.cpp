@@ -36,6 +36,10 @@ J1708Message::J1708Message() :
     data(),
     reserved2()
 {
+    /* can be one of:
+     *   - objectType = ObjectType::J1708_MESSAGE;
+     *   - objectType = ObjectType::J1708_VIRTUAL_MSG;
+     */
 }
 
 char * J1708Message::read(char * buffer)

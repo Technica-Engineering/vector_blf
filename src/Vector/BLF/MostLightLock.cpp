@@ -32,6 +32,7 @@ MostLightLock::MostLightLock() :
     state(),
     reserved()
 {
+    objectType = ObjectType::MOST_LIGHTLOCK;
 }
 
 char * MostLightLock::read(char * buffer)

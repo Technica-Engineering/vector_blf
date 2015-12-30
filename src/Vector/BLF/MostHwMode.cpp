@@ -33,6 +33,7 @@ MostHwMode::MostHwMode() :
     hwMode(),
     hwModeMask()
 {
+    objectType = ObjectType::MOST_HWMODE;
 }
 
 char * MostHwMode::read(char * buffer)

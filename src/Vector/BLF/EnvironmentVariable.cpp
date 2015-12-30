@@ -33,6 +33,12 @@ EnvironmentVariable::EnvironmentVariable() :
     name(nullptr),
     data(nullptr)
 {
+    /* can be one of:
+     *   - objectType = ObjectType::ENV_INTEGER;
+     *   - objectType = ObjectType::ENV_DOUBLE;
+     *   - objectType = ObjectType::ENV_STRING;
+     *   - objectType = ObjectType::ENV_DATA;
+     */
 }
 
 EnvironmentVariable::~EnvironmentVariable()

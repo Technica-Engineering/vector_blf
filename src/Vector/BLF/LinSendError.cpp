@@ -36,6 +36,7 @@ LinSendError::LinSendError() :
     headerTime(),
     fullTime()
 {
+    objectType = ObjectType::LIN_SND_ERROR;
 }
 
 char * LinSendError::read(char * buffer)

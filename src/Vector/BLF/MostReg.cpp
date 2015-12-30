@@ -37,6 +37,7 @@ MostReg::MostReg() :
     regDataLen(),
     regData()
 {
+    objectType = ObjectType::MOST_REG;
 }
 
 char * MostReg::read(char * buffer)

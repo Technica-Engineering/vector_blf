@@ -48,6 +48,7 @@ FlexRayVFrReceiveMsg::FlexRayVFrReceiveMsg() :
     appParameter(),
     dataBytes()
 {
+    objectType = ObjectType::FR_RCVMESSAGE;
 }
 
 char * FlexRayVFrReceiveMsg::read(char * buffer)

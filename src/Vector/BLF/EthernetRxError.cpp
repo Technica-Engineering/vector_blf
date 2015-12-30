@@ -38,6 +38,7 @@ EthernetRxError::EthernetRxError() :
     error(),
     frameData(nullptr)
 {
+    objectType = ObjectType::ETHERNET_RX_ERROR;
 }
 
 EthernetRxError::~EthernetRxError()

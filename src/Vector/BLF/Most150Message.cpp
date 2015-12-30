@@ -46,6 +46,7 @@ Most150Message::Most150Message() :
     reserved3(),
     msg(nullptr)
 {
+    objectType = ObjectType::MOST_150_MESSAGE;
 }
 
 Most150Message::~Most150Message()
