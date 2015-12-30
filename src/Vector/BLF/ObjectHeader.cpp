@@ -33,6 +33,7 @@ ObjectHeader::ObjectHeader() :
     objectVersion(),
     objectTimeStamp()
 {
+    headerVersion = 1;
 }
 
 char * ObjectHeader::read(char * buffer)
