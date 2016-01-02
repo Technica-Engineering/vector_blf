@@ -64,11 +64,19 @@ public:
      */
     ULONGLONG uncompressedFileSize;
 
+    /** compressed file content */
+    char * compressedFile;
+
     /** compressed file size in bytes */
     std::streamsize compressedFileSize;
 
-    /** compressed file content */
-    char * compressedFile;
+private:
+    /**
+     * internalHeaderSize returns the size of all headers.
+     * @note Not to be mixed with headerSize, which is only takes ObjectHeaderBase headers into account.
+     * @return Size of all headers.
+     */
+    const size_t internalHeaderSize();
 };
 
 }

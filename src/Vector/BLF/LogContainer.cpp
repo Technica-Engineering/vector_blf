@@ -32,8 +32,8 @@ LogContainer::LogContainer() :
     reserved(),
     objectVersion(),
     uncompressedFileSize(),
-    compressedFileSize(),
-    compressedFile(nullptr)
+    compressedFile(nullptr),
+    compressedFileSize()
 {
     objectType = ObjectType::LOG_CONTAINER;
 }
@@ -72,9 +72,7 @@ char * LogContainer::read(char * buffer)
     buffer += size;
 
     // compressedFile
-    compressedFileSize = objectSize
-                         - 0x10  // ObjectHeaderBase
-                         - 0x10; // sizeof(LogContainer.header)
+    compressedFileSize = objectSize - internalHeaderSize();
     size = compressedFileSize;
     compressedFile = new char[size];
     memcpy(compressedFile, buffer, size);
@@ -111,9 +109,7 @@ char * LogContainer::write(char * buffer)
     buffer += size;
 
     // compressedFile
-    compressedFileSize = objectSize
-                         - 0x10  // ObjectHeaderBase
-                         - 0x10; // sizeof(LogContainer.header)
+    compressedFileSize = objectSize - internalHeaderSize();
     size = compressedFileSize;
     memcpy(buffer, compressedFile, size);
     buffer += size;
@@ -123,16 +119,17 @@ char * LogContainer::write(char * buffer)
 
 size_t LogContainer::calculateObjectSize()
 {
-    size_t size =
-        ObjectHeaderBase::calculateObjectSize() +
+    return internalHeaderSize() + compressedFileSize;
+}
+
+const size_t LogContainer::internalHeaderSize()
+{
+    return
+        ObjectHeaderBase::calculateHeaderSize() +
         sizeof(objectFlags) +
         sizeof(reserved) +
         sizeof(objectVersion) +
-        sizeof(uncompressedFileSize) +
-        sizeof(compressedFileSize) +
-        compressedFileSize;
-
-    return size;
+        sizeof(uncompressedFileSize);
 }
 
 }
