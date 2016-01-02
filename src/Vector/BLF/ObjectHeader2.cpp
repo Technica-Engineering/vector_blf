@@ -118,9 +118,9 @@ char * ObjectHeader2::write(char * buffer)
     return buffer;
 }
 
-size_t ObjectHeader2::calculateHeaderSize()
+const size_t ObjectHeader2::calculateHeaderSize()
 {
-    size_t size =
+    return
         ObjectHeaderBase::calculateHeaderSize() +
         sizeof(objectFlags) +
         sizeof(timeStampStatus) +
@@ -128,8 +128,6 @@ size_t ObjectHeader2::calculateHeaderSize()
         sizeof(objectVersion) +
         sizeof(objectTimeStamp) +
         sizeof(originalTimeStamp);
-
-    return size;
 }
 
 size_t ObjectHeader2::calculateObjectSize()

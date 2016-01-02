@@ -96,16 +96,14 @@ char * ObjectHeader::write(char * buffer)
     return buffer;
 }
 
-size_t ObjectHeader::calculateHeaderSize()
+const size_t ObjectHeader::calculateHeaderSize()
 {
-    size_t size =
+    return
         ObjectHeaderBase::calculateHeaderSize() +
         sizeof(objectFlags) +
         sizeof(reserved) +
         sizeof(objectVersion) +
         sizeof(objectTimeStamp);
-
-    return size;
 }
 
 size_t ObjectHeader::calculateObjectSize()

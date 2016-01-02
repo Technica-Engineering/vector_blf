@@ -111,16 +111,14 @@ char * ObjectHeaderBase::write(char * buffer)
     return buffer;
 }
 
-size_t ObjectHeaderBase::calculateHeaderSize()
+const size_t ObjectHeaderBase::calculateHeaderSize()
 {
-    size_t size =
+    return
         sizeof(signature) +
         sizeof(headerSize) +
         sizeof(headerVersion) +
         sizeof(objectSize) +
         sizeof(objectType);
-
-    return size;
 }
 
 size_t ObjectHeaderBase::calculateObjectSize()

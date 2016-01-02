@@ -182,7 +182,7 @@ public:
      *
      * @return header size
      */
-    virtual size_t calculateHeaderSize();
+    virtual const size_t calculateHeaderSize();
 
     /**
      * Calculates the objectSize
