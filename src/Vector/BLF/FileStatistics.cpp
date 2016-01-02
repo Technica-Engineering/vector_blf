@@ -28,8 +28,8 @@ namespace Vector {
 namespace BLF {
 
 FileStatistics::FileStatistics() :
-    signature(),
-    statisticsSize(0x90),
+    signature(FileSignature),
+    statisticsSize(calculateStatisticsSize()),
     applicationId(),
     applicationMajor(),
     applicationMinor(),
@@ -133,12 +133,10 @@ void FileStatistics::write(std::ostream & os)
     size_t size;
 
     // signature
-    signature = FileSignature;
     size = sizeof(signature);
     os.write((char *) &signature, size);
 
     // statisticsSize
-    statisticsSize = calculateStatisticsSize();
     size = sizeof(statisticsSize);
     os.write((char *) &statisticsSize, size);
 

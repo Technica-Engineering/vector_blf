@@ -28,11 +28,11 @@ namespace Vector {
 namespace BLF {
 
 ObjectHeaderBase::ObjectHeaderBase() :
-    signature(),
-    headerSize(),
-    headerVersion(),
+    signature(ObjectSignature),
+    headerSize(calculateHeaderSize()),
+    headerVersion(), // is set in ObjectHeader/ObjectHeader2
     objectSize(),
-    objectType()
+    objectType() // is set in each event class constructor
 {
 }
 
@@ -87,7 +87,6 @@ char * ObjectHeaderBase::write(char * buffer)
     buffer += size;
 
     // headerSize
-    headerSize = calculateHeaderSize();
     size = sizeof(headerSize);
     memcpy(buffer, (void *) &headerSize, size);
     buffer += size;
@@ -98,7 +97,6 @@ char * ObjectHeaderBase::write(char * buffer)
     buffer += size;
 
     // objectSize
-    objectSize = calculateObjectSize();
     size = sizeof(objectSize);
     memcpy(buffer, (void *) &objectSize, size);
     buffer += size;
