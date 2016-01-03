@@ -3,6 +3,7 @@
 #define BOOST_TEST_DYN_LINK
 #endif
 #include <boost/test/unit_test.hpp>
+#include <boost/filesystem.hpp>
 
 #include <fstream>
 #include <iostream>
@@ -11,22 +12,27 @@
 
 #include "Vector/BLF.h"
 
-#define SUCCEEDED(code) ((int)(code) >= 0)
-#define WARNED(code) ((int)(code) & 0x40000000)
-#define FAILED(code) ((int)(code) < 0)
+#define SHOW_FILE_STATISTICS
 
-Vector::BLF::File file;
+Vector::BLF::File filein;
+Vector::BLF::File fileout;
 
-BOOST_AUTO_TEST_CASE(OpenLogfile)
+/** read object from filein, write object to fileout, and return object */
+Vector::BLF::ObjectHeaderBase * readWrite()
 {
-    /* open log file */
-    file.open(CMAKE_CURRENT_SOURCE_DIR "/data/logfile.blf");
-    BOOST_REQUIRE(file.is_open());
+    /* read */
+    Vector::BLF::ObjectHeaderBase * ohb;
+    ohb = filein.read();
 
-    /* check file statistics */
-    BOOST_REQUIRE(file.fileStatistics.signature == Vector::BLF::FileSignature);
-#ifdef SHOW_FILE_STATISTICS
-    /* show file statistics */
+    /* write */
+    fileout.write(ohb);
+
+    return ohb;
+}
+
+/** show file statistics */
+void printFileStatistics(Vector::BLF::File & file)
+{
     std::cout << "signature: 0x" << std::hex << file.fileStatistics.signature << std::endl;
     std::cout << "applicationName: " << file.fileStatistics.applicationName() << std::endl;
     std::cout << "applicationNumber: " << std::dec << (unsigned short) file.fileStatistics.applicationMajor << "." << (unsigned short) file.fileStatistics.applicationMinor << "." << (unsigned short) file.fileStatistics.applicationBuild << std::endl;
@@ -41,14 +47,55 @@ BOOST_AUTO_TEST_CASE(OpenLogfile)
     std::cout << "lastObjectTime: " << std::dec
               << file.fileStatistics.lastObjectTime.year << "-" << file.fileStatistics.lastObjectTime.month << "-" << file.fileStatistics.lastObjectTime.day << " (" << file.fileStatistics.lastObjectTime.dayOfWeek << ") "
               << file.fileStatistics.lastObjectTime.hour << ":" << file.fileStatistics.lastObjectTime.minute << ":" << file.fileStatistics.lastObjectTime.second << "+" << file.fileStatistics.lastObjectTime.milliseconds << "ms" << std::endl;
+}
+
+BOOST_AUTO_TEST_CASE(OpenLogfile)
+{
+    /* input directory */
+    boost::filesystem::path indir(CMAKE_CURRENT_SOURCE_DIR "/data/");
+
+    /* output directory */
+    boost::filesystem::path outdir(CMAKE_CURRENT_BINARY_DIR "/data/");
+    if (!exists(outdir)) {
+        BOOST_REQUIRE(create_directory(outdir));
+    }
+
+    /* open input file */
+    boost::filesystem::path infile(CMAKE_CURRENT_SOURCE_DIR "/data/logfile.blf");
+    filein.open(infile.string(), Vector::BLF::File::OpenMode::Read);
+    BOOST_REQUIRE(filein.is_open());
+
+    /* open output file */
+    boost::filesystem::path outfile(CMAKE_CURRENT_BINARY_DIR "/data/logfile.blf");
+    fileout.compressionLevel = 9; // best compression
+    fileout.open(outfile.string(), Vector::BLF::File::OpenMode::Write);
+    BOOST_REQUIRE(fileout.is_open());
+
+    /* check filein statistics */
+    BOOST_REQUIRE(filein.fileStatistics.signature == Vector::BLF::FileSignature);
+#ifdef SHOW_FILE_STATISTICS
+    /* show file statistics */
+    std::cout << "--- read ---" << std::endl;
+    printFileStatistics(filein);
 #endif
+
+    /* copy some filein to fileout statistics */
+    fileout.fileStatistics.applicationId = filein.fileStatistics.applicationId;
+    fileout.fileStatistics.applicationMajor = filein.fileStatistics.applicationMajor;
+    fileout.fileStatistics.applicationMinor = filein.fileStatistics.applicationMinor;
+    fileout.fileStatistics.applicationBuild = filein.fileStatistics.applicationBuild;
+    fileout.fileStatistics.apiMajor = filein.fileStatistics.apiMajor;
+    fileout.fileStatistics.apiMinor = filein.fileStatistics.apiMinor;
+    fileout.fileStatistics.apiBuild = filein.fileStatistics.apiBuild;
+    fileout.fileStatistics.apiPatch = filein.fileStatistics.apiPatch;
+    // all others should be set on close
 }
 
 /* 1 = CAN_MESSAGE = "CAN message object" */
 BOOST_AUTO_TEST_CASE(ObjectTypes_001)
 {
     /* ObjectHeaderBase */
-    Vector::BLF::ObjectHeaderBase * ohb = file.read();
+    Vector::BLF::ObjectHeaderBase * ohb = readWrite();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->signature == Vector::BLF::ObjectSignature);
     BOOST_REQUIRE(ohb->headerSize == ohb->calculateHeaderSize());
@@ -94,7 +141,7 @@ BOOST_AUTO_TEST_CASE(ObjectTypes_001)
 BOOST_AUTO_TEST_CASE(ObjectTypes_004)
 {
     /* ObjectHeaderBase */
-    Vector::BLF::ObjectHeaderBase * ohb = file.read();
+    Vector::BLF::ObjectHeaderBase * ohb = readWrite();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->signature == Vector::BLF::ObjectSignature);
     BOOST_REQUIRE(ohb->headerSize == ohb->calculateHeaderSize());
@@ -137,7 +184,7 @@ BOOST_AUTO_TEST_CASE(ObjectTypes_004)
 BOOST_AUTO_TEST_CASE(ObjectTypes_017)
 {
     /* ObjectHeaderBase */
-    Vector::BLF::ObjectHeaderBase * ohb = file.read();
+    Vector::BLF::ObjectHeaderBase * ohb = readWrite();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->signature == Vector::BLF::ObjectSignature);
     BOOST_REQUIRE(ohb->headerSize == ohb->calculateHeaderSize());
@@ -175,7 +222,7 @@ BOOST_AUTO_TEST_CASE(ObjectTypes_017)
 BOOST_AUTO_TEST_CASE(ObjectTypes_020)
 {
     /* ObjectHeaderBase */
-    Vector::BLF::ObjectHeaderBase * ohb = file.read();
+    Vector::BLF::ObjectHeaderBase * ohb = readWrite();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->signature == Vector::BLF::ObjectSignature);
     BOOST_REQUIRE(ohb->headerSize == ohb->calculateHeaderSize());
@@ -213,7 +260,7 @@ BOOST_AUTO_TEST_CASE(ObjectTypes_020)
 BOOST_AUTO_TEST_CASE(ObjectTypes_022)
 {
     /* ObjectHeaderBase */
-    Vector::BLF::ObjectHeaderBase * ohb = file.read();
+    Vector::BLF::ObjectHeaderBase * ohb = readWrite();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->signature == Vector::BLF::ObjectSignature);
     BOOST_REQUIRE(ohb->headerSize == ohb->calculateHeaderSize());
@@ -276,7 +323,7 @@ BOOST_AUTO_TEST_CASE(ObjectTypes_022)
 BOOST_AUTO_TEST_CASE(ObjectTypes_023)
 {
     /* ObjectHeaderBase */
-    Vector::BLF::ObjectHeaderBase * ohb = file.read();
+    Vector::BLF::ObjectHeaderBase * ohb = readWrite();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->signature == Vector::BLF::ObjectSignature);
     BOOST_REQUIRE(ohb->headerSize == ohb->calculateHeaderSize());
@@ -339,7 +386,7 @@ BOOST_AUTO_TEST_CASE(ObjectTypes_023)
 BOOST_AUTO_TEST_CASE(ObjectTypes_024)
 {
     /* ObjectHeaderBase */
-    Vector::BLF::ObjectHeaderBase * ohb = file.read();
+    Vector::BLF::ObjectHeaderBase * ohb = readWrite();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->signature == Vector::BLF::ObjectSignature);
     BOOST_REQUIRE(ohb->headerSize == ohb->calculateHeaderSize());
@@ -376,7 +423,7 @@ BOOST_AUTO_TEST_CASE(ObjectTypes_024)
 BOOST_AUTO_TEST_CASE(ObjectTypes_025)
 {
     /* ObjectHeaderBase */
-    Vector::BLF::ObjectHeaderBase * ohb = file.read();
+    Vector::BLF::ObjectHeaderBase * ohb = readWrite();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->signature == Vector::BLF::ObjectSignature);
     BOOST_REQUIRE(ohb->headerSize == ohb->calculateHeaderSize());
@@ -415,7 +462,7 @@ BOOST_AUTO_TEST_CASE(ObjectTypes_025)
 BOOST_AUTO_TEST_CASE(ObjectTypes_034)
 {
     /* ObjectHeaderBase */
-    Vector::BLF::ObjectHeaderBase * ohb = file.read();
+    Vector::BLF::ObjectHeaderBase * ohb = readWrite();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->signature == Vector::BLF::ObjectSignature);
     BOOST_REQUIRE(ohb->headerSize == ohb->calculateHeaderSize());
@@ -455,7 +502,7 @@ BOOST_AUTO_TEST_CASE(ObjectTypes_034)
 BOOST_AUTO_TEST_CASE(ObjectTypes_036)
 {
     /* ObjectHeaderBase */
-    Vector::BLF::ObjectHeaderBase * ohb = file.read();
+    Vector::BLF::ObjectHeaderBase * ohb = readWrite();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->signature == Vector::BLF::ObjectSignature);
     BOOST_REQUIRE(ohb->headerSize == ohb->calculateHeaderSize());
@@ -498,7 +545,7 @@ BOOST_AUTO_TEST_CASE(ObjectTypes_036)
 BOOST_AUTO_TEST_CASE(ObjectTypes_037)
 {
     /* ObjectHeaderBase */
-    Vector::BLF::ObjectHeaderBase * ohb = file.read();
+    Vector::BLF::ObjectHeaderBase * ohb = readWrite();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->signature == Vector::BLF::ObjectSignature);
     BOOST_REQUIRE(ohb->headerSize == ohb->calculateHeaderSize());
@@ -538,7 +585,7 @@ BOOST_AUTO_TEST_CASE(ObjectTypes_037)
 BOOST_AUTO_TEST_CASE(ObjectTypes_054)
 {
     /* ObjectHeaderBase */
-    Vector::BLF::ObjectHeaderBase * ohb = file.read();
+    Vector::BLF::ObjectHeaderBase * ohb = readWrite();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->signature == Vector::BLF::ObjectSignature);
     BOOST_REQUIRE(ohb->headerSize == ohb->calculateHeaderSize());
@@ -581,7 +628,7 @@ BOOST_AUTO_TEST_CASE(ObjectTypes_054)
 BOOST_AUTO_TEST_CASE(ObjectTypes_057)
 {
     /* ObjectHeaderBase */
-    Vector::BLF::ObjectHeaderBase * ohb = file.read();
+    Vector::BLF::ObjectHeaderBase * ohb = readWrite();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->signature == Vector::BLF::ObjectSignature);
     BOOST_REQUIRE(ohb->headerSize == ohb->calculateHeaderSize());
@@ -671,7 +718,7 @@ BOOST_AUTO_TEST_CASE(ObjectTypes_057)
 BOOST_AUTO_TEST_CASE(ObjectTypes_062)
 {
     /* ObjectHeaderBase */
-    Vector::BLF::ObjectHeaderBase * ohb = file.read();
+    Vector::BLF::ObjectHeaderBase * ohb = readWrite();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->signature == Vector::BLF::ObjectSignature);
     BOOST_REQUIRE(ohb->headerSize == ohb->calculateHeaderSize());
@@ -715,7 +762,7 @@ BOOST_AUTO_TEST_CASE(ObjectTypes_062)
 BOOST_AUTO_TEST_CASE(ObjectTypes_069)
 {
     /* ObjectHeaderBase */
-    Vector::BLF::ObjectHeaderBase * ohb = file.read();
+    Vector::BLF::ObjectHeaderBase * ohb = readWrite();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->signature == Vector::BLF::ObjectSignature);
     BOOST_REQUIRE(ohb->headerSize == ohb->calculateHeaderSize());
@@ -814,7 +861,7 @@ BOOST_AUTO_TEST_CASE(ObjectTypes_069)
 BOOST_AUTO_TEST_CASE(ObjectTypes_073)
 {
     /* ObjectHeaderBase */
-    Vector::BLF::ObjectHeaderBase * ohb = file.read();
+    Vector::BLF::ObjectHeaderBase * ohb = readWrite();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->signature == Vector::BLF::ObjectSignature);
     BOOST_REQUIRE(ohb->headerSize == ohb->calculateHeaderSize());
@@ -867,7 +914,7 @@ BOOST_AUTO_TEST_CASE(ObjectTypes_073)
 BOOST_AUTO_TEST_CASE(ObjectTypes_097)
 {
     /* ObjectHeaderBase */
-    Vector::BLF::ObjectHeaderBase * ohb = file.read();
+    Vector::BLF::ObjectHeaderBase * ohb = readWrite();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->signature == Vector::BLF::ObjectSignature);
     BOOST_REQUIRE(ohb->headerSize == ohb->calculateHeaderSize());
@@ -974,9 +1021,25 @@ BOOST_AUTO_TEST_CASE(ObjectTypes_097)
 BOOST_AUTO_TEST_CASE(CloseLogfile)
 {
     /* check file statistics */
-    BOOST_CHECK(file.fileStatistics.uncompressedFileSize == file.currentUncompressedFileSize);
-    BOOST_CHECK(file.fileStatistics.objectCount == file.currentObjectCount);
+    BOOST_CHECK(filein.fileStatistics.uncompressedFileSize == filein.currentUncompressedFileSize);
+    BOOST_CHECK(filein.fileStatistics.objectCount == filein.currentObjectCount);
 
-    /* close file */
-    file.close();
+    /* close files */
+    filein.close();
+    fileout.close();
+
+#ifdef SHOW_FILE_STATISTICS
+    /* show file statistics */
+    std::cout << "--- write ---" << std::endl;
+    printFileStatistics(fileout);
+#endif
+
+#if 0
+    /* compare files */
+    std::ifstream ifs1(infile.c_str());
+    std::ifstream ifs2(outfile.c_str());
+    std::istream_iterator<char> b1(ifs1), e1;
+    std::istream_iterator<char> b2(ifs2), e2;
+    BOOST_CHECK_EQUAL_COLLECTIONS(b1, e1, b2, e2);
+#endif
 }
