@@ -35,7 +35,7 @@ namespace BLF {
  * The write procedure puts the data and and the read procedure gets the data out.
  * tellp and tellg are the write and read pointers.
  *
- * Data read is automatically get freed. Therefore there is no seek
+ * Read data automatically gets freed again. Therefore there is no seek
  * operation to rewind.
  */
 class VECTOR_BLF_EXPORT UncompressedFile {

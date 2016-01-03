@@ -108,7 +108,7 @@ void UncompressedFile::read(char * s, std::streamsize n)
     while (gcount < n) {
         /* check if there are content blocks available */
         if (content.empty()) {
-            std::cerr << "uncompressed data exhausted" << std::endl;
+            std::cerr << "uncompressed data exhausted II: 0x" << std::hex << gcount << " < 0x" << n << std::endl;
             return;
         }
 
@@ -143,7 +143,7 @@ void UncompressedFile::skipg(std::streamsize n)
     while (scount < n) {
         /* check if there are content blocks available */
         if (content.empty()) {
-            std::cerr << "uncompressed data exhausted" << std::endl;
+            std::cerr << "uncompressed data exhausted III: 0x" << std::hex << gcount << " < 0x" << n << std::endl;
             return;
         }
 

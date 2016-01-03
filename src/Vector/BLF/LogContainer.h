@@ -70,7 +70,6 @@ public:
     /** compressed file size in bytes */
     std::streamsize compressedFileSize;
 
-private:
     /**
      * internalHeaderSize returns the size of all headers.
      * @note Not to be mixed with headerSize, which is only takes ObjectHeaderBase headers into account.

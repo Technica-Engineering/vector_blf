@@ -468,22 +468,30 @@ void File::open(const char * filename, OpenMode openMode)
 {
     this->openMode = openMode;
 
-    if (this->openMode == OpenMode::Read) {
+    switch(this->openMode) {
+    case OpenMode::Read:
+        /* open file for reading */
         compressedFile.open(filename, std::ios_base::in | std::ios_base::binary);
         if (!is_open())
             return;
 
-        /* do file statistics */
+        /* read file statistics */
         fileStatistics.read(compressedFile);
-    } else {
+        break;
+
+    case OpenMode::Write:
+        /* open file for writing */
         compressedFile.open(filename, std::ios_base::out | std::ios_base::binary);
         if (!is_open())
             return;
 
-        /* do file statistics */
+        /* write file statistics */
         fileStatistics.write(compressedFile);
+        break;
     }
-    currentUncompressedFileSize += 0x90;
+
+    /* fileStatistics done */
+    currentUncompressedFileSize += fileStatistics.statisticsSize;
 }
 
 void File::open(const std::string & filename, OpenMode openMode)
@@ -665,7 +673,7 @@ void File::inflateLogContainer(LogContainer * logContainer)
 
     /* inflate */
     uncompress(reinterpret_cast<Bytef *>(buffer),
-               reinterpret_cast<size_t *>(&bufferSize),
+               reinterpret_cast<uLongf *>(&bufferSize),
                reinterpret_cast<Bytef *>(logContainer->compressedFile),
                logContainer->compressedFileSize);
 
@@ -693,8 +701,9 @@ size_t File::readFromUncompressedFile(char ** buffer, size_t size)
         }
         if (obj->objectType == ObjectType::LOG_CONTAINER) {
             LogContainer * logContainer = reinterpret_cast<LogContainer *>(obj);
-            currentUncompressedFileSize += 0x20; // ObjectHeaderBase + ObjectHeader
-            currentUncompressedFileSize += logContainer->uncompressedFileSize;
+            currentUncompressedFileSize +=
+                    logContainer->internalHeaderSize() +
+                    logContainer->uncompressedFileSize;
 
             /* inflate the log container */
             inflateLogContainer(logContainer);
@@ -713,12 +722,12 @@ size_t File::readFromUncompressedFile(char ** buffer, size_t size)
     }
     uncompressedFile.read(*buffer, size);
     if (uncompressedFile.gcount < size) {
-        std::cerr << "uncompressed data exhausted" << std::endl;
+        std::cerr << "uncompressed data exhausted I: 0x" << std::hex << uncompressedFile.gcount << " < 0x" << size << std::endl;
         delete[] *buffer;
         *buffer = nullptr;
         return 0;
     }
-    return size;
+    return uncompressedFile.gcount;
 }
 
 ObjectHeaderBase * File::read()

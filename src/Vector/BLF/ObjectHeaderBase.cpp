@@ -48,6 +48,8 @@ char * ObjectHeaderBase::read(char * buffer)
     size = sizeof(signature);
     memcpy((void *) &signature, buffer, size);
     buffer += size;
+    if (signature != ObjectSignature)
+        std::cerr << "unexpected object signature" << std::endl;
 
     // headerSize
     size = sizeof(headerSize);
@@ -68,11 +70,6 @@ char * ObjectHeaderBase::read(char * buffer)
     size = sizeof(objectType);
     memcpy((void *) &objectType, buffer, size);
     buffer += size;
-
-    /* checks */
-    if (signature != ObjectSignature) {
-        std::cerr << "unexpected object signature" << std::endl;
-    }
 
     return buffer;
 }
