@@ -509,7 +509,7 @@ bool File::is_open() const
 bool File::eof()
 {
     bool compressedFileEmpty = (compressedFile.tellg() >= fileStatistics.fileSize) || compressedFile.eof();
-    bool uncompressedFileEmpty = (uncompressedFile.size() <= 0);
+    bool uncompressedFileEmpty = (uncompressedFile.tellp() <= uncompressedFile.tellg());
     return compressedFileEmpty && uncompressedFileEmpty;
 }
 
@@ -641,7 +641,7 @@ ObjectHeaderBase * File::readObjectFromUncompressedFile()
         delete[] objBuffer;
 
     /* skip padding */
-    uncompressedFile.skipg(roundUp(ohb.objectSize, 4));
+    uncompressedFile.seekg(uncompressedFile.tellg() + roundUp(ohb.objectSize, 4));
 
     currentObjectCount++;
     return obj;
@@ -685,7 +685,7 @@ size_t File::readFromUncompressedFile(char ** buffer, size_t size)
     }
 
     /* first read some more compressed data and inflate it */
-    while (uncompressedFile.size() < size) {
+    while ((uncompressedFile.tellp() - uncompressedFile.tellg()) < size) {
         ObjectHeaderBase * obj = readObjectFromCompressedFile();
         if (obj == nullptr) {
             std::cerr << "readObjectFromCompressedFile returned nullptr" << std::endl;
@@ -713,13 +713,13 @@ size_t File::readFromUncompressedFile(char ** buffer, size_t size)
         return 0;
     }
     uncompressedFile.read(*buffer, size);
-    if (uncompressedFile.gcount < size) {
-        std::cerr << "uncompressed data exhausted I: 0x" << std::hex << uncompressedFile.gcount << " < 0x" << size << std::endl;
+    if (uncompressedFile.gcount() < size) {
+        std::cerr << "uncompressed data exhausted I: 0x" << std::hex << uncompressedFile.gcount() << " < 0x" << size << std::endl;
         delete[] *buffer;
         *buffer = nullptr;
         return 0;
     }
-    return uncompressedFile.gcount;
+    return uncompressedFile.gcount();
 }
 
 ObjectHeaderBase * File::read()
@@ -734,8 +734,8 @@ void File::deflateLogContainerAndWrite()
 {
     /* write uncompressedFile into buffer */
     size_t bufferSizeIn = defaultLogContainerSize;
-    if (uncompressedFile.size() < bufferSizeIn)
-        bufferSizeIn = uncompressedFile.size();
+    if ((uncompressedFile.tellp() - uncompressedFile.tellg()) < bufferSizeIn)
+        bufferSizeIn = uncompressedFile.tellp() - uncompressedFile.tellg();
     size_t bufferSizeInRoundedUp = bufferSizeIn + roundUp(bufferSizeIn, 4);
     char * bufferIn = new char[bufferSizeInRoundedUp];
     memset(bufferIn, 0, bufferSizeInRoundedUp);
@@ -800,7 +800,7 @@ bool File::write(ObjectHeaderBase * objectHeaderBase)
         delete[] buffer;
 
         /* if data exceeds defined logContainerSize, compress and write it into compressedFile */
-        if (uncompressedFile.size() >= defaultLogContainerSize)
+        if ((uncompressedFile.tellp() - uncompressedFile.tellg()) >= defaultLogContainerSize)
             deflateLogContainerAndWrite();
     }
 
@@ -814,7 +814,7 @@ void File::close()
 {
     if (openMode == OpenMode::Write) {
         /* if data left, compress and write it */
-        if (uncompressedFile.size() > 0)
+        if (uncompressedFile.tellp() > uncompressedFile.tellg())
             deflateLogContainerAndWrite();
 
         /* write statistics */

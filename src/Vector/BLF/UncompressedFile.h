@@ -52,7 +52,7 @@ public:
     void write(const char * s, std::streamsize n);
 
     /** Write position */
-    std::streampos tellp;
+    std::streampos tellp();
 
     /**
      * Read block of data
@@ -63,26 +63,28 @@ public:
     void read(char * s, std::streamsize n);
 
     /** Read position */
-    std::streampos tellg;
-
-    /**
-     * skip block of data
-     *
-     * @param n number of bytes to skip
-     */
-    void skipg(std::streamsize n);
+    std::streampos tellg();
 
     /** Get character count */
-    std::streamsize gcount;
+    std::streamsize gcount();
 
     /**
-     * Get the remaining size
+     * set position in input sequence
      *
-     * @return size
+     * @param pos new position
      */
-    std::streamsize size();
+    void seekg(std::streampos pos);
 
 private:
+    /** tellp */
+    std::streampos privateTellp;
+
+    /** tellg */
+    std::streampos privateTellg;
+
+    /** gcount */
+    std::streamsize privateGcount;
+
     /** a data block */
     struct DataBlock {
         DataBlock();

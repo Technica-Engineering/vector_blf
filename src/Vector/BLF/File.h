@@ -22,6 +22,12 @@
 #pragma once
 
 #include <fstream>
+
+#undef USE_STRINGSTREAM_FOR_UNCOMPRESSEDFILE
+#ifdef USE_STRINGSTREAM_FOR_UNCOMPRESSEDFILE
+#include <sstream>
+#endif
+
 #include "zlib.h"
 
 #include "VectorTypes.h"
@@ -232,7 +238,11 @@ private:
     std::fstream compressedFile;
 
     /** uncompressed file */
+#ifdef USE_STRINGSTREAM_FOR_UNCOMPRESSEDFILE
+    std::stringstream uncompressedFile;
+#else
     UncompressedFile uncompressedFile;
+#endif
 
     /**
      * create object of given type

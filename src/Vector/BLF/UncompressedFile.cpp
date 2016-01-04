@@ -55,9 +55,9 @@ UncompressedFile::DataBlock::~DataBlock()
 }
 
 UncompressedFile::UncompressedFile() :
-    tellp(0),
-    tellg(0),
-    gcount(0),
+    privateTellp(0),
+    privateTellg(0),
+    privateGcount(0),
     content()
 {
 }
@@ -91,12 +91,17 @@ void UncompressedFile::write(const char * s, std::streamsize n)
     content.push(db);
 
     /* advance write pointer */
-    tellp += n;
+    privateTellp += n;
+}
+
+std::streampos UncompressedFile::tellp()
+{
+    return privateTellp;
 }
 
 void UncompressedFile::read(char * s, std::streamsize n)
 {
-    gcount = 0;
+    privateGcount = 0;
 
     /* safety check */
     if (s == nullptr) {
@@ -105,15 +110,15 @@ void UncompressedFile::read(char * s, std::streamsize n)
     }
 
     /* while more should be read */
-    while (gcount < n) {
+    while (privateGcount < n) {
         /* check if there are content blocks available */
         if (content.empty()) {
-            std::cerr << "uncompressed data exhausted II: 0x" << std::hex << gcount << " < 0x" << n << std::endl;
+            std::cerr << "uncompressed data exhausted II: 0x" << std::hex << privateGcount << " < 0x" << n << std::endl;
             return;
         }
 
         /* read data from container */
-        std::streamsize size = std::min(content.front()->remainingSize, n - gcount);
+        std::streamsize size = std::min(content.front()->remainingSize, n - privateGcount);
         memcpy(s, content.front()->tellg, size);
         content.front()->tellg += size;
         content.front()->remainingSize -= size;
@@ -122,10 +127,10 @@ void UncompressedFile::read(char * s, std::streamsize n)
         s += size;
 
         /* advance read pointer */
-        tellg += size;
+        privateTellg += size;
 
         /* increase read count */
-        gcount += size;
+        privateGcount += size;
 
         /* drop empty blocks */
         if (content.front()->remainingSize <= 0) {
@@ -135,15 +140,26 @@ void UncompressedFile::read(char * s, std::streamsize n)
     }
 }
 
-void UncompressedFile::skipg(std::streamsize n)
+std::streampos UncompressedFile::tellg()
 {
+    return privateTellg;
+}
+
+std::streamsize UncompressedFile::gcount()
+{
+    return privateGcount;
+}
+
+void UncompressedFile::seekg(std::streampos pos)
+{
+    std::streamsize n = privateTellg - pos; // assume we only seek forward
     std::streamsize scount = 0;
 
     /* while more should be read */
     while (scount < n) {
         /* check if there are content blocks available */
         if (content.empty()) {
-            std::cerr << "uncompressed data exhausted III: 0x" << std::hex << gcount << " < 0x" << n << std::endl;
+            std::cerr << "uncompressed data exhausted III: 0x" << std::hex << scount << " < 0x" << n << std::endl;
             return;
         }
 
@@ -153,7 +169,7 @@ void UncompressedFile::skipg(std::streamsize n)
         content.front()->remainingSize -= size;
 
         /* advance read pointer */
-        tellg += size;
+        privateTellg += size;
 
         /* increase skip count */
         scount += size;
@@ -164,11 +180,6 @@ void UncompressedFile::skipg(std::streamsize n)
             content.pop();
         }
     }
-}
-
-std::streamsize UncompressedFile::size()
-{
-    return tellp - tellg;
 }
 
 }
