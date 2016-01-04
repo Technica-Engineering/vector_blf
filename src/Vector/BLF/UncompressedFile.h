@@ -87,8 +87,7 @@ private:
 
     /** a data block */
     struct DataBlock {
-        DataBlock();
-        DataBlock(size_t size);
+        explicit DataBlock(size_t size);
         virtual ~DataBlock();
 
         /** data */

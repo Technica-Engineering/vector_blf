@@ -26,11 +26,6 @@
 namespace Vector {
 namespace BLF {
 
-UncompressedFile::DataBlock::DataBlock() :
-    DataBlock(0)
-{
-}
-
 UncompressedFile::DataBlock::DataBlock(size_t size) :
     data(nullptr),
     tellg(nullptr),
