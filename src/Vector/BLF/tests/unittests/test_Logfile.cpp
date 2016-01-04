@@ -1030,6 +1030,8 @@ BOOST_AUTO_TEST_CASE(CloseLogfile)
     BOOST_CHECK(filein.fileStatistics.uncompressedFileSize == fileout.fileStatistics.uncompressedFileSize);
     BOOST_CHECK(filein.fileStatistics.objectCount == fileout.fileStatistics.objectCount);
     BOOST_CHECK(filein.fileStatistics.objectsRead == fileout.fileStatistics.objectsRead);
+    //BOOST_CHECK(filein.fileStatistics.measurementStartTime == fileout.fileStatistics.measurementStartTime);
+    //BOOST_CHECK(filein.fileStatistics.lastObjectTime == fileout.fileStatistics.lastObjectTime);
 
 #ifdef SHOW_FILE_STATISTICS
     /* show file statistics */
