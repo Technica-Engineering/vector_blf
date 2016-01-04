@@ -202,9 +202,6 @@ public:
      */
     bool is_open() const;
 
-    /** close file */
-    void close();
-
     /**
      * check for end-of-file
      *
@@ -226,6 +223,9 @@ public:
      * @return true if successful, false otherwise
      */
     bool write(ObjectHeaderBase * objectHeaderBase);
+
+    /** close file */
+    void close();
 
 private:
     /** compressed file */
@@ -271,6 +271,11 @@ private:
      * @param logContainer
      */
     void inflateLogContainer(LogContainer * logContainer);
+
+    /**
+     * compress data from compressed file buffer and write it with a log container into the uncompressed file
+     */
+    void deflateLogContainerAndWrite();
 };
 
 }

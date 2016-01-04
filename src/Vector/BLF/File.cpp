@@ -44,6 +44,8 @@ static void hexDump(char * data, size_t size)
     std::cerr << std::endl;
 }
 
+#define roundUp(x, y) (((x % y) > 0) ? (y - (x % y)) : 0)
+
 File::File() :
     openMode(OpenMode::Read),
     fileStatistics(),
@@ -504,16 +506,6 @@ bool File::is_open() const
     return compressedFile.is_open();
 }
 
-void File::close()
-{
-    if (openMode == OpenMode::Write) {
-        compressedFile.seekg(0);
-        fileStatistics.write(compressedFile);
-    }
-
-    compressedFile.close();
-}
-
 bool File::eof()
 {
     bool compressedFileEmpty = (compressedFile.tellg() >= fileStatistics.fileSize) || compressedFile.eof();
@@ -586,7 +578,7 @@ ObjectHeaderBase * File::readObjectFromCompressedFile()
         delete[] objBuffer;
 
     /* skip padding */
-    compressedFile.seekg(ohb.objectSize % 4, std::iostream::cur);
+    compressedFile.seekg(roundUp(ohb.objectSize, 4), std::iostream::cur);
 
     return obj;
 }
@@ -649,7 +641,7 @@ ObjectHeaderBase * File::readObjectFromUncompressedFile()
         delete[] objBuffer;
 
     /* skip padding */
-    uncompressedFile.skipg(ohb.objectSize % 4);
+    uncompressedFile.skipg(roundUp(ohb.objectSize, 4));
 
     currentObjectCount++;
     return obj;
@@ -738,25 +730,102 @@ ObjectHeaderBase * File::read()
     return readObjectFromUncompressedFile();
 }
 
+void File::deflateLogContainerAndWrite()
+{
+    /* write uncompressedFile into buffer */
+    size_t bufferSizeIn = defaultLogContainerSize;
+    if (uncompressedFile.size() < bufferSizeIn)
+        bufferSizeIn = uncompressedFile.size();
+    size_t bufferSizeInRoundedUp = bufferSizeIn + roundUp(bufferSizeIn, 4);
+    char * bufferIn = new char[bufferSizeInRoundedUp];
+    memset(bufferIn, 0, bufferSizeInRoundedUp);
+    uncompressedFile.read(bufferIn, bufferSizeIn);
+
+    /* deflate */
+    size_t bufferSizeOut = bufferSizeIn + 10; // ... to be sure
+    char * bufferOut = new char[bufferSizeOut];
+    memset(bufferOut, 0, bufferSizeOut);
+    compress(reinterpret_cast<Bytef *>(bufferOut),
+             reinterpret_cast<uLongf *>(&bufferSizeOut),
+             reinterpret_cast<Bytef *>(bufferIn),
+             reinterpret_cast<uLong>(bufferSizeInRoundedUp));
+    delete[] bufferIn;
+
+    /* setup new log container */
+    LogContainer logContainer;
+    logContainer.uncompressedFileSize = bufferSizeInRoundedUp;
+    logContainer.compressedFile = bufferOut;
+    logContainer.compressedFileSize = bufferSizeOut;
+    logContainer.objectSize = logContainer.calculateObjectSize();
+
+    /* statistics */
+    currentUncompressedFileSize +=
+            logContainer.internalHeaderSize() +
+            logContainer.uncompressedFileSize;
+
+    /* write log container */
+    char * buffer = new char[logContainer.objectSize];
+    memset(buffer, 0, logContainer.objectSize);
+    logContainer.write(buffer);
+    compressedFile.write(buffer, logContainer.objectSize);
+
+    /* skip padding */
+    memset(buffer, 0, 4);
+    compressedFile.write(buffer, 3); // @todo how to calculate this 3?
+
+    /* delete buffers */
+    delete[] buffer;
+    // bufferOut is deleted with ~logContainer
+}
+
 bool File::write(ObjectHeaderBase * objectHeaderBase)
 {
     if (openMode == OpenMode::Read)
         return false;
 
-    /* get size of object */
-    size_t remainingSize = objectHeaderBase->calculateObjectSize();
+    /* fill in some information automatically */
+    objectHeaderBase->objectSize = objectHeaderBase->calculateObjectSize();
+    char * buffer = new char[objectHeaderBase->objectSize];
+    memset(buffer, 0, objectHeaderBase->objectSize);
+    objectHeaderBase->write(buffer);
 
-    /* copy as many data as possible in existing uncompressed file */
-    if (uncompressedFile.size() < remainingSize) {
+    if (compressionLevel == 0) {
+        /* no need to use LogContainers. copy data directly into compressedFile */
+        compressedFile.write(buffer, objectHeaderBase->objectSize);
+        delete[] buffer;
+    } else {
+        /* copy data into uncompressedFile */
+        uncompressedFile.write(buffer, objectHeaderBase->objectSize);
+        delete[] buffer;
 
+        /* if data exceeds defined logContainerSize, compress and write it into compressedFile */
+        if (uncompressedFile.size() >= defaultLogContainerSize)
+            deflateLogContainerAndWrite();
     }
 
-    /* if data remaining, compress data and extend uncompressed file */
-    if (remainingSize > 0) {
-
-    }
+    /* statistics */
+    currentObjectCount++;
 
     return true;
+}
+
+void File::close()
+{
+    if (openMode == OpenMode::Write) {
+        /* if data left, compress and write it */
+        if (uncompressedFile.size() > 0)
+            deflateLogContainerAndWrite();
+
+        /* write statistics */
+        fileStatistics.fileSize = ((ULONGLONG) compressedFile.tellp());
+        fileStatistics.uncompressedFileSize = currentUncompressedFileSize;
+        fileStatistics.objectCount = currentObjectCount;
+        fileStatistics.objectsRead = 0; // @todo what is objectsRead?
+        compressedFile.seekp(0);
+        fileStatistics.write(compressedFile);
+    }
+
+    compressedFile.close();
 }
 
 }
