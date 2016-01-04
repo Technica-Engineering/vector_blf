@@ -696,20 +696,14 @@ BOOST_AUTO_TEST_CASE(ObjectTypes_057)
     BOOST_CHECK(obj->simulated == 1);
     BOOST_CHECK(obj->isEtf == 0);
     BOOST_CHECK(obj->etfAssocIndex == 0);
-    // @todo the following information is not fully discovered yet
-    BOOST_CHECK(obj->etfAssocEtfId == 0xff);   // ???
-    BOOST_CHECK(obj->fsmId == 0xff);   // ???
-    BOOST_CHECK(obj->fsmState == 0xff);    // ???
-//    00 00 00      reserved
-//    00 00 00 00   reserved_ver1_only
-//    00 00 00 00   ???
-//    00 00 00 00   ???
-//    00 00 00 00   ???
-//    00 00 00 00   ???
-//                      respBaudrate (4)
-//                      exactHeaderBaudrate (8)
-//                      earlyStopbitOffset (4)
-//                      earlyStopbitOffsetResponse (4)
+    BOOST_CHECK(obj->etfAssocEtfId == 0xff);
+    BOOST_CHECK(obj->fsmId == 0xff);
+    BOOST_CHECK(obj->fsmState == 0xff);
+    // reserved
+    BOOST_CHECK(obj->respBaudrate == 0x00000000);
+    BOOST_CHECK(obj->exactHeaderBaudrate == 0.0);
+    BOOST_CHECK(obj->earlyStopbitOffset == 0x00000000);
+    BOOST_CHECK(obj->earlyStopbitOffsetResponse == 0x00000000);
 
     delete ohb;
 }
