@@ -28,7 +28,7 @@ namespace BLF {
 
 ObjectHeader::ObjectHeader() :
     ObjectHeaderBase(),
-    objectFlags(),
+    objectFlags(ObjectFlags::TimeOneNans),
     reserved(),
     objectVersion(),
     objectTimeStamp()

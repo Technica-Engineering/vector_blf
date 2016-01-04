@@ -35,7 +35,9 @@ LogContainer::LogContainer() :
     compressedFile(),
     compressedFileSize()
 {
+    headerVersion = 1;
     objectType = ObjectType::LOG_CONTAINER;
+    objectFlags = ObjectHeader::ObjectFlags::TimeOneNans;
 }
 
 LogContainer::~LogContainer()

@@ -26,6 +26,7 @@
 
 #include "VectorTypes.h"
 #include "ObjectHeaderBase.h"
+#include "ObjectHeader.h"
 
 #include "vector_blf_export.h"
 

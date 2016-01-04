@@ -821,7 +821,7 @@ void File::close()
         fileStatistics.fileSize = ((ULONGLONG) compressedFile.tellp());
         fileStatistics.uncompressedFileSize = currentUncompressedFileSize;
         fileStatistics.objectCount = currentObjectCount;
-        fileStatistics.objectsRead = 0; // @todo what is objectsRead?
+        //fileStatistics.objectsRead = 0; // @todo what is objectsRead?
         compressedFile.seekp(0);
         fileStatistics.write(compressedFile);
     }

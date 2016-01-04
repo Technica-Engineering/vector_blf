@@ -45,7 +45,7 @@ public:
     virtual size_t calculateObjectSize();
 
     /** enumeration for objectFlags */
-    enum class ObjectFlags : DWORD {
+    enum ObjectFlags : DWORD {
         /**
          * @brief 10 micro second timestamp
          *

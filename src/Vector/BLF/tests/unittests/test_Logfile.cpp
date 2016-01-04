@@ -1024,9 +1024,18 @@ BOOST_AUTO_TEST_CASE(CloseLogfile)
     BOOST_CHECK(filein.fileStatistics.uncompressedFileSize == filein.currentUncompressedFileSize);
     BOOST_CHECK(filein.fileStatistics.objectCount == filein.currentObjectCount);
 
+    /* synchronize */
+    fileout.fileStatistics.objectsRead = filein.fileStatistics.objectsRead; // @todo what is objectsRead?
+
     /* close files */
     filein.close();
     fileout.close();
+
+    /* check file statistics after update by close */
+    BOOST_CHECK(filein.fileStatistics.fileSize == fileout.fileStatistics.fileSize);
+    BOOST_CHECK(filein.fileStatistics.uncompressedFileSize == fileout.fileStatistics.uncompressedFileSize);
+    BOOST_CHECK(filein.fileStatistics.objectCount == fileout.fileStatistics.objectCount);
+    BOOST_CHECK(filein.fileStatistics.objectsRead == fileout.fileStatistics.objectsRead);
 
 #ifdef SHOW_FILE_STATISTICS
     /* show file statistics */
