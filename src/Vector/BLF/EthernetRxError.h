@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <vector>
+
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 
@@ -112,7 +114,7 @@ public:
      * Raw Ethernet frame data.
      * Max 1522 data bytes per frame.
      */
-    char * frameData;
+    std::vector<uint8_t> frameData;
 };
 
 }

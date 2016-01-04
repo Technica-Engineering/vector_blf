@@ -36,15 +36,13 @@ EthernetRxError::EthernetRxError() :
     frameDataLength(),
     reserved2(),
     error(),
-    frameData(nullptr)
+    frameData()
 {
     objectType = ObjectType::ETHERNET_RX_ERROR;
 }
 
 EthernetRxError::~EthernetRxError()
 {
-    delete[] frameData;
-    frameData = nullptr;
 }
 
 char * EthernetRxError::read(char * buffer)
@@ -96,8 +94,8 @@ char * EthernetRxError::read(char * buffer)
 
     // frameData
     size = frameDataLength;
-    frameData = new char[size];
-    memcpy(frameData, buffer, size);
+    frameData.reserve(size);
+    memcpy(frameData.data(), buffer, size);
     buffer += size;
 
     return buffer;
@@ -152,7 +150,7 @@ char * EthernetRxError::write(char * buffer)
 
     // frameData
     size = frameDataLength;
-    memcpy(buffer, frameData, size);
+    memcpy(buffer, frameData.data(), size);
     buffer += size;
 
     return buffer;

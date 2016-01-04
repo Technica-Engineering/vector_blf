@@ -42,15 +42,13 @@ MostEthernetPktFragment::MostEthernetPktFragment() :
     dataLenAnnounced(),
     firstDataLen(),
     reserved3(),
-    firstData(nullptr)
+    firstData()
 {
     objectType = ObjectType::MOST_ETHERNET_PKT_FRAGMENT;
 }
 
 MostEthernetPktFragment::~MostEthernetPktFragment()
 {
-    delete[] firstData;
-    firstData = nullptr;
 }
 
 char * MostEthernetPktFragment::read(char * buffer)
@@ -132,8 +130,8 @@ char * MostEthernetPktFragment::read(char * buffer)
 
     // firstData
     size = firstDataLen;
-    firstData = new char[size];
-    memcpy(firstData, buffer, size);
+    firstData.reserve(size);
+    memcpy(firstData.data(), buffer, size);
     buffer += size;
 
     return buffer;
@@ -218,7 +216,7 @@ char * MostEthernetPktFragment::write(char * buffer)
 
     // firstData
     size = firstDataLen;
-    memcpy(buffer, firstData, size);
+    memcpy(buffer, firstData.data(), size);
     buffer += size;
 
     return buffer;

@@ -44,15 +44,13 @@ MostPkt::MostPkt() :
     reserved3(),
     pktDataLength(),
     reserved4(),
-    pktData(nullptr)
+    pktData()
 {
     objectType = ObjectType::MOST_PKT;
 }
 
 MostPkt::~MostPkt()
 {
-    delete[] pktData;
-    pktData = nullptr;
 }
 
 char * MostPkt::read(char * buffer)
@@ -144,8 +142,8 @@ char * MostPkt::read(char * buffer)
 
     // pktData
     size = pktDataLength;
-    pktData = new char[size];
-    memcpy(pktData, buffer, size);
+    pktData.reserve(size);
+    memcpy(pktData.data(), buffer, size);
     buffer += size;
 
     return buffer;
@@ -240,7 +238,7 @@ char * MostPkt::write(char * buffer)
 
     // pktData
     size = pktDataLength;
-    memcpy(buffer, pktData, size);
+    memcpy(buffer, pktData.data(), size);
     buffer += size;
 
     return buffer;

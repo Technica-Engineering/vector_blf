@@ -35,15 +35,13 @@ WlanFrame::WlanFrame() :
     signalStrength(),
     signalQuality(),
     frameLength(),
-    frameData(nullptr)
+    frameData()
 {
     objectType = ObjectType::WLAN_FRAME;
 }
 
 WlanFrame::~WlanFrame()
 {
-    delete[] frameData;
-    frameData = nullptr;
 }
 
 char * WlanFrame::read(char * buffer)
@@ -90,8 +88,8 @@ char * WlanFrame::read(char * buffer)
 
     // frameData
     size = frameLength;
-    frameData = new char[size];
-    memcpy(frameData, buffer, size);
+    frameData.reserve(size);
+    memcpy(frameData.data(), buffer, size);
     buffer += size;
 
     return buffer;
@@ -141,8 +139,7 @@ char * WlanFrame::write(char * buffer)
 
     // frameData
     size = frameLength;
-    frameData = new char[size];
-    memcpy(buffer, frameData, size);
+    memcpy(buffer, frameData.data(), size);
     buffer += size;
 
     return buffer;

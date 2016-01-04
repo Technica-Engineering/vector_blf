@@ -32,7 +32,7 @@ LogContainer::LogContainer() :
     reserved(),
     objectVersion(),
     uncompressedFileSize(),
-    compressedFile(nullptr),
+    compressedFile(),
     compressedFileSize()
 {
     objectType = ObjectType::LOG_CONTAINER;
@@ -40,8 +40,6 @@ LogContainer::LogContainer() :
 
 LogContainer::~LogContainer()
 {
-    delete[] compressedFile;
-    compressedFile = nullptr;
 }
 
 char * LogContainer::read(char * buffer)
@@ -74,8 +72,8 @@ char * LogContainer::read(char * buffer)
     // compressedFile
     compressedFileSize = objectSize - internalHeaderSize();
     size = compressedFileSize;
-    compressedFile = new char[size];
-    memcpy(compressedFile, buffer, size);
+    compressedFile.reserve(size);
+    memcpy(compressedFile.data(), buffer, size);
     buffer += size;
 
     return buffer;
@@ -111,7 +109,7 @@ char * LogContainer::write(char * buffer)
     // compressedFile
     compressedFileSize = objectSize - internalHeaderSize();
     size = compressedFileSize;
-    memcpy(buffer, compressedFile, size);
+    memcpy(buffer, compressedFile.data(), size);
     buffer += size;
 
     return buffer;

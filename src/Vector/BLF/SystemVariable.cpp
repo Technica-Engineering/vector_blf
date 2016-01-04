@@ -33,19 +33,14 @@ SystemVariable::SystemVariable() :
     nameLength(),
     dataLength(),
     unknown(),
-    name(nullptr),
-    data(nullptr)
+    name(),
+    data()
 {
     objectType = ObjectType::SYS_VARIABLE;
 }
 
 SystemVariable::~SystemVariable()
 {
-    delete[] name;
-    name = nullptr;
-
-    delete[] data;
-    data = nullptr;
 }
 
 char * SystemVariable::read(char * buffer)
@@ -82,15 +77,13 @@ char * SystemVariable::read(char * buffer)
 
     // name
     size = nameLength;
-    name = new char[size + 1];
-    name[size] = 0;
-    memcpy(name, buffer, size);
+    name.assign(buffer, size);
     buffer += size;
 
     // data
     size = dataLength;
-    data = new char[size];
-    memcpy(data, buffer, size);
+    data.reserve(size);
+    memcpy(data.data(), buffer, size);
     buffer += size;
 
     return buffer;
@@ -130,12 +123,12 @@ char * SystemVariable::write(char * buffer)
 
     // name
     size = nameLength;
-    memcpy(buffer, name, size);
+    memcpy(buffer, name.data(), size);
     buffer += size;
 
     // data
     size = dataLength;
-    memcpy(buffer, data, size);
+    memcpy(buffer, data.data(), size);
     buffer += size;
 
     return buffer;

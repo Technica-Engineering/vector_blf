@@ -36,15 +36,13 @@ EthernetFrame::EthernetFrame() :
     tpid(),
     tci(),
     payLoadLength(),
-    payLoad(nullptr)
+    payLoad()
 {
     objectType = ObjectType::ETHERNET_FRAME;
 }
 
 EthernetFrame::~EthernetFrame()
 {
-    delete[] payLoad;
-    payLoad = nullptr;
 }
 
 char * EthernetFrame::read(char * buffer)
@@ -96,8 +94,8 @@ char * EthernetFrame::read(char * buffer)
 
     // payLoad
     size = payLoadLength;
-    payLoad = new char[size];
-    memcpy(payLoad, buffer, size);
+    payLoad.reserve(size);
+    memcpy(payLoad.data(), buffer, size);
     buffer += size;
 
     return buffer;
@@ -152,7 +150,7 @@ char * EthernetFrame::write(char * buffer)
 
     // payLoad
     size = payLoadLength;
-    memcpy(buffer, payLoad, size);
+    memcpy(buffer, payLoad.data(), size);
     buffer += size;
 
     return buffer;

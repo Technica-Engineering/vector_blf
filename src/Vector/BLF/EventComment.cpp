@@ -31,15 +31,13 @@ EventComment::EventComment() :
     commentedEventType(),
     textLength(),
     reserved(),
-    text(nullptr)
+    text()
 {
     objectType = ObjectType::EVENT_COMMENT;
 }
 
 EventComment::~EventComment()
 {
-    delete[] text;
-    text = nullptr;
 }
 
 char * EventComment::read(char * buffer)
@@ -66,9 +64,7 @@ char * EventComment::read(char * buffer)
 
     // text
     size = textLength;
-    text = new char[size + 1];
-    text[size] = 0;
-    memcpy(text, buffer, size);
+    text.assign(buffer, size);
     buffer += size;
 
     return buffer;
@@ -98,7 +94,7 @@ char * EventComment::write(char * buffer)
 
     // text
     size = textLength;
-    memcpy(buffer, text, size);
+    memcpy(buffer, text.data(), size);
     buffer += size;
 
     return buffer;

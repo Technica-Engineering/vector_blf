@@ -31,15 +31,13 @@ AppText::AppText() :
     source(),
     reserved(),
     textLength(),
-    text(nullptr)
+    text()
 {
     objectType = ObjectType::APP_TEXT;
 }
 
 AppText::~AppText()
 {
-    delete[] text;
-    text = nullptr;
 }
 
 char * AppText::read(char * buffer)
@@ -66,9 +64,7 @@ char * AppText::read(char * buffer)
 
     // text
     size = textLength;
-    text = new char[size + 1];
-    text[size] = 0;
-    memcpy(text, buffer, size);
+    text.assign(buffer, size);
     buffer += size;
 
     return buffer;
@@ -98,7 +94,7 @@ char * AppText::write(char * buffer)
 
     // text
     size = textLength;
-    memcpy(buffer, text, size);
+    memcpy(buffer, text.data(), size);
     buffer += size;
 
     return buffer;

@@ -666,7 +666,7 @@ void File::inflateLogContainer(LogContainer * logContainer)
     /* inflate */
     uncompress(reinterpret_cast<Bytef *>(buffer),
                reinterpret_cast<uLongf *>(&bufferSize),
-               reinterpret_cast<Bytef *>(logContainer->compressedFile),
+               reinterpret_cast<Bytef *>(logContainer->compressedFile.data()),
                logContainer->compressedFileSize);
 
     /* copy into stringstream */
@@ -754,7 +754,8 @@ void File::deflateLogContainerAndWrite()
     /* setup new log container */
     LogContainer logContainer;
     logContainer.uncompressedFileSize = bufferSizeInRoundedUp;
-    logContainer.compressedFile = bufferOut;
+    logContainer.compressedFile.reserve(bufferSizeOut);
+    memcpy(logContainer.compressedFile.data(), bufferOut, bufferSizeOut);
     logContainer.compressedFileSize = bufferSizeOut;
     logContainer.objectSize = logContainer.calculateObjectSize();
 

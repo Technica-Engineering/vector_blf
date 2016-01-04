@@ -43,15 +43,13 @@ Most50Pkt::Most50Pkt() :
     reserved4(),
     pktDataLength(),
     reserved5(),
-    pktData(nullptr)
+    pktData()
 {
     objectType = ObjectType::MOST_50_PKT;
 }
 
 Most50Pkt::~Most50Pkt()
 {
-    delete[] pktData;
-    pktData = nullptr;
 }
 
 char * Most50Pkt::read(char * buffer)
@@ -138,8 +136,8 @@ char * Most50Pkt::read(char * buffer)
 
     // pktData
     size = pktDataLength;
-    pktData = new char[size];
-    memcpy(pktData, buffer, size);
+    pktData.reserve(size);
+    memcpy(pktData.data(), buffer, size);
     buffer += size;
 
     return buffer;
@@ -229,7 +227,7 @@ char * Most50Pkt::write(char * buffer)
 
     // pktData
     size = pktDataLength;
-    memcpy(buffer, pktData, size);
+    memcpy(buffer, pktData.data(), size);
     buffer += size;
 
     return buffer;

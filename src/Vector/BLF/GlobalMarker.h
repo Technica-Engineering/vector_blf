@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <string>
+
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 
@@ -94,25 +96,25 @@ public:
     DWORD reserved2[3];
 
     /**
-     * @brief group name in MBCS
+     * @brief group name
      *
      * Group name.
      */
-    char * groupName;
+    std::string groupName;
 
     /**
-     * @brief marker name in MBCS
+     * @brief marker name
      *
      * Marker.
      */
-    char * markerName;
+    std::string markerName;
 
     /**
-     * @brief description in MBCS
+     * @brief description
      *
      * Description text.
      */
-    char * description;
+    std::string description;
 };
 
 }

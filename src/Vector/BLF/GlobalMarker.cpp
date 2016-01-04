@@ -37,23 +37,15 @@ GlobalMarker::GlobalMarker() :
     markerNameLength(),
     descriptionLength(),
     reserved2(),
-    groupName(nullptr),
-    markerName(nullptr),
-    description(nullptr)
+    groupName(),
+    markerName(),
+    description()
 {
     objectType = ObjectType::GLOBAL_MARKER;
 }
 
 GlobalMarker::~GlobalMarker()
 {
-    delete[] groupName;
-    groupName = nullptr;
-
-    delete[] markerName;
-    markerName = nullptr;
-
-    delete[] description;
-    description = nullptr;
 }
 
 char * GlobalMarker::read(char * buffer)
@@ -110,23 +102,17 @@ char * GlobalMarker::read(char * buffer)
 
     // groupName
     size = groupNameLength;
-    groupName = new char[size + 1];
-    groupName[size] = 0;
-    memcpy(groupName, buffer, size);
+    groupName.assign(buffer, size);
     buffer += size;
 
     // markerName
     size = markerNameLength;
-    markerName = new char[size + 1];
-    markerName[size] = 0;
-    memcpy(markerName, buffer, size);
+    markerName.assign(buffer, size);
     buffer += size;
 
     // description
     size = descriptionLength;
-    description = new char[size + 1];
-    description[size] = 0;
-    memcpy(description, buffer, size);
+    description.assign(buffer, size);
     buffer += size;
 
     return buffer;
@@ -186,17 +172,17 @@ char * GlobalMarker::write(char * buffer)
 
     // groupName
     size = groupNameLength;
-    memcpy(buffer, groupName, size);
+    memcpy(buffer, groupName.data(), size);
     buffer += size;
 
     // markerName
     size = markerNameLength;
-    memcpy(buffer, markerName, size);
+    memcpy(buffer, markerName.data(), size);
     buffer += size;
 
     // description
     size = descriptionLength;
-    memcpy(buffer, description, size);
+    memcpy(buffer, description.data(), size);
     buffer += size;
 
     return buffer;

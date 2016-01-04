@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <vector>
+
 #include "VectorTypes.h"
 #include "ObjectHeader2.h"
 
@@ -201,7 +203,7 @@ public:
      *
      * Variable data
      */
-    char * msg;
+    std::vector<uint8_t> msg;
 };
 
 }

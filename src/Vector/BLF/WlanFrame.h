@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <vector>
+
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 
@@ -116,7 +118,7 @@ public:
      * header.
      * Max. 2342 data bytes per frame
      */
-    char * frameData;
+    std::vector<uint8_t> frameData;
 };
 
 }

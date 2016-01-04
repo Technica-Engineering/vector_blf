@@ -32,15 +32,13 @@ Most150AllocTab::Most150AllocTab() :
     eventModeFlags(),
     freeBytes(),
     length(),
-    tableData(nullptr)
+    tableData()
 {
     objectType = ObjectType::MOST_150_ALLOCTAB;
 }
 
 Most150AllocTab::~Most150AllocTab()
 {
-    delete[] tableData;
-    tableData = nullptr;
 }
 
 char * Most150AllocTab::read(char * buffer)
@@ -72,8 +70,8 @@ char * Most150AllocTab::read(char * buffer)
 
     // tableData
     size = length;
-    tableData = new char[size];
-    memcpy(tableData, buffer, size);
+    tableData.reserve(size);
+    memcpy(tableData.data(), buffer, size);
     buffer += size;
 
     return buffer;
@@ -108,7 +106,7 @@ char * Most150AllocTab::write(char * buffer)
 
     // tableData
     size = length;
-    memcpy(buffer, tableData, size);
+    memcpy(buffer, tableData.data(), size);
     buffer += size;
 
     return buffer;

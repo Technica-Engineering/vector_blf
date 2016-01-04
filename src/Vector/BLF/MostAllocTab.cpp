@@ -31,15 +31,13 @@ MostAllocTab::MostAllocTab() :
     channel(),
     length(),
     reserved(),
-    tableData(nullptr)
+    tableData()
 {
     objectType = ObjectType::MOST_ALLOCTAB;
 }
 
 MostAllocTab::~MostAllocTab()
 {
-    delete[] tableData;
-    tableData = nullptr;
 }
 
 char * MostAllocTab::read(char * buffer)
@@ -66,8 +64,8 @@ char * MostAllocTab::read(char * buffer)
 
     // tableData
     size = length;
-    tableData = new char[size];
-    memcpy(tableData, buffer, size);
+    tableData.reserve(size);
+    memcpy(tableData.data(), buffer, size);
     buffer += size;
 
     return buffer;
@@ -97,7 +95,7 @@ char * MostAllocTab::write(char * buffer)
 
     // tableData
     size = length;
-    memcpy(buffer, tableData, size);
+    memcpy(buffer, tableData.data(), size);
     buffer += size;
 
     return buffer;

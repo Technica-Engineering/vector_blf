@@ -43,15 +43,13 @@ Most50Message::Most50Message() :
     reserved4(),
     msgLen(),
     reserved5(),
-    msg(nullptr)
+    msg()
 {
     objectType = ObjectType::MOST_50_MESSAGE;
 }
 
 Most50Message::~Most50Message()
 {
-    delete[] msg;
-    msg = nullptr;
 }
 
 char * Most50Message::read(char * buffer)
@@ -138,8 +136,8 @@ char * Most50Message::read(char * buffer)
 
     // msg
     size = msgLen;
-    msg = new char[size];
-    memcpy(msg, buffer, size);
+    msg.reserve(size);
+    memcpy(msg.data(), buffer, size);
     buffer += size;
 
     return buffer;
@@ -229,7 +227,7 @@ char * Most50Message::write(char * buffer)
 
     // msg
     size = msgLen;
-    memcpy(buffer, msg, size);
+    memcpy(buffer, msg.data(), size);
     buffer += size;
 
     return buffer;

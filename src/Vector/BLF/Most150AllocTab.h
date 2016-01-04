@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <vector>
+
 #include "VectorTypes.h"
 #include "ObjectHeader2.h"
 
@@ -103,7 +105,7 @@ public:
      * - WWWW: label width
      * - < channels >: list of 16-bit channel numbers (size = label width)
      */
-    char * tableData;
+    std::vector<uint8_t> tableData;
 };
 
 }

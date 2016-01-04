@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <vector>
+
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 
@@ -150,7 +152,7 @@ public:
      * Ethernet payload data (without Ethernet
      * header). Max 1500 data bytes per frame
      */
-    char * payLoad;
+    std::vector<uint8_t> payLoad;
 };
 
 }

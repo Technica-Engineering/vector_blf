@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <vector>
+
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 
@@ -110,7 +112,7 @@ public:
      * Ethernet payload data (without Ethernet
      * header)
      */
-    char * payLoad;
+    std::vector<uint8_t> payLoad;
 };
 
 }

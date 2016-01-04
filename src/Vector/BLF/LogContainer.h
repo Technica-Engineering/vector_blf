@@ -22,6 +22,7 @@
 #pragma once
 
 #include <cstddef>
+#include <vector>
 
 #include "VectorTypes.h"
 #include "ObjectHeaderBase.h"
@@ -65,7 +66,7 @@ public:
     ULONGLONG uncompressedFileSize;
 
     /** compressed file content */
-    char * compressedFile;
+    std::vector<uint8_t> compressedFile;
 
     /** compressed file size in bytes */
     std::streamsize compressedFileSize;

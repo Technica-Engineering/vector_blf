@@ -42,15 +42,13 @@ Most150PktFragment::Most150PktFragment() :
     dataLen(),
     dataLenAnnounced(),
     firstDataLen(),
-    firstData(nullptr)
+    firstData()
 {
     objectType = ObjectType::MOST_150_PKT_FRAGMENT;
 }
 
 Most150PktFragment::~Most150PktFragment()
 {
-    delete[] firstData;
-    firstData = nullptr;
 }
 
 char * Most150PktFragment::read(char * buffer)
@@ -132,8 +130,8 @@ char * Most150PktFragment::read(char * buffer)
 
     // firstData
     size = firstDataLen;
-    firstData = new char[size];
-    memcpy(firstData, buffer, size);
+    firstData.reserve(size);
+    memcpy(firstData.data(), buffer, size);
     buffer += size;
 
     return buffer;
@@ -218,7 +216,7 @@ char * Most150PktFragment::write(char * buffer)
 
     // firstData
     size = firstDataLen;
-    memcpy(buffer, firstData, size);
+    memcpy(buffer, firstData.data(), size);
     buffer += size;
 
     return buffer;

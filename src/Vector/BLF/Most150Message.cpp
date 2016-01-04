@@ -44,15 +44,13 @@ Most150Message::Most150Message() :
     pIndex(),
     msgLen(),
     reserved3(),
-    msg(nullptr)
+    msg()
 {
     objectType = ObjectType::MOST_150_MESSAGE;
 }
 
 Most150Message::~Most150Message()
 {
-    delete[] msg;
-    msg = nullptr;
 }
 
 char * Most150Message::read(char * buffer)
@@ -144,8 +142,8 @@ char * Most150Message::read(char * buffer)
 
     // msg
     size = msgLen;
-    msg = new char[size];
-    memcpy(msg, buffer, size);
+    msg.reserve(size);
+    memcpy(msg.data(), buffer, size);
     buffer += size;
 
     return buffer;
@@ -240,7 +238,7 @@ char * Most150Message::write(char * buffer)
 
     // msg
     size = msgLen;
-    memcpy(buffer, msg, size);
+    memcpy(buffer, msg.data(), size);
     buffer += size;
 
     return buffer;

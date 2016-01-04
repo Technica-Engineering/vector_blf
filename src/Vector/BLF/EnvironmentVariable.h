@@ -21,6 +21,9 @@
 
 #pragma once
 
+#include <string>
+#include <vector>
+
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 
@@ -68,14 +71,14 @@ public:
      *
      * Name of the environment variable.
      */
-    char * name;
+    std::string name;
 
     /**
      * @brief variable data
      *
      * Data value of the environment variable.
      */
-    char * data;
+    std::vector<uint8_t> data;
 };
 
 }

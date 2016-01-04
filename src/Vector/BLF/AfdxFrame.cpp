@@ -42,15 +42,13 @@ AfdxFrame::AfdxFrame() :
     bagUsec(),
     payLoadLength(),
     reserved3(),
-    payLoad(nullptr)
+    payLoad()
 {
     objectType = ObjectType::AFDX_FRAME;
 }
 
 AfdxFrame::~AfdxFrame()
 {
-    delete[] payLoad;
-    payLoad = nullptr;
 }
 
 char * AfdxFrame::read(char * buffer)
@@ -132,8 +130,8 @@ char * AfdxFrame::read(char * buffer)
 
     // payLoad
     size = payLoadLength;
-    payLoad = new char[size];
-    memcpy(payLoad, buffer, size);
+    payLoad.reserve(size);
+    memcpy(payLoad.data(), buffer, size);
     buffer += size;
 
     return buffer;
@@ -218,7 +216,7 @@ char * AfdxFrame::write(char * buffer)
 
     // payLoad
     size = payLoadLength;
-    memcpy(buffer, payLoad, size);
+    memcpy(buffer, payLoad.data(), size);
     buffer += size;
 
     return buffer;

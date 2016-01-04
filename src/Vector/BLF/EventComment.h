@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <string>
+
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 
@@ -68,7 +70,7 @@ public:
      *
      * Comment text.
      */
-    char * text;
+    std::string text;
 };
 
 }

@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <string>
+
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 
@@ -124,7 +126,7 @@ public:
      *
      * Text to be saved to log file.
      */
-    char * text;
+    std::string text;
 };
 
 }

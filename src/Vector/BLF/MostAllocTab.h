@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <vector>
+
 #include "VectorTypes.h"
 #include "ObjectHeader2.h"
 
@@ -78,7 +80,7 @@ public:
      * label number is 0x70, the byte is not used for any
      * label.
      */
-    char * tableData;
+    std::vector<uint8_t> tableData;
 };
 
 }
