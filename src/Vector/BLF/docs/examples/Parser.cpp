@@ -103,11 +103,11 @@ void showEnvironmentVariable(Vector::BLF::EnvironmentVariable * environmentVaria
     std::cout << " name=" << environmentVariable->name;
     switch(environmentVariable->objectType) {
     case Vector::BLF::ObjectType::ENV_INTEGER:
-        std::cout << " value=" << std::dec << (int) *environmentVariable->data;
+        std::cout << " value=" << std::dec << (int) *environmentVariable->data.data();
         std::cout << " type=Integer";
         break;
     case Vector::BLF::ObjectType::ENV_DOUBLE:
-        std::cout << " value=" << std::fixed << (double) *environmentVariable->data;
+        std::cout << " value=" << std::fixed << (double) *environmentVariable->data.data();
         std::cout << " type=Double";
         break;
     case Vector::BLF::ObjectType::ENV_STRING:
@@ -529,11 +529,11 @@ void showSystemVariable(Vector::BLF::SystemVariable * systemVariable)
     std::cout << " name=" << systemVariable->name;
     switch(systemVariable->type) {
     case Vector::BLF::SystemVariable::Type::Double:
-        std::cout << " value=" << std::fixed << (double) *systemVariable->data;
+        std::cout << " value=" << std::fixed << (double) *systemVariable->data.data();
         std::cout << " type=Double";
         break;
     case Vector::BLF::SystemVariable::Type::Long:
-        std::cout << " value=" << std::dec << (long) *systemVariable->data;
+        std::cout << " value=" << std::dec << (long) *systemVariable->data.data();
         std::cout << " type=Long";
         break;
     case Vector::BLF::SystemVariable::Type::String:
