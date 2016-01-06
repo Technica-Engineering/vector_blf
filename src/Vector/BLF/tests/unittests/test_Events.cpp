@@ -1638,9 +1638,15 @@ BOOST_AUTO_TEST_CASE(LinUnexpectedWakeup)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_UNEXPECTED_WAKEUP);
+    linUnexpectedWakeup = static_cast<Vector::BLF::LinUnexpectedWakeup *>(ohb);
+    BOOST_CHECK(linUnexpectedWakeup->sof == 891843000); // ns
+    BOOST_CHECK(linUnexpectedWakeup->eventBaudrate == 19230);
+    BOOST_CHECK(linUnexpectedWakeup->channel == 1);
+    // reserved
+    BOOST_CHECK(linUnexpectedWakeup->width == 260000); // us
+    BOOST_CHECK(linUnexpectedWakeup->signal == 0);
+    // reserved
     delete ohb;
 
     BOOST_CHECK(file.eof());

@@ -62,7 +62,7 @@ public:
     BYTE signal;
 
     /** reserved */
-    BYTE reserved[3];
+    BYTE reserved[7];
 };
 
 }
