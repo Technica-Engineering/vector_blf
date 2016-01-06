@@ -36,7 +36,8 @@ LinSendError2::LinSendError2() :
     reserved1(),
     reserved2(),
     exactHeaderBaudrate(),
-    earlyStopbitOffset()
+    earlyStopbitOffset(),
+    reserved3()
 {
     objectType = ObjectType::LIN_SND_ERROR2;
 }
@@ -87,6 +88,11 @@ char * LinSendError2::read(char * buffer)
     // earlyStopbitOffset
     size = sizeof(earlyStopbitOffset);
     memcpy((void *) &earlyStopbitOffset, buffer, size);
+    buffer += size;
+
+    // reserved3
+    size = sizeof(reserved3);
+    memcpy((void *) &reserved3, buffer, size);
     buffer += size;
 
     return buffer;
@@ -140,6 +146,11 @@ char * LinSendError2::write(char * buffer)
     memcpy(buffer, (void *) &earlyStopbitOffset, size);
     buffer += size;
 
+    // reserved3
+    size = sizeof(reserved3);
+    memcpy(buffer, (void *) &reserved3, size);
+    buffer += size;
+
     return buffer;
 }
 
@@ -155,7 +166,8 @@ size_t LinSendError2::calculateObjectSize()
         sizeof(reserved1) +
         sizeof(reserved2) +
         sizeof(exactHeaderBaudrate) +
-        sizeof(earlyStopbitOffset);
+        sizeof(earlyStopbitOffset) +
+        sizeof(reserved3);
 
     return size;
 }

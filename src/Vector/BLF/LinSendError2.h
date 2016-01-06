@@ -98,6 +98,9 @@ public:
      * for UART timestamps [in ns]
      */
     DWORD earlyStopbitOffset;
+
+    /** reserved */
+    BYTE reserved3[4];
 };
 
 }
