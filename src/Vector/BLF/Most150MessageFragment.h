@@ -211,6 +211,9 @@ public:
      */
     DWORD firstDataLen;
 
+    /** reserved */
+    BYTE reserved2[4];
+
     /**
      * @brief variable data
      *

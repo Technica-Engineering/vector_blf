@@ -1470,9 +1470,29 @@ BOOST_AUTO_TEST_CASE(Most150MessageFragment)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_150_MESSAGE_FRAGMENT);
+    most150MessageFragment = static_cast<Vector::BLF::Most150MessageFragment *>(ohb);
+    BOOST_CHECK(most150MessageFragment->channel == 1);
+    // reserved
+    BOOST_CHECK(most150MessageFragment->ackNack == 0x11); // NoResp | NAck
+    BOOST_CHECK(most150MessageFragment->validMask == 0x01020304);
+    BOOST_CHECK(most150MessageFragment->sourceAdr == 0x0172);
+    BOOST_CHECK(most150MessageFragment->destAdr == 0x03C8);
+    BOOST_CHECK(most150MessageFragment->pAck == 0x22);
+    BOOST_CHECK(most150MessageFragment->cAck == 0x44);
+    BOOST_CHECK(most150MessageFragment->priority == 1);
+    BOOST_CHECK(most150MessageFragment->pIndex == 0x33);
+    BOOST_CHECK(most150MessageFragment->crc == 0xAABB);
+    BOOST_CHECK(most150MessageFragment->dataLen == 6);
+    BOOST_CHECK(most150MessageFragment->dataLenAnnounced == 0x0210);
+    BOOST_CHECK(most150MessageFragment->firstDataLen == 6);
+    // reserved
+    BOOST_CHECK(most150MessageFragment->firstData[0] == 0x01);
+    BOOST_CHECK(most150MessageFragment->firstData[1] == 0x02);
+    BOOST_CHECK(most150MessageFragment->firstData[2] == 0x03);
+    BOOST_CHECK(most150MessageFragment->firstData[3] == 0x04);
+    BOOST_CHECK(most150MessageFragment->firstData[4] == 0x05);
+    BOOST_CHECK(most150MessageFragment->firstData[5] == 0x06);
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -1494,6 +1514,7 @@ BOOST_AUTO_TEST_CASE(Most150PktFragment)
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_150_PKT_FRAGMENT);
     most150PktFragment = static_cast<Vector::BLF::Most150PktFragment *>(ohb);
     BOOST_CHECK(most150PktFragment->channel == 1);
+    // reserved
     BOOST_CHECK(most150PktFragment->ackNack == 0x11); // NoResp | NAck
     BOOST_CHECK(most150PktFragment->validMask == 0x01020304);
     BOOST_CHECK(most150PktFragment->sourceAdr == 0x0172);
@@ -1506,6 +1527,7 @@ BOOST_AUTO_TEST_CASE(Most150PktFragment)
     BOOST_CHECK(most150PktFragment->dataLen == 6);
     BOOST_CHECK(most150PktFragment->dataLenAnnounced == 0x0210);
     BOOST_CHECK(most150PktFragment->firstDataLen == 6);
+    // reserved
     BOOST_CHECK(most150PktFragment->firstData[0] == 0x01);
     BOOST_CHECK(most150PktFragment->firstData[1] == 0x02);
     BOOST_CHECK(most150PktFragment->firstData[2] == 0x03);

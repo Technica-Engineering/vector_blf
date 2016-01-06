@@ -42,6 +42,7 @@ Most150MessageFragment::Most150MessageFragment() :
     dataLen(),
     dataLenAnnounced(),
     firstDataLen(),
+    reserved2(),
     firstData()
 {
     objectType = ObjectType::MOST_150_MESSAGE_FRAGMENT;
@@ -126,6 +127,11 @@ char * Most150MessageFragment::read(char * buffer)
     // firstDataLen
     size = sizeof(firstDataLen);
     memcpy((void *) &firstDataLen, buffer, size);
+    buffer += size;
+
+    // reserved2
+    size = sizeof(reserved2);
+    memcpy((void *) &reserved2, buffer, size);
     buffer += size;
 
     // firstData
@@ -214,6 +220,11 @@ char * Most150MessageFragment::write(char * buffer)
     memcpy(buffer, (void *) &firstDataLen, size);
     buffer += size;
 
+    // reserved2
+    size = sizeof(reserved2);
+    memcpy(buffer, (void *) &reserved2, size);
+    buffer += size;
+
     // firstData
     size = firstDataLen;
     memcpy(buffer, firstData.data(), size);
@@ -240,6 +251,7 @@ size_t Most150MessageFragment::calculateObjectSize()
         sizeof(dataLen) +
         sizeof(dataLenAnnounced) +
         sizeof(firstDataLen) +
+        sizeof(reserved2) +
         firstDataLen;
 
     return size;
