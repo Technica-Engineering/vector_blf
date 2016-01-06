@@ -1533,9 +1533,12 @@ BOOST_AUTO_TEST_CASE(MostSystemEvent)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_SYSTEM_EVENT);
+    mostSystemEvent = static_cast<Vector::BLF::MostSystemEvent *>(ohb);
+    BOOST_CHECK(mostSystemEvent->channel == 1);
+    BOOST_CHECK(mostSystemEvent->id == 1);
+    BOOST_CHECK(mostSystemEvent->value == 1);
+    BOOST_CHECK(mostSystemEvent->valueOld == 0);
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -1568,7 +1571,6 @@ BOOST_AUTO_TEST_CASE(Most150AllocTab)
     BOOST_CHECK(most150AllocTab->tableData[5] == 0x0004);
     BOOST_CHECK(most150AllocTab->tableData[6] == 0x4151);
     BOOST_CHECK(most150AllocTab->tableData[7] == 0x0046);
-
     delete ohb;
 
     BOOST_CHECK(file.eof());

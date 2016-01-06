@@ -31,7 +31,8 @@ MostSystemEvent::MostSystemEvent() :
     channel(),
     id(),
     value(),
-    valueOld()
+    valueOld(),
+    reserved()
 {
     objectType = ObjectType::MOST_SYSTEM_EVENT;
 }
@@ -61,6 +62,11 @@ char * MostSystemEvent::read(char * buffer)
     // valueOld
     size = sizeof(valueOld);
     memcpy((void *) &valueOld, buffer, size);
+    buffer += size;
+
+    // reserved
+    size = sizeof(reserved);
+    memcpy((void *) &reserved, buffer, size);
     buffer += size;
 
     return buffer;
@@ -93,6 +99,11 @@ char * MostSystemEvent::write(char * buffer)
     memcpy(buffer, (void *) &valueOld, size);
     buffer += size;
 
+    // reserved
+    size = sizeof(reserved);
+    memcpy((void *) &reserved, buffer, size);
+    buffer += size;
+
     return buffer;
 }
 
@@ -103,7 +114,8 @@ size_t MostSystemEvent::calculateObjectSize()
         sizeof(channel) +
         sizeof(id) +
         sizeof(value) +
-        sizeof(valueOld);
+        sizeof(valueOld) +
+        sizeof(reserved);
 
     return size;
 }

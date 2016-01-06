@@ -74,6 +74,9 @@ public:
      * Previous value
      */
     DWORD valueOld;
+
+    /** reserved */
+    BYTE reserved[4];
 };
 
 }
