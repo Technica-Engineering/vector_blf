@@ -105,7 +105,7 @@ public:
      * - WWWW: label width
      * - < channels >: list of 16-bit channel numbers (size = label width)
      */
-    std::vector<uint8_t> tableData;
+    std::vector<uint16_t> tableData;
 };
 
 }

@@ -69,7 +69,7 @@ char * Most150AllocTab::read(char * buffer)
     buffer += size;
 
     // tableData
-    size = length;
+    size = length * 2; // 16-bit
     tableData.reserve(size);
     memcpy(tableData.data(), buffer, size);
     buffer += size;
@@ -105,7 +105,7 @@ char * Most150AllocTab::write(char * buffer)
     buffer += size;
 
     // tableData
-    size = length;
+    size = length * 2; // uint16_t
     memcpy(buffer, tableData.data(), size);
     buffer += size;
 
@@ -120,7 +120,7 @@ size_t Most150AllocTab::calculateObjectSize()
         sizeof(eventModeFlags) +
         sizeof(freeBytes) +
         sizeof(length) +
-        length;
+        length * 2; // uint16_t
 
     return size;
 }
