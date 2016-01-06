@@ -64,7 +64,7 @@ public:
     BYTE dir;
 
     /** reserved */
-    BYTE reserved1;
+    BYTE reserved1[5];
 
     /**
      * @brief 48 bit source address
@@ -207,7 +207,7 @@ public:
     DWORD pktDataLength;
 
     /** reserved */
-    BYTE reserved4[4];
+    BYTE reserved4[8];
 
     /**
      * @brief variable data

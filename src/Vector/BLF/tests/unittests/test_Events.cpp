@@ -1449,9 +1449,31 @@ BOOST_AUTO_TEST_CASE(MostEthernetPkt)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_ETHERNET_PKT);
+    mostEthernetPkt = static_cast<Vector::BLF::MostEthernetPkt *>(ohb);
+    BOOST_CHECK(mostEthernetPkt->channel == 1);
+    BOOST_CHECK(mostEthernetPkt->dir == 1); // Tx
+    // reserved
+    BOOST_CHECK(mostEthernetPkt->sourceMacAdr == 0x010203040506);
+    BOOST_CHECK(mostEthernetPkt->destMacAdr == 0x112233445566);
+    BOOST_CHECK(mostEthernetPkt->transferType == 1); // Node
+    BOOST_CHECK(mostEthernetPkt->state == 1); // bus active
+    BOOST_CHECK(mostEthernetPkt->ackNack == 1); // Valid
+    // reserved
+    BOOST_CHECK(mostEthernetPkt->crc == 0xAABBCCDD);
+    BOOST_CHECK(mostEthernetPkt->pAck == 0x22);
+    BOOST_CHECK(mostEthernetPkt->cAck == 0x44);
+    // reserved
+    BOOST_CHECK(mostEthernetPkt->pktDataLength == 8);
+    // reserved
+    BOOST_CHECK(mostEthernetPkt->pktData[0] == 0x11);
+    BOOST_CHECK(mostEthernetPkt->pktData[1] == 0x22);
+    BOOST_CHECK(mostEthernetPkt->pktData[2] == 0x33);
+    BOOST_CHECK(mostEthernetPkt->pktData[3] == 0x34);
+    BOOST_CHECK(mostEthernetPkt->pktData[4] == 0x00);
+    BOOST_CHECK(mostEthernetPkt->pktData[5] == 0x02);
+    BOOST_CHECK(mostEthernetPkt->pktData[6] == 0x11);
+    BOOST_CHECK(mostEthernetPkt->pktData[7] == 0x22);
     delete ohb;
 
     BOOST_CHECK(file.eof());
