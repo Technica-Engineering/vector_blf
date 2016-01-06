@@ -196,7 +196,7 @@ public:
     DWORD pktDataLength;
 
     /** reserved */
-    BYTE reserved5;
+    BYTE reserved5[4];
 
     /**
      * @brief variable data

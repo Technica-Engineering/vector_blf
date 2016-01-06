@@ -1596,9 +1596,29 @@ BOOST_AUTO_TEST_CASE(Most50Pkt)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_50_PKT);
+    most50Pkt = static_cast<Vector::BLF::Most50Pkt *>(ohb);
+    BOOST_CHECK(most50Pkt->channel == 1);
+    BOOST_CHECK(most50Pkt->dir == 1); // Tx
+    // reserved
+    BOOST_CHECK(most50Pkt->sourceAdr == 0x0172);
+    BOOST_CHECK(most50Pkt->destAdr == 0x03C8);
+    BOOST_CHECK(most50Pkt->transferType == 1); // Node
+    BOOST_CHECK(most50Pkt->state == 2); // ???
+    BOOST_CHECK(most50Pkt->ackNack == 0x11); // Valid | Ack
+    // reserved
+    BOOST_CHECK(most50Pkt->crc == 0xAABB);
+    // reserved
+    BOOST_CHECK(most50Pkt->priority == 0);
+    BOOST_CHECK(most50Pkt->pktDataLength == 8);
+    BOOST_CHECK(most50Pkt->pktData[0] == 0x11);
+    BOOST_CHECK(most50Pkt->pktData[1] == 0x22);
+    BOOST_CHECK(most50Pkt->pktData[2] == 0x33);
+    BOOST_CHECK(most50Pkt->pktData[3] == 0x34);
+    BOOST_CHECK(most50Pkt->pktData[4] == 0x00);
+    BOOST_CHECK(most50Pkt->pktData[5] == 0x02);
+    BOOST_CHECK(most50Pkt->pktData[6] == 0x11);
+    BOOST_CHECK(most50Pkt->pktData[7] == 0x22);
     delete ohb;
 
     BOOST_CHECK(file.eof());
