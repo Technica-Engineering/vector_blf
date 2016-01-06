@@ -63,13 +63,13 @@ public:
      */
     COLORREF backgroundColor;
 
+    /** reserved */
+    BYTE reserved1[3];
+
     /**
      * Defines whether a marker can be relocated
      */
     BYTE isRelocatable;
-
-    /** reserved */
-    BYTE reserved1[3];
 
     /**
      * @brief group name length in bytes

@@ -1867,14 +1867,14 @@ BOOST_AUTO_TEST_CASE(GlobalMarker)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::GLOBAL_MARKER);
     globalMarker = static_cast<Vector::BLF::GlobalMarker *>(ohb);
-    BOOST_CHECK(globalMarker->commentedEventType == 0x00000000);
-    BOOST_CHECK(globalMarker->foregroundColor == 0x00000000);
-    BOOST_CHECK(globalMarker->backgroundColor == 0x00ffffff);
+    BOOST_CHECK(globalMarker->commentedEventType == 0);
+    BOOST_CHECK(globalMarker->foregroundColor == 0);
+    BOOST_CHECK(globalMarker->backgroundColor == 16777215);
     BOOST_CHECK(globalMarker->isRelocatable == 1);
     // reserved1
-    BOOST_CHECK(globalMarker->groupNameLength == 0x00000083);
-    BOOST_CHECK(globalMarker->markerNameLength == 0x00000083);
-    BOOST_CHECK(globalMarker->descriptionLength == 0x00000105);
+    BOOST_CHECK(globalMarker->groupNameLength == 0x83);
+    BOOST_CHECK(globalMarker->markerNameLength == 0x83);
+    BOOST_CHECK(globalMarker->descriptionLength == 0x105);
     // groupName
     BOOST_CHECK(globalMarker->groupName == "Marker Group");
     BOOST_CHECK(globalMarker->markerName == "[1]");

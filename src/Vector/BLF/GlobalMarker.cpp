@@ -31,8 +31,8 @@ GlobalMarker::GlobalMarker() :
     commentedEventType(),
     foregroundColor(),
     backgroundColor(),
-    isRelocatable(),
     reserved1(),
+    isRelocatable(),
     groupNameLength(),
     markerNameLength(),
     descriptionLength(),
@@ -70,14 +70,14 @@ char * GlobalMarker::read(char * buffer)
     memcpy((void *) &backgroundColor, buffer, size);
     buffer += size;
 
-    // isRelocatable
-    size = sizeof(isRelocatable);
-    memcpy((void *) &isRelocatable, buffer, size);
-    buffer += size;
-
     // reserved1
     size = sizeof(reserved1);
     memcpy((void *) &reserved1, buffer, size);
+    buffer += size;
+
+    // isRelocatable
+    size = sizeof(isRelocatable);
+    memcpy((void *) &isRelocatable, buffer, size);
     buffer += size;
 
     // groupNameLength
@@ -140,14 +140,14 @@ char * GlobalMarker::write(char * buffer)
     memcpy(buffer, (void *) &backgroundColor, size);
     buffer += size;
 
-    // isRelocatable
-    size = sizeof(isRelocatable);
-    memcpy(buffer, (void *) &isRelocatable, size);
-    buffer += size;
-
     // reserved1
     size = sizeof(reserved1);
     memcpy(buffer, (void *) &reserved1, size);
+    buffer += size;
+
+    // isRelocatable
+    size = sizeof(isRelocatable);
+    memcpy(buffer, (void *) &isRelocatable, size);
     buffer += size;
 
     // groupNameLength
