@@ -1197,9 +1197,34 @@ BOOST_AUTO_TEST_CASE(FlexRayVFrReceiveMsgEx)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::FR_RCVMESSAGE_EX);
+    flexRayVFrReceiveMsgEx = static_cast<Vector::BLF::FlexRayVFrReceiveMsgEx *>(ohb);
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->channel == 1);
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->version == 1);
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->channelMask = 1); // FlexRay Channel A
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->dir == 0); // Rx
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->clientIndex == 0);
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->clusterNo == 0);
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->frameId == 4);
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->headerCrc1 == 0x0097); // 151
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->headerCrc2 == 0x0097); // 151
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->byteCount == 4);
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->dataCount == 4);
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->cycle == 25);
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->tag == 2);
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->data == 0x00d0);
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->frameFlags == 0x06);
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->appParameter == 0);
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->frameCrc == 0);
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->frameLengthNs == 0);
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->frameId1 == 0);
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->pduOffset == 0);
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->blfLogMask == 0);
+    // reserved
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->dataBytes[0x00] == 0x15); // 21
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->dataBytes[0x01] == 0x57); // 87
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->dataBytes[0x02] == 0x16); // 22
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->dataBytes[0x03] == 0x94); // 148
     delete ohb;
 
     BOOST_CHECK(file.eof());

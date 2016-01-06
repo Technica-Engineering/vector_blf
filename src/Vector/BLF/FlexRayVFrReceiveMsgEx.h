@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <vector>
+
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 
@@ -299,14 +301,14 @@ public:
     WORD blfLogMask;
 
     /** reserved */
-    BYTE reserved[26];
+    BYTE reserved[0x1a];
 
     /**
      * @brief array of databytes
      *
      * Payload
      */
-    BYTE dataBytes[254];
+    std::vector<uint8_t> dataBytes;
 };
 
 }
