@@ -904,9 +904,26 @@ BOOST_AUTO_TEST_CASE(FlexRayVFrStartCycle)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::FR_STARTCYCLE);
+    flexRayVFrStartCycle = static_cast<Vector::BLF::FlexRayVFrStartCycle *>(ohb);
+    BOOST_CHECK(flexRayVFrStartCycle->channel == 0);
+    BOOST_CHECK(flexRayVFrStartCycle->version == 2);
+    BOOST_CHECK(flexRayVFrStartCycle->channelMask == 0); // reserved/invalid
+    BOOST_CHECK(flexRayVFrStartCycle->dir == 0); // Rx
+    BOOST_CHECK(flexRayVFrStartCycle->cycle == 0);
+    BOOST_CHECK(flexRayVFrStartCycle->clientIndex == 0);
+    BOOST_CHECK(flexRayVFrStartCycle->clusterNo == 0xffffffff);
+    BOOST_CHECK(flexRayVFrStartCycle->nmSize == 2);
+    BOOST_CHECK(flexRayVFrStartCycle->dataBytes[0] == 0);
+    BOOST_CHECK(flexRayVFrStartCycle->dataBytes[1] == 0);
+    // reserved
+    BOOST_CHECK(flexRayVFrStartCycle->tag == 0);
+    BOOST_CHECK(flexRayVFrStartCycle->data[0] == 0);
+    BOOST_CHECK(flexRayVFrStartCycle->data[1] == 0);
+    BOOST_CHECK(flexRayVFrStartCycle->data[2] == 0);
+    BOOST_CHECK(flexRayVFrStartCycle->data[3] == 0);
+    BOOST_CHECK(flexRayVFrStartCycle->data[4] == 0);
+    // reserved
     delete ohb;
 
     BOOST_CHECK(file.eof());

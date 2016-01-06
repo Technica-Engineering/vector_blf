@@ -159,7 +159,7 @@ public:
     /**
      * Reserved
      */
-    BYTE reserved2[4];
+    BYTE reserved2[8];
 };
 
 }
