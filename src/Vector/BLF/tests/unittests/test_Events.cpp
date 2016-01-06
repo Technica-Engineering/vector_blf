@@ -1491,9 +1491,27 @@ BOOST_AUTO_TEST_CASE(Most150PktFragment)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_150_PKT_FRAGMENT);
+    most150PktFragment = static_cast<Vector::BLF::Most150PktFragment *>(ohb);
+    BOOST_CHECK(most150PktFragment->channel == 1);
+    BOOST_CHECK(most150PktFragment->ackNack == 0x11); // NoResp | NAck
+    BOOST_CHECK(most150PktFragment->validMask == 0x01020304);
+    BOOST_CHECK(most150PktFragment->sourceAdr == 0x0172);
+    BOOST_CHECK(most150PktFragment->destAdr == 0x03C8);
+    BOOST_CHECK(most150PktFragment->pAck == 0x22);
+    BOOST_CHECK(most150PktFragment->cAck == 0x44);
+    BOOST_CHECK(most150PktFragment->priority == 1);
+    BOOST_CHECK(most150PktFragment->pIndex == 0x33);
+    BOOST_CHECK(most150PktFragment->crc == 0xAABB);
+    BOOST_CHECK(most150PktFragment->dataLen == 6);
+    BOOST_CHECK(most150PktFragment->dataLenAnnounced == 0x0210);
+    BOOST_CHECK(most150PktFragment->firstDataLen == 6);
+    BOOST_CHECK(most150PktFragment->firstData[0] == 0x01);
+    BOOST_CHECK(most150PktFragment->firstData[1] == 0x02);
+    BOOST_CHECK(most150PktFragment->firstData[2] == 0x03);
+    BOOST_CHECK(most150PktFragment->firstData[3] == 0x04);
+    BOOST_CHECK(most150PktFragment->firstData[4] == 0x05);
+    BOOST_CHECK(most150PktFragment->firstData[5] == 0x06);
     delete ohb;
 
     BOOST_CHECK(file.eof());
