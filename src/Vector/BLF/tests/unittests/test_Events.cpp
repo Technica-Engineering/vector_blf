@@ -1218,9 +1218,13 @@ BOOST_AUTO_TEST_CASE(MostStatisticEx)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_STATISTICEX);
+    mostStatisticEx = static_cast<Vector::BLF::MostStatisticEx *>(ohb);
+    BOOST_CHECK(mostStatisticEx->channel == 2);
+    // reserved
+    BOOST_CHECK(mostStatisticEx->codingErrors == 0x000006);
+    BOOST_CHECK(mostStatisticEx->frameCounter == 0x00A395);
+    // reserved
     delete ohb;
 
     BOOST_CHECK(file.eof());

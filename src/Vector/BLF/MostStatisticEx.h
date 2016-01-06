@@ -53,7 +53,7 @@ public:
     WORD channel;
 
     /** reserved */
-    WORD reserved;
+    BYTE reserved1[2];
 
     /**
      * Number of coding errors
@@ -64,6 +64,9 @@ public:
      * MOST frame counter
      */
     DWORD frameCounter;
+
+    /** reserved */
+    BYTE reserved2[4];
 };
 
 }

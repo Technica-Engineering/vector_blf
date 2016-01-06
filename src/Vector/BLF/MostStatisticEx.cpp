@@ -29,9 +29,10 @@ namespace BLF {
 MostStatisticEx::MostStatisticEx() :
     ObjectHeader2(),
     channel(),
-    reserved(),
+    reserved1(),
     codingErrors(),
-    frameCounter()
+    frameCounter(),
+    reserved2()
 {
     objectType = ObjectType::MOST_STATISTICEX;
 }
@@ -48,9 +49,9 @@ char * MostStatisticEx::read(char * buffer)
     memcpy((void *) &channel, buffer, size);
     buffer += size;
 
-    // reserved
-    size = sizeof(reserved);
-    memcpy((void *) &reserved, buffer, size);
+    // reserved1
+    size = sizeof(reserved1);
+    memcpy((void *) &reserved1, buffer, size);
     buffer += size;
 
     // codingErrors
@@ -61,6 +62,11 @@ char * MostStatisticEx::read(char * buffer)
     // frameCounter
     size = sizeof(frameCounter);
     memcpy((void *) &frameCounter, buffer, size);
+    buffer += size;
+
+    // reserved2
+    size = sizeof(reserved2);
+    memcpy((void *) &reserved2, buffer, size);
     buffer += size;
 
     return buffer;
@@ -78,9 +84,9 @@ char * MostStatisticEx::write(char * buffer)
     memcpy(buffer, (void *) &channel, size);
     buffer += size;
 
-    // reserved
-    size = sizeof(reserved);
-    memcpy(buffer, (void *) &reserved, size);
+    // reserved1
+    size = sizeof(reserved1);
+    memcpy(buffer, (void *) &reserved1, size);
     buffer += size;
 
     // codingErrors
@@ -93,6 +99,11 @@ char * MostStatisticEx::write(char * buffer)
     memcpy(buffer, (void *) &frameCounter, size);
     buffer += size;
 
+    // reserved2
+    size = sizeof(reserved2);
+    memcpy(buffer, (void *) &reserved2, size);
+    buffer += size;
+
     return buffer;
 }
 
@@ -101,9 +112,10 @@ size_t MostStatisticEx::calculateObjectSize()
     size_t size =
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +
-        sizeof(reserved) +
+        sizeof(reserved1) +
         sizeof(codingErrors) +
-        sizeof(frameCounter);
+        sizeof(frameCounter) +
+        sizeof(reserved2);
 
     return size;
 }
