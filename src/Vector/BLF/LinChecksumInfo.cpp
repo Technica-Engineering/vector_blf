@@ -30,7 +30,8 @@ LinChecksumInfo::LinChecksumInfo() :
     ObjectHeader(),
     channel(),
     id(),
-    checksumModel()
+    checksumModel(),
+    reserved()
 {
     objectType = ObjectType::LIN_CHECKSUM_INFO;
 }
@@ -55,6 +56,11 @@ char * LinChecksumInfo::read(char * buffer)
     // checksumModel
     size = sizeof(checksumModel);
     memcpy((void *) &checksumModel, buffer, size);
+    buffer += size;
+
+    // reserved
+    size = sizeof(reserved);
+    memcpy((void *) &reserved, buffer, size);
     buffer += size;
 
     return buffer;
@@ -82,6 +88,11 @@ char * LinChecksumInfo::write(char * buffer)
     memcpy(buffer, (void *) &checksumModel, size);
     buffer += size;
 
+    // reserved
+    size = sizeof(reserved);
+    memcpy(buffer, (void *) &reserved, size);
+    buffer += size;
+
     return buffer;
 }
 
@@ -91,7 +102,8 @@ size_t LinChecksumInfo::calculateObjectSize()
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(id) +
-        sizeof(checksumModel);
+        sizeof(checksumModel) +
+        sizeof(reserved);
 
     return size;
 }

@@ -757,9 +757,12 @@ BOOST_AUTO_TEST_CASE(LinChecksumInfo)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_CHECKSUM_INFO);
+    linChecksumInfo = static_cast<Vector::BLF::LinChecksumInfo *>(ohb);
+    BOOST_CHECK(linChecksumInfo->channel == 1);
+    BOOST_CHECK(linChecksumInfo->id == 22);
+    BOOST_CHECK(linChecksumInfo->checksumModel == 0); // classic
+    // reserved
     delete ohb;
 
     BOOST_CHECK(file.eof());

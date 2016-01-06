@@ -69,6 +69,9 @@ public:
      *   - 0xFF: Unknown
      */
     BYTE checksumModel;
+
+    /** reserved */
+    BYTE reserved[4];
 };
 
 }
