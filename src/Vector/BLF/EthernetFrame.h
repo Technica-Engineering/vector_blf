@@ -75,7 +75,7 @@ public:
      *
      * Direction flag
      */
-    Dir dir;
+    WORD dir;
 
     /**
      * EtherType which indicates protocol for
@@ -105,6 +105,9 @@ public:
      * 1500 Bytes (without Ethernet header)
      */
     WORD payLoadLength;
+
+    /** reserved */
+    BYTE reserved[8];
 
     /**
      * @brief Max 1500 data bytes per frame
