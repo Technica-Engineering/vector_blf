@@ -199,9 +199,12 @@ BOOST_AUTO_TEST_CASE(LinDlcInfo)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_DLC_INFO);
+    linDlcInfo = static_cast<Vector::BLF::LinDlcInfo *>(ohb);
+    BOOST_CHECK(linDlcInfo->channel = 1);
+    BOOST_CHECK(linDlcInfo->id = 20);
+    BOOST_CHECK(linDlcInfo->dlc = 4);
+    // reserved
     delete ohb;
 
     BOOST_CHECK(file.eof());

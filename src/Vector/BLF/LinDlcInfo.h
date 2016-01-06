@@ -65,6 +65,9 @@ public:
      * Frame length
      */
     BYTE dlc;
+
+    /** reserved */
+    BYTE reserved[4];
 };
 
 }

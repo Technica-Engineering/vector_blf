@@ -30,7 +30,8 @@ LinDlcInfo::LinDlcInfo() :
     ObjectHeader(),
     channel(),
     id(),
-    dlc()
+    dlc(),
+    reserved()
 {
     objectType = ObjectType::LIN_DLC_INFO;
 }
@@ -55,6 +56,11 @@ char * LinDlcInfo::read(char * buffer)
     // dlc
     size = sizeof(dlc);
     memcpy((void *) &dlc, buffer, size);
+    buffer += size;
+
+    // reserved
+    size = sizeof(reserved);
+    memcpy((void *) &reserved, buffer, size);
     buffer += size;
 
     return buffer;
@@ -82,6 +88,11 @@ char * LinDlcInfo::write(char * buffer)
     memcpy(buffer, (void *) &dlc, size);
     buffer += size;
 
+    // reserved
+    size = sizeof(reserved);
+    memcpy(buffer, (void *) &reserved, size);
+    buffer += size;
+
     return buffer;
 }
 
@@ -91,7 +102,8 @@ size_t LinDlcInfo::calculateObjectSize()
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(id) +
-        sizeof(dlc);
+        sizeof(dlc) +
+        sizeof(reserved);
 
     return size;
 }
