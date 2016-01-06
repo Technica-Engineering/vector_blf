@@ -65,42 +65,42 @@ char * SerialEvent::read(char * buffer)
 
     /* union */
     if ((flags & ((DWORD) Flags::SingleByte)) != 0) {
-        // singleByte.byte
-        size = sizeof(singleByte.byte);
-        memcpy((void *) &singleByte.byte, buffer, size);
+        // data.singleByte.byte
+        size = sizeof(data.singleByte.byte);
+        memcpy((void *) &data.singleByte.byte, buffer, size);
         buffer += size;
     } else {
         if ((flags & ((DWORD) Flags::CompactByte)) != 0) {
-            // compact.compactLength
-            size = sizeof(compact.compactLength);
-            memcpy((void *) &compact.compactLength, buffer, size);
+            // data.compact.compactLength
+            size = sizeof(data.compact.compactLength);
+            memcpy((void *) &data.compact.compactLength, buffer, size);
             buffer += size;
 
-            // compact.compactData
-            size = compact.compactLength;
-            memcpy((void *) &compact.compactData, buffer, size);
+            // data.compact.compactData
+            size = sizeof(data.compact.compactData);
+            memcpy((void *) &data.compact.compactData, buffer, size);
             buffer += size;
         } else {
-            // general.dataLength
-            size = sizeof(GeneralSerialEvent::dataLength);
-            memcpy((void *) &general.dataLength, buffer, size);
+            // data.general.dataLength
+            size = sizeof(data.general.dataLength);
+            memcpy((void *) &data.general.dataLength, buffer, size);
             buffer += size;
 
-            // general.timeStampsLength
-            size = sizeof(GeneralSerialEvent::timeStampsLength);
-            memcpy((void *) &general.timeStampsLength, buffer, size);
+            // data.general.timeStampsLength
+            size = sizeof(data.general.timeStampsLength);
+            memcpy((void *) &data.general.timeStampsLength, buffer, size);
             buffer += size;
 
-            // general.data
-            size = general.dataLength;
-            general.data = new char[size];
-            memcpy(general.data, buffer, size);
+            // data.general.data
+            size = data.general.dataLength;
+            data.general.data = new char[size];
+            memcpy(data.general.data, buffer, size);
             buffer += size;
 
-            // general.timeStamps
-            size = general.timeStampsLength;
-            general.timeStamps = (LONGLONG *) new char[size];
-            memcpy(general.timeStamps, buffer, size);
+            // data.general.timeStamps
+            size = data.general.timeStampsLength;
+            data.general.timeStamps = (LONGLONG *) new char[size];
+            memcpy(data.general.timeStamps, buffer, size);
             buffer += size;
         }
     }
@@ -137,40 +137,40 @@ char * SerialEvent::write(char * buffer)
 
     /* union */
     if ((flags & ((DWORD) Flags::SingleByte)) != 0) {
-        // singleByte.byte
-        size = sizeof(singleByte.byte);
-        memcpy(buffer, (void *) &singleByte.byte, size);
+        // data.singleByte.byte
+        size = sizeof(data.singleByte.byte);
+        memcpy(buffer, (void *) &data.singleByte.byte, size);
         buffer += size;
     } else {
         if ((flags & ((DWORD) Flags::CompactByte)) != 0) {
-            // compact.compactLength
-            size = sizeof(compact.compactLength);
-            memcpy(buffer, (void *) &compact.compactLength, size);
+            // data.compact.compactLength
+            size = sizeof(data.compact.compactLength);
+            memcpy(buffer, (void *) &data.compact.compactLength, size);
             buffer += size;
 
-            // compact.compactData
-            size = compact.compactLength;
-            memcpy(buffer, (void *) &compact.compactData, size);
+            // data.compact.compactData
+            size = sizeof(data.compact.compactData);
+            memcpy(buffer, (void *) &data.compact.compactData, size);
             buffer += size;
         } else {
-            // general.dataLength
-            size = sizeof(GeneralSerialEvent::dataLength);
-            memcpy(buffer, (void *) &general.dataLength, size);
+            // data.general.dataLength
+            size = sizeof(data.general.dataLength);
+            memcpy(buffer, (void *) &data.general.dataLength, size);
             buffer += size;
 
-            // general.timeStampsLength
-            size = sizeof(GeneralSerialEvent::timeStampsLength);
-            memcpy(buffer, (void *) &general.timeStampsLength, size);
+            // data.general.timeStampsLength
+            size = sizeof(data.general.timeStampsLength);
+            memcpy(buffer, (void *) &data.general.timeStampsLength, size);
             buffer += size;
 
-            // general.data
-            size = general.dataLength;
-            memcpy(buffer, general.data, size);
+            // data.general.data
+            size = data.general.dataLength;
+            memcpy(buffer, data.general.data, size);
             buffer += size;
 
-            // general.timeStamps
-            size = general.timeStampsLength;
-            memcpy(buffer, general.timeStamps, size);
+            // data.general.timeStamps
+            size = data.general.timeStampsLength;
+            memcpy(buffer, data.general.timeStamps, size);
             buffer += size;
         }
     }
@@ -188,14 +188,14 @@ size_t SerialEvent::calculateObjectSize()
         sizeof(reserved);
 
     if ((flags & ((DWORD) Flags::SingleByte)) != 0)
-        size += sizeof(SingleByteSerialEvent);
+        size += sizeof(data.singleByte);
     else if ((flags & ((DWORD) Flags::CompactByte)) != 0)
-        size += sizeof(CompactSerialEvent);
+        size += sizeof(data.compact);
     else
-        size += sizeof(GeneralSerialEvent::dataLength) +
-                sizeof(GeneralSerialEvent::timeStampsLength) +
-                general.dataLength +
-                general.timeStampsLength;
+        size += sizeof(data.general.dataLength) +
+                sizeof(data.general.timeStampsLength) +
+                data.general.dataLength +
+                data.general.timeStampsLength;
 
     return size;
 }

@@ -1707,9 +1707,21 @@ BOOST_AUTO_TEST_CASE(SerialEvent)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::SERIAL_EVENT);
+    serialEvent = static_cast<Vector::BLF::SerialEvent *>(ohb);
+    BOOST_CHECK(serialEvent->flags == (uint32_t) (Vector::BLF::SerialEvent::Flags::KLineEvent) |
+                                      (uint32_t) (Vector::BLF::SerialEvent::Flags::CompactByte));
+    BOOST_CHECK(serialEvent->port == 2);
+    BOOST_CHECK(serialEvent->baudrate == 10400);
+    // reserved
+    BOOST_CHECK(serialEvent->data.compact.compactLength == 7);
+    BOOST_CHECK(serialEvent->data.compact.compactData[0] == 0x83);
+    BOOST_CHECK(serialEvent->data.compact.compactData[1] == 0x11);
+    BOOST_CHECK(serialEvent->data.compact.compactData[2] == 0x61);
+    BOOST_CHECK(serialEvent->data.compact.compactData[3] == 0x7F);
+    BOOST_CHECK(serialEvent->data.compact.compactData[4] == 0x1A);
+    BOOST_CHECK(serialEvent->data.compact.compactData[5] == 0x78);
+    BOOST_CHECK(serialEvent->data.compact.compactData[6] == 0x06);
     delete ohb;
 
     BOOST_CHECK(file.eof());

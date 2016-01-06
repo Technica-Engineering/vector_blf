@@ -29,55 +29,6 @@
 namespace Vector {
 namespace BLF {
 
-/** general serial event */
-struct GeneralSerialEvent
-{
-    /**
-     * @brief length of variable data in bytes
-     *
-     * length of variable data in bytes
-     */
-    DWORD dataLength;
-
-    /**
-     * @brief length of variable timestamps in bytes
-     *
-     * length of variable timestamps in bytes
-     */
-    DWORD timeStampsLength;
-
-    /**
-     * @brief variable data
-     *
-     * variable data
-     */
-    char * data;
-
-    /**
-     * @brief variable timestamps (optional)
-     *
-     * variable timestamps (optional)
-     */
-    LONGLONG * timeStamps;
-};
-
-/** single byte serial event */
-struct SingleByteSerialEvent
-{
-    /** single byte */
-    BYTE byte;
-};
-
-/** compact serial event */
-struct CompactSerialEvent
-{
-    /** compact length */
-    BYTE compactLength;
-
-    /** compact data */
-    BYTE compactData[15];
-};
-
 /**
  * @brief SERIAL_EVENT
  *
@@ -95,28 +46,28 @@ public:
     /** enumeration for flags */
     enum class Flags : DWORD {
         /** K-Line event */
-        KLineEvent = 0x000000001,
+        KLineEvent = 0x00000001,
 
         /**
          * diagnostic request
          *
-         * only valid if BL_SERIAL_TYPE_KLINE_EVENT is set
+         * only valid if KLineEvent is set
          */
-        DiagRequest = 0x000000002,
+        DiagRequest = 0x00000002,
 
         /**
          * single byte
          *
          * optimization for logging single bytes
          */
-        SingleByte = 0x000000004,
+        SingleByte = 0x00000004,
 
         /**
          * compact byte
          *
          * optimization for logging a few bytes without additional timestamps
          */
-        CompactByte = 0x000000008
+        CompactByte = 0x00000008
     };
 
     /** flags */
@@ -139,18 +90,58 @@ public:
     /** reserved */
     DWORD reserved;
 
-    /** event union */
-    union
+    /** data union */
+    union Data
     {
-        /** general */
-        GeneralSerialEvent general;
+        /** general serial event */
+        struct GeneralSerialEvent
+        {
+            /**
+             * @brief length of variable data in bytes
+             *
+             * length of variable data in bytes
+             */
+            DWORD dataLength;
 
-        /** single byte */
-        SingleByteSerialEvent singleByte;
+            /**
+             * @brief length of variable timestamps in bytes
+             *
+             * length of variable timestamps in bytes
+             */
+            DWORD timeStampsLength;
 
-        /** compact */
-        CompactSerialEvent compact;
-    };
+            /**
+             * @brief variable data
+             *
+             * variable data
+             */
+            char * data;
+
+            /**
+             * @brief variable timestamps (optional)
+             *
+             * variable timestamps (optional)
+             */
+            LONGLONG * timeStamps;
+        } general;
+
+        /** single byte serial event */
+        struct SingleByteSerialEvent
+        {
+            /** single byte */
+            BYTE byte;
+        } singleByte;
+
+        /** compact serial event */
+        struct CompactSerialEvent
+        {
+            /** compact length */
+            BYTE compactLength;
+
+            /** compact data */
+            BYTE compactData[15];
+        } compact;
+    } data;
 };
 
 }
