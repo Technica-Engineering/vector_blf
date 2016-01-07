@@ -470,7 +470,9 @@ BOOST_AUTO_TEST_CASE(MostLightLock)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_LIGHTLOCK);
     mostLightLock = static_cast<Vector::BLF::MostLightLock *>(ohb);
-    // @todo test implementation
+    BOOST_CHECK(mostLightLock->channel == 1);
+    BOOST_CHECK(mostLightLock->state == 1); // Signal On + Lock
+    // reserved
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -491,7 +493,11 @@ BOOST_AUTO_TEST_CASE(MostStatistic)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_STATISTIC);
     mostStatistic = static_cast<Vector::BLF::MostStatistic *>(ohb);
-    // @todo test implementation
+    BOOST_CHECK(mostStatistic->channel == 1);
+    BOOST_CHECK(mostStatistic->pktCnt == 0);
+    BOOST_CHECK(mostStatistic->frmCnt == 0);
+    BOOST_CHECK(mostStatistic->lightCnt == 4);
+    BOOST_CHECK(mostStatistic->bufferLevel == 0);
     delete ohb;
 
     BOOST_CHECK(file.eof());
