@@ -635,7 +635,10 @@ BOOST_AUTO_TEST_CASE(MostHwMode)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_HWMODE);
     mostHwMode = static_cast<Vector::BLF::MostHwMode *>(ohb);
-    // @todo test implementation
+    BOOST_CHECK(mostHwMode->channel == 1);
+    // reserved
+    BOOST_CHECK(mostHwMode->hwMode == 0x01); // active
+    BOOST_CHECK(mostHwMode->hwModeMask == 0x01); // ByPass
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -656,7 +659,29 @@ BOOST_AUTO_TEST_CASE(MostReg)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_REG);
     mostReg = static_cast<Vector::BLF::MostReg *>(ohb);
-    // @todo test implementation
+    BOOST_CHECK(mostReg->channel == 1);
+    BOOST_CHECK(mostReg->subType == 0);
+    // reserved
+    BOOST_CHECK(mostReg->handle == 0);
+    BOOST_CHECK(mostReg->offset == 0x0000);
+    BOOST_CHECK(mostReg->chip == 1); // OS8104
+    BOOST_CHECK(mostReg->regDataLen == 0x10);
+    BOOST_CHECK(mostReg->regData[0x00] == 0x00);
+    BOOST_CHECK(mostReg->regData[0x01] == 0x01);
+    BOOST_CHECK(mostReg->regData[0x02] == 0x02);
+    BOOST_CHECK(mostReg->regData[0x03] == 0x03);
+    BOOST_CHECK(mostReg->regData[0x04] == 0x04);
+    BOOST_CHECK(mostReg->regData[0x05] == 0x05);
+    BOOST_CHECK(mostReg->regData[0x06] == 0x06);
+    BOOST_CHECK(mostReg->regData[0x07] == 0x07);
+    BOOST_CHECK(mostReg->regData[0x08] == 0x08);
+    BOOST_CHECK(mostReg->regData[0x09] == 0x09);
+    BOOST_CHECK(mostReg->regData[0x0a] == 0x0a);
+    BOOST_CHECK(mostReg->regData[0x0b] == 0x0b);
+    BOOST_CHECK(mostReg->regData[0x0c] == 0x0c);
+    BOOST_CHECK(mostReg->regData[0x0d] == 0x0d);
+    BOOST_CHECK(mostReg->regData[0x0e] == 0x0e);
+    BOOST_CHECK(mostReg->regData[0x0f] == 0x0f);
     delete ohb;
 
     BOOST_CHECK(file.eof());
