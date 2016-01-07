@@ -381,7 +381,10 @@ BOOST_AUTO_TEST_CASE(LinSleepModeEvent)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_SLEEP);
     linSleepModeEvent = static_cast<Vector::BLF::LinSleepModeEvent *>(ohb);
-    // @todo test implementation
+    BOOST_CHECK(linSleepModeEvent->channel == 1);
+    BOOST_CHECK(linSleepModeEvent->reason == 1);
+    BOOST_CHECK(linSleepModeEvent->flags == (uint8_t) Vector::BLF::LinSleepModeEvent::Flags::WasAwake);
+    // reserved
     delete ohb;
 
     BOOST_CHECK(file.eof());
