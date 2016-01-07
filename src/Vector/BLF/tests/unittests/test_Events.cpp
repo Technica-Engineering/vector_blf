@@ -1045,7 +1045,12 @@ BOOST_AUTO_TEST_CASE(LinStatisticEvent)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_STATISTIC);
     linStatisticEvent = static_cast<Vector::BLF::LinStatisticEvent *>(ohb);
-    // @todo test implementation
+    BOOST_CHECK(linStatisticEvent->channel == 1);
+    BOOST_CHECK(isEqual(linStatisticEvent->busLoad, 0.903601));
+    BOOST_CHECK(linStatisticEvent->burstsOverrun == 0);
+    BOOST_CHECK(linStatisticEvent->framesSent == 0);
+    BOOST_CHECK(linStatisticEvent->framesReceived == 73);
+    BOOST_CHECK(linStatisticEvent->framesUnanswered == 0);
     delete ohb;
 
     BOOST_CHECK(file.eof());
