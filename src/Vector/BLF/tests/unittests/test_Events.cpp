@@ -35,6 +35,13 @@ BOOST_AUTO_TEST_CASE(CanMessage)
     // @todo test implementation
     delete ohb;
 
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::CAN_MESSAGE);
+    canMessage = static_cast<Vector::BLF::CanMessage *>(ohb);
+    // @todo test implementation
+    delete ohb;
+
     BOOST_CHECK(file.eof());
     file.close();
 }
@@ -1325,6 +1332,13 @@ BOOST_AUTO_TEST_CASE(FlexRayVFrReceiveMsgEx)
     BOOST_CHECK(flexRayVFrReceiveMsgEx->dataBytes[0x03] == 0x94); // 148
     delete ohb;
 
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::FR_RCVMESSAGE_EX);
+    flexRayVFrReceiveMsgEx = static_cast<Vector::BLF::FlexRayVFrReceiveMsgEx *>(ohb);
+    // @todo test implementation
+    delete ohb;
+
     BOOST_CHECK(file.eof());
     file.close();
 }
@@ -1588,6 +1602,13 @@ BOOST_AUTO_TEST_CASE(LinLongDomSignalEvent2)
     // @todo test implementation
     delete ohb;
 
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_LONG_DOM_SIG2);
+    linLongDomSignalEvent2 = static_cast<Vector::BLF::LinLongDomSignalEvent2 *>(ohb);
+    // @todo test implementation
+    delete ohb;
+
     BOOST_CHECK(file.eof());
     file.close();
 }
@@ -1830,6 +1851,13 @@ BOOST_AUTO_TEST_CASE(Most150AllocTab)
     BOOST_CHECK(most150AllocTab->tableData[5] == 0x0004);
     BOOST_CHECK(most150AllocTab->tableData[6] == 0x4151);
     BOOST_CHECK(most150AllocTab->tableData[7] == 0x0046);
+    delete ohb;
+
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_150_ALLOCTAB);
+    most150AllocTab = static_cast<Vector::BLF::Most150AllocTab *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -2159,7 +2187,6 @@ BOOST_AUTO_TEST_CASE(GlobalMarker)
     BOOST_CHECK(globalMarker->groupName == "Marker Group");
     BOOST_CHECK(globalMarker->markerName == "[1]");
     BOOST_CHECK(globalMarker->description == "description");
-
     delete ohb;
 
     BOOST_CHECK(file.eof());
