@@ -64,7 +64,8 @@ char * EventComment::read(char * buffer)
 
     // text
     size = textLength;
-    text.assign(buffer, size);
+    size_t textLength2 = strnlen(buffer, size); // Vector bug: the actual string can be shorter than size!
+    text.assign(buffer, textLength2);
     buffer += size;
 
     return buffer;

@@ -2088,7 +2088,9 @@ BOOST_AUTO_TEST_CASE(EventComment)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::EVENT_COMMENT);
     eventComment = static_cast<Vector::BLF::EventComment *>(ohb);
-    // @todo test implementation
+    BOOST_CHECK(eventComment->commentedEventType == 105);
+    BOOST_CHECK(eventComment->textLength == 261);
+    BOOST_CHECK(eventComment->text == "testComment");
     delete ohb;
 
     BOOST_CHECK(file.eof());
