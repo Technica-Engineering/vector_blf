@@ -26,13 +26,13 @@ BOOST_AUTO_TEST_CASE(CanMessage)
     BOOST_REQUIRE(file.is_open());
 
     Vector::BLF::ObjectHeaderBase * ohb;
-    Vector::BLF::AfdxFrame * afdxFrame;
+    Vector::BLF::CanMessage * canMessage;
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::CAN_MESSAGE);
+    canMessage = static_cast<Vector::BLF::CanMessage *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -40,6 +40,7 @@ BOOST_AUTO_TEST_CASE(CanMessage)
 }
 
 /* CAN_ERROR = 2 */
+#if 0
 BOOST_AUTO_TEST_CASE(CanErrorFrame)
 {
     Vector::BLF::File file;
@@ -51,16 +52,18 @@ BOOST_AUTO_TEST_CASE(CanErrorFrame)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::CAN_ERROR);
+    canErrorFrame = static_cast<Vector::BLF::CanErrorFrame *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
     file.close();
 }
+#endif
 
 /* CAN_OVERLOAD = 3 */
+#if 0
 BOOST_AUTO_TEST_CASE(CanOverloadFrame)
 {
     Vector::BLF::File file;
@@ -72,14 +75,15 @@ BOOST_AUTO_TEST_CASE(CanOverloadFrame)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::CAN_OVERLOAD);
+    canOverloadFrame = static_cast<Vector::BLF::CanOverloadFrame *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
     file.close();
 }
+#endif
 
 /* CAN_STATISTIC = 4 */
 BOOST_AUTO_TEST_CASE(CanDriverStatistic)
@@ -93,9 +97,9 @@ BOOST_AUTO_TEST_CASE(CanDriverStatistic)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::CAN_STATISTIC);
+    canDriverStatistic = static_cast<Vector::BLF::CanDriverStatistic *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -103,6 +107,7 @@ BOOST_AUTO_TEST_CASE(CanDriverStatistic)
 }
 
 /* APP_TRIGGER = 5 */
+#if 0
 BOOST_AUTO_TEST_CASE(AppTrigger)
 {
     Vector::BLF::File file;
@@ -114,19 +119,21 @@ BOOST_AUTO_TEST_CASE(AppTrigger)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::APP_TRIGGER);
+    appTrigger = static_cast<Vector::BLF::AppTrigger *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
     file.close();
 }
+#endif
 
 /* ENV_INTEGER = 6 */
 /* ENV_DOUBLE = 7 */
 /* ENV_STRING = 8 */
 /* ENV_DATA = 9 */
+#if 0
 BOOST_AUTO_TEST_CASE(EnvironmentVariable)
 {
     Vector::BLF::File file;
@@ -138,19 +145,21 @@ BOOST_AUTO_TEST_CASE(EnvironmentVariable)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::ENV_INTEGER);
+    environmentVariable = static_cast<Vector::BLF::EnvironmentVariable *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
     file.close();
 }
+#endif
 
 /* LOG_CONTAINER = 10 */
 // LogContainer is indirectly tested
 
 /* LIN_MESSAGE = 11 */
+#if 0
 BOOST_AUTO_TEST_CASE(LinMessage)
 {
     Vector::BLF::File file;
@@ -162,16 +171,18 @@ BOOST_AUTO_TEST_CASE(LinMessage)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_MESSAGE);
+    linMessage = static_cast<Vector::BLF::LinMessage *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
     file.close();
 }
+#endif
 
 /* LIN_CRC_ERROR = 12 */
+#if 0
 BOOST_AUTO_TEST_CASE(LinCrcError)
 {
     Vector::BLF::File file;
@@ -183,14 +194,15 @@ BOOST_AUTO_TEST_CASE(LinCrcError)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_CRC_ERROR);
+    linCrcError = static_cast<Vector::BLF::LinCrcError *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
     file.close();
 }
+#endif
 
 /* LIN_DLC_INFO = 13 */
 BOOST_AUTO_TEST_CASE(LinDlcInfo)
@@ -217,6 +229,7 @@ BOOST_AUTO_TEST_CASE(LinDlcInfo)
 }
 
 /* LIN_RCV_ERROR = 14 */
+#if 0
 BOOST_AUTO_TEST_CASE(LinReceiveError)
 {
     Vector::BLF::File file;
@@ -228,16 +241,18 @@ BOOST_AUTO_TEST_CASE(LinReceiveError)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_RCV_ERROR);
+    linReceiveError = static_cast<Vector::BLF::LinReceiveError *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
     file.close();
 }
+#endif
 
 /* LIN_SND_ERROR = 15 */
+#if 0
 BOOST_AUTO_TEST_CASE(LinSendError)
 {
     Vector::BLF::File file;
@@ -249,14 +264,15 @@ BOOST_AUTO_TEST_CASE(LinSendError)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_SND_ERROR);
+    linSendError = static_cast<Vector::BLF::LinSendError *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
     file.close();
 }
+#endif
 
 /* LIN_SLV_TIMEOUT = 16 */
 BOOST_AUTO_TEST_CASE(LinSlaveTimeout)
@@ -270,9 +286,9 @@ BOOST_AUTO_TEST_CASE(LinSlaveTimeout)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_SLV_TIMEOUT);
+    linSlaveTimeout = static_cast<Vector::BLF::LinSlaveTimeout *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -291,9 +307,9 @@ BOOST_AUTO_TEST_CASE(LinSchedulerModeChange)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_SCHED_MODCH);
+    linSchedulerModeChange = static_cast<Vector::BLF::LinSchedulerModeChange *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -301,6 +317,7 @@ BOOST_AUTO_TEST_CASE(LinSchedulerModeChange)
 }
 
 /* LIN_SYN_ERROR = 18 */
+#if 0
 BOOST_AUTO_TEST_CASE(LinSyncError)
 {
     Vector::BLF::File file;
@@ -312,14 +329,15 @@ BOOST_AUTO_TEST_CASE(LinSyncError)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_SYN_ERROR);
+    linSyncError = static_cast<Vector::BLF::LinSyncError *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
     file.close();
 }
+#endif
 
 /* LIN_BAUDRATE = 19 */
 BOOST_AUTO_TEST_CASE(LinBaudrateEvent)
@@ -333,9 +351,9 @@ BOOST_AUTO_TEST_CASE(LinBaudrateEvent)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_BAUDRATE);
+    linBaudrateEvent = static_cast<Vector::BLF::LinBaudrateEvent *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -354,9 +372,9 @@ BOOST_AUTO_TEST_CASE(LinSleepModeEvent)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_SLEEP);
+    linSleepModeEvent = static_cast<Vector::BLF::LinSleepModeEvent *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -364,6 +382,7 @@ BOOST_AUTO_TEST_CASE(LinSleepModeEvent)
 }
 
 /* LIN_WAKEUP = 21 */
+#if 0
 BOOST_AUTO_TEST_CASE(LinWakeupEvent)
 {
     Vector::BLF::File file;
@@ -375,14 +394,15 @@ BOOST_AUTO_TEST_CASE(LinWakeupEvent)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_WAKEUP);
+    linWakeupEvent = static_cast<Vector::BLF::LinWakeupEvent *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
     file.close();
 }
+#endif
 
 /* MOST_SPY = 22 */
 BOOST_AUTO_TEST_CASE(MostSpy)
@@ -396,9 +416,9 @@ BOOST_AUTO_TEST_CASE(MostSpy)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_SPY);
+    mostSpy = static_cast<Vector::BLF::MostSpy *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -417,9 +437,9 @@ BOOST_AUTO_TEST_CASE(MostCtrl)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_CTRL);
+    mostCtrl = static_cast<Vector::BLF::MostCtrl *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -438,9 +458,9 @@ BOOST_AUTO_TEST_CASE(MostLightLock)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_LIGHTLOCK);
+    mostLightLock = static_cast<Vector::BLF::MostLightLock *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -459,9 +479,9 @@ BOOST_AUTO_TEST_CASE(MostStatistic)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_STATISTIC);
+    mostStatistic = static_cast<Vector::BLF::MostStatistic *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -473,6 +493,7 @@ BOOST_AUTO_TEST_CASE(MostStatistic)
 /* reserved_3 = 28 */
 
 /* FLEXRAY_DATA = 29 */
+#if 0
 BOOST_AUTO_TEST_CASE(FlexRayData)
 {
     Vector::BLF::File file;
@@ -484,16 +505,18 @@ BOOST_AUTO_TEST_CASE(FlexRayData)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::FLEXRAY_DATA);
+    flexRayData = static_cast<Vector::BLF::FlexRayData *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
     file.close();
 }
+#endif
 
 /* FLEXRAY_SYNC = 30 */
+#if 0
 BOOST_AUTO_TEST_CASE(FlexRaySync)
 {
     Vector::BLF::File file;
@@ -505,16 +528,18 @@ BOOST_AUTO_TEST_CASE(FlexRaySync)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::FLEXRAY_SYNC);
+    flexRaySync = static_cast<Vector::BLF::FlexRaySync *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
     file.close();
 }
+#endif
 
 /* CAN_DRIVER_ERROR = 31 */
+#if 0
 BOOST_AUTO_TEST_CASE(CanDriverError)
 {
     Vector::BLF::File file;
@@ -526,16 +551,18 @@ BOOST_AUTO_TEST_CASE(CanDriverError)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::CAN_DRIVER_ERROR);
+    canDriverError = static_cast<Vector::BLF::CanDriverError *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
     file.close();
 }
+#endif
 
 /* MOST_PKT = 32 */
+#if 0
 BOOST_AUTO_TEST_CASE(MostPkt)
 {
     Vector::BLF::File file;
@@ -547,14 +574,15 @@ BOOST_AUTO_TEST_CASE(MostPkt)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_PKT);
+    mostPkt = static_cast<Vector::BLF::MostPkt *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
     file.close();
 }
+#endif
 
 /* MOST_PKT2 = 33 */
 BOOST_AUTO_TEST_CASE(MostPkt2)
@@ -568,9 +596,9 @@ BOOST_AUTO_TEST_CASE(MostPkt2)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_PKT2);
+    mostPkt2 = static_cast<Vector::BLF::MostPkt2 *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -589,9 +617,9 @@ BOOST_AUTO_TEST_CASE(MostHwMode)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_HWMODE);
+    mostHwMode = static_cast<Vector::BLF::MostHwMode *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -610,9 +638,9 @@ BOOST_AUTO_TEST_CASE(MostReg)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_REG);
+    mostReg = static_cast<Vector::BLF::MostReg *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -631,9 +659,9 @@ BOOST_AUTO_TEST_CASE(MostGenReg)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_GENREG);
+    mostGenReg = static_cast<Vector::BLF::MostGenReg *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -652,9 +680,9 @@ BOOST_AUTO_TEST_CASE(MostNetState)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_NETSTATE);
+    mostNetState = static_cast<Vector::BLF::MostNetState *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -673,9 +701,9 @@ BOOST_AUTO_TEST_CASE(MostDataLost)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_DATALOST);
+    mostDataLost = static_cast<Vector::BLF::MostDataLost *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -694,9 +722,9 @@ BOOST_AUTO_TEST_CASE(MostTrigger)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_TRIGGER);
+    mostTrigger = static_cast<Vector::BLF::MostTrigger *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -704,6 +732,7 @@ BOOST_AUTO_TEST_CASE(MostTrigger)
 }
 
 /* FLEXRAY_CYCLE = 40 */
+#if 0
 BOOST_AUTO_TEST_CASE(FlexRayV6StartCycleEvent)
 {
     Vector::BLF::File file;
@@ -715,16 +744,18 @@ BOOST_AUTO_TEST_CASE(FlexRayV6StartCycleEvent)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::FLEXRAY_CYCLE);
+    flexRayV6StartCycleEvent = static_cast<Vector::BLF::FlexRayV6StartCycleEvent *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
     file.close();
 }
+#endif
 
 /* FLEXRAY_MESSAGE = 41 */
+#if 0
 BOOST_AUTO_TEST_CASE(FlexRayV6Message)
 {
     Vector::BLF::File file;
@@ -736,14 +767,15 @@ BOOST_AUTO_TEST_CASE(FlexRayV6Message)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::FLEXRAY_MESSAGE);
+    flexRayV6Message = static_cast<Vector::BLF::FlexRayV6Message *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
     file.close();
 }
+#endif
 
 /* LIN_CHECKSUM_INFO = 42 */
 BOOST_AUTO_TEST_CASE(LinChecksumInfo)
@@ -770,6 +802,7 @@ BOOST_AUTO_TEST_CASE(LinChecksumInfo)
 }
 
 /* LIN_SPIKE_EVENT = 43 */
+#if 0
 BOOST_AUTO_TEST_CASE(LinSpikeEvent)
 {
     Vector::BLF::File file;
@@ -781,16 +814,18 @@ BOOST_AUTO_TEST_CASE(LinSpikeEvent)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_SPIKE_EVENT);
+    linSpikeEvent = static_cast<Vector::BLF::LinSpikeEvent *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
     file.close();
 }
+#endif
 
 /* CAN_DRIVER_SYNC = 44 */
+#if 0
 BOOST_AUTO_TEST_CASE(CanDriverHwSync)
 {
     Vector::BLF::File file;
@@ -802,16 +837,18 @@ BOOST_AUTO_TEST_CASE(CanDriverHwSync)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::CAN_DRIVER_SYNC);
+    canDriverHwSync = static_cast<Vector::BLF::CanDriverHwSync *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
     file.close();
 }
+#endif
 
 /* FLEXRAY_STATUS = 45 */
+#if 0
 BOOST_AUTO_TEST_CASE(FlexRayStatusEvent)
 {
     Vector::BLF::File file;
@@ -823,14 +860,15 @@ BOOST_AUTO_TEST_CASE(FlexRayStatusEvent)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::FLEXRAY_STATUS);
+    flexRayStatusEvent = static_cast<Vector::BLF::FlexRayStatusEvent *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
     file.close();
 }
+#endif
 
 /* GPS_EVENT = 46 */
 BOOST_AUTO_TEST_CASE(GpsEvent)
@@ -844,9 +882,9 @@ BOOST_AUTO_TEST_CASE(GpsEvent)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::GPS_EVENT);
+    gpsEvent = static_cast<Vector::BLF::GpsEvent *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -854,6 +892,7 @@ BOOST_AUTO_TEST_CASE(GpsEvent)
 }
 
 /* FR_ERROR = 47 */
+#if 0
 BOOST_AUTO_TEST_CASE(FlexRayVFrError)
 {
     Vector::BLF::File file;
@@ -865,16 +904,18 @@ BOOST_AUTO_TEST_CASE(FlexRayVFrError)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::FR_ERROR);
+    flexRayVFrError = static_cast<Vector::BLF::FlexRayVFrError *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
     file.close();
 }
+#endif
 
 /* FR_STATUS = 48 */
+#if 0
 BOOST_AUTO_TEST_CASE(FlexRayVFrStatus)
 {
     Vector::BLF::File file;
@@ -886,14 +927,15 @@ BOOST_AUTO_TEST_CASE(FlexRayVFrStatus)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::FR_STATUS);
+    flexRayVFrStatus = static_cast<Vector::BLF::FlexRayVFrStatus *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
     file.close();
 }
+#endif
 
 /* FR_STARTCYCLE = 49 */
 BOOST_AUTO_TEST_CASE(FlexRayVFrStartCycle)
@@ -934,6 +976,7 @@ BOOST_AUTO_TEST_CASE(FlexRayVFrStartCycle)
 }
 
 /* FR_RCVMESSAGE = 50 */
+#if 0
 BOOST_AUTO_TEST_CASE(FlexRayVFrReceiveMsg)
 {
     Vector::BLF::File file;
@@ -945,16 +988,18 @@ BOOST_AUTO_TEST_CASE(FlexRayVFrReceiveMsg)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::FR_RCVMESSAGE);
+    flexRayVFrReceiveMsg = static_cast<Vector::BLF::FlexRayVFrReceiveMsg *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
     file.close();
 }
+#endif
 
 /* REALTIMECLOCK = 51 */
+#if 0
 BOOST_AUTO_TEST_CASE(RealtimeClock)
 {
     Vector::BLF::File file;
@@ -966,14 +1011,15 @@ BOOST_AUTO_TEST_CASE(RealtimeClock)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::REALTIMECLOCK);
+    realtimeClock = static_cast<Vector::BLF::RealtimeClock *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
     file.close();
 }
+#endif
 
 /* AVAILABLE2 = 52 */
 /* AVAILABLE3 = 53 */
@@ -990,9 +1036,9 @@ BOOST_AUTO_TEST_CASE(LinStatisticEvent)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_STATISTIC);
+    linStatisticEvent = static_cast<Vector::BLF::LinStatisticEvent *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -1001,6 +1047,7 @@ BOOST_AUTO_TEST_CASE(LinStatisticEvent)
 
 /* J1708_MESSAGE = 55 */
 /* J1708_VIRTUAL_MSG = 56 */
+#if 0
 BOOST_AUTO_TEST_CASE(J1708Message)
 {
     Vector::BLF::File file;
@@ -1012,14 +1059,15 @@ BOOST_AUTO_TEST_CASE(J1708Message)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::J1708_MESSAGE);
+    j1708Message = static_cast<Vector::BLF::J1708Message *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
     file.close();
 }
+#endif
 
 /* LIN_MESSAGE2 = 57 */
 BOOST_AUTO_TEST_CASE(LinMessage2)
@@ -1033,9 +1081,9 @@ BOOST_AUTO_TEST_CASE(LinMessage2)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_MESSAGE2);
+    linMessage2 = static_cast<Vector::BLF::LinMessage2 *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -1068,7 +1116,7 @@ BOOST_AUTO_TEST_CASE(LinSendError2)
     BOOST_CHECK(linSendError2->id == 0x21); // 33
     BOOST_CHECK(linSendError2->dlc == 4);
     BOOST_CHECK(linSendError2->checksumModel == 1); // enhanced
-    BOOST_CHECK(isEqual(linSendError2->eoh, 0.418122));
+    BOOST_CHECK(linSendError2->eoh == 418122000); // ns
     BOOST_CHECK(linSendError2->isEtf == 0);
     BOOST_CHECK(linSendError2->fsmId == 0xff);
     BOOST_CHECK(linSendError2->fsmState == 0);
@@ -1094,9 +1142,9 @@ BOOST_AUTO_TEST_CASE(LinSyncError2)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_SYN_ERROR2);
+    linSyncError2 = static_cast<Vector::BLF::LinSyncError2 *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -1104,6 +1152,7 @@ BOOST_AUTO_TEST_CASE(LinSyncError2)
 }
 
 /* LIN_CRC_ERROR2 = 60 */
+#if 0
 BOOST_AUTO_TEST_CASE(LinCrcError2)
 {
     Vector::BLF::File file;
@@ -1115,14 +1164,15 @@ BOOST_AUTO_TEST_CASE(LinCrcError2)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_CRC_ERROR2);
+    linCrcError2 = static_cast<Vector::BLF::LinCrcError2 *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
     file.close();
 }
+#endif
 
 /* LIN_RCV_ERROR2 = 61 */
 BOOST_AUTO_TEST_CASE(LinReceiveError2)
@@ -1136,9 +1186,9 @@ BOOST_AUTO_TEST_CASE(LinReceiveError2)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_RCV_ERROR2);
+    linReceiveError2 = static_cast<Vector::BLF::LinReceiveError2 *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -1157,9 +1207,9 @@ BOOST_AUTO_TEST_CASE(LinWakeupEvent2)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_WAKEUP2);
+    linWakeupEvent2 = static_cast<Vector::BLF::LinWakeupEvent2 *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -1178,9 +1228,9 @@ BOOST_AUTO_TEST_CASE(LinSpikeEvent2)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_SPIKE_EVENT2);
+    linSpikeEvent2 = static_cast<Vector::BLF::LinSpikeEvent2 *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -1188,6 +1238,7 @@ BOOST_AUTO_TEST_CASE(LinSpikeEvent2)
 }
 
 /* LIN_LONG_DOM_SIG = 64 */
+#if 0
 BOOST_AUTO_TEST_CASE(LinLongDomSignalEvent)
 {
     Vector::BLF::File file;
@@ -1199,16 +1250,18 @@ BOOST_AUTO_TEST_CASE(LinLongDomSignalEvent)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_LONG_DOM_SIG);
+    linLongDomSignalEvent = static_cast<Vector::BLF::LinLongDomSignalEvent *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
     file.close();
 }
+#endif
 
 /* APP_TEXT = 65 */
+#if 0
 BOOST_AUTO_TEST_CASE(AppText)
 {
     Vector::BLF::File file;
@@ -1220,14 +1273,15 @@ BOOST_AUTO_TEST_CASE(AppText)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::APP_TEXT);
+    appText = static_cast<Vector::BLF::AppText *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
     file.close();
 }
+#endif
 
 /* FR_RCVMESSAGE_EX = 66 */
 BOOST_AUTO_TEST_CASE(FlexRayVFrReceiveMsgEx)
@@ -1312,9 +1366,9 @@ BOOST_AUTO_TEST_CASE(MostTxLight)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_TXLIGHT);
+    mostTxLight = static_cast<Vector::BLF::MostTxLight *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -1333,9 +1387,9 @@ BOOST_AUTO_TEST_CASE(MostAllocTab)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_ALLOCTAB);
+    mostAllocTab = static_cast<Vector::BLF::MostAllocTab *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -1354,9 +1408,9 @@ BOOST_AUTO_TEST_CASE(MostStress)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_STRESS);
+    mostStress = static_cast<Vector::BLF::MostStress *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -1449,6 +1503,7 @@ BOOST_AUTO_TEST_CASE(EthernetFrame)
 }
 
 /* SYS_VARIABLE = 72 */
+#if 0
 BOOST_AUTO_TEST_CASE(SystemVariable)
 {
     Vector::BLF::File file;
@@ -1460,16 +1515,18 @@ BOOST_AUTO_TEST_CASE(SystemVariable)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::SYS_VARIABLE);
+    systemVariable = static_cast<Vector::BLF::SystemVariable *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
     file.close();
 }
+#endif
 
 /* CAN_ERROR_EXT = 73 */
+#if 0
 BOOST_AUTO_TEST_CASE(CanErrorFrameExt)
 {
     Vector::BLF::File file;
@@ -1481,16 +1538,18 @@ BOOST_AUTO_TEST_CASE(CanErrorFrameExt)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::CAN_ERROR_EXT);
+    canErrorFrameExt = static_cast<Vector::BLF::CanErrorFrameExt *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
     file.close();
 }
+#endif
 
 /* CAN_DRIVER_ERROR_EXT = 74 */
+#if 0
 BOOST_AUTO_TEST_CASE(CanDriverErrorExt)
 {
     Vector::BLF::File file;
@@ -1502,14 +1561,15 @@ BOOST_AUTO_TEST_CASE(CanDriverErrorExt)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::CAN_DRIVER_ERROR_EXT);
+    canDriverErrorExt = static_cast<Vector::BLF::CanDriverErrorExt *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
     file.close();
 }
+#endif
 
 /* LIN_LONG_DOM_SIG2 = 75 */
 BOOST_AUTO_TEST_CASE(LinLongDomSignalEvent2)
@@ -1523,9 +1583,9 @@ BOOST_AUTO_TEST_CASE(LinLongDomSignalEvent2)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_LONG_DOM_SIG2);
+    linLongDomSignalEvent2 = static_cast<Vector::BLF::LinLongDomSignalEvent2 *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -1544,9 +1604,9 @@ BOOST_AUTO_TEST_CASE(Most150Message)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_150_MESSAGE);
+    most150Message = static_cast<Vector::BLF::Most150Message *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -1565,9 +1625,9 @@ BOOST_AUTO_TEST_CASE(Most150Pkt)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_150_PKT);
+    most150Pkt = static_cast<Vector::BLF::Most150Pkt *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -1594,8 +1654,8 @@ BOOST_AUTO_TEST_CASE(MostEthernetPkt)
     BOOST_CHECK(mostEthernetPkt->sourceMacAdr == 0x010203040506);
     BOOST_CHECK(mostEthernetPkt->destMacAdr == 0x112233445566);
     BOOST_CHECK(mostEthernetPkt->transferType == 1); // Node
-    BOOST_CHECK(mostEthernetPkt->state == 1); // bus active
-    BOOST_CHECK(mostEthernetPkt->ackNack == 1); // Valid
+    BOOST_CHECK(mostEthernetPkt->state == 0x02); // ???
+    BOOST_CHECK(mostEthernetPkt->ackNack == 0x11); // Valid | Ack
     // reserved
     BOOST_CHECK(mostEthernetPkt->crc == 0xAABBCCDD);
     BOOST_CHECK(mostEthernetPkt->pAck == 0x22);
@@ -1711,9 +1771,9 @@ BOOST_AUTO_TEST_CASE(MostEthernetPktFragment)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_ETHERNET_PKT_FRAGMENT);
+    mostEthernetPktFragment = static_cast<Vector::BLF::MostEthernetPktFragment *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -1788,9 +1848,9 @@ BOOST_AUTO_TEST_CASE(Most50Message)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_50_MESSAGE);
+    most50Message = static_cast<Vector::BLF::Most50Message *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -1839,6 +1899,7 @@ BOOST_AUTO_TEST_CASE(Most50Pkt)
 }
 
 /* CAN_MESSAGE2 = 86 */
+#if 0
 BOOST_AUTO_TEST_CASE(CanMessage2)
 {
     Vector::BLF::File file;
@@ -1850,14 +1911,15 @@ BOOST_AUTO_TEST_CASE(CanMessage2)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::CAN_MESSAGE2);
+    canMessage2 = static_cast<Vector::BLF::CanMessage2 *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
     file.close();
 }
+#endif
 
 /* LIN_UNEXPECTED_WAKEUP = 87 */
 BOOST_AUTO_TEST_CASE(LinUnexpectedWakeup)
@@ -1898,9 +1960,9 @@ BOOST_AUTO_TEST_CASE(LinShortOrSlowResponse)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_SHORT_OR_SLOW_RESPONSE);
+    linShortOrSlowResponse = static_cast<Vector::BLF::LinShortOrSlowResponse *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -1919,9 +1981,9 @@ BOOST_AUTO_TEST_CASE(LinDisturbanceEvent)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_DISTURBANCE_EVENT);
+    linDisturbanceEvent = static_cast<Vector::BLF::LinDisturbanceEvent *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -1962,6 +2024,7 @@ BOOST_AUTO_TEST_CASE(SerialEvent)
 }
 
 /* OVERRUN_ERROR = 91 */
+#if 0
 BOOST_AUTO_TEST_CASE(DriverOverrun)
 {
     Vector::BLF::File file;
@@ -1973,14 +2036,15 @@ BOOST_AUTO_TEST_CASE(DriverOverrun)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::OVERRUN_ERROR);
+    driverOverrun = static_cast<Vector::BLF::DriverOverrun *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
     file.close();
 }
+#endif
 
 /* EVENT_COMMENT = 92 */
 BOOST_AUTO_TEST_CASE(EventComment)
@@ -1994,9 +2058,9 @@ BOOST_AUTO_TEST_CASE(EventComment)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::EVENT_COMMENT);
+    eventComment = static_cast<Vector::BLF::EventComment *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -2004,6 +2068,7 @@ BOOST_AUTO_TEST_CASE(EventComment)
 }
 
 /* WLAN_FRAME = 93 */
+#if 0
 BOOST_AUTO_TEST_CASE(WlanFrame)
 {
     Vector::BLF::File file;
@@ -2015,16 +2080,18 @@ BOOST_AUTO_TEST_CASE(WlanFrame)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::WLAN_FRAME);
+    wlanFrame = static_cast<Vector::BLF::WlanFrame *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
     file.close();
 }
+#endif
 
 /* WLAN_STATISTIC = 94 */
+#if 0
 BOOST_AUTO_TEST_CASE(WlanStatistic)
 {
     Vector::BLF::File file;
@@ -2036,14 +2103,15 @@ BOOST_AUTO_TEST_CASE(WlanStatistic)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::WLAN_STATISTIC);
+    wlanStatistic = static_cast<Vector::BLF::WlanStatistic *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
     file.close();
 }
+#endif
 
 /* MOST_ECL = 95 */
 BOOST_AUTO_TEST_CASE(MostEcl)
@@ -2057,9 +2125,9 @@ BOOST_AUTO_TEST_CASE(MostEcl)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_ECL);
+    mostEcl = static_cast<Vector::BLF::MostEcl *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -2189,6 +2257,7 @@ BOOST_AUTO_TEST_CASE(AfdxFrame)
 }
 
 /* AFDX_STATISTIC = 98 */
+#if 0
 BOOST_AUTO_TEST_CASE(AfdxStatistic)
 {
     Vector::BLF::File file;
@@ -2200,16 +2269,18 @@ BOOST_AUTO_TEST_CASE(AfdxStatistic)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_STATISTIC);
+    afdxStatistic = static_cast<Vector::BLF::AfdxStatistic *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
     file.close();
 }
+#endif
 
 /* KLINE_STATUSEVENT = 99 */
+#if 0
 BOOST_AUTO_TEST_CASE(KLineStatusEvent)
 {
     Vector::BLF::File file;
@@ -2221,16 +2292,18 @@ BOOST_AUTO_TEST_CASE(KLineStatusEvent)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::KLINE_STATUSEVENT);
+    kLineStatusEvent = static_cast<Vector::BLF::KLineStatusEvent *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
     file.close();
 }
+#endif
 
 /* CAN_FD_MESSAGE = 100 */
+#if 0
 BOOST_AUTO_TEST_CASE(CanFdMessage)
 {
     Vector::BLF::File file;
@@ -2242,16 +2315,18 @@ BOOST_AUTO_TEST_CASE(CanFdMessage)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::CAN_FD_MESSAGE);
+    canFdMessage = static_cast<Vector::BLF::CanFdMessage *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
     file.close();
 }
+#endif
 
 /* CAN_FD_MESSAGE_64 = 101 */
+#if 0
 BOOST_AUTO_TEST_CASE(CanFdMessage64)
 {
     Vector::BLF::File file;
@@ -2263,16 +2338,18 @@ BOOST_AUTO_TEST_CASE(CanFdMessage64)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::CAN_FD_MESSAGE_64);
+    canFdMessage64 = static_cast<Vector::BLF::CanFdMessage64 *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
     file.close();
 }
+#endif
 
 /* ETHERNET_RX_ERROR = 102 */
+#if 0
 BOOST_AUTO_TEST_CASE(EthernetRxError)
 {
     Vector::BLF::File file;
@@ -2284,16 +2361,18 @@ BOOST_AUTO_TEST_CASE(EthernetRxError)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::ETHERNET_RX_ERROR);
+    ethernetRxError = static_cast<Vector::BLF::EthernetRxError *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
     file.close();
 }
+#endif
 
 /* ETHERNET_STATUS = 103 */
+#if 0
 BOOST_AUTO_TEST_CASE(EthernetStatus)
 {
     Vector::BLF::File file;
@@ -2305,16 +2384,18 @@ BOOST_AUTO_TEST_CASE(EthernetStatus)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::ETHERNET_STATUS);
+    ethernetStatus = static_cast<Vector::BLF::EthernetStatus *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
     file.close();
 }
+#endif
 
 /* CAN_FD_ERROR_64 = 104 */
+#if 0
 BOOST_AUTO_TEST_CASE(CanFdErrorFrame64)
 {
     Vector::BLF::File file;
@@ -2326,11 +2407,12 @@ BOOST_AUTO_TEST_CASE(CanFdErrorFrame64)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    //BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
-    //afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
-    // BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::CAN_FD_ERROR_64);
+    canFdErrorFrame64 = static_cast<Vector::BLF::CanFdErrorFrame64 *>(ohb);
+    // @todo test implementation
     delete ohb;
 
     BOOST_CHECK(file.eof());
     file.close();
 }
+#endif
