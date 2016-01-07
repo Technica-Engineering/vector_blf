@@ -1182,7 +1182,16 @@ BOOST_AUTO_TEST_CASE(LinSyncError2)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_SYN_ERROR2);
     linSyncError2 = static_cast<Vector::BLF::LinSyncError2 *>(ohb);
-    // @todo test implementation
+    BOOST_CHECK(linSyncError2->sof == 2021077000); // ns
+    BOOST_CHECK(linSyncError2->eventBaudrate == 19230);
+    BOOST_CHECK(linSyncError2->channel == 2);
+    // reserved
+    BOOST_CHECK(linSyncError2->synchBreakLength == 937125);
+    BOOST_CHECK(linSyncError2->synchDelLength == 113312);
+    BOOST_CHECK(linSyncError2->timeDiff[0] == 208);
+    BOOST_CHECK(linSyncError2->timeDiff[1] == 0);
+    BOOST_CHECK(linSyncError2->timeDiff[2] == 0);
+    BOOST_CHECK(linSyncError2->timeDiff[3] == 0);
     delete ohb;
 
     BOOST_CHECK(file.eof());
