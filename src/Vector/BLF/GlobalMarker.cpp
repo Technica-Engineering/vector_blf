@@ -102,17 +102,23 @@ char * GlobalMarker::read(char * buffer)
 
     // groupName
     size = groupNameLength;
-    groupName.assign(buffer, size);
+    size_t groupNameLength2 = strnlen(buffer, size); // Vector bug: the actual string can be shorter than size!
+    groupName.assign(buffer, groupNameLength2);
     buffer += size;
 
     // markerName
     size = markerNameLength;
-    markerName.assign(buffer, size);
+    size_t markerNameLength2 = strnlen(buffer, size); // Vector bug: the actual string can be shorter than size!
+    markerName.assign(buffer, markerNameLength2);
     buffer += size;
 
     // description
-    size = descriptionLength;
-    description.assign(buffer, size);
+    // here is another Vector bug, the object might be shorter than the actual size of the data
+    // e.g. in the test the descriptionLength is 0x0105, but there is only 0x00ed left!
+    // so just use what's left...
+    size = objectSize - (calculateObjectSize() - descriptionLength);
+    size_t descriptionLength2 = strnlen(buffer, size); // Vector bug: the actual string can be shorter than size!
+    description.assign(buffer, descriptionLength2);
     buffer += size;
 
     return buffer;
@@ -181,7 +187,7 @@ char * GlobalMarker::write(char * buffer)
     buffer += size;
 
     // description
-    size = descriptionLength;
+    size = objectSize - (calculateObjectSize() - descriptionLength); // work around Vector bug, see details in read
     memcpy(buffer, description.data(), size);
     buffer += size;
 

@@ -2087,8 +2087,7 @@ BOOST_AUTO_TEST_CASE(GlobalMarker)
     // reserved
     BOOST_CHECK(globalMarker->groupNameLength == 0x83);
     BOOST_CHECK(globalMarker->markerNameLength == 0x83);
-    BOOST_CHECK(globalMarker->descriptionLength == 0x105);
-    // groupName
+    BOOST_CHECK(globalMarker->descriptionLength == 0x105); // Vector bug! there is actually just 0xed left!
     BOOST_CHECK(globalMarker->groupName == "Marker Group");
     BOOST_CHECK(globalMarker->markerName == "[1]");
     BOOST_CHECK(globalMarker->description == "description");
