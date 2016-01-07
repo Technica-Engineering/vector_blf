@@ -50,7 +50,7 @@ public:
      *
      * The number of response bytes.
      */
-    ULONG numberOfRespBtes;
+    ULONG numberOfRespBytes;
 
     /**
      * @brief the response bytes (can include the checksum)

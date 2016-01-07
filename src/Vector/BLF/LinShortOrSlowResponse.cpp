@@ -29,7 +29,7 @@ namespace BLF {
 LinShortOrSlowResponse::LinShortOrSlowResponse() :
     ObjectHeader(),
     LinDatabyteTimestampEvent(),
-    numberOfRespBtes(),
+    numberOfRespBytes(),
     respBytes(),
     slowResponse(),
     interruptedByBreak(),
@@ -47,8 +47,8 @@ char * LinShortOrSlowResponse::read(char * buffer)
     buffer = LinDatabyteTimestampEvent::read(buffer);
 
     // numberOfRespBtes
-    size = sizeof(numberOfRespBtes);
-    memcpy((void *) &numberOfRespBtes, buffer, size);
+    size = sizeof(numberOfRespBytes);
+    memcpy((void *) &numberOfRespBytes, buffer, size);
     buffer += size;
 
     // respBytes
@@ -83,8 +83,8 @@ char * LinShortOrSlowResponse::write(char * buffer)
     buffer = LinDatabyteTimestampEvent::write(buffer);
 
     // numberOfRespBtes
-    size = sizeof(numberOfRespBtes);
-    memcpy(buffer, (void *) &numberOfRespBtes, size);
+    size = sizeof(numberOfRespBytes);
+    memcpy(buffer, (void *) &numberOfRespBytes, size);
     buffer += size;
 
     // respBytes
@@ -115,7 +115,7 @@ size_t LinShortOrSlowResponse::calculateObjectSize()
     size_t size =
         ObjectHeader::calculateObjectSize() +
         LinDatabyteTimestampEvent::calculateObjectSize() +
-        sizeof(numberOfRespBtes) +
+        sizeof(numberOfRespBytes) +
         sizeof(respBytes) +
         sizeof(slowResponse) +
         sizeof(interruptedByBreak) +

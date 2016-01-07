@@ -11,6 +11,31 @@
 
 #include "Vector/BLF.h"
 
+static void hexDump(Vector::BLF::ObjectHeaderBase * ohb)
+{
+    if (ohb == nullptr)
+        return;
+
+    char * buffer = new char[ohb->objectSize];
+    char * pointer = buffer;
+    ohb->write(buffer);
+
+    for (size_t n = 0; n < ohb->objectSize; ++n) {
+        unsigned short value = (unsigned char) *pointer;
+        if (value < 0x10)
+            std::cerr << "0";
+        std::cerr << std::hex << value << " ";
+        pointer++;
+        if (n % 4 == 3)
+            std::cerr << " ";
+        if (n % 16 == 15)
+            std::cerr << std::endl;
+    }
+    std::cerr << std::endl;
+
+    delete[] buffer;
+}
+
 static bool isEqual(double a, double b)
 {
     return ((a-b) < 0.000001) && ((b-a) < 0.000001);
@@ -32,14 +57,36 @@ BOOST_AUTO_TEST_CASE(CanMessage)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::CAN_MESSAGE);
     canMessage = static_cast<Vector::BLF::CanMessage *>(ohb);
-    // @todo test implementation
+    BOOST_CHECK(canMessage->channel == 1);
+    BOOST_CHECK(canMessage->flags == 1); // TX
+    BOOST_CHECK(canMessage->dlc == 8);
+    BOOST_CHECK(canMessage->id == 0x854c5638); // 54C5638x
+    BOOST_CHECK(canMessage->data[0] == 0);
+    BOOST_CHECK(canMessage->data[1] == 0);
+    BOOST_CHECK(canMessage->data[2] == 0);
+    BOOST_CHECK(canMessage->data[3] == 0);
+    BOOST_CHECK(canMessage->data[4] == 0);
+    BOOST_CHECK(canMessage->data[5] == 0);
+    BOOST_CHECK(canMessage->data[6] == 0);
+    BOOST_CHECK(canMessage->data[7] == 0);
     delete ohb;
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::CAN_MESSAGE);
     canMessage = static_cast<Vector::BLF::CanMessage *>(ohb);
-    // @todo test implementation
+    BOOST_CHECK(canMessage->channel == 2);
+    BOOST_CHECK(canMessage->flags == 0); // RX
+    BOOST_CHECK(canMessage->dlc == 8);
+    BOOST_CHECK(canMessage->id == 0x800000c8); // C8x
+    BOOST_CHECK(canMessage->data[0] == 9);
+    BOOST_CHECK(canMessage->data[1] == 8);
+    BOOST_CHECK(canMessage->data[2] == 7);
+    BOOST_CHECK(canMessage->data[3] == 6);
+    BOOST_CHECK(canMessage->data[4] == 5);
+    BOOST_CHECK(canMessage->data[5] == 4);
+    BOOST_CHECK(canMessage->data[6] == 3);
+    BOOST_CHECK(canMessage->data[7] == 2);
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -106,7 +153,15 @@ BOOST_AUTO_TEST_CASE(CanDriverStatistic)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::CAN_STATISTIC);
     canDriverStatistic = static_cast<Vector::BLF::CanDriverStatistic *>(ohb);
-    // @todo test implementation
+    BOOST_CHECK(canDriverStatistic->channel == 1);
+    BOOST_CHECK(canDriverStatistic->busLoad == 0);
+    BOOST_CHECK(canDriverStatistic->standardDataFrames == 1000);
+    BOOST_CHECK(canDriverStatistic->extendedDataFrames == 0);
+    BOOST_CHECK(canDriverStatistic->standardRemoteFrames == 15);
+    BOOST_CHECK(canDriverStatistic->extendedRemoteFrames == 0);
+    BOOST_CHECK(canDriverStatistic->errorFrames == 0);
+    BOOST_CHECK(canDriverStatistic->overloadFrames == 0);
+    // reserved
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -225,9 +280,9 @@ BOOST_AUTO_TEST_CASE(LinDlcInfo)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_DLC_INFO);
     linDlcInfo = static_cast<Vector::BLF::LinDlcInfo *>(ohb);
-    BOOST_CHECK(linDlcInfo->channel = 1);
-    BOOST_CHECK(linDlcInfo->id = 20);
-    BOOST_CHECK(linDlcInfo->dlc = 4);
+    BOOST_CHECK(linDlcInfo->channel == 1);
+    BOOST_CHECK(linDlcInfo->id == 20);
+    BOOST_CHECK(linDlcInfo->dlc == 4);
     // reserved
     delete ohb;
 
@@ -295,7 +350,10 @@ BOOST_AUTO_TEST_CASE(LinSlaveTimeout)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_SLV_TIMEOUT);
     linSlaveTimeout = static_cast<Vector::BLF::LinSlaveTimeout *>(ohb);
-    // @todo test implementation
+    BOOST_CHECK(linSlaveTimeout->channel == 1);
+    BOOST_CHECK(linSlaveTimeout->slaveId == 0);
+    BOOST_CHECK(linSlaveTimeout->stateId == 0);
+    BOOST_CHECK(linSlaveTimeout->followStateId == 1);
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -316,7 +374,10 @@ BOOST_AUTO_TEST_CASE(LinSchedulerModeChange)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_SCHED_MODCH);
     linSchedulerModeChange = static_cast<Vector::BLF::LinSchedulerModeChange *>(ohb);
-    // @todo test implementation
+    BOOST_CHECK(linSchedulerModeChange->channel == 1);
+    BOOST_CHECK(linSchedulerModeChange->oldMode == 2);
+    BOOST_CHECK(linSchedulerModeChange->newMode == 0);
+    // reserved
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -360,7 +421,9 @@ BOOST_AUTO_TEST_CASE(LinBaudrateEvent)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_BAUDRATE);
     linBaudrateEvent = static_cast<Vector::BLF::LinBaudrateEvent *>(ohb);
-    // @todo test implementation
+    BOOST_CHECK(linBaudrateEvent->channel == 1);
+    // reserved
+    BOOST_CHECK(linBaudrateEvent->baudrate == 9615);
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -428,7 +491,35 @@ BOOST_AUTO_TEST_CASE(MostSpy)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_SPY);
     mostSpy = static_cast<Vector::BLF::MostSpy *>(ohb);
-    // @todo test implementation
+    BOOST_CHECK(mostSpy->channel == 1);
+    BOOST_CHECK(mostSpy->dir == 0); // Rx
+    // reserved
+    BOOST_CHECK(mostSpy->sourceAdr == 0xffff);
+    BOOST_CHECK(mostSpy->destAdr == 0x0100);
+    BOOST_CHECK(mostSpy->msg[ 0] == 0x01);
+    BOOST_CHECK(mostSpy->msg[ 1] == 0x01);
+    BOOST_CHECK(mostSpy->msg[ 2] == 0x00);
+    BOOST_CHECK(mostSpy->msg[ 3] == 0x0C);
+    BOOST_CHECK(mostSpy->msg[ 4] == 0x04);
+    BOOST_CHECK(mostSpy->msg[ 5] == 0x31);
+    BOOST_CHECK(mostSpy->msg[ 6] == 0x01);
+    BOOST_CHECK(mostSpy->msg[ 7] == 0x52);
+    BOOST_CHECK(mostSpy->msg[ 8] == 0x01);
+    BOOST_CHECK(mostSpy->msg[ 9] == 0x00);
+    BOOST_CHECK(mostSpy->msg[10] == 0x00);
+    BOOST_CHECK(mostSpy->msg[11] == 0x00);
+    BOOST_CHECK(mostSpy->msg[12] == 0x00);
+    BOOST_CHECK(mostSpy->msg[13] == 0x00);
+    BOOST_CHECK(mostSpy->msg[14] == 0x00);
+    BOOST_CHECK(mostSpy->msg[15] == 0x00);
+    BOOST_CHECK(mostSpy->msg[16] == 0x00);
+    // reserved
+    BOOST_CHECK(mostSpy->rTyp == 0); // Normal
+    BOOST_CHECK(mostSpy->rTypAdr == 0x10); // Node position
+    BOOST_CHECK(mostSpy->state == 0x01); // bus active
+    // reserved
+    BOOST_CHECK(mostSpy->ackNack == 0x12); // Valid | NAck
+    BOOST_CHECK(mostSpy->crc == 0xAA33);
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -449,7 +540,35 @@ BOOST_AUTO_TEST_CASE(MostCtrl)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_CTRL);
     mostCtrl = static_cast<Vector::BLF::MostCtrl *>(ohb);
-    // @todo test implementation
+    BOOST_CHECK(mostCtrl->channel == 1);
+    BOOST_CHECK(mostCtrl->dir == 1); // Tx
+    // reserved
+    BOOST_CHECK(mostCtrl->sourceAdr == 0x0100);
+    BOOST_CHECK(mostCtrl->destAdr == 0x0401);
+    BOOST_CHECK(mostCtrl->msg[ 0] == 0x01);
+    BOOST_CHECK(mostCtrl->msg[ 1] == 0x01);
+    BOOST_CHECK(mostCtrl->msg[ 2] == 0x00);
+    BOOST_CHECK(mostCtrl->msg[ 3] == 0x01);
+    BOOST_CHECK(mostCtrl->msg[ 4] == 0x00);
+    BOOST_CHECK(mostCtrl->msg[ 5] == 0x00);
+    BOOST_CHECK(mostCtrl->msg[ 6] == 0x00);
+    BOOST_CHECK(mostCtrl->msg[ 7] == 0x00);
+    BOOST_CHECK(mostCtrl->msg[ 8] == 0x00);
+    BOOST_CHECK(mostCtrl->msg[ 9] == 0x00);
+    BOOST_CHECK(mostCtrl->msg[10] == 0x00);
+    BOOST_CHECK(mostCtrl->msg[11] == 0x00);
+    BOOST_CHECK(mostCtrl->msg[12] == 0x00);
+    BOOST_CHECK(mostCtrl->msg[13] == 0x00);
+    BOOST_CHECK(mostCtrl->msg[14] == 0x00);
+    BOOST_CHECK(mostCtrl->msg[15] == 0x00);
+    BOOST_CHECK(mostCtrl->msg[16] == 0x00);
+    // reserved
+    BOOST_CHECK(mostCtrl->rTyp == 0); // Normal
+    BOOST_CHECK(mostCtrl->rTypAdr == 0); // Device
+    BOOST_CHECK(mostCtrl->state == 0x50); // TxF|Ack
+    // reserved
+    BOOST_CHECK(mostCtrl->ackNack == 0x12); // NoResp|NAck
+    // reserved
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -614,7 +733,32 @@ BOOST_AUTO_TEST_CASE(MostPkt2)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_PKT2);
     mostPkt2 = static_cast<Vector::BLF::MostPkt2 *>(ohb);
-    // @todo test implementation
+    BOOST_CHECK(mostPkt2->channel == 1);
+    BOOST_CHECK(mostPkt2->dir == 0); // Rx
+    // reserved
+    BOOST_CHECK(mostPkt2->sourceAdr == 0x0101);
+    BOOST_CHECK(mostPkt2->destAdr == 0x0100);
+    BOOST_CHECK(mostPkt2->arbitration == 0x03);
+    BOOST_CHECK(mostPkt2->timeRes == 0);
+    BOOST_CHECK(mostPkt2->quadsToFollow == 0);
+    // reserved
+    BOOST_CHECK(mostPkt2->crc == 0x0000);
+    BOOST_CHECK(mostPkt2->priority == 0);
+    BOOST_CHECK(mostPkt2->transferType == 1); // Node
+    BOOST_CHECK(mostPkt2->state == 0); // Rx
+    // reserved
+    BOOST_CHECK(mostPkt2->pktDataLength == 0x0A);
+    // reserved
+    BOOST_CHECK(mostPkt2->pktData[0] == 0x52);
+    BOOST_CHECK(mostPkt2->pktData[1] == 0x01);
+    BOOST_CHECK(mostPkt2->pktData[2] == 0xE0);
+    BOOST_CHECK(mostPkt2->pktData[3] == 0x3C);
+    BOOST_CHECK(mostPkt2->pktData[4] == 0x90);
+    BOOST_CHECK(mostPkt2->pktData[5] == 0x01);
+    BOOST_CHECK(mostPkt2->pktData[6] == 0xFD);
+    BOOST_CHECK(mostPkt2->pktData[7] == 0x00);
+    BOOST_CHECK(mostPkt2->pktData[8] == 0x00);
+    BOOST_CHECK(mostPkt2->pktData[9] == 0x00);
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -753,7 +897,13 @@ BOOST_AUTO_TEST_CASE(MostDataLost)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_DATALOST);
     mostDataLost = static_cast<Vector::BLF::MostDataLost *>(ohb);
-    // @todo test implementation
+    BOOST_CHECK(mostDataLost->channel == 1);
+    // reserved
+    BOOST_CHECK(mostDataLost->info == 0x05);
+    BOOST_CHECK(mostDataLost->lostMsgsCtrl == 0x003F);
+    BOOST_CHECK(mostDataLost->lostMsgsAsync == 0x000D);
+    BOOST_CHECK(mostDataLost->lastGoodTimeStampNs == 101303690000); // ns
+    BOOST_CHECK(mostDataLost->nextGoodTimeStampNs == 2223525920000); // ns
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -1283,7 +1433,48 @@ BOOST_AUTO_TEST_CASE(LinReceiveError2)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_RCV_ERROR2);
     linReceiveError2 = static_cast<Vector::BLF::LinReceiveError2 *>(ohb);
-    // @todo test implementation
+    BOOST_CHECK(linReceiveError2->sof == 546052000); // ns
+    BOOST_CHECK(linReceiveError2->eventBaudrate == 19230);
+    BOOST_CHECK(linReceiveError2->channel == 1);
+    // reserved
+    BOOST_CHECK(linReceiveError2->synchBreakLength == 937187);
+    BOOST_CHECK(linReceiveError2->synchDelLength == 112437);
+    BOOST_CHECK(linReceiveError2->supplierId == 0);
+    BOOST_CHECK(linReceiveError2->messageId == 0);
+    BOOST_CHECK(linReceiveError2->nad == 0);
+    BOOST_CHECK(linReceiveError2->id == 0x33);
+    BOOST_CHECK(linReceiveError2->dlc == 8);
+    BOOST_CHECK(linReceiveError2->checksumModel == 0xff);
+    BOOST_CHECK(linReceiveError2->databyteTimestamps[0] == 548121000);
+    BOOST_CHECK(linReceiveError2->databyteTimestamps[1] == 548644000);
+    BOOST_CHECK(linReceiveError2->databyteTimestamps[2] == 549167000);
+    BOOST_CHECK(linReceiveError2->databyteTimestamps[3] == 549690000);
+    BOOST_CHECK(linReceiveError2->databyteTimestamps[4] == 550213000);
+    BOOST_CHECK(linReceiveError2->databyteTimestamps[5] == 550736000);
+    BOOST_CHECK(linReceiveError2->databyteTimestamps[6] == 551259000);
+    BOOST_CHECK(linReceiveError2->databyteTimestamps[7] == 551782000);
+    BOOST_CHECK(linReceiveError2->databyteTimestamps[8] == 552305000);
+    BOOST_CHECK(linReceiveError2->data[0] == 0x05);
+    BOOST_CHECK(linReceiveError2->data[1] == 0x00);
+    BOOST_CHECK(linReceiveError2->data[2] == 0x00);
+    BOOST_CHECK(linReceiveError2->data[3] == 0x00);
+    BOOST_CHECK(linReceiveError2->data[4] == 0x00);
+    BOOST_CHECK(linReceiveError2->data[5] == 0xff);
+    BOOST_CHECK(linReceiveError2->data[6] == 0xff);
+    BOOST_CHECK(linReceiveError2->data[7] == 0xff);
+    BOOST_CHECK(linReceiveError2->fsmId == 0xff);
+    BOOST_CHECK(linReceiveError2->fsmState == 0xff);
+    BOOST_CHECK(linReceiveError2->stateReason == 12);
+    BOOST_CHECK(linReceiveError2->offendingByte == 0);
+    BOOST_CHECK(linReceiveError2->shortError == 0);
+    BOOST_CHECK(linReceiveError2->timeoutDuringDlcDetection == 0);
+    BOOST_CHECK(linReceiveError2->isEtf == 0);
+    BOOST_CHECK(linReceiveError2->hasDatabytes == 1);
+    BOOST_CHECK(linReceiveError2->respBaudrate == 19231);
+    // reserved
+    BOOST_CHECK(isEqual(linReceiveError2->exactHeaderBaudrate, 19230.769231));
+    BOOST_CHECK(linReceiveError2->earlyStopbitOffset == 26000);
+    BOOST_CHECK(linReceiveError2->earlyStopbitOffsetResponse == 26000);
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -1304,7 +1495,14 @@ BOOST_AUTO_TEST_CASE(LinWakeupEvent2)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_WAKEUP2);
     linWakeupEvent2 = static_cast<Vector::BLF::LinWakeupEvent2 *>(ohb);
-    // @todo test implementation
+    BOOST_CHECK(linWakeupEvent2->sof == 2317671000); // ns
+    BOOST_CHECK(linWakeupEvent2->eventBaudrate == 19230);
+    BOOST_CHECK(linWakeupEvent2->channel == 1);
+    // reserved
+    BOOST_CHECK(linWakeupEvent2->lengthInfo == 0); // OK
+    BOOST_CHECK(linWakeupEvent2->signal == 0);
+    BOOST_CHECK(linWakeupEvent2->external == 0);
+    // reserved
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -1400,13 +1598,13 @@ BOOST_AUTO_TEST_CASE(FlexRayVFrReceiveMsgEx)
     flexRayVFrReceiveMsgEx = static_cast<Vector::BLF::FlexRayVFrReceiveMsgEx *>(ohb);
     BOOST_CHECK(flexRayVFrReceiveMsgEx->channel == 1);
     BOOST_CHECK(flexRayVFrReceiveMsgEx->version == 1);
-    BOOST_CHECK(flexRayVFrReceiveMsgEx->channelMask = 1); // FlexRay Channel A
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->channelMask == 1); // FlexRay Channel A
     BOOST_CHECK(flexRayVFrReceiveMsgEx->dir == 0); // Rx
     BOOST_CHECK(flexRayVFrReceiveMsgEx->clientIndex == 0);
     BOOST_CHECK(flexRayVFrReceiveMsgEx->clusterNo == 0);
     BOOST_CHECK(flexRayVFrReceiveMsgEx->frameId == 4);
-    BOOST_CHECK(flexRayVFrReceiveMsgEx->headerCrc1 == 0x0097); // 151
-    BOOST_CHECK(flexRayVFrReceiveMsgEx->headerCrc2 == 0x0097); // 151
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->headerCrc1 == 151);
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->headerCrc2 == 151);
     BOOST_CHECK(flexRayVFrReceiveMsgEx->byteCount == 4);
     BOOST_CHECK(flexRayVFrReceiveMsgEx->dataCount == 4);
     BOOST_CHECK(flexRayVFrReceiveMsgEx->cycle == 25);
@@ -1420,17 +1618,42 @@ BOOST_AUTO_TEST_CASE(FlexRayVFrReceiveMsgEx)
     BOOST_CHECK(flexRayVFrReceiveMsgEx->pduOffset == 0);
     BOOST_CHECK(flexRayVFrReceiveMsgEx->blfLogMask == 0);
     // reserved
-    BOOST_CHECK(flexRayVFrReceiveMsgEx->dataBytes[0x00] == 0x15); // 21
-    BOOST_CHECK(flexRayVFrReceiveMsgEx->dataBytes[0x01] == 0x57); // 87
-    BOOST_CHECK(flexRayVFrReceiveMsgEx->dataBytes[0x02] == 0x16); // 22
-    BOOST_CHECK(flexRayVFrReceiveMsgEx->dataBytes[0x03] == 0x94); // 148
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->dataBytes[0x00] == 21);
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->dataBytes[0x01] == 87);
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->dataBytes[0x02] == 22);
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->dataBytes[0x03] == 148);
     delete ohb;
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::FR_RCVMESSAGE_EX);
     flexRayVFrReceiveMsgEx = static_cast<Vector::BLF::FlexRayVFrReceiveMsgEx *>(ohb);
-    // @todo test implementation
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->channel == 2);
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->version == 1);
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->channelMask == 2); // FlexRay Channel B
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->dir == 0); // Rx
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->clientIndex == 0);
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->clusterNo == 1);
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->frameId == 13);
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->headerCrc1 == 620);
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->headerCrc2 == 620);
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->byteCount == 4);
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->dataCount == 4);
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->cycle == 25);
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->tag == 2);
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->data == 0x0180);
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->frameFlags == 0x02);
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->appParameter == 0);
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->frameCrc == 0);
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->frameLengthNs == 0);
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->frameId1 == 0);
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->pduOffset == 0);
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->blfLogMask == 0);
+    // reserved
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->dataBytes[0x00] == 2);
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->dataBytes[0x01] == 89);
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->dataBytes[0x02] == 0);
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->dataBytes[0x03] == 13);
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -1498,7 +1721,69 @@ BOOST_AUTO_TEST_CASE(MostAllocTab)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_ALLOCTAB);
     mostAllocTab = static_cast<Vector::BLF::MostAllocTab *>(ohb);
-    // @todo test implementation
+    BOOST_CHECK(mostAllocTab->channel == 2);
+    BOOST_CHECK(mostAllocTab->length == 0x3C);
+    // reserved
+    BOOST_CHECK(mostAllocTab->tableData[0x00] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x01] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x02] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x03] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x04] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x05] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x06] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x07] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x08] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x09] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x0a] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x0b] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x0c] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x0d] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x0e] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x0f] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x10] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x11] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x12] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x13] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x14] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x15] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x16] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x17] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x18] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x19] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x1a] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x1b] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x1c] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x1d] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x1e] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x1f] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x20] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x21] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x22] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x23] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x24] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x25] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x26] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x27] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x28] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x29] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x2a] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x2b] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x2c] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x2d] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x2e] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x2f] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x30] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x31] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x32] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x33] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x34] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x35] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x36] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x37] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x38] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x39] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x3a] == 0x70);
+    BOOST_CHECK(mostAllocTab->tableData[0x3b] == 0x70);
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -1697,14 +1982,26 @@ BOOST_AUTO_TEST_CASE(LinLongDomSignalEvent2)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_LONG_DOM_SIG2);
     linLongDomSignalEvent2 = static_cast<Vector::BLF::LinLongDomSignalEvent2 *>(ohb);
-    // @todo test implementation
+    BOOST_CHECK(linLongDomSignalEvent2->sof == 8971798000); // ns
+    BOOST_CHECK(linLongDomSignalEvent2->eventBaudrate == 9615);
+    BOOST_CHECK(linLongDomSignalEvent2->channel == 1);
+    // reserved
+    BOOST_CHECK(linLongDomSignalEvent2->type == 0); // Signal just detected
+    // reserved
+    BOOST_CHECK(linLongDomSignalEvent2->length == 5003000); // us
     delete ohb;
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_LONG_DOM_SIG2);
     linLongDomSignalEvent2 = static_cast<Vector::BLF::LinLongDomSignalEvent2 *>(ohb);
-    // @todo test implementation
+    BOOST_CHECK(linLongDomSignalEvent2->sof == 8971798000); // ns
+    BOOST_CHECK(linLongDomSignalEvent2->eventBaudrate == 9615);
+    BOOST_CHECK(linLongDomSignalEvent2->channel == 1);
+    // reserved
+    BOOST_CHECK(linLongDomSignalEvent2->type == 2); // Signal continuation
+    // reserved
+    BOOST_CHECK(linLongDomSignalEvent2->length == 5201000); // us
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -1725,7 +2022,30 @@ BOOST_AUTO_TEST_CASE(Most150Message)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_150_MESSAGE);
     most150Message = static_cast<Vector::BLF::Most150Message *>(ohb);
-    // @todo test implementation
+    BOOST_CHECK(most150Message->channel == 1);
+    BOOST_CHECK(most150Message->dir == 1); // Tx
+    // reserved
+    BOOST_CHECK(most150Message->sourceAdr == 0x0172);
+    BOOST_CHECK(most150Message->destAdr == 0x03C8);
+    BOOST_CHECK(most150Message->transferType == 1); // Node
+    BOOST_CHECK(most150Message->state == 0x02);
+    BOOST_CHECK(most150Message->ackNack == 0x11); // Ack
+    // reserved
+    BOOST_CHECK(most150Message->crc == 0xAABB);
+    BOOST_CHECK(most150Message->pAck == 0x22);
+    BOOST_CHECK(most150Message->cAck == 0x44);
+    BOOST_CHECK(most150Message->priority == 1);
+    BOOST_CHECK(most150Message->pIndex == 0x33);
+    BOOST_CHECK(most150Message->msgLen == 8);
+    // reserved
+    BOOST_CHECK(most150Message->msg[0] == 0x11);
+    BOOST_CHECK(most150Message->msg[1] == 0x22);
+    BOOST_CHECK(most150Message->msg[2] == 0x33);
+    BOOST_CHECK(most150Message->msg[3] == 0x34);
+    BOOST_CHECK(most150Message->msg[4] == 0x00);
+    BOOST_CHECK(most150Message->msg[5] == 0x02);
+    BOOST_CHECK(most150Message->msg[6] == 0x11);
+    BOOST_CHECK(most150Message->msg[7] == 0x22);
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -1746,7 +2066,30 @@ BOOST_AUTO_TEST_CASE(Most150Pkt)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_150_PKT);
     most150Pkt = static_cast<Vector::BLF::Most150Pkt *>(ohb);
-    // @todo test implementation
+    BOOST_CHECK(most150Pkt->channel == 1);
+    BOOST_CHECK(most150Pkt->dir == 1); // Tx
+    // reserved
+    BOOST_CHECK(most150Pkt->sourceAdr == 0x0172);
+    BOOST_CHECK(most150Pkt->destAdr == 0x03C8);
+    BOOST_CHECK(most150Pkt->transferType == 1); // Node
+    BOOST_CHECK(most150Pkt->state == 0x02);
+    BOOST_CHECK(most150Pkt->ackNack == 0x11); // Ack|Valid
+    // reserved
+    BOOST_CHECK(most150Pkt->crc == 0xAABB);
+    BOOST_CHECK(most150Pkt->pAck == 0x00); // No Response
+    BOOST_CHECK(most150Pkt->cAck == 0x44); // OK
+    BOOST_CHECK(most150Pkt->priority == 0x00);
+    BOOST_CHECK(most150Pkt->pIndex == 0x33);
+    BOOST_CHECK(most150Pkt->pktDataLength == 8);
+    // reserved
+    BOOST_CHECK(most150Pkt->pktData[0] == 0x11);
+    BOOST_CHECK(most150Pkt->pktData[1] == 0x22);
+    BOOST_CHECK(most150Pkt->pktData[2] == 0x33);
+    BOOST_CHECK(most150Pkt->pktData[3] == 0x34);
+    BOOST_CHECK(most150Pkt->pktData[4] == 0x00);
+    BOOST_CHECK(most150Pkt->pktData[5] == 0x02);
+    BOOST_CHECK(most150Pkt->pktData[6] == 0x11);
+    BOOST_CHECK(most150Pkt->pktData[7] == 0x22);
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -1892,7 +2235,26 @@ BOOST_AUTO_TEST_CASE(MostEthernetPktFragment)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_ETHERNET_PKT_FRAGMENT);
     mostEthernetPktFragment = static_cast<Vector::BLF::MostEthernetPktFragment *>(ohb);
-    // @todo test implementation
+    BOOST_CHECK(mostEthernetPktFragment->channel == 1);
+    // reserved
+    BOOST_CHECK(mostEthernetPktFragment->ackNack == 0x11); // Ack|NoResp
+    BOOST_CHECK(mostEthernetPktFragment->validMask == 0x01020304);
+    BOOST_CHECK(mostEthernetPktFragment->sourceMacAdr == 0x010203040506);
+    BOOST_CHECK(mostEthernetPktFragment->destMacAdr == 0x112233445566);
+    BOOST_CHECK(mostEthernetPktFragment->pAck == 0x01); // Buffer full
+    BOOST_CHECK(mostEthernetPktFragment->cAck == 0x44); // OK
+    // reserved
+    BOOST_CHECK(mostEthernetPktFragment->crc == 0xAABBCCDD);
+    BOOST_CHECK(mostEthernetPktFragment->dataLen == 0x0006);
+    BOOST_CHECK(mostEthernetPktFragment->dataLenAnnounced == 0x0210);
+    BOOST_CHECK(mostEthernetPktFragment->firstDataLen == 0x0006);
+    // reserved
+    BOOST_CHECK(mostEthernetPktFragment->firstData[0] == 0x01);
+    BOOST_CHECK(mostEthernetPktFragment->firstData[1] == 0x02);
+    BOOST_CHECK(mostEthernetPktFragment->firstData[2] == 0x03);
+    BOOST_CHECK(mostEthernetPktFragment->firstData[3] == 0x04);
+    BOOST_CHECK(mostEthernetPktFragment->firstData[4] == 0x05);
+    BOOST_CHECK(mostEthernetPktFragment->firstData[5] == 0x06);
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -1955,7 +2317,18 @@ BOOST_AUTO_TEST_CASE(Most150AllocTab)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_150_ALLOCTAB);
     most150AllocTab = static_cast<Vector::BLF::Most150AllocTab *>(ohb);
-    // @todo test implementation
+    BOOST_CHECK(most150AllocTab->channel == 1);
+    BOOST_CHECK(most150AllocTab->eventModeFlags == 0);
+    BOOST_CHECK(most150AllocTab->freeBytes == 0x74);
+    BOOST_CHECK(most150AllocTab->length == 8);
+    BOOST_CHECK(most150AllocTab->tableData[0] == 0xc618);
+    BOOST_CHECK(most150AllocTab->tableData[1] == 0x1937);
+    BOOST_CHECK(most150AllocTab->tableData[2] == 0x346a);
+    BOOST_CHECK(most150AllocTab->tableData[3] == 0x6d0d);
+    BOOST_CHECK(most150AllocTab->tableData[4] == 0x010b);
+    BOOST_CHECK(most150AllocTab->tableData[5] == 0x0004);
+    BOOST_CHECK(most150AllocTab->tableData[6] == 0x8151);
+    BOOST_CHECK(most150AllocTab->tableData[7] == 0x0046);
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -1976,7 +2349,30 @@ BOOST_AUTO_TEST_CASE(Most50Message)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_50_MESSAGE);
     most50Message = static_cast<Vector::BLF::Most50Message *>(ohb);
-    // @todo test implementation
+    BOOST_CHECK(most50Message->channel == 1);
+    BOOST_CHECK(most50Message->dir == 0); // Rx
+    // reserved
+    BOOST_CHECK(most50Message->sourceAdr == 0xEF00);
+    BOOST_CHECK(most50Message->destAdr == 0x0101);
+    BOOST_CHECK(most50Message->transferType == 2); // Spy
+    BOOST_CHECK(most50Message->state == 0x01); // bus active
+    BOOST_CHECK(most50Message->ackNack == 0x00);
+    // reserved
+    BOOST_CHECK(most50Message->crc == 0x5678);
+    // reserved
+    BOOST_CHECK(most50Message->priority == 0);
+    // reserved
+    BOOST_CHECK(most50Message->msgLen == 9);
+    // reserved
+    BOOST_CHECK(most50Message->msg[0] == 0x11);
+    BOOST_CHECK(most50Message->msg[1] == 0x01);
+    BOOST_CHECK(most50Message->msg[2] == 0x22);
+    BOOST_CHECK(most50Message->msg[3] == 0x23);
+    BOOST_CHECK(most50Message->msg[4] == 0x04);
+    BOOST_CHECK(most50Message->msg[5] == 0x11);
+    BOOST_CHECK(most50Message->msg[6] == 0x22);
+    BOOST_CHECK(most50Message->msg[7] == 0x33);
+    BOOST_CHECK(most50Message->msg[8] == 0x44);
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -2088,7 +2484,40 @@ BOOST_AUTO_TEST_CASE(LinShortOrSlowResponse)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_SHORT_OR_SLOW_RESPONSE);
     linShortOrSlowResponse = static_cast<Vector::BLF::LinShortOrSlowResponse *>(ohb);
-    // @todo test implementation
+    BOOST_CHECK(linShortOrSlowResponse->sof == 1279516000); // ns
+    BOOST_CHECK(linShortOrSlowResponse->eventBaudrate == 19230);
+    BOOST_CHECK(linShortOrSlowResponse->channel == 1);
+    // reserved
+    BOOST_CHECK(linShortOrSlowResponse->synchBreakLength == 937250);
+    BOOST_CHECK(linShortOrSlowResponse->synchDelLength == 102625);
+    BOOST_CHECK(linShortOrSlowResponse->supplierId == 0);
+    BOOST_CHECK(linShortOrSlowResponse->messageId == 0);
+    BOOST_CHECK(linShortOrSlowResponse->nad == 0);
+    BOOST_CHECK(linShortOrSlowResponse->id == 1);
+    BOOST_CHECK(linShortOrSlowResponse->dlc == 8);
+    BOOST_CHECK(linShortOrSlowResponse->checksumModel == 0xff);
+    BOOST_CHECK(linShortOrSlowResponse->databyteTimestamps[0] == 1281570000); // ns
+    BOOST_CHECK(linShortOrSlowResponse->databyteTimestamps[1] == 1283679000); // ns
+    BOOST_CHECK(linShortOrSlowResponse->databyteTimestamps[2] == 1285759000); // ns
+    BOOST_CHECK(linShortOrSlowResponse->databyteTimestamps[3] == 1287839000); // ns
+    BOOST_CHECK(linShortOrSlowResponse->databyteTimestamps[4] == 1289927000); // ns
+    BOOST_CHECK(linShortOrSlowResponse->databyteTimestamps[5] == 1292007000); // ns
+    BOOST_CHECK(linShortOrSlowResponse->databyteTimestamps[6] == 1294087000); // ns
+    BOOST_CHECK(linShortOrSlowResponse->databyteTimestamps[7] == 1296167000); // ns
+    BOOST_CHECK(linShortOrSlowResponse->databyteTimestamps[8] == 1298244000); // ns
+    BOOST_CHECK(linShortOrSlowResponse->numberOfRespBytes == 9);
+    BOOST_CHECK(linShortOrSlowResponse->respBytes[0] == 0x11);
+    BOOST_CHECK(linShortOrSlowResponse->respBytes[1] == 0x12);
+    BOOST_CHECK(linShortOrSlowResponse->respBytes[2] == 0x13);
+    BOOST_CHECK(linShortOrSlowResponse->respBytes[3] == 0x14);
+    BOOST_CHECK(linShortOrSlowResponse->respBytes[4] == 0x15);
+    BOOST_CHECK(linShortOrSlowResponse->respBytes[5] == 0x16);
+    BOOST_CHECK(linShortOrSlowResponse->respBytes[6] == 0x17);
+    BOOST_CHECK(linShortOrSlowResponse->respBytes[7] == 0x18);
+    BOOST_CHECK(linShortOrSlowResponse->respBytes[8] == 0x99);
+    BOOST_CHECK(linShortOrSlowResponse->slowResponse == 1);
+    BOOST_CHECK(linShortOrSlowResponse->interruptedByBreak == 0);
+    // reserved
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -2109,7 +2538,14 @@ BOOST_AUTO_TEST_CASE(LinDisturbanceEvent)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_DISTURBANCE_EVENT);
     linDisturbanceEvent = static_cast<Vector::BLF::LinDisturbanceEvent *>(ohb);
-    // @todo test implementation
+    BOOST_CHECK(linDisturbanceEvent->channel == 1);
+    BOOST_CHECK(linDisturbanceEvent->id == 0x2D);
+    BOOST_CHECK(linDisturbanceEvent->disturbingFrameId == 0xFF);
+    BOOST_CHECK(linDisturbanceEvent->disturbanceType == 0); // dominant disturbance
+    BOOST_CHECK(linDisturbanceEvent->byteIndex == 1);
+    BOOST_CHECK(linDisturbanceEvent->bitIndex == 6);
+    BOOST_CHECK(linDisturbanceEvent->bitOffsetInSixteenthBits == 0);
+    BOOST_CHECK(linDisturbanceEvent->disturbanceLengthInSixteenthBits == 16);
     delete ohb;
 
     BOOST_CHECK(file.eof());
