@@ -101,7 +101,7 @@ char * MostSystemEvent::write(char * buffer)
 
     // reserved
     size = sizeof(reserved);
-    memcpy((void *) &reserved, buffer, size);
+    memcpy(buffer, (void *) &reserved, size);
     buffer += size;
 
     return buffer;
