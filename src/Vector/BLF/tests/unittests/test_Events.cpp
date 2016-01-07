@@ -891,7 +891,13 @@ BOOST_AUTO_TEST_CASE(GpsEvent)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::GPS_EVENT);
     gpsEvent = static_cast<Vector::BLF::GpsEvent *>(ohb);
-    // @todo test implementation
+    BOOST_CHECK(gpsEvent->flags == 0);
+    BOOST_CHECK(gpsEvent->channel == 1);
+    BOOST_CHECK(isEqual(gpsEvent->latitude, 48.825100));
+    BOOST_CHECK(isEqual(gpsEvent->longitude, 9.091267));
+    BOOST_CHECK(isEqual(gpsEvent->altitude, 325.399994));
+    BOOST_CHECK(isEqual(gpsEvent->speed, 29.686400));
+    BOOST_CHECK(isEqual(gpsEvent->course, 87.099998));
     delete ohb;
 
     BOOST_CHECK(file.eof());
