@@ -1519,7 +1519,10 @@ BOOST_AUTO_TEST_CASE(MostStress)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_STRESS);
     mostStress = static_cast<Vector::BLF::MostStress *>(ohb);
-    // @todo test implementation
+    BOOST_CHECK(mostStress->channel == 1);
+    BOOST_CHECK(mostStress->state == 1); // started
+    BOOST_CHECK(mostStress->mode == 2); // Lock
+    // reserved
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -2252,7 +2255,10 @@ BOOST_AUTO_TEST_CASE(MostEcl)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_ECL);
     mostEcl = static_cast<Vector::BLF::MostEcl *>(ohb);
-    // @todo test implementation
+    BOOST_CHECK(mostEcl->channel == 1);
+    BOOST_CHECK(mostEcl->mode == 0); // discrete
+    BOOST_CHECK(mostEcl->eclState == 1); // line high
+    // reserved
     delete ohb;
 
     BOOST_CHECK(file.eof());
