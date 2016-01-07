@@ -1407,7 +1407,8 @@ BOOST_AUTO_TEST_CASE(MostTxLight)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_TXLIGHT);
     mostTxLight = static_cast<Vector::BLF::MostTxLight *>(ohb);
-    // @todo test implementation
+    BOOST_CHECK(mostTxLight->channel == 1);
+    BOOST_CHECK(mostTxLight->state == 1); // enable
     delete ohb;
 
     BOOST_CHECK(file.eof());
