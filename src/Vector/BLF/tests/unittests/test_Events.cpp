@@ -702,7 +702,13 @@ BOOST_AUTO_TEST_CASE(MostGenReg)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_GENREG);
     mostGenReg = static_cast<Vector::BLF::MostGenReg *>(ohb);
-    // @todo test implementation
+    BOOST_CHECK(mostGenReg->channel == 1);
+    BOOST_CHECK(mostGenReg->subType == 1);
+    // reserved
+    BOOST_CHECK(mostGenReg->handle == 0);
+    BOOST_CHECK(mostGenReg->regId == 0x8A);
+    // reserved
+    BOOST_CHECK(mostGenReg->regValue == 0x0172);
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -723,7 +729,10 @@ BOOST_AUTO_TEST_CASE(MostNetState)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_NETSTATE);
     mostNetState = static_cast<Vector::BLF::MostNetState *>(ohb);
-    // @todo test implementation
+    BOOST_CHECK(mostNetState->channel == 1);
+    BOOST_CHECK(mostNetState->stateNew == 3); // NetInterfaceInit
+    BOOST_CHECK(mostNetState->stateOld == 2); // PowerOff
+    // reserved
     delete ohb;
 
     BOOST_CHECK(file.eof());
@@ -765,7 +774,12 @@ BOOST_AUTO_TEST_CASE(MostTrigger)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_TRIGGER);
     mostTrigger = static_cast<Vector::BLF::MostTrigger *>(ohb);
-    // @todo test implementation
+    BOOST_CHECK(mostTrigger->channel == 1);
+    // reserved
+    BOOST_CHECK(mostTrigger->mode == 2); // synchronization slave
+    BOOST_CHECK(mostTrigger->hw == 4); // VN2600/VN2610
+    BOOST_CHECK(mostTrigger->previousTriggerValue == 1);
+    BOOST_CHECK(mostTrigger->currentTriggerValue == 0);
     delete ohb;
 
     BOOST_CHECK(file.eof());
