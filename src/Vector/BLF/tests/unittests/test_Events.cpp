@@ -1277,7 +1277,13 @@ BOOST_AUTO_TEST_CASE(LinSpikeEvent2)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_SPIKE_EVENT2);
     linSpikeEvent2 = static_cast<Vector::BLF::LinSpikeEvent2 *>(ohb);
-    // @todo test implementation
+    BOOST_CHECK(linSpikeEvent2->sof == 5990902000); // ns
+    BOOST_CHECK(linSpikeEvent2->eventBaudrate == 9615);
+    BOOST_CHECK(linSpikeEvent2->channel == 2);
+    // reserved
+    BOOST_CHECK(linSpikeEvent2->width == 56);
+    BOOST_CHECK(linSpikeEvent2->internal == 0); // real event
+    // reserved
     delete ohb;
 
     BOOST_CHECK(file.eof());
