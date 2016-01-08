@@ -57,6 +57,18 @@ BOOST_AUTO_TEST_CASE(CanMessage)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::CAN_MESSAGE);
     canMessage = static_cast<Vector::BLF::CanMessage *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(canMessage->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(canMessage->headerSize == canMessage->calculateHeaderSize());
+    BOOST_CHECK(canMessage->headerVersion == 1);
+    BOOST_CHECK(canMessage->objectSize == canMessage->calculateObjectSize());
+    BOOST_CHECK(canMessage->objectType == Vector::BLF::ObjectType::CAN_MESSAGE);
+    /* ObjectHeader */
+    BOOST_CHECK(canMessage->objectFlags == Vector::BLF::ObjectHeader::TimeOneNans);
+    // reserved
+    BOOST_CHECK(canMessage->objectVersion == 0);
+    BOOST_CHECK(canMessage->objectTimeStamp == 4876870000); // ns
+    /* CanMessage */
     BOOST_CHECK(canMessage->channel == 1);
     BOOST_CHECK(canMessage->flags == 1); // TX
     BOOST_CHECK(canMessage->dlc == 8);
@@ -75,6 +87,18 @@ BOOST_AUTO_TEST_CASE(CanMessage)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::CAN_MESSAGE);
     canMessage = static_cast<Vector::BLF::CanMessage *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(canMessage->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(canMessage->headerSize == canMessage->calculateHeaderSize());
+    // reserved
+    BOOST_CHECK(canMessage->headerVersion == 1);
+    BOOST_CHECK(canMessage->objectSize == canMessage->calculateObjectSize());
+    BOOST_CHECK(canMessage->objectType == Vector::BLF::ObjectType::CAN_MESSAGE);
+    /* ObjectHeader */
+    BOOST_CHECK(canMessage->objectFlags == Vector::BLF::ObjectHeader::TimeOneNans);
+    BOOST_CHECK(canMessage->objectVersion == 0);
+    BOOST_CHECK(canMessage->objectTimeStamp == 2501000000); // ns
+    /* CanMessage */
     BOOST_CHECK(canMessage->channel == 2);
     BOOST_CHECK(canMessage->flags == 0); // RX
     BOOST_CHECK(canMessage->dlc == 8);
@@ -153,6 +177,18 @@ BOOST_AUTO_TEST_CASE(CanDriverStatistic)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::CAN_STATISTIC);
     canDriverStatistic = static_cast<Vector::BLF::CanDriverStatistic *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(canDriverStatistic->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(canDriverStatistic->headerSize == canDriverStatistic->calculateHeaderSize());
+    BOOST_CHECK(canDriverStatistic->headerVersion == 1);
+    BOOST_CHECK(canDriverStatistic->objectSize == canDriverStatistic->calculateObjectSize());
+    BOOST_CHECK(canDriverStatistic->objectType == Vector::BLF::ObjectType::CAN_STATISTIC);
+    /* ObjectHeader */
+    BOOST_CHECK(canDriverStatistic->objectFlags == Vector::BLF::ObjectHeader::TimeOneNans);
+    // reserved
+    BOOST_CHECK(canDriverStatistic->objectVersion == 0);
+    BOOST_CHECK(canDriverStatistic->objectTimeStamp == 1010000000); // ns
+    /* CanDriverStatistic */
     BOOST_CHECK(canDriverStatistic->channel == 1);
     BOOST_CHECK(canDriverStatistic->busLoad == 0);
     BOOST_CHECK(canDriverStatistic->standardDataFrames == 1000);
@@ -280,6 +316,18 @@ BOOST_AUTO_TEST_CASE(LinDlcInfo)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_DLC_INFO);
     linDlcInfo = static_cast<Vector::BLF::LinDlcInfo *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(linDlcInfo->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(linDlcInfo->headerSize == linDlcInfo->calculateHeaderSize());
+    BOOST_CHECK(linDlcInfo->headerVersion == 1);
+    BOOST_CHECK(linDlcInfo->objectSize == linDlcInfo->calculateObjectSize());
+    BOOST_CHECK(linDlcInfo->objectType == Vector::BLF::ObjectType::LIN_DLC_INFO);
+    /* ObjectHeader */
+    BOOST_CHECK(linDlcInfo->objectFlags == Vector::BLF::ObjectHeader::TimeOneNans);
+    // reserved
+    BOOST_CHECK(linDlcInfo->objectVersion == 0);
+    BOOST_CHECK(linDlcInfo->objectTimeStamp == 12637500000); // ns
+    /* LinDlcInfo */
     BOOST_CHECK(linDlcInfo->channel == 1);
     BOOST_CHECK(linDlcInfo->id == 20);
     BOOST_CHECK(linDlcInfo->dlc == 4);
@@ -350,6 +398,18 @@ BOOST_AUTO_TEST_CASE(LinSlaveTimeout)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_SLV_TIMEOUT);
     linSlaveTimeout = static_cast<Vector::BLF::LinSlaveTimeout *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(linSlaveTimeout->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(linSlaveTimeout->headerSize == linSlaveTimeout->calculateHeaderSize());
+    BOOST_CHECK(linSlaveTimeout->headerVersion == 1);
+    BOOST_CHECK(linSlaveTimeout->objectSize == linSlaveTimeout->calculateObjectSize());
+    BOOST_CHECK(linSlaveTimeout->objectType == Vector::BLF::ObjectType::LIN_SLV_TIMEOUT);
+    /* ObjectHeader */
+    BOOST_CHECK(linSlaveTimeout->objectFlags == Vector::BLF::ObjectHeader::TimeOneNans);
+    // reserved
+    BOOST_CHECK(linSlaveTimeout->objectVersion == 0);
+    BOOST_CHECK(linSlaveTimeout->objectTimeStamp == 1001200000); // ns
+    /* LinDlcInfo */
     BOOST_CHECK(linSlaveTimeout->channel == 1);
     BOOST_CHECK(linSlaveTimeout->slaveId == 0);
     BOOST_CHECK(linSlaveTimeout->stateId == 0);
@@ -374,6 +434,18 @@ BOOST_AUTO_TEST_CASE(LinSchedulerModeChange)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_SCHED_MODCH);
     linSchedulerModeChange = static_cast<Vector::BLF::LinSchedulerModeChange *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(linSchedulerModeChange->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(linSchedulerModeChange->headerSize == linSchedulerModeChange->calculateHeaderSize());
+    BOOST_CHECK(linSchedulerModeChange->headerVersion == 1);
+    BOOST_CHECK(linSchedulerModeChange->objectSize == linSchedulerModeChange->calculateObjectSize());
+    BOOST_CHECK(linSchedulerModeChange->objectType == Vector::BLF::ObjectType::LIN_SCHED_MODCH);
+    /* ObjectHeader */
+    BOOST_CHECK(linSchedulerModeChange->objectFlags == Vector::BLF::ObjectHeader::TimeOneNans);
+    // reserved
+    BOOST_CHECK(linSchedulerModeChange->objectVersion == 0);
+    BOOST_CHECK(linSchedulerModeChange->objectTimeStamp == 100000000); // ns
+    /* LinSchedulerModeChange */
     BOOST_CHECK(linSchedulerModeChange->channel == 1);
     BOOST_CHECK(linSchedulerModeChange->oldMode == 2);
     BOOST_CHECK(linSchedulerModeChange->newMode == 0);
@@ -421,6 +493,18 @@ BOOST_AUTO_TEST_CASE(LinBaudrateEvent)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_BAUDRATE);
     linBaudrateEvent = static_cast<Vector::BLF::LinBaudrateEvent *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(linBaudrateEvent->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(linBaudrateEvent->headerSize == linBaudrateEvent->calculateHeaderSize());
+    BOOST_CHECK(linBaudrateEvent->headerVersion == 1);
+    BOOST_CHECK(linBaudrateEvent->objectSize == linBaudrateEvent->calculateObjectSize());
+    BOOST_CHECK(linBaudrateEvent->objectType == Vector::BLF::ObjectType::LIN_BAUDRATE);
+    /* ObjectHeader */
+    BOOST_CHECK(linBaudrateEvent->objectFlags == Vector::BLF::ObjectHeader::TimeOneNans);
+    // reserved
+    BOOST_CHECK(linBaudrateEvent->objectVersion == 0);
+    BOOST_CHECK(linBaudrateEvent->objectTimeStamp == 18800000); // ns
+    /* LinBaudrate */
     BOOST_CHECK(linBaudrateEvent->channel == 1);
     // reserved
     BOOST_CHECK(linBaudrateEvent->baudrate == 9615);
@@ -444,6 +528,18 @@ BOOST_AUTO_TEST_CASE(LinSleepModeEvent)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_SLEEP);
     linSleepModeEvent = static_cast<Vector::BLF::LinSleepModeEvent *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(linSleepModeEvent->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(linSleepModeEvent->headerSize == linSleepModeEvent->calculateHeaderSize());
+    BOOST_CHECK(linSleepModeEvent->headerVersion == 1);
+    BOOST_CHECK(linSleepModeEvent->objectSize == linSleepModeEvent->calculateObjectSize());
+    BOOST_CHECK(linSleepModeEvent->objectType == Vector::BLF::ObjectType::LIN_SLEEP);
+    /* ObjectHeader */
+    BOOST_CHECK(linSleepModeEvent->objectFlags == Vector::BLF::ObjectHeader::TimeOneNans);
+    // reserved
+    BOOST_CHECK(linSleepModeEvent->objectVersion == 0);
+    BOOST_CHECK(linSleepModeEvent->objectTimeStamp == 777200000); // ns
+    /* LinSleepModeEvent */
     BOOST_CHECK(linSleepModeEvent->channel == 1);
     BOOST_CHECK(linSleepModeEvent->reason == 1);
     BOOST_CHECK(linSleepModeEvent->flags == (uint8_t) Vector::BLF::LinSleepModeEvent::Flags::WasAwake);
@@ -491,6 +587,18 @@ BOOST_AUTO_TEST_CASE(MostSpy)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_SPY);
     mostSpy = static_cast<Vector::BLF::MostSpy *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(mostSpy->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(mostSpy->headerSize == mostSpy->calculateHeaderSize());
+    BOOST_CHECK(mostSpy->headerVersion == 1);
+    BOOST_CHECK(mostSpy->objectSize == mostSpy->calculateObjectSize());
+    BOOST_CHECK(mostSpy->objectType == Vector::BLF::ObjectType::MOST_SPY);
+    /* ObjectHeader */
+    BOOST_CHECK(mostSpy->objectFlags == Vector::BLF::ObjectHeader::TimeOneNans);
+    // reserved
+    BOOST_CHECK(mostSpy->objectVersion == 0);
+    BOOST_CHECK(mostSpy->objectTimeStamp == 113526000); // ns
+    /* MostSpy */
     BOOST_CHECK(mostSpy->channel == 1);
     BOOST_CHECK(mostSpy->dir == 0); // Rx
     // reserved
@@ -540,6 +648,18 @@ BOOST_AUTO_TEST_CASE(MostCtrl)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_CTRL);
     mostCtrl = static_cast<Vector::BLF::MostCtrl *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(mostCtrl->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(mostCtrl->headerSize == mostCtrl->calculateHeaderSize());
+    BOOST_CHECK(mostCtrl->headerVersion == 1);
+    BOOST_CHECK(mostCtrl->objectSize == mostCtrl->calculateObjectSize());
+    BOOST_CHECK(mostCtrl->objectType == Vector::BLF::ObjectType::MOST_CTRL);
+    /* ObjectHeader */
+    BOOST_CHECK(mostCtrl->objectFlags == Vector::BLF::ObjectHeader::TimeOneNans);
+    // reserved
+    BOOST_CHECK(mostCtrl->objectVersion == 0);
+    BOOST_CHECK(mostCtrl->objectTimeStamp == 111757000); // ns
+    /* MostCtrl */
     BOOST_CHECK(mostCtrl->channel == 1);
     BOOST_CHECK(mostCtrl->dir == 1); // Tx
     // reserved
@@ -589,6 +709,18 @@ BOOST_AUTO_TEST_CASE(MostLightLock)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_LIGHTLOCK);
     mostLightLock = static_cast<Vector::BLF::MostLightLock *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(mostLightLock->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(mostLightLock->headerSize == mostLightLock->calculateHeaderSize());
+    BOOST_CHECK(mostLightLock->headerVersion == 1);
+    BOOST_CHECK(mostLightLock->objectSize == mostLightLock->calculateObjectSize());
+    BOOST_CHECK(mostLightLock->objectType == Vector::BLF::ObjectType::MOST_LIGHTLOCK);
+    /* ObjectHeader */
+    BOOST_CHECK(mostLightLock->objectFlags == Vector::BLF::ObjectHeader::TimeOneNans);
+    // reserved
+    BOOST_CHECK(mostLightLock->objectVersion == 0);
+    BOOST_CHECK(mostLightLock->objectTimeStamp == 8638000); // ns
+    /* MostLightLock */
     BOOST_CHECK(mostLightLock->channel == 1);
     BOOST_CHECK(mostLightLock->state == 1); // Signal On + Lock
     // reserved
@@ -612,6 +744,18 @@ BOOST_AUTO_TEST_CASE(MostStatistic)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_STATISTIC);
     mostStatistic = static_cast<Vector::BLF::MostStatistic *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(mostStatistic->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(mostStatistic->headerSize == mostStatistic->calculateHeaderSize());
+    BOOST_CHECK(mostStatistic->headerVersion == 1);
+    BOOST_CHECK(mostStatistic->objectSize == mostStatistic->calculateObjectSize());
+    BOOST_CHECK(mostStatistic->objectType == Vector::BLF::ObjectType::MOST_STATISTIC);
+    /* ObjectHeader */
+    BOOST_CHECK(mostStatistic->objectFlags == Vector::BLF::ObjectHeader::TimeOneNans);
+    // reserved
+    BOOST_CHECK(mostStatistic->objectVersion == 0);
+    BOOST_CHECK(mostStatistic->objectTimeStamp == 2030000000); // ns
+    /* MostStatistic */
     BOOST_CHECK(mostStatistic->channel == 1);
     BOOST_CHECK(mostStatistic->pktCnt == 0);
     BOOST_CHECK(mostStatistic->frmCnt == 0);
@@ -733,6 +877,20 @@ BOOST_AUTO_TEST_CASE(MostPkt2)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_PKT2);
     mostPkt2 = static_cast<Vector::BLF::MostPkt2 *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(mostPkt2->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(mostPkt2->headerSize == mostPkt2->calculateHeaderSize());
+    BOOST_CHECK(mostPkt2->headerVersion == 1); // @todo Vector bug: This should be 2 for ObjectHeader2
+    BOOST_CHECK(mostPkt2->objectSize == mostPkt2->calculateObjectSize());
+    BOOST_CHECK(mostPkt2->objectType == Vector::BLF::ObjectType::MOST_PKT2);
+    /* ObjectHeader2 */
+    BOOST_CHECK(mostPkt2->objectFlags == Vector::BLF::ObjectHeader2::ObjectFlags::TimeOneNans);
+    BOOST_CHECK(mostPkt2->timeStampStatus == 0);
+    // reserved
+    BOOST_CHECK(mostPkt2->objectVersion == 0);
+    BOOST_CHECK(mostPkt2->objectTimeStamp == 4445080000); // ns
+    BOOST_CHECK(mostPkt2->originalTimeStamp == 0);
+    /* MostPkt2 */
     BOOST_CHECK(mostPkt2->channel == 1);
     BOOST_CHECK(mostPkt2->dir == 0); // Rx
     // reserved
@@ -779,6 +937,20 @@ BOOST_AUTO_TEST_CASE(MostHwMode)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_HWMODE);
     mostHwMode = static_cast<Vector::BLF::MostHwMode *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(mostHwMode->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(mostHwMode->headerSize == mostHwMode->calculateHeaderSize());
+    BOOST_CHECK(mostHwMode->headerVersion == 1); // @todo Vector bug: This should be 2 for ObjectHeader2
+    BOOST_CHECK(mostHwMode->objectSize == mostHwMode->calculateObjectSize());
+    BOOST_CHECK(mostHwMode->objectType == Vector::BLF::ObjectType::MOST_HWMODE);
+    /* ObjectHeader2 */
+    BOOST_CHECK(mostHwMode->objectFlags == Vector::BLF::ObjectHeader2::ObjectFlags::TimeOneNans);
+    BOOST_CHECK(mostHwMode->timeStampStatus == 0);
+    // reserved
+    BOOST_CHECK(mostHwMode->objectVersion == 0);
+    BOOST_CHECK(mostHwMode->objectTimeStamp == 3560000000); // ns
+    BOOST_CHECK(mostHwMode->originalTimeStamp == 0);
+    /* MostHwMode */
     BOOST_CHECK(mostHwMode->channel == 1);
     // reserved
     BOOST_CHECK(mostHwMode->hwMode == 0x01); // active
@@ -803,6 +975,20 @@ BOOST_AUTO_TEST_CASE(MostReg)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_REG);
     mostReg = static_cast<Vector::BLF::MostReg *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(mostReg->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(mostReg->headerSize == mostReg->calculateHeaderSize());
+    BOOST_CHECK(mostReg->headerVersion == 1); // @todo Vector bug: This should be 2 for ObjectHeader2
+    BOOST_CHECK(mostReg->objectSize == mostReg->calculateObjectSize());
+    BOOST_CHECK(mostReg->objectType == Vector::BLF::ObjectType::MOST_REG);
+    /* ObjectHeader2 */
+    BOOST_CHECK(mostReg->objectFlags == Vector::BLF::ObjectHeader2::ObjectFlags::TimeOneNans);
+    BOOST_CHECK(mostReg->timeStampStatus == 0);
+    // reserved
+    BOOST_CHECK(mostReg->objectVersion == 0);
+    BOOST_CHECK(mostReg->objectTimeStamp == 9050000000); // ns
+    BOOST_CHECK(mostReg->originalTimeStamp == 0);
+    /* MostReg */
     BOOST_CHECK(mostReg->channel == 1);
     BOOST_CHECK(mostReg->subType == 0);
     // reserved
@@ -846,6 +1032,20 @@ BOOST_AUTO_TEST_CASE(MostGenReg)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_GENREG);
     mostGenReg = static_cast<Vector::BLF::MostGenReg *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(mostGenReg->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(mostGenReg->headerSize == mostGenReg->calculateHeaderSize());
+    BOOST_CHECK(mostGenReg->headerVersion == 1); // @todo Vector bug: This should be 2 for ObjectHeader2
+    BOOST_CHECK(mostGenReg->objectSize == mostGenReg->calculateObjectSize());
+    BOOST_CHECK(mostGenReg->objectType == Vector::BLF::ObjectType::MOST_GENREG);
+    /* ObjectHeader2 */
+    BOOST_CHECK(mostGenReg->objectFlags == Vector::BLF::ObjectHeader2::ObjectFlags::TimeOneNans);
+    BOOST_CHECK(mostGenReg->timeStampStatus == 0);
+    // reserved
+    BOOST_CHECK(mostGenReg->objectVersion == 0);
+    BOOST_CHECK(mostGenReg->objectTimeStamp == 1471300000); // ns
+    BOOST_CHECK(mostGenReg->originalTimeStamp == 0);
+    /* MostGenReg */
     BOOST_CHECK(mostGenReg->channel == 1);
     BOOST_CHECK(mostGenReg->subType == 1);
     // reserved
@@ -873,6 +1073,20 @@ BOOST_AUTO_TEST_CASE(MostNetState)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_NETSTATE);
     mostNetState = static_cast<Vector::BLF::MostNetState *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(mostNetState->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(mostNetState->headerSize == mostNetState->calculateHeaderSize());
+    BOOST_CHECK(mostNetState->headerVersion == 1); // @todo Vector bug: This should be 2 for ObjectHeader2
+    BOOST_CHECK(mostNetState->objectSize == mostNetState->calculateObjectSize());
+    BOOST_CHECK(mostNetState->objectType == Vector::BLF::ObjectType::MOST_NETSTATE);
+    /* ObjectHeader2 */
+    BOOST_CHECK(mostNetState->objectFlags == Vector::BLF::ObjectHeader2::ObjectFlags::TimeOneNans);
+    BOOST_CHECK(mostNetState->timeStampStatus == 0);
+    // reserved
+    BOOST_CHECK(mostNetState->objectVersion == 0);
+    BOOST_CHECK(mostNetState->objectTimeStamp == 1027900000); // ns
+    BOOST_CHECK(mostNetState->originalTimeStamp == 0);
+    /* MostNetState */
     BOOST_CHECK(mostNetState->channel == 1);
     BOOST_CHECK(mostNetState->stateNew == 3); // NetInterfaceInit
     BOOST_CHECK(mostNetState->stateOld == 2); // PowerOff
@@ -897,6 +1111,20 @@ BOOST_AUTO_TEST_CASE(MostDataLost)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_DATALOST);
     mostDataLost = static_cast<Vector::BLF::MostDataLost *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(mostDataLost->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(mostDataLost->headerSize == mostDataLost->calculateHeaderSize());
+    BOOST_CHECK(mostDataLost->headerVersion == 1); // @todo Vector bug: This should be 2 for ObjectHeader2
+    BOOST_CHECK(mostDataLost->objectSize == mostDataLost->calculateObjectSize());
+    BOOST_CHECK(mostDataLost->objectType == Vector::BLF::ObjectType::MOST_DATALOST);
+    /* ObjectHeader2 */
+    BOOST_CHECK(mostDataLost->objectFlags == Vector::BLF::ObjectHeader2::ObjectFlags::TimeOneNans);
+    BOOST_CHECK(mostDataLost->timeStampStatus == 0);
+    // reserved
+    BOOST_CHECK(mostDataLost->objectVersion == 0);
+    BOOST_CHECK(mostDataLost->objectTimeStamp == 1303700000); // ns
+    BOOST_CHECK(mostDataLost->originalTimeStamp == 0);
+    /* MostDataLost */
     BOOST_CHECK(mostDataLost->channel == 1);
     // reserved
     BOOST_CHECK(mostDataLost->info == 0x05);
@@ -924,6 +1152,20 @@ BOOST_AUTO_TEST_CASE(MostTrigger)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_TRIGGER);
     mostTrigger = static_cast<Vector::BLF::MostTrigger *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(mostTrigger->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(mostTrigger->headerSize == mostTrigger->calculateHeaderSize());
+    BOOST_CHECK(mostTrigger->headerVersion == 1); // @todo Vector bug: This should be 2 for ObjectHeader2
+    BOOST_CHECK(mostTrigger->objectSize == mostTrigger->calculateObjectSize());
+    BOOST_CHECK(mostTrigger->objectType == Vector::BLF::ObjectType::MOST_TRIGGER);
+    /* ObjectHeader2 */
+    BOOST_CHECK(mostTrigger->objectFlags == Vector::BLF::ObjectHeader2::ObjectFlags::TimeOneNans);
+    BOOST_CHECK(mostTrigger->timeStampStatus == 0);
+    // reserved
+    BOOST_CHECK(mostTrigger->objectVersion == 0);
+    BOOST_CHECK(mostTrigger->objectTimeStamp == 1303700000); // ns
+    BOOST_CHECK(mostTrigger->originalTimeStamp == 0);
+    /* MostTrigger */
     BOOST_CHECK(mostTrigger->channel == 1);
     // reserved
     BOOST_CHECK(mostTrigger->mode == 2); // synchronization slave
@@ -996,6 +1238,18 @@ BOOST_AUTO_TEST_CASE(LinChecksumInfo)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_CHECKSUM_INFO);
     linChecksumInfo = static_cast<Vector::BLF::LinChecksumInfo *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(linChecksumInfo->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(linChecksumInfo->headerSize == linChecksumInfo->calculateHeaderSize());
+    BOOST_CHECK(linChecksumInfo->headerVersion == 1);
+    BOOST_CHECK(linChecksumInfo->objectSize == linChecksumInfo->calculateObjectSize());
+    BOOST_CHECK(linChecksumInfo->objectType == Vector::BLF::ObjectType::LIN_CHECKSUM_INFO);
+    /* ObjectHeader */
+    BOOST_CHECK(linChecksumInfo->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
+    // reserved
+    BOOST_CHECK(linChecksumInfo->objectVersion == 0);
+    BOOST_CHECK(linChecksumInfo->objectTimeStamp == 20100000); // ns
+    /* LinChecksumInfo */
     BOOST_CHECK(linChecksumInfo->channel == 1);
     BOOST_CHECK(linChecksumInfo->id == 22);
     BOOST_CHECK(linChecksumInfo->checksumModel == 0); // classic
@@ -1089,6 +1343,18 @@ BOOST_AUTO_TEST_CASE(GpsEvent)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::GPS_EVENT);
     gpsEvent = static_cast<Vector::BLF::GpsEvent *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(gpsEvent->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(gpsEvent->headerSize == gpsEvent->calculateHeaderSize());
+    BOOST_CHECK(gpsEvent->headerVersion == 1);
+    BOOST_CHECK(gpsEvent->objectSize == gpsEvent->calculateObjectSize());
+    BOOST_CHECK(gpsEvent->objectType == Vector::BLF::ObjectType::GPS_EVENT);
+    /* ObjectHeader */
+    BOOST_CHECK(gpsEvent->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
+    // reserved
+    BOOST_CHECK(gpsEvent->objectVersion == 0);
+    BOOST_CHECK(gpsEvent->objectTimeStamp == 2097603000); // ns
+    /* GpsEvent */
     BOOST_CHECK(gpsEvent->flags == 0);
     BOOST_CHECK(gpsEvent->channel == 1);
     BOOST_CHECK(isEqual(gpsEvent->latitude, 48.825100));
@@ -1162,6 +1428,18 @@ BOOST_AUTO_TEST_CASE(FlexRayVFrStartCycle)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::FR_STARTCYCLE);
     flexRayVFrStartCycle = static_cast<Vector::BLF::FlexRayVFrStartCycle *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(flexRayVFrStartCycle->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(flexRayVFrStartCycle->headerSize == flexRayVFrStartCycle->calculateHeaderSize());
+    BOOST_CHECK(flexRayVFrStartCycle->headerVersion == 1);
+    BOOST_CHECK(flexRayVFrStartCycle->objectSize == flexRayVFrStartCycle->calculateObjectSize());
+    BOOST_CHECK(flexRayVFrStartCycle->objectType == Vector::BLF::ObjectType::FR_STARTCYCLE);
+    /* ObjectHeader */
+    BOOST_CHECK(flexRayVFrStartCycle->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
+    // reserved
+    BOOST_CHECK(flexRayVFrStartCycle->objectVersion == 0);
+    BOOST_CHECK(flexRayVFrStartCycle->objectTimeStamp == 41700000); // ns
+    /* FlexRayVFrStartCycle */
     BOOST_CHECK(flexRayVFrStartCycle->channel == 0);
     BOOST_CHECK(flexRayVFrStartCycle->version == 2);
     BOOST_CHECK(flexRayVFrStartCycle->channelMask == 0); // reserved/invalid
@@ -1249,6 +1527,18 @@ BOOST_AUTO_TEST_CASE(LinStatisticEvent)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_STATISTIC);
     linStatisticEvent = static_cast<Vector::BLF::LinStatisticEvent *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(linStatisticEvent->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(linStatisticEvent->headerSize == linStatisticEvent->calculateHeaderSize());
+    BOOST_CHECK(linStatisticEvent->headerVersion == 1);
+    BOOST_CHECK(linStatisticEvent->objectSize == linStatisticEvent->calculateObjectSize());
+    BOOST_CHECK(linStatisticEvent->objectType == Vector::BLF::ObjectType::LIN_STATISTIC);
+    /* ObjectHeader */
+    BOOST_CHECK(linStatisticEvent->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
+    // reserved
+    BOOST_CHECK(linStatisticEvent->objectVersion == 0);
+    BOOST_CHECK(linStatisticEvent->objectTimeStamp == 1999580000); // ns
+    /* LinStatisticEvent */
     BOOST_CHECK(linStatisticEvent->channel == 1);
     BOOST_CHECK(isEqual(linStatisticEvent->busLoad, 0.903601));
     BOOST_CHECK(linStatisticEvent->burstsOverrun == 0);
@@ -1299,6 +1589,18 @@ BOOST_AUTO_TEST_CASE(LinMessage2)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_MESSAGE2);
     linMessage2 = static_cast<Vector::BLF::LinMessage2 *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(linMessage2->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(linMessage2->headerSize == linMessage2->calculateHeaderSize());
+    BOOST_CHECK(linMessage2->headerVersion == 1);
+    BOOST_CHECK(linMessage2->objectSize == linMessage2->calculateObjectSize());
+    BOOST_CHECK(linMessage2->objectType == Vector::BLF::ObjectType::LIN_MESSAGE2);
+    /* ObjectHeader */
+    BOOST_CHECK(linMessage2->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
+    // reserved
+    BOOST_CHECK(linMessage2->objectVersion == 1);
+    BOOST_CHECK(linMessage2->objectTimeStamp == 73973000); // ns
+    /* LinMessage2 */
     BOOST_CHECK(linMessage2->data[0] == 0x00);
     BOOST_CHECK(linMessage2->data[1] == 0xf0);
     BOOST_CHECK(linMessage2->data[2] == 0xf0);
@@ -1340,18 +1642,33 @@ BOOST_AUTO_TEST_CASE(LinSendError2)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_SND_ERROR2);
     linSendError2 = static_cast<Vector::BLF::LinSendError2 *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(linSendError2->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(linSendError2->headerSize == linSendError2->calculateHeaderSize());
+    BOOST_CHECK(linSendError2->headerVersion == 1);
+    BOOST_CHECK(linSendError2->objectSize == linSendError2->calculateObjectSize());
+    BOOST_CHECK(linSendError2->objectType == Vector::BLF::ObjectType::LIN_SND_ERROR2);
+    /* ObjectHeader */
+    BOOST_CHECK(linSendError2->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
+    // reserved
+    BOOST_CHECK(linSendError2->objectVersion == 1);
+    BOOST_CHECK(linSendError2->objectTimeStamp == 424674000); // ns
+    /* LinBusEvent */
     BOOST_CHECK(linSendError2->sof == 416054000); // ns
     BOOST_CHECK(linSendError2->eventBaudrate == 19230);
     BOOST_CHECK(linSendError2->channel == 1);
     // reserved
+    /* LinSynchFieldEvent */
     BOOST_CHECK(linSendError2->synchBreakLength == 937187);
     BOOST_CHECK(linSendError2->synchDelLength == 113250);
+    /* LinMessageDescriptor */
     BOOST_CHECK(linSendError2->supplierId == 0);
     BOOST_CHECK(linSendError2->messageId == 0);
     BOOST_CHECK(linSendError2->nad == 0);
     BOOST_CHECK(linSendError2->id == 0x21); // 33
     BOOST_CHECK(linSendError2->dlc == 4);
     BOOST_CHECK(linSendError2->checksumModel == 1); // enhanced
+    /* LinSendError2 */
     BOOST_CHECK(linSendError2->eoh == 418122000); // ns
     BOOST_CHECK(linSendError2->isEtf == 0);
     BOOST_CHECK(linSendError2->fsmId == 0xff);
@@ -1380,12 +1697,26 @@ BOOST_AUTO_TEST_CASE(LinSyncError2)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_SYN_ERROR2);
     linSyncError2 = static_cast<Vector::BLF::LinSyncError2 *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(linSyncError2->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(linSyncError2->headerSize == linSyncError2->calculateHeaderSize());
+    BOOST_CHECK(linSyncError2->headerVersion == 1);
+    BOOST_CHECK(linSyncError2->objectSize == linSyncError2->calculateObjectSize());
+    BOOST_CHECK(linSyncError2->objectType == Vector::BLF::ObjectType::LIN_SYN_ERROR2);
+    /* ObjectHeader */
+    BOOST_CHECK(linSyncError2->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
+    // reserved
+    BOOST_CHECK(linSyncError2->objectVersion == 0);
+    BOOST_CHECK(linSyncError2->objectTimeStamp == 2022336000); // ns
+    /* LinBusEvent */
     BOOST_CHECK(linSyncError2->sof == 2021077000); // ns
     BOOST_CHECK(linSyncError2->eventBaudrate == 19230);
     BOOST_CHECK(linSyncError2->channel == 2);
     // reserved
+    /* LinSynchFieldEvent */
     BOOST_CHECK(linSyncError2->synchBreakLength == 937125);
     BOOST_CHECK(linSyncError2->synchDelLength == 113312);
+    /* LinSyncError2 */
     BOOST_CHECK(linSyncError2->timeDiff[0] == 208);
     BOOST_CHECK(linSyncError2->timeDiff[1] == 0);
     BOOST_CHECK(linSyncError2->timeDiff[2] == 0);
@@ -1433,12 +1764,26 @@ BOOST_AUTO_TEST_CASE(LinReceiveError2)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_RCV_ERROR2);
     linReceiveError2 = static_cast<Vector::BLF::LinReceiveError2 *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(linReceiveError2->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(linReceiveError2->headerSize == linReceiveError2->calculateHeaderSize());
+    BOOST_CHECK(linReceiveError2->headerVersion == 1);
+    BOOST_CHECK(linReceiveError2->objectSize == linReceiveError2->calculateObjectSize());
+    BOOST_CHECK(linReceiveError2->objectType == Vector::BLF::ObjectType::LIN_RCV_ERROR2);
+    /* ObjectHeader */
+    BOOST_CHECK(linReceiveError2->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
+    // reserved
+    BOOST_CHECK(linReceiveError2->objectVersion == 1);
+    BOOST_CHECK(linReceiveError2->objectTimeStamp == 554673000); // ns
+    /* LinBusEvent */
     BOOST_CHECK(linReceiveError2->sof == 546052000); // ns
     BOOST_CHECK(linReceiveError2->eventBaudrate == 19230);
     BOOST_CHECK(linReceiveError2->channel == 1);
     // reserved
+    /* LinSynchFieldEvent */
     BOOST_CHECK(linReceiveError2->synchBreakLength == 937187);
     BOOST_CHECK(linReceiveError2->synchDelLength == 112437);
+    /* LinReceiveError2 */
     BOOST_CHECK(linReceiveError2->supplierId == 0);
     BOOST_CHECK(linReceiveError2->messageId == 0);
     BOOST_CHECK(linReceiveError2->nad == 0);
@@ -1495,10 +1840,23 @@ BOOST_AUTO_TEST_CASE(LinWakeupEvent2)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_WAKEUP2);
     linWakeupEvent2 = static_cast<Vector::BLF::LinWakeupEvent2 *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(linWakeupEvent2->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(linWakeupEvent2->headerSize == linWakeupEvent2->calculateHeaderSize());
+    BOOST_CHECK(linWakeupEvent2->headerVersion == 1);
+    BOOST_CHECK(linWakeupEvent2->objectSize == linWakeupEvent2->calculateObjectSize());
+    BOOST_CHECK(linWakeupEvent2->objectType == Vector::BLF::ObjectType::LIN_WAKEUP2);
+    /* ObjectHeader */
+    BOOST_CHECK(linWakeupEvent2->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
+    // reserved
+    BOOST_CHECK(linWakeupEvent2->objectVersion == 0);
+    BOOST_CHECK(linWakeupEvent2->objectTimeStamp == 2318672000); // ns
+    /* LinBusEvent */
     BOOST_CHECK(linWakeupEvent2->sof == 2317671000); // ns
     BOOST_CHECK(linWakeupEvent2->eventBaudrate == 19230);
     BOOST_CHECK(linWakeupEvent2->channel == 1);
     // reserved
+    /* LinWakeupEvent2 */
     BOOST_CHECK(linWakeupEvent2->lengthInfo == 0); // OK
     BOOST_CHECK(linWakeupEvent2->signal == 0);
     BOOST_CHECK(linWakeupEvent2->external == 0);
@@ -1523,10 +1881,22 @@ BOOST_AUTO_TEST_CASE(LinSpikeEvent2)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_SPIKE_EVENT2);
     linSpikeEvent2 = static_cast<Vector::BLF::LinSpikeEvent2 *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(linSpikeEvent2->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(linSpikeEvent2->headerSize == linSpikeEvent2->calculateHeaderSize());
+    BOOST_CHECK(linSpikeEvent2->headerVersion == 1);
+    BOOST_CHECK(linSpikeEvent2->objectSize == linSpikeEvent2->calculateObjectSize());
+    BOOST_CHECK(linSpikeEvent2->objectType == Vector::BLF::ObjectType::LIN_SPIKE_EVENT2);
+    /* ObjectHeader */
+    BOOST_CHECK(linSpikeEvent2->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
+    // reserved
+    BOOST_CHECK(linSpikeEvent2->objectVersion == 0);
+    BOOST_CHECK(linSpikeEvent2->objectTimeStamp == 5990958000); // ns
+    /* LinBusEvent */
     BOOST_CHECK(linSpikeEvent2->sof == 5990902000); // ns
     BOOST_CHECK(linSpikeEvent2->eventBaudrate == 9615);
     BOOST_CHECK(linSpikeEvent2->channel == 2);
-    // reserved
+    /* LinSpikeEvent2 */
     BOOST_CHECK(linSpikeEvent2->width == 56);
     BOOST_CHECK(linSpikeEvent2->internal == 0); // real event
     // reserved
@@ -1596,6 +1966,18 @@ BOOST_AUTO_TEST_CASE(FlexRayVFrReceiveMsgEx)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::FR_RCVMESSAGE_EX);
     flexRayVFrReceiveMsgEx = static_cast<Vector::BLF::FlexRayVFrReceiveMsgEx *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->headerSize == flexRayVFrReceiveMsgEx->calculateHeaderSize());
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->headerVersion == 1);
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->objectSize == flexRayVFrReceiveMsgEx->calculateObjectSize());
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->objectType == Vector::BLF::ObjectType::FR_RCVMESSAGE_EX);
+    /* ObjectHeader */
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
+    // reserved
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->objectVersion == 0);
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->objectTimeStamp == 42000000); // ns
+    /* FlexRayVFrReceiveMsgEx */
     BOOST_CHECK(flexRayVFrReceiveMsgEx->channel == 1);
     BOOST_CHECK(flexRayVFrReceiveMsgEx->version == 1);
     BOOST_CHECK(flexRayVFrReceiveMsgEx->channelMask == 1); // FlexRay Channel A
@@ -1628,6 +2010,18 @@ BOOST_AUTO_TEST_CASE(FlexRayVFrReceiveMsgEx)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::FR_RCVMESSAGE_EX);
     flexRayVFrReceiveMsgEx = static_cast<Vector::BLF::FlexRayVFrReceiveMsgEx *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->headerSize == flexRayVFrReceiveMsgEx->calculateHeaderSize());
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->headerVersion == 1);
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->objectSize == flexRayVFrReceiveMsgEx->calculateObjectSize());
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->objectType == Vector::BLF::ObjectType::FR_RCVMESSAGE_EX);
+    /* ObjectHeader */
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
+    // reserved
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->objectVersion == 0);
+    BOOST_CHECK(flexRayVFrReceiveMsgEx->objectTimeStamp == 42600000); // ns
+    /* FlexRayVFrReceiveMsgEx */
     BOOST_CHECK(flexRayVFrReceiveMsgEx->channel == 2);
     BOOST_CHECK(flexRayVFrReceiveMsgEx->version == 1);
     BOOST_CHECK(flexRayVFrReceiveMsgEx->channelMask == 2); // FlexRay Channel B
@@ -1674,6 +2068,20 @@ BOOST_AUTO_TEST_CASE(MostStatisticEx)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_STATISTICEX);
     mostStatisticEx = static_cast<Vector::BLF::MostStatisticEx *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(mostStatisticEx->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(mostStatisticEx->headerSize == mostStatisticEx->calculateHeaderSize());
+    BOOST_CHECK(mostStatisticEx->headerVersion == 1); // @todo Vector bug: This should be 2 for ObjectHeader2
+    BOOST_CHECK(mostStatisticEx->objectSize == mostStatisticEx->calculateObjectSize());
+    BOOST_CHECK(mostStatisticEx->objectType == Vector::BLF::ObjectType::MOST_STATISTICEX);
+    /* ObjectHeader2 */
+    BOOST_CHECK(mostStatisticEx->objectFlags == Vector::BLF::ObjectHeader2::ObjectFlags::TimeOneNans);
+    BOOST_CHECK(mostStatisticEx->timeStampStatus == 0);
+    // reserved
+    BOOST_CHECK(mostStatisticEx->objectVersion == 0);
+    BOOST_CHECK(mostStatisticEx->objectTimeStamp == 2024742000); // ns
+    BOOST_CHECK(mostStatisticEx->originalTimeStamp == 0);
+    /* MostStatisticEx */
     BOOST_CHECK(mostStatisticEx->channel == 2);
     // reserved
     BOOST_CHECK(mostStatisticEx->codingErrors == 0x000006);
@@ -1721,6 +2129,20 @@ BOOST_AUTO_TEST_CASE(MostAllocTab)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_ALLOCTAB);
     mostAllocTab = static_cast<Vector::BLF::MostAllocTab *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(mostAllocTab->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(mostAllocTab->headerSize == mostAllocTab->calculateHeaderSize());
+    BOOST_CHECK(mostAllocTab->headerVersion == 1); // @todo Vector bug: This should be 2 for ObjectHeader2
+    BOOST_CHECK(mostAllocTab->objectSize == mostAllocTab->calculateObjectSize());
+    BOOST_CHECK(mostAllocTab->objectType == Vector::BLF::ObjectType::MOST_ALLOCTAB);
+    /* ObjectHeader2 */
+    BOOST_CHECK(mostAllocTab->objectFlags == Vector::BLF::ObjectHeader2::ObjectFlags::TimeOneNans);
+    BOOST_CHECK(mostAllocTab->timeStampStatus == 0);
+    // reserved
+    BOOST_CHECK(mostAllocTab->objectVersion == 0);
+    BOOST_CHECK(mostAllocTab->objectTimeStamp == 32775000); // ns
+    BOOST_CHECK(mostAllocTab->originalTimeStamp == 0);
+    /* MostAllocTab */
     BOOST_CHECK(mostAllocTab->channel == 2);
     BOOST_CHECK(mostAllocTab->length == 0x3C);
     // reserved
@@ -1804,6 +2226,20 @@ BOOST_AUTO_TEST_CASE(MostStress)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_STRESS);
     mostStress = static_cast<Vector::BLF::MostStress *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(mostStress->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(mostStress->headerSize == mostStress->calculateHeaderSize());
+    BOOST_CHECK(mostStress->headerVersion == 1); // @todo Vector bug: This should be 2 for ObjectHeader2
+    BOOST_CHECK(mostStress->objectSize == mostStress->calculateObjectSize());
+    BOOST_CHECK(mostStress->objectType == Vector::BLF::ObjectType::MOST_STRESS);
+    /* ObjectHeader2 */
+    BOOST_CHECK(mostStress->objectFlags == Vector::BLF::ObjectHeader2::ObjectFlags::TimeOneNans);
+    BOOST_CHECK(mostStress->timeStampStatus == 0);
+    // reserved
+    BOOST_CHECK(mostStress->objectVersion == 0);
+    BOOST_CHECK(mostStress->objectTimeStamp == 1793083000); // ns
+    BOOST_CHECK(mostStress->originalTimeStamp == 0);
+    /* MostStress */
     BOOST_CHECK(mostStress->channel == 1);
     BOOST_CHECK(mostStress->state == 1); // started
     BOOST_CHECK(mostStress->mode == 2); // Lock
@@ -1828,6 +2264,18 @@ BOOST_AUTO_TEST_CASE(EthernetFrame)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::ETHERNET_FRAME);
     ethernetFrame = static_cast<Vector::BLF::EthernetFrame *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(ethernetFrame->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(ethernetFrame->headerSize == ethernetFrame->calculateHeaderSize());
+    BOOST_CHECK(ethernetFrame->headerVersion == 1); // @todo Vector bug: This should be 2 for ObjectHeader2
+    BOOST_CHECK(ethernetFrame->objectSize == ethernetFrame->calculateObjectSize());
+    BOOST_CHECK(ethernetFrame->objectType == Vector::BLF::ObjectType::ETHERNET_FRAME);
+    /* ObjectHeader */
+    BOOST_CHECK(ethernetFrame->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
+    // reserved
+    BOOST_CHECK(ethernetFrame->objectVersion == 0);
+    BOOST_CHECK(ethernetFrame->objectTimeStamp == 0); // ns
+    /* EthernetFrame */
     BOOST_CHECK(ethernetFrame->sourceAddress[0] == 0x40);
     BOOST_CHECK(ethernetFrame->sourceAddress[1] == 0x00);
     BOOST_CHECK(ethernetFrame->sourceAddress[2] == 0x00);
@@ -1982,10 +2430,23 @@ BOOST_AUTO_TEST_CASE(LinLongDomSignalEvent2)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_LONG_DOM_SIG2);
     linLongDomSignalEvent2 = static_cast<Vector::BLF::LinLongDomSignalEvent2 *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(linLongDomSignalEvent2->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(linLongDomSignalEvent2->headerSize == linLongDomSignalEvent2->calculateHeaderSize());
+    BOOST_CHECK(linLongDomSignalEvent2->headerVersion == 1);
+    BOOST_CHECK(linLongDomSignalEvent2->objectSize == linLongDomSignalEvent2->calculateObjectSize());
+    BOOST_CHECK(linLongDomSignalEvent2->objectType == Vector::BLF::ObjectType::LIN_LONG_DOM_SIG2);
+    /* ObjectHeader */
+    BOOST_CHECK(linLongDomSignalEvent2->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
+    // reserved
+    BOOST_CHECK(linLongDomSignalEvent2->objectVersion == 0);
+    BOOST_CHECK(linLongDomSignalEvent2->objectTimeStamp == 8976802000); // ns
+    /* LinBusEvent */
     BOOST_CHECK(linLongDomSignalEvent2->sof == 8971798000); // ns
     BOOST_CHECK(linLongDomSignalEvent2->eventBaudrate == 9615);
     BOOST_CHECK(linLongDomSignalEvent2->channel == 1);
     // reserved
+    /* LinLongDomSignalEvent2 */
     BOOST_CHECK(linLongDomSignalEvent2->type == 0); // Signal just detected
     // reserved
     BOOST_CHECK(linLongDomSignalEvent2->length == 5003000); // us
@@ -1995,10 +2456,23 @@ BOOST_AUTO_TEST_CASE(LinLongDomSignalEvent2)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_LONG_DOM_SIG2);
     linLongDomSignalEvent2 = static_cast<Vector::BLF::LinLongDomSignalEvent2 *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(linLongDomSignalEvent2->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(linLongDomSignalEvent2->headerSize == linLongDomSignalEvent2->calculateHeaderSize());
+    BOOST_CHECK(linLongDomSignalEvent2->headerVersion == 1);
+    BOOST_CHECK(linLongDomSignalEvent2->objectSize == linLongDomSignalEvent2->calculateObjectSize());
+    BOOST_CHECK(linLongDomSignalEvent2->objectType == Vector::BLF::ObjectType::LIN_LONG_DOM_SIG2);
+    /* ObjectHeader */
+    BOOST_CHECK(linLongDomSignalEvent2->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
+    // reserved
+    BOOST_CHECK(linLongDomSignalEvent2->objectVersion == 0);
+    BOOST_CHECK(linLongDomSignalEvent2->objectTimeStamp == 8977000000); // ns
+    /* LinBusEvent */
     BOOST_CHECK(linLongDomSignalEvent2->sof == 8971798000); // ns
     BOOST_CHECK(linLongDomSignalEvent2->eventBaudrate == 9615);
     BOOST_CHECK(linLongDomSignalEvent2->channel == 1);
     // reserved
+    /* LinLongDomSignalEvent2 */
     BOOST_CHECK(linLongDomSignalEvent2->type == 2); // Signal continuation
     // reserved
     BOOST_CHECK(linLongDomSignalEvent2->length == 5201000); // us
@@ -2022,6 +2496,20 @@ BOOST_AUTO_TEST_CASE(Most150Message)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_150_MESSAGE);
     most150Message = static_cast<Vector::BLF::Most150Message *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(most150Message->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(most150Message->headerSize == most150Message->calculateHeaderSize());
+    BOOST_CHECK(most150Message->headerVersion == 1); // @todo Vector bug: This should be 2 for ObjectHeader2
+    BOOST_CHECK(most150Message->objectSize == most150Message->calculateObjectSize());
+    BOOST_CHECK(most150Message->objectType == Vector::BLF::ObjectType::MOST_150_MESSAGE);
+    /* ObjectHeader2 */
+    BOOST_CHECK(most150Message->objectFlags == Vector::BLF::ObjectHeader2::ObjectFlags::TimeOneNans);
+    BOOST_CHECK(most150Message->timeStampStatus == 0);
+    // reserved
+    BOOST_CHECK(most150Message->objectVersion == 0);
+    BOOST_CHECK(most150Message->objectTimeStamp == 5708800000); // ns
+    BOOST_CHECK(most150Message->originalTimeStamp == 0);
+    /* Most150Message */
     BOOST_CHECK(most150Message->channel == 1);
     BOOST_CHECK(most150Message->dir == 1); // Tx
     // reserved
@@ -2066,6 +2554,20 @@ BOOST_AUTO_TEST_CASE(Most150Pkt)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_150_PKT);
     most150Pkt = static_cast<Vector::BLF::Most150Pkt *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(most150Pkt->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(most150Pkt->headerSize == most150Pkt->calculateHeaderSize());
+    BOOST_CHECK(most150Pkt->headerVersion == 1); // @todo Vector bug: This should be 2 for ObjectHeader2
+    BOOST_CHECK(most150Pkt->objectSize == most150Pkt->calculateObjectSize());
+    BOOST_CHECK(most150Pkt->objectType == Vector::BLF::ObjectType::MOST_150_PKT);
+    /* ObjectHeader2 */
+    BOOST_CHECK(most150Pkt->objectFlags == Vector::BLF::ObjectHeader2::ObjectFlags::TimeOneNans);
+    BOOST_CHECK(most150Pkt->timeStampStatus == 0);
+    // reserved
+    BOOST_CHECK(most150Pkt->objectVersion == 0);
+    BOOST_CHECK(most150Pkt->objectTimeStamp == 5708800000); // ns
+    BOOST_CHECK(most150Pkt->originalTimeStamp == 0);
+    /* Most150Pkt */
     BOOST_CHECK(most150Pkt->channel == 1);
     BOOST_CHECK(most150Pkt->dir == 1); // Tx
     // reserved
@@ -2110,6 +2612,20 @@ BOOST_AUTO_TEST_CASE(MostEthernetPkt)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_ETHERNET_PKT);
     mostEthernetPkt = static_cast<Vector::BLF::MostEthernetPkt *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(mostEthernetPkt->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(mostEthernetPkt->headerSize == mostEthernetPkt->calculateHeaderSize());
+    BOOST_CHECK(mostEthernetPkt->headerVersion == 1); // @todo Vector bug: This should be 2 for ObjectHeader2
+    BOOST_CHECK(mostEthernetPkt->objectSize == mostEthernetPkt->calculateObjectSize());
+    BOOST_CHECK(mostEthernetPkt->objectType == Vector::BLF::ObjectType::MOST_ETHERNET_PKT);
+    /* ObjectHeader2 */
+    BOOST_CHECK(mostEthernetPkt->objectFlags == Vector::BLF::ObjectHeader2::ObjectFlags::TimeOneNans);
+    BOOST_CHECK(mostEthernetPkt->timeStampStatus == 0);
+    // reserved
+    BOOST_CHECK(mostEthernetPkt->objectVersion == 0);
+    BOOST_CHECK(mostEthernetPkt->objectTimeStamp == 5708800000); // ns
+    BOOST_CHECK(mostEthernetPkt->originalTimeStamp == 0);
+    /* MostEthernetPkt */
     BOOST_CHECK(mostEthernetPkt->channel == 1);
     BOOST_CHECK(mostEthernetPkt->dir == 1); // Tx
     // reserved
@@ -2153,6 +2669,20 @@ BOOST_AUTO_TEST_CASE(Most150MessageFragment)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_150_MESSAGE_FRAGMENT);
     most150MessageFragment = static_cast<Vector::BLF::Most150MessageFragment *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(most150MessageFragment->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(most150MessageFragment->headerSize == most150MessageFragment->calculateHeaderSize());
+    BOOST_CHECK(most150MessageFragment->headerVersion == 1); // @todo Vector bug: This should be 2 for ObjectHeader2
+    BOOST_CHECK(most150MessageFragment->objectSize == most150MessageFragment->calculateObjectSize());
+    BOOST_CHECK(most150MessageFragment->objectType == Vector::BLF::ObjectType::MOST_150_MESSAGE_FRAGMENT);
+    /* ObjectHeader2 */
+    BOOST_CHECK(most150MessageFragment->objectFlags == Vector::BLF::ObjectHeader2::ObjectFlags::TimeOneNans);
+    BOOST_CHECK(most150MessageFragment->timeStampStatus == 0);
+    // reserved
+    BOOST_CHECK(most150MessageFragment->objectVersion == 0);
+    BOOST_CHECK(most150MessageFragment->objectTimeStamp == 5708800000); // ns
+    BOOST_CHECK(most150MessageFragment->originalTimeStamp == 0);
+    /* Most150MessageFragment */
     BOOST_CHECK(most150MessageFragment->channel == 1);
     // reserved
     BOOST_CHECK(most150MessageFragment->ackNack == 0x11); // NoResp | NAck
@@ -2194,6 +2724,20 @@ BOOST_AUTO_TEST_CASE(Most150PktFragment)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_150_PKT_FRAGMENT);
     most150PktFragment = static_cast<Vector::BLF::Most150PktFragment *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(most150PktFragment->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(most150PktFragment->headerSize == most150PktFragment->calculateHeaderSize());
+    BOOST_CHECK(most150PktFragment->headerVersion == 1); // @todo Vector bug: This should be 2 for ObjectHeader2
+    BOOST_CHECK(most150PktFragment->objectSize == most150PktFragment->calculateObjectSize());
+    BOOST_CHECK(most150PktFragment->objectType == Vector::BLF::ObjectType::MOST_150_PKT_FRAGMENT);
+    /* ObjectHeader2 */
+    BOOST_CHECK(most150PktFragment->objectFlags == Vector::BLF::ObjectHeader2::ObjectFlags::TimeOneNans);
+    BOOST_CHECK(most150PktFragment->timeStampStatus == 0);
+    // reserved
+    BOOST_CHECK(most150PktFragment->objectVersion == 0);
+    BOOST_CHECK(most150PktFragment->objectTimeStamp == 5708800000); // ns
+    BOOST_CHECK(most150PktFragment->originalTimeStamp == 0);
+    /* Most150PktFragment */
     BOOST_CHECK(most150PktFragment->channel == 1);
     // reserved
     BOOST_CHECK(most150PktFragment->ackNack == 0x11); // NoResp | NAck
@@ -2235,6 +2779,20 @@ BOOST_AUTO_TEST_CASE(MostEthernetPktFragment)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_ETHERNET_PKT_FRAGMENT);
     mostEthernetPktFragment = static_cast<Vector::BLF::MostEthernetPktFragment *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(mostEthernetPktFragment->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(mostEthernetPktFragment->headerSize == mostEthernetPktFragment->calculateHeaderSize());
+    BOOST_CHECK(mostEthernetPktFragment->headerVersion == 1); // @todo Vector bug: This should be 2 for ObjectHeader2
+    BOOST_CHECK(mostEthernetPktFragment->objectSize == mostEthernetPktFragment->calculateObjectSize());
+    BOOST_CHECK(mostEthernetPktFragment->objectType == Vector::BLF::ObjectType::MOST_ETHERNET_PKT_FRAGMENT);
+    /* ObjectHeader2 */
+    BOOST_CHECK(mostEthernetPktFragment->objectFlags == Vector::BLF::ObjectHeader2::ObjectFlags::TimeOneNans);
+    BOOST_CHECK(mostEthernetPktFragment->timeStampStatus == 0);
+    // reserved
+    BOOST_CHECK(mostEthernetPktFragment->objectVersion == 0);
+    BOOST_CHECK(mostEthernetPktFragment->objectTimeStamp == 5708800000); // ns
+    BOOST_CHECK(mostEthernetPktFragment->originalTimeStamp == 0);
+    /* MostEthernetPktFragment */
     BOOST_CHECK(mostEthernetPktFragment->channel == 1);
     // reserved
     BOOST_CHECK(mostEthernetPktFragment->ackNack == 0x11); // Ack|NoResp
@@ -2275,6 +2833,21 @@ BOOST_AUTO_TEST_CASE(MostSystemEvent)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_SYSTEM_EVENT);
     mostSystemEvent = static_cast<Vector::BLF::MostSystemEvent *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(mostSystemEvent->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(mostSystemEvent->headerSize == mostSystemEvent->calculateHeaderSize());
+    BOOST_CHECK(mostSystemEvent->headerVersion == 1); // @todo Vector bug: This should be 2 for ObjectHeader2
+    BOOST_CHECK(mostSystemEvent->objectSize == mostSystemEvent->calculateObjectSize());
+    BOOST_CHECK(mostSystemEvent->objectType == Vector::BLF::ObjectType::MOST_SYSTEM_EVENT);
+    /* ObjectHeader2 */
+    BOOST_CHECK(mostSystemEvent->objectFlags == Vector::BLF::ObjectHeader2::ObjectFlags::TimeOneNans);
+    BOOST_CHECK(mostSystemEvent->timeStampStatus == 0);
+    // reserved
+    BOOST_CHECK(mostSystemEvent->objectVersion == 0);
+    BOOST_CHECK(mostSystemEvent->objectTimeStamp == 1027900000); // ns
+    BOOST_CHECK(mostSystemEvent->originalTimeStamp == 0);
+    /* MostSystemEvent */
+    mostSystemEvent = static_cast<Vector::BLF::MostSystemEvent *>(ohb);
     BOOST_CHECK(mostSystemEvent->channel == 1);
     BOOST_CHECK(mostSystemEvent->id == 1);
     BOOST_CHECK(mostSystemEvent->value == 1);
@@ -2299,6 +2872,20 @@ BOOST_AUTO_TEST_CASE(Most150AllocTab)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_150_ALLOCTAB);
     most150AllocTab = static_cast<Vector::BLF::Most150AllocTab *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(most150AllocTab->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(most150AllocTab->headerSize == most150AllocTab->calculateHeaderSize());
+    BOOST_CHECK(most150AllocTab->headerVersion == 1); // @todo Vector bug: This should be 2 for ObjectHeader2
+    BOOST_CHECK(most150AllocTab->objectSize == most150AllocTab->calculateObjectSize());
+    BOOST_CHECK(most150AllocTab->objectType == Vector::BLF::ObjectType::MOST_150_ALLOCTAB);
+    /* ObjectHeader2 */
+    BOOST_CHECK(most150AllocTab->objectFlags == Vector::BLF::ObjectHeader2::ObjectFlags::TimeOneNans);
+    BOOST_CHECK(most150AllocTab->timeStampStatus == 0);
+    // reserved
+    BOOST_CHECK(most150AllocTab->objectVersion == 0);
+    BOOST_CHECK(most150AllocTab->objectTimeStamp == 44814398000); // ns
+    BOOST_CHECK(most150AllocTab->originalTimeStamp == 0);
+    /* Most150AllocTab */
     BOOST_CHECK(most150AllocTab->channel == 1);
     BOOST_CHECK(most150AllocTab->eventModeFlags == 0);
     BOOST_CHECK(most150AllocTab->freeBytes == 0x2e);
@@ -2317,6 +2904,20 @@ BOOST_AUTO_TEST_CASE(Most150AllocTab)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_150_ALLOCTAB);
     most150AllocTab = static_cast<Vector::BLF::Most150AllocTab *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(most150AllocTab->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(most150AllocTab->headerSize == most150AllocTab->calculateHeaderSize());
+    BOOST_CHECK(most150AllocTab->headerVersion == 1); // @todo Vector bug: This should be 2 for ObjectHeader2
+    BOOST_CHECK(most150AllocTab->objectSize == most150AllocTab->calculateObjectSize());
+    BOOST_CHECK(most150AllocTab->objectType == Vector::BLF::ObjectType::MOST_150_ALLOCTAB);
+    /* ObjectHeader2 */
+    BOOST_CHECK(most150AllocTab->objectFlags == Vector::BLF::ObjectHeader2::ObjectFlags::TimeOneNans);
+    BOOST_CHECK(most150AllocTab->timeStampStatus == 0);
+    // reserved
+    BOOST_CHECK(most150AllocTab->objectVersion == 0);
+    BOOST_CHECK(most150AllocTab->objectTimeStamp == 50126855000); // ns
+    BOOST_CHECK(most150AllocTab->originalTimeStamp == 0);
+    /* Most150AllocTab */
     BOOST_CHECK(most150AllocTab->channel == 1);
     BOOST_CHECK(most150AllocTab->eventModeFlags == 0);
     BOOST_CHECK(most150AllocTab->freeBytes == 0x74);
@@ -2349,6 +2950,20 @@ BOOST_AUTO_TEST_CASE(Most50Message)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_50_MESSAGE);
     most50Message = static_cast<Vector::BLF::Most50Message *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(most50Message->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(most50Message->headerSize == most50Message->calculateHeaderSize());
+    BOOST_CHECK(most50Message->headerVersion == 1); // @todo Vector bug: This should be 2 for ObjectHeader2
+    BOOST_CHECK(most50Message->objectSize == most50Message->calculateObjectSize());
+    BOOST_CHECK(most50Message->objectType == Vector::BLF::ObjectType::MOST_50_MESSAGE);
+    /* ObjectHeader2 */
+    BOOST_CHECK(most50Message->objectFlags == Vector::BLF::ObjectHeader2::ObjectFlags::TimeOneNans);
+    BOOST_CHECK(most50Message->timeStampStatus == 0);
+    // reserved
+    BOOST_CHECK(most50Message->objectVersion == 0);
+    BOOST_CHECK(most50Message->objectTimeStamp == 200000000); // ns
+    BOOST_CHECK(most50Message->originalTimeStamp == 0);
+    /* Most50Message */
     BOOST_CHECK(most50Message->channel == 1);
     BOOST_CHECK(most50Message->dir == 0); // Rx
     // reserved
@@ -2393,6 +3008,20 @@ BOOST_AUTO_TEST_CASE(Most50Pkt)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_50_PKT);
     most50Pkt = static_cast<Vector::BLF::Most50Pkt *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(most50Pkt->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(most50Pkt->headerSize == most50Pkt->calculateHeaderSize());
+    BOOST_CHECK(most50Pkt->headerVersion == 1); // @todo Vector bug: This should be 2 for ObjectHeader2
+    BOOST_CHECK(most50Pkt->objectSize == most50Pkt->calculateObjectSize());
+    BOOST_CHECK(most50Pkt->objectType == Vector::BLF::ObjectType::MOST_50_PKT);
+    /* ObjectHeader2 */
+    BOOST_CHECK(most50Pkt->objectFlags == Vector::BLF::ObjectHeader2::ObjectFlags::TimeOneNans);
+    BOOST_CHECK(most50Pkt->timeStampStatus == 0);
+    // reserved
+    BOOST_CHECK(most50Pkt->objectVersion == 0);
+    BOOST_CHECK(most50Pkt->objectTimeStamp == 5708800000); // ns
+    BOOST_CHECK(most50Pkt->originalTimeStamp == 0);
+    /* Most50Pkt */
     BOOST_CHECK(most50Pkt->channel == 1);
     BOOST_CHECK(most50Pkt->dir == 1); // Tx
     // reserved
@@ -2457,10 +3086,23 @@ BOOST_AUTO_TEST_CASE(LinUnexpectedWakeup)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_UNEXPECTED_WAKEUP);
     linUnexpectedWakeup = static_cast<Vector::BLF::LinUnexpectedWakeup *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(linUnexpectedWakeup->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(linUnexpectedWakeup->headerSize == linUnexpectedWakeup->calculateHeaderSize());
+    BOOST_CHECK(linUnexpectedWakeup->headerVersion == 1);
+    BOOST_CHECK(linUnexpectedWakeup->objectSize == linUnexpectedWakeup->calculateObjectSize());
+    BOOST_CHECK(linUnexpectedWakeup->objectType == Vector::BLF::ObjectType::LIN_UNEXPECTED_WAKEUP);
+    /* ObjectHeader */
+    BOOST_CHECK(linUnexpectedWakeup->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
+    // reserved
+    BOOST_CHECK(linUnexpectedWakeup->objectVersion == 0);
+    BOOST_CHECK(linUnexpectedWakeup->objectTimeStamp == 892363000); // ns
+    /* LinBusEvent */
     BOOST_CHECK(linUnexpectedWakeup->sof == 891843000); // ns
     BOOST_CHECK(linUnexpectedWakeup->eventBaudrate == 19230);
     BOOST_CHECK(linUnexpectedWakeup->channel == 1);
     // reserved
+    /* LinUnexpectedWakeup */
     BOOST_CHECK(linUnexpectedWakeup->width == 260000); // us
     BOOST_CHECK(linUnexpectedWakeup->signal == 0);
     // reserved
@@ -2484,18 +3126,33 @@ BOOST_AUTO_TEST_CASE(LinShortOrSlowResponse)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_SHORT_OR_SLOW_RESPONSE);
     linShortOrSlowResponse = static_cast<Vector::BLF::LinShortOrSlowResponse *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(linShortOrSlowResponse->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(linShortOrSlowResponse->headerSize == linShortOrSlowResponse->calculateHeaderSize());
+    BOOST_CHECK(linShortOrSlowResponse->headerVersion == 1);
+    BOOST_CHECK(linShortOrSlowResponse->objectSize == linShortOrSlowResponse->calculateObjectSize());
+    BOOST_CHECK(linShortOrSlowResponse->objectType == Vector::BLF::ObjectType::LIN_SHORT_OR_SLOW_RESPONSE);
+    /* ObjectHeader */
+    BOOST_CHECK(linShortOrSlowResponse->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
+    // reserved
+    BOOST_CHECK(linShortOrSlowResponse->objectVersion == 0);
+    BOOST_CHECK(linShortOrSlowResponse->objectTimeStamp == 1298765000); // ns
+    /* LinBusEvent */
     BOOST_CHECK(linShortOrSlowResponse->sof == 1279516000); // ns
     BOOST_CHECK(linShortOrSlowResponse->eventBaudrate == 19230);
     BOOST_CHECK(linShortOrSlowResponse->channel == 1);
     // reserved
+    /* LinSynchFieldEvent */
     BOOST_CHECK(linShortOrSlowResponse->synchBreakLength == 937250);
     BOOST_CHECK(linShortOrSlowResponse->synchDelLength == 102625);
+    /* LinMessageDescriptor */
     BOOST_CHECK(linShortOrSlowResponse->supplierId == 0);
     BOOST_CHECK(linShortOrSlowResponse->messageId == 0);
     BOOST_CHECK(linShortOrSlowResponse->nad == 0);
     BOOST_CHECK(linShortOrSlowResponse->id == 1);
     BOOST_CHECK(linShortOrSlowResponse->dlc == 8);
     BOOST_CHECK(linShortOrSlowResponse->checksumModel == 0xff);
+    /* LinDatabyteTimestampEvent */
     BOOST_CHECK(linShortOrSlowResponse->databyteTimestamps[0] == 1281570000); // ns
     BOOST_CHECK(linShortOrSlowResponse->databyteTimestamps[1] == 1283679000); // ns
     BOOST_CHECK(linShortOrSlowResponse->databyteTimestamps[2] == 1285759000); // ns
@@ -2505,6 +3162,7 @@ BOOST_AUTO_TEST_CASE(LinShortOrSlowResponse)
     BOOST_CHECK(linShortOrSlowResponse->databyteTimestamps[6] == 1294087000); // ns
     BOOST_CHECK(linShortOrSlowResponse->databyteTimestamps[7] == 1296167000); // ns
     BOOST_CHECK(linShortOrSlowResponse->databyteTimestamps[8] == 1298244000); // ns
+    /* LinShortOrSlowResponse */
     BOOST_CHECK(linShortOrSlowResponse->numberOfRespBytes == 9);
     BOOST_CHECK(linShortOrSlowResponse->respBytes[0] == 0x11);
     BOOST_CHECK(linShortOrSlowResponse->respBytes[1] == 0x12);
@@ -2538,6 +3196,18 @@ BOOST_AUTO_TEST_CASE(LinDisturbanceEvent)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_DISTURBANCE_EVENT);
     linDisturbanceEvent = static_cast<Vector::BLF::LinDisturbanceEvent *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(linDisturbanceEvent->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(linDisturbanceEvent->headerSize == linDisturbanceEvent->calculateHeaderSize());
+    BOOST_CHECK(linDisturbanceEvent->headerVersion == 1);
+    BOOST_CHECK(linDisturbanceEvent->objectSize == linDisturbanceEvent->calculateObjectSize());
+    BOOST_CHECK(linDisturbanceEvent->objectType == Vector::BLF::ObjectType::LIN_DISTURBANCE_EVENT);
+    /* ObjectHeader */
+    BOOST_CHECK(linDisturbanceEvent->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
+    // reserved
+    BOOST_CHECK(linDisturbanceEvent->objectVersion == 0);
+    BOOST_CHECK(linDisturbanceEvent->objectTimeStamp == 1323661000); // ns
+    /* LinDisturbanceEvent */
     BOOST_CHECK(linDisturbanceEvent->channel == 1);
     BOOST_CHECK(linDisturbanceEvent->id == 0x2D);
     BOOST_CHECK(linDisturbanceEvent->disturbingFrameId == 0xFF);
@@ -2566,6 +3236,18 @@ BOOST_AUTO_TEST_CASE(SerialEvent)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::SERIAL_EVENT);
     serialEvent = static_cast<Vector::BLF::SerialEvent *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(serialEvent->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(serialEvent->headerSize == serialEvent->calculateHeaderSize());
+    BOOST_CHECK(serialEvent->headerVersion == 1);
+    BOOST_CHECK(serialEvent->objectSize == serialEvent->calculateObjectSize());
+    BOOST_CHECK(serialEvent->objectType == Vector::BLF::ObjectType::SERIAL_EVENT);
+    /* ObjectHeader */
+    BOOST_CHECK(serialEvent->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
+    // reserved
+    BOOST_CHECK(serialEvent->objectVersion == 0);
+    BOOST_CHECK(serialEvent->objectTimeStamp == 12315000000); // ns
+    /* SerialEvent */
     BOOST_CHECK(serialEvent->flags == (uint32_t) (Vector::BLF::SerialEvent::Flags::KLineEvent) |
                                       (uint32_t) (Vector::BLF::SerialEvent::Flags::CompactByte));
     BOOST_CHECK(serialEvent->port == 2);
@@ -2622,6 +3304,18 @@ BOOST_AUTO_TEST_CASE(EventComment)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::EVENT_COMMENT);
     eventComment = static_cast<Vector::BLF::EventComment *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(eventComment->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(eventComment->headerSize == eventComment->calculateHeaderSize());
+    BOOST_CHECK(eventComment->headerVersion == 1);
+    BOOST_CHECK(eventComment->objectSize == eventComment->calculateObjectSize());
+    BOOST_CHECK(eventComment->objectType == Vector::BLF::ObjectType::EVENT_COMMENT);
+    /* ObjectHeader */
+    BOOST_CHECK(eventComment->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
+    // reserved
+    BOOST_CHECK(eventComment->objectVersion == 0);
+    BOOST_CHECK(eventComment->objectTimeStamp == 1593770000); // ns
+    /* EventComment */
     BOOST_CHECK(eventComment->commentedEventType == 105);
     BOOST_CHECK(eventComment->textLength == 261);
     BOOST_CHECK(eventComment->text == "testComment");
@@ -2691,6 +3385,20 @@ BOOST_AUTO_TEST_CASE(MostEcl)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_ECL);
     mostEcl = static_cast<Vector::BLF::MostEcl *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(mostEcl->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(mostEcl->headerSize == mostEcl->calculateHeaderSize());
+    BOOST_CHECK(mostEcl->headerVersion == 1);
+    BOOST_CHECK(mostEcl->objectSize == mostEcl->calculateObjectSize());
+    BOOST_CHECK(mostEcl->objectType == Vector::BLF::ObjectType::MOST_ECL);
+    /* ObjectHeader2 */
+    BOOST_CHECK(mostEcl->objectFlags == Vector::BLF::ObjectHeader2::ObjectFlags::TimeOneNans);
+    BOOST_CHECK(mostEcl->timeStampStatus == 0);
+    // reserved
+    BOOST_CHECK(mostEcl->objectVersion == 0);
+    BOOST_CHECK(mostEcl->objectTimeStamp == 9068000); // ns
+    BOOST_CHECK(mostEcl->originalTimeStamp == 0);
+    /* MostEcl */
     BOOST_CHECK(mostEcl->channel == 1);
     BOOST_CHECK(mostEcl->mode == 0); // discrete
     BOOST_CHECK(mostEcl->eclState == 1); // line high
@@ -2715,6 +3423,18 @@ BOOST_AUTO_TEST_CASE(GlobalMarker)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::GLOBAL_MARKER);
     globalMarker = static_cast<Vector::BLF::GlobalMarker *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(globalMarker->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(globalMarker->headerSize == globalMarker->calculateHeaderSize());
+    BOOST_CHECK(globalMarker->headerVersion == 1);
+    //BOOST_CHECK(globalMarker->objectSize == globalMarker->calculateObjectSize()); // @todo Vector bug, see class implementation
+    BOOST_CHECK(globalMarker->objectType == Vector::BLF::ObjectType::GLOBAL_MARKER);
+    /* ObjectHeader */
+    BOOST_CHECK(globalMarker->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
+    // reserved
+    BOOST_CHECK(globalMarker->objectVersion == 0);
+    BOOST_CHECK(globalMarker->objectTimeStamp == 2200804000); // ns
+    /* GlobalMarker */
     BOOST_CHECK(globalMarker->commentedEventType == 0);
     BOOST_CHECK(globalMarker->foregroundColor == 0);
     BOOST_CHECK(globalMarker->backgroundColor == 16777215);
@@ -2746,6 +3466,18 @@ BOOST_AUTO_TEST_CASE(AfdxFrame)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
     afdxFrame = static_cast<Vector::BLF::AfdxFrame *>(ohb);
+    /* ObjectHeaderBase */
+    BOOST_CHECK(afdxFrame->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(afdxFrame->headerSize == afdxFrame->calculateHeaderSize());
+    BOOST_CHECK(afdxFrame->headerVersion == 1);
+    BOOST_CHECK(afdxFrame->objectSize == afdxFrame->calculateObjectSize());
+    BOOST_CHECK(afdxFrame->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
+    /* ObjectHeader */
+    BOOST_CHECK(afdxFrame->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
+    // reserved
+    BOOST_CHECK(afdxFrame->objectVersion == 0);
+    BOOST_CHECK(afdxFrame->objectTimeStamp == 0); // ns
+    /* AfdxFrame */
     BOOST_CHECK(afdxFrame->sourceAddress[0] == 0x40);
     BOOST_CHECK(afdxFrame->sourceAddress[1] == 0x00);
     BOOST_CHECK(afdxFrame->sourceAddress[2] == 0x00);
