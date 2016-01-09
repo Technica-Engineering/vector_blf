@@ -51,7 +51,7 @@ File::File() :
     fileStatistics(),
     currentUncompressedFileSize(0),
     currentObjectCount(0),
-    compressionLevel(Z_DEFAULT_COMPRESSION),
+    compressionLevel(6),
     defaultLogContainerSize(0x20000),
     compressedFile(),
     uncompressedFile()
