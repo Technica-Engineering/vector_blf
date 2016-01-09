@@ -21,8 +21,6 @@
 
 #include "Most150MessageFragment.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -52,185 +50,47 @@ Most150MessageFragment::~Most150MessageFragment()
 {
 }
 
-char * Most150MessageFragment::read(char * buffer)
+void Most150MessageFragment::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader2::read(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // reserved1
-    size = sizeof(reserved1);
-    memcpy((void *) &reserved1, buffer, size);
-    buffer += size;
-
-    // ackNack
-    size = sizeof(ackNack);
-    memcpy((void *) &ackNack, buffer, size);
-    buffer += size;
-
-    // validMask
-    size = sizeof(validMask);
-    memcpy((void *) &validMask, buffer, size);
-    buffer += size;
-
-    // sourceAdr
-    size = sizeof(sourceAdr);
-    memcpy((void *) &sourceAdr, buffer, size);
-    buffer += size;
-
-    // destAdr
-    size = sizeof(destAdr);
-    memcpy((void *) &destAdr, buffer, size);
-    buffer += size;
-
-    // pAck
-    size = sizeof(pAck);
-    memcpy((void *) &pAck, buffer, size);
-    buffer += size;
-
-    // cAck
-    size = sizeof(cAck);
-    memcpy((void *) &cAck, buffer, size);
-    buffer += size;
-
-    // priority
-    size = sizeof(priority);
-    memcpy((void *) &priority, buffer, size);
-    buffer += size;
-
-    // pIndex
-    size = sizeof(pIndex);
-    memcpy((void *) &pIndex, buffer, size);
-    buffer += size;
-
-    // crc
-    size = sizeof(crc);
-    memcpy((void *) &crc, buffer, size);
-    buffer += size;
-
-    // dataLen
-    size = sizeof(dataLen);
-    memcpy((void *) &dataLen, buffer, size);
-    buffer += size;
-
-    // dataLenAnnounced
-    size = sizeof(dataLenAnnounced);
-    memcpy((void *) &dataLenAnnounced, buffer, size);
-    buffer += size;
-
-    // firstDataLen
-    size = sizeof(firstDataLen);
-    memcpy((void *) &firstDataLen, buffer, size);
-    buffer += size;
-
-    // reserved2
-    size = reserved2.size();
-    memcpy(reserved2.data(), buffer, size);
-    buffer += size;
-
-    // firstData
-    size = firstDataLen;
-    firstData.reserve(size);
-    memcpy(firstData.data(), buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader2::read(is);
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) &reserved1, sizeof(reserved1));
+    is.read((char *) &ackNack, sizeof(ackNack));
+    is.read((char *) &validMask, sizeof(validMask));
+    is.read((char *) &sourceAdr, sizeof(sourceAdr));
+    is.read((char *) &destAdr, sizeof(destAdr));
+    is.read((char *) &pAck, sizeof(pAck));
+    is.read((char *) &cAck, sizeof(cAck));
+    is.read((char *) &priority, sizeof(priority));
+    is.read((char *) &pIndex, sizeof(pIndex));
+    is.read((char *) &crc, sizeof(crc));
+    is.read((char *) &dataLen, sizeof(dataLen));
+    is.read((char *) &dataLenAnnounced, sizeof(dataLenAnnounced));
+    is.read((char *) &firstDataLen, sizeof(firstDataLen));
+    is.read((char *) reserved2.data(), reserved2.size());
+    firstData.reserve(firstDataLen);
+    is.read((char *) firstData.data(), firstDataLen);
 }
 
-char * Most150MessageFragment::write(char * buffer)
+void Most150MessageFragment::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader2::write(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // reserved1
-    size = sizeof(reserved1);
-    memcpy(buffer, (void *) &reserved1, size);
-    buffer += size;
-
-    // ackNack
-    size = sizeof(ackNack);
-    memcpy(buffer, (void *) &ackNack, size);
-    buffer += size;
-
-    // validMask
-    size = sizeof(validMask);
-    memcpy(buffer, (void *) &validMask, size);
-    buffer += size;
-
-    // sourceAdr
-    size = sizeof(sourceAdr);
-    memcpy(buffer, (void *) &sourceAdr, size);
-    buffer += size;
-
-    // destAdr
-    size = sizeof(destAdr);
-    memcpy(buffer, (void *) &destAdr, size);
-    buffer += size;
-
-    // pAck
-    size = sizeof(pAck);
-    memcpy(buffer, (void *) &pAck, size);
-    buffer += size;
-
-    // cAck
-    size = sizeof(cAck);
-    memcpy(buffer, (void *) &cAck, size);
-    buffer += size;
-
-    // priority
-    size = sizeof(priority);
-    memcpy(buffer, (void *) &priority, size);
-    buffer += size;
-
-    // pIndex
-    size = sizeof(pIndex);
-    memcpy(buffer, (void *) &pIndex, size);
-    buffer += size;
-
-    // crc
-    size = sizeof(crc);
-    memcpy(buffer, (void *) &crc, size);
-    buffer += size;
-
-    // dataLen
-    size = sizeof(dataLen);
-    memcpy(buffer, (void *) &dataLen, size);
-    buffer += size;
-
-    // dataLenAnnounced
-    size = sizeof(dataLenAnnounced);
-    memcpy(buffer, (void *) &dataLenAnnounced, size);
-    buffer += size;
-
-    // firstDataLen
-    size = sizeof(firstDataLen);
-    memcpy(buffer, (void *) &firstDataLen, size);
-    buffer += size;
-
-    // reserved2
-    size = reserved2.size();
-    memcpy(buffer, reserved2.data(), size);
-    buffer += size;
-
-    // firstData
-    size = firstDataLen;
-    memcpy(buffer, firstData.data(), size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader2::write(os);
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) &reserved1, sizeof(reserved1));
+    os.write((char *) &ackNack, sizeof(ackNack));
+    os.write((char *) &validMask, sizeof(validMask));
+    os.write((char *) &sourceAdr, sizeof(sourceAdr));
+    os.write((char *) &destAdr, sizeof(destAdr));
+    os.write((char *) &pAck, sizeof(pAck));
+    os.write((char *) &cAck, sizeof(cAck));
+    os.write((char *) &priority, sizeof(priority));
+    os.write((char *) &pIndex, sizeof(pIndex));
+    os.write((char *) &crc, sizeof(crc));
+    os.write((char *) &dataLen, sizeof(dataLen));
+    os.write((char *) &dataLenAnnounced, sizeof(dataLenAnnounced));
+    os.write((char *) &firstDataLen, sizeof(firstDataLen));
+    os.write((char *) reserved2.data(), reserved2.size());
+    os.write((char *) firstData.data(), firstDataLen);
 }
 
 size_t Most150MessageFragment::calculateObjectSize()

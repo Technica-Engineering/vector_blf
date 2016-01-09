@@ -21,8 +21,6 @@
 
 #include "EthernetRxError.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -45,115 +43,33 @@ EthernetRxError::~EthernetRxError()
 {
 }
 
-char * EthernetRxError::read(char * buffer)
+void EthernetRxError::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::read(buffer);
-
-    // structLength
-    size = sizeof(structLength);
-    memcpy((void *) &structLength, buffer, size);
-    buffer += size;
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // dir
-    size = sizeof(dir);
-    memcpy((void *) &dir, buffer, size);
-    buffer += size;
-
-    // reserved1
-    size = reserved1.size();
-    memcpy(reserved1.data(), buffer, size);
-    buffer += size;
-
-    // fcs
-    size = sizeof(fcs);
-    memcpy((void *) &fcs, buffer, size);
-    buffer += size;
-
-    // frameDataLength
-    size = sizeof(frameDataLength);
-    memcpy((void *) &frameDataLength, buffer, size);
-    buffer += size;
-
-    // reserved2
-    size = reserved2.size();
-    memcpy(reserved2.data(), buffer, size);
-    buffer += size;
-
-    // error
-    size = sizeof(error);
-    memcpy((void *) &error, buffer, size);
-    buffer += size;
-
-    // frameData
-    size = frameDataLength;
-    frameData.reserve(size);
-    memcpy(frameData.data(), buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::read(is);
+    is.read((char *) &structLength, sizeof(structLength));
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) &dir, sizeof(dir));
+    is.read((char *) reserved1.data(), reserved1.size());
+    is.read((char *) &fcs, sizeof(fcs));
+    is.read((char *) &frameDataLength, sizeof(frameDataLength));
+    is.read((char *) reserved2.data(), reserved2.size());
+    is.read((char *) &error, sizeof(error));
+    frameData.reserve(frameDataLength);
+    is.read((char *) frameData.data(), frameDataLength);
 }
 
-char * EthernetRxError::write(char * buffer)
+void EthernetRxError::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::write(buffer);
-
-    // structLength
-    size = sizeof(structLength);
-    memcpy(buffer, (void *) &structLength, size);
-    buffer += size;
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // dir
-    size = sizeof(dir);
-    memcpy(buffer, (void *) &dir, size);
-    buffer += size;
-
-    // reserved1
-    size = reserved1.size();
-    memcpy(buffer, reserved1.data(), size);
-    buffer += size;
-
-    // fcs
-    size = sizeof(fcs);
-    memcpy(buffer, (void *) &fcs, size);
-    buffer += size;
-
-    // frameDataLength
-    size = sizeof(frameDataLength);
-    memcpy(buffer, (void *) &frameDataLength, size);
-    buffer += size;
-
-    // reserved2
-    size = reserved2.size();
-    memcpy(buffer, reserved2.data(), size);
-    buffer += size;
-
-    // error
-    size = sizeof(error);
-    memcpy(buffer, (void *) &error, size);
-    buffer += size;
-
-    // frameData
-    size = frameDataLength;
-    memcpy(buffer, frameData.data(), size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::write(os);
+    os.write((char *) &structLength, sizeof(structLength));
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) &dir, sizeof(dir));
+    os.write((char *) reserved1.data(), reserved1.size());
+    os.write((char *) &fcs, sizeof(fcs));
+    os.write((char *) &frameDataLength, sizeof(frameDataLength));
+    os.write((char *) reserved2.data(), reserved2.size());
+    os.write((char *) &error, sizeof(error));
+    os.write((char *) frameData.data(), frameDataLength);
 }
 
 size_t EthernetRxError::calculateObjectSize()

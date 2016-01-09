@@ -21,6 +21,7 @@
 
 #pragma once
 
+#include <iostream>
 #include <string>
 
 #include "VectorTypes.h"
@@ -56,8 +57,8 @@ public:
     AppText();
     virtual ~AppText();
 
-    virtual char * read(char * buffer);
-    virtual char * write(char * buffer);
+    virtual void read(std::istream & is);
+    virtual void write(std::ostream & os);
     virtual size_t calculateObjectSize();
 
     /** enumeration for source */

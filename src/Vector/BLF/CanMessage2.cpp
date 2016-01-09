@@ -21,8 +21,6 @@
 
 #include "CanMessage2.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -41,114 +39,32 @@ CanMessage2::CanMessage2() :
     objectType = ObjectType::CAN_MESSAGE2;
 }
 
-char * CanMessage2::read(char * buffer)
+void CanMessage2::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::read(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // flags
-    size = sizeof(flags);
-    memcpy((void *) &flags, buffer, size);
-    buffer += size;
-
-    // dlc
-    size = sizeof(dlc);
-    memcpy((void *) &dlc, buffer, size);
-    buffer += size;
-
-    // id
-    size = sizeof(id);
-    memcpy((void *) &id, buffer, size);
-    buffer += size;
-
-    // data
-    size = data.size();
-    memcpy(data.data(), buffer, size);
-    buffer += size;
-
-    // frameLength
-    size = sizeof(frameLength);
-    memcpy((void *) &frameLength, buffer, size);
-    buffer += size;
-
-    // bitCount
-    size = sizeof(bitCount);
-    memcpy((void *) &bitCount, buffer, size);
-    buffer += size;
-
-    // reserved1
-    size = sizeof(reserved1);
-    memcpy((void *) &reserved1, buffer, size);
-    buffer += size;
-
-    // reserved2
-    size = sizeof(reserved2);
-    memcpy((void *) &reserved2, buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::read(is);
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) &flags, sizeof(flags));
+    is.read((char *) &dlc, sizeof(dlc));
+    is.read((char *) &id, sizeof(id));
+    is.read((char *) data.data(), data.size());
+    is.read((char *) &frameLength, sizeof(frameLength));
+    is.read((char *) &bitCount, sizeof(bitCount));
+    is.read((char *) &reserved1, sizeof(reserved1));
+    is.read((char *) &reserved2, sizeof(reserved2));
 }
 
-char * CanMessage2::write(char * buffer)
+void CanMessage2::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::write(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // flags
-    size = sizeof(flags);
-    memcpy(buffer, (void *) &flags, size);
-    buffer += size;
-
-    // dlc
-    size = sizeof(dlc);
-    memcpy(buffer, (void *) &dlc, size);
-    buffer += size;
-
-    // id
-    size = sizeof(id);
-    memcpy(buffer, (void *) &id, size);
-    buffer += size;
-
-    // data
-    size = data.size();
-    memcpy(buffer, data.data(), size);
-    buffer += size;
-
-    // frameLength
-    size = sizeof(frameLength);
-    memcpy(buffer, (void *) &frameLength, size);
-    buffer += size;
-
-    // bitCount
-    size = sizeof(bitCount);
-    memcpy(buffer, (void *) &bitCount, size);
-    buffer += size;
-
-    // reserved1
-    size = sizeof(reserved1);
-    memcpy(buffer, (void *) &reserved1, size);
-    buffer += size;
-
-    // reserved2
-    size = sizeof(reserved2);
-    memcpy(buffer, (void *) &reserved2, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::write(os);
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) &flags, sizeof(flags));
+    os.write((char *) &dlc, sizeof(dlc));
+    os.write((char *) &id, sizeof(id));
+    os.write((char *) data.data(), data.size());
+    os.write((char *) &frameLength, sizeof(frameLength));
+    os.write((char *) &bitCount, sizeof(bitCount));
+    os.write((char *) &reserved1, sizeof(reserved1));
+    os.write((char *) &reserved2, sizeof(reserved2));
 }
 
 size_t CanMessage2::calculateObjectSize()

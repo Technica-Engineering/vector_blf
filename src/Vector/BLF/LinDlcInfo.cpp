@@ -21,8 +21,6 @@
 
 #include "LinDlcInfo.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -36,64 +34,22 @@ LinDlcInfo::LinDlcInfo() :
     objectType = ObjectType::LIN_DLC_INFO;
 }
 
-char * LinDlcInfo::read(char * buffer)
+void LinDlcInfo::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::read(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // id
-    size = sizeof(id);
-    memcpy((void *) &id, buffer, size);
-    buffer += size;
-
-    // dlc
-    size = sizeof(dlc);
-    memcpy((void *) &dlc, buffer, size);
-    buffer += size;
-
-    // reserved
-    size = reserved.size();
-    memcpy(reserved.data(), buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::read(is);
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) &id, sizeof(id));
+    is.read((char *) &dlc, sizeof(dlc));
+    is.read((char *) reserved.data(), reserved.size());
 }
 
-char * LinDlcInfo::write(char * buffer)
+void LinDlcInfo::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::write(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // id
-    size = sizeof(id);
-    memcpy(buffer, (void *) &id, size);
-    buffer += size;
-
-    // dlc
-    size = sizeof(dlc);
-    memcpy(buffer, (void *) &dlc, size);
-    buffer += size;
-
-    // reserved
-    size = reserved.size();
-    memcpy(buffer, reserved.data(), size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::write(os);
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) &id, sizeof(id));
+    os.write((char *) &dlc, sizeof(dlc));
+    os.write((char *) reserved.data(), reserved.size());
 }
 
 size_t LinDlcInfo::calculateObjectSize()

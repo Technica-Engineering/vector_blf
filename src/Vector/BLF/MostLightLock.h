@@ -22,6 +22,7 @@
 #pragma once
 
 #include <array>
+#include <iostream>
 
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
@@ -53,8 +54,8 @@ class VECTOR_BLF_EXPORT MostLightLock : public ObjectHeader
 public:
     MostLightLock();
 
-    virtual char * read(char * buffer);
-    virtual char * write(char * buffer);
+    virtual void read(std::istream & is);
+    virtual void write(std::ostream & os);
     virtual size_t calculateObjectSize();
 
     /**

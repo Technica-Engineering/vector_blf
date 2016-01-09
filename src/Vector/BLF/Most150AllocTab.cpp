@@ -21,8 +21,6 @@
 
 #include "Most150AllocTab.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -41,75 +39,25 @@ Most150AllocTab::~Most150AllocTab()
 {
 }
 
-char * Most150AllocTab::read(char * buffer)
+void Most150AllocTab::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader2::read(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // eventModeFlags
-    size = sizeof(eventModeFlags);
-    memcpy((void *) &eventModeFlags, buffer, size);
-    buffer += size;
-
-    // freeBytes
-    size = sizeof(freeBytes);
-    memcpy((void *) &freeBytes, buffer, size);
-    buffer += size;
-
-    // length
-    size = sizeof(length);
-    memcpy((void *) &length, buffer, size);
-    buffer += size;
-
-    // tableData
-    size = length * 2; // 16-bit
-    tableData.reserve(size);
-    memcpy(tableData.data(), buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader2::read(is);
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) &eventModeFlags, sizeof(eventModeFlags));
+    is.read((char *) &freeBytes, sizeof(freeBytes));
+    is.read((char *) &length, sizeof(length));
+    tableData.resize(length);
+    is.read((char *) tableData.data(), length * sizeof(WORD));
 }
 
-char * Most150AllocTab::write(char * buffer)
+void Most150AllocTab::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader2::write(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // eventModeFlags
-    size = sizeof(eventModeFlags);
-    memcpy(buffer, (void *) &eventModeFlags, size);
-    buffer += size;
-
-    // freeBytes
-    size = sizeof(freeBytes);
-    memcpy(buffer, (void *) &freeBytes, size);
-    buffer += size;
-
-    // length
-    size = sizeof(length);
-    memcpy(buffer, (void *) &length, size);
-    buffer += size;
-
-    // tableData
-    size = length * 2; // uint16_t
-    memcpy(buffer, tableData.data(), size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader2::write(os);
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) &eventModeFlags, sizeof(eventModeFlags));
+    os.write((char *) &freeBytes, sizeof(freeBytes));
+    os.write((char *) &length, sizeof(length));
+    os.write((char *) tableData.data(), length * sizeof(WORD));
 }
 
 size_t Most150AllocTab::calculateObjectSize()
@@ -120,7 +68,7 @@ size_t Most150AllocTab::calculateObjectSize()
         sizeof(eventModeFlags) +
         sizeof(freeBytes) +
         sizeof(length) +
-        length * 2; // uint16_t
+        length * sizeof(WORD);
 
     return size;
 }

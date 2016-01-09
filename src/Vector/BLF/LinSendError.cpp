@@ -21,8 +21,6 @@
 
 #include "LinSendError.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -39,94 +37,28 @@ LinSendError::LinSendError() :
     objectType = ObjectType::LIN_SND_ERROR;
 }
 
-char * LinSendError::read(char * buffer)
+void LinSendError::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::read(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // id
-    size = sizeof(id);
-    memcpy((void *) &id, buffer, size);
-    buffer += size;
-
-    // dlc
-    size = sizeof(dlc);
-    memcpy((void *) &dlc, buffer, size);
-    buffer += size;
-
-    // fsmId
-    size = sizeof(fsmId);
-    memcpy((void *) &fsmId, buffer, size);
-    buffer += size;
-
-    // fsmState
-    size = sizeof(fsmState);
-    memcpy((void *) &fsmState, buffer, size);
-    buffer += size;
-
-    // headerTime
-    size = sizeof(headerTime);
-    memcpy((void *) &headerTime, buffer, size);
-    buffer += size;
-
-    // fullTime
-    size = sizeof(fullTime);
-    memcpy((void *) &fullTime, buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::read(is);
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) &id, sizeof(id));
+    is.read((char *) &dlc, sizeof(dlc));
+    is.read((char *) &fsmId, sizeof(fsmId));
+    is.read((char *) &fsmState, sizeof(fsmState));
+    is.read((char *) &headerTime, sizeof(headerTime));
+    is.read((char *) &fullTime, sizeof(fullTime));
 }
 
-char * LinSendError::write(char * buffer)
+void LinSendError::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::write(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // id
-    size = sizeof(id);
-    memcpy(buffer, (void *) &id, size);
-    buffer += size;
-
-    // dlc
-    size = sizeof(dlc);
-    memcpy(buffer, (void *) &dlc, size);
-    buffer += size;
-
-    // fsmId
-    size = sizeof(fsmId);
-    memcpy(buffer, (void *) &fsmId, size);
-    buffer += size;
-
-    // fsmState
-    size = sizeof(fsmState);
-    memcpy(buffer, (void *) &fsmState, size);
-    buffer += size;
-
-    // headerTime
-    size = sizeof(headerTime);
-    memcpy(buffer, (void *) &headerTime, size);
-    buffer += size;
-
-    // fullTime
-    size = sizeof(fullTime);
-    memcpy(buffer, (void *) &fullTime, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::write(os);
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) &id, sizeof(id));
+    os.write((char *) &dlc, sizeof(dlc));
+    os.write((char *) &fsmId, sizeof(fsmId));
+    os.write((char *) &fsmState, sizeof(fsmState));
+    os.write((char *) &headerTime, sizeof(headerTime));
+    os.write((char *) &fullTime, sizeof(fullTime));
 }
 
 size_t LinSendError::calculateObjectSize()

@@ -21,8 +21,6 @@
 
 #include "LinSlaveTimeout.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -36,64 +34,22 @@ LinSlaveTimeout::LinSlaveTimeout() :
     objectType = ObjectType::LIN_SLV_TIMEOUT;
 }
 
-char * LinSlaveTimeout::read(char * buffer)
+void LinSlaveTimeout::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::read(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // slaveId
-    size = sizeof(slaveId);
-    memcpy((void *) &slaveId, buffer, size);
-    buffer += size;
-
-    // stateId
-    size = sizeof(stateId);
-    memcpy((void *) &stateId, buffer, size);
-    buffer += size;
-
-    // followStateId
-    size = sizeof(followStateId);
-    memcpy((void *) &followStateId, buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::read(is);
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) &slaveId, sizeof(slaveId));
+    is.read((char *) &stateId, sizeof(stateId));
+    is.read((char *) &followStateId, sizeof(followStateId));
 }
 
-char * LinSlaveTimeout::write(char * buffer)
+void LinSlaveTimeout::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::write(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // slaveId
-    size = sizeof(slaveId);
-    memcpy(buffer, (void *) &slaveId, size);
-    buffer += size;
-
-    // stateId
-    size = sizeof(stateId);
-    memcpy(buffer, (void *) &stateId, size);
-    buffer += size;
-
-    // followStateId
-    size = sizeof(followStateId);
-    memcpy(buffer, (void *) &followStateId, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::write(os);
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) &slaveId, sizeof(slaveId));
+    os.write((char *) &stateId, sizeof(stateId));
+    os.write((char *) &followStateId, sizeof(followStateId));
 }
 
 size_t LinSlaveTimeout::calculateObjectSize()

@@ -19,9 +19,9 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "GlobalMarker.h"
+#include <string.h>
 
-#include <cstring>
+#include "GlobalMarker.h"
 
 namespace Vector {
 namespace BLF {
@@ -48,150 +48,46 @@ GlobalMarker::~GlobalMarker()
 {
 }
 
-char * GlobalMarker::read(char * buffer)
+void GlobalMarker::read(std::istream & is)
 {
-    size_t size;
+    ObjectHeader::read(is);
+    is.read((char *) &commentedEventType, sizeof(commentedEventType));
+    is.read((char *) &foregroundColor, sizeof(foregroundColor));
+    is.read((char *) &backgroundColor, sizeof(backgroundColor));
+    is.read((char *) reserved1.data(), reserved1.size());
+    is.read((char *) &isRelocatable, sizeof(isRelocatable));
+    is.read((char *) &groupNameLength, sizeof(groupNameLength));
+    is.read((char *) &markerNameLength, sizeof(markerNameLength));
+    is.read((char *) &descriptionLength, sizeof(descriptionLength));
+    is.read((char *) reserved2.data(), reserved2.size());
+    groupName.resize(groupNameLength);
+    is.read((char *) groupName.data(), groupNameLength);
+    markerName.resize(markerNameLength);
+    is.read((char *) markerName.data(), markerNameLength);
+    description.resize(descriptionLength);
+    is.read((char *) description.data(), descriptionLength);
 
-    // preceding data
-    buffer = ObjectHeader::read(buffer);
-
-    // commentedEventType
-    size = sizeof(commentedEventType);
-    memcpy((void *) &commentedEventType, buffer, size);
-    buffer += size;
-
-    // foregroundColor
-    size = sizeof(foregroundColor);
-    memcpy((void *) &foregroundColor, buffer, size);
-    buffer += size;
-
-    // backgroundColor
-    size = sizeof(backgroundColor);
-    memcpy((void *) &backgroundColor, buffer, size);
-    buffer += size;
-
-    // reserved1
-    size = reserved1.size();
-    memcpy(reserved1.data(), buffer, size);
-    buffer += size;
-
-    // isRelocatable
-    size = sizeof(isRelocatable);
-    memcpy((void *) &isRelocatable, buffer, size);
-    buffer += size;
-
-    // groupNameLength
-    size = sizeof(groupNameLength);
-    memcpy((void *) &groupNameLength, buffer, size);
-    buffer += size;
-
-    // markerNameLength
-    size = sizeof(markerNameLength);
-    memcpy((void *) &markerNameLength, buffer, size);
-    buffer += size;
-
-    // descriptionLength
-    size = sizeof(descriptionLength);
-    memcpy((void *) &descriptionLength, buffer, size);
-    buffer += size;
-
-    // reserved2
-    size = reserved2.size();
-    memcpy(reserved2.data(), buffer, size);
-    buffer += size;
-
-    // groupName
-    size = groupNameLength;
-    size_t groupNameLength2 = strnlen(buffer, size); // Vector bug: the actual string can be shorter than size!
-    groupName.assign(buffer, groupNameLength2);
-    buffer += size;
-
-    // markerName
-    size = markerNameLength;
-    size_t markerNameLength2 = strnlen(buffer, size); // Vector bug: the actual string can be shorter than size!
-    markerName.assign(buffer, markerNameLength2);
-    buffer += size;
-
-    // description
-    // here is another Vector bug, the object might be shorter than the actual size of the data
-    // e.g. in the test the descriptionLength is 0x0105, but there is only 0x00ed left!
-    // so just use what's left...
-    size = objectSize - (calculateObjectSize() - descriptionLength);
-    size_t descriptionLength2 = strnlen(buffer, size); // Vector bug: the actual string can be shorter than size!
-    description.assign(buffer, descriptionLength2);
-    buffer += size;
-
-    return buffer;
+    /* post processing */
+    groupName.resize(strnlen(groupName.c_str(), groupNameLength)); // Vector bug: the actual string can be shorter than size!
+    markerName.resize(strnlen(markerName.c_str(), markerNameLength)); // Vector bug: the actual string can be shorter than size!
+    description.resize(strnlen(description.c_str(), descriptionLength)); // Vector bug: the actual string can be shorter than size!
 }
 
-char * GlobalMarker::write(char * buffer)
+void GlobalMarker::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::write(buffer);
-
-    // commentedEventType
-    size = sizeof(commentedEventType);
-    memcpy(buffer, (void *) &commentedEventType, size);
-    buffer += size;
-
-    // foregroundColor
-    size = sizeof(foregroundColor);
-    memcpy(buffer, (void *) &foregroundColor, size);
-    buffer += size;
-
-    // backgroundColor
-    size = sizeof(backgroundColor);
-    memcpy(buffer, (void *) &backgroundColor, size);
-    buffer += size;
-
-    // reserved1
-    size = reserved1.size();
-    memcpy(buffer, reserved1.data(), size);
-    buffer += size;
-
-    // isRelocatable
-    size = sizeof(isRelocatable);
-    memcpy(buffer, (void *) &isRelocatable, size);
-    buffer += size;
-
-    // groupNameLength
-    size = sizeof(groupNameLength);
-    memcpy(buffer, (void *) &groupNameLength, size);
-    buffer += size;
-
-    // markerNameLength
-    size = sizeof(markerNameLength);
-    memcpy(buffer, (void *) &markerNameLength, size);
-    buffer += size;
-
-    // descriptionLength
-    size = sizeof(descriptionLength);
-    memcpy(buffer, (void *) &descriptionLength, size);
-    buffer += size;
-
-    // reserved2
-    size = reserved2.size();
-    memcpy(buffer, reserved2.data(), size);
-    buffer += size;
-
-    // groupName
-    size = groupNameLength;
-    memcpy(buffer, groupName.data(), size);
-    buffer += size;
-
-    // markerName
-    size = markerNameLength;
-    memcpy(buffer, markerName.data(), size);
-    buffer += size;
-
-    // description
-    size = objectSize - (calculateObjectSize() - descriptionLength); // work around Vector bug, see details in read
-    memcpy(buffer, description.data(), size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::write(os);
+    os.write((char *) &commentedEventType, sizeof(commentedEventType));
+    os.write((char *) &foregroundColor, sizeof(foregroundColor));
+    os.write((char *) &backgroundColor, sizeof(backgroundColor));
+    os.write((char *) reserved1.data(), reserved1.size());
+    os.write((char *) &isRelocatable, sizeof(isRelocatable));
+    os.write((char *) &groupNameLength, sizeof(groupNameLength));
+    os.write((char *) &markerNameLength, sizeof(markerNameLength));
+    os.write((char *) &descriptionLength, sizeof(descriptionLength));
+    os.write((char *) reserved2.data(), reserved2.size());
+    os.write((char *) groupName.data(), groupNameLength);
+    os.write((char *) markerName.data(), markerNameLength);
+    os.write((char *) description.data(), descriptionLength);
 }
 
 size_t GlobalMarker::calculateObjectSize()

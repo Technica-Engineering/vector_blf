@@ -21,8 +21,6 @@
 
 #include "CanFdMessage.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -43,134 +41,34 @@ CanFdMessage::CanFdMessage() :
     objectType = ObjectType::CAN_FD_MESSAGE;
 }
 
-char * CanFdMessage::read(char * buffer)
+void CanFdMessage::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::read(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // flags
-    size = sizeof(flags);
-    memcpy((void *) &flags, buffer, size);
-    buffer += size;
-
-    // dlc
-    size = sizeof(dlc);
-    memcpy((void *) &dlc, buffer, size);
-    buffer += size;
-
-    // id
-    size = sizeof(id);
-    memcpy((void *) &id, buffer, size);
-    buffer += size;
-
-    // frameLength
-    size = sizeof(frameLength);
-    memcpy((void *) &frameLength, buffer, size);
-    buffer += size;
-
-    // arbBitCount
-    size = sizeof(arbBitCount);
-    memcpy((void *) &arbBitCount, buffer, size);
-    buffer += size;
-
-    // canFdFlags
-    size = sizeof(canFdFlags);
-    memcpy((void *) &canFdFlags, buffer, size);
-    buffer += size;
-
-    // validDataBytes
-    size = sizeof(validDataBytes);
-    memcpy((void *) &validDataBytes, buffer, size);
-    buffer += size;
-
-    // reserved1
-    size = sizeof(reserved1);
-    memcpy((void *) &reserved1, buffer, size);
-    buffer += size;
-
-    // reserved2
-    size = sizeof(reserved2);
-    memcpy((void *) &reserved2, buffer, size);
-    buffer += size;
-
-    // data
-    size = data.size();
-    memcpy(data.data(), buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::read(is);
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) &flags, sizeof(flags));
+    is.read((char *) &dlc, sizeof(dlc));
+    is.read((char *) &frameLength, sizeof(frameLength));
+    is.read((char *) &arbBitCount, sizeof(arbBitCount));
+    is.read((char *) &canFdFlags, sizeof(canFdFlags));
+    is.read((char *) &validDataBytes, sizeof(validDataBytes));
+    is.read((char *) &reserved1, sizeof(reserved1));
+    is.read((char *) &reserved2, sizeof(reserved2));
+    is.read((char *) data.data(), data.size());
 }
 
-char * CanFdMessage::write(char * buffer)
+void CanFdMessage::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::write(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // flags
-    size = sizeof(flags);
-    memcpy(buffer, (void *) &flags, size);
-    buffer += size;
-
-    // dlc
-    size = sizeof(dlc);
-    memcpy(buffer, (void *) &dlc, size);
-    buffer += size;
-
-    // id
-    size = sizeof(id);
-    memcpy(buffer, (void *) &id, size);
-    buffer += size;
-
-    // frameLength
-    size = sizeof(frameLength);
-    memcpy(buffer, (void *) &frameLength, size);
-    buffer += size;
-
-    // arbBitCount
-    size = sizeof(arbBitCount);
-    memcpy(buffer, (void *) &arbBitCount, size);
-    buffer += size;
-
-    // canFdFlags
-    size = sizeof(canFdFlags);
-    memcpy(buffer, (void *) &canFdFlags, size);
-    buffer += size;
-
-    // validDataBytes
-    size = sizeof(validDataBytes);
-    memcpy(buffer, (void *) &validDataBytes, size);
-    buffer += size;
-
-    // reserved1
-    size = sizeof(reserved1);
-    memcpy(buffer, (void *) &reserved1, size);
-    buffer += size;
-
-    // reserved2
-    size = sizeof(reserved2);
-    memcpy(buffer, (void *) &reserved2, size);
-    buffer += size;
-
-    // data
-    size = data.size();
-    memcpy(buffer, data.data(), size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::write(os);
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) &flags, sizeof(flags));
+    os.write((char *) &dlc, sizeof(dlc));
+    os.write((char *) &frameLength, sizeof(frameLength));
+    os.write((char *) &arbBitCount, sizeof(arbBitCount));
+    os.write((char *) &canFdFlags, sizeof(canFdFlags));
+    os.write((char *) &validDataBytes, sizeof(validDataBytes));
+    os.write((char *) &reserved1, sizeof(reserved1));
+    os.write((char *) &reserved2, sizeof(reserved2));
+    os.write((char *) data.data(), data.size());
 }
 
 size_t CanFdMessage::calculateObjectSize()

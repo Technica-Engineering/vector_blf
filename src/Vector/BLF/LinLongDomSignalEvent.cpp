@@ -21,8 +21,6 @@
 
 #include "LinLongDomSignalEvent.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -35,46 +33,20 @@ LinLongDomSignalEvent::LinLongDomSignalEvent() :
     objectType = ObjectType::LIN_LONG_DOM_SIG;
 }
 
-char * LinLongDomSignalEvent::read(char * buffer)
+void LinLongDomSignalEvent::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::read(buffer);
-    buffer = LinBusEvent::read(buffer);
-
-    // type
-    size = sizeof(type);
-    memcpy((void *) &type, buffer, size);
-    buffer += size;
-
-    // reserved
-    size = reserved.size();
-    memcpy(reserved.data(), buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::read(is);
+    LinBusEvent::read(is);
+    is.read((char *) &type, sizeof(type));
+    is.read((char *) reserved.data(), reserved.size());
 }
 
-char * LinLongDomSignalEvent::write(char * buffer)
+void LinLongDomSignalEvent::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::write(buffer);
-    buffer = LinBusEvent::write(buffer);
-
-    // type
-    size = sizeof(type);
-    memcpy(buffer, (void *) &type, size);
-    buffer += size;
-
-    // reserved
-    size = reserved.size();
-    memcpy(buffer, reserved.data(), size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::write(os);
+    LinBusEvent::write(os);
+    os.write((char *) &type, sizeof(type));
+    os.write((char *) reserved.data(), reserved.size());
 }
 
 size_t LinLongDomSignalEvent::calculateObjectSize()

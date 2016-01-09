@@ -21,8 +21,6 @@
 
 #include "AfdxStatistic.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -47,174 +45,44 @@ AfdxStatistic::AfdxStatistic() :
     objectType = ObjectType::AFDX_STATISTIC;
 }
 
-char * AfdxStatistic::read(char * buffer)
+void AfdxStatistic::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::read(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // flags
-    size = sizeof(flags);
-    memcpy((void *) &flags, buffer, size);
-    buffer += size;
-
-    // rxPacketCount
-    size = sizeof(rxPacketCount);
-    memcpy((void *) &rxPacketCount, buffer, size);
-    buffer += size;
-
-    // rxByteCount
-    size = sizeof(rxByteCount);
-    memcpy((void *) &rxByteCount, buffer, size);
-    buffer += size;
-
-    // txPacketCount
-    size = sizeof(txPacketCount);
-    memcpy((void *) &txPacketCount, buffer, size);
-    buffer += size;
-
-    // txByteCount
-    size = sizeof(txByteCount);
-    memcpy((void *) &txByteCount, buffer, size);
-    buffer += size;
-
-    // collisionCount
-    size = sizeof(collisionCount);
-    memcpy((void *) &collisionCount, buffer, size);
-    buffer += size;
-
-    // errorCount
-    size = sizeof(errorCount);
-    memcpy((void *) &errorCount, buffer, size);
-    buffer += size;
-
-    // statDroppedRedundantPacketCount
-    size = sizeof(statDroppedRedundantPacketCount);
-    memcpy((void *) &statDroppedRedundantPacketCount, buffer, size);
-    buffer += size;
-
-    // statRedundantErrorPacketCount
-    size = sizeof(statRedundantErrorPacketCount);
-    memcpy((void *) &statRedundantErrorPacketCount, buffer, size);
-    buffer += size;
-
-    // statIntegrityErrorPacketCount
-    size = sizeof(statIntegrityErrorPacketCount);
-    memcpy((void *) &statIntegrityErrorPacketCount, buffer, size);
-    buffer += size;
-
-    // statAvrgPeriodMsec
-    size = sizeof(statAvrgPeriodMsec);
-    memcpy((void *) &statAvrgPeriodMsec, buffer, size);
-    buffer += size;
-
-    // statAvrgJitterMysec
-    size = sizeof(statAvrgJitterMysec);
-    memcpy((void *) &statAvrgJitterMysec, buffer, size);
-    buffer += size;
-
-    // vlid
-    size = sizeof(vlid);
-    memcpy((void *) &vlid, buffer, size);
-    buffer += size;
-
-    // statDuration
-    size = sizeof(statDuration);
-    memcpy((void *) &statDuration, buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::read(is);
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) &flags, sizeof(flags));
+    is.read((char *) &rxPacketCount, sizeof(rxPacketCount));
+    is.read((char *) &rxByteCount, sizeof(rxByteCount));
+    is.read((char *) &txPacketCount, sizeof(txPacketCount));
+    is.read((char *) &txByteCount, sizeof(txByteCount));
+    is.read((char *) &collisionCount, sizeof(collisionCount));
+    is.read((char *) &errorCount, sizeof(errorCount));
+    is.read((char *) &statDroppedRedundantPacketCount, sizeof(statDroppedRedundantPacketCount));
+    is.read((char *) &statRedundantErrorPacketCount, sizeof(statRedundantErrorPacketCount));
+    is.read((char *) &statIntegrityErrorPacketCount, sizeof(statIntegrityErrorPacketCount));
+    is.read((char *) &statAvrgPeriodMsec, sizeof(statAvrgPeriodMsec));
+    is.read((char *) &statAvrgJitterMysec, sizeof(statAvrgJitterMysec));
+    is.read((char *) &vlid, sizeof(vlid));
+    is.read((char *) &statDuration, sizeof(statDuration));
 }
 
-char * AfdxStatistic::write(char * buffer)
+void AfdxStatistic::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::write(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // flags
-    size = sizeof(flags);
-    memcpy(buffer, (void *) &flags, size);
-    buffer += size;
-
-    // rxPacketCount
-    size = sizeof(rxPacketCount);
-    memcpy(buffer, (void *) &rxPacketCount, size);
-    buffer += size;
-
-    // rxByteCount
-    size = sizeof(rxByteCount);
-    memcpy(buffer, (void *) &rxByteCount, size);
-    buffer += size;
-
-    // txPacketCount
-    size = sizeof(txPacketCount);
-    memcpy(buffer, (void *) &txPacketCount, size);
-    buffer += size;
-
-    // txByteCount
-    size = sizeof(txByteCount);
-    memcpy(buffer, (void *) &txByteCount, size);
-    buffer += size;
-
-    // collisionCount
-    size = sizeof(collisionCount);
-    memcpy(buffer, (void *) &collisionCount, size);
-    buffer += size;
-
-    // errorCount
-    size = sizeof(errorCount);
-    memcpy(buffer, (void *) &errorCount, size);
-    buffer += size;
-
-    // statDroppedRedundantPacketCount
-    size = sizeof(statDroppedRedundantPacketCount);
-    memcpy(buffer, (void *) &statDroppedRedundantPacketCount, size);
-    buffer += size;
-
-    // statRedundantErrorPacketCount
-    size = sizeof(statRedundantErrorPacketCount);
-    memcpy(buffer, (void *) &statRedundantErrorPacketCount, size);
-    buffer += size;
-
-    // statIntegrityErrorPacketCount
-    size = sizeof(statIntegrityErrorPacketCount);
-    memcpy(buffer, (void *) &statIntegrityErrorPacketCount, size);
-    buffer += size;
-
-    // statAvrgPeriodMsec
-    size = sizeof(statAvrgPeriodMsec);
-    memcpy(buffer, (void *) &statAvrgPeriodMsec, size);
-    buffer += size;
-
-    // statAvrgJitterMysec
-    size = sizeof(statAvrgJitterMysec);
-    memcpy(buffer, (void *) &statAvrgJitterMysec, size);
-    buffer += size;
-
-    // vlid
-    size = sizeof(vlid);
-    memcpy(buffer, (void *) &vlid, size);
-    buffer += size;
-
-    // statDuration
-    size = sizeof(statDuration);
-    memcpy(buffer, (void *) &statDuration, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::write(os);
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) &flags, sizeof(flags));
+    os.write((char *) &rxPacketCount, sizeof(rxPacketCount));
+    os.write((char *) &rxByteCount, sizeof(rxByteCount));
+    os.write((char *) &txPacketCount, sizeof(txPacketCount));
+    os.write((char *) &txByteCount, sizeof(txByteCount));
+    os.write((char *) &collisionCount, sizeof(collisionCount));
+    os.write((char *) &errorCount, sizeof(errorCount));
+    os.write((char *) &statDroppedRedundantPacketCount, sizeof(statDroppedRedundantPacketCount));
+    os.write((char *) &statRedundantErrorPacketCount, sizeof(statRedundantErrorPacketCount));
+    os.write((char *) &statIntegrityErrorPacketCount, sizeof(statIntegrityErrorPacketCount));
+    os.write((char *) &statAvrgPeriodMsec, sizeof(statAvrgPeriodMsec));
+    os.write((char *) &statAvrgJitterMysec, sizeof(statAvrgJitterMysec));
+    os.write((char *) &vlid, sizeof(vlid));
+    os.write((char *) &statDuration, sizeof(statDuration));
 }
 
 size_t AfdxStatistic::calculateObjectSize()

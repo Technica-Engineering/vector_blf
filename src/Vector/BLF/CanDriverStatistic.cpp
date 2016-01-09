@@ -21,8 +21,6 @@
 
 #include "CanDriverStatistic.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -41,114 +39,32 @@ CanDriverStatistic::CanDriverStatistic() :
     objectType = ObjectType::CAN_STATISTIC;
 }
 
-char * CanDriverStatistic::read(char * buffer)
+void CanDriverStatistic::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::read(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // busLoad
-    size = sizeof(busLoad);
-    memcpy((void *) &busLoad, buffer, size);
-    buffer += size;
-
-    // standardDataFrames
-    size = sizeof(standardDataFrames);
-    memcpy((void *) &standardDataFrames, buffer, size);
-    buffer += size;
-
-    // extendedDataFrames
-    size = sizeof(extendedDataFrames);
-    memcpy((void *) &extendedDataFrames, buffer, size);
-    buffer += size;
-
-    // standardRemoteFrames
-    size = sizeof(standardRemoteFrames);
-    memcpy((void *) &standardRemoteFrames, buffer, size);
-    buffer += size;
-
-    // extendedRemoteFrames
-    size = sizeof(extendedRemoteFrames);
-    memcpy((void *) &extendedRemoteFrames, buffer, size);
-    buffer += size;
-
-    // errorFrames
-    size = sizeof(errorFrames);
-    memcpy((void *) &errorFrames, buffer, size);
-    buffer += size;
-
-    // overloadFrames
-    size = sizeof(overloadFrames);
-    memcpy((void *) &overloadFrames, buffer, size);
-    buffer += size;
-
-    // reserved
-    size = reserved.size();
-    memcpy(reserved.data(), buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::read(is);
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) &busLoad, sizeof(busLoad));
+    is.read((char *) &standardDataFrames, sizeof(standardDataFrames));
+    is.read((char *) &extendedDataFrames, sizeof(extendedDataFrames));
+    is.read((char *) &standardRemoteFrames, sizeof(standardRemoteFrames));
+    is.read((char *) &extendedRemoteFrames, sizeof(extendedRemoteFrames));
+    is.read((char *) &errorFrames, sizeof(errorFrames));
+    is.read((char *) &overloadFrames, sizeof(overloadFrames));
+    is.read((char *) reserved.data(), reserved.size());
 }
 
-char * CanDriverStatistic::write(char * buffer)
+void CanDriverStatistic::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::write(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // busLoad
-    size = sizeof(busLoad);
-    memcpy(buffer, (void *) &busLoad, size);
-    buffer += size;
-
-    // standardDataFrames
-    size = sizeof(standardDataFrames);
-    memcpy(buffer, (void *) &standardDataFrames, size);
-    buffer += size;
-
-    // extendedDataFrames
-    size = sizeof(extendedDataFrames);
-    memcpy(buffer, (void *) &extendedDataFrames, size);
-    buffer += size;
-
-    // standardRemoteFrames
-    size = sizeof(standardRemoteFrames);
-    memcpy(buffer, (void *) &standardRemoteFrames, size);
-    buffer += size;
-
-    // extendedRemoteFrames
-    size = sizeof(extendedRemoteFrames);
-    memcpy(buffer, (void *) &extendedRemoteFrames, size);
-    buffer += size;
-
-    // errorFrames
-    size = sizeof(errorFrames);
-    memcpy(buffer, (void *) &errorFrames, size);
-    buffer += size;
-
-    // overloadFrames
-    size = sizeof(overloadFrames);
-    memcpy(buffer, (void *) &overloadFrames, size);
-    buffer += size;
-
-    // reserved
-    size = reserved.size();
-    memcpy(buffer, reserved.data(), size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::write(os);
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) &busLoad, sizeof(busLoad));
+    os.write((char *) &standardDataFrames, sizeof(standardDataFrames));
+    os.write((char *) &extendedDataFrames, sizeof(extendedDataFrames));
+    os.write((char *) &standardRemoteFrames, sizeof(standardRemoteFrames));
+    os.write((char *) &extendedRemoteFrames, sizeof(extendedRemoteFrames));
+    os.write((char *) &errorFrames, sizeof(errorFrames));
+    os.write((char *) &overloadFrames, sizeof(overloadFrames));
+    os.write((char *) reserved.data(), reserved.size());
 }
 
 size_t CanDriverStatistic::calculateObjectSize()

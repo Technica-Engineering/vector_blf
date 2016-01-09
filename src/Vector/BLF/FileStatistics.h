@@ -22,7 +22,7 @@
 #pragma once
 
 #include <array>
-#include <fstream>
+#include <iostream>
 
 #include "VectorTypes.h"
 

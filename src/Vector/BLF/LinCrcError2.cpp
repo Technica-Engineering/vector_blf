@@ -21,8 +21,6 @@
 
 #include "LinCrcError2.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -45,146 +43,40 @@ LinCrcError2::LinCrcError2() :
     objectType = ObjectType::LIN_CRC_ERROR2;
 }
 
-char * LinCrcError2::read(char * buffer)
+void LinCrcError2::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::read(buffer);
-    buffer = LinDatabyteTimestampEvent::read(buffer);
-
-    // data
-    size = data.size();
-    memcpy(data.data(), buffer, size);
-    buffer += size;
-
-    // crc
-    size = sizeof(crc);
-    memcpy((void *) &crc, buffer, size);
-    buffer += size;
-
-    // dir
-    size = sizeof(dir);
-    memcpy((void *) &dir, buffer, size);
-    buffer += size;
-
-    // fsmId
-    size = sizeof(fsmId);
-    memcpy((void *) &fsmId, buffer, size);
-    buffer += size;
-
-    // fsmState
-    size = sizeof(fsmState);
-    memcpy((void *) &fsmState, buffer, size);
-    buffer += size;
-
-    // simulated
-    size = sizeof(simulated);
-    memcpy((void *) &simulated, buffer, size);
-    buffer += size;
-
-    // reserved1
-    size = reserved1.size();
-    memcpy(reserved1.data(), buffer, size);
-    buffer += size;
-
-    // respBaudrate
-    size = sizeof(respBaudrate);
-    memcpy((void *) &respBaudrate, buffer, size);
-    buffer += size;
-
-    // reserved2
-    size = reserved2.size();
-    memcpy(reserved2.data(), buffer, size);
-    buffer += size;
-
-    // exactHeaderBaudrate
-    size = sizeof(exactHeaderBaudrate);
-    memcpy((void *) &exactHeaderBaudrate, buffer, size);
-    buffer += size;
-
-    // earlyStopbitOffset
-    size = sizeof(earlyStopbitOffset);
-    memcpy((void *) &earlyStopbitOffset, buffer, size);
-    buffer += size;
-
-    // earlyStopbitOffsetResponse
-    size = sizeof(earlyStopbitOffsetResponse);
-    memcpy((void *) &earlyStopbitOffsetResponse, buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::read(is);
+    LinDatabyteTimestampEvent::read(is);
+    is.read((char *) data.data(), data.size());
+    is.read((char *) &crc, sizeof(crc));
+    is.read((char *) &dir, sizeof(dir));
+    is.read((char *) &fsmId, sizeof(fsmId));
+    is.read((char *) &fsmState, sizeof(fsmState));
+    is.read((char *) &simulated, sizeof(simulated));
+    is.read((char *) reserved1.data(), reserved1.size());
+    is.read((char *) &respBaudrate, sizeof(respBaudrate));
+    is.read((char *) reserved2.data(), reserved2.size());
+    is.read((char *) &exactHeaderBaudrate, sizeof(exactHeaderBaudrate));
+    is.read((char *) &earlyStopbitOffset, sizeof(earlyStopbitOffset));
+    is.read((char *) &earlyStopbitOffsetResponse, sizeof(earlyStopbitOffsetResponse));
 }
 
-char * LinCrcError2::write(char * buffer)
+void LinCrcError2::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::write(buffer);
-    buffer = LinDatabyteTimestampEvent::write(buffer);
-
-    // data
-    size = data.size();
-    memcpy(buffer, data.data(), size);
-    buffer += size;
-
-    // crc
-    size = sizeof(crc);
-    memcpy(buffer, (void *) &crc, size);
-    buffer += size;
-
-    // dir
-    size = sizeof(dir);
-    memcpy(buffer, (void *) &dir, size);
-    buffer += size;
-
-    // fsmId
-    size = sizeof(fsmId);
-    memcpy(buffer, (void *) &fsmId, size);
-    buffer += size;
-
-    // fsmState
-    size = sizeof(fsmState);
-    memcpy(buffer, (void *) &fsmState, size);
-    buffer += size;
-
-    // simulated
-    size = sizeof(simulated);
-    memcpy(buffer, (void *) &simulated, size);
-    buffer += size;
-
-    // reserved1
-    size = reserved1.size();
-    memcpy(buffer, reserved1.data(), size);
-    buffer += size;
-
-    // respBaudrate
-    size = sizeof(respBaudrate);
-    memcpy(buffer, (void *) &respBaudrate, size);
-    buffer += size;
-
-    // reserved2
-    size = reserved2.size();
-    memcpy(buffer, reserved2.data(), size);
-    buffer += size;
-
-    // exactHeaderBaudrate
-    size = sizeof(exactHeaderBaudrate);
-    memcpy(buffer, (void *) &exactHeaderBaudrate, size);
-    buffer += size;
-
-    // earlyStopbitOffset
-    size = sizeof(earlyStopbitOffset);
-    memcpy(buffer, (void *) &earlyStopbitOffset, size);
-    buffer += size;
-
-    // earlyStopbitOffsetResponse
-    size = sizeof(earlyStopbitOffsetResponse);
-    memcpy(buffer, (void *) &earlyStopbitOffsetResponse, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::write(os);
+    LinDatabyteTimestampEvent::write(os);
+    os.write((char *) data.data(), data.size());
+    os.write((char *) &crc, sizeof(crc));
+    os.write((char *) &dir, sizeof(dir));
+    os.write((char *) &fsmId, sizeof(fsmId));
+    os.write((char *) &fsmState, sizeof(fsmState));
+    os.write((char *) &simulated, sizeof(simulated));
+    os.write((char *) reserved1.data(), reserved1.size());
+    os.write((char *) &respBaudrate, sizeof(respBaudrate));
+    os.write((char *) reserved2.data(), reserved2.size());
+    os.write((char *) &exactHeaderBaudrate, sizeof(exactHeaderBaudrate));
+    os.write((char *) &earlyStopbitOffset, sizeof(earlyStopbitOffset));
+    os.write((char *) &earlyStopbitOffsetResponse, sizeof(earlyStopbitOffsetResponse));
 }
 
 size_t LinCrcError2::calculateObjectSize()

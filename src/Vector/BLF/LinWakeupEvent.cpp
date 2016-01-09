@@ -21,8 +21,6 @@
 
 #include "LinWakeupEvent.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -35,54 +33,20 @@ LinWakeupEvent::LinWakeupEvent() :
     objectType = ObjectType::LIN_WAKEUP;
 }
 
-char * LinWakeupEvent::read(char * buffer)
+void LinWakeupEvent::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::read(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // signal
-    size = sizeof(signal);
-    memcpy((void *) &signal, buffer, size);
-    buffer += size;
-
-    // external
-    size = sizeof(external);
-    memcpy((void *) &external, buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::read(is);
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) &signal, sizeof(signal));
+    is.read((char *) &external, sizeof(external));
 }
 
-char * LinWakeupEvent::write(char * buffer)
+void LinWakeupEvent::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::write(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // signal
-    size = sizeof(signal);
-    memcpy(buffer, (void *) &signal, size);
-    buffer += size;
-
-    // external
-    size = sizeof(external);
-    memcpy(buffer, (void *) &external, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::write(os);
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) &signal, sizeof(signal));
+    os.write((char *) &external, sizeof(external));
 }
 
 size_t LinWakeupEvent::calculateObjectSize()

@@ -22,6 +22,7 @@
 #pragma once
 
 #include <array>
+#include <iostream>
 
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
@@ -42,8 +43,8 @@ class VECTOR_BLF_EXPORT LinSendError2 : public ObjectHeader, public LinMessageDe
 public:
     LinSendError2();
 
-    virtual char * read(char * buffer);
-    virtual char * write(char * buffer);
+    virtual void read(std::istream & is);
+    virtual void write(std::ostream & os);
     virtual size_t calculateObjectSize();
 
     /**

@@ -21,8 +21,6 @@
 
 #include "LinSendError2.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -42,116 +40,34 @@ LinSendError2::LinSendError2() :
     objectType = ObjectType::LIN_SND_ERROR2;
 }
 
-char * LinSendError2::read(char * buffer)
+void LinSendError2::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::read(buffer);
-    buffer = LinMessageDescriptor::read(buffer);
-
-    // eoh
-    size = sizeof(eoh);
-    memcpy((void *) &eoh, buffer, size);
-    buffer += size;
-
-    // isEtf
-    size = sizeof(isEtf);
-    memcpy((void *) &isEtf, buffer, size);
-    buffer += size;
-
-    // fsmId
-    size = sizeof(fsmId);
-    memcpy((void *) &fsmId, buffer, size);
-    buffer += size;
-
-    // fsmState
-    size = sizeof(fsmState);
-    memcpy((void *) &fsmState, buffer, size);
-    buffer += size;
-
-    // reserved1
-    size = sizeof(reserved1);
-    memcpy((void *) &reserved1, buffer, size);
-    buffer += size;
-
-    // reserved2
-    size = reserved2.size();
-    memcpy(reserved2.data(), buffer, size);
-    buffer += size;
-
-    // exactHeaderBaudrate
-    size = sizeof(exactHeaderBaudrate);
-    memcpy((void *) &exactHeaderBaudrate, buffer, size);
-    buffer += size;
-
-    // earlyStopbitOffset
-    size = sizeof(earlyStopbitOffset);
-    memcpy((void *) &earlyStopbitOffset, buffer, size);
-    buffer += size;
-
-    // reserved3
-    size = reserved3.size();
-    memcpy(reserved3.data(), buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::read(is);
+    LinMessageDescriptor::read(is);
+    is.read((char *) &eoh, sizeof(eoh));
+    is.read((char *) &isEtf, sizeof(isEtf));
+    is.read((char *) &fsmId, sizeof(fsmId));
+    is.read((char *) &fsmState, sizeof(fsmState));
+    is.read((char *) &reserved1, sizeof(reserved1));
+    is.read((char *) reserved2.data(), reserved2.size());
+    is.read((char *) &exactHeaderBaudrate, sizeof(exactHeaderBaudrate));
+    is.read((char *) &earlyStopbitOffset, sizeof(earlyStopbitOffset));
+    is.read((char *) reserved3.data(), reserved3.size());
 }
 
-char * LinSendError2::write(char * buffer)
+void LinSendError2::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::write(buffer);
-    buffer = LinMessageDescriptor::write(buffer);
-
-    // eoh
-    size = sizeof(eoh);
-    memcpy(buffer, (void *) &eoh, size);
-    buffer += size;
-
-    // isEtf
-    size = sizeof(isEtf);
-    memcpy(buffer, (void *) &isEtf, size);
-    buffer += size;
-
-    // fsmId
-    size = sizeof(fsmId);
-    memcpy(buffer, (void *) &fsmId, size);
-    buffer += size;
-
-    // fsmState
-    size = sizeof(fsmState);
-    memcpy(buffer, (void *) &fsmState, size);
-    buffer += size;
-
-    // reserved1
-    size = sizeof(reserved1);
-    memcpy(buffer, (void *) &reserved1, size);
-    buffer += size;
-
-    // reserved2
-    size = reserved2.size();
-    memcpy(buffer, reserved2.data(), size);
-    buffer += size;
-
-    // exactHeaderBaudrate
-    size = sizeof(exactHeaderBaudrate);
-    memcpy(buffer, (void *) &exactHeaderBaudrate, size);
-    buffer += size;
-
-    // earlyStopbitOffset
-    size = sizeof(earlyStopbitOffset);
-    memcpy(buffer, (void *) &earlyStopbitOffset, size);
-    buffer += size;
-
-    // reserved3
-    size = reserved3.size();
-    memcpy(buffer, reserved3.data(), size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::write(os);
+    LinMessageDescriptor::write(os);
+    os.write((char *) &eoh, sizeof(eoh));
+    os.write((char *) &isEtf, sizeof(isEtf));
+    os.write((char *) &fsmId, sizeof(fsmId));
+    os.write((char *) &fsmState, sizeof(fsmState));
+    os.write((char *) &reserved1, sizeof(reserved1));
+    os.write((char *) reserved2.data(), reserved2.size());
+    os.write((char *) &exactHeaderBaudrate, sizeof(exactHeaderBaudrate));
+    os.write((char *) &earlyStopbitOffset, sizeof(earlyStopbitOffset));
+    os.write((char *) reserved3.data(), reserved3.size());
 }
 
 size_t LinSendError2::calculateObjectSize()

@@ -19,9 +19,9 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "AppText.h"
+#include <string.h>
 
-#include <cstring>
+#include "AppText.h"
 
 namespace Vector {
 namespace BLF {
@@ -40,64 +40,26 @@ AppText::~AppText()
 {
 }
 
-char * AppText::read(char * buffer)
+void AppText::read(std::istream & is)
 {
-    size_t size;
+    ObjectHeader::read(is);
+    is.read((char *) &source, sizeof(source));
+    is.read((char *) &reserved, sizeof(reserved));
+    is.read((char *) &textLength, sizeof(textLength));
+    text.resize(textLength);
+    is.read((char *) text.data(), textLength);
 
-    // preceding data
-    buffer = ObjectHeader::read(buffer);
-
-    // source
-    size = sizeof(source);
-    memcpy((void *) &source, buffer, size);
-    buffer += size;
-
-    // reserved
-    size = sizeof(reserved);
-    memcpy((void *) &reserved, buffer, size);
-    buffer += size;
-
-    // textLength
-    size = sizeof(textLength);
-    memcpy((void *) &textLength, buffer, size);
-    buffer += size;
-
-    // text
-    size = textLength;
-    text.assign(buffer, size);
-    buffer += size;
-
-    return buffer;
+    /* post processing */
+    text.resize(strnlen(text.c_str(), textLength)); // Vector bug: the actual string can be shorter than size!
 }
 
-char * AppText::write(char * buffer)
+void AppText::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::write(buffer);
-
-    // source
-    size = sizeof(source);
-    memcpy(buffer, (void *) &source, size);
-    buffer += size;
-
-    // reserved
-    size = sizeof(reserved);
-    memcpy(buffer, (void *) &reserved, size);
-    buffer += size;
-
-    // textLength
-    size = sizeof(textLength);
-    memcpy(buffer, (void *) &textLength, size);
-    buffer += size;
-
-    // text
-    size = textLength;
-    memcpy(buffer, text.data(), size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::write(os);
+    os.write((char *) &source, sizeof(source));
+    os.write((char *) &reserved, sizeof(reserved));
+    os.write((char *) &textLength, sizeof(textLength));
+    os.write((char *) text.data(), textLength);
 }
 
 size_t AppText::calculateObjectSize()

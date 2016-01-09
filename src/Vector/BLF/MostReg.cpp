@@ -21,8 +21,6 @@
 
 #include "MostReg.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -40,104 +38,30 @@ MostReg::MostReg() :
     objectType = ObjectType::MOST_REG;
 }
 
-char * MostReg::read(char * buffer)
+void MostReg::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader2::read(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // subType
-    size = sizeof(subType);
-    memcpy((void *) &subType, buffer, size);
-    buffer += size;
-
-    // reserved
-    size = sizeof(reserved);
-    memcpy((void *) &reserved, buffer, size);
-    buffer += size;
-
-    // handle
-    size = sizeof(handle);
-    memcpy((void *) &handle, buffer, size);
-    buffer += size;
-
-    // offset
-    size = sizeof(offset);
-    memcpy((void *) &offset, buffer, size);
-    buffer += size;
-
-    // chip
-    size = sizeof(chip);
-    memcpy((void *) &chip, buffer, size);
-    buffer += size;
-
-    // regDataLen
-    size = sizeof(regDataLen);
-    memcpy((void *) &regDataLen, buffer, size);
-    buffer += size;
-
-    // regData
-    size = regData.size();
-    memcpy(regData.data(), buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader2::read(is);
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) &subType, sizeof(subType));
+    is.read((char *) &reserved, sizeof(reserved));
+    is.read((char *) &handle, sizeof(handle));
+    is.read((char *) &offset, sizeof(offset));
+    is.read((char *) &chip, sizeof(chip));
+    is.read((char *) &regDataLen, sizeof(regDataLen));
+    is.read((char *) regData.data(), regData.size());
 }
 
-char * MostReg::write(char * buffer)
+void MostReg::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader2::write(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // subType
-    size = sizeof(subType);
-    memcpy(buffer, (void *) &subType, size);
-    buffer += size;
-
-    // reserved
-    size = sizeof(reserved);
-    memcpy(buffer, (void *) &reserved, size);
-    buffer += size;
-
-    // handle
-    size = sizeof(handle);
-    memcpy(buffer, (void *) &handle, size);
-    buffer += size;
-
-    // offset
-    size = sizeof(offset);
-    memcpy(buffer, (void *) &offset, size);
-    buffer += size;
-
-    // chip
-    size = sizeof(chip);
-    memcpy(buffer, (void *) &chip, size);
-    buffer += size;
-
-    // regDataLen
-    size = sizeof(regDataLen);
-    memcpy(buffer, (void *) &regDataLen, size);
-    buffer += size;
-
-    // regData
-    size = regData.size();
-    memcpy(buffer, regData.data(), size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader2::write(os);
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) &subType, sizeof(subType));
+    os.write((char *) &reserved, sizeof(reserved));
+    os.write((char *) &handle, sizeof(handle));
+    os.write((char *) &offset, sizeof(offset));
+    os.write((char *) &chip, sizeof(chip));
+    os.write((char *) &regDataLen, sizeof(regDataLen));
+    os.write((char *) regData.data(), regData.size());
 }
 
 size_t MostReg::calculateObjectSize()

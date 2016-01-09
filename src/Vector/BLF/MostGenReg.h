@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <iostream>
+
 #include "VectorTypes.h"
 #include "ObjectHeader2.h"
 
@@ -42,8 +44,8 @@ class VECTOR_BLF_EXPORT MostGenReg : public ObjectHeader2
 public:
     MostGenReg();
 
-    virtual char * read(char * buffer);
-    virtual char * write(char * buffer);
+    virtual void read(std::istream & is);
+    virtual void write(std::ostream & os);
     virtual size_t calculateObjectSize();
 
     /**

@@ -21,8 +21,6 @@
 
 #include "LinMessageDescriptor.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -37,84 +35,26 @@ LinMessageDescriptor::LinMessageDescriptor() :
 {
 }
 
-char * LinMessageDescriptor::read(char * buffer)
+void LinMessageDescriptor::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = LinSynchFieldEvent::read(buffer);
-
-    // supplierId
-    size = sizeof(supplierId);
-    memcpy((void *) &supplierId, buffer, size);
-    buffer += size;
-
-    // messageId
-    size = sizeof(messageId);
-    memcpy((void *) &messageId, buffer, size);
-    buffer += size;
-
-    // nad
-    size = sizeof(nad);
-    memcpy((void *) &nad, buffer, size);
-    buffer += size;
-
-    // id
-    size = sizeof(id);
-    memcpy((void *) &id, buffer, size);
-    buffer += size;
-
-    // dlc
-    size = sizeof(dlc);
-    memcpy((void *) &dlc, buffer, size);
-    buffer += size;
-
-    // checksumModel
-    size = sizeof(checksumModel);
-    memcpy((void *) &checksumModel, buffer, size);
-    buffer += size;
-
-    return buffer;
+    LinSynchFieldEvent::read(is);
+    is.read((char *) &supplierId, sizeof(supplierId));
+    is.read((char *) &messageId, sizeof(messageId));
+    is.read((char *) &nad, sizeof(nad));
+    is.read((char *) &id, sizeof(id));
+    is.read((char *) &dlc, sizeof(dlc));
+    is.read((char *) &checksumModel, sizeof(checksumModel));
 }
 
-char * LinMessageDescriptor::write(char * buffer)
+void LinMessageDescriptor::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = LinSynchFieldEvent::write(buffer);
-
-    // supplierId
-    size = sizeof(supplierId);
-    memcpy(buffer, (void *) &supplierId, size);
-    buffer += size;
-
-    // messageId
-    size = sizeof(messageId);
-    memcpy(buffer, (void *) &messageId, size);
-    buffer += size;
-
-    // nad
-    size = sizeof(nad);
-    memcpy(buffer, (void *) &nad, size);
-    buffer += size;
-
-    // id
-    size = sizeof(id);
-    memcpy(buffer, (void *) &id, size);
-    buffer += size;
-
-    // dlc
-    size = sizeof(dlc);
-    memcpy(buffer, (void *) &dlc, size);
-    buffer += size;
-
-    // checksumModel
-    size = sizeof(checksumModel);
-    memcpy(buffer, (void *) &checksumModel, size);
-    buffer += size;
-
-    return buffer;
+    LinSynchFieldEvent::write(os);
+    os.write((char *) &supplierId, sizeof(supplierId));
+    os.write((char *) &messageId, sizeof(messageId));
+    os.write((char *) &nad, sizeof(nad));
+    os.write((char *) &id, sizeof(id));
+    os.write((char *) &dlc, sizeof(dlc));
+    os.write((char *) &checksumModel, sizeof(checksumModel));
 }
 
 size_t LinMessageDescriptor::calculateObjectSize()

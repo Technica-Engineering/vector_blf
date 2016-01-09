@@ -21,7 +21,7 @@
 
 #pragma once
 
-#include <cstddef>
+#include <iostream>
 #include <vector>
 
 #include "VectorTypes.h"
@@ -42,8 +42,8 @@ public:
     LogContainer();
     virtual ~LogContainer();
 
-    virtual char * read(char * buffer);
-    virtual char * write(char * buffer);
+    virtual void read(std::istream & is);
+    virtual void write(std::ostream & os);
     virtual size_t calculateObjectSize();
 
     /**

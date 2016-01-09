@@ -21,8 +21,6 @@
 
 #include "MostTxLight.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -35,54 +33,20 @@ MostTxLight::MostTxLight() :
     objectType = ObjectType::MOST_TXLIGHT;
 }
 
-char * MostTxLight::read(char * buffer)
+void MostTxLight::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader2::read(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // state
-    size = sizeof(state);
-    memcpy((void *) &state, buffer, size);
-    buffer += size;
-
-    // reserved
-    size = reserved.size();
-    memcpy(reserved.data(), buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader2::read(is);
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) &state, sizeof(state));
+    is.read((char *) reserved.data(), reserved.size());
 }
 
-char * MostTxLight::write(char * buffer)
+void MostTxLight::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader2::write(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // state
-    size = sizeof(state);
-    memcpy(buffer, (void *) &state, size);
-    buffer += size;
-
-    // reserved
-    size = reserved.size();
-    memcpy(buffer, reserved.data(), size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader2::write(os);
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) &state, sizeof(state));
+    os.write((char *) reserved.data(), reserved.size());
 }
 
 size_t MostTxLight::calculateObjectSize()

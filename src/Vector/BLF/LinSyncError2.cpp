@@ -21,8 +21,6 @@
 
 #include "LinSyncError2.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -34,36 +32,18 @@ LinSyncError2::LinSyncError2() :
     objectType = ObjectType::LIN_SYN_ERROR2;
 }
 
-char * LinSyncError2::read(char * buffer)
+void LinSyncError2::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::read(buffer);
-    buffer = LinSynchFieldEvent::read(buffer);
-
-    // timeDiff
-    size = timeDiff.size() * sizeof(WORD);
-    memcpy(timeDiff.data(), buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::read(is);
+    LinSynchFieldEvent::read(is);
+    is.read((char *) timeDiff.data(), timeDiff.size() * sizeof(WORD));
 }
 
-char * LinSyncError2::write(char * buffer)
+void LinSyncError2::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::write(buffer);
-    buffer = LinSynchFieldEvent::write(buffer);
-
-    // timeDiff
-    size = timeDiff.size() * sizeof(WORD);
-    memcpy(buffer, timeDiff.data(), size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::write(os);
+    LinSynchFieldEvent::write(os);
+    os.write((char *) timeDiff.data(), timeDiff.size() * sizeof(WORD));
 }
 
 size_t LinSyncError2::calculateObjectSize()

@@ -21,8 +21,6 @@
 
 #include "LogContainer.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -43,77 +41,26 @@ LogContainer::~LogContainer()
 {
 }
 
-char * LogContainer::read(char * buffer)
+void LogContainer::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeaderBase::read(buffer);
-
-    // objectFlags
-    size = sizeof(objectFlags);
-    memcpy((void *) &objectFlags, buffer, size);
-    buffer += size;
-
-    // reserved
-    size = sizeof(reserved);
-    memcpy((void *) &reserved, buffer, size);
-    buffer += size;
-
-    // objectVersion
-    size = sizeof(objectVersion);
-    memcpy((void *) &objectVersion, buffer, size);
-    buffer += size;
-
-    // uncompressedFileSize
-    size = sizeof(uncompressedFileSize);
-    memcpy((void *) &uncompressedFileSize, buffer, size);
-    buffer += size;
-
-    // compressedFile
+    ObjectHeaderBase::read(is);
+    is.read((char *) &objectFlags, sizeof(objectFlags));
+    is.read((char *) &reserved, sizeof(reserved));
+    is.read((char *) &objectVersion, sizeof(objectVersion));
+    is.read((char *) &uncompressedFileSize, sizeof(uncompressedFileSize));
     compressedFileSize = objectSize - internalHeaderSize();
-    size = compressedFileSize;
-    compressedFile.reserve(size);
-    memcpy(compressedFile.data(), buffer, size);
-    buffer += size;
-
-    return buffer;
+    compressedFile.reserve(compressedFileSize);
+    is.read((char *) compressedFile.data(), compressedFileSize);
 }
 
-char * LogContainer::write(char * buffer)
+void LogContainer::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeaderBase::write(buffer);
-
-    // objectFlags
-    size = sizeof(objectFlags);
-    memcpy(buffer, (void *) &objectFlags, size);
-    buffer += size;
-
-    // reserved
-    size = sizeof(reserved);
-    memcpy(buffer, (void *) &reserved, size);
-    buffer += size;
-
-    // objectVersion
-    size = sizeof(objectVersion);
-    memcpy(buffer, (void *) &objectVersion, size);
-    buffer += size;
-
-    // uncompressedFileSize
-    size = sizeof(uncompressedFileSize);
-    memcpy(buffer, (void *) &uncompressedFileSize, size);
-    buffer += size;
-
-    // compressedFile
-    compressedFileSize = objectSize - internalHeaderSize();
-    size = compressedFileSize;
-    memcpy(buffer, compressedFile.data(), size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeaderBase::write(os);
+    os.write((char *) &objectFlags, sizeof(objectFlags));
+    os.write((char *) &reserved, sizeof(reserved));
+    os.write((char *) &objectVersion, sizeof(objectVersion));
+    os.write((char *) &uncompressedFileSize, sizeof(uncompressedFileSize));
+    os.write((char *) compressedFile.data(), compressedFileSize);
 }
 
 size_t LogContainer::calculateObjectSize()

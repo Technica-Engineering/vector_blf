@@ -21,8 +21,6 @@
 
 #include "MostPkt2.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -53,195 +51,49 @@ MostPkt2::~MostPkt2()
 {
 }
 
-char * MostPkt2::read(char * buffer)
+void MostPkt2::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader2::read(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // dir
-    size = sizeof(dir);
-    memcpy((void *) &dir, buffer, size);
-    buffer += size;
-
-    // reserved1
-    size = sizeof(reserved1);
-    memcpy((void *) &reserved1, buffer, size);
-    buffer += size;
-
-    // sourceAdr
-    size = sizeof(sourceAdr);
-    memcpy((void *) &sourceAdr, buffer, size);
-    buffer += size;
-
-    // destAdr
-    size = sizeof(destAdr);
-    memcpy((void *) &destAdr, buffer, size);
-    buffer += size;
-
-    // arbitration
-    size = sizeof(arbitration);
-    memcpy((void *) &arbitration, buffer, size);
-    buffer += size;
-
-    // timeRes
-    size = sizeof(timeRes);
-    memcpy((void *) &timeRes, buffer, size);
-    buffer += size;
-
-    // quadsToFollow
-    size = sizeof(quadsToFollow);
-    memcpy((void *) &quadsToFollow, buffer, size);
-    buffer += size;
-
-    // reserved2
-    size = sizeof(reserved2);
-    memcpy((void *) &reserved2, buffer, size);
-    buffer += size;
-
-    // crc
-    size = sizeof(crc);
-    memcpy((void *) &crc, buffer, size);
-    buffer += size;
-
-    // priority
-    size = sizeof(priority);
-    memcpy((void *) &priority, buffer, size);
-    buffer += size;
-
-    // transferType
-    size = sizeof(transferType);
-    memcpy((void *) &transferType, buffer, size);
-    buffer += size;
-
-    // state
-    size = sizeof(state);
-    memcpy((void *) &state, buffer, size);
-    buffer += size;
-
-    // reserved3
-    size = reserved3.size();
-    memcpy(reserved3.data(), buffer, size);
-    buffer += size;
-
-    // pktDataLength
-    size = sizeof(pktDataLength);
-    memcpy((void *) &pktDataLength, buffer, size);
-    buffer += size;
-
-    // reserved4
-    size = reserved4.size();
-    memcpy(reserved4.data(), buffer, size);
-    buffer += size;
-
-    // pktData
-    size = pktDataLength;
-    pktData.reserve(size);
-    memcpy(pktData.data(), buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader2::read(is);
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) &dir, sizeof(dir));
+    is.read((char *) &reserved1, sizeof(reserved1));
+    is.read((char *) &sourceAdr, sizeof(sourceAdr));
+    is.read((char *) &destAdr, sizeof(destAdr));
+    is.read((char *) &arbitration, sizeof(arbitration));
+    is.read((char *) &timeRes, sizeof(timeRes));
+    is.read((char *) &quadsToFollow, sizeof(quadsToFollow));
+    is.read((char *) &reserved2, sizeof(reserved2));
+    is.read((char *) &crc, sizeof(crc));
+    is.read((char *) &priority, sizeof(priority));
+    is.read((char *) &transferType, sizeof(transferType));
+    is.read((char *) &state, sizeof(state));
+    is.read((char *) reserved3.data(), reserved3.size());
+    is.read((char *) &pktDataLength, sizeof(pktDataLength));
+    is.read((char *) reserved4.data(), reserved4.size());
+    pktData.reserve(pktDataLength);
+    is.read((char *) pktData.data(), pktDataLength);
 }
 
-char * MostPkt2::write(char * buffer)
+void MostPkt2::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader2::write(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // dir
-    size = sizeof(dir);
-    memcpy(buffer, (void *) &dir, size);
-    buffer += size;
-
-    // reserved1
-    size = sizeof(reserved1);
-    memcpy(buffer, (void *) &reserved1, size);
-    buffer += size;
-
-    // sourceAdr
-    size = sizeof(sourceAdr);
-    memcpy(buffer, (void *) &sourceAdr, size);
-    buffer += size;
-
-    // destAdr
-    size = sizeof(destAdr);
-    memcpy(buffer, (void *) &destAdr, size);
-    buffer += size;
-
-    // arbitration
-    size = sizeof(arbitration);
-    memcpy(buffer, (void *) &arbitration, size);
-    buffer += size;
-
-    // timeRes
-    size = sizeof(timeRes);
-    memcpy(buffer, (void *) &timeRes, size);
-    buffer += size;
-
-    // quadsToFollow
-    size = sizeof(quadsToFollow);
-    memcpy(buffer, (void *) &quadsToFollow, size);
-    buffer += size;
-
-    // reserved2
-    size = sizeof(reserved2);
-    memcpy(buffer, (void *) &reserved2, size);
-    buffer += size;
-
-    // crc
-    size = sizeof(crc);
-    memcpy(buffer, (void *) &crc, size);
-    buffer += size;
-
-    // priority
-    size = sizeof(priority);
-    memcpy(buffer, (void *) &priority, size);
-    buffer += size;
-
-    // transferType
-    size = sizeof(transferType);
-    memcpy(buffer, (void *) &transferType, size);
-    buffer += size;
-
-    // state
-    size = sizeof(state);
-    memcpy(buffer, (void *) &state, size);
-    buffer += size;
-
-    // reserved3
-    size = reserved3.size();
-    memcpy(buffer, reserved3.data(), size);
-    buffer += size;
-
-    // pktDataLength
-    size = sizeof(pktDataLength);
-    memcpy(buffer, (void *) &pktDataLength, size);
-    buffer += size;
-
-    // reserved4
-    size = reserved4.size();
-    memcpy(buffer, reserved4.data(), size);
-    buffer += size;
-
-    // pktData
-    size = pktDataLength;
-    memcpy(buffer, pktData.data(), size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader2::write(os);
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) &dir, sizeof(dir));
+    os.write((char *) &reserved1, sizeof(reserved1));
+    os.write((char *) &sourceAdr, sizeof(sourceAdr));
+    os.write((char *) &destAdr, sizeof(destAdr));
+    os.write((char *) &arbitration, sizeof(arbitration));
+    os.write((char *) &timeRes, sizeof(timeRes));
+    os.write((char *) &quadsToFollow, sizeof(quadsToFollow));
+    os.write((char *) &reserved2, sizeof(reserved2));
+    os.write((char *) &crc, sizeof(crc));
+    os.write((char *) &priority, sizeof(priority));
+    os.write((char *) &transferType, sizeof(transferType));
+    os.write((char *) &state, sizeof(state));
+    os.write((char *) reserved3.data(), reserved3.size());
+    os.write((char *) &pktDataLength, sizeof(pktDataLength));
+    os.write((char *) reserved4.data(), reserved4.size());
+    os.write((char *) pktData.data(), pktDataLength);
 }
 
 size_t MostPkt2::calculateObjectSize()

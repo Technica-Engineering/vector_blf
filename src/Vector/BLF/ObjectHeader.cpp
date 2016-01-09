@@ -21,8 +21,6 @@
 
 #include "ObjectHeader.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -36,64 +34,22 @@ ObjectHeader::ObjectHeader() :
     headerVersion = 1;
 }
 
-char * ObjectHeader::read(char * buffer)
+void ObjectHeader::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeaderBase::read(buffer);
-
-    // objectFlags
-    size = sizeof(objectFlags);
-    memcpy((void *) &objectFlags, buffer, size);
-    buffer += size;
-
-    // reserved
-    size = sizeof(reserved);
-    memcpy((void *) &reserved, buffer, size);
-    buffer += size;
-
-    // objectVersion
-    size = sizeof(objectVersion);
-    memcpy((void *) &objectVersion, buffer, size);
-    buffer += size;
-
-    // objectTimeStamp
-    size = sizeof(objectTimeStamp);
-    memcpy((void *) &objectTimeStamp, buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeaderBase::read(is);
+    is.read((char *) &objectFlags, sizeof(objectFlags));
+    is.read((char *) &reserved, sizeof(reserved));
+    is.read((char *) &objectVersion, sizeof(objectVersion));
+    is.read((char *) &objectTimeStamp, sizeof(objectTimeStamp));
 }
 
-char * ObjectHeader::write(char * buffer)
+void ObjectHeader::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeaderBase::write(buffer);
-
-    // objectFlags
-    size = sizeof(objectFlags);
-    memcpy(buffer, (void *) &objectFlags, size);
-    buffer += size;
-
-    // reserved
-    size = sizeof(reserved);
-    memcpy(buffer, (void *) &reserved, size);
-    buffer += size;
-
-    // objectVersion
-    size = sizeof(objectVersion);
-    memcpy(buffer, (void *) &objectVersion, size);
-    buffer += size;
-
-    // objectTimeStamp
-    size = sizeof(objectTimeStamp);
-    memcpy(buffer, (void *) &objectTimeStamp, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeaderBase::write(os);
+    os.write((char *) &objectFlags, sizeof(objectFlags));
+    os.write((char *) &reserved, sizeof(reserved));
+    os.write((char *) &objectVersion, sizeof(objectVersion));
+    os.write((char *) &objectTimeStamp, sizeof(objectTimeStamp));
 }
 
 const size_t ObjectHeader::calculateHeaderSize()

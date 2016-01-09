@@ -21,8 +21,6 @@
 
 #include "WlanFrame.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -44,105 +42,31 @@ WlanFrame::~WlanFrame()
 {
 }
 
-char * WlanFrame::read(char * buffer)
+void WlanFrame::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::read(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // flags
-    size = sizeof(flags);
-    memcpy((void *) &flags, buffer, size);
-    buffer += size;
-
-    // dir
-    size = sizeof(dir);
-    memcpy((void *) &dir, buffer, size);
-    buffer += size;
-
-    // radioChannel
-    size = sizeof(radioChannel);
-    memcpy((void *) &radioChannel, buffer, size);
-    buffer += size;
-
-    // signalStrength
-    size = sizeof(signalStrength);
-    memcpy((void *) &signalStrength, buffer, size);
-    buffer += size;
-
-    // signalQuality
-    size = sizeof(signalQuality);
-    memcpy((void *) &signalQuality, buffer, size);
-    buffer += size;
-
-    // frameLength
-    size = sizeof(frameLength);
-    memcpy((void *) &frameLength, buffer, size);
-    buffer += size;
-
-    // frameData
-    size = frameLength;
-    frameData.reserve(size);
-    memcpy(frameData.data(), buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::read(is);
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) &flags, sizeof(flags));
+    is.read((char *) &dir, sizeof(dir));
+    is.read((char *) &radioChannel, sizeof(radioChannel));
+    is.read((char *) &signalStrength, sizeof(signalStrength));
+    is.read((char *) &signalQuality, sizeof(signalQuality));
+    is.read((char *) &frameLength, sizeof(frameLength));
+    frameData.reserve(frameLength);
+    is.read((char *) frameData.data(), frameLength);
 }
 
-char * WlanFrame::write(char * buffer)
+void WlanFrame::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::write(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // flags
-    size = sizeof(flags);
-    memcpy(buffer, (void *) &flags, size);
-    buffer += size;
-
-    // dir
-    size = sizeof(dir);
-    memcpy(buffer, (void *) &dir, size);
-    buffer += size;
-
-    // radioChannel
-    size = sizeof(radioChannel);
-    memcpy(buffer, (void *) &radioChannel, size);
-    buffer += size;
-
-    // signalStrength
-    size = sizeof(signalStrength);
-    memcpy(buffer, (void *) &signalStrength, size);
-    buffer += size;
-
-    // signalQuality
-    size = sizeof(signalQuality);
-    memcpy(buffer, (void *) &signalQuality, size);
-    buffer += size;
-
-    // frameLength
-    size = sizeof(frameLength);
-    memcpy(buffer, (void *) &frameLength, size);
-    buffer += size;
-
-    // frameData
-    size = frameLength;
-    memcpy(buffer, frameData.data(), size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::write(os);
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) &flags, sizeof(flags));
+    os.write((char *) &dir, sizeof(dir));
+    os.write((char *) &radioChannel, sizeof(radioChannel));
+    os.write((char *) &signalStrength, sizeof(signalStrength));
+    os.write((char *) &signalQuality, sizeof(signalQuality));
+    os.write((char *) &frameLength, sizeof(frameLength));
+    os.write((char *) frameData.data(), frameLength);
 }
 
 size_t WlanFrame::calculateObjectSize()

@@ -21,8 +21,6 @@
 
 #include "EthernetFrame.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -46,125 +44,35 @@ EthernetFrame::~EthernetFrame()
 {
 }
 
-char * EthernetFrame::read(char * buffer)
+void EthernetFrame::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::read(buffer);
-
-    // sourceAddress
-    size = sourceAddress.size();
-    memcpy(sourceAddress.data(), buffer, size);
-    buffer += size;
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // destinationAddress
-    size = destinationAddress.size();
-    memcpy(destinationAddress.data(), buffer, size);
-    buffer += size;
-
-    // dir
-    size = sizeof(dir);
-    memcpy((void *) &dir, buffer, size);
-    buffer += size;
-
-    // type
-    size = sizeof(type);
-    memcpy((void *) &type, buffer, size);
-    buffer += size;
-
-    // tpid
-    size = sizeof(tpid);
-    memcpy((void *) &tpid, buffer, size);
-    buffer += size;
-
-    // tci
-    size = sizeof(tci);
-    memcpy((void *) &tci, buffer, size);
-    buffer += size;
-
-    // payLoadLength
-    size = sizeof(payLoadLength);
-    memcpy((void *) &payLoadLength, buffer, size);
-    buffer += size;
-
-    // reserved
-    size = reserved.size();
-    memcpy(reserved.data(), buffer, size);
-    buffer += size;
-
-    // payLoad
-    size = payLoadLength;
-    payLoad.reserve(size);
-    memcpy(payLoad.data(), buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::read(is);
+    is.read((char *) sourceAddress.data(), sourceAddress.size());
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) destinationAddress.data(), destinationAddress.size());
+    is.read((char *) &dir, sizeof(dir));
+    is.read((char *) &type, sizeof(type));
+    is.read((char *) &tpid, sizeof(tpid));
+    is.read((char *) &tci, sizeof(tci));
+    is.read((char *) &payLoadLength, sizeof(payLoadLength));
+    is.read((char *) reserved.data(), reserved.size());
+    payLoad.reserve(payLoadLength);
+    is.read((char *) payLoad.data(), payLoadLength);
 }
 
-char * EthernetFrame::write(char * buffer)
+void EthernetFrame::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::write(buffer);
-
-    // sourceAddress
-    size = sourceAddress.size();
-    memcpy(buffer, sourceAddress.data(), size);
-    buffer += size;
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // destinationAddress
-    size = destinationAddress.size();
-    memcpy(buffer, destinationAddress.data(), size);
-    buffer += size;
-
-    // dir
-    size = sizeof(dir);
-    memcpy(buffer, (void *) &dir, size);
-    buffer += size;
-
-    // type
-    size = sizeof(type);
-    memcpy(buffer, (void *) &type, size);
-    buffer += size;
-
-    // tpid
-    size = sizeof(tpid);
-    memcpy(buffer, (void *) &tpid, size);
-    buffer += size;
-
-    // tci
-    size = sizeof(tci);
-    memcpy(buffer, (void *) &tci, size);
-    buffer += size;
-
-    // payLoadLength
-    size = sizeof(payLoadLength);
-    memcpy(buffer, (void *) &payLoadLength, size);
-    buffer += size;
-
-    // reserved
-    size = reserved.size();
-    memcpy(buffer, reserved.data(), size);
-    buffer += size;
-
-    // payLoad
-    size = payLoadLength;
-    memcpy(buffer, payLoad.data(), size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::write(os);
+    os.write((char *) sourceAddress.data(), sourceAddress.size());
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) destinationAddress.data(), destinationAddress.size());
+    os.write((char *) &dir, sizeof(dir));
+    os.write((char *) &type, sizeof(type));
+    os.write((char *) &tpid, sizeof(tpid));
+    os.write((char *) &tci, sizeof(tci));
+    os.write((char *) &payLoadLength, sizeof(payLoadLength));
+    os.write((char *) reserved.data(), reserved.size());
+    os.write((char *) payLoad.data(), payLoadLength);
 }
 
 size_t EthernetFrame::calculateObjectSize()

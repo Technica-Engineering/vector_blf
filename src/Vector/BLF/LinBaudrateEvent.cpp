@@ -21,8 +21,6 @@
 
 #include "LinBaudrateEvent.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -35,54 +33,20 @@ LinBaudrateEvent::LinBaudrateEvent() :
     objectType = ObjectType::LIN_BAUDRATE;
 }
 
-char * LinBaudrateEvent::read(char * buffer)
+void LinBaudrateEvent::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::read(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // reserved
-    size = sizeof(reserved);
-    memcpy((void *) &reserved, buffer, size);
-    buffer += size;
-
-    // baudrate
-    size = sizeof(baudrate);
-    memcpy((void *) &baudrate, buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::read(is);
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) &reserved, sizeof(reserved));
+    is.read((char *) &baudrate, sizeof(baudrate));
 }
 
-char * LinBaudrateEvent::write(char * buffer)
+void LinBaudrateEvent::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::write(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // reserved
-    size = sizeof(reserved);
-    memcpy(buffer, (void *) &reserved, size);
-    buffer += size;
-
-    // baudrate
-    size = sizeof(baudrate);
-    memcpy(buffer, (void *) &baudrate, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::write(os);
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) &reserved, sizeof(reserved));
+    os.write((char *) &baudrate, sizeof(baudrate));
 }
 
 size_t LinBaudrateEvent::calculateObjectSize()

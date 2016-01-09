@@ -21,8 +21,6 @@
 
 #include "LinSynchFieldEvent.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -33,44 +31,18 @@ LinSynchFieldEvent::LinSynchFieldEvent() :
 {
 }
 
-char * LinSynchFieldEvent::read(char * buffer)
+void LinSynchFieldEvent::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = LinBusEvent::read(buffer);
-
-    // synchBreakLength
-    size = sizeof(synchBreakLength);
-    memcpy((void *) &synchBreakLength, buffer, size);
-    buffer += size;
-
-    // synchDelLength
-    size = sizeof(synchDelLength);
-    memcpy((void *) &synchDelLength, buffer, size);
-    buffer += size;
-
-    return buffer;
+    LinBusEvent::read(is);
+    is.read((char *) &synchBreakLength, sizeof(synchBreakLength));
+    is.read((char *) &synchDelLength, sizeof(synchDelLength));
 }
 
-char * LinSynchFieldEvent::write(char * buffer)
+void LinSynchFieldEvent::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = LinBusEvent::write(buffer);
-
-    // synchBreakLength
-    size = sizeof(synchBreakLength);
-    memcpy(buffer, (void *) &synchBreakLength, size);
-    buffer += size;
-
-    // synchDelLength
-    size = sizeof(synchDelLength);
-    memcpy(buffer, (void *) &synchDelLength, size);
-    buffer += size;
-
-    return buffer;
+    LinBusEvent::write(os);
+    os.write((char *) &synchBreakLength, sizeof(synchBreakLength));
+    os.write((char *) &synchDelLength, sizeof(synchDelLength));
 }
 
 size_t LinSynchFieldEvent::calculateObjectSize()

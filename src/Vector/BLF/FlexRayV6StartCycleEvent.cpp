@@ -21,8 +21,6 @@
 
 #include "FlexRayV6StartCycleEvent.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -41,114 +39,32 @@ FlexRayV6StartCycleEvent::FlexRayV6StartCycleEvent() :
     objectType = ObjectType::FLEXRAY_CYCLE;
 }
 
-char * FlexRayV6StartCycleEvent::read(char * buffer)
+void FlexRayV6StartCycleEvent::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::read(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // dir
-    size = sizeof(dir);
-    memcpy((void *) &dir, buffer, size);
-    buffer += size;
-
-    // lowTime
-    size = sizeof(lowTime);
-    memcpy((void *) &lowTime, buffer, size);
-    buffer += size;
-
-    // fpgaTick
-    size = sizeof(fpgaTick);
-    memcpy((void *) &fpgaTick, buffer, size);
-    buffer += size;
-
-    // fpgaTickOverflow
-    size = sizeof(fpgaTickOverflow);
-    memcpy((void *) &fpgaTickOverflow, buffer, size);
-    buffer += size;
-
-    // clientIndex
-    size = sizeof(clientIndex);
-    memcpy((void *) &clientIndex, buffer, size);
-    buffer += size;
-
-    // clusterTime
-    size = sizeof(clusterTime);
-    memcpy((void *) &clusterTime, buffer, size);
-    buffer += size;
-
-    // dataBytes
-    size = dataBytes.size();
-    memcpy(dataBytes.data(), buffer, size);
-    buffer += size;
-
-    // reserved
-    size = reserved.size();
-    memcpy(reserved.data(), buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::read(is);
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) &dir, sizeof(dir));
+    is.read((char *) &lowTime, sizeof(lowTime));
+    is.read((char *) &fpgaTick, sizeof(fpgaTick));
+    is.read((char *) &fpgaTickOverflow, sizeof(fpgaTickOverflow));
+    is.read((char *) &clientIndex, sizeof(clientIndex));
+    is.read((char *) &clusterTime, sizeof(clusterTime));
+    is.read((char *) dataBytes.data(), dataBytes.size());
+    is.read((char *) reserved.data(), reserved.size());
 }
 
-char * FlexRayV6StartCycleEvent::write(char * buffer)
+void FlexRayV6StartCycleEvent::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::write(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // dir
-    size = sizeof(dir);
-    memcpy(buffer, (void *) &dir, size);
-    buffer += size;
-
-    // lowTime
-    size = sizeof(lowTime);
-    memcpy(buffer, (void *) &lowTime, size);
-    buffer += size;
-
-    // fpgaTick
-    size = sizeof(fpgaTick);
-    memcpy(buffer, (void *) &fpgaTick, size);
-    buffer += size;
-
-    // fpgaTickOverflow
-    size = sizeof(fpgaTickOverflow);
-    memcpy(buffer, (void *) &fpgaTickOverflow, size);
-    buffer += size;
-
-    // clientIndex
-    size = sizeof(clientIndex);
-    memcpy(buffer, (void *) &clientIndex, size);
-    buffer += size;
-
-    // clusterTime
-    size = sizeof(clusterTime);
-    memcpy(buffer, (void *) &clusterTime, size);
-    buffer += size;
-
-    // dataBytes
-    size = dataBytes.size();
-    memcpy(buffer, dataBytes.data(), size);
-    buffer += size;
-
-    // reserved
-    size = reserved.size();
-    memcpy(buffer, reserved.data(), size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::write(os);
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) &dir, sizeof(dir));
+    os.write((char *) &lowTime, sizeof(lowTime));
+    os.write((char *) &fpgaTick, sizeof(fpgaTick));
+    os.write((char *) &fpgaTickOverflow, sizeof(fpgaTickOverflow));
+    os.write((char *) &clientIndex, sizeof(clientIndex));
+    os.write((char *) &clusterTime, sizeof(clusterTime));
+    os.write((char *) dataBytes.data(), dataBytes.size());
+    os.write((char *) reserved.data(), reserved.size());
 }
 
 size_t FlexRayV6StartCycleEvent::calculateObjectSize()

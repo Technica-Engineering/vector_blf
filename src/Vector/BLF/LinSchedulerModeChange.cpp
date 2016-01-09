@@ -21,8 +21,6 @@
 
 #include "LinSchedulerModeChange.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -36,64 +34,22 @@ LinSchedulerModeChange::LinSchedulerModeChange() :
     objectType = ObjectType::LIN_SCHED_MODCH;
 }
 
-char * LinSchedulerModeChange::read(char * buffer)
+void LinSchedulerModeChange::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::read(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // oldMode
-    size = sizeof(oldMode);
-    memcpy((void *) &oldMode, buffer, size);
-    buffer += size;
-
-    // newMode
-    size = sizeof(newMode);
-    memcpy((void *) &newMode, buffer, size);
-    buffer += size;
-
-    // reserved
-    size = reserved.size();
-    memcpy(reserved.data(), buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::read(is);
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) &oldMode, sizeof(oldMode));
+    is.read((char *) &newMode, sizeof(newMode));
+    is.read((char *) reserved.data(), reserved.size());
 }
 
-char * LinSchedulerModeChange::write(char * buffer)
+void LinSchedulerModeChange::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::write(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // oldMode
-    size = sizeof(oldMode);
-    memcpy(buffer, (void *) &oldMode, size);
-    buffer += size;
-
-    // newMode
-    size = sizeof(newMode);
-    memcpy(buffer, (void *) &newMode, size);
-    buffer += size;
-
-    // reserved
-    size = reserved.size();
-    memcpy(buffer, reserved.data(), size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::write(os);
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) &oldMode, sizeof(oldMode));
+    os.write((char *) &newMode, sizeof(newMode));
+    os.write((char *) reserved.data(), reserved.size());
 }
 
 size_t LinSchedulerModeChange::calculateObjectSize()

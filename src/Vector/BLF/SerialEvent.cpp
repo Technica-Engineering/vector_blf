@@ -21,8 +21,6 @@
 
 #include "SerialEvent.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -36,146 +34,57 @@ SerialEvent::SerialEvent() :
     objectType = ObjectType::SERIAL_EVENT;
 }
 
-char * SerialEvent::read(char * buffer)
+SerialEvent::~SerialEvent()
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::read(buffer);
-
-    // flags
-    size = sizeof(flags);
-    memcpy((void *) &flags, buffer, size);
-    buffer += size;
-
-    // port
-    size = sizeof(port);
-    memcpy((void *) &port, buffer, size);
-    buffer += size;
-
-    // baudrate
-    size = sizeof(baudrate);
-    memcpy((void *) &baudrate, buffer, size);
-    buffer += size;
-
-    // reserved
-    size = sizeof(reserved);
-    memcpy((void *) &reserved, buffer, size);
-    buffer += size;
-
-    /* union */
-    if ((flags & ((DWORD) Flags::SingleByte)) != 0) {
-        // data.singleByte.byte
-        size = sizeof(data.singleByte.byte);
-        memcpy((void *) &data.singleByte.byte, buffer, size);
-        buffer += size;
-    } else {
-        if ((flags & ((DWORD) Flags::CompactByte)) != 0) {
-            // data.compact.compactLength
-            size = sizeof(data.compact.compactLength);
-            memcpy((void *) &data.compact.compactLength, buffer, size);
-            buffer += size;
-
-            // data.compact.compactData
-            size = sizeof(data.compact.compactData);
-            memcpy((void *) &data.compact.compactData, buffer, size);
-            buffer += size;
-        } else {
-            // data.general.dataLength
-            size = sizeof(data.general.dataLength);
-            memcpy((void *) &data.general.dataLength, buffer, size);
-            buffer += size;
-
-            // data.general.timeStampsLength
-            size = sizeof(data.general.timeStampsLength);
-            memcpy((void *) &data.general.timeStampsLength, buffer, size);
-            buffer += size;
-
-            // data.general.data
-            size = data.general.dataLength;
-            data.general.data = new char[size];
-            memcpy(data.general.data, buffer, size);
-            buffer += size;
-
-            // data.general.timeStamps
-            size = data.general.timeStampsLength;
-            data.general.timeStamps = (LONGLONG *) new char[size];
-            memcpy(data.general.timeStamps, buffer, size);
-            buffer += size;
-        }
-    }
-
-    return buffer;
+    // @todo free memory of GeneralSerialEvent
 }
 
-char * SerialEvent::write(char * buffer)
+void SerialEvent::read(std::istream & is)
 {
-    size_t size;
+    ObjectHeader::read(is);
+    is.read((char *) &flags, sizeof(flags));
+    is.read((char *) &port, sizeof(port));
+    is.read((char *) &baudrate, sizeof(baudrate));
+    is.read((char *) &reserved, sizeof(reserved));
 
-    // preceding data
-    buffer = ObjectHeader::write(buffer);
-
-    // flags
-    size = sizeof(flags);
-    memcpy(buffer, (void *) &flags, size);
-    buffer += size;
-
-    // port
-    size = sizeof(port);
-    memcpy(buffer, (void *) &port, size);
-    buffer += size;
-
-    // baudrate
-    size = sizeof(baudrate);
-    memcpy(buffer, (void *) &baudrate, size);
-    buffer += size;
-
-    // reserved
-    size = sizeof(reserved);
-    memcpy(buffer, (void *) &reserved, size);
-    buffer += size;
-
-    /* union */
     if ((flags & ((DWORD) Flags::SingleByte)) != 0) {
-        // data.singleByte.byte
-        size = sizeof(data.singleByte.byte);
-        memcpy(buffer, (void *) &data.singleByte.byte, size);
-        buffer += size;
+        is.read((char *) &data.singleByte.byte, sizeof(data.singleByte.byte));
     } else {
         if ((flags & ((DWORD) Flags::CompactByte)) != 0) {
-            // data.compact.compactLength
-            size = sizeof(data.compact.compactLength);
-            memcpy(buffer, (void *) &data.compact.compactLength, size);
-            buffer += size;
-
-            // data.compact.compactData
-            size = sizeof(data.compact.compactData);
-            memcpy(buffer, (void *) &data.compact.compactData, size);
-            buffer += size;
+            is.read((char *) &data.compact.compactLength, sizeof(data.compact.compactLength));
+            is.read((char *) &data.compact.compactData, sizeof(data.compact.compactData));
         } else {
-            // data.general.dataLength
-            size = sizeof(data.general.dataLength);
-            memcpy(buffer, (void *) &data.general.dataLength, size);
-            buffer += size;
-
-            // data.general.timeStampsLength
-            size = sizeof(data.general.timeStampsLength);
-            memcpy(buffer, (void *) &data.general.timeStampsLength, size);
-            buffer += size;
-
-            // data.general.data
-            size = data.general.dataLength;
-            memcpy(buffer, data.general.data, size);
-            buffer += size;
-
-            // data.general.timeStamps
-            size = data.general.timeStampsLength;
-            memcpy(buffer, data.general.timeStamps, size);
-            buffer += size;
+            is.read((char *) &data.general.dataLength, sizeof(data.general.dataLength));
+            is.read((char *) &data.general.timeStampsLength, sizeof(data.general.timeStampsLength));
+            data.general.data = new char[data.general.dataLength];
+            is.read((char *) &data.general.data, data.general.dataLength);
+            data.general.timeStamps = (LONGLONG *) new char[data.general.timeStampsLength];
+            is.read((char *) &data.general.timeStamps, data.general.timeStampsLength);
         }
     }
+}
 
-    return buffer;
+void SerialEvent::write(std::ostream & os)
+{
+    ObjectHeader::write(os);
+    os.write((char *) &flags, sizeof(flags));
+    os.write((char *) &port, sizeof(port));
+    os.write((char *) &baudrate, sizeof(baudrate));
+    os.write((char *) &reserved, sizeof(reserved));
+
+    if ((flags & ((DWORD) Flags::SingleByte)) != 0) {
+        os.write((char *) &data.singleByte.byte, sizeof(data.singleByte.byte));
+    } else {
+        if ((flags & ((DWORD) Flags::CompactByte)) != 0) {
+            os.write((char *) &data.compact.compactLength, sizeof(data.compact.compactLength));
+            os.write((char *) &data.compact.compactData, sizeof(data.compact.compactData));
+        } else {
+            os.write((char *) &data.general.dataLength, sizeof(data.general.dataLength));
+            os.write((char *) &data.general.timeStampsLength, sizeof(data.general.timeStampsLength));
+            os.write((char *) &data.general.data, data.general.dataLength);
+            os.write((char *) &data.general.timeStamps, data.general.timeStampsLength);
+        }
+    }
 }
 
 size_t SerialEvent::calculateObjectSize()

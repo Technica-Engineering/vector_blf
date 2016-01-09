@@ -21,8 +21,6 @@
 
 #include "MostEcl.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -36,64 +34,22 @@ MostEcl::MostEcl() :
     objectType = ObjectType::MOST_ECL;
 }
 
-char * MostEcl::read(char * buffer)
+void MostEcl::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader2::read(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // mode
-    size = sizeof(mode);
-    memcpy((void *) &mode, buffer, size);
-    buffer += size;
-
-    // eclState
-    size = sizeof(eclState);
-    memcpy((void *) &eclState, buffer, size);
-    buffer += size;
-
-    // reserved
-    size = sizeof(reserved);
-    memcpy((void *) &reserved, buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader2::read(is);
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) &mode, sizeof(mode));
+    is.read((char *) &eclState, sizeof(eclState));
+    is.read((char *) &reserved, sizeof(reserved));
 }
 
-char * MostEcl::write(char * buffer)
+void MostEcl::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader2::write(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // mode
-    size = sizeof(mode);
-    memcpy(buffer, (void *) &mode, size);
-    buffer += size;
-
-    // eclState
-    size = sizeof(eclState);
-    memcpy(buffer, (void *) &eclState, size);
-    buffer += size;
-
-    // reserved
-    size = sizeof(reserved);
-    memcpy(buffer, (void *) &reserved, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader2::write(os);
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) &mode, sizeof(mode));
+    os.write((char *) &eclState, sizeof(eclState));
+    os.write((char *) &reserved, sizeof(reserved));
 }
 
 size_t MostEcl::calculateObjectSize()

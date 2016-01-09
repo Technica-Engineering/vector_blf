@@ -21,8 +21,6 @@
 
 #include "MostStress.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -36,64 +34,22 @@ MostStress::MostStress() :
     objectType = ObjectType::MOST_STRESS;
 }
 
-char * MostStress::read(char * buffer)
+void MostStress::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader2::read(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // state
-    size = sizeof(state);
-    memcpy((void *) &state, buffer, size);
-    buffer += size;
-
-    // mode
-    size = sizeof(mode);
-    memcpy((void *) &mode, buffer, size);
-    buffer += size;
-
-    // reserved
-    size = sizeof(reserved);
-    memcpy((void *) &reserved, buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader2::read(is);
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) &state, sizeof(state));
+    is.read((char *) &mode, sizeof(mode));
+    is.read((char *) &reserved, sizeof(reserved));
 }
 
-char * MostStress::write(char * buffer)
+void MostStress::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader2::write(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // state
-    size = sizeof(state);
-    memcpy(buffer, (void *) &state, size);
-    buffer += size;
-
-    // mode
-    size = sizeof(mode);
-    memcpy(buffer, (void *) &mode, size);
-    buffer += size;
-
-    // reserved
-    size = sizeof(reserved);
-    memcpy(buffer, (void *) &reserved, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader2::write(os);
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) &state, sizeof(state));
+    os.write((char *) &mode, sizeof(mode));
+    os.write((char *) &reserved, sizeof(reserved));
 }
 
 size_t MostStress::calculateObjectSize()

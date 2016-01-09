@@ -21,8 +21,6 @@
 
 #include "LinMessage2.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -48,182 +46,64 @@ LinMessage2::LinMessage2() :
     objectVersion = 1;
 }
 
-char * LinMessage2::read(char * buffer)
+void LinMessage2::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::read(buffer);
-    buffer = LinDatabyteTimestampEvent::read(buffer);
-
-    // data
-    size = data.size();
-    memcpy(data.data(), buffer, size);
-    buffer += size;
-
-    // crc
-    size = sizeof(crc);
-    memcpy((void *) &crc, buffer, size);
-    buffer += size;
-
-    // dir
-    size = sizeof(dir);
-    memcpy((void *) &dir, buffer, size);
-    buffer += size;
-
-    // simulated
-    size = sizeof(simulated);
-    memcpy((void *) &simulated, buffer, size);
-    buffer += size;
-
-    // isEtf
-    size = sizeof(isEtf);
-    memcpy((void *) &isEtf, buffer, size);
-    buffer += size;
-
-    // etfAssocIndex
-    size = sizeof(etfAssocIndex);
-    memcpy((void *) &etfAssocIndex, buffer, size);
-    buffer += size;
-
-    // etfAssocEtfId
-    size = sizeof(etfAssocEtfId);
-    memcpy((void *) &etfAssocEtfId, buffer, size);
-    buffer += size;
-
-    // fsmId
-    size = sizeof(fsmId);
-    memcpy((void *) &fsmId, buffer, size);
-    buffer += size;
-
-    // fsmState
-    size = sizeof(fsmState);
-    memcpy((void *) &fsmState, buffer, size);
-    buffer += size;
-
-    // reserved
-    size = reserved.size();
-    memcpy(reserved.data(), buffer, size);
-    buffer += size;
+    ObjectHeader::read(is);
+    LinDatabyteTimestampEvent::read(is);
+    is.read((char *) data.data(), data.size());
+    is.read((char *) &crc, sizeof(crc));
+    is.read((char *) &dir, sizeof(dir));
+    is.read((char *) &simulated, sizeof(simulated));
+    is.read((char *) &isEtf, sizeof(isEtf));
+    is.read((char *) &etfAssocIndex, sizeof(etfAssocIndex));
+    is.read((char *) &etfAssocEtfId, sizeof(etfAssocEtfId));
+    is.read((char *) &fsmId, sizeof(fsmId));
+    is.read((char *) &fsmState, sizeof(fsmState));
+    is.read((char *) reserved.data(), reserved.size());
 
     /* the following variables are only available in Version 2 and above */
     if (objectVersion < 0) // this is probably a bug in Vector's original implementation
-        return buffer;
+        return;
 
-    // respBaudrate
-    size = sizeof(respBaudrate);
-    memcpy((void *) &respBaudrate, buffer, size);
-    buffer += size;
+    is.read((char *) &respBaudrate, sizeof(respBaudrate));
 
     /* the following variables are only available in Version 3 and above */
     if (objectVersion < 1) // this is probably a bug in Vector's original implementation
-        return buffer;
+        return;
 
-    // exactHeaderBaudrate
-    size = sizeof(exactHeaderBaudrate);
-    memcpy((void *) &exactHeaderBaudrate, buffer, size);
-    buffer += size;
-
-    // earlyStopbitOffset
-    size = sizeof(earlyStopbitOffset);
-    memcpy((void *) &earlyStopbitOffset, buffer, size);
-    buffer += size;
-
-    // earlyStopbitOffsetResponse
-    size = sizeof(earlyStopbitOffsetResponse);
-    memcpy((void *) &earlyStopbitOffsetResponse, buffer, size);
-    buffer += size;
-
-    return buffer;
+    is.read((char *) &exactHeaderBaudrate, sizeof(exactHeaderBaudrate));
+    is.read((char *) &earlyStopbitOffset, sizeof(earlyStopbitOffset));
+    is.read((char *) &earlyStopbitOffsetResponse, sizeof(earlyStopbitOffsetResponse));
 }
 
-char * LinMessage2::write(char * buffer)
+void LinMessage2::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::write(buffer);
-    buffer = LinDatabyteTimestampEvent::write(buffer);
-
-    // data
-    size = data.size();
-    memcpy(buffer, data.data(), size);
-    buffer += size;
-
-    // crc
-    size = sizeof(crc);
-    memcpy(buffer, (void *) &crc, size);
-    buffer += size;
-
-    // dir
-    size = sizeof(dir);
-    memcpy(buffer, (void *) &dir, size);
-    buffer += size;
-
-    // simulated
-    size = sizeof(simulated);
-    memcpy(buffer, (void *) &simulated, size);
-    buffer += size;
-
-    // isEtf
-    size = sizeof(isEtf);
-    memcpy(buffer, (void *) &isEtf, size);
-    buffer += size;
-
-    // etfAssocIndex
-    size = sizeof(etfAssocIndex);
-    memcpy(buffer, (void *) &etfAssocIndex, size);
-    buffer += size;
-
-    // etfAssocEtfId
-    size = sizeof(etfAssocEtfId);
-    memcpy(buffer, (void *) &etfAssocEtfId, size);
-    buffer += size;
-
-    // fsmId
-    size = sizeof(fsmId);
-    memcpy(buffer, (void *) &fsmId, size);
-    buffer += size;
-
-    // fsmState
-    size = sizeof(fsmState);
-    memcpy(buffer, (void *) &fsmState, size);
-    buffer += size;
-
-    // reserved
-    size = reserved.size();
-    memcpy(buffer, reserved.data(), size);
-    buffer += size;
+    ObjectHeader::write(os);
+    LinDatabyteTimestampEvent::write(os);
+    os.write((char *) data.data(), data.size());
+    os.write((char *) &crc, sizeof(crc));
+    os.write((char *) &dir, sizeof(dir));
+    os.write((char *) &simulated, sizeof(simulated));
+    os.write((char *) &isEtf, sizeof(isEtf));
+    os.write((char *) &etfAssocIndex, sizeof(etfAssocIndex));
+    os.write((char *) &etfAssocEtfId, sizeof(etfAssocEtfId));
+    os.write((char *) &fsmId, sizeof(fsmId));
+    os.write((char *) &fsmState, sizeof(fsmState));
+    os.write((char *) reserved.data(), reserved.size());
 
     /* the following variables are only available in Version 2 and above */
     if (objectVersion < 0) // this is probably a bug in Vector's original implementation
-        return buffer;
+        return;
 
-    // respBaudrate
-    size = sizeof(respBaudrate);
-    memcpy(buffer, (void *) &respBaudrate, size);
-    buffer += size;
+    os.write((char *) &respBaudrate, sizeof(respBaudrate));
 
     /* the following variables are only available in Version 3 and above */
     if (objectVersion < 1) // this is probably a bug in Vector's original implementation
-        return buffer;
+        return;
 
-    // exactHeaderBaudrate
-    size = sizeof(exactHeaderBaudrate);
-    memcpy(buffer, (void *) &exactHeaderBaudrate, size);
-    buffer += size;
-
-    // earlyStopbitOffset
-    size = sizeof(earlyStopbitOffset);
-    memcpy(buffer, (void *) &earlyStopbitOffset, size);
-    buffer += size;
-
-    // earlyStopbitOffsetResponse
-    size = sizeof(earlyStopbitOffsetResponse);
-    memcpy(buffer, (void *) &earlyStopbitOffsetResponse, size);
-    buffer += size;
-
-    return buffer;
+    os.write((char *) &exactHeaderBaudrate, sizeof(exactHeaderBaudrate));
+    os.write((char *) &earlyStopbitOffset, sizeof(earlyStopbitOffset));
+    os.write((char *) &earlyStopbitOffsetResponse, sizeof(earlyStopbitOffsetResponse));
 }
 
 size_t LinMessage2::calculateObjectSize()

@@ -21,8 +21,6 @@
 
 #include "CanMessage.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -37,74 +35,24 @@ CanMessage::CanMessage() :
     objectType = ObjectType::CAN_MESSAGE;
 }
 
-char * CanMessage::read(char * buffer)
+void CanMessage::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::read(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // flags
-    size = sizeof(flags);
-    memcpy((void *) &flags, buffer, size);
-    buffer += size;
-
-    // dlc
-    size = sizeof(dlc);
-    memcpy((void *) &dlc, buffer, size);
-    buffer += size;
-
-    // id
-    size = sizeof(id);
-    memcpy((void *) &id, buffer, size);
-    buffer += size;
-
-    // data
-    size = data.size();
-    memcpy(data.data(), buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::read(is);
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) &flags, sizeof(flags));
+    is.read((char *) &dlc, sizeof(dlc));
+    is.read((char *) &id, sizeof(id));
+    is.read((char *) data.data(), data.size());
 }
 
-char * CanMessage::write(char * buffer)
+void CanMessage::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::write(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // flags
-    size = sizeof(flags);
-    memcpy(buffer, (void *) &flags, size);
-    buffer += size;
-
-    // dlc
-    size = sizeof(dlc);
-    memcpy(buffer, (void *) &dlc, size);
-    buffer += size;
-
-    // id
-    size = sizeof(id);
-    memcpy(buffer, (void *) &id, size);
-    buffer += size;
-
-    // data
-    size = data.size();
-    memcpy(buffer, data.data(), size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::write(os);
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) &flags, sizeof(flags));
+    os.write((char *) &dlc, sizeof(dlc));
+    os.write((char *) &id, sizeof(id));
+    os.write((char *) data.data(), data.size());
 }
 
 size_t CanMessage::calculateObjectSize()

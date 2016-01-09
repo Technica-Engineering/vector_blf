@@ -21,8 +21,6 @@
 
 #include "RealtimeClock.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -34,44 +32,18 @@ RealtimeClock::RealtimeClock() :
     objectType = ObjectType::REALTIMECLOCK;
 }
 
-char * RealtimeClock::read(char * buffer)
+void RealtimeClock::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::read(buffer);
-
-    // time
-    size = sizeof(time);
-    memcpy((void *) &time, buffer, size);
-    buffer += size;
-
-    // loggingOffset
-    size = sizeof(loggingOffset);
-    memcpy((void *) &loggingOffset, buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::read(is);
+    is.read((char *) &time, sizeof(time));
+    is.read((char *) &loggingOffset, sizeof(loggingOffset));
 }
 
-char * RealtimeClock::write(char * buffer)
+void RealtimeClock::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::write(buffer);
-
-    // time
-    size = sizeof(time);
-    memcpy(buffer, (void *) &time, size);
-    buffer += size;
-
-    // loggingOffset
-    size = sizeof(loggingOffset);
-    memcpy(buffer, (void *) &loggingOffset, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::write(os);
+    os.write((char *) &time, sizeof(time));
+    os.write((char *) &loggingOffset, sizeof(loggingOffset));
 }
 
 size_t RealtimeClock::calculateObjectSize()

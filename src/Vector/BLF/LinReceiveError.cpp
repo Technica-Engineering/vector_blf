@@ -21,8 +21,6 @@
 
 #include "LinReceiveError.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -43,134 +41,36 @@ LinReceiveError::LinReceiveError() :
     objectType = ObjectType::LIN_RCV_ERROR;
 }
 
-char * LinReceiveError::read(char * buffer)
+void LinReceiveError::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::read(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // id
-    size = sizeof(id);
-    memcpy((void *) &id, buffer, size);
-    buffer += size;
-
-    // dlc
-    size = sizeof(dlc);
-    memcpy((void *) &dlc, buffer, size);
-    buffer += size;
-
-    // fsmId
-    size = sizeof(fsmId);
-    memcpy((void *) &fsmId, buffer, size);
-    buffer += size;
-
-    // fsmState
-    size = sizeof(fsmState);
-    memcpy((void *) &fsmState, buffer, size);
-    buffer += size;
-
-    // headerTime
-    size = sizeof(headerTime);
-    memcpy((void *) &headerTime, buffer, size);
-    buffer += size;
-
-    // fullTime
-    size = sizeof(fullTime);
-    memcpy((void *) &fullTime, buffer, size);
-    buffer += size;
-
-    // stateReason
-    size = sizeof(stateReason);
-    memcpy((void *) &stateReason, buffer, size);
-    buffer += size;
-
-    // offendingByte
-    size = sizeof(offendingByte);
-    memcpy((void *) &offendingByte, buffer, size);
-    buffer += size;
-
-    // shortError
-    size = sizeof(shortError);
-    memcpy((void *) &shortError, buffer, size);
-    buffer += size;
-
-    // timeoutDuringDlcDetection
-    size = sizeof(timeoutDuringDlcDetection);
-    memcpy((void *) &timeoutDuringDlcDetection, buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::read(is);
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) &id, sizeof(id));
+    is.read((char *) &dlc, sizeof(dlc));
+    is.read((char *) &fsmId, sizeof(fsmId));
+    is.read((char *) &fsmState, sizeof(fsmState));
+    is.read((char *) &headerTime, sizeof(headerTime));
+    is.read((char *) &fullTime, sizeof(fullTime));
+    is.read((char *) &stateReason, sizeof(stateReason));
+    is.read((char *) &offendingByte, sizeof(offendingByte));
+    is.read((char *) &shortError, sizeof(shortError));
+    is.read((char *) &timeoutDuringDlcDetection, sizeof(timeoutDuringDlcDetection));
 }
 
-char * LinReceiveError::write(char * buffer)
+void LinReceiveError::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::write(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // id
-    size = sizeof(id);
-    memcpy(buffer, (void *) &id, size);
-    buffer += size;
-
-    // dlc
-    size = sizeof(dlc);
-    memcpy(buffer, (void *) &dlc, size);
-    buffer += size;
-
-    // fsmId
-    size = sizeof(fsmId);
-    memcpy(buffer, (void *) &fsmId, size);
-    buffer += size;
-
-    // fsmState
-    size = sizeof(fsmState);
-    memcpy(buffer, (void *) &fsmState, size);
-    buffer += size;
-
-    // headerTime
-    size = sizeof(headerTime);
-    memcpy(buffer, (void *) &headerTime, size);
-    buffer += size;
-
-    // fullTime
-    size = sizeof(fullTime);
-    memcpy(buffer, (void *) &fullTime, size);
-    buffer += size;
-
-    // stateReason
-    size = sizeof(stateReason);
-    memcpy(buffer, (void *) &stateReason, size);
-    buffer += size;
-
-    // offendingByte
-    size = sizeof(offendingByte);
-    memcpy(buffer, (void *) &offendingByte, size);
-    buffer += size;
-
-    // shortError
-    size = sizeof(shortError);
-    memcpy(buffer, (void *) &shortError, size);
-    buffer += size;
-
-    // timeoutDuringDlcDetection
-    size = sizeof(timeoutDuringDlcDetection);
-    memcpy(buffer, (void *) &timeoutDuringDlcDetection, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::write(os);
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) &id, sizeof(id));
+    os.write((char *) &dlc, sizeof(dlc));
+    os.write((char *) &fsmId, sizeof(fsmId));
+    os.write((char *) &fsmState, sizeof(fsmState));
+    os.write((char *) &headerTime, sizeof(headerTime));
+    os.write((char *) &fullTime, sizeof(fullTime));
+    os.write((char *) &stateReason, sizeof(stateReason));
+    os.write((char *) &offendingByte, sizeof(offendingByte));
+    os.write((char *) &shortError, sizeof(shortError));
+    os.write((char *) &timeoutDuringDlcDetection, sizeof(timeoutDuringDlcDetection));
 }
 
 size_t LinReceiveError::calculateObjectSize()

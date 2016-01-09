@@ -21,8 +21,6 @@
 
 #include "EthernetStatus.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -43,134 +41,36 @@ EthernetStatus::EthernetStatus() :
     objectType = ObjectType::ETHERNET_STATUS;
 }
 
-char * EthernetStatus::read(char * buffer)
+void EthernetStatus::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::read(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // flags
-    size = sizeof(flags);
-    memcpy((void *) &flags, buffer, size);
-    buffer += size;
-
-    // linkStatus
-    size = sizeof(linkStatus);
-    memcpy((void *) &linkStatus, buffer, size);
-    buffer += size;
-
-    // ethernetPhy
-    size = sizeof(ethernetPhy);
-    memcpy((void *) &ethernetPhy, buffer, size);
-    buffer += size;
-
-    // duplex
-    size = sizeof(duplex);
-    memcpy((void *) &duplex, buffer, size);
-    buffer += size;
-
-    // mdi
-    size = sizeof(mdi);
-    memcpy((void *) &mdi, buffer, size);
-    buffer += size;
-
-    // connector
-    size = sizeof(connector);
-    memcpy((void *) &connector, buffer, size);
-    buffer += size;
-
-    // clockMode
-    size = sizeof(clockMode);
-    memcpy((void *) &clockMode, buffer, size);
-    buffer += size;
-
-    // pairs
-    size = sizeof(pairs);
-    memcpy((void *) &pairs, buffer, size);
-    buffer += size;
-
-    // reserved
-    size = sizeof(reserved);
-    memcpy((void *) &reserved, buffer, size);
-    buffer += size;
-
-    // bitrate
-    size = sizeof(bitrate);
-    memcpy((void *) &bitrate, buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::read(is);
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) &flags, sizeof(flags));
+    is.read((char *) &linkStatus, sizeof(linkStatus));
+    is.read((char *) &ethernetPhy, sizeof(ethernetPhy));
+    is.read((char *) &duplex, sizeof(duplex));
+    is.read((char *) &mdi, sizeof(mdi));
+    is.read((char *) &connector, sizeof(connector));
+    is.read((char *) &clockMode, sizeof(clockMode));
+    is.read((char *) &pairs, sizeof(pairs));
+    is.read((char *) &reserved, sizeof(reserved));
+    is.read((char *) &bitrate, sizeof(bitrate));
 }
 
-char * EthernetStatus::write(char * buffer)
+void EthernetStatus::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::write(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // flags
-    size = sizeof(flags);
-    memcpy(buffer, (void *) &flags, size);
-    buffer += size;
-
-    // linkStatus
-    size = sizeof(linkStatus);
-    memcpy(buffer, (void *) &linkStatus, size);
-    buffer += size;
-
-    // ethernetPhy
-    size = sizeof(ethernetPhy);
-    memcpy(buffer, (void *) &ethernetPhy, size);
-    buffer += size;
-
-    // duplex
-    size = sizeof(duplex);
-    memcpy(buffer, (void *) &duplex, size);
-    buffer += size;
-
-    // mdi
-    size = sizeof(mdi);
-    memcpy(buffer, (void *) &mdi, size);
-    buffer += size;
-
-    // connector
-    size = sizeof(connector);
-    memcpy(buffer, (void *) &connector, size);
-    buffer += size;
-
-    // clockMode
-    size = sizeof(clockMode);
-    memcpy(buffer, (void *) &clockMode, size);
-    buffer += size;
-
-    // pairs
-    size = sizeof(pairs);
-    memcpy(buffer, (void *) &pairs, size);
-    buffer += size;
-
-    // reserved
-    size = sizeof(reserved);
-    memcpy(buffer, (void *) &reserved, size);
-    buffer += size;
-
-    // bitrate
-    size = sizeof(bitrate);
-    memcpy(buffer, (void *) &bitrate, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::write(os);
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) &flags, sizeof(flags));
+    os.write((char *) &linkStatus, sizeof(linkStatus));
+    os.write((char *) &ethernetPhy, sizeof(ethernetPhy));
+    os.write((char *) &duplex, sizeof(duplex));
+    os.write((char *) &mdi, sizeof(mdi));
+    os.write((char *) &connector, sizeof(connector));
+    os.write((char *) &clockMode, sizeof(clockMode));
+    os.write((char *) &pairs, sizeof(pairs));
+    os.write((char *) &reserved, sizeof(reserved));
+    os.write((char *) &bitrate, sizeof(bitrate));
 }
 
 size_t EthernetStatus::calculateObjectSize()

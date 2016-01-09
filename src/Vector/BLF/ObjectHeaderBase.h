@@ -21,7 +21,7 @@
 
 #pragma once
 
-#include <fstream>
+#include <iostream>
 
 #include "VectorTypes.h"
 
@@ -164,18 +164,16 @@ public:
     /**
      * Read the data of this object
      *
-     * @param buffer Data buffer
-     * @return data pointer after read
+     * @param is input stream
      */
-    virtual char * read(char * buffer);
+    virtual void read(std::istream & is);
 
     /**
-     * Write the data into a memory buffer
+     * Write the data of this object
      *
-     * @param buffer Data buffer
-     * @return data pointer after write
+     * @param os output stream
      */
-    virtual char * write(char * buffer);
+    virtual void write(std::ostream & os);
 
     /**
      * Calculates the headerSize

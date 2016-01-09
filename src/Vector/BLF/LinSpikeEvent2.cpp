@@ -21,8 +21,6 @@
 
 #include "LinSpikeEvent2.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -36,56 +34,22 @@ LinSpikeEvent2::LinSpikeEvent2() :
     objectType = ObjectType::LIN_SPIKE_EVENT2;
 }
 
-char * LinSpikeEvent2::read(char * buffer)
+void LinSpikeEvent2::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::read(buffer);
-    buffer = LinBusEvent::read(buffer);
-
-    // width
-    size = sizeof(width);
-    memcpy((void *) &width, buffer, size);
-    buffer += size;
-
-    // internal
-    size = sizeof(internal);
-    memcpy((void *) &internal, buffer, size);
-    buffer += size;
-
-    // reserved
-    size = reserved.size();
-    memcpy(reserved.data(), buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::read(is);
+    LinBusEvent::read(is);
+    is.read((char *) &width, sizeof(width));
+    is.read((char *) &internal, sizeof(internal));
+    is.read((char *) reserved.data(), reserved.size());
 }
 
-char * LinSpikeEvent2::write(char * buffer)
+void LinSpikeEvent2::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::write(buffer);
-    buffer = LinBusEvent::write(buffer);
-
-    // width
-    size = sizeof(width);
-    memcpy(buffer, (void *) &width, size);
-    buffer += size;
-
-    // internal
-    size = sizeof(internal);
-    memcpy(buffer, (void *) &internal, size);
-    buffer += size;
-
-    // reserved
-    size = reserved.size();
-    memcpy(buffer, reserved.data(), size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::write(os);
+    LinBusEvent::write(os);
+    os.write((char *) &width, sizeof(width));
+    os.write((char *) &internal, sizeof(internal));
+    os.write((char *) reserved.data(), reserved.size());
 }
 
 size_t LinSpikeEvent2::calculateObjectSize()

@@ -21,8 +21,6 @@
 
 #include "WlanStatistic.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -40,104 +38,30 @@ WlanStatistic::WlanStatistic() :
     objectType = ObjectType::WLAN_STATISTIC;
 }
 
-char * WlanStatistic::read(char * buffer)
+void WlanStatistic::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::read(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // flags
-    size = sizeof(flags);
-    memcpy((void *) &flags, buffer, size);
-    buffer += size;
-
-    // rxPacketCount
-    size = sizeof(rxPacketCount);
-    memcpy((void *) &rxPacketCount, buffer, size);
-    buffer += size;
-
-    // rxByteCount
-    size = sizeof(rxByteCount);
-    memcpy((void *) &rxByteCount, buffer, size);
-    buffer += size;
-
-    // txPacketCount
-    size = sizeof(txPacketCount);
-    memcpy((void *) &txPacketCount, buffer, size);
-    buffer += size;
-
-    // txByteCount
-    size = sizeof(txByteCount);
-    memcpy((void *) &txByteCount, buffer, size);
-    buffer += size;
-
-    // collisionCount
-    size = sizeof(collisionCount);
-    memcpy((void *) &collisionCount, buffer, size);
-    buffer += size;
-
-    // errorCount
-    size = sizeof(errorCount);
-    memcpy((void *) &errorCount, buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::read(is);
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) &flags, sizeof(flags));
+    is.read((char *) &rxPacketCount, sizeof(rxPacketCount));
+    is.read((char *) &rxByteCount, sizeof(rxByteCount));
+    is.read((char *) &txPacketCount, sizeof(txPacketCount));
+    is.read((char *) &txByteCount, sizeof(txByteCount));
+    is.read((char *) &collisionCount, sizeof(collisionCount));
+    is.read((char *) &errorCount, sizeof(errorCount));
 }
 
-char * WlanStatistic::write(char * buffer)
+void WlanStatistic::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::write(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // flags
-    size = sizeof(flags);
-    memcpy(buffer, (void *) &flags, size);
-    buffer += size;
-
-    // rxPacketCount
-    size = sizeof(rxPacketCount);
-    memcpy(buffer, (void *) &rxPacketCount, size);
-    buffer += size;
-
-    // rxByteCount
-    size = sizeof(rxByteCount);
-    memcpy(buffer, (void *) &rxByteCount, size);
-    buffer += size;
-
-    // txPacketCount
-    size = sizeof(txPacketCount);
-    memcpy(buffer, (void *) &txPacketCount, size);
-    buffer += size;
-
-    // txByteCount
-    size = sizeof(txByteCount);
-    memcpy(buffer, (void *) &txByteCount, size);
-    buffer += size;
-
-    // collisionCount
-    size = sizeof(collisionCount);
-    memcpy(buffer, (void *) &collisionCount, size);
-    buffer += size;
-
-    // errorCount
-    size = sizeof(errorCount);
-    memcpy(buffer, (void *) &errorCount, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::write(os);
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) &flags, sizeof(flags));
+    os.write((char *) &rxPacketCount, sizeof(rxPacketCount));
+    os.write((char *) &rxByteCount, sizeof(rxByteCount));
+    os.write((char *) &txPacketCount, sizeof(txPacketCount));
+    os.write((char *) &txByteCount, sizeof(txByteCount));
+    os.write((char *) &collisionCount, sizeof(collisionCount));
+    os.write((char *) &errorCount, sizeof(errorCount));
 }
 
 size_t WlanStatistic::calculateObjectSize()

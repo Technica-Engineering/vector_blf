@@ -22,6 +22,7 @@
 #pragma once
 
 #include <array>
+#include <iostream>
 
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
@@ -40,10 +41,10 @@ public:
     LinBusEvent();
 
     /** @copydoc ObjectHeader::read */
-    virtual char * read(char * buffer);
+    virtual void read(std::istream & is);
 
     /** @copydoc ObjectHeader::write */
-    virtual char * write(char * buffer);
+    virtual void write(std::ostream & os);
 
     /** @copydoc ObjectHeader::calculateObjectSize */
     virtual size_t calculateObjectSize();

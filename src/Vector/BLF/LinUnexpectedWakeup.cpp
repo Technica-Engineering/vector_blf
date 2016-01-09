@@ -21,8 +21,6 @@
 
 #include "LinUnexpectedWakeup.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -36,56 +34,22 @@ LinUnexpectedWakeup::LinUnexpectedWakeup() :
     objectType = ObjectType::LIN_UNEXPECTED_WAKEUP;
 }
 
-char * LinUnexpectedWakeup::read(char * buffer)
+void LinUnexpectedWakeup::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::read(buffer);
-    buffer = LinBusEvent::read(buffer);
-
-    // width
-    size = sizeof(width);
-    memcpy((void *) &width, buffer, size);
-    buffer += size;
-
-    // signal
-    size = sizeof(signal);
-    memcpy((void *) &signal, buffer, size);
-    buffer += size;
-
-    // reserved
-    size = reserved.size();
-    memcpy(reserved.data(), buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::read(is);
+    LinBusEvent::read(is);
+    is.read((char *) &width, sizeof(width));
+    is.read((char *) &signal, sizeof(signal));
+    is.read((char *) reserved.data(), reserved.size());
 }
 
-char * LinUnexpectedWakeup::write(char * buffer)
+void LinUnexpectedWakeup::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::write(buffer);
-    buffer = LinBusEvent::write(buffer);
-
-    // width
-    size = sizeof(width);
-    memcpy(buffer, (void *) &width, size);
-    buffer += size;
-
-    // signal
-    size = sizeof(signal);
-    memcpy(buffer, (void *) &signal, size);
-    buffer += size;
-
-    // reserved
-    size = reserved.size();
-    memcpy(buffer, reserved.data(), size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::write(os);
+    LinBusEvent::write(os);
+    os.write((char *) &width, sizeof(width));
+    os.write((char *) &signal, sizeof(signal));
+    os.write((char *) reserved.data(), reserved.size());
 }
 
 size_t LinUnexpectedWakeup::calculateObjectSize()

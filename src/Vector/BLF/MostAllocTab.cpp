@@ -21,8 +21,6 @@
 
 #include "MostAllocTab.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -40,65 +38,23 @@ MostAllocTab::~MostAllocTab()
 {
 }
 
-char * MostAllocTab::read(char * buffer)
+void MostAllocTab::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader2::read(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // length
-    size = sizeof(length);
-    memcpy((void *) &length, buffer, size);
-    buffer += size;
-
-    // reserved
-    size = reserved.size();
-    memcpy(reserved.data(), buffer, size);
-    buffer += size;
-
-    // tableData
-    size = length;
-    tableData.reserve(size);
-    memcpy(tableData.data(), buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader2::read(is);
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) &length, sizeof(length));
+    is.read((char *) reserved.data(), reserved.size());
+    tableData.reserve(length);
+    is.read((char *) tableData.data(), length);
 }
 
-char * MostAllocTab::write(char * buffer)
+void MostAllocTab::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader2::write(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // length
-    size = sizeof(length);
-    memcpy(buffer, (void *) &length, size);
-    buffer += size;
-
-    // reserved
-    size = reserved.size();
-    memcpy(buffer, reserved.data(), size);
-    buffer += size;
-
-    // tableData
-    size = length;
-    memcpy(buffer, tableData.data(), size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader2::write(os);
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) &length, sizeof(length));
+    os.write((char *) reserved.data(), reserved.size());
+    os.write((char *) tableData.data(), length);
 }
 
 size_t MostAllocTab::calculateObjectSize()

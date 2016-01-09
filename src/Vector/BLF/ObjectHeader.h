@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <iostream>
+
 #include "VectorTypes.h"
 #include "ObjectHeaderBase.h"
 
@@ -39,8 +41,8 @@ class VECTOR_BLF_EXPORT ObjectHeader : public ObjectHeaderBase
 public:
     ObjectHeader();
 
-    virtual char * read(char * buffer);
-    virtual char * write(char * buffer);
+    virtual void read(std::istream & is);
+    virtual void write(std::ostream & os);
     virtual const size_t calculateHeaderSize();
     virtual size_t calculateObjectSize();
 

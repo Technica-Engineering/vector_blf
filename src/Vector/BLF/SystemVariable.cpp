@@ -19,9 +19,9 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "SystemVariable.h"
+#include <string.h>
 
-#include <cstring>
+#include "SystemVariable.h"
 
 namespace Vector {
 namespace BLF {
@@ -43,95 +43,33 @@ SystemVariable::~SystemVariable()
 {
 }
 
-char * SystemVariable::read(char * buffer)
+void SystemVariable::read(std::istream & is)
 {
-    size_t size;
+    ObjectHeader::read(is);
+    is.read((char *) &type, sizeof(type));
+    is.read((char *) reserved1.data(), reserved1.size() * sizeof(DWORD));
+    is.read((char *) &nameLength, sizeof(nameLength));
+    is.read((char *) &dataLength, sizeof(dataLength));
+    is.read((char *) reserved2.data(), reserved2.size());
+    name.resize(nameLength);
+    is.read((char *) name.data(), nameLength);
+    data.reserve(dataLength);
+    is.read((char *) data.data(), dataLength);
 
-    // preceding data
-    buffer = ObjectHeader::read(buffer);
-
-    // type
-    size = sizeof(type);
-    memcpy((void *) &type, buffer, size);
-    buffer += size;
-
-    // reserved1
-    size = reserved1.size() * sizeof(DWORD);
-    memcpy(reserved1.data(), buffer, size);
-    buffer += size;
-
-    // nameLength
-    size = sizeof(nameLength);
-    memcpy((void *) &nameLength, buffer, size);
-    buffer += size;
-
-    // dataLength
-    size = sizeof(dataLength);
-    memcpy((void *) &dataLength, buffer, size);
-    buffer += size;
-
-    // reserved2
-    size = reserved2.size() * sizeof(BYTE);
-    memcpy(reserved2.data(), buffer, size);
-    buffer += size;
-
-    // name
-    size = nameLength;
-    name.assign(buffer, size);
-    buffer += size;
-
-    // data
-    size = dataLength;
-    data.reserve(size);
-    memcpy(data.data(), buffer, size);
-    buffer += size;
-
-    return buffer;
+    /* post processing */
+    name.resize(strnlen(name.c_str(), nameLength)); // Vector bug: the actual string can be shorter than size!
 }
 
-char * SystemVariable::write(char * buffer)
+void SystemVariable::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::write(buffer);
-
-    // type
-    size = sizeof(type);
-    memcpy(buffer, (void *) &type, size);
-    buffer += size;
-
-    // reserved1
-    size = reserved1.size() * sizeof(DWORD);
-    memcpy(buffer, reserved1.data(), size);
-    buffer += size;
-
-    // nameLength
-    size = sizeof(nameLength);
-    memcpy(buffer, (void *) &nameLength, size);
-    buffer += size;
-
-    // dataLength
-    size = sizeof(dataLength);
-    memcpy(buffer, (void *) &dataLength, size);
-    buffer += size;
-
-    // reserved2
-    size = reserved2.size() * sizeof(BYTE);
-    memcpy(buffer, reserved2.data(), size);
-    buffer += size;
-
-    // name
-    size = nameLength;
-    memcpy(buffer, name.data(), size);
-    buffer += size;
-
-    // data
-    size = dataLength;
-    memcpy(buffer, data.data(), size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::write(os);
+    os.write((char *) &type, sizeof(type));
+    os.write((char *) reserved1.data(), reserved1.size() * sizeof(DWORD));
+    os.write((char *) &nameLength, sizeof(nameLength));
+    os.write((char *) &dataLength, sizeof(dataLength));
+    os.write((char *) reserved2.data(), reserved2.size());
+    os.write((char *) name.data(), nameLength);
+    os.write((char *) data.data(), dataLength);
 }
 
 size_t SystemVariable::calculateObjectSize()
@@ -142,7 +80,7 @@ size_t SystemVariable::calculateObjectSize()
         reserved1.size() * sizeof(DWORD) +
         sizeof(nameLength) +
         sizeof(dataLength) +
-        reserved2.size() * sizeof(BYTE) +
+        reserved2.size() +
         nameLength +
         dataLength;
 

@@ -21,8 +21,6 @@
 
 #include "MostTrigger.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -38,84 +36,26 @@ MostTrigger::MostTrigger() :
     objectType = ObjectType::MOST_TRIGGER;
 }
 
-char * MostTrigger::read(char * buffer)
+void MostTrigger::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader2::read(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // reserved
-    size = sizeof(reserved);
-    memcpy((void *) &reserved, buffer, size);
-    buffer += size;
-
-    // mode
-    size = sizeof(mode);
-    memcpy((void *) &mode, buffer, size);
-    buffer += size;
-
-    // hw
-    size = sizeof(hw);
-    memcpy((void *) &hw, buffer, size);
-    buffer += size;
-
-    // previousTriggerValue
-    size = sizeof(previousTriggerValue);
-    memcpy((void *) &previousTriggerValue, buffer, size);
-    buffer += size;
-
-    // currentTriggerValue
-    size = sizeof(currentTriggerValue);
-    memcpy((void *) &currentTriggerValue, buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader2::read(is);
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) &reserved, sizeof(reserved));
+    is.read((char *) &mode, sizeof(mode));
+    is.read((char *) &hw, sizeof(hw));
+    is.read((char *) &previousTriggerValue, sizeof(previousTriggerValue));
+    is.read((char *) &currentTriggerValue, sizeof(currentTriggerValue));
 }
 
-char * MostTrigger::write(char * buffer)
+void MostTrigger::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader2::write(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // reserved
-    size = sizeof(reserved);
-    memcpy(buffer, (void *) &reserved, size);
-    buffer += size;
-
-    // mode
-    size = sizeof(mode);
-    memcpy(buffer, (void *) &mode, size);
-    buffer += size;
-
-    // hw
-    size = sizeof(hw);
-    memcpy(buffer, (void *) &hw, size);
-    buffer += size;
-
-    // previousTriggerValue
-    size = sizeof(previousTriggerValue);
-    memcpy(buffer, (void *) &previousTriggerValue, size);
-    buffer += size;
-
-    // currentTriggerValue
-    size = sizeof(currentTriggerValue);
-    memcpy(buffer, (void *) &currentTriggerValue, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader2::write(os);
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) &reserved, sizeof(reserved));
+    os.write((char *) &mode, sizeof(mode));
+    os.write((char *) &hw, sizeof(hw));
+    os.write((char *) &previousTriggerValue, sizeof(previousTriggerValue));
+    os.write((char *) &currentTriggerValue, sizeof(currentTriggerValue));
 }
 
 size_t MostTrigger::calculateObjectSize()

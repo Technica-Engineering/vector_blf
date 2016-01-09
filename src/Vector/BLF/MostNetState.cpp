@@ -21,8 +21,6 @@
 
 #include "MostNetState.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -36,64 +34,22 @@ MostNetState::MostNetState() :
     objectType = ObjectType::MOST_NETSTATE;
 }
 
-char * MostNetState::read(char * buffer)
+void MostNetState::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader2::read(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // stateNew
-    size = sizeof(stateNew);
-    memcpy((void *) &stateNew, buffer, size);
-    buffer += size;
-
-    // stateOld
-    size = sizeof(stateOld);
-    memcpy((void *) &stateOld, buffer, size);
-    buffer += size;
-
-    // reserved
-    size = sizeof(reserved);
-    memcpy((void *) &reserved, buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader2::read(is);
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) &stateNew, sizeof(stateNew));
+    is.read((char *) &stateOld, sizeof(stateOld));
+    is.read((char *) &reserved, sizeof(reserved));
 }
 
-char * MostNetState::write(char * buffer)
+void MostNetState::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader2::write(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // stateNew
-    size = sizeof(stateNew);
-    memcpy(buffer, (void *) &stateNew, size);
-    buffer += size;
-
-    // stateOld
-    size = sizeof(stateOld);
-    memcpy(buffer, (void *) &stateOld, size);
-    buffer += size;
-
-    // reserved
-    size = sizeof(reserved);
-    memcpy(buffer, (void *) &reserved, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader2::write(os);
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) &stateNew, sizeof(stateNew));
+    os.write((char *) &stateOld, sizeof(stateOld));
+    os.write((char *) &reserved, sizeof(reserved));
 }
 
 size_t MostNetState::calculateObjectSize()

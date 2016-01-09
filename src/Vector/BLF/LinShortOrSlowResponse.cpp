@@ -21,8 +21,6 @@
 
 #include "LinShortOrSlowResponse.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -38,76 +36,26 @@ LinShortOrSlowResponse::LinShortOrSlowResponse() :
     objectType = ObjectType::LIN_SHORT_OR_SLOW_RESPONSE;
 }
 
-char * LinShortOrSlowResponse::read(char * buffer)
+void LinShortOrSlowResponse::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::read(buffer);
-    buffer = LinDatabyteTimestampEvent::read(buffer);
-
-    // numberOfRespBtes
-    size = sizeof(numberOfRespBytes);
-    memcpy((void *) &numberOfRespBytes, buffer, size);
-    buffer += size;
-
-    // respBytes
-    size = respBytes.size();
-    memcpy(respBytes.data(), buffer, size);
-    buffer += size;
-
-    // slowResponse
-    size = sizeof(slowResponse);
-    memcpy((void *) &slowResponse, buffer, size);
-    buffer += size;
-
-    // interruptedByBreak
-    size = sizeof(interruptedByBreak);
-    memcpy((void *) &interruptedByBreak, buffer, size);
-    buffer += size;
-
-    // reserved
-    size = sizeof(reserved);
-    memcpy((void *) &reserved, buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::read(is);
+    LinDatabyteTimestampEvent::read(is);
+    is.read((char *) &numberOfRespBytes, sizeof(numberOfRespBytes));
+    is.read((char *) respBytes.data(), respBytes.size());
+    is.read((char *) &slowResponse, sizeof(slowResponse));
+    is.read((char *) &interruptedByBreak, sizeof(interruptedByBreak));
+    is.read((char *) &reserved, sizeof(reserved));
 }
 
-char * LinShortOrSlowResponse::write(char * buffer)
+void LinShortOrSlowResponse::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::write(buffer);
-    buffer = LinDatabyteTimestampEvent::write(buffer);
-
-    // numberOfRespBtes
-    size = sizeof(numberOfRespBytes);
-    memcpy(buffer, (void *) &numberOfRespBytes, size);
-    buffer += size;
-
-    // respBytes
-    size = respBytes.size();
-    memcpy(buffer, respBytes.data(), size);
-    buffer += size;
-
-    // slowResponse
-    size = sizeof(slowResponse);
-    memcpy(buffer, (void *) &slowResponse, size);
-    buffer += size;
-
-    // interruptedByBreak
-    size = sizeof(interruptedByBreak);
-    memcpy(buffer, (void *) &interruptedByBreak, size);
-    buffer += size;
-
-    // reserved
-    size = sizeof(reserved);
-    memcpy(buffer, (void *) &reserved, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::write(os);
+    LinDatabyteTimestampEvent::write(os);
+    os.write((char *) &numberOfRespBytes, sizeof(numberOfRespBytes));
+    os.write((char *) respBytes.data(), respBytes.size());
+    os.write((char *) &slowResponse, sizeof(slowResponse));
+    os.write((char *) &interruptedByBreak, sizeof(interruptedByBreak));
+    os.write((char *) &reserved, sizeof(reserved));
 }
 
 size_t LinShortOrSlowResponse::calculateObjectSize()

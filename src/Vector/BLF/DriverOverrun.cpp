@@ -21,8 +21,6 @@
 
 #include "DriverOverrun.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -35,54 +33,20 @@ DriverOverrun::DriverOverrun() :
     objectType = ObjectType::OVERRUN_ERROR;
 }
 
-char * DriverOverrun::read(char * buffer)
+void DriverOverrun::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::read(buffer);
-
-    // busType
-    size = sizeof(busType);
-    memcpy((void *) &busType, buffer, size);
-    buffer += size;
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // reserved
-    size = sizeof(reserved);
-    memcpy((void *) &reserved, buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::read(is);
+    is.read((char *) &busType, sizeof(busType));
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) &reserved, sizeof(reserved));
 }
 
-char * DriverOverrun::write(char * buffer)
+void DriverOverrun::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::write(buffer);
-
-    // busType
-    size = sizeof(busType);
-    memcpy(buffer, (void *) &busType, size);
-    buffer += size;
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // reserved
-    size = sizeof(reserved);
-    memcpy(buffer, (void *) &reserved, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::write(os);
+    os.write((char *) &busType, sizeof(busType));
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) &reserved, sizeof(reserved));
 }
 
 size_t DriverOverrun::calculateObjectSize()

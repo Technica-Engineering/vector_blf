@@ -21,8 +21,6 @@
 
 #include "MostStatistic.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -37,74 +35,24 @@ MostStatistic::MostStatistic() :
     objectType = ObjectType::MOST_STATISTIC;
 }
 
-char * MostStatistic::read(char * buffer)
+void MostStatistic::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::read(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // pktCnt
-    size = sizeof(pktCnt);
-    memcpy((void *) &pktCnt, buffer, size);
-    buffer += size;
-
-    // frmCnt
-    size = sizeof(frmCnt);
-    memcpy((void *) &frmCnt, buffer, size);
-    buffer += size;
-
-    // lightCnt
-    size = sizeof(lightCnt);
-    memcpy((void *) &lightCnt, buffer, size);
-    buffer += size;
-
-    // bufferLevel
-    size = sizeof(bufferLevel);
-    memcpy((void *) &bufferLevel, buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::read(is);
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) &pktCnt, sizeof(pktCnt));
+    is.read((char *) &frmCnt, sizeof(frmCnt));
+    is.read((char *) &lightCnt, sizeof(lightCnt));
+    is.read((char *) &bufferLevel, sizeof(bufferLevel));
 }
 
-char * MostStatistic::write(char * buffer)
+void MostStatistic::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::write(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // pktCnt
-    size = sizeof(pktCnt);
-    memcpy(buffer, (void *) &pktCnt, size);
-    buffer += size;
-
-    // frmCnt
-    size = sizeof(frmCnt);
-    memcpy(buffer, (void *) &frmCnt, size);
-    buffer += size;
-
-    // lightCnt
-    size = sizeof(lightCnt);
-    memcpy(buffer, (void *) &lightCnt, size);
-    buffer += size;
-
-    // bufferLevel
-    size = sizeof(bufferLevel);
-    memcpy(buffer, (void *) &bufferLevel, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::write(os);
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) &pktCnt, sizeof(pktCnt));
+    os.write((char *) &frmCnt, sizeof(frmCnt));
+    os.write((char *) &lightCnt, sizeof(lightCnt));
+    os.write((char *) &bufferLevel, sizeof(bufferLevel));
 }
 
 size_t MostStatistic::calculateObjectSize()

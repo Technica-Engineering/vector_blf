@@ -21,8 +21,6 @@
 
 #include "FlexRayV6Message.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -48,184 +46,46 @@ FlexRayV6Message::FlexRayV6Message() :
     objectType = ObjectType::FLEXRAY_MESSAGE;
 }
 
-char * FlexRayV6Message::read(char * buffer)
+void FlexRayV6Message::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::read(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // dir
-    size = sizeof(dir);
-    memcpy((void *) &dir, buffer, size);
-    buffer += size;
-
-    // lowTime
-    size = sizeof(lowTime);
-    memcpy((void *) &lowTime, buffer, size);
-    buffer += size;
-
-    // fpgaTick
-    size = sizeof(fpgaTick);
-    memcpy((void *) &fpgaTick, buffer, size);
-    buffer += size;
-
-    // fpgaTickOverflow
-    size = sizeof(fpgaTickOverflow);
-    memcpy((void *) &fpgaTickOverflow, buffer, size);
-    buffer += size;
-
-    // clientIndex
-    size = sizeof(clientIndex);
-    memcpy((void *) &clientIndex, buffer, size);
-    buffer += size;
-
-    // clusterTime
-    size = sizeof(clusterTime);
-    memcpy((void *) &clusterTime, buffer, size);
-    buffer += size;
-
-    // frameId
-    size = sizeof(frameId);
-    memcpy((void *) &frameId, buffer, size);
-    buffer += size;
-
-    // headerCrc
-    size = sizeof(headerCrc);
-    memcpy((void *) &headerCrc, buffer, size);
-    buffer += size;
-
-    // frameState
-    size = sizeof(frameState);
-    memcpy((void *) &frameState, buffer, size);
-    buffer += size;
-
-    // length
-    size = sizeof(length);
-    memcpy((void *) &length, buffer, size);
-    buffer += size;
-
-    // cycle
-    size = sizeof(cycle);
-    memcpy((void *) &cycle, buffer, size);
-    buffer += size;
-
-    // headerBitMask
-    size = sizeof(headerBitMask);
-    memcpy((void *) &headerBitMask, buffer, size);
-    buffer += size;
-
-    // reserved1
-    size = sizeof(reserved1);
-    memcpy((void *) &reserved1, buffer, size);
-    buffer += size;
-
-    // reserved2
-    size = sizeof(reserved2);
-    memcpy((void *) &reserved2, buffer, size);
-    buffer += size;
-
-    // dataBytes
-    size = dataBytes.size();
-    memcpy(dataBytes.data(), buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::read(is);
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) &dir, sizeof(dir));
+    is.read((char *) &lowTime, sizeof(lowTime));
+    is.read((char *) &fpgaTick, sizeof(fpgaTick));
+    is.read((char *) &fpgaTickOverflow, sizeof(fpgaTickOverflow));
+    is.read((char *) &clientIndex, sizeof(clientIndex));
+    is.read((char *) &clusterTime, sizeof(clusterTime));
+    is.read((char *) &frameId, sizeof(frameId));
+    is.read((char *) &headerCrc, sizeof(headerCrc));
+    is.read((char *) &frameState, sizeof(frameState));
+    is.read((char *) &length, sizeof(length));
+    is.read((char *) &cycle, sizeof(cycle));
+    is.read((char *) &headerBitMask, sizeof(headerBitMask));
+    is.read((char *) &reserved1, sizeof(reserved1));
+    is.read((char *) &reserved2, sizeof(reserved2));
+    is.read((char *) dataBytes.data(), dataBytes.size());
 }
 
-char * FlexRayV6Message::write(char * buffer)
+void FlexRayV6Message::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::write(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // dir
-    size = sizeof(dir);
-    memcpy(buffer, (void *) &dir, size);
-    buffer += size;
-
-    // lowTime
-    size = sizeof(lowTime);
-    memcpy(buffer, (void *) &lowTime, size);
-    buffer += size;
-
-    // fpgaTick
-    size = sizeof(fpgaTick);
-    memcpy(buffer, (void *) &fpgaTick, size);
-    buffer += size;
-
-    // fpgaTickOverflow
-    size = sizeof(fpgaTickOverflow);
-    memcpy(buffer, (void *) &fpgaTickOverflow, size);
-    buffer += size;
-
-    // clientIndex
-    size = sizeof(clientIndex);
-    memcpy(buffer, (void *) &clientIndex, size);
-    buffer += size;
-
-    // clusterTime
-    size = sizeof(clusterTime);
-    memcpy(buffer, (void *) &clusterTime, size);
-    buffer += size;
-
-    // frameId
-    size = sizeof(frameId);
-    memcpy(buffer, (void *) &frameId, size);
-    buffer += size;
-
-    // headerCrc
-    size = sizeof(headerCrc);
-    memcpy(buffer, (void *) &headerCrc, size);
-    buffer += size;
-
-    // frameState
-    size = sizeof(frameState);
-    memcpy(buffer, (void *) &frameState, size);
-    buffer += size;
-
-    // length
-    size = sizeof(length);
-    memcpy(buffer, (void *) &length, size);
-    buffer += size;
-
-    // cycle
-    size = sizeof(cycle);
-    memcpy(buffer, (void *) &cycle, size);
-    buffer += size;
-
-    // headerBitMask
-    size = sizeof(headerBitMask);
-    memcpy(buffer, (void *) &headerBitMask, size);
-    buffer += size;
-
-    // reserved1
-    size = sizeof(reserved1);
-    memcpy(buffer, (void *) &reserved1, size);
-    buffer += size;
-
-    // reserved2
-    size = sizeof(reserved2);
-    memcpy(buffer, (void *) &reserved2, size);
-    buffer += size;
-
-    // dataBytes
-    size = dataBytes.size();
-    memcpy(buffer, dataBytes.data(), size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::write(os);
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) &dir, sizeof(dir));
+    os.write((char *) &lowTime, sizeof(lowTime));
+    os.write((char *) &fpgaTick, sizeof(fpgaTick));
+    os.write((char *) &fpgaTickOverflow, sizeof(fpgaTickOverflow));
+    os.write((char *) &clientIndex, sizeof(clientIndex));
+    os.write((char *) &clusterTime, sizeof(clusterTime));
+    os.write((char *) &frameId, sizeof(frameId));
+    os.write((char *) &headerCrc, sizeof(headerCrc));
+    os.write((char *) &frameState, sizeof(frameState));
+    os.write((char *) &length, sizeof(length));
+    os.write((char *) &cycle, sizeof(cycle));
+    os.write((char *) &headerBitMask, sizeof(headerBitMask));
+    os.write((char *) &reserved1, sizeof(reserved1));
+    os.write((char *) &reserved2, sizeof(reserved2));
+    os.write((char *) dataBytes.data(), dataBytes.size());
 }
 
 size_t FlexRayV6Message::calculateObjectSize()

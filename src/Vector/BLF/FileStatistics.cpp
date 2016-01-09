@@ -50,155 +50,51 @@ FileStatistics::FileStatistics() :
 
 void FileStatistics::read(std::istream & is)
 {
-    size_t size;
-
-    // signature
-    size = sizeof(signature);
-    is.read((char *) &signature, size);
+    is.read((char *) &signature, sizeof(signature));
     if (signature != FileSignature) {
         std::cerr << "unexpected file signature" << std::endl;
         return;
     }
-
-    // statisticsSize
-    size = sizeof(statisticsSize);
-    is.read((char *) &statisticsSize, size);
+    is.read((char *) &statisticsSize, sizeof(statisticsSize));
     if (statisticsSize != calculateStatisticsSize()) {
         std::cerr << "unexpected file statistics size" << std::endl;
     }
-
-    // applicationId
-    size = sizeof(applicationId);
-    is.read((char *) &applicationId, size);
-
-    // applicationMajor
-    size = sizeof(applicationMajor);
-    is.read((char *) &applicationMajor, size);
-
-    // applicationMinor
-    size = sizeof(applicationMinor);
-    is.read((char *) &applicationMinor, size);
-
-    // applicationBuild
-    size = sizeof(applicationBuild);
-    is.read((char *) &applicationBuild, size);
-
-    // apiMajor
-    size = sizeof(apiMajor);
-    is.read((char *) &apiMajor, size);
-
-    // apiMinor
-    size = sizeof(apiMinor);
-    is.read((char *) &apiMinor, size);
-
-    // apiBuild
-    size = sizeof(apiBuild);
-    is.read((char *) &apiBuild, size);
-
-    // apiPatch
-    size = sizeof(apiPatch);
-    is.read((char *) &apiPatch, size);
-
-    // fileSize
-    size = sizeof(fileSize);
-    is.read((char *) &fileSize, size);
-
-    // uncompressedFileSize
-    size = sizeof(uncompressedFileSize);
-    is.read((char *) &uncompressedFileSize, size);
-
-    // objectCount
-    size = sizeof(objectCount);
-    is.read((char *) &objectCount, size);
-
-    // objectsRead
-    size = sizeof(objectsRead);
-    is.read((char *) &objectsRead, size);
-
-    // measurementStartTime
-    size = sizeof(measurementStartTime);
-    is.read((char *) &measurementStartTime, size);
-
-    // lastObjectTime
-    size = sizeof(lastObjectTime);
-    is.read((char *) &lastObjectTime, size);
-
-    // reserved
-    size = reserved.size() * sizeof(DWORD);
-    is.read((char *) reserved.data(), size);
+    is.read((char *) &applicationId, sizeof(applicationId));
+    is.read((char *) &applicationMajor, sizeof(applicationMajor));
+    is.read((char *) &applicationMinor, sizeof(applicationMinor));
+    is.read((char *) &applicationBuild, sizeof(applicationBuild));
+    is.read((char *) &apiMajor, sizeof(apiMajor));
+    is.read((char *) &apiMinor, sizeof(apiMinor));
+    is.read((char *) &apiBuild, sizeof(apiBuild));
+    is.read((char *) &apiPatch, sizeof(apiPatch));
+    is.read((char *) &fileSize, sizeof(fileSize));
+    is.read((char *) &uncompressedFileSize, sizeof(uncompressedFileSize));
+    is.read((char *) &objectCount, sizeof(objectCount));
+    is.read((char *) &objectsRead, sizeof(objectsRead));
+    is.read((char *) &measurementStartTime, sizeof(measurementStartTime));
+    is.read((char *) &lastObjectTime, sizeof(lastObjectTime));
+    is.read((char *) reserved.data(), reserved.size() * sizeof(DWORD));
 }
 
 void FileStatistics::write(std::ostream & os)
 {
-    size_t size;
-
-    // signature
-    size = sizeof(signature);
-    os.write((char *) &signature, size);
-
-    // statisticsSize
-    size = sizeof(statisticsSize);
-    os.write((char *) &statisticsSize, size);
-
-    // applicationId
-    size = sizeof(applicationId);
-    os.write((char *) &applicationId, size);
-
-    // applicationMajor
-    size = sizeof(applicationMajor);
-    os.write((char *) &applicationMajor, size);
-
-    // applicationMinor
-    size = sizeof(applicationMinor);
-    os.write((char *) &applicationMinor, size);
-
-    // applicationBuild
-    size = sizeof(applicationBuild);
-    os.write((char *) &applicationBuild, size);
-
-    // apiMajor
-    size = sizeof(apiMajor);
-    os.write((char *) &apiMajor, size);
-
-    // apiMinor
-    size = sizeof(apiMinor);
-    os.write((char *) &apiMinor, size);
-
-    // apiBuild
-    size = sizeof(apiBuild);
-    os.write((char *) &apiBuild, size);
-
-    // apiPatch
-    size = sizeof(apiPatch);
-    os.write((char *) &apiPatch, size);
-
-    // fileSize
-    size = sizeof(fileSize);
-    os.write((char *) &fileSize, size);
-
-    // uncompressedFileSize
-    size = sizeof(uncompressedFileSize);
-    os.write((char *) &uncompressedFileSize, size);
-
-    // objectCount
-    size = sizeof(objectCount);
-    os.write((char *) &objectCount, size);
-
-    // objectsRead
-    size = sizeof(objectsRead);
-    os.write((char *) &objectsRead, size);
-
-    // measurementStartTime
-    size = sizeof(measurementStartTime);
-    os.write((char *) &measurementStartTime, size);
-
-    // lastObjectTime
-    size = sizeof(lastObjectTime);
-    os.write((char *) &lastObjectTime, size);
-
-    // reserved
-    size = reserved.size() * sizeof(DWORD);
-    os.write((char *) reserved.data(), size);
+    os.write((char *) &signature, sizeof(signature));
+    os.write((char *) &statisticsSize, sizeof(statisticsSize));
+    os.write((char *) &applicationId, sizeof(applicationId));
+    os.write((char *) &applicationMajor, sizeof(applicationMajor));
+    os.write((char *) &applicationMinor, sizeof(applicationMinor));
+    os.write((char *) &applicationBuild, sizeof(applicationBuild));
+    os.write((char *) &apiMajor, sizeof(apiMajor));
+    os.write((char *) &apiMinor, sizeof(apiMinor));
+    os.write((char *) &apiBuild, sizeof(apiBuild));
+    os.write((char *) &apiPatch, sizeof(apiPatch));
+    os.write((char *) &fileSize, sizeof(fileSize));
+    os.write((char *) &uncompressedFileSize, sizeof(uncompressedFileSize));
+    os.write((char *) &objectCount, sizeof(objectCount));
+    os.write((char *) &objectsRead, sizeof(objectsRead));
+    os.write((char *) &measurementStartTime, sizeof(measurementStartTime));
+    os.write((char *) &lastObjectTime, sizeof(lastObjectTime));
+    os.write((char *) reserved.data(), reserved.size() * sizeof(DWORD));
 }
 
 size_t FileStatistics::calculateStatisticsSize()

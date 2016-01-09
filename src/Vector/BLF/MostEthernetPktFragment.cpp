@@ -21,8 +21,6 @@
 
 #include "MostEthernetPktFragment.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -51,175 +49,46 @@ MostEthernetPktFragment::~MostEthernetPktFragment()
 {
 }
 
-char * MostEthernetPktFragment::read(char * buffer)
+void MostEthernetPktFragment::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader2::read(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // reserved1
-    size = sizeof(reserved1);
-    memcpy((void *) &reserved1, buffer, size);
-    buffer += size;
-
-    // ackNack
-    size = sizeof(ackNack);
-    memcpy((void *) &ackNack, buffer, size);
-    buffer += size;
-
-    // validMask
-    size = sizeof(validMask);
-    memcpy((void *) &validMask, buffer, size);
-    buffer += size;
-
-    // sourceMacAdr
-    size = sizeof(sourceMacAdr);
-    memcpy((void *) &sourceMacAdr, buffer, size);
-    buffer += size;
-
-    // destMacAdr
-    size = sizeof(destMacAdr);
-    memcpy((void *) &destMacAdr, buffer, size);
-    buffer += size;
-
-    // pAck
-    size = sizeof(pAck);
-    memcpy((void *) &pAck, buffer, size);
-    buffer += size;
-
-    // cAck
-    size = sizeof(cAck);
-    memcpy((void *) &cAck, buffer, size);
-    buffer += size;
-
-    // reserved2
-    size = sizeof(reserved2);
-    memcpy((void *) &reserved2, buffer, size);
-    buffer += size;
-
-    // crc
-    size = sizeof(crc);
-    memcpy((void *) &crc, buffer, size);
-    buffer += size;
-
-    // dataLen
-    size = sizeof(dataLen);
-    memcpy((void *) &dataLen, buffer, size);
-    buffer += size;
-
-    // dataLenAnnounced
-    size = sizeof(dataLenAnnounced);
-    memcpy((void *) &dataLenAnnounced, buffer, size);
-    buffer += size;
-
-    // firstDataLen
-    size = sizeof(firstDataLen);
-    memcpy((void *) &firstDataLen, buffer, size);
-    buffer += size;
-
-    // reserved3
-    size = reserved3.size();
-    memcpy(reserved3.data(), buffer, size);
-    buffer += size;
-
-    // firstData
-    size = firstDataLen;
-    firstData.reserve(size);
-    memcpy(firstData.data(), buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader2::read(is);
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) &reserved1, sizeof(reserved1));
+    is.read((char *) &ackNack, sizeof(ackNack));
+    is.read((char *) &validMask, sizeof(validMask));
+    is.read((char *) &sourceMacAdr, sizeof(sourceMacAdr));
+    is.read((char *) &destMacAdr, sizeof(destMacAdr));
+    is.read((char *) &pAck, sizeof(pAck));
+    is.read((char *) &cAck, sizeof(cAck));
+    is.read((char *) &reserved2, sizeof(reserved2));
+    is.read((char *) &crc, sizeof(crc));
+    is.read((char *) &dataLen, sizeof(dataLen));
+    is.read((char *) &dataLenAnnounced, sizeof(dataLenAnnounced));
+    is.read((char *) &firstDataLen, sizeof(firstDataLen));
+    is.read((char *) reserved3.data(), reserved3.size());
+    firstData.reserve(firstDataLen);
+    is.read((char *) firstData.data(), firstDataLen);
 }
 
-char * MostEthernetPktFragment::write(char * buffer)
+void MostEthernetPktFragment::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader2::write(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // reserved1
-    size = sizeof(reserved1);
-    memcpy(buffer, (void *) &reserved1, size);
-    buffer += size;
-
-    // ackNack
-    size = sizeof(ackNack);
-    memcpy(buffer, (void *) &ackNack, size);
-    buffer += size;
-
-    // validMask
-    size = sizeof(validMask);
-    memcpy(buffer, (void *) &validMask, size);
-    buffer += size;
-
-    // sourceMacAdr
-    size = sizeof(sourceMacAdr);
-    memcpy(buffer, (void *) &sourceMacAdr, size);
-    buffer += size;
-
-    // destMacAdr
-    size = sizeof(destMacAdr);
-    memcpy(buffer, (void *) &destMacAdr, size);
-    buffer += size;
-
-    // pAck
-    size = sizeof(pAck);
-    memcpy(buffer, (void *) &pAck, size);
-    buffer += size;
-
-    // cAck
-    size = sizeof(cAck);
-    memcpy(buffer, (void *) &cAck, size);
-    buffer += size;
-
-    // reserved2
-    size = sizeof(reserved2);
-    memcpy(buffer, (void *) &reserved2, size);
-    buffer += size;
-
-    // crc
-    size = sizeof(crc);
-    memcpy(buffer, (void *) &crc, size);
-    buffer += size;
-
-    // dataLen
-    size = sizeof(dataLen);
-    memcpy(buffer, (void *) &dataLen, size);
-    buffer += size;
-
-    // dataLenAnnounced
-    size = sizeof(dataLenAnnounced);
-    memcpy(buffer, (void *) &dataLenAnnounced, size);
-    buffer += size;
-
-    // firstDataLen
-    size = sizeof(firstDataLen);
-    memcpy(buffer, (void *) &firstDataLen, size);
-    buffer += size;
-
-    // reserved3
-    size = reserved3.size();
-    memcpy(buffer, reserved3.data(), size);
-    buffer += size;
-
-    // firstData
-    size = firstDataLen;
-    memcpy(buffer, firstData.data(), size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader2::write(os);
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) &reserved1, sizeof(reserved1));
+    os.write((char *) &ackNack, sizeof(ackNack));
+    os.write((char *) &validMask, sizeof(validMask));
+    os.write((char *) &sourceMacAdr, sizeof(sourceMacAdr));
+    os.write((char *) &destMacAdr, sizeof(destMacAdr));
+    os.write((char *) &pAck, sizeof(pAck));
+    os.write((char *) &cAck, sizeof(cAck));
+    os.write((char *) &reserved2, sizeof(reserved2));
+    os.write((char *) &crc, sizeof(crc));
+    os.write((char *) &dataLen, sizeof(dataLen));
+    os.write((char *) &dataLenAnnounced, sizeof(dataLenAnnounced));
+    os.write((char *) &firstDataLen, sizeof(firstDataLen));
+    os.write((char *) reserved3.data(), reserved3.size());
+    firstData.reserve(firstDataLen);
+    os.write((char *) firstData.data(), firstDataLen);
 }
 
 size_t MostEthernetPktFragment::calculateObjectSize()

@@ -21,8 +21,6 @@
 
 #include "FlexRayStatusEvent.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -39,94 +37,28 @@ FlexRayStatusEvent::FlexRayStatusEvent() :
     objectType = ObjectType::FLEXRAY_STATUS;
 }
 
-char * FlexRayStatusEvent::read(char * buffer)
+void FlexRayStatusEvent::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::read(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // version
-    size = sizeof(version);
-    memcpy((void *) &version, buffer, size);
-    buffer += size;
-
-    // statusType
-    size = sizeof(statusType);
-    memcpy((void *) &statusType, buffer, size);
-    buffer += size;
-
-    // infoMask1
-    size = sizeof(infoMask1);
-    memcpy((void *) &infoMask1, buffer, size);
-    buffer += size;
-
-    // infoMask2
-    size = sizeof(infoMask2);
-    memcpy((void *) &infoMask2, buffer, size);
-    buffer += size;
-
-    // infoMask3
-    size = sizeof(infoMask3);
-    memcpy((void *) &infoMask3, buffer, size);
-    buffer += size;
-
-    // reserved
-    size = reserved.size() * sizeof(WORD);
-    memcpy(reserved.data(), buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::read(is);
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) &version, sizeof(version));
+    is.read((char *) &statusType, sizeof(statusType));
+    is.read((char *) &infoMask1, sizeof(infoMask1));
+    is.read((char *) &infoMask2, sizeof(infoMask2));
+    is.read((char *) &infoMask3, sizeof(infoMask3));
+    is.read((char *) reserved.data(), reserved.size());
 }
 
-char * FlexRayStatusEvent::write(char * buffer)
+void FlexRayStatusEvent::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::write(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // version
-    size = sizeof(version);
-    memcpy(buffer, (void *) &version, size);
-    buffer += size;
-
-    // statusType
-    size = sizeof(statusType);
-    memcpy(buffer, (void *) &statusType, size);
-    buffer += size;
-
-    // infoMask1
-    size = sizeof(infoMask1);
-    memcpy(buffer, (void *) &infoMask1, size);
-    buffer += size;
-
-    // infoMask2
-    size = sizeof(infoMask2);
-    memcpy(buffer, (void *) &infoMask2, size);
-    buffer += size;
-
-    // infoMask3
-    size = sizeof(infoMask3);
-    memcpy(buffer, (void *) &infoMask3, size);
-    buffer += size;
-
-    // reserved
-    size = reserved.size() * sizeof(WORD);
-    memcpy(buffer, reserved.data(), size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::write(os);
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) &version, sizeof(version));
+    os.write((char *) &statusType, sizeof(statusType));
+    os.write((char *) &infoMask1, sizeof(infoMask1));
+    os.write((char *) &infoMask2, sizeof(infoMask2));
+    os.write((char *) &infoMask3, sizeof(infoMask3));
+    os.write((char *) reserved.data(), reserved.size());
 }
 
 size_t FlexRayStatusEvent::calculateObjectSize()

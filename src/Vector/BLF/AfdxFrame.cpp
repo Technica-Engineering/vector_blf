@@ -21,8 +21,6 @@
 
 #include "AfdxFrame.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -51,175 +49,45 @@ AfdxFrame::~AfdxFrame()
 {
 }
 
-char * AfdxFrame::read(char * buffer)
+void AfdxFrame::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::read(buffer);
-
-    // sourceAddress
-    size = sourceAddress.size();
-    memcpy(sourceAddress.data(), buffer, size);
-    buffer += size;
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // destinationAddress
-    size = destinationAddress.size();
-    memcpy(destinationAddress.data(), buffer, size);
-    buffer += size;
-
-    // dir
-    size = sizeof(dir);
-    memcpy((void *) &dir, buffer, size);
-    buffer += size;
-
-    // type
-    size = sizeof(type);
-    memcpy((void *) &type, buffer, size);
-    buffer += size;
-
-    // tpid
-    size = sizeof(tpid);
-    memcpy((void *) &tpid, buffer, size);
-    buffer += size;
-
-    // tci
-    size = sizeof(tci);
-    memcpy((void *) &tci, buffer, size);
-    buffer += size;
-
-    // ethChannel
-    size = sizeof(ethChannel);
-    memcpy((void *) &ethChannel, buffer, size);
-    buffer += size;
-
-    // reserved1
-    size = sizeof(reserved1);
-    memcpy((void *) &reserved1, buffer, size);
-    buffer += size;
-
-    // afdxFlags
-    size = sizeof(afdxFlags);
-    memcpy((void *) &afdxFlags, buffer, size);
-    buffer += size;
-
-    // reserved2
-    size = reserved2.size();
-    memcpy(reserved2.data(), buffer, size);
-    buffer += size;
-
-    // bagUsec
-    size = sizeof(bagUsec);
-    memcpy((void *) &bagUsec, buffer, size);
-    buffer += size;
-
-    // payLoadLength
-    size = sizeof(payLoadLength);
-    memcpy((void *) &payLoadLength, buffer, size);
-    buffer += size;
-
-    // reserved3
-    size = reserved3.size();
-    memcpy(reserved3.data(), buffer, size);
-    buffer += size;
-
-    // payLoad
-    size = payLoadLength;
-    payLoad.reserve(size);
-    memcpy(payLoad.data(), buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::read(is);
+    is.read((char *) sourceAddress.data(), sourceAddress.size());
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) destinationAddress.data(), destinationAddress.size());
+    is.read((char *) &dir, sizeof(dir));
+    is.read((char *) &type, sizeof(type));
+    is.read((char *) &tpid, sizeof(tpid));
+    is.read((char *) &tci, sizeof(tci));
+    is.read((char *) &ethChannel, sizeof(ethChannel));
+    is.read((char *) &reserved1, sizeof(reserved1));
+    is.read((char *) &afdxFlags, sizeof(afdxFlags));
+    is.read((char *) reserved2.data(), reserved2.size());
+    is.read((char *) &bagUsec, sizeof(bagUsec));
+    is.read((char *) &payLoadLength, sizeof(payLoadLength));
+    is.read((char *) reserved3.data(), reserved3.size());
+    payLoad.reserve(payLoadLength);
+    is.read((char *) payLoad.data(), payLoadLength);
 }
 
-char * AfdxFrame::write(char * buffer)
+void AfdxFrame::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::write(buffer);
-
-    // sourceAddress
-    size = sourceAddress.size();
-    memcpy(buffer, sourceAddress.data(), size);
-    buffer += size;
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // destinationAddress
-    size = destinationAddress.size();
-    memcpy(buffer, destinationAddress.data(), size);
-    buffer += size;
-
-    // dir
-    size = sizeof(dir);
-    memcpy(buffer, (void *) &dir, size);
-    buffer += size;
-
-    // type
-    size = sizeof(type);
-    memcpy(buffer, (void *) &type, size);
-    buffer += size;
-
-    // tpid
-    size = sizeof(tpid);
-    memcpy(buffer, (void *) &tpid, size);
-    buffer += size;
-
-    // tci
-    size = sizeof(tci);
-    memcpy(buffer, (void *) &tci, size);
-    buffer += size;
-
-    // ethChannel
-    size = sizeof(ethChannel);
-    memcpy(buffer, (void *) &ethChannel, size);
-    buffer += size;
-
-    // reserved1
-    size = sizeof(reserved1);
-    memcpy(buffer, (void *) &reserved1, size);
-    buffer += size;
-
-    // afdxFlags
-    size = sizeof(afdxFlags);
-    memcpy(buffer, (void *) &afdxFlags, size);
-    buffer += size;
-
-    // reserved2
-    size = reserved2.size();
-    memcpy(buffer, reserved2.data(), size);
-    buffer += size;
-
-    // bagUsec
-    size = sizeof(bagUsec);
-    memcpy(buffer, (void *) &bagUsec, size);
-    buffer += size;
-
-    // payLoadLength
-    size = sizeof(payLoadLength);
-    memcpy(buffer, (void *) &payLoadLength, size);
-    buffer += size;
-
-    // reserved3
-    size = reserved3.size();
-    memcpy(buffer, reserved3.data(), size);
-    buffer += size;
-
-    // payLoad
-    size = payLoadLength;
-    memcpy(buffer, payLoad.data(), size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::write(os);
+    os.write((char *) sourceAddress.data(), sourceAddress.size());
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) destinationAddress.data(), destinationAddress.size());
+    os.write((char *) &dir, sizeof(dir));
+    os.write((char *) &type, sizeof(type));
+    os.write((char *) &tpid, sizeof(tpid));
+    os.write((char *) &tci, sizeof(tci));
+    os.write((char *) &ethChannel, sizeof(ethChannel));
+    os.write((char *) &reserved1, sizeof(reserved1));
+    os.write((char *) &afdxFlags, sizeof(afdxFlags));
+    os.write((char *) reserved2.data(), reserved2.size());
+    os.write((char *) &bagUsec, sizeof(bagUsec));
+    os.write((char *) &payLoadLength, sizeof(payLoadLength));
+    os.write((char *) reserved3.data(), reserved3.size());
+    os.write((char *) payLoad.data(), payLoadLength);
 }
 
 size_t AfdxFrame::calculateObjectSize()

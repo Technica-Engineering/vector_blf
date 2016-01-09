@@ -21,8 +21,6 @@
 
 #include "LinSyncError.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -35,54 +33,20 @@ LinSyncError::LinSyncError() :
     objectType = ObjectType::LIN_SYN_ERROR;
 }
 
-char * LinSyncError::read(char * buffer)
+void LinSyncError::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::read(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // reserved
-    size = sizeof(reserved);
-    memcpy((void *) &reserved, buffer, size);
-    buffer += size;
-
-    // timeDiff
-    size = timeDiff.size() * sizeof(WORD);
-    memcpy(timeDiff.data(), buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::read(is);
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) &reserved, sizeof(reserved));
+    is.read((char *) timeDiff.data(), timeDiff.size() * sizeof(WORD));
 }
 
-char * LinSyncError::write(char * buffer)
+void LinSyncError::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::write(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // reserved
-    size = sizeof(reserved);
-    memcpy(buffer, (void *) &reserved, size);
-    buffer += size;
-
-    // timeDiff
-    size = timeDiff.size() * sizeof(WORD);
-    memcpy(buffer, timeDiff.data(), size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::write(os);
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) &reserved, sizeof(reserved));
+    os.write((char *) timeDiff.data(), timeDiff.size() * sizeof(WORD));
 }
 
 size_t LinSyncError::calculateObjectSize()

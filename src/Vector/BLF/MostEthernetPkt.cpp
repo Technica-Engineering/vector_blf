@@ -21,8 +21,6 @@
 
 #include "MostEthernetPkt.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -52,185 +50,47 @@ MostEthernetPkt::~MostEthernetPkt()
 {
 }
 
-char * MostEthernetPkt::read(char * buffer)
+void MostEthernetPkt::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader2::read(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // dir
-    size = sizeof(dir);
-    memcpy((void *) &dir, buffer, size);
-    buffer += size;
-
-    // reserved1
-    size = reserved1.size();
-    memcpy(reserved1.data(), buffer, size);
-    buffer += size;
-
-    // sourceMacAdr
-    size = sizeof(sourceMacAdr);
-    memcpy((void *) &sourceMacAdr, buffer, size);
-    buffer += size;
-
-    // destMacAdr
-    size = sizeof(destMacAdr);
-    memcpy((void *) &destMacAdr, buffer, size);
-    buffer += size;
-
-    // transferType
-    size = sizeof(transferType);
-    memcpy((void *) &transferType, buffer, size);
-    buffer += size;
-
-    // state
-    size = sizeof(state);
-    memcpy((void *) &state, buffer, size);
-    buffer += size;
-
-    // ackNack
-    size = sizeof(ackNack);
-    memcpy((void *) &ackNack, buffer, size);
-    buffer += size;
-
-    // reserved2
-    size = sizeof(reserved2);
-    memcpy((void *) &reserved2, buffer, size);
-    buffer += size;
-
-    // crc
-    size = sizeof(crc);
-    memcpy((void *) &crc, buffer, size);
-    buffer += size;
-
-    // pAck
-    size = sizeof(pAck);
-    memcpy((void *) &pAck, buffer, size);
-    buffer += size;
-
-    // cAck
-    size = sizeof(cAck);
-    memcpy((void *) &cAck, buffer, size);
-    buffer += size;
-
-    // reserved3
-    size = sizeof(reserved3);
-    memcpy((void *) &reserved3, buffer, size);
-    buffer += size;
-
-    // pktDataLength
-    size = sizeof(pktDataLength);
-    memcpy((void *) &pktDataLength, buffer, size);
-    buffer += size;
-
-    // reserved4
-    size = reserved4.size();
-    memcpy(reserved4.data(), buffer, size);
-    buffer += size;
-
-    // pktData
-    size = pktDataLength;
-    pktData.reserve(size);
-    memcpy(pktData.data(), buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader2::read(is);
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) &dir, sizeof(dir));
+    is.read((char *) reserved1.data(), reserved1.size());
+    is.read((char *) &sourceMacAdr, sizeof(sourceMacAdr));
+    is.read((char *) &destMacAdr, sizeof(destMacAdr));
+    is.read((char *) &transferType, sizeof(transferType));
+    is.read((char *) &state, sizeof(state));
+    is.read((char *) &ackNack, sizeof(ackNack));
+    is.read((char *) &reserved2, sizeof(reserved2));
+    is.read((char *) &crc, sizeof(crc));
+    is.read((char *) &pAck, sizeof(pAck));
+    is.read((char *) &cAck, sizeof(cAck));
+    is.read((char *) &reserved3, sizeof(reserved3));
+    is.read((char *) &pktDataLength, sizeof(pktDataLength));
+    is.read((char *) reserved4.data(), reserved4.size());
+    pktData.reserve(pktDataLength);
+    is.read((char *) pktData.data(), pktDataLength);
 }
 
-char * MostEthernetPkt::write(char * buffer)
+void MostEthernetPkt::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader2::write(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // dir
-    size = sizeof(dir);
-    memcpy(buffer, (void *) &dir, size);
-    buffer += size;
-
-    // reserved1
-    size = reserved1.size();
-    memcpy(buffer, reserved1.data(), size);
-    buffer += size;
-
-    // sourceMacAdr
-    size = sizeof(sourceMacAdr);
-    memcpy(buffer, (void *) &sourceMacAdr, size);
-    buffer += size;
-
-    // destMacAdr
-    size = sizeof(destMacAdr);
-    memcpy(buffer, (void *) &destMacAdr, size);
-    buffer += size;
-
-    // transferType
-    size = sizeof(transferType);
-    memcpy(buffer, (void *) &transferType, size);
-    buffer += size;
-
-    // state
-    size = sizeof(state);
-    memcpy(buffer, (void *) &state, size);
-    buffer += size;
-
-    // ackNack
-    size = sizeof(ackNack);
-    memcpy(buffer, (void *) &ackNack, size);
-    buffer += size;
-
-    // reserved2
-    size = sizeof(reserved2);
-    memcpy(buffer, (void *) &reserved2, size);
-    buffer += size;
-
-    // crc
-    size = sizeof(crc);
-    memcpy(buffer, (void *) &crc, size);
-    buffer += size;
-
-    // pAck
-    size = sizeof(pAck);
-    memcpy(buffer, (void *) &pAck, size);
-    buffer += size;
-
-    // cAck
-    size = sizeof(cAck);
-    memcpy(buffer, (void *) &cAck, size);
-    buffer += size;
-
-    // reserved3
-    size = sizeof(reserved3);
-    memcpy(buffer, (void *) &reserved3, size);
-    buffer += size;
-
-    // pktDataLength
-    size = sizeof(pktDataLength);
-    memcpy(buffer, (void *) &pktDataLength, size);
-    buffer += size;
-
-    // reserved4
-    size = reserved4.size();
-    memcpy(buffer, reserved4.data(), size);
-    buffer += size;
-
-    // pktData
-    size = pktDataLength;
-    memcpy(buffer, pktData.data(), size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader2::write(os);
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) &dir, sizeof(dir));
+    os.write((char *) reserved1.data(), reserved1.size());
+    os.write((char *) &sourceMacAdr, sizeof(sourceMacAdr));
+    os.write((char *) &destMacAdr, sizeof(destMacAdr));
+    os.write((char *) &transferType, sizeof(transferType));
+    os.write((char *) &state, sizeof(state));
+    os.write((char *) &ackNack, sizeof(ackNack));
+    os.write((char *) &reserved2, sizeof(reserved2));
+    os.write((char *) &crc, sizeof(crc));
+    os.write((char *) &pAck, sizeof(pAck));
+    os.write((char *) &cAck, sizeof(cAck));
+    os.write((char *) &reserved3, sizeof(reserved3));
+    os.write((char *) &pktDataLength, sizeof(pktDataLength));
+    os.write((char *) reserved4.data(), reserved4.size());
+    os.write((char *) pktData.data(), pktDataLength);
 }
 
 size_t MostEthernetPkt::calculateObjectSize()

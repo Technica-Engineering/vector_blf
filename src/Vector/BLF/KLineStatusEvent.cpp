@@ -21,8 +21,6 @@
 
 #include "KLineStatusEvent.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -37,74 +35,24 @@ KLineStatusEvent::KLineStatusEvent() :
     objectType = ObjectType::KLINE_STATUSEVENT;
 }
 
-char * KLineStatusEvent::read(char * buffer)
+void KLineStatusEvent::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::read(buffer);
-
-    // type
-    size = sizeof(type);
-    memcpy((void *) &type, buffer, size);
-    buffer += size;
-
-    // dataLen
-    size = sizeof(dataLen);
-    memcpy((void *) &dataLen, buffer, size);
-    buffer += size;
-
-    // port
-    size = sizeof(port);
-    memcpy((void *) &port, buffer, size);
-    buffer += size;
-
-    // reserved
-    size = sizeof(reserved);
-    memcpy((void *) &reserved, buffer, size);
-    buffer += size;
-
-    // data
-    size = dataLen;
-    memcpy(data.data(), buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::read(is);
+    is.read((char *) &type, sizeof(type));
+    is.read((char *) &dataLen, sizeof(dataLen));
+    is.read((char *) &port, sizeof(port));
+    is.read((char *) &reserved, sizeof(reserved));
+    is.read((char *) data.data(), data.size());
 }
 
-char * KLineStatusEvent::write(char * buffer)
+void KLineStatusEvent::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::write(buffer);
-
-    // type
-    size = sizeof(type);
-    memcpy(buffer, (void *) &type, size);
-    buffer += size;
-
-    // dataLen
-    size = sizeof(dataLen);
-    memcpy(buffer, (void *) &dataLen, size);
-    buffer += size;
-
-    // port
-    size = sizeof(port);
-    memcpy(buffer, (void *) &port, size);
-    buffer += size;
-
-    // reserved
-    size = sizeof(reserved);
-    memcpy(buffer, (void *) &reserved, size);
-    buffer += size;
-
-    // data
-    size = dataLen;
-    memcpy(buffer, data.data(), size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::write(os);
+    os.write((char *) &type, sizeof(type));
+    os.write((char *) &dataLen, sizeof(dataLen));
+    os.write((char *) &port, sizeof(port));
+    os.write((char *) &reserved, sizeof(reserved));
+    os.write((char *) data.data(), data.size());
 }
 
 size_t KLineStatusEvent::calculateObjectSize()

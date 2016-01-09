@@ -21,8 +21,6 @@
 
 #include "Most50Message.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -53,195 +51,49 @@ Most50Message::~Most50Message()
 {
 }
 
-char * Most50Message::read(char * buffer)
+void Most50Message::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader2::read(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // dir
-    size = sizeof(dir);
-    memcpy((void *) &dir, buffer, size);
-    buffer += size;
-
-    // reserved1
-    size = sizeof(reserved1);
-    memcpy((void *) &reserved1, buffer, size);
-    buffer += size;
-
-    // sourceAdr
-    size = sizeof(sourceAdr);
-    memcpy((void *) &sourceAdr, buffer, size);
-    buffer += size;
-
-    // destAdr
-    size = sizeof(destAdr);
-    memcpy((void *) &destAdr, buffer, size);
-    buffer += size;
-
-    // transferType
-    size = sizeof(transferType);
-    memcpy((void *) &transferType, buffer, size);
-    buffer += size;
-
-    // state
-    size = sizeof(state);
-    memcpy((void *) &state, buffer, size);
-    buffer += size;
-
-    // ackNack
-    size = sizeof(ackNack);
-    memcpy((void *) &ackNack, buffer, size);
-    buffer += size;
-
-    // reserved2
-    size = sizeof(reserved2);
-    memcpy((void *) &reserved2, buffer, size);
-    buffer += size;
-
-    // crc
-    size = sizeof(crc);
-    memcpy((void *) &crc, buffer, size);
-    buffer += size;
-
-    // reserved3
-    size = sizeof(reserved3);
-    memcpy((void *) &reserved3, buffer, size);
-    buffer += size;
-
-    // reserved4
-    size = sizeof(reserved4);
-    memcpy((void *) &reserved4, buffer, size);
-    buffer += size;
-
-    // priority
-    size = sizeof(priority);
-    memcpy((void *) &priority, buffer, size);
-    buffer += size;
-
-    // reserved5
-    size = sizeof(reserved5);
-    memcpy((void *) &reserved5, buffer, size);
-    buffer += size;
-
-    // msgLen
-    size = sizeof(msgLen);
-    memcpy((void *) &msgLen, buffer, size);
-    buffer += size;
-
-    // reserved6
-    size = reserved6.size();
-    memcpy(reserved6.data(), buffer, size);
-    buffer += size;
-
-    // msg
-    size = msgLen;
-    msg.reserve(size);
-    memcpy(msg.data(), buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader2::read(is);
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) &dir, sizeof(dir));
+    is.read((char *) &reserved1, sizeof(reserved1));
+    is.read((char *) &sourceAdr, sizeof(sourceAdr));
+    is.read((char *) &destAdr, sizeof(destAdr));
+    is.read((char *) &transferType, sizeof(transferType));
+    is.read((char *) &state, sizeof(state));
+    is.read((char *) &ackNack, sizeof(ackNack));
+    is.read((char *) &reserved2, sizeof(reserved2));
+    is.read((char *) &crc, sizeof(crc));
+    is.read((char *) &reserved3, sizeof(reserved3));
+    is.read((char *) &reserved4, sizeof(reserved4));
+    is.read((char *) &priority, sizeof(priority));
+    is.read((char *) &reserved5, sizeof(reserved5));
+    is.read((char *) &msgLen, sizeof(msgLen));
+    is.read((char *) reserved6.data(), reserved6.size());
+    msg.reserve(msgLen);
+    is.read((char *) msg.data(), msgLen);
 }
 
-char * Most50Message::write(char * buffer)
+void Most50Message::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader2::write(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // dir
-    size = sizeof(dir);
-    memcpy(buffer, (void *) &dir, size);
-    buffer += size;
-
-    // reserved1
-    size = sizeof(reserved1);
-    memcpy(buffer, (void *) &reserved1, size);
-    buffer += size;
-
-    // sourceAdr
-    size = sizeof(sourceAdr);
-    memcpy(buffer, (void *) &sourceAdr, size);
-    buffer += size;
-
-    // destAdr
-    size = sizeof(destAdr);
-    memcpy(buffer, (void *) &destAdr, size);
-    buffer += size;
-
-    // transferType
-    size = sizeof(transferType);
-    memcpy(buffer, (void *) &transferType, size);
-    buffer += size;
-
-    // state
-    size = sizeof(state);
-    memcpy(buffer, (void *) &state, size);
-    buffer += size;
-
-    // ackNack
-    size = sizeof(ackNack);
-    memcpy(buffer, (void *) &ackNack, size);
-    buffer += size;
-
-    // reserved2
-    size = sizeof(reserved2);
-    memcpy(buffer, (void *) &reserved2, size);
-    buffer += size;
-
-    // crc
-    size = sizeof(crc);
-    memcpy(buffer, (void *) &crc, size);
-    buffer += size;
-
-    // reserved3
-    size = sizeof(reserved3);
-    memcpy(buffer, (void *) &reserved3, size);
-    buffer += size;
-
-    // reserved4
-    size = sizeof(reserved4);
-    memcpy(buffer, (void *) &reserved4, size);
-    buffer += size;
-
-    // priority
-    size = sizeof(priority);
-    memcpy(buffer, (void *) &priority, size);
-    buffer += size;
-
-    // reserved5
-    size = sizeof(reserved5);
-    memcpy(buffer, (void *) &reserved5, size);
-    buffer += size;
-
-    // msgLen
-    size = sizeof(msgLen);
-    memcpy(buffer, (void *) &msgLen, size);
-    buffer += size;
-
-    // reserved6
-    size = reserved6.size();
-    memcpy(buffer, reserved6.data(), size);
-    buffer += size;
-
-    // msg
-    size = msgLen;
-    memcpy(buffer, msg.data(), size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader2::write(os);
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) &dir, sizeof(dir));
+    os.write((char *) &reserved1, sizeof(reserved1));
+    os.write((char *) &sourceAdr, sizeof(sourceAdr));
+    os.write((char *) &destAdr, sizeof(destAdr));
+    os.write((char *) &transferType, sizeof(transferType));
+    os.write((char *) &state, sizeof(state));
+    os.write((char *) &ackNack, sizeof(ackNack));
+    os.write((char *) &reserved2, sizeof(reserved2));
+    os.write((char *) &crc, sizeof(crc));
+    os.write((char *) &reserved3, sizeof(reserved3));
+    os.write((char *) &reserved4, sizeof(reserved4));
+    os.write((char *) &priority, sizeof(priority));
+    os.write((char *) &reserved5, sizeof(reserved5));
+    os.write((char *) &msgLen, sizeof(msgLen));
+    os.write((char *) reserved6.data(), reserved6.size());
+    os.write((char *) msg.data(), msgLen);
 }
 
 size_t Most50Message::calculateObjectSize()

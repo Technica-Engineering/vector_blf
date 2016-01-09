@@ -21,8 +21,6 @@
 
 #include "MostStatisticEx.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -37,74 +35,24 @@ MostStatisticEx::MostStatisticEx() :
     objectType = ObjectType::MOST_STATISTICEX;
 }
 
-char * MostStatisticEx::read(char * buffer)
+void MostStatisticEx::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader2::read(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // reserved1
-    size = sizeof(reserved1);
-    memcpy((void *) &reserved1, buffer, size);
-    buffer += size;
-
-    // codingErrors
-    size = sizeof(codingErrors);
-    memcpy((void *) &codingErrors, buffer, size);
-    buffer += size;
-
-    // frameCounter
-    size = sizeof(frameCounter);
-    memcpy((void *) &frameCounter, buffer, size);
-    buffer += size;
-
-    // reserved2
-    size = reserved2.size();
-    memcpy(reserved2.data(), buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader2::read(is);
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) &reserved1, sizeof(reserved1));
+    is.read((char *) &codingErrors, sizeof(codingErrors));
+    is.read((char *) &frameCounter, sizeof(frameCounter));
+    is.read((char *) reserved2.data(), reserved2.size());
 }
 
-char * MostStatisticEx::write(char * buffer)
+void MostStatisticEx::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader2::write(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // reserved1
-    size = sizeof(reserved1);
-    memcpy(buffer, (void *) &reserved1, size);
-    buffer += size;
-
-    // codingErrors
-    size = sizeof(codingErrors);
-    memcpy(buffer, (void *) &codingErrors, size);
-    buffer += size;
-
-    // frameCounter
-    size = sizeof(frameCounter);
-    memcpy(buffer, (void *) &frameCounter, size);
-    buffer += size;
-
-    // reserved2
-    size = reserved2.size();
-    memcpy(buffer, reserved2.data(), size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader2::write(os);
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) &reserved1, sizeof(reserved1));
+    os.write((char *) &codingErrors, sizeof(codingErrors));
+    os.write((char *) &frameCounter, sizeof(frameCounter));
+    os.write((char *) reserved2.data(), reserved2.size());
 }
 
 size_t MostStatisticEx::calculateObjectSize()

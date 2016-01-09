@@ -22,6 +22,7 @@
 #pragma once
 
 #include <array>
+#include <iostream>
 #include <vector>
 
 #include "VectorTypes.h"
@@ -44,8 +45,8 @@ public:
     MostAllocTab();
     virtual ~MostAllocTab();
 
-    virtual char * read(char * buffer);
-    virtual char * write(char * buffer);
+    virtual void read(std::istream & is);
+    virtual void write(std::ostream & os);
     virtual size_t calculateObjectSize();
 
     /**

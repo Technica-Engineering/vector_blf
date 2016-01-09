@@ -21,8 +21,6 @@
 
 #include "MostDataLost.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -39,94 +37,28 @@ MostDataLost::MostDataLost() :
     objectType = ObjectType::MOST_DATALOST;
 }
 
-char * MostDataLost::read(char * buffer)
+void MostDataLost::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader2::read(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // reserved
-    size = sizeof(reserved);
-    memcpy((void *) &reserved, buffer, size);
-    buffer += size;
-
-    // info
-    size = sizeof(info);
-    memcpy((void *) &info, buffer, size);
-    buffer += size;
-
-    // lostMsgsCtrl
-    size = sizeof(lostMsgsCtrl);
-    memcpy((void *) &lostMsgsCtrl, buffer, size);
-    buffer += size;
-
-    // lostMsgsAsync
-    size = sizeof(lostMsgsAsync);
-    memcpy((void *) &lostMsgsAsync, buffer, size);
-    buffer += size;
-
-    // lastGoodTimeStampNs
-    size = sizeof(lastGoodTimeStampNs);
-    memcpy((void *) &lastGoodTimeStampNs, buffer, size);
-    buffer += size;
-
-    // nextGoodTimeStampNs
-    size = sizeof(nextGoodTimeStampNs);
-    memcpy((void *) &nextGoodTimeStampNs, buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader2::read(is);
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) &reserved, sizeof(reserved));
+    is.read((char *) &info, sizeof(info));
+    is.read((char *) &lostMsgsCtrl, sizeof(lostMsgsCtrl));
+    is.read((char *) &lostMsgsAsync, sizeof(lostMsgsAsync));
+    is.read((char *) &lastGoodTimeStampNs, sizeof(lastGoodTimeStampNs));
+    is.read((char *) &nextGoodTimeStampNs, sizeof(nextGoodTimeStampNs));
 }
 
-char * MostDataLost::write(char * buffer)
+void MostDataLost::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader2::write(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // reserved
-    size = sizeof(reserved);
-    memcpy(buffer, (void *) &reserved, size);
-    buffer += size;
-
-    // info
-    size = sizeof(info);
-    memcpy(buffer, (void *) &info, size);
-    buffer += size;
-
-    // lostMsgsCtrl
-    size = sizeof(lostMsgsCtrl);
-    memcpy(buffer, (void *) &lostMsgsCtrl, size);
-    buffer += size;
-
-    // lostMsgsAsync
-    size = sizeof(lostMsgsAsync);
-    memcpy(buffer, (void *) &lostMsgsAsync, size);
-    buffer += size;
-
-    // lastGoodTimeStampNs
-    size = sizeof(lastGoodTimeStampNs);
-    memcpy(buffer, (void *) &lastGoodTimeStampNs, size);
-    buffer += size;
-
-    // nextGoodTimeStampNs
-    size = sizeof(nextGoodTimeStampNs);
-    memcpy(buffer, (void *) &nextGoodTimeStampNs, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader2::write(os);
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) &reserved, sizeof(reserved));
+    os.write((char *) &info, sizeof(info));
+    os.write((char *) &lostMsgsCtrl, sizeof(lostMsgsCtrl));
+    os.write((char *) &lostMsgsAsync, sizeof(lostMsgsAsync));
+    os.write((char *) &lastGoodTimeStampNs, sizeof(lastGoodTimeStampNs));
+    os.write((char *) &nextGoodTimeStampNs, sizeof(nextGoodTimeStampNs));
 }
 
 size_t MostDataLost::calculateObjectSize()

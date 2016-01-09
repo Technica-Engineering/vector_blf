@@ -21,8 +21,6 @@
 
 #include "FlexRaySync.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -42,124 +40,34 @@ FlexRaySync::FlexRaySync() :
     objectType = ObjectType::FLEXRAY_SYNC;
 }
 
-char * FlexRaySync::read(char * buffer)
+void FlexRaySync::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::read(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // mux
-    size = sizeof(mux);
-    memcpy((void *) &mux, buffer, size);
-    buffer += size;
-
-    // len
-    size = sizeof(len);
-    memcpy((void *) &len, buffer, size);
-    buffer += size;
-
-    // messageId
-    size = sizeof(messageId);
-    memcpy((void *) &messageId, buffer, size);
-    buffer += size;
-
-    // crc
-    size = sizeof(crc);
-    memcpy((void *) &crc, buffer, size);
-    buffer += size;
-
-    // dir
-    size = sizeof(dir);
-    memcpy((void *) &dir, buffer, size);
-    buffer += size;
-
-    // reserved1
-    size = sizeof(reserved1);
-    memcpy((void *) &reserved1, buffer, size);
-    buffer += size;
-
-    // reserved2
-    size = sizeof(reserved2);
-    memcpy((void *) &reserved2, buffer, size);
-    buffer += size;
-
-    // dataBytes
-    size = dataBytes.size();
-    memcpy(dataBytes.data(), buffer, size);
-    buffer += size;
-
-    // cycle
-    size = sizeof(cycle);
-    memcpy((void *) &cycle, buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::read(is);
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) &mux, sizeof(mux));
+    is.read((char *) &len, sizeof(len));
+    is.read((char *) &messageId, sizeof(messageId));
+    is.read((char *) &crc, sizeof(crc));
+    is.read((char *) &dir, sizeof(dir));
+    is.read((char *) &reserved1, sizeof(reserved1));
+    is.read((char *) &reserved2, sizeof(reserved2));
+    is.read((char *) dataBytes.data(), dataBytes.size());
+    is.read((char *) &cycle, sizeof(cycle));
 }
 
-char * FlexRaySync::write(char * buffer)
+void FlexRaySync::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::write(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // mux
-    size = sizeof(mux);
-    memcpy(buffer, (void *) &mux, size);
-    buffer += size;
-
-    // len
-    size = sizeof(len);
-    memcpy(buffer, (void *) &len, size);
-    buffer += size;
-
-    // messageId
-    size = sizeof(messageId);
-    memcpy(buffer, (void *) &messageId, size);
-    buffer += size;
-
-    // crc
-    size = sizeof(crc);
-    memcpy(buffer, (void *) &crc, size);
-    buffer += size;
-
-    // dir
-    size = sizeof(dir);
-    memcpy(buffer, (void *) &dir, size);
-    buffer += size;
-
-    // reserved1
-    size = sizeof(reserved1);
-    memcpy(buffer, (void *) &reserved1, size);
-    buffer += size;
-
-    // reserved2
-    size = sizeof(reserved2);
-    memcpy(buffer, (void *) &reserved2, size);
-    buffer += size;
-
-    // dataBytes
-    size = dataBytes.size();
-    memcpy(buffer, dataBytes.data(), size);
-    buffer += size;
-
-    // cycle
-    size = sizeof(cycle);
-    memcpy(buffer, (void *) &cycle, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::write(os);
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) &mux, sizeof(mux));
+    os.write((char *) &len, sizeof(len));
+    os.write((char *) &messageId, sizeof(messageId));
+    os.write((char *) &crc, sizeof(crc));
+    os.write((char *) &dir, sizeof(dir));
+    os.write((char *) &reserved1, sizeof(reserved1));
+    os.write((char *) &reserved2, sizeof(reserved2));
+    os.write((char *) dataBytes.data(), dataBytes.size());
+    os.write((char *) &cycle, sizeof(cycle));
 }
 
 size_t FlexRaySync::calculateObjectSize()

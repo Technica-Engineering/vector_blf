@@ -21,8 +21,6 @@
 
 #include "CanDriverError.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -36,64 +34,22 @@ CanDriverError::CanDriverError() :
     objectType = ObjectType::CAN_DRIVER_ERROR;
 }
 
-char * CanDriverError::read(char * buffer)
+void CanDriverError::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::read(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // txErrors
-    size = sizeof(txErrors);
-    memcpy((void *) &txErrors, buffer, size);
-    buffer += size;
-
-    // rxErrors
-    size = sizeof(rxErrors);
-    memcpy((void *) &rxErrors, buffer, size);
-    buffer += size;
-
-    // errorCode
-    size = sizeof(errorCode);
-    memcpy((void *) &errorCode, buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::read(is);
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) &txErrors, sizeof(txErrors));
+    is.read((char *) &rxErrors, sizeof(rxErrors));
+    is.read((char *) &errorCode, sizeof(errorCode));
 }
 
-char * CanDriverError::write(char * buffer)
+void CanDriverError::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::write(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // txErrors
-    size = sizeof(txErrors);
-    memcpy(buffer, (void *) &txErrors, size);
-    buffer += size;
-
-    // rxErrors
-    size = sizeof(rxErrors);
-    memcpy(buffer, (void *) &rxErrors, size);
-    buffer += size;
-
-    // errorCode
-    size = sizeof(errorCode);
-    memcpy(buffer, (void *) &errorCode, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::write(os);
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) &txErrors, sizeof(txErrors));
+    os.write((char *) &rxErrors, sizeof(rxErrors));
+    os.write((char *) &errorCode, sizeof(errorCode));
 }
 
 size_t CanDriverError::calculateObjectSize()

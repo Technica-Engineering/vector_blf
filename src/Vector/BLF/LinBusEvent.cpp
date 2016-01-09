@@ -21,8 +21,6 @@
 
 #include "LinBusEvent.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -34,58 +32,20 @@ LinBusEvent::LinBusEvent() :
 {
 }
 
-char * LinBusEvent::read(char * buffer)
+void LinBusEvent::read(std::istream & is)
 {
-    size_t size;
-
-    // sof
-    size = sizeof(sof);
-    memcpy((void *) &sof, buffer, size);
-    buffer += size;
-
-    // eventBaudrate
-    size = sizeof(eventBaudrate);
-    memcpy((void *) &eventBaudrate, buffer, size);
-    buffer += size;
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // reserved
-    size = reserved.size();
-    memcpy(reserved.data(), buffer, size);
-    buffer += size;
-
-    return buffer;
+    is.read((char *) &sof, sizeof(sof));
+    is.read((char *) &eventBaudrate, sizeof(eventBaudrate));
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) reserved.data(), reserved.size());
 }
 
-char * LinBusEvent::write(char * buffer)
+void LinBusEvent::write(std::ostream & os)
 {
-    size_t size;
-
-    // sof
-    size = sizeof(sof);
-    memcpy(buffer, (void *) &sof, size);
-    buffer += size;
-
-    // eventBaudrate
-    size = sizeof(eventBaudrate);
-    memcpy(buffer, (void *) &eventBaudrate, size);
-    buffer += size;
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // reserved
-    size = reserved.size();
-    memcpy(buffer, reserved.data(), size);
-    buffer += size;
-
-    return buffer;
+    os.write((char *) &sof, sizeof(sof));
+    os.write((char *) &eventBaudrate, sizeof(eventBaudrate));
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) reserved.data(), reserved.size());
 }
 
 size_t LinBusEvent::calculateObjectSize()

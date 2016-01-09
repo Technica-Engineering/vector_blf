@@ -21,8 +21,6 @@
 
 #include "LinDatabyteTimestampEvent.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -32,34 +30,16 @@ LinDatabyteTimestampEvent::LinDatabyteTimestampEvent() :
 {
 }
 
-char * LinDatabyteTimestampEvent::read(char * buffer)
+void LinDatabyteTimestampEvent::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = LinMessageDescriptor::read(buffer);
-
-    // databyteTimestamps
-    size = databyteTimestamps.size() * sizeof(ULONGLONG);
-    memcpy(databyteTimestamps.data(), buffer, size);
-    buffer += size;
-
-    return buffer;
+    LinMessageDescriptor::read(is);
+    is.read((char *) databyteTimestamps.data(), databyteTimestamps.size() * sizeof(ULONGLONG));
 }
 
-char * LinDatabyteTimestampEvent::write(char * buffer)
+void LinDatabyteTimestampEvent::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = LinMessageDescriptor::write(buffer);
-
-    // databyteTimestamps
-    size = databyteTimestamps.size() * sizeof(ULONGLONG);
-    memcpy(buffer, databyteTimestamps.data(), size);
-    buffer += size;
-
-    return buffer;
+    LinMessageDescriptor::write(os);
+    os.write((char *) databyteTimestamps.data(), databyteTimestamps.size() * sizeof(ULONGLONG));
 }
 
 size_t LinDatabyteTimestampEvent::calculateObjectSize()

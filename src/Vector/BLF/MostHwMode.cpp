@@ -21,8 +21,6 @@
 
 #include "MostHwMode.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -36,64 +34,22 @@ MostHwMode::MostHwMode() :
     objectType = ObjectType::MOST_HWMODE;
 }
 
-char * MostHwMode::read(char * buffer)
+void MostHwMode::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader2::read(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // reserved
-    size = sizeof(reserved);
-    memcpy((void *) &reserved, buffer, size);
-    buffer += size;
-
-    // hwMode
-    size = sizeof(hwMode);
-    memcpy((void *) &hwMode, buffer, size);
-    buffer += size;
-
-    // hwModeMask
-    size = sizeof(hwModeMask);
-    memcpy((void *) &hwModeMask, buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader2::read(is);
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) &reserved, sizeof(reserved));
+    is.read((char *) &hwMode, sizeof(hwMode));
+    is.read((char *) &hwModeMask, sizeof(hwModeMask));
 }
 
-char * MostHwMode::write(char * buffer)
+void MostHwMode::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader2::write(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // reserved
-    size = sizeof(reserved);
-    memcpy(buffer, (void *) &reserved, size);
-    buffer += size;
-
-    // hwMode
-    size = sizeof(hwMode);
-    memcpy(buffer, (void *) &hwMode, size);
-    buffer += size;
-
-    // hwModeMask
-    size = sizeof(hwModeMask);
-    memcpy(buffer, (void *) &hwModeMask, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader2::write(os);
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) &reserved, sizeof(reserved));
+    os.write((char *) &hwMode, sizeof(hwMode));
+    os.write((char *) &hwModeMask, sizeof(hwModeMask));
 }
 
 size_t MostHwMode::calculateObjectSize()

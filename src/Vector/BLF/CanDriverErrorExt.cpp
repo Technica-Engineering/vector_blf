@@ -21,8 +21,6 @@
 
 #include "CanDriverErrorExt.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -41,114 +39,32 @@ CanDriverErrorExt::CanDriverErrorExt() :
     objectType = ObjectType::CAN_DRIVER_ERROR_EXT;
 }
 
-char * CanDriverErrorExt::read(char * buffer)
+void CanDriverErrorExt::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::read(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // txErrors
-    size = sizeof(txErrors);
-    memcpy((void *) &txErrors, buffer, size);
-    buffer += size;
-
-    // rxErrors
-    size = sizeof(rxErrors);
-    memcpy((void *) &rxErrors, buffer, size);
-    buffer += size;
-
-    // errorCode
-    size = sizeof(errorCode);
-    memcpy((void *) &errorCode, buffer, size);
-    buffer += size;
-
-    // flags
-    size = sizeof(flags);
-    memcpy((void *) &flags, buffer, size);
-    buffer += size;
-
-    // state
-    size = sizeof(state);
-    memcpy((void *) &state, buffer, size);
-    buffer += size;
-
-    // reserved1
-    size = sizeof(reserved1);
-    memcpy((void *) &reserved1, buffer, size);
-    buffer += size;
-
-    // reserved2
-    size = sizeof(reserved2);
-    memcpy((void *) &reserved2, buffer, size);
-    buffer += size;
-
-    // reserved3
-    size = reserved3.size();
-    memcpy(reserved3.data(), buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::read(is);
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) &txErrors, sizeof(txErrors));
+    is.read((char *) &rxErrors, sizeof(rxErrors));
+    is.read((char *) &errorCode, sizeof(errorCode));
+    is.read((char *) &flags, sizeof(flags));
+    is.read((char *) &state, sizeof(state));
+    is.read((char *) &reserved1, sizeof(reserved1));
+    is.read((char *) &reserved2, sizeof(reserved2));
+    is.read((char *) reserved3.data(), reserved3.size());
 }
 
-char * CanDriverErrorExt::write(char * buffer)
+void CanDriverErrorExt::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::write(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // txErrors
-    size = sizeof(txErrors);
-    memcpy(buffer, (void *) &txErrors, size);
-    buffer += size;
-
-    // rxErrors
-    size = sizeof(rxErrors);
-    memcpy(buffer, (void *) &rxErrors, size);
-    buffer += size;
-
-    // errorCode
-    size = sizeof(errorCode);
-    memcpy(buffer, (void *) &errorCode, size);
-    buffer += size;
-
-    // flags
-    size = sizeof(flags);
-    memcpy(buffer, (void *) &flags, size);
-    buffer += size;
-
-    // state
-    size = sizeof(state);
-    memcpy(buffer, (void *) &state, size);
-    buffer += size;
-
-    // reserved1
-    size = sizeof(reserved1);
-    memcpy(buffer, (void *) &reserved1, size);
-    buffer += size;
-
-    // reserved2
-    size = sizeof(reserved2);
-    memcpy(buffer, (void *) &reserved2, size);
-    buffer += size;
-
-    // reserved3
-    size = reserved3.size();
-    memcpy(buffer, reserved3.data(), size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::write(os);
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) &txErrors, sizeof(txErrors));
+    os.write((char *) &rxErrors, sizeof(rxErrors));
+    os.write((char *) &errorCode, sizeof(errorCode));
+    os.write((char *) &flags, sizeof(flags));
+    os.write((char *) &state, sizeof(state));
+    os.write((char *) &reserved1, sizeof(reserved1));
+    os.write((char *) &reserved2, sizeof(reserved2));
+    os.write((char *) reserved3.data(), reserved3.size());
 }
 
 size_t CanDriverErrorExt::calculateObjectSize()

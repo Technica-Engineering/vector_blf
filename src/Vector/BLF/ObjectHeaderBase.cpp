@@ -21,7 +21,6 @@
 
 #include "ObjectHeaderBase.h"
 
-#include <cstring>
 #include <iostream>
 
 namespace Vector {
@@ -40,70 +39,26 @@ ObjectHeaderBase::~ObjectHeaderBase()
 {
 }
 
-char * ObjectHeaderBase::read(char * buffer)
+void ObjectHeaderBase::read(std::istream & is)
 {
-    size_t size;
-
-    // signature
-    size = sizeof(signature);
-    memcpy((void *) &signature, buffer, size);
-    buffer += size;
+    is.read((char *) &signature, sizeof(signature));
     if (signature != ObjectSignature)
         std::cerr << "unexpected object signature" << std::endl;
-
-    // headerSize
-    size = sizeof(headerSize);
-    memcpy((void *) &headerSize, buffer, size);
-    buffer += size;
-
-    // headerVersion
-    size = sizeof(headerVersion);
-    memcpy((void *) &headerVersion, buffer, size);
-    buffer += size;
-
-    // objectSize
-    size = sizeof(objectSize);
-    memcpy((void *) &objectSize, buffer, size);
-    buffer += size;
-
-    // objectType
-    size = sizeof(objectType);
-    memcpy((void *) &objectType, buffer, size);
-    buffer += size;
-
-    return buffer;
+    is.read((char *) &headerSize, sizeof(headerSize));
+    is.read((char *) &headerVersion, sizeof(headerVersion));
+    is.read((char *) &objectSize, sizeof(objectSize));
+    is.read((char *) &objectType, sizeof(objectType));
 }
 
-char * ObjectHeaderBase::write(char * buffer)
+void ObjectHeaderBase::write(std::ostream & os)
 {
-    size_t size;
-
-    // signature
-    size = sizeof(signature);
-    memcpy(buffer, (void *) &signature, size);
-    buffer += size;
-
-    // headerSize
-    size = sizeof(headerSize);
-    memcpy(buffer, (void *) &headerSize, size);
-    buffer += size;
-
-    // headerVersion
-    size = sizeof(headerVersion);
-    memcpy(buffer, (void *) &headerVersion, size);
-    buffer += size;
-
-    // objectSize
-    size = sizeof(objectSize);
-    memcpy(buffer, (void *) &objectSize, size);
-    buffer += size;
-
-    // objectType
-    size = sizeof(objectType);
-    memcpy(buffer, (void *) &objectType, size);
-    buffer += size;
-
-    return buffer;
+    os.write((char *) &signature, sizeof(signature));
+    if (signature != ObjectSignature)
+        std::cerr << "unexpected object signature" << std::endl;
+    os.write((char *) &headerSize, sizeof(headerSize));
+    os.write((char *) &headerVersion, sizeof(headerVersion));
+    os.write((char *) &objectSize, sizeof(objectSize));
+    os.write((char *) &objectType, sizeof(objectType));
 }
 
 const size_t ObjectHeaderBase::calculateHeaderSize()

@@ -21,6 +21,7 @@
 
 #pragma once
 
+#include <iostream>
 #include <vector>
 
 #include "VectorTypes.h"
@@ -42,8 +43,8 @@ public:
     Most150AllocTab();
     virtual ~Most150AllocTab();
 
-    virtual char * read(char * buffer);
-    virtual char * write(char * buffer);
+    virtual void read(std::istream & is);
+    virtual void write(std::ostream & os);
     virtual size_t calculateObjectSize();
 
     /**
@@ -105,7 +106,7 @@ public:
      * - WWWW: label width
      * - < channels >: list of 16-bit channel numbers (size = label width)
      */
-    std::vector<uint16_t> tableData;
+    std::vector<WORD> tableData;
 };
 
 }

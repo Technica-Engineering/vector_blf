@@ -21,8 +21,6 @@
 
 #include "AppTrigger.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -37,74 +35,24 @@ AppTrigger::AppTrigger() :
     objectType = ObjectType::APP_TRIGGER;
 }
 
-char * AppTrigger::read(char * buffer)
+void AppTrigger::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::read(buffer);
-
-    // preTriggerTime
-    size = sizeof(preTriggerTime);
-    memcpy((void *) &preTriggerTime, buffer, size);
-    buffer += size;
-
-    // postTriggerTime
-    size = sizeof(postTriggerTime);
-    memcpy((void *) &postTriggerTime, buffer, size);
-    buffer += size;
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // flags
-    size = sizeof(flags);
-    memcpy((void *) &flags, buffer, size);
-    buffer += size;
-
-    // appSpecific2
-    size = sizeof(appSpecific2);
-    memcpy((void *) &appSpecific2, buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::read(is);
+    is.read((char *) &preTriggerTime, sizeof(preTriggerTime));
+    is.read((char *) &postTriggerTime, sizeof(postTriggerTime));
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) &flags, sizeof(flags));
+    is.read((char *) &appSpecific2, sizeof(appSpecific2));
 }
 
-char * AppTrigger::write(char * buffer)
+void AppTrigger::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::write(buffer);
-
-    // preTriggerTime
-    size = sizeof(preTriggerTime);
-    memcpy(buffer, (void *) &preTriggerTime, size);
-    buffer += size;
-
-    // postTriggerTime
-    size = sizeof(postTriggerTime);
-    memcpy(buffer, (void *) &postTriggerTime, size);
-    buffer += size;
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // flags
-    size = sizeof(flags);
-    memcpy(buffer, (void *) &flags, size);
-    buffer += size;
-
-    // appSpecific2
-    size = sizeof(appSpecific2);
-    memcpy(buffer, (void *) &appSpecific2, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::write(os);
+    os.write((char *) &preTriggerTime, sizeof(preTriggerTime));
+    os.write((char *) &postTriggerTime, sizeof(postTriggerTime));
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) &flags, sizeof(flags));
+    os.write((char *) &appSpecific2, sizeof(appSpecific2));
 }
 
 size_t AppTrigger::calculateObjectSize()

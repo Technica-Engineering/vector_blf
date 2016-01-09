@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <iostream>
+
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 #include "LinSynchFieldEvent.h"
@@ -38,8 +40,8 @@ class VECTOR_BLF_EXPORT LinMessageDescriptor : public LinSynchFieldEvent
 public:
     LinMessageDescriptor();
 
-    virtual char * read(char * buffer);
-    virtual char * write(char * buffer);
+    virtual void read(std::istream & is);
+    virtual void write(std::ostream & os);
     virtual size_t calculateObjectSize();
 
     /**

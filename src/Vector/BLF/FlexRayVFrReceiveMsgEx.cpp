@@ -21,8 +21,6 @@
 
 #include "FlexRayVFrReceiveMsgEx.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -55,255 +53,61 @@ FlexRayVFrReceiveMsgEx::FlexRayVFrReceiveMsgEx() :
     objectType = ObjectType::FR_RCVMESSAGE_EX;
 }
 
-char * FlexRayVFrReceiveMsgEx::read(char * buffer)
+void FlexRayVFrReceiveMsgEx::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::read(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // version
-    size = sizeof(version);
-    memcpy((void *) &version, buffer, size);
-    buffer += size;
-
-    // channelMask
-    size = sizeof(channelMask);
-    memcpy((void *) &channelMask, buffer, size);
-    buffer += size;
-
-    // dir
-    size = sizeof(dir);
-    memcpy((void *) &dir, buffer, size);
-    buffer += size;
-
-    // clientIndex
-    size = sizeof(clientIndex);
-    memcpy((void *) &clientIndex, buffer, size);
-    buffer += size;
-
-    // clusterNo
-    size = sizeof(clusterNo);
-    memcpy((void *) &clusterNo, buffer, size);
-    buffer += size;
-
-    // frameId
-    size = sizeof(frameId);
-    memcpy((void *) &frameId, buffer, size);
-    buffer += size;
-
-    // headerCrc1
-    size = sizeof(headerCrc1);
-    memcpy((void *) &headerCrc1, buffer, size);
-    buffer += size;
-
-    // headerCrc2
-    size = sizeof(headerCrc2);
-    memcpy((void *) &headerCrc2, buffer, size);
-    buffer += size;
-
-    // byteCount
-    size = sizeof(byteCount);
-    memcpy((void *) &byteCount, buffer, size);
-    buffer += size;
-
-    // dataCount
-    size = sizeof(dataCount);
-    memcpy((void *) &dataCount, buffer, size);
-    buffer += size;
-
-    // cycle
-    size = sizeof(cycle);
-    memcpy((void *) &cycle, buffer, size);
-    buffer += size;
-
-    // tag
-    size = sizeof(tag);
-    memcpy((void *) &tag, buffer, size);
-    buffer += size;
-
-    // data
-    size = sizeof(data);
-    memcpy((void *) &data, buffer, size);
-    buffer += size;
-
-    // frameFlags
-    size = sizeof(frameFlags);
-    memcpy((void *) &frameFlags, buffer, size);
-    buffer += size;
-
-    // appParameter
-    size = sizeof(appParameter);
-    memcpy((void *) &appParameter, buffer, size);
-    buffer += size;
-
-    // frameCrc
-    size = sizeof(frameCrc);
-    memcpy((void *) &frameCrc, buffer, size);
-    buffer += size;
-
-    // frameLengthNs
-    size = sizeof(frameLengthNs);
-    memcpy((void *) &frameLengthNs, buffer, size);
-    buffer += size;
-
-    // frameId1
-    size = sizeof(frameId1);
-    memcpy((void *) &frameId1, buffer, size);
-    buffer += size;
-
-    // pduOffset
-    size = sizeof(pduOffset);
-    memcpy((void *) &pduOffset, buffer, size);
-    buffer += size;
-
-    // blfLogMask
-    size = sizeof(blfLogMask);
-    memcpy((void *) &blfLogMask, buffer, size);
-    buffer += size;
-
-    // reserved
-    size = reserved.size();
-    memcpy(reserved.data(), buffer, size);
-    buffer += size;
-
-    // dataBytes
-    size = dataCount;
-    dataBytes.reserve(size);
-    memcpy(dataBytes.data(), buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::read(is);
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) &version, sizeof(version));
+    is.read((char *) &channelMask, sizeof(channelMask));
+    is.read((char *) &dir, sizeof(dir));
+    is.read((char *) &clientIndex, sizeof(clientIndex));
+    is.read((char *) &clusterNo, sizeof(clusterNo));
+    is.read((char *) &frameId, sizeof(frameId));
+    is.read((char *) &headerCrc1, sizeof(headerCrc1));
+    is.read((char *) &headerCrc2, sizeof(headerCrc2));
+    is.read((char *) &byteCount, sizeof(byteCount));
+    is.read((char *) &dataCount, sizeof(dataCount));
+    is.read((char *) &cycle, sizeof(cycle));
+    is.read((char *) &tag, sizeof(tag));
+    is.read((char *) &data, sizeof(data));
+    is.read((char *) &frameFlags, sizeof(frameFlags));
+    is.read((char *) &appParameter, sizeof(appParameter));
+    is.read((char *) &frameCrc, sizeof(frameCrc));
+    is.read((char *) &frameLengthNs, sizeof(frameLengthNs));
+    is.read((char *) &frameId1, sizeof(frameId1));
+    is.read((char *) &pduOffset, sizeof(pduOffset));
+    is.read((char *) &blfLogMask, sizeof(blfLogMask));
+    is.read((char *) reserved.data(), reserved.size());
+    dataBytes.reserve(dataCount);
+    is.read((char *) dataBytes.data(), dataCount);
 }
 
-char * FlexRayVFrReceiveMsgEx::write(char * buffer)
+void FlexRayVFrReceiveMsgEx::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::write(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // version
-    size = sizeof(version);
-    memcpy(buffer, (void *) &version, size);
-    buffer += size;
-
-    // channelMask
-    size = sizeof(channelMask);
-    memcpy(buffer, (void *) &channelMask, size);
-    buffer += size;
-
-    // dir
-    size = sizeof(dir);
-    memcpy(buffer, (void *) &dir, size);
-    buffer += size;
-
-    // clientIndex
-    size = sizeof(clientIndex);
-    memcpy(buffer, (void *) &clientIndex, size);
-    buffer += size;
-
-    // clusterNo
-    size = sizeof(clusterNo);
-    memcpy(buffer, (void *) &clusterNo, size);
-    buffer += size;
-
-    // frameId
-    size = sizeof(frameId);
-    memcpy(buffer, (void *) &frameId, size);
-    buffer += size;
-
-    // headerCrc1
-    size = sizeof(headerCrc1);
-    memcpy(buffer, (void *) &headerCrc1, size);
-    buffer += size;
-
-    // headerCrc2
-    size = sizeof(headerCrc2);
-    memcpy(buffer, (void *) &headerCrc2, size);
-    buffer += size;
-
-    // byteCount
-    size = sizeof(byteCount);
-    memcpy(buffer, (void *) &byteCount, size);
-    buffer += size;
-
-    // dataCount
-    size = sizeof(dataCount);
-    memcpy(buffer, (void *) &dataCount, size);
-    buffer += size;
-
-    // cycle
-    size = sizeof(cycle);
-    memcpy(buffer, (void *) &cycle, size);
-    buffer += size;
-
-    // tag
-    size = sizeof(tag);
-    memcpy(buffer, (void *) &tag, size);
-    buffer += size;
-
-    // data
-    size = sizeof(data);
-    memcpy(buffer, (void *) &data, size);
-    buffer += size;
-
-    // frameFlags
-    size = sizeof(frameFlags);
-    memcpy(buffer, (void *) &frameFlags, size);
-    buffer += size;
-
-    // appParameter
-    size = sizeof(appParameter);
-    memcpy(buffer, (void *) &appParameter, size);
-    buffer += size;
-
-    // frameCrc
-    size = sizeof(frameCrc);
-    memcpy(buffer, (void *) &frameCrc, size);
-    buffer += size;
-
-    // frameLengthNs
-    size = sizeof(frameLengthNs);
-    memcpy(buffer, (void *) &frameLengthNs, size);
-    buffer += size;
-
-    // frameId1
-    size = sizeof(frameId1);
-    memcpy(buffer, (void *) &frameId1, size);
-    buffer += size;
-
-    // pduOffset
-    size = sizeof(pduOffset);
-    memcpy(buffer, (void *) &pduOffset, size);
-    buffer += size;
-
-    // blfLogMask
-    size = sizeof(blfLogMask);
-    memcpy(buffer, (void *) &blfLogMask, size);
-    buffer += size;
-
-    // reserved
-    size = reserved.size();
-    memcpy(buffer, reserved.data(), size);
-    buffer += size;
-
-    // dataBytes
-    size = dataCount;
-    memcpy(buffer, dataBytes.data(), size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::write(os);
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) &version, sizeof(version));
+    os.write((char *) &channelMask, sizeof(channelMask));
+    os.write((char *) &dir, sizeof(dir));
+    os.write((char *) &clientIndex, sizeof(clientIndex));
+    os.write((char *) &clusterNo, sizeof(clusterNo));
+    os.write((char *) &frameId, sizeof(frameId));
+    os.write((char *) &headerCrc1, sizeof(headerCrc1));
+    os.write((char *) &headerCrc2, sizeof(headerCrc2));
+    os.write((char *) &byteCount, sizeof(byteCount));
+    os.write((char *) &dataCount, sizeof(dataCount));
+    os.write((char *) &cycle, sizeof(cycle));
+    os.write((char *) &tag, sizeof(tag));
+    os.write((char *) &data, sizeof(data));
+    os.write((char *) &frameFlags, sizeof(frameFlags));
+    os.write((char *) &appParameter, sizeof(appParameter));
+    os.write((char *) &frameCrc, sizeof(frameCrc));
+    os.write((char *) &frameLengthNs, sizeof(frameLengthNs));
+    os.write((char *) &frameId1, sizeof(frameId1));
+    os.write((char *) &pduOffset, sizeof(pduOffset));
+    os.write((char *) &blfLogMask, sizeof(blfLogMask));
+    os.write((char *) reserved.data(), reserved.size());
+    os.write((char *) dataBytes.data(), dataCount);
 }
 
 size_t FlexRayVFrReceiveMsgEx::calculateObjectSize()

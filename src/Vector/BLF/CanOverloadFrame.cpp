@@ -21,8 +21,6 @@
 
 #include "CanOverloadFrame.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -34,44 +32,18 @@ CanOverloadFrame::CanOverloadFrame() :
     objectType = ObjectType::CAN_OVERLOAD;
 }
 
-char * CanOverloadFrame::read(char * buffer)
+void CanOverloadFrame::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::read(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // reserved
-    size = sizeof(reserved);
-    memcpy((void *) &reserved, buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::read(is);
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) &reserved, sizeof(reserved));
 }
 
-char * CanOverloadFrame::write(char * buffer)
+void CanOverloadFrame::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::write(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // reserved
-    size = sizeof(reserved);
-    memcpy(buffer, (void *) &reserved, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::write(os);
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) &reserved, sizeof(reserved));
 }
 
 size_t CanOverloadFrame::calculateObjectSize()

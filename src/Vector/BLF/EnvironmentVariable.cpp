@@ -19,8 +19,9 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
+#include <string.h>
+
 #include "EnvironmentVariable.h"
-#include <cstring>
 
 namespace Vector {
 namespace BLF {
@@ -45,75 +46,29 @@ EnvironmentVariable::~EnvironmentVariable()
 {
 }
 
-char * EnvironmentVariable::read(char * buffer)
+void EnvironmentVariable::read(std::istream & is)
 {
-    size_t size;
+    ObjectHeader::read(is);
+    is.read((char *) &nameLength, sizeof(nameLength));
+    is.read((char *) &dataLength, sizeof(dataLength));
+    is.read((char *) &reserved, sizeof(reserved));
+    name.resize(nameLength);
+    is.read((char *) name.data(), nameLength);
+    data.reserve(dataLength);
+    is.read((char *) data.data(), dataLength);
 
-    // preceding data
-    buffer = ObjectHeader::read(buffer);
-
-    // nameLength
-    size = sizeof(nameLength);
-    memcpy((void *) &nameLength, buffer, size);
-    buffer += size;
-
-    // dataLength
-    size = sizeof(dataLength);
-    memcpy((void *) &dataLength, buffer, size);
-    buffer += size;
-
-    // reserved
-    size = reserved.size();
-    memcpy(reserved.data(), buffer, size);
-    buffer += size;
-
-    // name
-    size = nameLength;
-    name.assign(buffer, size);
-    buffer += size;
-
-    // data
-    size = dataLength;
-    data.reserve(size);
-    memcpy(data.data(), buffer, size);
-    buffer += size;
-
-    return buffer;
+    /* post processing */
+    name.resize(strnlen(name.c_str(), nameLength)); // Vector bug: the actual string can be shorter than size!
 }
 
-char * EnvironmentVariable::write(char * buffer)
+void EnvironmentVariable::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::write(buffer);
-
-    // nameLength
-    size = sizeof(nameLength);
-    memcpy(buffer, (void *) &nameLength, size);
-    buffer += size;
-
-    // dataLength
-    size = sizeof(dataLength);
-    memcpy(buffer, (void *) &dataLength, size);
-    buffer += size;
-
-    // reserved
-    size = reserved.size();
-    memcpy(buffer, reserved.data(), size);
-    buffer += size;
-
-    // name
-    size = nameLength;
-    memcpy(buffer, name.data(), size);
-    buffer += size;
-
-    // data
-    size = dataLength;
-    memcpy(buffer, data.data(), size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::write(os);
+    os.write((char *) &nameLength, sizeof(nameLength));
+    os.write((char *) &dataLength, sizeof(dataLength));
+    os.write((char *) &reserved, sizeof(reserved));
+    os.write((char *) name.data(), nameLength);
+    os.write((char *) data.data(), dataLength);
 }
 
 size_t EnvironmentVariable::calculateObjectSize()

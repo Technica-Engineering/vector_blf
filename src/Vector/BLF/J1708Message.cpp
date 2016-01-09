@@ -21,8 +21,6 @@
 
 #include "J1708Message.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -42,94 +40,28 @@ J1708Message::J1708Message() :
      */
 }
 
-char * J1708Message::read(char * buffer)
+void J1708Message::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::read(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // dir
-    size = sizeof(dir);
-    memcpy((void *) &dir, buffer, size);
-    buffer += size;
-
-    // reserved1
-    size = sizeof(reserved1);
-    memcpy((void *) &reserved1, buffer, size);
-    buffer += size;
-
-    // error
-    size = sizeof(error);
-    memcpy((void *) &error, buffer, size);
-    buffer += size;
-
-    // size
-    size = sizeof(size);
-    memcpy((void *) &size, buffer, size);
-    buffer += size;
-
-    // data
-    size = data.size();
-    memcpy(data.data(), buffer, size);
-    buffer += size;
-
-    // reserved2
-    size = reserved2.size();
-    memcpy(reserved2.data(), buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::read(is);
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) &dir, sizeof(dir));
+    is.read((char *) &reserved1, sizeof(reserved1));
+    is.read((char *) &error, sizeof(error));
+    is.read((char *) &size, sizeof(size));
+    is.read((char *) data.data(), data.size());
+    is.read((char *) reserved2.data(), reserved2.size());
 }
 
-char * J1708Message::write(char * buffer)
+void J1708Message::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::write(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // dir
-    size = sizeof(dir);
-    memcpy(buffer, (void *) &dir, size);
-    buffer += size;
-
-    // reserved1
-    size = sizeof(reserved1);
-    memcpy(buffer, (void *) &reserved1, size);
-    buffer += size;
-
-    // error
-    size = sizeof(error);
-    memcpy(buffer, (void *) &error, size);
-    buffer += size;
-
-    // size
-    size = sizeof(size);
-    memcpy(buffer, (void *) &size, size);
-    buffer += size;
-
-    // data
-    size = data.size();
-    memcpy(buffer, data.data(), size);
-    buffer += size;
-
-    // reserved2
-    size = reserved2.size();
-    memcpy(buffer, reserved2.data(), size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::write(os);
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) &dir, sizeof(dir));
+    os.write((char *) &reserved1, sizeof(reserved1));
+    os.write((char *) &error, sizeof(error));
+    os.write((char *) &size, sizeof(size));
+    os.write((char *) data.data(), data.size());
+    os.write((char *) reserved2.data(), reserved2.size());
 }
 
 size_t J1708Message::calculateObjectSize()

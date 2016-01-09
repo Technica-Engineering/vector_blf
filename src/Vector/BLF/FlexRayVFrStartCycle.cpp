@@ -19,9 +19,9 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "FlexRayVFrStartCycle.h"
+#include <iostream>
 
-#include <cstring>
+#include "FlexRayVFrStartCycle.h"
 
 namespace Vector {
 namespace BLF {
@@ -45,154 +45,40 @@ FlexRayVFrStartCycle::FlexRayVFrStartCycle() :
     objectType = ObjectType::FR_STARTCYCLE;
 }
 
-char * FlexRayVFrStartCycle::read(char * buffer)
+void FlexRayVFrStartCycle::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::read(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // version
-    size = sizeof(version);
-    memcpy((void *) &version, buffer, size);
-    buffer += size;
-
-    // channelMask
-    size = sizeof(channelMask);
-    memcpy((void *) &channelMask, buffer, size);
-    buffer += size;
-
-    // dir
-    size = sizeof(dir);
-    memcpy((void *) &dir, buffer, size);
-    buffer += size;
-
-    // cycle
-    size = sizeof(cycle);
-    memcpy((void *) &cycle, buffer, size);
-    buffer += size;
-
-    // clientIndex
-    size = sizeof(clientIndex);
-    memcpy((void *) &clientIndex, buffer, size);
-    buffer += size;
-
-    // clusterNo
-    size = sizeof(clusterNo);
-    memcpy((void *) &clusterNo, buffer, size);
-    buffer += size;
-
-    // nmSize
-    size = sizeof(nmSize);
-    memcpy((void *) &nmSize, buffer, size);
-    buffer += size;
-
-    // dataBytes
-    size = dataBytes.size();
-    memcpy(dataBytes.data(), buffer, size);
-    buffer += size;
-
-    // reserved1
-    size = reserved1.size();
-    memcpy(reserved1.data(), buffer, size);
-    buffer += size;
-
-    // tag
-    size = sizeof(tag);
-    memcpy((void *) &tag, buffer, size);
-    buffer += size;
-
-    // data
-    size = data.size() * sizeof(DWORD);
-    memcpy(data.data(), buffer, size);
-    buffer += size;
-
-    // reserved2
-    size = reserved2.size();
-    memcpy(reserved2.data(), buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::read(is);
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) &version, sizeof(version));
+    is.read((char *) &channelMask, sizeof(channelMask));
+    is.read((char *) &dir, sizeof(dir));
+    is.read((char *) &cycle, sizeof(cycle));
+    is.read((char *) &clientIndex, sizeof(clientIndex));
+    is.read((char *) &clusterNo, sizeof(clusterNo));
+    is.read((char *) &nmSize, sizeof(nmSize));
+    is.read((char *) dataBytes.data(), dataBytes.size());
+    is.read((char *) reserved1.data(), reserved1.size());
+    is.read((char *) &tag, sizeof(tag));
+    is.read((char *) data.data(), data.size() * sizeof(DWORD));
+    is.read((char *) reserved2.data(), reserved2.size());
 }
 
-char * FlexRayVFrStartCycle::write(char * buffer)
+void FlexRayVFrStartCycle::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::write(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // version
-    size = sizeof(version);
-    memcpy(buffer, (void *) &version, size);
-    buffer += size;
-
-    // channelMask
-    size = sizeof(channelMask);
-    memcpy(buffer, (void *) &channelMask, size);
-    buffer += size;
-
-    // dir
-    size = sizeof(dir);
-    memcpy(buffer, (void *) &dir, size);
-    buffer += size;
-
-    // cycle
-    size = sizeof(cycle);
-    memcpy(buffer, (void *) &cycle, size);
-    buffer += size;
-
-    // clientIndex
-    size = sizeof(clientIndex);
-    memcpy(buffer, (void *) &clientIndex, size);
-    buffer += size;
-
-    // clusterNo
-    size = sizeof(clusterNo);
-    memcpy(buffer, (void *) &clusterNo, size);
-    buffer += size;
-
-    // nmSize
-    size = sizeof(nmSize);
-    memcpy(buffer, (void *) &nmSize, size);
-    buffer += size;
-
-    // dataBytes
-    size = dataBytes.size();
-    memcpy(buffer, dataBytes.data(), size);
-    buffer += size;
-
-    // reserved1
-    size = reserved1.size();
-    memcpy(buffer, reserved1.data(), size);
-    buffer += size;
-
-    // tag
-    size = sizeof(tag);
-    memcpy(buffer, (void *) &tag, size);
-    buffer += size;
-
-    // data
-    size = data.size() * sizeof(DWORD);
-    memcpy(buffer, data.data(), size);
-    buffer += size;
-
-    // reserved2
-    size = reserved2.size();
-    memcpy(buffer, reserved2.data(), size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::write(os);
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) &version, sizeof(version));
+    os.write((char *) &channelMask, sizeof(channelMask));
+    os.write((char *) &dir, sizeof(dir));
+    os.write((char *) &cycle, sizeof(cycle));
+    os.write((char *) &clientIndex, sizeof(clientIndex));
+    os.write((char *) &clusterNo, sizeof(clusterNo));
+    os.write((char *) &nmSize, sizeof(nmSize));
+    os.write((char *) dataBytes.data(), dataBytes.size());
+    os.write((char *) reserved1.data(), reserved1.size());
+    os.write((char *) &tag, sizeof(tag));
+    os.write((char *) data.data(), data.size() * sizeof(DWORD));
+    os.write((char *) reserved2.data(), reserved2.size());
 }
 
 size_t FlexRayVFrStartCycle::calculateObjectSize()

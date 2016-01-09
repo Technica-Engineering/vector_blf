@@ -21,8 +21,6 @@
 
 #include "LinDisturbanceEvent.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -40,104 +38,30 @@ LinDisturbanceEvent::LinDisturbanceEvent() :
     objectType = ObjectType::LIN_DISTURBANCE_EVENT;
 }
 
-char * LinDisturbanceEvent::read(char * buffer)
+void LinDisturbanceEvent::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::read(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // id
-    size = sizeof(id);
-    memcpy((void *) &id, buffer, size);
-    buffer += size;
-
-    // disturbingFrameId
-    size = sizeof(disturbingFrameId);
-    memcpy((void *) &disturbingFrameId, buffer, size);
-    buffer += size;
-
-    // disturbanceType
-    size = sizeof(disturbanceType);
-    memcpy((void *) &disturbanceType, buffer, size);
-    buffer += size;
-
-    // byteIndex
-    size = sizeof(byteIndex);
-    memcpy((void *) &byteIndex, buffer, size);
-    buffer += size;
-
-    // bitIndex
-    size = sizeof(bitIndex);
-    memcpy((void *) &bitIndex, buffer, size);
-    buffer += size;
-
-    // bitOffsetInSixteenthBits
-    size = sizeof(bitOffsetInSixteenthBits);
-    memcpy((void *) &bitOffsetInSixteenthBits, buffer, size);
-    buffer += size;
-
-    // disturbanceLengthInSixteenthBits
-    size = sizeof(disturbanceLengthInSixteenthBits);
-    memcpy((void *) &disturbanceLengthInSixteenthBits, buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::read(is);
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) &id, sizeof(id));
+    is.read((char *) &disturbingFrameId, sizeof(disturbingFrameId));
+    is.read((char *) &disturbanceType, sizeof(disturbanceType));
+    is.read((char *) &byteIndex, sizeof(byteIndex));
+    is.read((char *) &bitIndex, sizeof(bitIndex));
+    is.read((char *) &bitOffsetInSixteenthBits, sizeof(bitOffsetInSixteenthBits));
+    is.read((char *) &disturbanceLengthInSixteenthBits, sizeof(disturbanceLengthInSixteenthBits));
 }
 
-char * LinDisturbanceEvent::write(char * buffer)
+void LinDisturbanceEvent::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::write(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // id
-    size = sizeof(id);
-    memcpy(buffer, (void *) &id, size);
-    buffer += size;
-
-    // disturbingFrameId
-    size = sizeof(disturbingFrameId);
-    memcpy(buffer, (void *) &disturbingFrameId, size);
-    buffer += size;
-
-    // disturbanceType
-    size = sizeof(disturbanceType);
-    memcpy(buffer, (void *) &disturbanceType, size);
-    buffer += size;
-
-    // byteIndex
-    size = sizeof(byteIndex);
-    memcpy(buffer, (void *) &byteIndex, size);
-    buffer += size;
-
-    // bitIndex
-    size = sizeof(bitIndex);
-    memcpy(buffer, (void *) &bitIndex, size);
-    buffer += size;
-
-    // bitOffsetInSixteenthBits
-    size = sizeof(bitOffsetInSixteenthBits);
-    memcpy(buffer, (void *) &bitOffsetInSixteenthBits, size);
-    buffer += size;
-
-    // disturbanceLengthInSixteenthBits
-    size = sizeof(disturbanceLengthInSixteenthBits);
-    memcpy(buffer, (void *) &disturbanceLengthInSixteenthBits, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::write(os);
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) &id, sizeof(id));
+    os.write((char *) &disturbingFrameId, sizeof(disturbingFrameId));
+    os.write((char *) &disturbanceType, sizeof(disturbanceType));
+    os.write((char *) &byteIndex, sizeof(byteIndex));
+    os.write((char *) &bitIndex, sizeof(bitIndex));
+    os.write((char *) &bitOffsetInSixteenthBits, sizeof(bitOffsetInSixteenthBits));
+    os.write((char *) &disturbanceLengthInSixteenthBits, sizeof(disturbanceLengthInSixteenthBits));
 }
 
 size_t LinDisturbanceEvent::calculateObjectSize()

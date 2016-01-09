@@ -21,8 +21,6 @@
 
 #include "LinWakeupEvent2.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -37,66 +35,24 @@ LinWakeupEvent2::LinWakeupEvent2() :
     objectType = ObjectType::LIN_WAKEUP2;
 }
 
-char * LinWakeupEvent2::read(char * buffer)
+void LinWakeupEvent2::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::read(buffer);
-    buffer = LinBusEvent::read(buffer);
-
-    // lengthInfo
-    size = sizeof(lengthInfo);
-    memcpy((void *) &lengthInfo, buffer, size);
-    buffer += size;
-
-    // signal
-    size = sizeof(signal);
-    memcpy((void *) &signal, buffer, size);
-    buffer += size;
-
-    // external
-    size = sizeof(external);
-    memcpy((void *) &external, buffer, size);
-    buffer += size;
-
-    // reserved
-    size = reserved.size();
-    memcpy(reserved.data(), buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::read(is);
+    LinBusEvent::read(is);
+    is.read((char *) &lengthInfo, sizeof(lengthInfo));
+    is.read((char *) &signal, sizeof(signal));
+    is.read((char *) &external, sizeof(external));
+    is.read((char *) reserved.data(), reserved.size());
 }
 
-char * LinWakeupEvent2::write(char * buffer)
+void LinWakeupEvent2::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader::write(buffer);
-    buffer = LinBusEvent::write(buffer);
-
-    // lengthInfo
-    size = sizeof(lengthInfo);
-    memcpy(buffer, (void *) &lengthInfo, size);
-    buffer += size;
-
-    // signal
-    size = sizeof(signal);
-    memcpy(buffer, (void *) &signal, size);
-    buffer += size;
-
-    // external
-    size = sizeof(external);
-    memcpy(buffer, (void *) &external, size);
-    buffer += size;
-
-    // reserved
-    size = reserved.size();
-    memcpy(buffer, reserved.data(), size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader::write(os);
+    LinBusEvent::write(os);
+    os.write((char *) &lengthInfo, sizeof(lengthInfo));
+    os.write((char *) &signal, sizeof(signal));
+    os.write((char *) &external, sizeof(external));
+    os.write((char *) reserved.data(), reserved.size());
 }
 
 size_t LinWakeupEvent2::calculateObjectSize()

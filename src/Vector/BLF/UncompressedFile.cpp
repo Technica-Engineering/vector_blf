@@ -185,7 +185,7 @@ void UncompressedFile::seekg(std::streamoff off, std::ios_base::seekdir way)
         pos = off;
         break;
     case std::ios_base::cur:
-        pos = tellg() + off;
+        pos = privateTellg + off;
         break;
     case std::ios_base::end:
         std::cerr << "seekg with way=end is not supported" << std::endl;

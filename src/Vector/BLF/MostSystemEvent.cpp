@@ -21,8 +21,6 @@
 
 #include "MostSystemEvent.h"
 
-#include <cstring>
-
 namespace Vector {
 namespace BLF {
 
@@ -37,74 +35,24 @@ MostSystemEvent::MostSystemEvent() :
     objectType = ObjectType::MOST_SYSTEM_EVENT;
 }
 
-char * MostSystemEvent::read(char * buffer)
+void MostSystemEvent::read(std::istream & is)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader2::read(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy((void *) &channel, buffer, size);
-    buffer += size;
-
-    // id
-    size = sizeof(id);
-    memcpy((void *) &id, buffer, size);
-    buffer += size;
-
-    // value
-    size = sizeof(value);
-    memcpy((void *) &value, buffer, size);
-    buffer += size;
-
-    // valueOld
-    size = sizeof(valueOld);
-    memcpy((void *) &valueOld, buffer, size);
-    buffer += size;
-
-    // reserved
-    size = reserved.size();
-    memcpy(reserved.data(), buffer, size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader2::read(is);
+    is.read((char *) &channel, sizeof(channel));
+    is.read((char *) &id, sizeof(id));
+    is.read((char *) &value, sizeof(value));
+    is.read((char *) &valueOld, sizeof(valueOld));
+    is.read((char *) reserved.data(), reserved.size());
 }
 
-char * MostSystemEvent::write(char * buffer)
+void MostSystemEvent::write(std::ostream & os)
 {
-    size_t size;
-
-    // preceding data
-    buffer = ObjectHeader2::write(buffer);
-
-    // channel
-    size = sizeof(channel);
-    memcpy(buffer, (void *) &channel, size);
-    buffer += size;
-
-    // id
-    size = sizeof(id);
-    memcpy(buffer, (void *) &id, size);
-    buffer += size;
-
-    // value
-    size = sizeof(value);
-    memcpy(buffer, (void *) &value, size);
-    buffer += size;
-
-    // valueOld
-    size = sizeof(valueOld);
-    memcpy(buffer, (void *) &valueOld, size);
-    buffer += size;
-
-    // reserved
-    size = reserved.size();
-    memcpy(buffer, reserved.data(), size);
-    buffer += size;
-
-    return buffer;
+    ObjectHeader2::write(os);
+    os.write((char *) &channel, sizeof(channel));
+    os.write((char *) &id, sizeof(id));
+    os.write((char *) &value, sizeof(value));
+    os.write((char *) &valueOld, sizeof(valueOld));
+    os.write((char *) reserved.data(), reserved.size());
 }
 
 size_t MostSystemEvent::calculateObjectSize()
