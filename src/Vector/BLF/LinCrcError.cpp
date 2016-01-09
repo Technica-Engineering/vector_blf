@@ -66,8 +66,8 @@ char * LinCrcError::read(char * buffer)
     buffer += size;
 
     // data
-    size = sizeof(data);
-    memcpy((void *) &data, buffer, size);
+    size = data.size();
+    memcpy(data.data(), buffer, size);
     buffer += size;
 
     // fsmId
@@ -131,8 +131,8 @@ char * LinCrcError::write(char * buffer)
     buffer += size;
 
     // data
-    size = sizeof(data);
-    memcpy(buffer, (void *) &data, size);
+    size = data.size();
+    memcpy(buffer, data.data(), size);
     buffer += size;
 
     // fsmId
@@ -180,7 +180,7 @@ size_t LinCrcError::calculateObjectSize()
         sizeof(channel) +
         sizeof(id) +
         sizeof(dlc) +
-        sizeof(data) +
+        data.size() +
         sizeof(fsmId) +
         sizeof(fsmState) +
         sizeof(headerTime) +

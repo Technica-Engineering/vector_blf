@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <array>
+
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 #include "LinBusEvent.h"
@@ -66,7 +68,7 @@ public:
     BYTE external;
 
     /** reserved */
-    BYTE reserved[5];
+    std::array<BYTE, 5> reserved;
 };
 
 }

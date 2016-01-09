@@ -29,7 +29,7 @@ namespace BLF {
 MostHwMode::MostHwMode() :
     ObjectHeader2(),
     channel(),
-    reserved1(),
+    reserved(),
     hwMode(),
     hwModeMask()
 {
@@ -48,9 +48,9 @@ char * MostHwMode::read(char * buffer)
     memcpy((void *) &channel, buffer, size);
     buffer += size;
 
-    // reserved1
-    size = sizeof(reserved1);
-    memcpy((void *) &reserved1, buffer, size);
+    // reserved
+    size = sizeof(reserved);
+    memcpy((void *) &reserved, buffer, size);
     buffer += size;
 
     // hwMode
@@ -78,9 +78,9 @@ char * MostHwMode::write(char * buffer)
     memcpy(buffer, (void *) &channel, size);
     buffer += size;
 
-    // reserved1
-    size = sizeof(reserved1);
-    memcpy(buffer, (void *) &reserved1, size);
+    // reserved
+    size = sizeof(reserved);
+    memcpy(buffer, (void *) &reserved, size);
     buffer += size;
 
     // hwMode
@@ -101,7 +101,7 @@ size_t MostHwMode::calculateObjectSize()
     size_t size =
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +
-        sizeof(reserved1) +
+        sizeof(reserved) +
         sizeof(hwMode) +
         sizeof(hwModeMask);
 

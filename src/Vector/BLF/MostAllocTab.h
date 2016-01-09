@@ -21,6 +21,7 @@
 
 #pragma once
 
+#include <array>
 #include <vector>
 
 #include "VectorTypes.h"
@@ -61,7 +62,7 @@ public:
     WORD length;
 
     /** reserved */
-    BYTE reserved[4];
+    std::array<BYTE, 4> reserved;
 
     /**
      * Allocation Table

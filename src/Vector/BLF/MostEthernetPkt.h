@@ -21,6 +21,7 @@
 
 #pragma once
 
+#include <array>
 #include <vector>
 
 #include "VectorTypes.h"
@@ -64,7 +65,7 @@ public:
     BYTE dir;
 
     /** reserved */
-    BYTE reserved1[5];
+    std::array<BYTE, 5> reserved1;
 
     /**
      * @brief 48 bit source address
@@ -197,7 +198,7 @@ public:
     BYTE cAck;
 
     /** reserved */
-    BYTE reserved3[2];
+    WORD reserved3;
 
     /**
      * @brief length of variable data in bytes (1506 max)
@@ -207,7 +208,7 @@ public:
     DWORD pktDataLength;
 
     /** reserved */
-    BYTE reserved4[8];
+    std::array<BYTE, 8> reserved4;
 
     /**
      * @brief variable data

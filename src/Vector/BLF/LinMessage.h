@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <array>
+
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 
@@ -69,7 +71,7 @@ public:
     /**
      * Databyte values
      */
-    BYTE data[8];
+    std::array<BYTE, 8> data;
 
     /**
      * Slave Identifier in the Final State Machine

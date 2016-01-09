@@ -34,6 +34,7 @@ MostGenReg::MostGenReg() :
     handle(),
     regId(),
     reserved2(),
+    reserved3(),
     regValue()
 {
     objectType = ObjectType::MOST_GENREG;
@@ -74,6 +75,11 @@ char * MostGenReg::read(char * buffer)
     // reserved2
     size = sizeof(reserved2);
     memcpy((void *) &reserved2, buffer, size);
+    buffer += size;
+
+    // reserved3
+    size = sizeof(reserved3);
+    memcpy((void *) &reserved3, buffer, size);
     buffer += size;
 
     // regValue
@@ -121,6 +127,11 @@ char * MostGenReg::write(char * buffer)
     memcpy(buffer, (void *) &reserved2, size);
     buffer += size;
 
+    // reserved3
+    size = sizeof(reserved3);
+    memcpy(buffer, (void *) &reserved3, size);
+    buffer += size;
+
     // regValue
     size = sizeof(regValue);
     memcpy(buffer, (void *) &regValue, size);
@@ -139,6 +150,7 @@ size_t MostGenReg::calculateObjectSize()
         sizeof(handle) +
         sizeof(regId) +
         sizeof(reserved2) +
+        sizeof(reserved3) +
         sizeof(regValue);
 
     return size;

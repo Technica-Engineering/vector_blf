@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <array>
+
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 
@@ -89,7 +91,13 @@ public:
     BYTE state;
 
     /** reserved */
-    BYTE reserved[3];
+    BYTE reserved1;
+
+    /** reserved */
+    WORD reserved2;
+
+    /** reserved */
+    std::array<DWORD, 4> reserved3;
 };
 
 }

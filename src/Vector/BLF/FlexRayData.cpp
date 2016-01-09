@@ -34,7 +34,8 @@ FlexRayData::FlexRayData() :
     messageId(),
     crc(),
     dir(),
-    reserved(),
+    reserved1(),
+    reserved2(),
     dataBytes()
 {
     objectType = ObjectType::FLEXRAY_DATA;
@@ -77,14 +78,19 @@ char * FlexRayData::read(char * buffer)
     memcpy((void *) &dir, buffer, size);
     buffer += size;
 
-    // reserved
-    size = sizeof(reserved);
-    memcpy((void *) &reserved, buffer, size);
+    // reserved1
+    size = sizeof(reserved1);
+    memcpy((void *) &reserved1, buffer, size);
+    buffer += size;
+
+    // reserved2
+    size = sizeof(reserved2);
+    memcpy((void *) &reserved2, buffer, size);
     buffer += size;
 
     // dataBytes
-    size = sizeof(dataBytes);
-    memcpy((void *) &dataBytes, buffer, size);
+    size = dataBytes.size();
+    memcpy(dataBytes.data(), buffer, size);
     buffer += size;
 
     return buffer;
@@ -127,14 +133,19 @@ char * FlexRayData::write(char * buffer)
     memcpy(buffer, (void *) &dir, size);
     buffer += size;
 
-    // reserved
-    size = sizeof(reserved);
-    memcpy(buffer, (void *) &reserved, size);
+    // reserved1
+    size = sizeof(reserved1);
+    memcpy(buffer, (void *) &reserved1, size);
+    buffer += size;
+
+    // reserved2
+    size = sizeof(reserved2);
+    memcpy(buffer, (void *) &reserved2, size);
     buffer += size;
 
     // dataBytes
-    size = sizeof(dataBytes);
-    memcpy(buffer, (void *) &dataBytes, size);
+    size = dataBytes.size();
+    memcpy(buffer, dataBytes.data(), size);
     buffer += size;
 
     return buffer;
@@ -150,8 +161,9 @@ size_t FlexRayData::calculateObjectSize()
         sizeof(messageId) +
         sizeof(crc) +
         sizeof(dir) +
-        sizeof(reserved) +
-        sizeof(dataBytes);
+        sizeof(reserved1) +
+        sizeof(reserved2) +
+        dataBytes.size();
 
     return size;
 }

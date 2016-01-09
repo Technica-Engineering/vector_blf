@@ -39,10 +39,11 @@ Most50Message::Most50Message() :
     reserved2(),
     crc(),
     reserved3(),
-    priority(),
     reserved4(),
-    msgLen(),
+    priority(),
     reserved5(),
+    msgLen(),
+    reserved6(),
     msg()
 {
     objectType = ObjectType::MOST_50_MESSAGE;
@@ -114,14 +115,19 @@ char * Most50Message::read(char * buffer)
     memcpy((void *) &reserved3, buffer, size);
     buffer += size;
 
+    // reserved4
+    size = sizeof(reserved4);
+    memcpy((void *) &reserved4, buffer, size);
+    buffer += size;
+
     // priority
     size = sizeof(priority);
     memcpy((void *) &priority, buffer, size);
     buffer += size;
 
-    // reserved4
-    size = sizeof(reserved4);
-    memcpy((void *) &reserved4, buffer, size);
+    // reserved5
+    size = sizeof(reserved5);
+    memcpy((void *) &reserved5, buffer, size);
     buffer += size;
 
     // msgLen
@@ -129,9 +135,9 @@ char * Most50Message::read(char * buffer)
     memcpy((void *) &msgLen, buffer, size);
     buffer += size;
 
-    // reserved5
-    size = sizeof(reserved5);
-    memcpy((void *) &reserved5, buffer, size);
+    // reserved6
+    size = reserved6.size();
+    memcpy(reserved6.data(), buffer, size);
     buffer += size;
 
     // msg
@@ -205,14 +211,19 @@ char * Most50Message::write(char * buffer)
     memcpy(buffer, (void *) &reserved3, size);
     buffer += size;
 
+    // reserved4
+    size = sizeof(reserved4);
+    memcpy(buffer, (void *) &reserved4, size);
+    buffer += size;
+
     // priority
     size = sizeof(priority);
     memcpy(buffer, (void *) &priority, size);
     buffer += size;
 
-    // reserved4
-    size = sizeof(reserved4);
-    memcpy(buffer, (void *) &reserved4, size);
+    // reserved5
+    size = sizeof(reserved5);
+    memcpy(buffer, (void *) &reserved5, size);
     buffer += size;
 
     // msgLen
@@ -220,9 +231,9 @@ char * Most50Message::write(char * buffer)
     memcpy(buffer, (void *) &msgLen, size);
     buffer += size;
 
-    // reserved5
-    size = sizeof(reserved5);
-    memcpy(buffer, (void *) &reserved5, size);
+    // reserved6
+    size = reserved6.size();
+    memcpy(buffer, reserved6.data(), size);
     buffer += size;
 
     // msg
@@ -248,10 +259,11 @@ size_t Most50Message::calculateObjectSize()
         sizeof(reserved2) +
         sizeof(crc) +
         sizeof(reserved3) +
-        sizeof(priority) +
         sizeof(reserved4) +
-        sizeof(msgLen) +
+        sizeof(priority) +
         sizeof(reserved5) +
+        sizeof(msgLen) +
+        reserved6.size() +
         msgLen;
 
     return size;

@@ -65,8 +65,8 @@ char * KLineStatusEvent::read(char * buffer)
     buffer += size;
 
     // data
-    size = sizeof(data);
-    memcpy((void *) &data, buffer, size);
+    size = dataLen;
+    memcpy(data.data(), buffer, size);
     buffer += size;
 
     return buffer;
@@ -100,8 +100,8 @@ char * KLineStatusEvent::write(char * buffer)
     buffer += size;
 
     // data
-    size = sizeof(data);
-    memcpy(buffer, (void *) &data, size);
+    size = dataLen;
+    memcpy(buffer, data.data(), size);
     buffer += size;
 
     return buffer;
@@ -115,7 +115,7 @@ size_t KLineStatusEvent::calculateObjectSize()
         sizeof(dataLen) +
         sizeof(port) +
         sizeof(reserved) +
-        sizeof(data);
+        dataLen;
 
     return size;
 }

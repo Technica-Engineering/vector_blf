@@ -21,6 +21,7 @@
 
 #pragma once
 
+#include <array>
 #include <vector>
 
 #include "VectorTypes.h"
@@ -50,7 +51,7 @@ public:
      * Ethernet (MAC) address of source computer
      * (network byte order).
      */
-    BYTE sourceAddress[6];
+    std::array<BYTE, 6> sourceAddress;
 
     /**
      * The channel of the frame.
@@ -61,7 +62,7 @@ public:
      * Ethernet (MAC) address of target computer
      * (network byte order).
      */
-    BYTE destinationAddress[6];
+    std::array<BYTE, 6> destinationAddress;
 
     /** enumeration for dir */
     enum class Dir : WORD {
@@ -107,7 +108,7 @@ public:
     WORD payLoadLength;
 
     /** reserved */
-    BYTE reserved[8];
+    std::array<BYTE, 8> reserved;
 
     /**
      * @brief Max 1500 data bytes per frame

@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <array>
+
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 
@@ -108,7 +110,7 @@ public:
     BYTE flags;
 
     /** reserved */
-    BYTE reserved[4];
+    std::array<BYTE, 4> reserved;
 };
 
 }

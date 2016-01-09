@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <array>
+
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 
@@ -83,7 +85,7 @@ public:
      *
      * CAN data bytes
      */
-    BYTE data[8];
+    std::array<BYTE, 8> data;
 
     /**
      * @brief message length in ns
@@ -103,7 +105,10 @@ public:
     BYTE bitCount;
 
     /** reserved */
-    BYTE reserved[3];
+    BYTE reserved1;
+
+    /** reserved */
+    WORD reserved2;
 };
 
 }

@@ -21,6 +21,7 @@
 
 #pragma once
 
+#include <array>
 #include <vector>
 
 #include "VectorTypes.h"
@@ -176,7 +177,10 @@ public:
     DWORD crc;
 
     /** reserved */
-    BYTE reserved3[2];
+    BYTE reserved3;
+
+    /** reserved */
+    BYTE reserved4;
 
     /**
      * @brief priority of the message
@@ -186,7 +190,7 @@ public:
     BYTE priority;
 
     /** reserved */
-    BYTE reserved4;
+    BYTE reserved5;
 
     /**
      * @brief length of variable data in bytes (17 max)
@@ -196,7 +200,7 @@ public:
     DWORD msgLen;
 
     /** reserved */
-    BYTE reserved5[4];
+    std::array<BYTE, 4> reserved6;
 
     /**
      * @brief variable data

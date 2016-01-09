@@ -62,9 +62,9 @@ char * EnvironmentVariable::read(char * buffer)
     memcpy((void *) &dataLength, buffer, size);
     buffer += size;
 
-    // unknown
-    size = sizeof(reserved);
-    memcpy((void *) &reserved, buffer, size);
+    // reserved
+    size = reserved.size();
+    memcpy(reserved.data(), buffer, size);
     buffer += size;
 
     // name
@@ -98,9 +98,9 @@ char * EnvironmentVariable::write(char * buffer)
     memcpy(buffer, (void *) &dataLength, size);
     buffer += size;
 
-    // unknown
-    size = sizeof(reserved);
-    memcpy(buffer, (void *) &reserved, size);
+    // reserved
+    size = reserved.size();
+    memcpy(buffer, reserved.data(), size);
     buffer += size;
 
     // name
@@ -122,7 +122,7 @@ size_t EnvironmentVariable::calculateObjectSize()
         ObjectHeader::calculateObjectSize() +
         sizeof(nameLength) +
         sizeof(dataLength) +
-        sizeof(reserved) +
+        reserved.size() +
         nameLength +
         dataLength;
 

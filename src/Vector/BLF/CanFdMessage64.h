@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <array>
+
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 
@@ -176,7 +178,10 @@ public:
     BYTE dir;
 
     /** reserved */
-    BYTE reserved[5];
+    BYTE reserved1;
+
+    /** reserved */
+    DWORD reserved2;
 
     /**
      * @brief CAN FD data
@@ -185,7 +190,7 @@ public:
      * than 64 bytes, according to the value of
      * dlc).
      */
-    BYTE data[64];
+    std::array<BYTE, 64> data;
 };
 
 }

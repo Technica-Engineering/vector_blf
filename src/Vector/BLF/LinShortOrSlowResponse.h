@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <array>
+
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 #include "LinDatabyteTimestampEvent.h"
@@ -58,7 +60,7 @@ public:
      * The response bytes (can include the
      * checksum).
      */
-    BYTE respBytes[9];
+    std::array<BYTE, 9> respBytes;
 
     /**
      * @brief non-zero, if the response was too slow

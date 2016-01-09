@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <array>
+
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 
@@ -112,10 +114,10 @@ public:
      *
      * Array of databytes (NM vector max. length)
      */
-    BYTE dataBytes[12];
+    std::array<BYTE, 12> dataBytes;
 
     /** reserved */
-    BYTE reserved1[2];
+    std::array<BYTE, 2> reserved1;
 
     /**
      * @brief type of cc
@@ -154,12 +156,12 @@ public:
      *   - 3: Cycles with correction in passive mode, read from CCEV register
      *   - 4: Sync Frame status, read from SFS register
      */
-    DWORD data[5];
+    std::array<DWORD, 5> data;
 
     /**
      * Reserved
      */
-    BYTE reserved2[8];
+    std::array<BYTE, 8> reserved2;
 };
 
 }

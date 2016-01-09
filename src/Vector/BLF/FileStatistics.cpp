@@ -124,8 +124,8 @@ void FileStatistics::read(std::istream & is)
     is.read((char *) &lastObjectTime, size);
 
     // reserved
-    size = sizeof(reserved);
-    is.read((char *) &reserved, size);
+    size = reserved.size() * sizeof(DWORD);
+    is.read((char *) reserved.data(), size);
 }
 
 void FileStatistics::write(std::ostream & os)
@@ -197,11 +197,11 @@ void FileStatistics::write(std::ostream & os)
     os.write((char *) &lastObjectTime, size);
 
     // reserved
-    size = sizeof(reserved);
-    os.write((char *) &reserved, size);
+    size = reserved.size() * sizeof(DWORD);
+    os.write((char *) reserved.data(), size);
 }
 
-constexpr size_t FileStatistics::calculateStatisticsSize()
+size_t FileStatistics::calculateStatisticsSize()
 {
     return
         sizeof(signature) +
@@ -220,7 +220,7 @@ constexpr size_t FileStatistics::calculateStatisticsSize()
         sizeof(objectsRead) +
         sizeof(measurementStartTime) +
         sizeof(lastObjectTime) +
-        sizeof(reserved);
+        reserved.size() * sizeof(DWORD);
 }
 
 std::string FileStatistics::applicationName()

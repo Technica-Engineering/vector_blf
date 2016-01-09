@@ -75,13 +75,13 @@ char * J1708Message::read(char * buffer)
     buffer += size;
 
     // data
-    size = sizeof(data);
-    memcpy((void *) &data, buffer, size);
+    size = data.size();
+    memcpy(data.data(), buffer, size);
     buffer += size;
 
     // reserved2
-    size = sizeof(reserved2);
-    memcpy((void *) &reserved2, buffer, size);
+    size = reserved2.size();
+    memcpy(reserved2.data(), buffer, size);
     buffer += size;
 
     return buffer;
@@ -120,13 +120,13 @@ char * J1708Message::write(char * buffer)
     buffer += size;
 
     // data
-    size = sizeof(data);
-    memcpy(buffer, (void *) &data, size);
+    size = data.size();
+    memcpy(buffer, data.data(), size);
     buffer += size;
 
     // reserved2
-    size = sizeof(reserved2);
-    memcpy(buffer, (void *) &reserved2, size);
+    size = reserved2.size();
+    memcpy(buffer, reserved2.data(), size);
     buffer += size;
 
     return buffer;
@@ -141,8 +141,8 @@ size_t J1708Message::calculateObjectSize()
         sizeof(reserved1) +
         sizeof(error) +
         sizeof(size) +
-        sizeof(data) +
-        sizeof(reserved2);
+        data.size() +
+        reserved2.size();
 
     return size_;
 }

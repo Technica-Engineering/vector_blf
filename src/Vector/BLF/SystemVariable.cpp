@@ -29,10 +29,10 @@ namespace BLF {
 SystemVariable::SystemVariable() :
     ObjectHeader(),
     type(),
-    reserved(),
+    reserved1(),
     nameLength(),
     dataLength(),
-    unknown(),
+    reserved2(),
     name(),
     data()
 {
@@ -55,9 +55,9 @@ char * SystemVariable::read(char * buffer)
     memcpy((void *) &type, buffer, size);
     buffer += size;
 
-    // reserved
-    size = sizeof(reserved);
-    memcpy((void *) &reserved, buffer, size);
+    // reserved1
+    size = reserved1.size() * sizeof(DWORD);
+    memcpy(reserved1.data(), buffer, size);
     buffer += size;
 
     // nameLength
@@ -70,9 +70,9 @@ char * SystemVariable::read(char * buffer)
     memcpy((void *) &dataLength, buffer, size);
     buffer += size;
 
-    // unknown
-    size = sizeof(unknown);
-    memcpy((void *) &unknown, buffer, size);
+    // reserved2
+    size = reserved2.size() * sizeof(BYTE);
+    memcpy(reserved2.data(), buffer, size);
     buffer += size;
 
     // name
@@ -101,9 +101,9 @@ char * SystemVariable::write(char * buffer)
     memcpy(buffer, (void *) &type, size);
     buffer += size;
 
-    // reserved
-    size = sizeof(reserved);
-    memcpy(buffer, (void *) &reserved, size);
+    // reserved1
+    size = reserved1.size() * sizeof(DWORD);
+    memcpy(buffer, reserved1.data(), size);
     buffer += size;
 
     // nameLength
@@ -116,9 +116,9 @@ char * SystemVariable::write(char * buffer)
     memcpy(buffer, (void *) &dataLength, size);
     buffer += size;
 
-    // unknown
-    size = sizeof(unknown);
-    memcpy(buffer, (void *) &unknown, size);
+    // reserved2
+    size = reserved2.size() * sizeof(BYTE);
+    memcpy(buffer, reserved2.data(), size);
     buffer += size;
 
     // name
@@ -139,10 +139,10 @@ size_t SystemVariable::calculateObjectSize()
     size_t size =
         ObjectHeader::calculateObjectSize() +
         sizeof(type) +
-        sizeof(reserved) +
+        reserved1.size() * sizeof(DWORD) +
         sizeof(nameLength) +
         sizeof(dataLength) +
-        sizeof(unknown) +
+        reserved2.size() * sizeof(BYTE) +
         nameLength +
         dataLength;
 

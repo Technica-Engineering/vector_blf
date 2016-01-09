@@ -52,8 +52,8 @@ char * LinShortOrSlowResponse::read(char * buffer)
     buffer += size;
 
     // respBytes
-    size = sizeof(respBytes);
-    memcpy((void *) &respBytes, buffer, size);
+    size = respBytes.size();
+    memcpy(respBytes.data(), buffer, size);
     buffer += size;
 
     // slowResponse
@@ -88,8 +88,8 @@ char * LinShortOrSlowResponse::write(char * buffer)
     buffer += size;
 
     // respBytes
-    size = sizeof(respBytes);
-    memcpy(buffer, (void *) &respBytes, size);
+    size = respBytes.size();
+    memcpy(buffer, respBytes.data(), size);
     buffer += size;
 
     // slowResponse
@@ -116,7 +116,7 @@ size_t LinShortOrSlowResponse::calculateObjectSize()
         ObjectHeader::calculateObjectSize() +
         LinDatabyteTimestampEvent::calculateObjectSize() +
         sizeof(numberOfRespBytes) +
-        sizeof(respBytes) +
+        respBytes.size() +
         sizeof(slowResponse) +
         sizeof(interruptedByBreak) +
         sizeof(reserved);

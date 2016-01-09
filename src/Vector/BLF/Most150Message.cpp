@@ -136,8 +136,8 @@ char * Most150Message::read(char * buffer)
     buffer += size;
 
     // reserved3
-    size = sizeof(reserved3);
-    memcpy((void *) &reserved3, buffer, size);
+    size = reserved3.size();
+    memcpy(reserved3.data(), buffer, size);
     buffer += size;
 
     // msg
@@ -232,8 +232,8 @@ char * Most150Message::write(char * buffer)
     buffer += size;
 
     // reserved3
-    size = sizeof(reserved3);
-    memcpy(buffer, (void *) &reserved3, size);
+    size = reserved3.size();
+    memcpy(buffer, reserved3.data(), size);
     buffer += size;
 
     // msg
@@ -263,7 +263,7 @@ size_t Most150Message::calculateObjectSize()
         sizeof(priority) +
         sizeof(pIndex) +
         sizeof(msgLen) +
-        sizeof(reserved3) +
+        reserved3.size() +
         msgLen;
 
     return size;

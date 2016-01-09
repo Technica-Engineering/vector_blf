@@ -54,8 +54,8 @@ char * EthernetFrame::read(char * buffer)
     buffer = ObjectHeader::read(buffer);
 
     // sourceAddress
-    size = sizeof(sourceAddress);
-    memcpy((void *) &sourceAddress, buffer, size);
+    size = sourceAddress.size();
+    memcpy(sourceAddress.data(), buffer, size);
     buffer += size;
 
     // channel
@@ -64,8 +64,8 @@ char * EthernetFrame::read(char * buffer)
     buffer += size;
 
     // destinationAddress
-    size = sizeof(destinationAddress);
-    memcpy((void *) &destinationAddress, buffer, size);
+    size = destinationAddress.size();
+    memcpy(destinationAddress.data(), buffer, size);
     buffer += size;
 
     // dir
@@ -94,8 +94,8 @@ char * EthernetFrame::read(char * buffer)
     buffer += size;
 
     // reserved
-    size = sizeof(reserved);
-    memcpy((void *) &reserved, buffer, size);
+    size = reserved.size();
+    memcpy(reserved.data(), buffer, size);
     buffer += size;
 
     // payLoad
@@ -115,8 +115,8 @@ char * EthernetFrame::write(char * buffer)
     buffer = ObjectHeader::write(buffer);
 
     // sourceAddress
-    size = sizeof(sourceAddress);
-    memcpy(buffer, (void *) &sourceAddress, size);
+    size = sourceAddress.size();
+    memcpy(buffer, sourceAddress.data(), size);
     buffer += size;
 
     // channel
@@ -125,8 +125,8 @@ char * EthernetFrame::write(char * buffer)
     buffer += size;
 
     // destinationAddress
-    size = sizeof(destinationAddress);
-    memcpy(buffer, (void *) &destinationAddress, size);
+    size = destinationAddress.size();
+    memcpy(buffer, destinationAddress.data(), size);
     buffer += size;
 
     // dir
@@ -155,8 +155,8 @@ char * EthernetFrame::write(char * buffer)
     buffer += size;
 
     // reserved
-    size = sizeof(reserved);
-    memcpy(buffer, (void *) &reserved, size);
+    size = reserved.size();
+    memcpy(buffer, reserved.data(), size);
     buffer += size;
 
     // payLoad
@@ -171,15 +171,15 @@ size_t EthernetFrame::calculateObjectSize()
 {
     size_t size =
         ObjectHeader::calculateObjectSize() +
-        sizeof(sourceAddress) +
+        sourceAddress.size() +
         sizeof(channel) +
-        sizeof(destinationAddress) +
+        destinationAddress.size() +
         sizeof(dir) +
         sizeof(type) +
         sizeof(tpid) +
         sizeof(tci) +
         sizeof(payLoadLength) +
-        sizeof(reserved) +
+        reserved.size() +
         payLoadLength;
 
     return size;

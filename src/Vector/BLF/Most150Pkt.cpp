@@ -136,8 +136,8 @@ char * Most150Pkt::read(char * buffer)
     buffer += size;
 
     // reserved3
-    size = sizeof(reserved3);
-    memcpy((void *) &reserved3, buffer, size);
+    size = reserved3.size();
+    memcpy(reserved3.data(), buffer, size);
     buffer += size;
 
     // pktData
@@ -232,8 +232,8 @@ char * Most150Pkt::write(char * buffer)
     buffer += size;
 
     // reserved3
-    size = sizeof(reserved3);
-    memcpy(buffer, (void *) &reserved3, size);
+    size = reserved3.size();
+    memcpy(buffer, reserved3.data(), size);
     buffer += size;
 
     // pktData
@@ -263,7 +263,7 @@ size_t Most150Pkt::calculateObjectSize()
         sizeof(priority) +
         sizeof(pIndex) +
         sizeof(pktDataLength) +
-        sizeof(reserved3) +
+        reserved3.size() +
         pktDataLength;
 
     return size;

@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <array>
+
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 
@@ -64,10 +66,13 @@ public:
     BYTE dir;
 
     /** reserved */
-    BYTE reserved[3];
+    BYTE reserved1;
+
+    /** reserved */
+    WORD reserved2;
 
     /** data bytes */
-    BYTE dataBytes[11];
+    std::array<BYTE, 11> dataBytes;
 
     /** cycle */
     BYTE cycle;

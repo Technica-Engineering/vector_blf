@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <array>
+
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 
@@ -55,13 +57,13 @@ public:
     WORD channel;
 
     /** reserved */
-    BYTE reserved[2];
+    WORD reserved;
 
     /**
      * Time intervals [in us] detected between the
      * falling signal edges of the Sync field
      */
-    WORD timeDiff[4];
+    std::array<WORD, 4> timeDiff;
 };
 
 }

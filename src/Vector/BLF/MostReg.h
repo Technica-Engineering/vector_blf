@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <array>
+
 #include "VectorTypes.h"
 #include "ObjectHeader2.h"
 
@@ -104,7 +106,7 @@ public:
      *
      * Register data
      */
-    BYTE regData[16];
+    std::array<BYTE, 16> regData;
 };
 
 }

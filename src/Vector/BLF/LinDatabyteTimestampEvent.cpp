@@ -40,8 +40,8 @@ char * LinDatabyteTimestampEvent::read(char * buffer)
     buffer = LinMessageDescriptor::read(buffer);
 
     // databyteTimestamps
-    size = sizeof(databyteTimestamps);
-    memcpy((void *) &databyteTimestamps, buffer, size);
+    size = databyteTimestamps.size() * sizeof(ULONGLONG);
+    memcpy(databyteTimestamps.data(), buffer, size);
     buffer += size;
 
     return buffer;
@@ -55,8 +55,8 @@ char * LinDatabyteTimestampEvent::write(char * buffer)
     buffer = LinMessageDescriptor::write(buffer);
 
     // databyteTimestamps
-    size = sizeof(databyteTimestamps);
-    memcpy(buffer, (void *) &databyteTimestamps, size);
+    size = databyteTimestamps.size() * sizeof(ULONGLONG);
+    memcpy(buffer, databyteTimestamps.data(), size);
     buffer += size;
 
     return buffer;
@@ -66,7 +66,7 @@ size_t LinDatabyteTimestampEvent::calculateObjectSize()
 {
     size_t size =
         LinMessageDescriptor::calculateObjectSize() +
-        sizeof(databyteTimestamps);
+        databyteTimestamps.size() * sizeof(ULONGLONG);
 
     return size;
 }

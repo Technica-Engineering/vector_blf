@@ -21,6 +21,7 @@
 
 #pragma once
 
+#include <array>
 #include <vector>
 
 #include "VectorTypes.h"
@@ -125,7 +126,7 @@ public:
     BYTE state;
 
     /** reserved */
-    BYTE reserved3[3];
+    std::array<BYTE, 3> reserved3;
 
     /**
      * @brief length of variable data in bytes
@@ -135,7 +136,7 @@ public:
     DWORD pktDataLength;
 
     /** reserved */
-    BYTE reserved4[4];
+    std::array<BYTE, 4> reserved4;
 
     /**
      * @brief variable data

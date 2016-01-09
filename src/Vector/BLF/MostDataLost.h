@@ -52,7 +52,7 @@ public:
     WORD channel;
 
     /** reserved */
-    BYTE reserved[2];
+    WORD reserved;
 
     /**
      * @brief info about data loss

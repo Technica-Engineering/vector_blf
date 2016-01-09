@@ -130,8 +130,8 @@ char * Most150PktFragment::read(char * buffer)
     buffer += size;
 
     // reserved2
-    size = sizeof(reserved2);
-    memcpy((void *) &reserved2, buffer, size);
+    size = reserved2.size();
+    memcpy(reserved2.data(), buffer, size);
     buffer += size;
 
     // firstData
@@ -221,8 +221,8 @@ char * Most150PktFragment::write(char * buffer)
     buffer += size;
 
     // reserved2
-    size = sizeof(reserved2);
-    memcpy(buffer, (void *) &reserved2, size);
+    size = reserved2.size();
+    memcpy(buffer, reserved2.data(), size);
     buffer += size;
 
     // firstData
@@ -251,7 +251,7 @@ size_t Most150PktFragment::calculateObjectSize()
         sizeof(dataLen) +
         sizeof(dataLenAnnounced) +
         sizeof(firstDataLen) +
-        sizeof(reserved2) +
+        reserved2.size() +
         firstDataLen;
 
     return size;

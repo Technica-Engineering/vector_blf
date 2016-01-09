@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <array>
+
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 
@@ -155,14 +157,17 @@ public:
     BYTE headerBitMask;
 
     /** reserved */
-    BYTE reserved[3];
+    BYTE reserved1;
+
+    /** reserved */
+    WORD reserved2;
 
     /**
      * @brief array of databytes
      *
      * Payload
      */
-    BYTE dataBytes[64];
+    std::array<BYTE, 64> dataBytes;
 };
 
 }

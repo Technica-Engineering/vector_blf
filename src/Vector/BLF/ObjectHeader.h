@@ -72,7 +72,7 @@ public:
     ObjectFlags objectFlags;
 
     /** reserved */
-    BYTE reserved[2];
+    WORD reserved;
 
     /**
      * @brief object specific version

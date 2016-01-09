@@ -58,8 +58,8 @@ char * EventComment::read(char * buffer)
     buffer += size;
 
     // reserved
-    size = sizeof(reserved);
-    memcpy((void *) &reserved, buffer, size);
+    size = reserved.size();
+    memcpy(reserved.data(), buffer, size);
     buffer += size;
 
     // text
@@ -89,8 +89,8 @@ char * EventComment::write(char * buffer)
     buffer += size;
 
     // reserved
-    size = sizeof(reserved);
-    memcpy(buffer, (void *) &reserved, size);
+    size = reserved.size();
+    memcpy(buffer, reserved.data(), size);
     buffer += size;
 
     // text
@@ -107,7 +107,7 @@ size_t EventComment::calculateObjectSize()
         ObjectHeader::calculateObjectSize() +
         sizeof(commentedEventType) +
         sizeof(textLength) +
-        sizeof(reserved) +
+        reserved.size() +
         textLength;
 
     return size;

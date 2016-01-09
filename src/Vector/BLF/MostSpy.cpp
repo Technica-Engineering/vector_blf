@@ -78,8 +78,8 @@ char * MostSpy::read(char * buffer)
     buffer += size;
 
     // msg
-    size = sizeof(msg);
-    memcpy((void *) &msg, buffer, size);
+    size = msg.size();
+    memcpy(msg.data(), buffer, size);
     buffer += size;
 
     // reserved2
@@ -153,8 +153,8 @@ char * MostSpy::write(char * buffer)
     buffer += size;
 
     // msg
-    size = sizeof(msg);
-    memcpy(buffer, (void *) &msg, size);
+    size = msg.size();
+    memcpy(buffer, msg.data(), size);
     buffer += size;
 
     // reserved2
@@ -204,7 +204,7 @@ size_t MostSpy::calculateObjectSize()
         sizeof(reserved1) +
         sizeof(sourceAdr) +
         sizeof(destAdr) +
-        sizeof(msg) +
+        msg.size() +
         sizeof(reserved2) +
         sizeof(rTyp) +
         sizeof(rTypAdr) +

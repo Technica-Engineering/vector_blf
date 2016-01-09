@@ -43,8 +43,8 @@ char * LinSyncError2::read(char * buffer)
     buffer = LinSynchFieldEvent::read(buffer);
 
     // timeDiff
-    size = sizeof(timeDiff);
-    memcpy((void *) &timeDiff, buffer, size);
+    size = timeDiff.size() * sizeof(WORD);
+    memcpy(timeDiff.data(), buffer, size);
     buffer += size;
 
     return buffer;
@@ -59,8 +59,8 @@ char * LinSyncError2::write(char * buffer)
     buffer = LinSynchFieldEvent::write(buffer);
 
     // timeDiff
-    size = sizeof(timeDiff);
-    memcpy(buffer, (void *) &timeDiff, size);
+    size = timeDiff.size() * sizeof(WORD);
+    memcpy(buffer, timeDiff.data(), size);
     buffer += size;
 
     return buffer;
@@ -71,7 +71,7 @@ size_t LinSyncError2::calculateObjectSize()
     size_t size =
         ObjectHeader::calculateObjectSize() +
         LinSynchFieldEvent::calculateObjectSize() +
-        sizeof(timeDiff);
+        timeDiff.size() * sizeof(WORD);
 
     return size;
 }

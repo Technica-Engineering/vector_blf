@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <array>
+
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 #include "LinDatabyteTimestampEvent.h"
@@ -49,7 +51,7 @@ public:
      *
      * Databyte values
      */
-    BYTE data[8];
+    std::array<BYTE, 8> data;
 
     /**
      * @brief checksum byte
@@ -119,7 +121,7 @@ public:
     BYTE fsmState;
 
     /** reserved */
-    BYTE reserved1[3];
+    std::array<BYTE, 3> reserved;
 
     /* the following variables are only available in Version 2 and above */
 

@@ -72,7 +72,7 @@ public:
     ObjectFlags objectFlags;
 
     /** enumeration for timeStampStatus */
-    enum class TimeStampStatus : BYTE {
+    enum TimeStampStatus : BYTE {
         /**
          * @brief 1: valid orig. timestamp
          *

@@ -41,7 +41,8 @@ CanFdMessage64::CanFdMessage64() :
     timeOffsetCrcDelNs(),
     bitCount(),
     dir(),
-    reserved(),
+    reserved1(),
+    reserved2(),
     data()
 {
     objectType = ObjectType::CAN_FD_MESSAGE_64;
@@ -119,14 +120,19 @@ char * CanFdMessage64::read(char * buffer)
     memcpy((void *) &dir, buffer, size);
     buffer += size;
 
-    // reserved
-    size = sizeof(reserved);
-    memcpy((void *) &reserved, buffer, size);
+    // reserved1
+    size = sizeof(reserved1);
+    memcpy((void *) &reserved1, buffer, size);
+    buffer += size;
+
+    // reserved2
+    size = sizeof(reserved2);
+    memcpy((void *) &reserved2, buffer, size);
     buffer += size;
 
     // data
-    size = sizeof(data);
-    memcpy((void *) &data, buffer, size);
+    size = data.size();
+    memcpy(data.data(), buffer, size);
     buffer += size;
 
     return buffer;
@@ -204,14 +210,19 @@ char * CanFdMessage64::write(char * buffer)
     memcpy(buffer, (void *) &dir, size);
     buffer += size;
 
-    // reserved
-    size = sizeof(reserved);
-    memcpy(buffer, (void *) &reserved, size);
+    // reserved1
+    size = sizeof(reserved1);
+    memcpy(buffer, (void *) &reserved1, size);
+    buffer += size;
+
+    // reserved2
+    size = sizeof(reserved2);
+    memcpy(buffer, (void *) &reserved2, size);
     buffer += size;
 
     // data
-    size = sizeof(data);
-    memcpy(buffer, (void *) &data, size);
+    size = data.size();
+    memcpy(buffer, data.data(), size);
     buffer += size;
 
     return buffer;
@@ -234,8 +245,9 @@ size_t CanFdMessage64::calculateObjectSize()
         sizeof(timeOffsetCrcDelNs) +
         sizeof(bitCount) +
         sizeof(dir) +
-        sizeof(reserved) +
-        sizeof(data);
+        sizeof(reserved1) +
+        sizeof(reserved2) +
+        data.size();
 
     return size;
 }

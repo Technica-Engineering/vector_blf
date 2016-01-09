@@ -53,7 +53,7 @@ public:
     WORD channel;
 
     /** reserved */
-    BYTE reserved[2];
+    WORD reserved;
 
     /**
      * Measured baud rate [in bits/sec]

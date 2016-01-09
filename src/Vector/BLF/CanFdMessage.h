@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <array>
+
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 
@@ -117,12 +119,15 @@ public:
     BYTE validDataBytes;
 
     /** reserved */
-    BYTE reserved[5];
+    BYTE reserved1;
+
+    /** reserved */
+    DWORD reserved2;
 
     /**
      * @brief CAN FD data
      */
-    BYTE data[64];
+    std::array<BYTE, 64> data;
 };
 
 }

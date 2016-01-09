@@ -54,7 +54,7 @@ public:
     WORD channel;
 
     /** reserved */
-    WORD reserved1;
+    WORD reserved;
 
     /**
      * @brief bypass/master/slave/spy

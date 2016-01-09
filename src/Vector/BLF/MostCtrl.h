@@ -21,6 +21,7 @@
 
 #pragma once
 
+#include <array>
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 
@@ -74,7 +75,7 @@ public:
     /**
      * 17 data bytes
      */
-    BYTE msg[17];
+    std::array<BYTE, 17> msg;
 
     /** reserved */
     BYTE reserved2;
@@ -183,7 +184,7 @@ public:
     BYTE ackNack;
 
     /** reserved */
-    BYTE reserved4[4];
+    std::array<BYTE, 4> reserved4;
 };
 
 }

@@ -56,8 +56,8 @@ char * LinReceiveError2::read(char * buffer)
     buffer = LinDatabyteTimestampEvent::read(buffer);
 
     // data
-    size = sizeof(data);
-    memcpy((void *) &data, buffer, size);
+    size = data.size();
+    memcpy(data.data(), buffer, size);
     buffer += size;
 
     // fsmId
@@ -106,8 +106,8 @@ char * LinReceiveError2::read(char * buffer)
     buffer += size;
 
     // reserved
-    size = sizeof(reserved);
-    memcpy((void *) &reserved, buffer, size);
+    size = reserved.size();
+    memcpy(reserved.data(), buffer, size);
     buffer += size;
 
     // exactHeaderBaudrate
@@ -137,8 +137,8 @@ char * LinReceiveError2::write(char * buffer)
     buffer = LinDatabyteTimestampEvent::write(buffer);
 
     // data
-    size = sizeof(data);
-    memcpy(buffer, (void *) &data, size);
+    size = data.size();
+    memcpy(buffer, data.data(), size);
     buffer += size;
 
     // fsmId
@@ -187,8 +187,8 @@ char * LinReceiveError2::write(char * buffer)
     buffer += size;
 
     // reserved
-    size = sizeof(reserved);
-    memcpy(buffer, (void *) &reserved, size);
+    size = reserved.size();
+    memcpy(buffer, reserved.data(), size);
     buffer += size;
 
     // exactHeaderBaudrate
@@ -214,7 +214,7 @@ size_t LinReceiveError2::calculateObjectSize()
     size_t size =
         ObjectHeader::calculateObjectSize() +
         LinDatabyteTimestampEvent::calculateObjectSize() +
-        sizeof(data) +
+        data.size() +
         sizeof(fsmId) +
         sizeof(fsmState) +
         sizeof(stateReason) +
@@ -224,7 +224,7 @@ size_t LinReceiveError2::calculateObjectSize()
         sizeof(isEtf) +
         sizeof(hasDatabytes) +
         sizeof(respBaudrate) +
-        sizeof(reserved) +
+        reserved.size() +
         sizeof(exactHeaderBaudrate) +
         sizeof(earlyStopbitOffset) +
         sizeof(earlyStopbitOffsetResponse);

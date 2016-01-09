@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <array>
+
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 
@@ -216,10 +218,10 @@ public:
      *       - Value 0x02000000: Latest Transmit Violation on channel B
      *       - Value 0x04000000: Transmit Across Boundary on Channel B
      */
-    DWORD data[4];
+    std::array<DWORD, 4> data;
 
     /** reserved */
-    BYTE reserved2[4];
+    std::array<BYTE, 4> reserved2;
 };
 
 }

@@ -21,6 +21,7 @@
 
 #pragma once
 
+#include <array>
 #include <string>
 
 #include "VectorTypes.h"
@@ -63,7 +64,7 @@ public:
     /**
      * reserved
      */
-    DWORD reserved[2];
+    std::array<BYTE, 8> reserved;
 
     /**
      * @brief text in MBCS

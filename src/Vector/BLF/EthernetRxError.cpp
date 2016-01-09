@@ -68,8 +68,8 @@ char * EthernetRxError::read(char * buffer)
     buffer += size;
 
     // reserved1
-    size = sizeof(reserved1);
-    memcpy((void *) &reserved1, buffer, size);
+    size = reserved1.size();
+    memcpy(reserved1.data(), buffer, size);
     buffer += size;
 
     // fcs
@@ -83,8 +83,8 @@ char * EthernetRxError::read(char * buffer)
     buffer += size;
 
     // reserved2
-    size = sizeof(reserved2);
-    memcpy((void *) &reserved2, buffer, size);
+    size = reserved2.size();
+    memcpy(reserved2.data(), buffer, size);
     buffer += size;
 
     // error
@@ -124,8 +124,8 @@ char * EthernetRxError::write(char * buffer)
     buffer += size;
 
     // reserved1
-    size = sizeof(reserved1);
-    memcpy(buffer, (void *) &reserved1, size);
+    size = reserved1.size();
+    memcpy(buffer, reserved1.data(), size);
     buffer += size;
 
     // fcs
@@ -139,8 +139,8 @@ char * EthernetRxError::write(char * buffer)
     buffer += size;
 
     // reserved2
-    size = sizeof(reserved2);
-    memcpy(buffer, (void *) &reserved2, size);
+    size = reserved2.size();
+    memcpy(buffer, reserved2.data(), size);
     buffer += size;
 
     // error
@@ -163,10 +163,10 @@ size_t EthernetRxError::calculateObjectSize()
         sizeof(structLength) +
         sizeof(channel) +
         sizeof(dir) +
-        sizeof(reserved1) +
+        reserved1.size() +
         sizeof(fcs) +
         sizeof(frameDataLength) +
-        sizeof(reserved2) +
+        reserved2.size() +
         sizeof(error) +
         frameDataLength;
 

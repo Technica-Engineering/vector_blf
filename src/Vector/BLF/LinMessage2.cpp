@@ -38,7 +38,7 @@ LinMessage2::LinMessage2() :
     etfAssocEtfId(),
     fsmId(),
     fsmState(),
-    reserved1(),
+    reserved(),
     respBaudrate(),
     exactHeaderBaudrate(),
     earlyStopbitOffset(),
@@ -57,8 +57,8 @@ char * LinMessage2::read(char * buffer)
     buffer = LinDatabyteTimestampEvent::read(buffer);
 
     // data
-    size = sizeof(data);
-    memcpy((void *) &data, buffer, size);
+    size = data.size();
+    memcpy(data.data(), buffer, size);
     buffer += size;
 
     // crc
@@ -102,8 +102,8 @@ char * LinMessage2::read(char * buffer)
     buffer += size;
 
     // reserved
-    size = sizeof(reserved1);
-    memcpy((void *) &reserved1, buffer, size);
+    size = reserved.size();
+    memcpy(reserved.data(), buffer, size);
     buffer += size;
 
     /* the following variables are only available in Version 2 and above */
@@ -146,8 +146,8 @@ char * LinMessage2::write(char * buffer)
     buffer = LinDatabyteTimestampEvent::write(buffer);
 
     // data
-    size = sizeof(data);
-    memcpy(buffer, (void *) &data, size);
+    size = data.size();
+    memcpy(buffer, data.data(), size);
     buffer += size;
 
     // crc
@@ -191,8 +191,8 @@ char * LinMessage2::write(char * buffer)
     buffer += size;
 
     // reserved
-    size = sizeof(reserved1);
-    memcpy(buffer, (void *) &reserved1, size);
+    size = reserved.size();
+    memcpy(buffer, reserved.data(), size);
     buffer += size;
 
     /* the following variables are only available in Version 2 and above */
@@ -231,7 +231,7 @@ size_t LinMessage2::calculateObjectSize()
     size_t size =
         ObjectHeader::calculateObjectSize() +
         LinDatabyteTimestampEvent::calculateObjectSize() +
-        sizeof(data) +
+        data.size() +
         sizeof(crc) +
         sizeof(dir) +
         sizeof(simulated) +
@@ -240,7 +240,7 @@ size_t LinMessage2::calculateObjectSize()
         sizeof(etfAssocEtfId) +
         sizeof(fsmId) +
         sizeof(fsmState) +
-        sizeof(reserved1);
+        reserved.size();
 
     if (objectVersion >= 0) // this is probably a bug in Vector's original implementation
         size += sizeof(respBaudrate);

@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <array>
+
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 #include "LinDatabyteTimestampEvent.h"
@@ -50,7 +52,7 @@ public:
      *
      * Data byte values
      */
-    BYTE data[8];
+    std::array<BYTE, 8> data;
 
     /**
      * @brief checksum byte
@@ -92,7 +94,7 @@ public:
     BYTE simulated;
 
     /** reserved */
-    BYTE reserved1[2];
+    std::array<BYTE, 2> reserved1;
 
     /* the following variables are only available in Version 2 and above */
 
@@ -104,8 +106,8 @@ public:
      */
     DWORD respBaudrate;
 
-    /** reserved2 */
-    BYTE reserved2[4];
+    /** reserved */
+    std::array<BYTE, 4> reserved2;
 
     /* the following variables are only available in Version 3 and above */
 

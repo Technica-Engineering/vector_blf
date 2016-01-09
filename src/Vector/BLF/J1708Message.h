@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <array>
+
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 
@@ -69,10 +71,10 @@ public:
     /**
      * @brief data
      */
-    BYTE data[255];
+    std::array<BYTE, 255> data;
 
     /** reserved */
-    BYTE reserved2[2];
+    std::array<BYTE, 2> reserved2;
 };
 
 }

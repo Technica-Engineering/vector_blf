@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <array>
+
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 
@@ -157,14 +159,14 @@ public:
     WORD flagsExt;
 
     /** reserved */
-    BYTE reserved2[2];
+    WORD reserved2;
 
     /**
      * @brief Payload, only for CAN-Core
      *
      * Message data.
      */
-    BYTE data[8];
+    std::array<BYTE, 8> data;
 };
 
 }

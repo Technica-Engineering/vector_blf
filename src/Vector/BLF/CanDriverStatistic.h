@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <array>
+
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 
@@ -106,7 +108,7 @@ public:
     DWORD overloadFrames;
 
     /** reserved */
-    DWORD reserved;
+    std::array<BYTE, 4> reserved;
 };
 
 }

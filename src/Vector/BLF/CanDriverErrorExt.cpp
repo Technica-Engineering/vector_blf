@@ -34,7 +34,9 @@ CanDriverErrorExt::CanDriverErrorExt() :
     errorCode(),
     flags(),
     state(),
-    reserved()
+    reserved1(),
+    reserved2(),
+    reserved3()
 {
     objectType = ObjectType::CAN_DRIVER_ERROR_EXT;
 }
@@ -76,9 +78,19 @@ char * CanDriverErrorExt::read(char * buffer)
     memcpy((void *) &state, buffer, size);
     buffer += size;
 
-    // reserved
-    size = sizeof(reserved);
-    memcpy((void *) &reserved, buffer, size);
+    // reserved1
+    size = sizeof(reserved1);
+    memcpy((void *) &reserved1, buffer, size);
+    buffer += size;
+
+    // reserved2
+    size = sizeof(reserved2);
+    memcpy((void *) &reserved2, buffer, size);
+    buffer += size;
+
+    // reserved3
+    size = reserved3.size();
+    memcpy(reserved3.data(), buffer, size);
     buffer += size;
 
     return buffer;
@@ -121,9 +133,19 @@ char * CanDriverErrorExt::write(char * buffer)
     memcpy(buffer, (void *) &state, size);
     buffer += size;
 
-    // reserved
-    size = sizeof(reserved);
-    memcpy(buffer, (void *) &reserved, size);
+    // reserved1
+    size = sizeof(reserved1);
+    memcpy(buffer, (void *) &reserved1, size);
+    buffer += size;
+
+    // reserved2
+    size = sizeof(reserved2);
+    memcpy(buffer, (void *) &reserved2, size);
+    buffer += size;
+
+    // reserved3
+    size = reserved3.size();
+    memcpy(buffer, reserved3.data(), size);
     buffer += size;
 
     return buffer;
@@ -139,7 +161,9 @@ size_t CanDriverErrorExt::calculateObjectSize()
         sizeof(errorCode) +
         sizeof(flags) +
         sizeof(state) +
-        sizeof(reserved);
+        sizeof(reserved1) +
+        sizeof(reserved2) +
+        reserved3.size();
 
     return size;
 }

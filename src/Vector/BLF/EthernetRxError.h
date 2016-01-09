@@ -21,6 +21,7 @@
 
 #pragma once
 
+#include <array>
 #include <vector>
 
 #include "VectorTypes.h"
@@ -78,7 +79,7 @@ public:
     Dir dir;
 
     /** reserved */
-    BYTE reserved1[2];
+    std::array<BYTE, 2> reserved1;
 
     /**
      * @brief Frame Check Sum
@@ -96,7 +97,7 @@ public:
     WORD frameDataLength;
 
     /** reserved */
-    BYTE reserved2[2];
+    std::array<BYTE, 2> reserved2;
 
     /**
      * Error code

@@ -21,6 +21,7 @@
 
 #pragma once
 
+#include <array>
 #include <fstream>
 
 #include "VectorTypes.h"
@@ -86,7 +87,7 @@ public:
      *
      * @return statistics size
      */
-    static constexpr size_t calculateStatisticsSize();
+    size_t calculateStatisticsSize();
 
     /** signature (signature) */
     DWORD signature;
@@ -144,7 +145,7 @@ public:
     SYSTEMTIME lastObjectTime;
 
     /** reserved */
-    DWORD reserved[18];
+    std::array<DWORD, 18> reserved;
 };
 
 }

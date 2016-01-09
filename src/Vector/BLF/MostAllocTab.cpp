@@ -58,8 +58,8 @@ char * MostAllocTab::read(char * buffer)
     buffer += size;
 
     // reserved
-    size = sizeof(reserved);
-    memcpy((void *) &reserved, buffer, size);
+    size = reserved.size();
+    memcpy(reserved.data(), buffer, size);
     buffer += size;
 
     // tableData
@@ -89,8 +89,8 @@ char * MostAllocTab::write(char * buffer)
     buffer += size;
 
     // reserved
-    size = sizeof(reserved);
-    memcpy(buffer, (void *) &reserved, size);
+    size = reserved.size();
+    memcpy(buffer, reserved.data(), size);
     buffer += size;
 
     // tableData
@@ -107,7 +107,7 @@ size_t MostAllocTab::calculateObjectSize()
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +
         sizeof(length) +
-        sizeof(reserved) +
+        reserved.size() +
         length;
 
     return size;

@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <array>
+
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 
@@ -210,7 +212,7 @@ public:
      *     Symbol length in bit times. Only valid for symbol type 4 and if the value is not
      *     zero.
      */
-    DWORD data[2];
+    std::array<DWORD, 2> data;
 
     /**
      * @brief reserved
@@ -227,10 +229,10 @@ public:
      *         interface. In spy mode, the symbol length is
      *         stored in the HI-WORD of data[1].
      *
-     * reserver[1..15]:
+     * reserved[1..15]:
      * Reserved
      */
-    BYTE reserved2[32];
+    std::array<WORD, 16> reserved2;
 };
 
 }

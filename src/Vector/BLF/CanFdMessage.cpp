@@ -36,7 +36,8 @@ CanFdMessage::CanFdMessage() :
     arbBitCount(),
     canFdFlags(),
     validDataBytes(),
-    reserved(),
+    reserved1(),
+    reserved2(),
     data()
 {
     objectType = ObjectType::CAN_FD_MESSAGE;
@@ -89,14 +90,19 @@ char * CanFdMessage::read(char * buffer)
     memcpy((void *) &validDataBytes, buffer, size);
     buffer += size;
 
-    // reserved
-    size = sizeof(reserved);
-    memcpy((void *) &reserved, buffer, size);
+    // reserved1
+    size = sizeof(reserved1);
+    memcpy((void *) &reserved1, buffer, size);
+    buffer += size;
+
+    // reserved2
+    size = sizeof(reserved2);
+    memcpy((void *) &reserved2, buffer, size);
     buffer += size;
 
     // data
-    size = sizeof(data);
-    memcpy((void *) &data, buffer, size);
+    size = data.size();
+    memcpy(data.data(), buffer, size);
     buffer += size;
 
     return buffer;
@@ -149,14 +155,19 @@ char * CanFdMessage::write(char * buffer)
     memcpy(buffer, (void *) &validDataBytes, size);
     buffer += size;
 
-    // reserved
-    size = sizeof(reserved);
-    memcpy(buffer, (void *) &reserved, size);
+    // reserved1
+    size = sizeof(reserved1);
+    memcpy(buffer, (void *) &reserved1, size);
+    buffer += size;
+
+    // reserved2
+    size = sizeof(reserved2);
+    memcpy(buffer, (void *) &reserved2, size);
     buffer += size;
 
     // data
-    size = sizeof(data);
-    memcpy(buffer, (void *) &data, size);
+    size = data.size();
+    memcpy(buffer, data.data(), size);
     buffer += size;
 
     return buffer;
@@ -174,8 +185,9 @@ size_t CanFdMessage::calculateObjectSize()
         sizeof(arbBitCount) +
         sizeof(canFdFlags) +
         sizeof(validDataBytes) +
-        sizeof(reserved) +
-        sizeof(data);
+        sizeof(reserved1) +
+        sizeof(reserved2) +
+        data.size();
 
     return size;
 }

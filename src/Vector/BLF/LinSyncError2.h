@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <array>
+
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 #include "LinSynchFieldEvent.h"
@@ -52,7 +54,7 @@ public:
      * Time intervals [in us] detected between the
      * falling signal edges of the Sync field
      */
-    WORD timeDiff[4];
+    std::array<WORD, 4> timeDiff;
 };
 
 }

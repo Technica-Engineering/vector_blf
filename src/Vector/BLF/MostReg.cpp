@@ -83,8 +83,8 @@ char * MostReg::read(char * buffer)
     buffer += size;
 
     // regData
-    size = sizeof(regData);
-    memcpy((void *) &regData, buffer, size);
+    size = regData.size();
+    memcpy(regData.data(), buffer, size);
     buffer += size;
 
     return buffer;
@@ -133,8 +133,8 @@ char * MostReg::write(char * buffer)
     buffer += size;
 
     // regData
-    size = sizeof(regData);
-    memcpy(buffer, (void *) &regData, size);
+    size = regData.size();
+    memcpy(buffer, regData.data(), size);
     buffer += size;
 
     return buffer;
@@ -151,7 +151,7 @@ size_t MostReg::calculateObjectSize()
         sizeof(offset) +
         sizeof(chip) +
         sizeof(regDataLen) +
-        sizeof(regData);
+        regData.size();
 
     return size;
 }

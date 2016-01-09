@@ -21,6 +21,7 @@
 
 #pragma once
 
+#include <array>
 #include <vector>
 
 #include "VectorTypes.h"
@@ -212,7 +213,7 @@ public:
     DWORD firstDataLen;
 
     /** reserved */
-    BYTE reserved2[4];
+    std::array<BYTE, 4> reserved2;
 
     /**
      * @brief variable data

@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <array>
+
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 
@@ -249,7 +251,7 @@ public:
      *
      * Payload
      */
-    BYTE dataBytes[254];
+    std::array<BYTE, 254> dataBytes;
 };
 
 }

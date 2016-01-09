@@ -89,8 +89,8 @@ char * CanDriverStatistic::read(char * buffer)
     buffer += size;
 
     // reserved
-    size = sizeof(reserved);
-    memcpy((void *) &reserved, buffer, size);
+    size = reserved.size();
+    memcpy(reserved.data(), buffer, size);
     buffer += size;
 
     return buffer;
@@ -144,8 +144,8 @@ char * CanDriverStatistic::write(char * buffer)
     buffer += size;
 
     // reserved
-    size = sizeof(reserved);
-    memcpy(buffer, (void *) &reserved, size);
+    size = reserved.size();
+    memcpy(buffer, reserved.data(), size);
     buffer += size;
 
     return buffer;
@@ -163,7 +163,7 @@ size_t CanDriverStatistic::calculateObjectSize()
         sizeof(extendedRemoteFrames) +
         sizeof(errorFrames) +
         sizeof(overloadFrames) +
-        sizeof(reserved);
+        reserved.size();
 
     return size;
 }

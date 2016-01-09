@@ -21,6 +21,7 @@
 
 #pragma once
 
+#include <array>
 #include <vector>
 
 #include "VectorTypes.h"
@@ -301,7 +302,7 @@ public:
     WORD blfLogMask;
 
     /** reserved */
-    BYTE reserved[0x1a];
+    std::array<DWORD, 6> reserved;
 
     /**
      * @brief array of databytes

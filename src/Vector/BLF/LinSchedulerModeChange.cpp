@@ -59,8 +59,8 @@ char * LinSchedulerModeChange::read(char * buffer)
     buffer += size;
 
     // reserved
-    size = sizeof(reserved);
-    memcpy((void *) &reserved, buffer, size);
+    size = reserved.size();
+    memcpy(reserved.data(), buffer, size);
     buffer += size;
 
     return buffer;
@@ -89,8 +89,8 @@ char * LinSchedulerModeChange::write(char * buffer)
     buffer += size;
 
     // reserved
-    size = sizeof(reserved);
-    memcpy(buffer, (void *) &reserved, size);
+    size = reserved.size();
+    memcpy(buffer, reserved.data(), size);
     buffer += size;
 
     return buffer;
@@ -103,7 +103,7 @@ size_t LinSchedulerModeChange::calculateObjectSize()
         sizeof(channel) +
         sizeof(oldMode) +
         sizeof(newMode) +
-        sizeof(reserved);
+        reserved.size();
 
     return size;
 }

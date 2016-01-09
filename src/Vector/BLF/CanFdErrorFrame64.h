@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <array>
+
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 
@@ -106,7 +108,7 @@ public:
     WORD extFlags;
 
     /** reserved */
-    BYTE reserved1[2];
+    WORD reserved1;
 
     /**
      * @brief CAN ID
@@ -177,7 +179,7 @@ public:
     WORD errorPosition;
 
     /** reserved */
-    BYTE reserved2[2];
+    WORD reserved2;
 
     /**
      * @brief CAN FD data
@@ -187,7 +189,7 @@ public:
      * dlc, e.g. when DLC is 12 data has length
      * 24)
      */
-    BYTE data[64];
+    std::array<BYTE, 64> data;
 };
 
 }

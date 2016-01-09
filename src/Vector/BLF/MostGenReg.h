@@ -104,7 +104,10 @@ public:
     WORD regId;
 
     /** reserved */
-    BYTE reserved2[6];
+    WORD reserved2;
+
+    /** reserved */
+    DWORD reserved3;
 
     /**
      * @brief register value

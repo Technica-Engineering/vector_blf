@@ -21,6 +21,7 @@
 
 #pragma once
 
+#include <array>
 #include <string>
 
 #include "VectorTypes.h"
@@ -64,7 +65,7 @@ public:
     COLORREF backgroundColor;
 
     /** reserved */
-    BYTE reserved1[3];
+    std::array<BYTE, 3> reserved1;
 
     /**
      * Defines whether a marker can be relocated
@@ -93,7 +94,7 @@ public:
     DWORD descriptionLength;
 
     /** reserved */
-    DWORD reserved2[3];
+    std::array<BYTE, 12> reserved2;
 
     /**
      * @brief group name

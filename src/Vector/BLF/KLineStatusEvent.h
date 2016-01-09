@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <array>
+
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 
@@ -66,12 +68,12 @@ public:
     DWORD port;
 
     /** reserved */
-    BYTE reserved[4];
+    DWORD reserved;
 
     /**
      * @brief the actual data, but only dataLen BYTES are used!
      */
-    UINT64 data[3];
+    std::array<UINT64, 3> data;
 };
 
 }

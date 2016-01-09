@@ -70,8 +70,8 @@ char * MostEthernetPkt::read(char * buffer)
     buffer += size;
 
     // reserved1
-    size = sizeof(reserved1);
-    memcpy((void *) &reserved1, buffer, size);
+    size = reserved1.size();
+    memcpy(reserved1.data(), buffer, size);
     buffer += size;
 
     // sourceMacAdr
@@ -130,8 +130,8 @@ char * MostEthernetPkt::read(char * buffer)
     buffer += size;
 
     // reserved4
-    size = sizeof(reserved4);
-    memcpy((void *) &reserved4, buffer, size);
+    size = reserved4.size();
+    memcpy(reserved4.data(), buffer, size);
     buffer += size;
 
     // pktData
@@ -161,8 +161,8 @@ char * MostEthernetPkt::write(char * buffer)
     buffer += size;
 
     // reserved1
-    size = sizeof(reserved1);
-    memcpy(buffer, (void *) &reserved1, size);
+    size = reserved1.size();
+    memcpy(buffer, reserved1.data(), size);
     buffer += size;
 
     // sourceMacAdr
@@ -221,8 +221,8 @@ char * MostEthernetPkt::write(char * buffer)
     buffer += size;
 
     // reserved4
-    size = sizeof(reserved4);
-    memcpy(buffer, (void *) &reserved4, size);
+    size = reserved4.size();
+    memcpy(buffer, reserved4.data(), size);
     buffer += size;
 
     // pktData
@@ -239,7 +239,7 @@ size_t MostEthernetPkt::calculateObjectSize()
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +
         sizeof(dir) +
-        sizeof(reserved1) +
+        reserved1.size() +
         sizeof(sourceMacAdr) +
         sizeof(destMacAdr) +
         sizeof(transferType) +
@@ -251,7 +251,7 @@ size_t MostEthernetPkt::calculateObjectSize()
         sizeof(cAck) +
         sizeof(reserved3) +
         sizeof(pktDataLength) +
-        sizeof(reserved4) +
+        reserved4.size() +
         pktDataLength;
 
     return size;

@@ -50,8 +50,8 @@ char * LinLongDomSignalEvent2::read(char * buffer)
     buffer += size;
 
     // reserved
-    size = sizeof(reserved);
-    memcpy((void *) &reserved, buffer, size);
+    size = reserved.size();
+    memcpy(reserved.data(), buffer, size);
     buffer += size;
 
     // length
@@ -76,8 +76,8 @@ char * LinLongDomSignalEvent2::write(char * buffer)
     buffer += size;
 
     // reserved
-    size = sizeof(reserved);
-    memcpy(buffer, (void *) &reserved, size);
+    size = reserved.size();
+    memcpy(buffer, reserved.data(), size);
     buffer += size;
 
     // length
@@ -94,7 +94,7 @@ size_t LinLongDomSignalEvent2::calculateObjectSize()
         ObjectHeader::calculateObjectSize() +
         LinBusEvent::calculateObjectSize() +
         sizeof(type) +
-        sizeof(reserved) +
+        reserved.size() +
         sizeof(length);
 
     return size;

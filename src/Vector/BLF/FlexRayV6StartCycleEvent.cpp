@@ -84,13 +84,13 @@ char * FlexRayV6StartCycleEvent::read(char * buffer)
     buffer += size;
 
     // dataBytes
-    size = sizeof(dataBytes);
-    memcpy((void *) &dataBytes, buffer, size);
+    size = dataBytes.size();
+    memcpy(dataBytes.data(), buffer, size);
     buffer += size;
 
     // reserved
-    size = sizeof(reserved);
-    memcpy((void *) &reserved, buffer, size);
+    size = reserved.size();
+    memcpy(reserved.data(), buffer, size);
     buffer += size;
 
     return buffer;
@@ -139,13 +139,13 @@ char * FlexRayV6StartCycleEvent::write(char * buffer)
     buffer += size;
 
     // dataBytes
-    size = sizeof(dataBytes);
-    memcpy(buffer, (void *) &dataBytes, size);
+    size = dataBytes.size();
+    memcpy(buffer, dataBytes.data(), size);
     buffer += size;
 
     // reserved
-    size = sizeof(reserved);
-    memcpy(buffer, (void *) &reserved, size);
+    size = reserved.size();
+    memcpy(buffer, reserved.data(), size);
     buffer += size;
 
     return buffer;
@@ -162,8 +162,8 @@ size_t FlexRayV6StartCycleEvent::calculateObjectSize()
         sizeof(fpgaTickOverflow) +
         sizeof(clientIndex) +
         sizeof(clusterTime) +
-        sizeof(dataBytes) +
-        sizeof(reserved);
+        dataBytes.size() +
+        reserved.size();
 
     return size;
 }

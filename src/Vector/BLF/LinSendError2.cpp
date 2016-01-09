@@ -76,8 +76,8 @@ char * LinSendError2::read(char * buffer)
     buffer += size;
 
     // reserved2
-    size = sizeof(reserved2);
-    memcpy((void *) &reserved2, buffer, size);
+    size = reserved2.size();
+    memcpy(reserved2.data(), buffer, size);
     buffer += size;
 
     // exactHeaderBaudrate
@@ -91,8 +91,8 @@ char * LinSendError2::read(char * buffer)
     buffer += size;
 
     // reserved3
-    size = sizeof(reserved3);
-    memcpy((void *) &reserved3, buffer, size);
+    size = reserved3.size();
+    memcpy(reserved3.data(), buffer, size);
     buffer += size;
 
     return buffer;
@@ -132,8 +132,8 @@ char * LinSendError2::write(char * buffer)
     buffer += size;
 
     // reserved2
-    size = sizeof(reserved2);
-    memcpy(buffer, (void *) &reserved2, size);
+    size = reserved2.size();
+    memcpy(buffer, reserved2.data(), size);
     buffer += size;
 
     // exactHeaderBaudrate
@@ -147,8 +147,8 @@ char * LinSendError2::write(char * buffer)
     buffer += size;
 
     // reserved3
-    size = sizeof(reserved3);
-    memcpy(buffer, (void *) &reserved3, size);
+    size = reserved3.size();
+    memcpy(buffer, reserved3.data(), size);
     buffer += size;
 
     return buffer;
@@ -164,10 +164,10 @@ size_t LinSendError2::calculateObjectSize()
         sizeof(fsmId) +
         sizeof(fsmState) +
         sizeof(reserved1) +
-        sizeof(reserved2) +
+        reserved2.size() +
         sizeof(exactHeaderBaudrate) +
         sizeof(earlyStopbitOffset) +
-        sizeof(reserved3);
+        reserved3.size();
 
     return size;
 }

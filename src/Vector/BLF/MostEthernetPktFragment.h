@@ -21,6 +21,7 @@
 
 #pragma once
 
+#include <array>
 #include <vector>
 
 #include "VectorTypes.h"
@@ -150,7 +151,7 @@ public:
     BYTE cAck;
 
     /** reserved */
-    BYTE reserved2[2];
+    WORD reserved2;
 
     /**
      * @brief Cyclic Redundancy Check
@@ -200,7 +201,7 @@ public:
     DWORD firstDataLen;
 
     /** reserved */
-    BYTE reserved3[4];
+    std::array<BYTE, 4> reserved3;
 
     /**
      * @brief variable data

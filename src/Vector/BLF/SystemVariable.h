@@ -21,6 +21,7 @@
 
 #pragma once
 
+#include <array>
 #include <string>
 #include <vector>
 
@@ -79,7 +80,7 @@ public:
     /**
      * Reserved, must be 0.
      */
-    DWORD reserved[3];
+    std::array<DWORD, 3> reserved1;
 
     /**
      * @brief length of variable name in bytes
@@ -98,7 +99,7 @@ public:
     DWORD dataLength;
 
     /** reserved */
-    DWORD unknown[2];
+    std::array<BYTE, 8> reserved2;
 
     /**
      * @brief variable name in MBCS

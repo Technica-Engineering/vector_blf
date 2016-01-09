@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <array>
+
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 #include "LinMessageDescriptor.h"
@@ -79,7 +81,7 @@ public:
     /* the following variables are only available in Version 2 and above */
 
     /** reserved */
-    BYTE reserved2[4];
+    std::array<BYTE, 4> reserved2;
 
     /* the following variables are only available in Version 3 and above */
 
@@ -100,7 +102,7 @@ public:
     DWORD earlyStopbitOffset;
 
     /** reserved */
-    BYTE reserved3[4];
+    std::array<BYTE, 4> reserved3;
 };
 
 }

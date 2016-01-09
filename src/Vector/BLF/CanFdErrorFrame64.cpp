@@ -143,8 +143,8 @@ char * CanFdErrorFrame64::read(char * buffer)
     buffer += size;
 
     // data
-    size = sizeof(data);
-    memcpy((void *) &data, buffer, size);
+    size = data.size();
+    memcpy(data.data(), buffer, size);
     buffer += size;
 
     return buffer;
@@ -243,8 +243,8 @@ char * CanFdErrorFrame64::write(char * buffer)
     buffer += size;
 
     // data
-    size = sizeof(data);
-    memcpy(buffer, (void *) &data, size);
+    size = data.size();
+    memcpy(buffer, data.data(), size);
     buffer += size;
 
     return buffer;
@@ -271,7 +271,7 @@ size_t CanFdErrorFrame64::calculateObjectSize()
         sizeof(crc) +
         sizeof(errorPosition) +
         sizeof(reserved2) +
-        sizeof(data);
+        data.size();
 
     return size;
 }

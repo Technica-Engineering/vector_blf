@@ -79,7 +79,7 @@ public:
     WORD channel;
 
     /** reserved */
-    BYTE reserved[2];
+    WORD reserved;
 };
 
 }

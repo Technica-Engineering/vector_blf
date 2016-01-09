@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <array>
+
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 #include "LinDatabyteTimestampEvent.h"
@@ -60,7 +62,7 @@ public:
     /**
      * @brief data bytes.
      */
-    BYTE data[8];
+    std::array<BYTE, 8> data;
 
     /**
      * Slave Identifier in the
@@ -181,7 +183,7 @@ public:
     DWORD respBaudrate;
 
     /** reserved */
-    BYTE reserved[4];
+    std::array<BYTE, 4> reserved;
 
     /* the following variables are only available in Version 3 and above */
 

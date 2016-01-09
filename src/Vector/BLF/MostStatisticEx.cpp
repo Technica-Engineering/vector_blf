@@ -65,8 +65,8 @@ char * MostStatisticEx::read(char * buffer)
     buffer += size;
 
     // reserved2
-    size = sizeof(reserved2);
-    memcpy((void *) &reserved2, buffer, size);
+    size = reserved2.size();
+    memcpy(reserved2.data(), buffer, size);
     buffer += size;
 
     return buffer;
@@ -100,8 +100,8 @@ char * MostStatisticEx::write(char * buffer)
     buffer += size;
 
     // reserved2
-    size = sizeof(reserved2);
-    memcpy(buffer, (void *) &reserved2, size);
+    size = reserved2.size();
+    memcpy(buffer, reserved2.data(), size);
     buffer += size;
 
     return buffer;
@@ -115,7 +115,7 @@ size_t MostStatisticEx::calculateObjectSize()
         sizeof(reserved1) +
         sizeof(codingErrors) +
         sizeof(frameCounter) +
-        sizeof(reserved2);
+        reserved2.size();
 
     return size;
 }

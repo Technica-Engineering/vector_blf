@@ -54,8 +54,8 @@ char * LinCrcError2::read(char * buffer)
     buffer = LinDatabyteTimestampEvent::read(buffer);
 
     // data
-    size = sizeof(data);
-    memcpy((void *) &data, buffer, size);
+    size = data.size();
+    memcpy(data.data(), buffer, size);
     buffer += size;
 
     // crc
@@ -84,8 +84,8 @@ char * LinCrcError2::read(char * buffer)
     buffer += size;
 
     // reserved1
-    size = sizeof(reserved1);
-    memcpy((void *) &reserved1, buffer, size);
+    size = reserved1.size();
+    memcpy(reserved1.data(), buffer, size);
     buffer += size;
 
     // respBaudrate
@@ -94,8 +94,8 @@ char * LinCrcError2::read(char * buffer)
     buffer += size;
 
     // reserved2
-    size = sizeof(reserved2);
-    memcpy((void *) &reserved2, buffer, size);
+    size = reserved2.size();
+    memcpy(reserved2.data(), buffer, size);
     buffer += size;
 
     // exactHeaderBaudrate
@@ -125,8 +125,8 @@ char * LinCrcError2::write(char * buffer)
     buffer = LinDatabyteTimestampEvent::write(buffer);
 
     // data
-    size = sizeof(data);
-    memcpy(buffer, (void *) &data, size);
+    size = data.size();
+    memcpy(buffer, data.data(), size);
     buffer += size;
 
     // crc
@@ -155,8 +155,8 @@ char * LinCrcError2::write(char * buffer)
     buffer += size;
 
     // reserved1
-    size = sizeof(reserved1);
-    memcpy(buffer, (void *) &reserved1, size);
+    size = reserved1.size();
+    memcpy(buffer, reserved1.data(), size);
     buffer += size;
 
     // respBaudrate
@@ -165,8 +165,8 @@ char * LinCrcError2::write(char * buffer)
     buffer += size;
 
     // reserved2
-    size = sizeof(reserved2);
-    memcpy(buffer, (void *) &reserved2, size);
+    size = reserved2.size();
+    memcpy(buffer, reserved2.data(), size);
     buffer += size;
 
     // exactHeaderBaudrate
@@ -192,15 +192,15 @@ size_t LinCrcError2::calculateObjectSize()
     size_t size =
         ObjectHeader::calculateObjectSize() +
         LinDatabyteTimestampEvent::calculateObjectSize() +
-        sizeof(data) +
+        data.size() +
         sizeof(crc) +
         sizeof(dir) +
         sizeof(fsmId) +
         sizeof(fsmState) +
         sizeof(simulated) +
-        sizeof(reserved1) +
+        reserved1.size() +
         sizeof(respBaudrate) +
-        sizeof(reserved2) +
+        reserved2.size() +
         sizeof(exactHeaderBaudrate) +
         sizeof(earlyStopbitOffset) +
         sizeof(earlyStopbitOffsetResponse);

@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <array>
+
 #include "VectorTypes.h"
 #include "ObjectHeader2.h"
 
@@ -53,7 +55,7 @@ public:
     WORD channel;
 
     /** reserved */
-    BYTE reserved1[2];
+    WORD reserved1;
 
     /**
      * Number of coding errors
@@ -66,7 +68,7 @@ public:
     DWORD frameCounter;
 
     /** reserved */
-    BYTE reserved2[4];
+    std::array<BYTE, 4> reserved2;
 };
 
 }

@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <array>
+
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 
@@ -68,7 +70,7 @@ public:
     WORD channel;
 
     /** reserved */
-    BYTE reserved[2];
+    std::array<BYTE, 2> reserved;
 };
 
 }

@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <array>
+
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 
@@ -85,7 +87,7 @@ public:
      *
      * CAN data bytes
      */
-    BYTE data[8];
+    std::array<BYTE, 8> data;
 };
 
 }

@@ -78,8 +78,8 @@ char * MostCtrl::read(char * buffer)
     buffer += size;
 
     // msg
-    size = sizeof(msg);
-    memcpy((void *) &msg, buffer, size);
+    size = msg.size();
+    memcpy(msg.data(), buffer, size);
     buffer += size;
 
     // reserved2
@@ -113,8 +113,8 @@ char * MostCtrl::read(char * buffer)
     buffer += size;
 
     // reserved4
-    size = sizeof(reserved4);
-    memcpy((void *) &reserved4, buffer, size);
+    size = reserved4.size();
+    memcpy(reserved4.data(), buffer, size);
     buffer += size;
 
     return buffer;
@@ -153,8 +153,8 @@ char * MostCtrl::write(char * buffer)
     buffer += size;
 
     // msg
-    size = sizeof(msg);
-    memcpy(buffer, (void *) &msg, size);
+    size = msg.size();
+    memcpy(buffer, msg.data(), size);
     buffer += size;
 
     // reserved2
@@ -188,8 +188,8 @@ char * MostCtrl::write(char * buffer)
     buffer += size;
 
     // reserved4
-    size = sizeof(reserved4);
-    memcpy(buffer, (void *) &reserved4, size);
+    size = reserved4.size();
+    memcpy(buffer, reserved4.data(), size);
     buffer += size;
 
     return buffer;
@@ -204,14 +204,14 @@ size_t MostCtrl::calculateObjectSize()
         sizeof(reserved1) +
         sizeof(sourceAdr) +
         sizeof(destAdr) +
-        sizeof(msg) +
+        msg.size() +
         sizeof(reserved2) +
         sizeof(rTyp) +
         sizeof(rTypAdr) +
         sizeof(state) +
         sizeof(reserved3) +
         sizeof(ackNack) +
-        sizeof(reserved4);
+        reserved4.size();
 
     return size;
 }

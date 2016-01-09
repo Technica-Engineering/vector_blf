@@ -149,8 +149,8 @@ char * FlexRayVFrReceiveMsg::read(char * buffer)
     buffer += size;
 
     // dataBytes
-    size = sizeof(dataBytes);
-    memcpy((void *) &dataBytes, buffer, size);
+    size = dataBytes.size();
+    memcpy(dataBytes.data(), buffer, size);
     buffer += size;
 
     return buffer;
@@ -254,8 +254,8 @@ char * FlexRayVFrReceiveMsg::write(char * buffer)
     buffer += size;
 
     // dataBytes
-    size = sizeof(dataBytes);
-    memcpy(buffer, (void *) &dataBytes, size);
+    size = dataBytes.size();
+    memcpy(buffer, dataBytes.data(), size);
     buffer += size;
 
     return buffer;
@@ -283,7 +283,7 @@ size_t FlexRayVFrReceiveMsg::calculateObjectSize()
         sizeof(data) +
         sizeof(frameFlags) +
         sizeof(appParameter) +
-        sizeof(dataBytes);
+        dataBytes.size();
 
     return size;
 }

@@ -126,8 +126,8 @@ char * MostPkt2::read(char * buffer)
     buffer += size;
 
     // reserved3
-    size = sizeof(reserved3);
-    memcpy((void *) &reserved3, buffer, size);
+    size = reserved3.size();
+    memcpy(reserved3.data(), buffer, size);
     buffer += size;
 
     // pktDataLength
@@ -136,8 +136,8 @@ char * MostPkt2::read(char * buffer)
     buffer += size;
 
     // reserved4
-    size = sizeof(reserved4);
-    memcpy((void *) &reserved4, buffer, size);
+    size = reserved4.size();
+    memcpy(reserved4.data(), buffer, size);
     buffer += size;
 
     // pktData
@@ -222,8 +222,8 @@ char * MostPkt2::write(char * buffer)
     buffer += size;
 
     // reserved3
-    size = sizeof(reserved3);
-    memcpy(buffer, (void *) &reserved3, size);
+    size = reserved3.size();
+    memcpy(buffer, reserved3.data(), size);
     buffer += size;
 
     // pktDataLength
@@ -232,8 +232,8 @@ char * MostPkt2::write(char * buffer)
     buffer += size;
 
     // reserved4
-    size = sizeof(reserved4);
-    memcpy(buffer, (void *) &reserved4, size);
+    size = reserved4.size();
+    memcpy(buffer, reserved4.data(), size);
     buffer += size;
 
     // pktData
@@ -261,9 +261,9 @@ size_t MostPkt2::calculateObjectSize()
         sizeof(priority) +
         sizeof(transferType) +
         sizeof(state) +
-        sizeof(reserved3) +
+        reserved3.size() +
         sizeof(pktDataLength) +
-        sizeof(reserved4) +
+        reserved4.size() +
         pktDataLength;
 
     return size;

@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <array>
+
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
 
@@ -74,7 +76,7 @@ public:
     WORD infoMask3;
 
     /** reserved */
-    BYTE reserved[32];
+    std::array<WORD, 16> reserved;
 };
 
 }
