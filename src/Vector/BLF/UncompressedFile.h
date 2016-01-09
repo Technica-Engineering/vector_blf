@@ -71,9 +71,17 @@ public:
     /**
      * set position in input sequence
      *
-     * @param pos new position
+     * @param pos new absolute position
      */
     void seekg(std::streampos pos);
+
+    /**
+     * set position in input sequence
+     *
+     * @param off offset value
+     * @param way beg/cur/end
+     */
+    void seekg(std::streamoff off, std::ios_base::seekdir way);
 
 private:
     /** tellp */
