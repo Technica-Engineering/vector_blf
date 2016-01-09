@@ -29,8 +29,12 @@ namespace BLF {
 
 static void hexDump(char * data, size_t size)
 {
-    std::cerr << "hexdump size: 0x" << size << std::endl;
+    if (size > 0x20000)
+        size = 0x20000;
+    bool endedOnEndl = false;
+    // std::cerr << "hexdump size: 0x" << std::hex << size << std::endl;
     for (size_t n = 0; n < size; ++n) {
+        endedOnEndl = false;
         unsigned short value = (unsigned char) *data;
         if (value < 0x10)
             std::cerr << "0";
@@ -38,13 +42,25 @@ static void hexDump(char * data, size_t size)
         data++;
         if (n % 4 == 3)
             std::cerr << " ";
-        if (n % 16 == 15)
+        if ((n % 16 == 15)) {
+            endedOnEndl = true;
             std::cerr << std::endl;
+        }
     }
-    std::cerr << std::endl;
+    if (!endedOnEndl)
+        std::cerr << std::endl;
 }
 
-#define roundUp(x, y) (((x % y) > 0) ? (y - (x % y)) : 0)
+static void hexDump(ObjectHeaderBase * ohb)
+{
+    std::stringstream ss;
+    ohb->write(ss);
+
+    char * buffer = new char[ohb->objectSize];
+    ss.read(buffer, ohb->objectSize);
+
+    hexDump(buffer, ohb->objectSize);
+}
 
 File::File() :
     openMode(OpenMode::Read),
@@ -515,147 +531,77 @@ bool File::eof()
 
 ObjectHeaderBase * File::readObjectFromCompressedFile()
 {
-    /* read object header base */
-    char * ohbBuffer = new char[0x10];
-    if (ohbBuffer == nullptr) {
-        std::cerr << "out of memory" << std::endl;
-        return nullptr;
-    }
-    compressedFile.read(ohbBuffer, 0x10);
-    if (!compressedFile) {
-        std::cerr << "compressed data exhausted!" << std::endl;
-        delete[] ohbBuffer;
-        return nullptr;
-    }
+    /* identify type */
     ObjectHeaderBase ohb;
-    ohb.read(ohbBuffer);
-
-    /* read full object */
-    char * objBuffer = nullptr;
-    if ((ohb.objectSize - 0x10) > 0) {
-        objBuffer = new char[ohb.objectSize];
-        if (objBuffer == nullptr) {
-            std::cerr << "out of memory" << std::endl;
-            delete[] ohbBuffer;
-            return nullptr;
-        }
-
-        /* copy object header base */
-        memcpy(objBuffer, ohbBuffer, 0x10);
-        delete[] ohbBuffer;
-
-        /* read rest of object */
-        compressedFile.read(objBuffer + 0x10, ohb.objectSize - 0x10);
-        if (!compressedFile) {
-            std::cerr << "compressed data exhausted!" << std::endl;
-            delete[] objBuffer;
-            return nullptr;
-        }
-    }
+    ohb.read(compressedFile);
+    compressedFile.seekg(-ohb.calculateHeaderSize(), std::ios_base::cur);
 
     /* create object */
     ObjectHeaderBase * obj = createObject(ohb.objectType);
     if (obj == nullptr) {
         std::cerr << "createObject returned nullptr" << std::endl;
-        if (objBuffer != nullptr)
-            delete[] objBuffer;
         return nullptr;
     }
 
-    /* read object data or skip */
-    char * ptr = obj->read(objBuffer);
-
-    /* handle if there is size remaining */
-    int remainingSize = obj->objectSize - (ptr - objBuffer);
-    if (remainingSize != 0) {
-        std::cerr << "objectSize: 0x" << std::hex << (unsigned short) ohb.objectSize << std::endl;
-        std::cerr << "objectType: " << std::dec << (unsigned short) ohb.objectType << std::endl;
-        std::cerr << "remainingSize: " << remainingSize << std::endl;
-        hexDump(objBuffer, ohb.objectSize);
-    }
-
-    /* delete buffers */
-    if (objBuffer != nullptr)
-        delete[] objBuffer;
+    /* read object */
+    obj->read(compressedFile);
 
     /* skip padding */
-    compressedFile.seekg(roundUp(ohb.objectSize, 4), std::iostream::cur);
+    compressedFile.seekg(ohb.objectSize % 4, std::iostream::cur);
 
     return obj;
 }
 
 ObjectHeaderBase * File::readObjectFromUncompressedFile()
 {
-    /* read object header base */
+    /* first read some more compressed data and inflate it */
+    while ((uncompressedFile.tellp() - uncompressedFile.tellg()) < 0x10)
+        inflate();
+
+    /* identify type */
     ObjectHeaderBase ohb;
-    char * ohbBuffer = nullptr;
-    if (readFromUncompressedFile(&ohbBuffer, 0x10) == 0)
-        return nullptr;
-    ohb.read(ohbBuffer);
+    ohb.read(uncompressedFile);
+    uncompressedFile.seekg(-ohb.calculateHeaderSize(), std::ios_base::cur);
 
-    /* read full object */
-    char * objBuffer = nullptr;
-    if ((ohb.objectSize - 0x10) > 0) {
-        objBuffer = new char[ohb.objectSize];
-        if (objBuffer == nullptr) {
-            std::cerr << "out of memory" << std::endl;
-            delete[] ohbBuffer;
-            return nullptr;
-        }
-
-        /* copy object header base */
-        memcpy(objBuffer, ohbBuffer, 0x10);
-        delete[] ohbBuffer;
-
-        /* read rest of object */
-        char * objBuffer2 = nullptr;
-        if (readFromUncompressedFile(&objBuffer2, ohb.objectSize - 0x10) == 0) {
-            std::cerr << "readFromUncompressedFile returned nullptr" << std::endl;
-        } else {
-            memcpy(objBuffer + 0x10, objBuffer2, ohb.objectSize - 0x10);
-            delete[] objBuffer2;
-        }
-    }
+    /* ensure sufficient date is available */
+    while ((uncompressedFile.tellp() - uncompressedFile.tellg()) < ohb.objectSize)
+        inflate();
 
     /* create object */
     ObjectHeaderBase * obj = createObject(ohb.objectType);
     if (obj == nullptr) {
-        std::cerr << "createObject returned nullptr" << std::endl;
-        if (objBuffer != nullptr)
-            delete[] objBuffer;
+        std::cerr << "createObject(" << std::dec << (uint16_t) ohb.objectType << ") returned nullptr" << std::endl;
         return nullptr;
     }
 
-    /* read object data or skip */
-    char * ptr = obj->read(objBuffer);
-
-    /* handle if there is size remaining */
-    int remainingSize = obj->objectSize - (ptr - objBuffer);
-    if (remainingSize != 0) {
-        std::cerr << "objectSize: 0x" << std::hex << (unsigned short) ohb.objectSize << std::endl;
-        std::cerr << "objectType: " << std::dec << (unsigned short) ohb.objectType << std::endl;
-        std::cerr << "remainingSize: " << remainingSize << std::endl;
-        hexDump(objBuffer, ohb.objectSize);
-    }
-
-    /* delete buffers */
-    if (objBuffer != nullptr)
-        delete[] objBuffer;
+    /* read object */
+    obj->read(uncompressedFile);
 
     /* skip padding */
-    uncompressedFile.seekg(uncompressedFile.tellg() + roundUp(ohb.objectSize, 4));
+    uncompressedFile.seekg(ohb.objectSize % 4, std::iostream::cur);
 
     currentObjectCount++;
     return obj;
 }
 
-void File::inflateLogContainer(LogContainer * logContainer)
+void File::inflate()
 {
-    /* safety check */
-    if (logContainer == nullptr) {
-        std::cerr << "inflateLogContainer called with no logContainer" << std::endl;
+    /* read LogContainer */
+    ObjectHeaderBase * obj = readObjectFromCompressedFile();
+    if (obj == nullptr) {
+        std::cerr << "readObjectFromCompressedFile returned nullptr" << std::endl;
         return;
     }
+    if (obj->objectType != ObjectType::LOG_CONTAINER) {
+        std::cerr << "unexpected object in compressed file" << std::endl;
+        return;
+    }
+    LogContainer * logContainer = reinterpret_cast<LogContainer *>(obj);
+
+    /* statistics */
+    currentUncompressedFileSize +=
+            logContainer->internalHeaderSize() +
+            logContainer->uncompressedFileSize;
 
     /* create buffer */
     size_t bufferSize = logContainer->uncompressedFileSize;
@@ -671,91 +617,41 @@ void File::inflateLogContainer(LogContainer * logContainer)
                reinterpret_cast<Bytef *>(logContainer->compressedFile.data()),
                logContainer->compressedFileSize);
 
-    /* copy into stringstream */
+    /* copy into uncompressedFile */
     uncompressedFile.write(buffer, bufferSize);
 
     /* delete buffer */
     delete[] buffer;
 }
 
-size_t File::readFromUncompressedFile(char ** buffer, size_t size)
-{
-    /* safety check */
-    if (buffer == nullptr) {
-        std::cerr << "readFromUncompressedFile with nullptr argument" << std::endl;
-        return 0;
-    }
-
-    /* first read some more compressed data and inflate it */
-    while ((uncompressedFile.tellp() - uncompressedFile.tellg()) < size) {
-        ObjectHeaderBase * obj = readObjectFromCompressedFile();
-        if (obj == nullptr) {
-            std::cerr << "readObjectFromCompressedFile returned nullptr" << std::endl;
-            return 0;
-        }
-        if (obj->objectType == ObjectType::LOG_CONTAINER) {
-            LogContainer * logContainer = reinterpret_cast<LogContainer *>(obj);
-            currentUncompressedFileSize +=
-                    logContainer->internalHeaderSize() +
-                    logContainer->uncompressedFileSize;
-
-            /* inflate the log container */
-            inflateLogContainer(logContainer);
-            delete logContainer;
-        } else {
-            std::cerr << "unexpected object in compressed file" << std::endl;
-            return 0;
-        }
-    }
-
-    /* read back */
-    *buffer = new char[size];
-    if (*buffer == nullptr) {
-        std::cerr << "out of memory" << std::endl;
-        return 0;
-    }
-    uncompressedFile.read(*buffer, size);
-    if (uncompressedFile.gcount() < size) {
-        std::cerr << "uncompressed data exhausted I: 0x" << std::hex << uncompressedFile.gcount() << " < 0x" << size << std::endl;
-        delete[] *buffer;
-        *buffer = nullptr;
-        return 0;
-    }
-    return uncompressedFile.gcount();
-}
-
 ObjectHeaderBase * File::read()
 {
-    if (openMode == OpenMode::Write)
-        return nullptr;
-
     return readObjectFromUncompressedFile();
 }
 
-void File::deflateLogContainerAndWrite()
+void File::deflate()
 {
     /* write uncompressedFile into buffer */
     size_t bufferSizeIn = defaultLogContainerSize;
     if ((uncompressedFile.tellp() - uncompressedFile.tellg()) < bufferSizeIn)
         bufferSizeIn = uncompressedFile.tellp() - uncompressedFile.tellg();
-    size_t bufferSizeInRoundedUp = bufferSizeIn + roundUp(bufferSizeIn, 4);
-    char * bufferIn = new char[bufferSizeInRoundedUp];
-    memset(bufferIn, 0, bufferSizeInRoundedUp);
+    char * bufferIn = new char[bufferSizeIn];
+    memset(bufferIn, 0, bufferSizeIn);
     uncompressedFile.read(bufferIn, bufferSizeIn);
 
     /* deflate */
-    size_t bufferSizeOut = bufferSizeIn + 10; // ... to be sure
+    size_t bufferSizeOut = compressBound(bufferSizeIn);
     char * bufferOut = new char[bufferSizeOut];
     memset(bufferOut, 0, bufferSizeOut);
     compress(reinterpret_cast<Bytef *>(bufferOut),
              reinterpret_cast<uLongf *>(&bufferSizeOut),
              reinterpret_cast<Bytef *>(bufferIn),
-             reinterpret_cast<uLong>(bufferSizeInRoundedUp));
+             reinterpret_cast<uLong>(bufferSizeIn));
     delete[] bufferIn;
 
     /* setup new log container */
     LogContainer logContainer;
-    logContainer.uncompressedFileSize = bufferSizeInRoundedUp;
+    logContainer.uncompressedFileSize = bufferSizeIn;
     logContainer.compressedFile.reserve(bufferSizeOut);
     memcpy(logContainer.compressedFile.data(), bufferOut, bufferSizeOut);
     logContainer.compressedFileSize = bufferSizeOut;
@@ -769,47 +665,44 @@ void File::deflateLogContainerAndWrite()
     /* write log container */
     char * buffer = new char[logContainer.objectSize];
     memset(buffer, 0, logContainer.objectSize);
-    logContainer.write(buffer);
-    compressedFile.write(buffer, logContainer.objectSize);
+    logContainer.write(compressedFile);
 
     /* skip padding */
     memset(buffer, 0, 4);
-    compressedFile.write(buffer, 3); // @todo how to calculate this 3?
+    compressedFile.write(buffer, logContainer.objectSize % 4);
 
     /* delete buffers */
     delete[] buffer;
     // bufferOut is deleted with ~logContainer
 }
 
-bool File::write(ObjectHeaderBase * objectHeaderBase)
+void File::write(ObjectHeaderBase * objectHeaderBase)
 {
-    if (openMode == OpenMode::Read)
-        return false;
+    /* setup a skip buffer */
+    char buffer[4];
+    memset(buffer, 0, sizeof(buffer));
 
-    /* fill in some information automatically */
-    objectHeaderBase->objectSize = objectHeaderBase->calculateObjectSize();
-    char * buffer = new char[objectHeaderBase->objectSize];
-    memset(buffer, 0, objectHeaderBase->objectSize);
-    objectHeaderBase->write(buffer);
-
+    /* compressionLevel 0 doesn't use LogContainers */
     if (compressionLevel == 0) {
-        /* no need to use LogContainers. copy data directly into compressedFile */
-        compressedFile.write(buffer, objectHeaderBase->objectSize);
-        delete[] buffer;
+        /* write into compressedFile */
+        objectHeaderBase->write(compressedFile);
+
+        /* skip padding */
+        compressedFile.write(buffer, objectHeaderBase->objectSize % 4);
     } else {
-        /* copy data into uncompressedFile */
-        uncompressedFile.write(buffer, objectHeaderBase->objectSize);
-        delete[] buffer;
+        /* write into uncompressedFile */
+        objectHeaderBase->write(uncompressedFile);
+
+        /* skip padding */
+        uncompressedFile.write(buffer, objectHeaderBase->objectSize % 4);
 
         /* if data exceeds defined logContainerSize, compress and write it into compressedFile */
         if ((uncompressedFile.tellp() - uncompressedFile.tellg()) >= defaultLogContainerSize)
-            deflateLogContainerAndWrite();
+            deflate();
     }
 
     /* statistics */
     currentObjectCount++;
-
-    return true;
 }
 
 void File::close()
@@ -817,7 +710,7 @@ void File::close()
     if (openMode == OpenMode::Write) {
         /* if data left, compress and write it */
         if (uncompressedFile.tellp() > uncompressedFile.tellg())
-            deflateLogContainerAndWrite();
+            deflate();
 
         /* write statistics */
         fileStatistics.fileSize = ((ULONGLONG) compressedFile.tellp());

@@ -23,7 +23,7 @@
 
 #include <fstream>
 
-#undef USE_STRINGSTREAM_FOR_UNCOMPRESSEDFILE
+#define USE_STRINGSTREAM_FOR_UNCOMPRESSEDFILE
 #ifdef USE_STRINGSTREAM_FOR_UNCOMPRESSEDFILE
 #include <sstream>
 #endif
@@ -226,9 +226,8 @@ public:
      * write object to file
      *
      * @param objectHeaderBase write object
-     * @return true if successful, false otherwise
      */
-    bool write(ObjectHeaderBase * objectHeaderBase);
+    void write(ObjectHeaderBase * objectHeaderBase);
 
     /** close file */
     void close();
@@ -267,25 +266,14 @@ private:
     ObjectHeaderBase * readObjectFromUncompressedFile();
 
     /**
-     * read data from uncompressed file
-     *
-     * @param buffer manipulates pointer to buffer
-     * @param size bytes to read
-     * @return actual bytes read
+     * inflate/uncompress date from compressed file into uncompressed file
      */
-    size_t readFromUncompressedFile(char ** buffer, size_t size);
+    void inflate();
 
     /**
-     * inflate date from compressed file into uncompressed file
-     *
-     * @param logContainer
+     * deflate/compress data from uncompressed file into compressed file
      */
-    void inflateLogContainer(LogContainer * logContainer);
-
-    /**
-     * compress data from compressed file buffer and write it with a log container into the uncompressed file
-     */
-    void deflateLogContainerAndWrite();
+    void deflate();
 };
 
 }
