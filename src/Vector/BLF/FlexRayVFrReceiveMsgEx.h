@@ -302,7 +302,7 @@ public:
     WORD blfLogMask;
 
     /** reserved */
-    std::array<DWORD, 6> reserved;
+    std::array<BYTE, 26> reserved;
 
     /**
      * @brief array of databytes

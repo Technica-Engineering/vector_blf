@@ -168,7 +168,7 @@ char * FlexRayVFrReceiveMsgEx::read(char * buffer)
     buffer += size;
 
     // reserved
-    size = reserved.size() * sizeof(DWORD);
+    size = reserved.size();
     memcpy(reserved.data(), buffer, size);
     buffer += size;
 
@@ -294,7 +294,7 @@ char * FlexRayVFrReceiveMsgEx::write(char * buffer)
     buffer += size;
 
     // reserved
-    size = reserved.size() * sizeof(DWORD);
+    size = reserved.size();
     memcpy(buffer, reserved.data(), size);
     buffer += size;
 
@@ -331,7 +331,7 @@ size_t FlexRayVFrReceiveMsgEx::calculateObjectSize()
         sizeof(frameId1) +
         sizeof(pduOffset) +
         sizeof(blfLogMask) +
-        reserved.size() * sizeof(DWORD) +
+        reserved.size() +
         dataCount;
 
     return size;
