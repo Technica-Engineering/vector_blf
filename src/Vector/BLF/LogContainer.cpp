@@ -28,7 +28,7 @@ namespace BLF {
 
 LogContainer::LogContainer() :
     ObjectHeaderBase(),
-    objectFlags(),
+    objectFlags(ObjectHeader::ObjectFlags::TimeOneNans),
     reserved(),
     objectVersion(),
     uncompressedFileSize(),
@@ -37,7 +37,6 @@ LogContainer::LogContainer() :
 {
     headerVersion = 1;
     objectType = ObjectType::LOG_CONTAINER;
-    objectFlags = ObjectHeader::ObjectFlags::TimeOneNans;
 }
 
 LogContainer::~LogContainer()
