@@ -607,6 +607,7 @@ void File::inflate()
     size_t bufferSize = logContainer->uncompressedFileSize;
     char * buffer = new char[bufferSize];
     if (buffer == nullptr) {
+        delete logContainer;
         std::cerr << "out of memory" << std::endl;
         return;
     }
@@ -621,6 +622,7 @@ void File::inflate()
     uncompressedFile.write(buffer, bufferSize);
 
     /* delete buffer */
+    delete logContainer;
     delete[] buffer;
 }
 
@@ -636,13 +638,20 @@ void File::deflate()
     if ((uncompressedFile.tellp() - uncompressedFile.tellg()) < bufferSizeIn)
         bufferSizeIn = uncompressedFile.tellp() - uncompressedFile.tellg();
     char * bufferIn = new char[bufferSizeIn];
-    memset(bufferIn, 0, bufferSizeIn);
+    if (bufferIn == nullptr) {
+        std::cerr << "out of memory" << std::endl;
+        return;
+    }
     uncompressedFile.read(bufferIn, bufferSizeIn);
 
     /* deflate */
     size_t bufferSizeOut = compressBound(bufferSizeIn);
     char * bufferOut = new char[bufferSizeOut];
-    memset(bufferOut, 0, bufferSizeOut);
+    if (bufferOut == nullptr) {
+        delete[] bufferIn;
+        std::cerr << "out of memory" << std::endl;
+        return;
+    }
     compress(reinterpret_cast<Bytef *>(bufferOut),
              reinterpret_cast<uLongf *>(&bufferSizeOut),
              reinterpret_cast<Bytef *>(bufferIn),
@@ -656,6 +665,7 @@ void File::deflate()
     memcpy(logContainer.compressedFile.data(), bufferOut, bufferSizeOut);
     logContainer.compressedFileSize = bufferSizeOut;
     logContainer.objectSize = logContainer.calculateObjectSize();
+    delete[] bufferOut;
 
     /* statistics */
     currentUncompressedFileSize +=
@@ -663,37 +673,29 @@ void File::deflate()
             logContainer.uncompressedFileSize;
 
     /* write log container */
-    char * buffer = new char[logContainer.objectSize];
-    memset(buffer, 0, logContainer.objectSize);
     logContainer.write(compressedFile);
 
     /* skip padding */
-    memset(buffer, 0, 4);
+    char buffer[] = {0,0,0,0};
     compressedFile.write(buffer, logContainer.objectSize % 4);
-
-    /* delete buffers */
-    delete[] buffer;
-    // bufferOut is deleted with ~logContainer
 }
 
 void File::write(ObjectHeaderBase * objectHeaderBase)
 {
-    /* setup a skip buffer */
-    char buffer[4];
-    memset(buffer, 0, sizeof(buffer));
-
     /* compressionLevel 0 doesn't use LogContainers */
     if (compressionLevel == 0) {
         /* write into compressedFile */
         objectHeaderBase->write(compressedFile);
 
         /* skip padding */
+        char buffer[] = {0,0,0,0};
         compressedFile.write(buffer, objectHeaderBase->objectSize % 4);
     } else {
         /* write into uncompressedFile */
         objectHeaderBase->write(uncompressedFile);
 
         /* skip padding */
+        char buffer[] = {0,0,0,0};
         uncompressedFile.write(buffer, objectHeaderBase->objectSize % 4);
 
         /* if data exceeds defined logContainerSize, compress and write it into compressedFile */
