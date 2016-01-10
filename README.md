@@ -68,7 +68,6 @@ The following files are products of installation and building:
 
 # Wanted features
 
-* Parsing of SerialEvent union incomplete, see @todo
 * Reserved fields might contain useful data.
 * add example
 

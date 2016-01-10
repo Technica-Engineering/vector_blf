@@ -24,19 +24,40 @@
 namespace Vector {
 namespace BLF {
 
+SerialEvent::GeneralSerialEvent::GeneralSerialEvent() :
+    dataLength(),
+    timeStampsLength(),
+    data(),
+    timeStamps()
+{
+}
+
+SerialEvent::SingleByteSerialEvent::SingleByteSerialEvent() :
+    byte()
+{
+}
+
+SerialEvent::CompactSerialEvent::CompactSerialEvent() :
+    compactLength(),
+    compactData()
+{
+}
+
 SerialEvent::SerialEvent() :
     ObjectHeader(),
     flags(),
     port(),
     baudrate(),
-    reserved()
+    reserved(),
+    general(),
+    singleByte(),
+    compact()
 {
     objectType = ObjectType::SERIAL_EVENT;
 }
 
 SerialEvent::~SerialEvent()
 {
-    // @todo free memory of GeneralSerialEvent
 }
 
 void SerialEvent::read(std::istream & is)
@@ -48,18 +69,18 @@ void SerialEvent::read(std::istream & is)
     is.read((char *) &reserved, sizeof(reserved));
 
     if ((flags & ((DWORD) Flags::SingleByte)) != 0) {
-        is.read((char *) &data.singleByte.byte, sizeof(data.singleByte.byte));
+        is.read((char *) &singleByte.byte, sizeof(singleByte.byte));
     } else {
         if ((flags & ((DWORD) Flags::CompactByte)) != 0) {
-            is.read((char *) &data.compact.compactLength, sizeof(data.compact.compactLength));
-            is.read((char *) &data.compact.compactData, sizeof(data.compact.compactData));
+            is.read((char *) &compact.compactLength, sizeof(compact.compactLength));
+            is.read((char *) &compact.compactData, sizeof(compact.compactData));
         } else {
-            is.read((char *) &data.general.dataLength, sizeof(data.general.dataLength));
-            is.read((char *) &data.general.timeStampsLength, sizeof(data.general.timeStampsLength));
-            data.general.data = new char[data.general.dataLength];
-            is.read((char *) &data.general.data, data.general.dataLength);
-            data.general.timeStamps = (LONGLONG *) new char[data.general.timeStampsLength];
-            is.read((char *) &data.general.timeStamps, data.general.timeStampsLength);
+            is.read((char *) &general.dataLength, sizeof(general.dataLength));
+            is.read((char *) &general.timeStampsLength, sizeof(general.timeStampsLength));
+            general.data.reserve(general.dataLength);
+            is.read((char *) general.data.data(), general.dataLength);
+            general.timeStamps.reserve(general.timeStampsLength);
+            is.read((char *) general.timeStamps.data(), general.timeStampsLength);
         }
     }
 }
@@ -73,16 +94,16 @@ void SerialEvent::write(std::ostream & os)
     os.write((char *) &reserved, sizeof(reserved));
 
     if ((flags & ((DWORD) Flags::SingleByte)) != 0) {
-        os.write((char *) &data.singleByte.byte, sizeof(data.singleByte.byte));
+        os.write((char *) &singleByte.byte, sizeof(singleByte.byte));
     } else {
         if ((flags & ((DWORD) Flags::CompactByte)) != 0) {
-            os.write((char *) &data.compact.compactLength, sizeof(data.compact.compactLength));
-            os.write((char *) &data.compact.compactData, sizeof(data.compact.compactData));
+            os.write((char *) &compact.compactLength, sizeof(compact.compactLength));
+            os.write((char *) &compact.compactData, sizeof(compact.compactData));
         } else {
-            os.write((char *) &data.general.dataLength, sizeof(data.general.dataLength));
-            os.write((char *) &data.general.timeStampsLength, sizeof(data.general.timeStampsLength));
-            os.write((char *) &data.general.data, data.general.dataLength);
-            os.write((char *) &data.general.timeStamps, data.general.timeStampsLength);
+            os.write((char *) &general.dataLength, sizeof(general.dataLength));
+            os.write((char *) &general.timeStampsLength, sizeof(general.timeStampsLength));
+            os.write((char *) general.data.data(), general.dataLength);
+            os.write((char *) general.timeStamps.data(), general.timeStampsLength);
         }
     }
 }
@@ -97,14 +118,14 @@ size_t SerialEvent::calculateObjectSize()
         sizeof(reserved);
 
     if ((flags & ((DWORD) Flags::SingleByte)) != 0)
-        size += sizeof(data.singleByte);
+        size += sizeof(singleByte);
     else if ((flags & ((DWORD) Flags::CompactByte)) != 0)
-        size += sizeof(data.compact);
+        size += sizeof(compact);
     else
-        size += sizeof(data.general.dataLength) +
-                sizeof(data.general.timeStampsLength) +
-                data.general.dataLength +
-                data.general.timeStampsLength;
+        size += sizeof(general.dataLength) +
+                sizeof(general.timeStampsLength) +
+                general.dataLength +
+                general.timeStampsLength;
 
     return size;
 }

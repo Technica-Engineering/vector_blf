@@ -21,7 +21,8 @@
 
 #pragma once
 
-#include <iostream>
+#include <array>
+#include <vector>
 
 #include "VectorTypes.h"
 #include "ObjectHeader.h"
@@ -93,58 +94,60 @@ public:
     /** reserved */
     DWORD reserved;
 
-    /** data union */
-    union Data
+    /** general serial event */
+    struct GeneralSerialEvent
     {
-        /** general serial event */
-        struct GeneralSerialEvent
-        {
-            /**
-             * @brief length of variable data in bytes
-             *
-             * length of variable data in bytes
-             */
-            DWORD dataLength;
+        GeneralSerialEvent();
 
-            /**
-             * @brief length of variable timestamps in bytes
-             *
-             * length of variable timestamps in bytes
-             */
-            DWORD timeStampsLength;
+        /**
+         * @brief length of variable data in bytes
+         *
+         * length of variable data in bytes
+         */
+        DWORD dataLength;
 
-            /**
-             * @brief variable data
-             *
-             * variable data
-             */
-            char * data;
+        /**
+         * @brief length of variable timestamps in bytes
+         *
+         * length of variable timestamps in bytes
+         */
+        DWORD timeStampsLength;
 
-            /**
-             * @brief variable timestamps (optional)
-             *
-             * variable timestamps (optional)
-             */
-            LONGLONG * timeStamps;
-        } general;
+        /**
+         * @brief variable data
+         *
+         * variable data
+         */
+        std::vector<BYTE> data;
 
-        /** single byte serial event */
-        struct SingleByteSerialEvent
-        {
-            /** single byte */
-            BYTE byte;
-        } singleByte;
+        /**
+         * @brief variable timestamps (optional)
+         *
+         * variable timestamps (optional)
+         */
+        std::vector<LONGLONG> timeStamps;
+    } general;
 
-        /** compact serial event */
-        struct CompactSerialEvent
-        {
-            /** compact length */
-            BYTE compactLength;
+    /** single byte serial event */
+    struct SingleByteSerialEvent
+    {
+        SingleByteSerialEvent();
 
-            /** compact data */
-            BYTE compactData[15];
-        } compact;
-    } data;
+        /** single byte */
+        BYTE byte;
+    } singleByte;
+
+    /** compact serial event */
+    struct CompactSerialEvent
+    {
+        CompactSerialEvent();
+
+        /** compact length */
+        BYTE compactLength;
+
+        /** compact data */
+        std::array<BYTE, 15> compactData;
+    } compact;
 };
 
 }
