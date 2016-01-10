@@ -856,7 +856,7 @@ BOOST_AUTO_TEST_CASE(MostPkt2)
     /* ObjectHeaderBase */
     BOOST_CHECK(mostPkt2->signature == Vector::BLF::ObjectSignature);
     BOOST_CHECK(mostPkt2->headerSize == mostPkt2->calculateHeaderSize());
-    BOOST_CHECK(mostPkt2->headerVersion == 1); // @todo Vector bug: This should be 2 for ObjectHeader2
+    BOOST_CHECK(mostPkt2->headerVersion == 1); // Vector bug: This should be 2 for ObjectHeader2
     BOOST_CHECK(mostPkt2->objectSize == mostPkt2->calculateObjectSize());
     BOOST_CHECK(mostPkt2->objectType == Vector::BLF::ObjectType::MOST_PKT2);
     /* ObjectHeader2 */
@@ -916,7 +916,7 @@ BOOST_AUTO_TEST_CASE(MostHwMode)
     /* ObjectHeaderBase */
     BOOST_CHECK(mostHwMode->signature == Vector::BLF::ObjectSignature);
     BOOST_CHECK(mostHwMode->headerSize == mostHwMode->calculateHeaderSize());
-    BOOST_CHECK(mostHwMode->headerVersion == 1); // @todo Vector bug: This should be 2 for ObjectHeader2
+    BOOST_CHECK(mostHwMode->headerVersion == 1); // Vector bug: This should be 2 for ObjectHeader2
     BOOST_CHECK(mostHwMode->objectSize == mostHwMode->calculateObjectSize());
     BOOST_CHECK(mostHwMode->objectType == Vector::BLF::ObjectType::MOST_HWMODE);
     /* ObjectHeader2 */
@@ -954,7 +954,7 @@ BOOST_AUTO_TEST_CASE(MostReg)
     /* ObjectHeaderBase */
     BOOST_CHECK(mostReg->signature == Vector::BLF::ObjectSignature);
     BOOST_CHECK(mostReg->headerSize == mostReg->calculateHeaderSize());
-    BOOST_CHECK(mostReg->headerVersion == 1); // @todo Vector bug: This should be 2 for ObjectHeader2
+    BOOST_CHECK(mostReg->headerVersion == 1); // Vector bug: This should be 2 for ObjectHeader2
     BOOST_CHECK(mostReg->objectSize == mostReg->calculateObjectSize());
     BOOST_CHECK(mostReg->objectType == Vector::BLF::ObjectType::MOST_REG);
     /* ObjectHeader2 */
@@ -1011,7 +1011,7 @@ BOOST_AUTO_TEST_CASE(MostGenReg)
     /* ObjectHeaderBase */
     BOOST_CHECK(mostGenReg->signature == Vector::BLF::ObjectSignature);
     BOOST_CHECK(mostGenReg->headerSize == mostGenReg->calculateHeaderSize());
-    BOOST_CHECK(mostGenReg->headerVersion == 1); // @todo Vector bug: This should be 2 for ObjectHeader2
+    BOOST_CHECK(mostGenReg->headerVersion == 1); // Vector bug: This should be 2 for ObjectHeader2
     BOOST_CHECK(mostGenReg->objectSize == mostGenReg->calculateObjectSize());
     BOOST_CHECK(mostGenReg->objectType == Vector::BLF::ObjectType::MOST_GENREG);
     /* ObjectHeader2 */
@@ -1052,7 +1052,7 @@ BOOST_AUTO_TEST_CASE(MostNetState)
     /* ObjectHeaderBase */
     BOOST_CHECK(mostNetState->signature == Vector::BLF::ObjectSignature);
     BOOST_CHECK(mostNetState->headerSize == mostNetState->calculateHeaderSize());
-    BOOST_CHECK(mostNetState->headerVersion == 1); // @todo Vector bug: This should be 2 for ObjectHeader2
+    BOOST_CHECK(mostNetState->headerVersion == 1); // Vector bug: This should be 2 for ObjectHeader2
     BOOST_CHECK(mostNetState->objectSize == mostNetState->calculateObjectSize());
     BOOST_CHECK(mostNetState->objectType == Vector::BLF::ObjectType::MOST_NETSTATE);
     /* ObjectHeader2 */
@@ -1090,7 +1090,7 @@ BOOST_AUTO_TEST_CASE(MostDataLost)
     /* ObjectHeaderBase */
     BOOST_CHECK(mostDataLost->signature == Vector::BLF::ObjectSignature);
     BOOST_CHECK(mostDataLost->headerSize == mostDataLost->calculateHeaderSize());
-    BOOST_CHECK(mostDataLost->headerVersion == 1); // @todo Vector bug: This should be 2 for ObjectHeader2
+    BOOST_CHECK(mostDataLost->headerVersion == 1); // Vector bug: This should be 2 for ObjectHeader2
     BOOST_CHECK(mostDataLost->objectSize == mostDataLost->calculateObjectSize());
     BOOST_CHECK(mostDataLost->objectType == Vector::BLF::ObjectType::MOST_DATALOST);
     /* ObjectHeader2 */
@@ -1131,7 +1131,7 @@ BOOST_AUTO_TEST_CASE(MostTrigger)
     /* ObjectHeaderBase */
     BOOST_CHECK(mostTrigger->signature == Vector::BLF::ObjectSignature);
     BOOST_CHECK(mostTrigger->headerSize == mostTrigger->calculateHeaderSize());
-    BOOST_CHECK(mostTrigger->headerVersion == 1); // @todo Vector bug: This should be 2 for ObjectHeader2
+    BOOST_CHECK(mostTrigger->headerVersion == 1); // Vector bug: This should be 2 for ObjectHeader2
     BOOST_CHECK(mostTrigger->objectSize == mostTrigger->calculateObjectSize());
     BOOST_CHECK(mostTrigger->objectType == Vector::BLF::ObjectType::MOST_TRIGGER);
     /* ObjectHeader2 */
@@ -2047,7 +2047,7 @@ BOOST_AUTO_TEST_CASE(MostStatisticEx)
     /* ObjectHeaderBase */
     BOOST_CHECK(mostStatisticEx->signature == Vector::BLF::ObjectSignature);
     BOOST_CHECK(mostStatisticEx->headerSize == mostStatisticEx->calculateHeaderSize());
-    BOOST_CHECK(mostStatisticEx->headerVersion == 1); // @todo Vector bug: This should be 2 for ObjectHeader2
+    BOOST_CHECK(mostStatisticEx->headerVersion == 1); // Vector bug: This should be 2 for ObjectHeader2
     BOOST_CHECK(mostStatisticEx->objectSize == mostStatisticEx->calculateObjectSize());
     BOOST_CHECK(mostStatisticEx->objectType == Vector::BLF::ObjectType::MOST_STATISTICEX);
     /* ObjectHeader2 */
@@ -2108,7 +2108,7 @@ BOOST_AUTO_TEST_CASE(MostAllocTab)
     /* ObjectHeaderBase */
     BOOST_CHECK(mostAllocTab->signature == Vector::BLF::ObjectSignature);
     BOOST_CHECK(mostAllocTab->headerSize == mostAllocTab->calculateHeaderSize());
-    BOOST_CHECK(mostAllocTab->headerVersion == 1); // @todo Vector bug: This should be 2 for ObjectHeader2
+    BOOST_CHECK(mostAllocTab->headerVersion == 1); // Vector bug: This should be 2 for ObjectHeader2
     BOOST_CHECK(mostAllocTab->objectSize == mostAllocTab->calculateObjectSize());
     BOOST_CHECK(mostAllocTab->objectType == Vector::BLF::ObjectType::MOST_ALLOCTAB);
     /* ObjectHeader2 */
@@ -2205,7 +2205,7 @@ BOOST_AUTO_TEST_CASE(MostStress)
     /* ObjectHeaderBase */
     BOOST_CHECK(mostStress->signature == Vector::BLF::ObjectSignature);
     BOOST_CHECK(mostStress->headerSize == mostStress->calculateHeaderSize());
-    BOOST_CHECK(mostStress->headerVersion == 1); // @todo Vector bug: This should be 2 for ObjectHeader2
+    BOOST_CHECK(mostStress->headerVersion == 1); // Vector bug: This should be 2 for ObjectHeader2
     BOOST_CHECK(mostStress->objectSize == mostStress->calculateObjectSize());
     BOOST_CHECK(mostStress->objectType == Vector::BLF::ObjectType::MOST_STRESS);
     /* ObjectHeader2 */
@@ -2243,7 +2243,7 @@ BOOST_AUTO_TEST_CASE(EthernetFrame)
     /* ObjectHeaderBase */
     BOOST_CHECK(ethernetFrame->signature == Vector::BLF::ObjectSignature);
     BOOST_CHECK(ethernetFrame->headerSize == ethernetFrame->calculateHeaderSize());
-    BOOST_CHECK(ethernetFrame->headerVersion == 1); // @todo Vector bug: This should be 2 for ObjectHeader2
+    BOOST_CHECK(ethernetFrame->headerVersion == 1); // Vector bug: This should be 2 for ObjectHeader2
     BOOST_CHECK(ethernetFrame->objectSize == ethernetFrame->calculateObjectSize());
     BOOST_CHECK(ethernetFrame->objectType == Vector::BLF::ObjectType::ETHERNET_FRAME);
     /* ObjectHeader */
@@ -2475,7 +2475,7 @@ BOOST_AUTO_TEST_CASE(Most150Message)
     /* ObjectHeaderBase */
     BOOST_CHECK(most150Message->signature == Vector::BLF::ObjectSignature);
     BOOST_CHECK(most150Message->headerSize == most150Message->calculateHeaderSize());
-    BOOST_CHECK(most150Message->headerVersion == 1); // @todo Vector bug: This should be 2 for ObjectHeader2
+    BOOST_CHECK(most150Message->headerVersion == 1); // Vector bug: This should be 2 for ObjectHeader2
     BOOST_CHECK(most150Message->objectSize == most150Message->calculateObjectSize());
     BOOST_CHECK(most150Message->objectType == Vector::BLF::ObjectType::MOST_150_MESSAGE);
     /* ObjectHeader2 */
@@ -2533,7 +2533,7 @@ BOOST_AUTO_TEST_CASE(Most150Pkt)
     /* ObjectHeaderBase */
     BOOST_CHECK(most150Pkt->signature == Vector::BLF::ObjectSignature);
     BOOST_CHECK(most150Pkt->headerSize == most150Pkt->calculateHeaderSize());
-    BOOST_CHECK(most150Pkt->headerVersion == 1); // @todo Vector bug: This should be 2 for ObjectHeader2
+    BOOST_CHECK(most150Pkt->headerVersion == 1); // Vector bug: This should be 2 for ObjectHeader2
     BOOST_CHECK(most150Pkt->objectSize == most150Pkt->calculateObjectSize());
     BOOST_CHECK(most150Pkt->objectType == Vector::BLF::ObjectType::MOST_150_PKT);
     /* ObjectHeader2 */
@@ -2591,7 +2591,7 @@ BOOST_AUTO_TEST_CASE(MostEthernetPkt)
     /* ObjectHeaderBase */
     BOOST_CHECK(mostEthernetPkt->signature == Vector::BLF::ObjectSignature);
     BOOST_CHECK(mostEthernetPkt->headerSize == mostEthernetPkt->calculateHeaderSize());
-    BOOST_CHECK(mostEthernetPkt->headerVersion == 1); // @todo Vector bug: This should be 2 for ObjectHeader2
+    BOOST_CHECK(mostEthernetPkt->headerVersion == 1); // Vector bug: This should be 2 for ObjectHeader2
     BOOST_CHECK(mostEthernetPkt->objectSize == mostEthernetPkt->calculateObjectSize());
     BOOST_CHECK(mostEthernetPkt->objectType == Vector::BLF::ObjectType::MOST_ETHERNET_PKT);
     /* ObjectHeader2 */
@@ -2648,7 +2648,7 @@ BOOST_AUTO_TEST_CASE(Most150MessageFragment)
     /* ObjectHeaderBase */
     BOOST_CHECK(most150MessageFragment->signature == Vector::BLF::ObjectSignature);
     BOOST_CHECK(most150MessageFragment->headerSize == most150MessageFragment->calculateHeaderSize());
-    BOOST_CHECK(most150MessageFragment->headerVersion == 1); // @todo Vector bug: This should be 2 for ObjectHeader2
+    BOOST_CHECK(most150MessageFragment->headerVersion == 1); // Vector bug: This should be 2 for ObjectHeader2
     BOOST_CHECK(most150MessageFragment->objectSize == most150MessageFragment->calculateObjectSize());
     BOOST_CHECK(most150MessageFragment->objectType == Vector::BLF::ObjectType::MOST_150_MESSAGE_FRAGMENT);
     /* ObjectHeader2 */
@@ -2703,7 +2703,7 @@ BOOST_AUTO_TEST_CASE(Most150PktFragment)
     /* ObjectHeaderBase */
     BOOST_CHECK(most150PktFragment->signature == Vector::BLF::ObjectSignature);
     BOOST_CHECK(most150PktFragment->headerSize == most150PktFragment->calculateHeaderSize());
-    BOOST_CHECK(most150PktFragment->headerVersion == 1); // @todo Vector bug: This should be 2 for ObjectHeader2
+    BOOST_CHECK(most150PktFragment->headerVersion == 1); // Vector bug: This should be 2 for ObjectHeader2
     BOOST_CHECK(most150PktFragment->objectSize == most150PktFragment->calculateObjectSize());
     BOOST_CHECK(most150PktFragment->objectType == Vector::BLF::ObjectType::MOST_150_PKT_FRAGMENT);
     /* ObjectHeader2 */
@@ -2758,7 +2758,7 @@ BOOST_AUTO_TEST_CASE(MostEthernetPktFragment)
     /* ObjectHeaderBase */
     BOOST_CHECK(mostEthernetPktFragment->signature == Vector::BLF::ObjectSignature);
     BOOST_CHECK(mostEthernetPktFragment->headerSize == mostEthernetPktFragment->calculateHeaderSize());
-    BOOST_CHECK(mostEthernetPktFragment->headerVersion == 1); // @todo Vector bug: This should be 2 for ObjectHeader2
+    BOOST_CHECK(mostEthernetPktFragment->headerVersion == 1); // Vector bug: This should be 2 for ObjectHeader2
     BOOST_CHECK(mostEthernetPktFragment->objectSize == mostEthernetPktFragment->calculateObjectSize());
     BOOST_CHECK(mostEthernetPktFragment->objectType == Vector::BLF::ObjectType::MOST_ETHERNET_PKT_FRAGMENT);
     /* ObjectHeader2 */
@@ -2812,7 +2812,7 @@ BOOST_AUTO_TEST_CASE(MostSystemEvent)
     /* ObjectHeaderBase */
     BOOST_CHECK(mostSystemEvent->signature == Vector::BLF::ObjectSignature);
     BOOST_CHECK(mostSystemEvent->headerSize == mostSystemEvent->calculateHeaderSize());
-    BOOST_CHECK(mostSystemEvent->headerVersion == 1); // @todo Vector bug: This should be 2 for ObjectHeader2
+    BOOST_CHECK(mostSystemEvent->headerVersion == 1); // Vector bug: This should be 2 for ObjectHeader2
     BOOST_CHECK(mostSystemEvent->objectSize == mostSystemEvent->calculateObjectSize());
     BOOST_CHECK(mostSystemEvent->objectType == Vector::BLF::ObjectType::MOST_SYSTEM_EVENT);
     /* ObjectHeader2 */
@@ -2851,7 +2851,7 @@ BOOST_AUTO_TEST_CASE(Most150AllocTab)
     /* ObjectHeaderBase */
     BOOST_CHECK(most150AllocTab->signature == Vector::BLF::ObjectSignature);
     BOOST_CHECK(most150AllocTab->headerSize == most150AllocTab->calculateHeaderSize());
-    BOOST_CHECK(most150AllocTab->headerVersion == 1); // @todo Vector bug: This should be 2 for ObjectHeader2
+    BOOST_CHECK(most150AllocTab->headerVersion == 1); // Vector bug: This should be 2 for ObjectHeader2
     BOOST_CHECK(most150AllocTab->objectSize == most150AllocTab->calculateObjectSize());
     BOOST_CHECK(most150AllocTab->objectType == Vector::BLF::ObjectType::MOST_150_ALLOCTAB);
     /* ObjectHeader2 */
@@ -2883,7 +2883,7 @@ BOOST_AUTO_TEST_CASE(Most150AllocTab)
     /* ObjectHeaderBase */
     BOOST_CHECK(most150AllocTab->signature == Vector::BLF::ObjectSignature);
     BOOST_CHECK(most150AllocTab->headerSize == most150AllocTab->calculateHeaderSize());
-    BOOST_CHECK(most150AllocTab->headerVersion == 1); // @todo Vector bug: This should be 2 for ObjectHeader2
+    BOOST_CHECK(most150AllocTab->headerVersion == 1); // Vector bug: This should be 2 for ObjectHeader2
     BOOST_CHECK(most150AllocTab->objectSize == most150AllocTab->calculateObjectSize());
     BOOST_CHECK(most150AllocTab->objectType == Vector::BLF::ObjectType::MOST_150_ALLOCTAB);
     /* ObjectHeader2 */
@@ -2929,7 +2929,7 @@ BOOST_AUTO_TEST_CASE(Most50Message)
     /* ObjectHeaderBase */
     BOOST_CHECK(most50Message->signature == Vector::BLF::ObjectSignature);
     BOOST_CHECK(most50Message->headerSize == most50Message->calculateHeaderSize());
-    BOOST_CHECK(most50Message->headerVersion == 1); // @todo Vector bug: This should be 2 for ObjectHeader2
+    BOOST_CHECK(most50Message->headerVersion == 1); // Vector bug: This should be 2 for ObjectHeader2
     BOOST_CHECK(most50Message->objectSize == most50Message->calculateObjectSize());
     BOOST_CHECK(most50Message->objectType == Vector::BLF::ObjectType::MOST_50_MESSAGE);
     /* ObjectHeader2 */
@@ -2987,7 +2987,7 @@ BOOST_AUTO_TEST_CASE(Most50Pkt)
     /* ObjectHeaderBase */
     BOOST_CHECK(most50Pkt->signature == Vector::BLF::ObjectSignature);
     BOOST_CHECK(most50Pkt->headerSize == most50Pkt->calculateHeaderSize());
-    BOOST_CHECK(most50Pkt->headerVersion == 1); // @todo Vector bug: This should be 2 for ObjectHeader2
+    BOOST_CHECK(most50Pkt->headerVersion == 1); // Vector bug: This should be 2 for ObjectHeader2
     BOOST_CHECK(most50Pkt->objectSize == most50Pkt->calculateObjectSize());
     BOOST_CHECK(most50Pkt->objectType == Vector::BLF::ObjectType::MOST_50_PKT);
     /* ObjectHeader2 */
@@ -3418,7 +3418,7 @@ BOOST_AUTO_TEST_CASE(GlobalMarker)
     // reserved
     BOOST_CHECK(globalMarker->groupNameLength == 0x83);
     BOOST_CHECK(globalMarker->markerNameLength == 0x83);
-    BOOST_CHECK(globalMarker->descriptionLength == 0x105); // Vector bug! there is actually just 0xed left!
+    BOOST_CHECK(globalMarker->descriptionLength == 0x105);
     BOOST_CHECK(globalMarker->groupName == "Marker Group");
     BOOST_CHECK(globalMarker->markerName == "[1]");
     BOOST_CHECK(globalMarker->description == "description");

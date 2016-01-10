@@ -62,13 +62,13 @@ void LinMessage2::read(std::istream & is)
     is.read((char *) reserved.data(), reserved.size());
 
     /* the following variables are only available in Version 2 and above */
-    if (objectVersion < 0) // this is probably a bug in Vector's original implementation
+    if (objectVersion < 0) // Vector bug: Shouldn't this be < 1?
         return;
 
     is.read((char *) &respBaudrate, sizeof(respBaudrate));
 
     /* the following variables are only available in Version 3 and above */
-    if (objectVersion < 1) // this is probably a bug in Vector's original implementation
+    if (objectVersion < 1) // Vector bug: Shouldn't this be < 2?
         return;
 
     is.read((char *) &exactHeaderBaudrate, sizeof(exactHeaderBaudrate));
@@ -92,13 +92,13 @@ void LinMessage2::write(std::ostream & os)
     os.write((char *) reserved.data(), reserved.size());
 
     /* the following variables are only available in Version 2 and above */
-    if (objectVersion < 0) // this is probably a bug in Vector's original implementation
+    if (objectVersion < 0) // Vector bug: Shouldn't this be < 1?
         return;
 
     os.write((char *) &respBaudrate, sizeof(respBaudrate));
 
     /* the following variables are only available in Version 3 and above */
-    if (objectVersion < 1) // this is probably a bug in Vector's original implementation
+    if (objectVersion < 1) // Vector bug: Shouldn't this be < 2?
         return;
 
     os.write((char *) &exactHeaderBaudrate, sizeof(exactHeaderBaudrate));
@@ -122,10 +122,10 @@ size_t LinMessage2::calculateObjectSize()
         sizeof(fsmState) +
         reserved.size();
 
-    if (objectVersion >= 0) // this is probably a bug in Vector's original implementation
+    if (objectVersion >= 0) // Vector bug: Shouldn't this be >= 1?
         size += sizeof(respBaudrate);
 
-    if (objectVersion >= 1) // this is probably a bug in Vector's original implementation
+    if (objectVersion >= 1) // Vector bug: Shouldn't this be >= 2?
         size += sizeof(exactHeaderBaudrate) +
                 sizeof(earlyStopbitOffset) +
                 sizeof(earlyStopbitOffsetResponse);
