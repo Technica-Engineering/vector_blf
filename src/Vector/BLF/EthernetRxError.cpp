@@ -56,6 +56,9 @@ void EthernetRxError::read(std::istream & is)
 
 void EthernetRxError::write(std::ostream & os)
 {
+    /* pre processing */
+    frameDataLength = frameData.size();
+
     ObjectHeader::write(os);
     os.write((char *) &structLength, sizeof(structLength));
     os.write((char *) &channel, sizeof(channel));

@@ -70,6 +70,9 @@ void MostEthernetPkt::read(std::istream & is)
 
 void MostEthernetPkt::write(std::ostream & os)
 {
+    /* pre processing */
+    pktDataLength = pktData.size();
+
     ObjectHeader2::write(os);
     os.write((char *) &channel, sizeof(channel));
     os.write((char *) &dir, sizeof(dir));

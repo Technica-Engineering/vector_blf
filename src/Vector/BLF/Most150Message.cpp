@@ -72,6 +72,9 @@ void Most150Message::read(std::istream & is)
 
 void Most150Message::write(std::ostream & os)
 {
+    /* pre processing */
+    msgLen = msg.size();
+
     ObjectHeader2::write(os);
     os.write((char *) &channel, sizeof(channel));
     os.write((char *) &dir, sizeof(dir));

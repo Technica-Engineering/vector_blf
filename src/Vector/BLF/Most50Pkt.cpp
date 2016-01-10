@@ -72,6 +72,9 @@ void Most50Pkt::read(std::istream & is)
 
 void Most50Pkt::write(std::ostream & os)
 {
+    /* pre processing */
+    pktDataLength = pktData.size();
+
     ObjectHeader2::write(os);
     os.write((char *) &channel, sizeof(channel));
     os.write((char *) &dir, sizeof(dir));

@@ -51,6 +51,9 @@ void AppText::read(std::istream & is)
 
 void AppText::write(std::ostream & os)
 {
+    /* pre processing */
+    textLength = text.size();
+
     ObjectHeader::write(os);
     os.write((char *) &source, sizeof(source));
     os.write((char *) &reserved, sizeof(reserved));

@@ -51,6 +51,9 @@ void LogContainer::read(std::istream & is)
 
 void LogContainer::write(std::ostream & os)
 {
+    /* pre processing */
+    compressedFileSize = compressedFile.size();
+
     ObjectHeaderBase::write(os);
     os.write((char *) &objectFlags, sizeof(objectFlags));
     os.write((char *) &reserved, sizeof(reserved));

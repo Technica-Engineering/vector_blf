@@ -71,6 +71,11 @@ void GlobalMarker::read(std::istream & is)
 
 void GlobalMarker::write(std::ostream & os)
 {
+    /* pre processing */
+    groupNameLength = groupName.size();
+    markerNameLength = markerName.size();
+    descriptionLength = description.size();
+
     ObjectHeader::write(os);
     os.write((char *) &commentedEventType, sizeof(commentedEventType));
     os.write((char *) &foregroundColor, sizeof(foregroundColor));

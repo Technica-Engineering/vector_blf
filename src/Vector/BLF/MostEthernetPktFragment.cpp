@@ -68,6 +68,9 @@ void MostEthernetPktFragment::read(std::istream & is)
 
 void MostEthernetPktFragment::write(std::ostream & os)
 {
+    /* pre processing */
+    firstDataLen = firstData.size();
+
     ObjectHeader2::write(os);
     os.write((char *) &channel, sizeof(channel));
     os.write((char *) &reserved1, sizeof(reserved1));
@@ -83,7 +86,6 @@ void MostEthernetPktFragment::write(std::ostream & os)
     os.write((char *) &dataLenAnnounced, sizeof(dataLenAnnounced));
     os.write((char *) &firstDataLen, sizeof(firstDataLen));
     os.write((char *) reserved3.data(), reserved3.size());
-    firstData.reserve(firstDataLen);
     os.write((char *) firstData.data(), firstDataLen);
 }
 

@@ -68,6 +68,9 @@ void AfdxFrame::read(std::istream & is)
 
 void AfdxFrame::write(std::ostream & os)
 {
+    /* pre processing */
+    payLoadLength = payLoad.size();
+
     ObjectHeader::write(os);
     os.write((char *) sourceAddress.data(), sourceAddress.size());
     os.write((char *) &channel, sizeof(channel));

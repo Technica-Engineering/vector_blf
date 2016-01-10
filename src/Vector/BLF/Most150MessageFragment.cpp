@@ -70,6 +70,9 @@ void Most150MessageFragment::read(std::istream & is)
 
 void Most150MessageFragment::write(std::ostream & os)
 {
+    /* pre processing */
+    firstDataLen = firstData.size();
+
     ObjectHeader2::write(os);
     os.write((char *) &channel, sizeof(channel));
     os.write((char *) &reserved1, sizeof(reserved1));

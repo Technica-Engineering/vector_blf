@@ -42,12 +42,15 @@ void Most150AllocTab::read(std::istream & is)
     is.read((char *) &eventModeFlags, sizeof(eventModeFlags));
     is.read((char *) &freeBytes, sizeof(freeBytes));
     is.read((char *) &length, sizeof(length));
-    tableData.resize(length);
+    tableData.reserve(length);
     is.read((char *) tableData.data(), length * sizeof(WORD));
 }
 
 void Most150AllocTab::write(std::ostream & os)
 {
+    /* pre processing */
+    length = tableData.size();
+
     ObjectHeader2::write(os);
     os.write((char *) &channel, sizeof(channel));
     os.write((char *) &eventModeFlags, sizeof(eventModeFlags));

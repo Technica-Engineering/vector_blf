@@ -46,6 +46,9 @@ void MostAllocTab::read(std::istream & is)
 
 void MostAllocTab::write(std::ostream & os)
 {
+    /* pre processing */
+    length = tableData.size();
+
     ObjectHeader2::write(os);
     os.write((char *) &channel, sizeof(channel));
     os.write((char *) &length, sizeof(length));

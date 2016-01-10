@@ -51,6 +51,9 @@ void EventComment::read(std::istream & is)
 
 void EventComment::write(std::ostream & os)
 {
+    /* pre processing */
+    textLength = text.size();
+
     ObjectHeader::write(os);
     os.write((char *) &commentedEventType, sizeof(commentedEventType));
     os.write((char *) &textLength, sizeof(textLength));

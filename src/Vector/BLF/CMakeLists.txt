@@ -105,6 +105,7 @@ set(source_files
   MostSystemEvent.cpp
   MostTrigger.cpp
   MostTxLight.cpp
+  mstream.cpp
   ObjectHeader2.cpp
   ObjectHeaderBase.cpp
   ObjectHeader.cpp
@@ -212,6 +213,7 @@ set(public_header_files
   MostSystemEvent.h
   MostTrigger.h
   MostTxLight.h
+  mstream.h
   ObjectHeader2.h
   ObjectHeaderBase.h
   ObjectHeader.h

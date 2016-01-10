@@ -84,6 +84,9 @@ void FlexRayVFrReceiveMsgEx::read(std::istream & is)
 
 void FlexRayVFrReceiveMsgEx::write(std::ostream & os)
 {
+    /* pre processing */
+    dataCount = dataBytes.size();
+
     ObjectHeader::write(os);
     os.write((char *) &channel, sizeof(channel));
     os.write((char *) &version, sizeof(version));

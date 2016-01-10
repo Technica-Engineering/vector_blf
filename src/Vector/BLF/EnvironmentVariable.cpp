@@ -59,6 +59,10 @@ void EnvironmentVariable::read(std::istream & is)
 
 void EnvironmentVariable::write(std::ostream & os)
 {
+    /* pre processing */
+    nameLength = name.size();
+    dataLength = data.size();
+
     ObjectHeader::write(os);
     os.write((char *) &nameLength, sizeof(nameLength));
     os.write((char *) &dataLength, sizeof(dataLength));

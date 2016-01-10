@@ -54,6 +54,9 @@ void WlanFrame::read(std::istream & is)
 
 void WlanFrame::write(std::ostream & os)
 {
+    /* pre processing */
+    frameLength = frameData.size();
+
     ObjectHeader::write(os);
     os.write((char *) &channel, sizeof(channel));
     os.write((char *) &flags, sizeof(flags));

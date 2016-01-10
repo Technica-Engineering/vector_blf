@@ -75,7 +75,7 @@ void SerialEvent::read(std::istream & is)
             is.read((char *) &general.timeStampsLength, sizeof(general.timeStampsLength));
             general.data.reserve(general.dataLength);
             is.read((char *) general.data.data(), general.dataLength);
-            general.timeStamps.reserve(general.timeStampsLength);
+            general.timeStamps.reserve(general.timeStampsLength / sizeof(LONGLONG));
             is.read((char *) general.timeStamps.data(), general.timeStampsLength);
         }
     }
@@ -96,6 +96,10 @@ void SerialEvent::write(std::ostream & os)
             os.write((char *) &compact.compactLength, sizeof(compact.compactLength));
             os.write((char *) &compact.compactData, sizeof(compact.compactData));
         } else {
+            /* pre processing */
+            general.dataLength = general.data.size();
+            general.timeStampsLength = general.timeStamps.size() * sizeof(LONGLONG);
+
             os.write((char *) &general.dataLength, sizeof(general.dataLength));
             os.write((char *) &general.timeStampsLength, sizeof(general.timeStampsLength));
             os.write((char *) general.data.data(), general.dataLength);

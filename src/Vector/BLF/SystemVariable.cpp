@@ -58,6 +58,10 @@ void SystemVariable::read(std::istream & is)
 
 void SystemVariable::write(std::ostream & os)
 {
+    /* pre processing */
+    nameLength = name.size();
+    dataLength = data.size();
+
     ObjectHeader::write(os);
     os.write((char *) &type, sizeof(type));
     os.write((char *) reserved1.data(), reserved1.size() * sizeof(DWORD));
