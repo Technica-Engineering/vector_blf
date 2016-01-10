@@ -135,7 +135,7 @@ set(public_header_files
   CanMessage2.h
   CanMessage.h
   CanOverloadFrame.h
-  CompressedFile.cpp
+  CompressedFile.h
   DriverOverrun.h
   EnvironmentVariable.h
   EthernetFrame.h
@@ -223,7 +223,7 @@ set(public_header_files
   SerialEvent.h
   SystemVariable.h
   VectorTypes.h
-  UncompressedFile.cpp
+  UncompressedFile.h
   WlanFrame.h
   WlanStatistic.h)
 
@@ -254,11 +254,10 @@ install(
   DESTINATION lib)
 
 install(
-  FILES ${CMAKE_CURRENT_BINARY_DIR}/vector_blf_export.h
-  DESTINATION include/Vector/BLF)
-
-install(
-  FILES ${CMAKE_CURRENT_BINARY_DIR}/config.h ${public_header_files}
+  FILES
+    ${CMAKE_CURRENT_BINARY_DIR}/config.h
+    ${CMAKE_CURRENT_BINARY_DIR}/vector_blf_export.h
+    ${public_header_files}
   DESTINATION include/Vector/BLF)
 
 add_subdirectory(docs)
