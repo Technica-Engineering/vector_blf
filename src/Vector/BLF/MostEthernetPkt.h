@@ -42,7 +42,6 @@ class VECTOR_BLF_EXPORT MostEthernetPkt : public ObjectHeader2
 {
 public:
     MostEthernetPkt();
-    virtual ~MostEthernetPkt();
 
     virtual void read(std::istream & is);
     virtual void write(std::ostream & os);

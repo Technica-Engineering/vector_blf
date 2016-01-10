@@ -55,7 +55,6 @@ class VECTOR_BLF_EXPORT AppText : public ObjectHeader
 {
 public:
     AppText();
-    virtual ~AppText();
 
     virtual void read(std::istream & is);
     virtual void write(std::ostream & os);

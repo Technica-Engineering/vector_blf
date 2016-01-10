@@ -38,10 +38,6 @@ WlanFrame::WlanFrame() :
     objectType = ObjectType::WLAN_FRAME;
 }
 
-WlanFrame::~WlanFrame()
-{
-}
-
 void WlanFrame::read(std::istream & is)
 {
     ObjectHeader::read(is);

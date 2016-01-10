@@ -42,7 +42,6 @@ class VECTOR_BLF_EXPORT EthernetFrame : public ObjectHeader
 {
 public:
     EthernetFrame();
-    virtual ~EthernetFrame();
 
     virtual void read(std::istream & is);
     virtual void write(std::ostream & os);

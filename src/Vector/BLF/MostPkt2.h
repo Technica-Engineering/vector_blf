@@ -42,7 +42,6 @@ class VECTOR_BLF_EXPORT MostPkt2 : public ObjectHeader2
 {
 public:
     MostPkt2();
-    virtual ~MostPkt2();
 
     virtual void read(std::istream & is);
     virtual void write(std::ostream & os);

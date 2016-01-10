@@ -46,10 +46,6 @@ MostEthernetPkt::MostEthernetPkt() :
     objectType = ObjectType::MOST_ETHERNET_PKT;
 }
 
-MostEthernetPkt::~MostEthernetPkt()
-{
-}
-
 void MostEthernetPkt::read(std::istream & is)
 {
     ObjectHeader2::read(is);

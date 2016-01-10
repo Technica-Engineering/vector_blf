@@ -37,10 +37,6 @@ LogContainer::LogContainer() :
     objectType = ObjectType::LOG_CONTAINER;
 }
 
-LogContainer::~LogContainer()
-{
-}
-
 void LogContainer::read(std::istream & is)
 {
     ObjectHeaderBase::read(is);

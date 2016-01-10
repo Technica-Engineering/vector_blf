@@ -41,7 +41,6 @@ class VECTOR_BLF_EXPORT SerialEvent : public ObjectHeader
 {
 public:
     SerialEvent();
-    virtual ~SerialEvent();
 
     virtual void read(std::istream & is);
     virtual void write(std::ostream & os);

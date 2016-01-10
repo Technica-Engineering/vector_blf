@@ -42,7 +42,6 @@ class VECTOR_BLF_EXPORT EventComment : public ObjectHeader
 {
 public:
     EventComment();
-    virtual ~EventComment();
 
     virtual void read(std::istream & is);
     virtual void write(std::ostream & os);

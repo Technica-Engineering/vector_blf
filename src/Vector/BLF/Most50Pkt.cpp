@@ -47,10 +47,6 @@ Most50Pkt::Most50Pkt() :
     objectType = ObjectType::MOST_50_PKT;
 }
 
-Most50Pkt::~Most50Pkt()
-{
-}
-
 void Most50Pkt::read(std::istream & is)
 {
     ObjectHeader2::read(is);

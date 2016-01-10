@@ -42,10 +42,6 @@ EnvironmentVariable::EnvironmentVariable() :
      */
 }
 
-EnvironmentVariable::~EnvironmentVariable()
-{
-}
-
 void EnvironmentVariable::read(std::istream & is)
 {
     ObjectHeader::read(is);

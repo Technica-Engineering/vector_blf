@@ -47,10 +47,6 @@ Most50Message::Most50Message() :
     objectType = ObjectType::MOST_50_MESSAGE;
 }
 
-Most50Message::~Most50Message()
-{
-}
-
 void Most50Message::read(std::istream & is)
 {
     ObjectHeader2::read(is);

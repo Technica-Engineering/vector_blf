@@ -47,10 +47,6 @@ MostPkt2::MostPkt2() :
     objectType = ObjectType::MOST_PKT2;
 }
 
-MostPkt2::~MostPkt2()
-{
-}
-
 void MostPkt2::read(std::istream & is)
 {
     ObjectHeader2::read(is);

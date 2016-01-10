@@ -43,7 +43,6 @@ class VECTOR_BLF_EXPORT MostAllocTab : public ObjectHeader2
 {
 public:
     MostAllocTab();
-    virtual ~MostAllocTab();
 
     virtual void read(std::istream & is);
     virtual void write(std::ostream & os);

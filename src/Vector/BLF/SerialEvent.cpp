@@ -56,10 +56,6 @@ SerialEvent::SerialEvent() :
     objectType = ObjectType::SERIAL_EVENT;
 }
 
-SerialEvent::~SerialEvent()
-{
-}
-
 void SerialEvent::read(std::istream & is)
 {
     ObjectHeader::read(is);

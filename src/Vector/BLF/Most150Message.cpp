@@ -47,10 +47,6 @@ Most150Message::Most150Message() :
     objectType = ObjectType::MOST_150_MESSAGE;
 }
 
-Most150Message::~Most150Message()
-{
-}
-
 void Most150Message::read(std::istream & is)
 {
     ObjectHeader2::read(is);

@@ -39,10 +39,6 @@ EthernetRxError::EthernetRxError() :
     objectType = ObjectType::ETHERNET_RX_ERROR;
 }
 
-EthernetRxError::~EthernetRxError()
-{
-}
-
 void EthernetRxError::read(std::istream & is)
 {
     ObjectHeader::read(is);

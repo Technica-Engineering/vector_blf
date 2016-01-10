@@ -42,7 +42,6 @@ class VECTOR_BLF_EXPORT Most150PktFragment : public ObjectHeader2 /* applied for
 {
 public:
     Most150PktFragment();
-    virtual ~Most150PktFragment();
 
     virtual void read(std::istream & is);
     virtual void write(std::ostream & os);

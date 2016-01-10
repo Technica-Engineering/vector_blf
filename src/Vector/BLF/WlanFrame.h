@@ -41,7 +41,6 @@ class VECTOR_BLF_EXPORT WlanFrame : public ObjectHeader
 {
 public:
     WlanFrame();
-    virtual ~WlanFrame();
 
     virtual void read(std::istream & is);
     virtual void write(std::ostream & os);

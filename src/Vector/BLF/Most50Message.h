@@ -42,7 +42,6 @@ class VECTOR_BLF_EXPORT Most50Message : public ObjectHeader2
 {
 public:
     Most50Message();
-    virtual ~Most50Message();
 
     virtual void read(std::istream & is);
     virtual void write(std::ostream & os);

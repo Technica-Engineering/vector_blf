@@ -47,10 +47,6 @@ Most150Pkt::Most150Pkt() :
     objectType = ObjectType::MOST_150_PKT;
 }
 
-Most150Pkt::~Most150Pkt()
-{
-}
-
 void Most150Pkt::read(std::istream & is)
 {
     ObjectHeader2::read(is);

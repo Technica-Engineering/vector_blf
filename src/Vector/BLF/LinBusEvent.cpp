@@ -32,6 +32,10 @@ LinBusEvent::LinBusEvent() :
 {
 }
 
+LinBusEvent::~LinBusEvent()
+{
+}
+
 void LinBusEvent::read(std::istream & is)
 {
     is.read((char *) &sof, sizeof(sof));

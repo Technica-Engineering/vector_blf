@@ -39,6 +39,7 @@ class VECTOR_BLF_EXPORT LinBusEvent
 {
 public:
     LinBusEvent();
+    virtual ~LinBusEvent();
 
     /** @copydoc ObjectHeader::read */
     virtual void read(std::istream & is);

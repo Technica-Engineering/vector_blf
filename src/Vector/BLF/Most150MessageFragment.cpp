@@ -46,10 +46,6 @@ Most150MessageFragment::Most150MessageFragment() :
     objectType = ObjectType::MOST_150_MESSAGE_FRAGMENT;
 }
 
-Most150MessageFragment::~Most150MessageFragment()
-{
-}
-
 void Most150MessageFragment::read(std::istream & is)
 {
     ObjectHeader2::read(is);

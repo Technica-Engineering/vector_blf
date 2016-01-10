@@ -42,7 +42,6 @@ class VECTOR_BLF_EXPORT AfdxFrame : public ObjectHeader
 {
 public:
     AfdxFrame();
-    virtual ~AfdxFrame();
 
     virtual void read(std::istream & is);
     virtual void write(std::ostream & os);

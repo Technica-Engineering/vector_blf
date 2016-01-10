@@ -36,10 +36,6 @@ EventComment::EventComment() :
     objectType = ObjectType::EVENT_COMMENT;
 }
 
-EventComment::~EventComment()
-{
-}
-
 void EventComment::read(std::istream & is)
 {
     ObjectHeader::read(is);

@@ -35,10 +35,6 @@ Most150AllocTab::Most150AllocTab() :
     objectType = ObjectType::MOST_150_ALLOCTAB;
 }
 
-Most150AllocTab::~Most150AllocTab()
-{
-}
-
 void Most150AllocTab::read(std::istream & is)
 {
     ObjectHeader2::read(is);

@@ -43,7 +43,6 @@ class VECTOR_BLF_EXPORT EnvironmentVariable : public ObjectHeader
 {
 public:
     EnvironmentVariable();
-    virtual ~EnvironmentVariable();
 
     virtual void read(std::istream & is);
     virtual void write(std::ostream & os);

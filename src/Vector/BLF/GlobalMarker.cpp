@@ -44,10 +44,6 @@ GlobalMarker::GlobalMarker() :
     objectType = ObjectType::GLOBAL_MARKER;
 }
 
-GlobalMarker::~GlobalMarker()
-{
-}
-
 void GlobalMarker::read(std::istream & is)
 {
     ObjectHeader::read(is);

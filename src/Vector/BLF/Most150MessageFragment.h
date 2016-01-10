@@ -43,7 +43,6 @@ class VECTOR_BLF_EXPORT Most150MessageFragment : public ObjectHeader2 /* applied
 {
 public:
     Most150MessageFragment();
-    virtual ~Most150MessageFragment();
 
     virtual void read(std::istream & is);
     virtual void write(std::ostream & os);

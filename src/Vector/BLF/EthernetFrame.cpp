@@ -40,10 +40,6 @@ EthernetFrame::EthernetFrame() :
     objectType = ObjectType::ETHERNET_FRAME;
 }
 
-EthernetFrame::~EthernetFrame()
-{
-}
-
 void EthernetFrame::read(std::istream & is)
 {
     ObjectHeader::read(is);

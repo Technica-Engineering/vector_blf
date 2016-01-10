@@ -42,7 +42,6 @@ class VECTOR_BLF_EXPORT EthernetRxError : public ObjectHeader
 {
 public:
     EthernetRxError();
-    virtual ~EthernetRxError();
 
     virtual void read(std::istream & is);
     virtual void write(std::ostream & os);

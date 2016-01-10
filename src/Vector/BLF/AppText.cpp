@@ -36,10 +36,6 @@ AppText::AppText() :
     objectType = ObjectType::APP_TEXT;
 }
 
-AppText::~AppText()
-{
-}
-
 void AppText::read(std::istream & is)
 {
     ObjectHeader::read(is);

@@ -42,7 +42,6 @@ class VECTOR_BLF_EXPORT GlobalMarker : public ObjectHeader
 {
 public:
     GlobalMarker();
-    virtual ~GlobalMarker();
 
     virtual void read(std::istream & is);
     virtual void write(std::ostream & os);

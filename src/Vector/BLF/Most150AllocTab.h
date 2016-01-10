@@ -41,7 +41,6 @@ class VECTOR_BLF_EXPORT Most150AllocTab : public ObjectHeader2 /* applied for MO
 {
 public:
     Most150AllocTab();
-    virtual ~Most150AllocTab();
 
     virtual void read(std::istream & is);
     virtual void write(std::ostream & os);

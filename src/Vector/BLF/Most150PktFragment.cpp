@@ -46,10 +46,6 @@ Most150PktFragment::Most150PktFragment() :
     objectType = ObjectType::MOST_150_PKT_FRAGMENT;
 }
 
-Most150PktFragment::~Most150PktFragment()
-{
-}
-
 void Most150PktFragment::read(std::istream & is)
 {
     ObjectHeader2::read(is);

@@ -39,10 +39,6 @@ SystemVariable::SystemVariable() :
     objectType = ObjectType::SYS_VARIABLE;
 }
 
-SystemVariable::~SystemVariable()
-{
-}
-
 void SystemVariable::read(std::istream & is)
 {
     ObjectHeader::read(is);

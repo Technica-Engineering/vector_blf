@@ -45,10 +45,6 @@ MostEthernetPktFragment::MostEthernetPktFragment() :
     objectType = ObjectType::MOST_ETHERNET_PKT_FRAGMENT;
 }
 
-MostEthernetPktFragment::~MostEthernetPktFragment()
-{
-}
-
 void MostEthernetPktFragment::read(std::istream & is)
 {
     ObjectHeader2::read(is);

@@ -45,10 +45,6 @@ AfdxFrame::AfdxFrame() :
     objectType = ObjectType::AFDX_FRAME;
 }
 
-AfdxFrame::~AfdxFrame()
-{
-}
-
 void AfdxFrame::read(std::istream & is)
 {
     ObjectHeader::read(is);

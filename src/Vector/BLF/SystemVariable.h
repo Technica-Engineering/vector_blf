@@ -43,7 +43,6 @@ class VECTOR_BLF_EXPORT SystemVariable : public ObjectHeader
 {
 public:
     SystemVariable();
-    virtual ~SystemVariable();
 
     virtual void read(std::istream & is);
     virtual void write(std::ostream & os);
