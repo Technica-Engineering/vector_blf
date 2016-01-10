@@ -23,19 +23,12 @@
 
 #include <fstream>
 
-#define USE_STRINGSTREAM_FOR_UNCOMPRESSEDFILE
-#ifdef USE_STRINGSTREAM_FOR_UNCOMPRESSEDFILE
-#include <sstream>
-#endif
-
 #include "zlib.h"
 
-#include "VectorTypes.h"
+#include "mstream.h"
 #include "FileStatistics.h"
 #include "ObjectHeaderBase.h"
-#include "ObjectHeader.h"
-#include "ObjectHeader2.h"
-#include "UncompressedFile.h"
+#include "VectorTypes.h"
 
 // UNKNOWN = 0
 #include "CanMessage.h" // CAN_MESSAGE = 1
@@ -237,11 +230,7 @@ private:
     std::fstream compressedFile;
 
     /** uncompressed file */
-#ifdef USE_STRINGSTREAM_FOR_UNCOMPRESSEDFILE
-    std::stringstream uncompressedFile;
-#else
-    UncompressedFile uncompressedFile;
-#endif
+    std::mstream uncompressedFile;
 
     /**
      * create object of given type
