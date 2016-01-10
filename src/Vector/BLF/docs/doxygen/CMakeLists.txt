@@ -25,7 +25,10 @@ if(DOXYGEN_FOUND)
     DESTINATION share/doc/${PROJECT_NAME}/doxygen)
 
   install(
-    FILES ${CMAKE_CURRENT_BINARY_DIR}/doxygen-out.txt ${CMAKE_CURRENT_BINARY_DIR}/doxygen-err.txt
+    FILES
+      ${CMAKE_CURRENT_BINARY_DIR}/doxygen-out.txt
+      ${CMAKE_CURRENT_BINARY_DIR}/doxygen-err.txt
+      ${CMAKE_CURRENT_BINARY_DIR}/doxygen.tag
     DESTINATION share/doc/${PROJECT_NAME}/doxygen)
 
   if(NOT WIN32)
