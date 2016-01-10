@@ -52,6 +52,9 @@ void ObjectHeaderBase::read(std::istream & is)
 
 void ObjectHeaderBase::write(std::ostream & os)
 {
+    /* pre processing */
+    objectSize = calculateObjectSize();
+
     os.write((char *) &signature, sizeof(signature));
     if (signature != ObjectSignature)
         std::cerr << "unexpected object signature" << std::endl;
