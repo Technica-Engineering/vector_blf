@@ -55,6 +55,7 @@ void EnvironmentVariable::read(std::istream & is)
 
     /* post processing */
     name.resize(strnlen(name.c_str(), nameLength)); // Vector bug: the actual string can be shorter than size!
+    objectSize = calculateObjectSize();
 }
 
 void EnvironmentVariable::write(std::ostream & os)

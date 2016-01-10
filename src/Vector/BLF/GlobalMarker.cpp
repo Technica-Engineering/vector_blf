@@ -67,6 +67,7 @@ void GlobalMarker::read(std::istream & is)
     groupName.resize(strnlen(groupName.c_str(), groupNameLength)); // Vector bug: the actual string can be shorter than size!
     markerName.resize(strnlen(markerName.c_str(), markerNameLength)); // Vector bug: the actual string can be shorter than size!
     description.resize(strnlen(description.c_str(), descriptionLength)); // Vector bug: the actual string can be shorter than size!
+    objectSize = calculateObjectSize();
 }
 
 void GlobalMarker::write(std::ostream & os)

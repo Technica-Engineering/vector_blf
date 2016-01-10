@@ -47,6 +47,7 @@ void EventComment::read(std::istream & is)
 
     /* post processing */
     text.resize(strnlen(text.c_str(), textLength)); // Vector bug: the actual string can be shorter than size!
+    objectSize = calculateObjectSize();
 }
 
 void EventComment::write(std::ostream & os)
