@@ -125,7 +125,10 @@ public:
          * variable timestamps (optional)
          */
         std::vector<LONGLONG> timeStamps;
-    } general;
+    };
+
+    /** general serial event */
+    GeneralSerialEvent general;
 
     /** single byte serial event */
     struct SingleByteSerialEvent
@@ -134,7 +137,10 @@ public:
 
         /** single byte */
         BYTE byte;
-    } singleByte;
+    };
+
+    /** single byte serial event */
+    SingleByteSerialEvent singleByte;
 
     /** compact serial event */
     struct CompactSerialEvent
@@ -146,7 +152,10 @@ public:
 
         /** compact data */
         std::array<BYTE, 15> compactData;
-    } compact;
+    };
+
+    /** compact serial event */
+    CompactSerialEvent compact;
 };
 
 }
