@@ -3403,7 +3403,7 @@ BOOST_AUTO_TEST_CASE(GlobalMarker)
     BOOST_CHECK(globalMarker->signature == Vector::BLF::ObjectSignature);
     BOOST_CHECK(globalMarker->headerSize == globalMarker->calculateHeaderSize());
     BOOST_CHECK(globalMarker->headerVersion == 1);
-    //BOOST_CHECK(globalMarker->objectSize == globalMarker->calculateObjectSize()); // @todo Vector bug, see class implementation
+    BOOST_CHECK(globalMarker->objectSize == globalMarker->calculateObjectSize());
     BOOST_CHECK(globalMarker->objectType == Vector::BLF::ObjectType::GLOBAL_MARKER);
     /* ObjectHeader */
     BOOST_CHECK(globalMarker->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
