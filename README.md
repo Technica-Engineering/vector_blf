@@ -66,12 +66,6 @@ The following files are products of installation and building:
 * share/man/
 * include/_project_/
 
-# Wanted features
-
-* Reserved fields might contain useful data.
-* add example
-
 # Missing test coverage
 
-* all objectTypes for which I had no templates to define a test case
-* write functions
+* all objectTypes for which I had no examples to define a test case

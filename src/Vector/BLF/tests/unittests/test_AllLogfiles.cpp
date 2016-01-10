@@ -60,7 +60,7 @@ BOOST_AUTO_TEST_CASE(AllLogfiles)
             ohb = filein.read();
             BOOST_CHECK((ohb != nullptr) || filein.eof());
             if (ohb != nullptr) {
-                // fileout.write(ohb);
+                fileout.write(ohb);
                 delete ohb;
             } else {
                 break;
