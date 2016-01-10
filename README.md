@@ -66,6 +66,10 @@ The following files are products of installation and building:
 * share/man/
 * include/_project_/
 
+# Wanted features
+
+* There is currently no transition between little/big endian. Current support is only for little endian machines.
+
 # Missing test coverage
 
 * all objectTypes for which I had no examples to define a test case
