@@ -119,27 +119,5 @@ size_t FileStatistics::calculateStatisticsSize()
         reserved.size() * sizeof(DWORD);
 }
 
-std::string FileStatistics::applicationName()
-{
-    switch(applicationId) {
-    case Vector::BLF::ApplicationId::Unknown:
-        return "unknown";
-    case Vector::BLF::ApplicationId::Canalyzer:
-        return "CANalyzer";
-    case Vector::BLF::ApplicationId::Canoe:
-        return "CANoe";
-    case Vector::BLF::ApplicationId::Canstress:
-        return "CANstress";
-    case Vector::BLF::ApplicationId::Canlog:
-        return "CANlog";
-    case Vector::BLF::ApplicationId::Canape:
-        return "CANape";
-    case Vector::BLF::ApplicationId::Cancasexllog:
-        return "CANcaseXL log";
-    default:
-        return std::to_string((unsigned short) applicationId);
-    };
-}
-
 }
 }

@@ -98,13 +98,6 @@ public:
     /** application ID (usually CANoe) */
     ApplicationId applicationId;
 
-    /**
-     * application name
-     *
-     * @return application name or number if undefined
-     */
-    std::string applicationName();
-
     /** application major number (usually 0) */
     BYTE applicationMajor;
 
