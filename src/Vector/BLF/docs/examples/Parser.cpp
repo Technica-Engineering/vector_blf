@@ -563,7 +563,7 @@ void showSystemVariable(Vector::BLF::SystemVariable * systemVariable)
 // CAN_ERROR_EXT = 73
 void showCanErrorFrameExt(Vector::BLF::CanErrorFrameExt * canErrorFrameExt)
 {
-    std::cout << "CanErrorExt:";
+    std::cout << "CanErrorFrameExt:";
     std::cout << " ch=" << std::dec << canErrorFrameExt->channel;
     std::cout << " len=" << std::dec << canErrorFrameExt->length;
     std::cout << " flags=0x" << std::hex << canErrorFrameExt->flags;
@@ -717,7 +717,6 @@ void showAfdxStatistic(Vector::BLF::AfdxStatistic * afdxStatistic)
 // ETHERNET_STATUS = 103
 
 // CAN_FD_ERROR_64 = 104
-
 
 int main(int argc, char *argv[])
 {

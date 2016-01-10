@@ -72,6 +72,7 @@ BOOST_AUTO_TEST_CASE(CanMessage)
     BOOST_CHECK(canMessage->objectType == Vector::BLF::ObjectType::CAN_MESSAGE);
     /* ObjectHeader */
     BOOST_CHECK(canMessage->objectFlags == Vector::BLF::ObjectHeader::TimeOneNans);
+    // reserved
     BOOST_CHECK(canMessage->objectVersion == 0);
     BOOST_CHECK(canMessage->objectTimeStamp == 2501000000); // ns
     /* CanMessage */
@@ -94,7 +95,6 @@ BOOST_AUTO_TEST_CASE(CanMessage)
 }
 
 /* CAN_ERROR = 2 */
-#if 0
 BOOST_AUTO_TEST_CASE(CanErrorFrame)
 {
     Vector::BLF::File file;
@@ -108,13 +108,25 @@ BOOST_AUTO_TEST_CASE(CanErrorFrame)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::CAN_ERROR);
     canErrorFrame = static_cast<Vector::BLF::CanErrorFrame *>(ohb);
-    // @todo test implementation
+    /* ObjectHeaderBase */
+    BOOST_CHECK(canErrorFrame->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(canErrorFrame->headerSize == canErrorFrame->calculateHeaderSize());
+    BOOST_CHECK(canErrorFrame->headerVersion == 1);
+    BOOST_CHECK(canErrorFrame->objectSize == canErrorFrame->calculateObjectSize());
+    BOOST_CHECK(canErrorFrame->objectType == Vector::BLF::ObjectType::CAN_ERROR);
+    /* ObjectHeader */
+    BOOST_CHECK(canErrorFrame->objectFlags == Vector::BLF::ObjectHeader::TimeOneNans);
+    // reserved
+    BOOST_CHECK(canErrorFrame->objectVersion == 0);
+    BOOST_CHECK(canErrorFrame->objectTimeStamp == 2501000000); // ns
+    /* CanErrorFrame */
+    BOOST_CHECK(canErrorFrame->channel == 1);
+    BOOST_CHECK(canErrorFrame->length == 6);
     delete ohb;
 
     BOOST_CHECK(file.eof());
     file.close();
 }
-#endif
 
 /* CAN_OVERLOAD = 3 */
 #if 0
@@ -207,7 +219,6 @@ BOOST_AUTO_TEST_CASE(AppTrigger)
 /* ENV_DOUBLE = 7 */
 /* ENV_STRING = 8 */
 /* ENV_DATA = 9 */
-#if 0
 BOOST_AUTO_TEST_CASE(EnvironmentVariable)
 {
     Vector::BLF::File file;
@@ -221,13 +232,31 @@ BOOST_AUTO_TEST_CASE(EnvironmentVariable)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::ENV_INTEGER);
     environmentVariable = static_cast<Vector::BLF::EnvironmentVariable *>(ohb);
-    // @todo test implementation
+    /* ObjectHeaderBase */
+    BOOST_CHECK(environmentVariable->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(environmentVariable->headerSize == environmentVariable->calculateHeaderSize());
+    BOOST_CHECK(environmentVariable->headerVersion == 1);
+    BOOST_CHECK(environmentVariable->objectSize == environmentVariable->calculateObjectSize());
+    BOOST_CHECK(environmentVariable->objectType == Vector::BLF::ObjectType::ENV_INTEGER);
+    /* ObjectHeader */
+    BOOST_CHECK(environmentVariable->objectFlags == Vector::BLF::ObjectHeader::TimeOneNans);
+    // reserved
+    BOOST_CHECK(environmentVariable->objectVersion == 0);
+    BOOST_CHECK(environmentVariable->objectTimeStamp == 30613377); // ns
+    /* EnvironmentVariable */
+    BOOST_CHECK(environmentVariable->nameLength == 11);
+    BOOST_CHECK(environmentVariable->dataLength == 4);
+    // reserved
+    BOOST_CHECK(environmentVariable->name == "EnvGearDown");
+    BOOST_CHECK(environmentVariable->data[0] == 0x01);
+    BOOST_CHECK(environmentVariable->data[1] == 0x00);
+    BOOST_CHECK(environmentVariable->data[2] == 0x00);
+    BOOST_CHECK(environmentVariable->data[3] == 0x00);
     delete ohb;
 
     BOOST_CHECK(file.eof());
     file.close();
 }
-#endif
 
 /* LOG_CONTAINER = 10 */
 // LogContainer is indirectly tested
@@ -794,7 +823,6 @@ BOOST_AUTO_TEST_CASE(FlexRaySync)
 #endif
 
 /* CAN_DRIVER_ERROR = 31 */
-#if 0
 BOOST_AUTO_TEST_CASE(CanDriverError)
 {
     Vector::BLF::File file;
@@ -808,13 +836,27 @@ BOOST_AUTO_TEST_CASE(CanDriverError)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::CAN_DRIVER_ERROR);
     canDriverError = static_cast<Vector::BLF::CanDriverError *>(ohb);
-    // @todo test implementation
+    /* ObjectHeaderBase */
+    BOOST_CHECK(canDriverError->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(canDriverError->headerSize == canDriverError->calculateHeaderSize());
+    BOOST_CHECK(canDriverError->headerVersion == 1);
+    BOOST_CHECK(canDriverError->objectSize == canDriverError->calculateObjectSize());
+    BOOST_CHECK(canDriverError->objectType == Vector::BLF::ObjectType::CAN_DRIVER_ERROR);
+    /* ObjectHeader */
+    BOOST_CHECK(canDriverError->objectFlags == Vector::BLF::ObjectHeader::TimeOneNans);
+    // reserved
+    BOOST_CHECK(canDriverError->objectVersion == 0);
+    BOOST_CHECK(canDriverError->objectTimeStamp == 15282297); // ns
+    /* CanDriverError */
+    BOOST_CHECK(canDriverError->channel == 1);
+    BOOST_CHECK(canDriverError->txErrors == 0);
+    BOOST_CHECK(canDriverError->rxErrors == 0);
+    BOOST_CHECK(canDriverError->errorCode == 0x68);
     delete ohb;
 
     BOOST_CHECK(file.eof());
     file.close();
 }
-#endif
 
 /* MOST_PKT = 32 */
 #if 0
@@ -2324,7 +2366,6 @@ BOOST_AUTO_TEST_CASE(EthernetFrame)
 }
 
 /* SYS_VARIABLE = 72 */
-#if 0
 BOOST_AUTO_TEST_CASE(SystemVariable)
 {
     Vector::BLF::File file;
@@ -2338,16 +2379,35 @@ BOOST_AUTO_TEST_CASE(SystemVariable)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::SYS_VARIABLE);
     systemVariable = static_cast<Vector::BLF::SystemVariable *>(ohb);
-    // @todo test implementation
+    /* ObjectHeaderBase */
+    BOOST_CHECK(systemVariable->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(systemVariable->headerSize == systemVariable->calculateHeaderSize());
+    BOOST_CHECK(systemVariable->headerVersion == 1);
+    BOOST_CHECK(systemVariable->objectSize == systemVariable->calculateObjectSize());
+    BOOST_CHECK(systemVariable->objectType == Vector::BLF::ObjectType::SYS_VARIABLE);
+    /* ObjectHeader */
+    BOOST_CHECK(systemVariable->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
+    // reserved
+    BOOST_CHECK(systemVariable->objectVersion == 0);
+    BOOST_CHECK(systemVariable->objectTimeStamp == 20400000000); // ns
+    /* SystemVariable */
+    BOOST_CHECK(systemVariable->type == Vector::BLF::SystemVariable::Type::Long);
+    // reserved
+    BOOST_CHECK(systemVariable->nameLength == 21);
+    BOOST_CHECK(systemVariable->dataLength == 4);
+    // reserved
+    BOOST_CHECK(systemVariable->name == "::WiperSystem::Active");
+    BOOST_CHECK(systemVariable->data[0] == 0x06);
+    BOOST_CHECK(systemVariable->data[1] == 0x00);
+    BOOST_CHECK(systemVariable->data[2] == 0x00);
+    BOOST_CHECK(systemVariable->data[3] == 0x00);
     delete ohb;
 
     BOOST_CHECK(file.eof());
     file.close();
 }
-#endif
 
 /* CAN_ERROR_EXT = 73 */
-#if 0
 BOOST_AUTO_TEST_CASE(CanErrorFrameExt)
 {
     Vector::BLF::File file;
@@ -2361,13 +2421,35 @@ BOOST_AUTO_TEST_CASE(CanErrorFrameExt)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::CAN_ERROR_EXT);
     canErrorFrameExt = static_cast<Vector::BLF::CanErrorFrameExt *>(ohb);
-    // @todo test implementation
+    /* ObjectHeaderBase */
+    BOOST_CHECK(canErrorFrameExt->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(canErrorFrameExt->headerSize == canErrorFrameExt->calculateHeaderSize());
+    BOOST_CHECK(canErrorFrameExt->headerVersion == 1);
+    BOOST_CHECK(canErrorFrameExt->objectSize == canErrorFrameExt->calculateObjectSize());
+    BOOST_CHECK(canErrorFrameExt->objectType == Vector::BLF::ObjectType::CAN_ERROR_EXT);
+    /* ObjectHeader */
+    BOOST_CHECK(canErrorFrameExt->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
+    // reserved
+    BOOST_CHECK(canErrorFrameExt->objectVersion == 0);
+    BOOST_CHECK(canErrorFrameExt->objectTimeStamp == 1592186000); // ns
+    /* CanErrorFrameExt */
+    BOOST_CHECK(canErrorFrameExt->channel == 1);
+    BOOST_CHECK(canErrorFrameExt->length == 6);
+    BOOST_CHECK(canErrorFrameExt->flags == 1); // SJA 1000
+    BOOST_CHECK(canErrorFrameExt->ecc == 0xa2);
+    BOOST_CHECK(canErrorFrameExt->position == 0);
+    BOOST_CHECK(canErrorFrameExt->dlc == 0);
+    // reserved
+    BOOST_CHECK(canErrorFrameExt->frameLengthInNs == 0);
+    BOOST_CHECK(canErrorFrameExt->id == 0xffffffff);
+    BOOST_CHECK(canErrorFrameExt->flagsExt == 0x20a2);
+    // reserved
+    //BOOST_CHECK(canErrorFrameExt->data[0] == 0);
     delete ohb;
 
     BOOST_CHECK(file.eof());
     file.close();
 }
-#endif
 
 /* CAN_DRIVER_ERROR_EXT = 74 */
 #if 0
@@ -3531,7 +3613,6 @@ BOOST_AUTO_TEST_CASE(AfdxFrame)
 }
 
 /* AFDX_STATISTIC = 98 */
-#if 0
 BOOST_AUTO_TEST_CASE(AfdxStatistic)
 {
     Vector::BLF::File file;
@@ -3545,13 +3626,38 @@ BOOST_AUTO_TEST_CASE(AfdxStatistic)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_STATISTIC);
     afdxStatistic = static_cast<Vector::BLF::AfdxStatistic *>(ohb);
-    // @todo test implementation
+    /* ObjectHeaderBase */
+    BOOST_CHECK(afdxStatistic->signature == Vector::BLF::ObjectSignature);
+    BOOST_CHECK(afdxStatistic->headerSize == afdxStatistic->calculateHeaderSize());
+    BOOST_CHECK(afdxStatistic->headerVersion == 1);
+    BOOST_CHECK(afdxStatistic->objectSize == afdxStatistic->calculateObjectSize());
+    BOOST_CHECK(afdxStatistic->objectType == Vector::BLF::ObjectType::AFDX_STATISTIC);
+    /* ObjectHeader */
+    BOOST_CHECK(afdxStatistic->objectFlags == Vector::BLF::ObjectHeader::TimeOneNans);
+    // reserved
+    BOOST_CHECK(afdxStatistic->objectVersion == 0);
+    BOOST_CHECK(afdxStatistic->objectTimeStamp == 1000763955); // ns
+    /* AfdxStatistic */
+    BOOST_CHECK(afdxStatistic->channel == 1);
+    BOOST_CHECK(afdxStatistic->flags == 0xb);
+    BOOST_CHECK(afdxStatistic->rxPacketCount == 3);
+    BOOST_CHECK(afdxStatistic->rxByteCount == 417);
+    BOOST_CHECK(afdxStatistic->txPacketCount == 0);
+    BOOST_CHECK(afdxStatistic->txByteCount == 0);
+    BOOST_CHECK(afdxStatistic->collisionCount == 0);
+    BOOST_CHECK(afdxStatistic->errorCount == 0);
+    BOOST_CHECK(afdxStatistic->statDroppedRedundantPacketCount == 0);
+    BOOST_CHECK(afdxStatistic->statRedundantErrorPacketCount == 0);
+    BOOST_CHECK(afdxStatistic->statIntegrityErrorPacketCount == 0);
+    BOOST_CHECK(afdxStatistic->statAvrgPeriodMsec == 0);
+    BOOST_CHECK(afdxStatistic->statAvrgJitterMysec == 0);
+    BOOST_CHECK(afdxStatistic->vlid == 0);
+    BOOST_CHECK(afdxStatistic->statDuration == 0);
     delete ohb;
 
     BOOST_CHECK(file.eof());
     file.close();
 }
-#endif
 
 /* KLINE_STATUSEVENT = 99 */
 #if 0
