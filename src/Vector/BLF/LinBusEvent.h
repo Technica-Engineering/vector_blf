@@ -22,10 +22,10 @@
 #pragma once
 
 #include <array>
-#include <iostream>
 
-#include "VectorTypes.h"
+#include "AbstractFile.h"
 #include "ObjectHeader.h"
+#include "VectorTypes.h"
 
 #include "vector_blf_export.h"
 
@@ -42,10 +42,10 @@ public:
     virtual ~LinBusEvent();
 
     /** @copydoc ObjectHeader::read */
-    virtual void read(std::istream & is);
+    virtual void read(AbstractFile & is);
 
     /** @copydoc ObjectHeader::write */
-    virtual void write(std::ostream & os);
+    virtual void write(AbstractFile & os);
 
     /** @copydoc ObjectHeader::calculateObjectSize */
     virtual size_t calculateObjectSize();

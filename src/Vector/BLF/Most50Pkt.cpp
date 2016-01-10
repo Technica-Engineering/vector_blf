@@ -47,7 +47,7 @@ Most50Pkt::Most50Pkt() :
     objectType = ObjectType::MOST_50_PKT;
 }
 
-void Most50Pkt::read(std::istream & is)
+void Most50Pkt::read(AbstractFile & is)
 {
     ObjectHeader2::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -66,11 +66,11 @@ void Most50Pkt::read(std::istream & is)
     is.read((char *) &reserved5, sizeof(reserved5));
     is.read((char *) &pktDataLength, sizeof(pktDataLength));
     is.read((char *) reserved6.data(), reserved6.size());
-    pktData.reserve(pktDataLength);
+    pktData.resize(pktDataLength);
     is.read((char *) pktData.data(), pktDataLength);
 }
 
-void Most50Pkt::write(std::ostream & os)
+void Most50Pkt::write(AbstractFile & os)
 {
     /* pre processing */
     pktDataLength = pktData.size();

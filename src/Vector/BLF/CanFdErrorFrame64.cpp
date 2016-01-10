@@ -48,7 +48,7 @@ CanFdErrorFrame64::CanFdErrorFrame64() :
     objectType = ObjectType::CAN_FD_ERROR_64;
 }
 
-void CanFdErrorFrame64::read(std::istream & is)
+void CanFdErrorFrame64::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -71,7 +71,7 @@ void CanFdErrorFrame64::read(std::istream & is)
     is.read((char *) data.data(), data.size());
 }
 
-void CanFdErrorFrame64::write(std::ostream & os)
+void CanFdErrorFrame64::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write((char *) &channel, sizeof(channel));

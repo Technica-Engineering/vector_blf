@@ -33,7 +33,7 @@ CanDriverHwSync::CanDriverHwSync() :
     objectType = ObjectType::CAN_DRIVER_SYNC;
 }
 
-void CanDriverHwSync::read(std::istream & is)
+void CanDriverHwSync::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -41,7 +41,7 @@ void CanDriverHwSync::read(std::istream & is)
     is.read((char *) &reserved, sizeof(reserved));
 }
 
-void CanDriverHwSync::write(std::ostream & os)
+void CanDriverHwSync::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write((char *) &channel, sizeof(channel));

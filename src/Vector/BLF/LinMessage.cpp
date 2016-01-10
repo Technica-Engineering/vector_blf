@@ -41,7 +41,7 @@ LinMessage::LinMessage() :
     objectType = ObjectType::LIN_MESSAGE;
 }
 
-void LinMessage::read(std::istream & is)
+void LinMessage::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -57,7 +57,7 @@ void LinMessage::read(std::istream & is)
     is.read((char *) &reserved, sizeof(reserved));
 }
 
-void LinMessage::write(std::ostream & os)
+void LinMessage::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write((char *) &channel, sizeof(channel));

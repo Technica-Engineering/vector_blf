@@ -37,7 +37,7 @@ MostDataLost::MostDataLost() :
     objectType = ObjectType::MOST_DATALOST;
 }
 
-void MostDataLost::read(std::istream & is)
+void MostDataLost::read(AbstractFile & is)
 {
     ObjectHeader2::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -49,7 +49,7 @@ void MostDataLost::read(std::istream & is)
     is.read((char *) &nextGoodTimeStampNs, sizeof(nextGoodTimeStampNs));
 }
 
-void MostDataLost::write(std::ostream & os)
+void MostDataLost::write(AbstractFile & os)
 {
     ObjectHeader2::write(os);
     os.write((char *) &channel, sizeof(channel));

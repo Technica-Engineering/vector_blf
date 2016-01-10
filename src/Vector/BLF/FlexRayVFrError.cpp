@@ -40,7 +40,7 @@ FlexRayVFrError::FlexRayVFrError() :
     objectType = ObjectType::FR_ERROR;
 }
 
-void FlexRayVFrError::read(std::istream & is)
+void FlexRayVFrError::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -55,7 +55,7 @@ void FlexRayVFrError::read(std::istream & is)
     is.read((char *) reserved2.data(), reserved2.size());
 }
 
-void FlexRayVFrError::write(std::ostream & os)
+void FlexRayVFrError::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write((char *) &channel, sizeof(channel));

@@ -34,17 +34,17 @@ MostAllocTab::MostAllocTab() :
     objectType = ObjectType::MOST_ALLOCTAB;
 }
 
-void MostAllocTab::read(std::istream & is)
+void MostAllocTab::read(AbstractFile & is)
 {
     ObjectHeader2::read(is);
     is.read((char *) &channel, sizeof(channel));
     is.read((char *) &length, sizeof(length));
     is.read((char *) reserved.data(), reserved.size());
-    tableData.reserve(length);
+    tableData.resize(length);
     is.read((char *) tableData.data(), length);
 }
 
-void MostAllocTab::write(std::ostream & os)
+void MostAllocTab::write(AbstractFile & os)
 {
     /* pre processing */
     length = tableData.size();

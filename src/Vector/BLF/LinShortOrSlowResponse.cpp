@@ -36,7 +36,7 @@ LinShortOrSlowResponse::LinShortOrSlowResponse() :
     objectType = ObjectType::LIN_SHORT_OR_SLOW_RESPONSE;
 }
 
-void LinShortOrSlowResponse::read(std::istream & is)
+void LinShortOrSlowResponse::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     LinDatabyteTimestampEvent::read(is);
@@ -47,7 +47,7 @@ void LinShortOrSlowResponse::read(std::istream & is)
     is.read((char *) &reserved, sizeof(reserved));
 }
 
-void LinShortOrSlowResponse::write(std::ostream & os)
+void LinShortOrSlowResponse::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     LinDatabyteTimestampEvent::write(os);

@@ -45,7 +45,7 @@ AfdxStatistic::AfdxStatistic() :
     objectType = ObjectType::AFDX_STATISTIC;
 }
 
-void AfdxStatistic::read(std::istream & is)
+void AfdxStatistic::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -65,7 +65,7 @@ void AfdxStatistic::read(std::istream & is)
     is.read((char *) &statDuration, sizeof(statDuration));
 }
 
-void AfdxStatistic::write(std::ostream & os)
+void AfdxStatistic::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write((char *) &channel, sizeof(channel));

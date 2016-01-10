@@ -34,7 +34,7 @@ MostStress::MostStress() :
     objectType = ObjectType::MOST_STRESS;
 }
 
-void MostStress::read(std::istream & is)
+void MostStress::read(AbstractFile & is)
 {
     ObjectHeader2::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -43,7 +43,7 @@ void MostStress::read(std::istream & is)
     is.read((char *) &reserved, sizeof(reserved));
 }
 
-void MostStress::write(std::ostream & os)
+void MostStress::write(AbstractFile & os)
 {
     ObjectHeader2::write(os);
     os.write((char *) &channel, sizeof(channel));

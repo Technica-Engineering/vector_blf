@@ -45,7 +45,7 @@ LinReceiveError2::LinReceiveError2() :
     objectType = ObjectType::LIN_RCV_ERROR2;
 }
 
-void LinReceiveError2::read(std::istream & is)
+void LinReceiveError2::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     LinDatabyteTimestampEvent::read(is);
@@ -65,7 +65,7 @@ void LinReceiveError2::read(std::istream & is)
     is.read((char *) &earlyStopbitOffsetResponse, sizeof(earlyStopbitOffsetResponse));
 }
 
-void LinReceiveError2::write(std::ostream & os)
+void LinReceiveError2::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     LinDatabyteTimestampEvent::write(os);

@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include <string.h>
+#include <cstring>
 
 #include "GlobalMarker.h"
 
@@ -44,7 +44,7 @@ GlobalMarker::GlobalMarker() :
     objectType = ObjectType::GLOBAL_MARKER;
 }
 
-void GlobalMarker::read(std::istream & is)
+void GlobalMarker::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &commentedEventType, sizeof(commentedEventType));
@@ -70,7 +70,7 @@ void GlobalMarker::read(std::istream & is)
     objectSize = calculateObjectSize();
 }
 
-void GlobalMarker::write(std::ostream & os)
+void GlobalMarker::write(AbstractFile & os)
 {
     /* pre processing */
     groupNameLength = groupName.size();

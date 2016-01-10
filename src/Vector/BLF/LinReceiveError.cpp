@@ -41,7 +41,7 @@ LinReceiveError::LinReceiveError() :
     objectType = ObjectType::LIN_RCV_ERROR;
 }
 
-void LinReceiveError::read(std::istream & is)
+void LinReceiveError::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -57,7 +57,7 @@ void LinReceiveError::read(std::istream & is)
     is.read((char *) &timeoutDuringDlcDetection, sizeof(timeoutDuringDlcDetection));
 }
 
-void LinReceiveError::write(std::ostream & os)
+void LinReceiveError::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write((char *) &channel, sizeof(channel));

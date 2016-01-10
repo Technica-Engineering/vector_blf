@@ -35,7 +35,7 @@ LinWakeupEvent2::LinWakeupEvent2() :
     objectType = ObjectType::LIN_WAKEUP2;
 }
 
-void LinWakeupEvent2::read(std::istream & is)
+void LinWakeupEvent2::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     LinBusEvent::read(is);
@@ -45,7 +45,7 @@ void LinWakeupEvent2::read(std::istream & is)
     is.read((char *) reserved.data(), reserved.size());
 }
 
-void LinWakeupEvent2::write(std::ostream & os)
+void LinWakeupEvent2::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     LinBusEvent::write(os);

@@ -21,7 +21,7 @@
 
 #include "ObjectHeaderBase.h"
 
-#include <iostream>
+#include "AbstractFile.h"
 
 namespace Vector {
 namespace BLF {
@@ -39,7 +39,7 @@ ObjectHeaderBase::~ObjectHeaderBase()
 {
 }
 
-void ObjectHeaderBase::read(std::istream & is)
+void ObjectHeaderBase::read(AbstractFile & is)
 {
     is.read((char *) &signature, sizeof(signature));
     if (signature != ObjectSignature)
@@ -50,7 +50,7 @@ void ObjectHeaderBase::read(std::istream & is)
     is.read((char *) &objectType, sizeof(objectType));
 }
 
-void ObjectHeaderBase::write(std::ostream & os)
+void ObjectHeaderBase::write(AbstractFile & os)
 {
     /* pre processing */
     objectSize = calculateObjectSize();

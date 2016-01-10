@@ -38,7 +38,7 @@ WlanStatistic::WlanStatistic() :
     objectType = ObjectType::WLAN_STATISTIC;
 }
 
-void WlanStatistic::read(std::istream & is)
+void WlanStatistic::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -51,7 +51,7 @@ void WlanStatistic::read(std::istream & is)
     is.read((char *) &errorCount, sizeof(errorCount));
 }
 
-void WlanStatistic::write(std::ostream & os)
+void WlanStatistic::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write((char *) &channel, sizeof(channel));

@@ -39,7 +39,7 @@ FlexRayV6StartCycleEvent::FlexRayV6StartCycleEvent() :
     objectType = ObjectType::FLEXRAY_CYCLE;
 }
 
-void FlexRayV6StartCycleEvent::read(std::istream & is)
+void FlexRayV6StartCycleEvent::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -53,7 +53,7 @@ void FlexRayV6StartCycleEvent::read(std::istream & is)
     is.read((char *) reserved.data(), reserved.size());
 }
 
-void FlexRayV6StartCycleEvent::write(std::ostream & os)
+void FlexRayV6StartCycleEvent::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write((char *) &channel, sizeof(channel));

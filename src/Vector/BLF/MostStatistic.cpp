@@ -35,7 +35,7 @@ MostStatistic::MostStatistic() :
     objectType = ObjectType::MOST_STATISTIC;
 }
 
-void MostStatistic::read(std::istream & is)
+void MostStatistic::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -45,7 +45,7 @@ void MostStatistic::read(std::istream & is)
     is.read((char *) &bufferLevel, sizeof(bufferLevel));
 }
 
-void MostStatistic::write(std::ostream & os)
+void MostStatistic::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write((char *) &channel, sizeof(channel));

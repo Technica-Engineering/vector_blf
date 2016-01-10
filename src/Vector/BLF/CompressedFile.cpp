@@ -19,46 +19,40 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "mstream.h"
+#include "CompressedFile.h"
 
-namespace std {
+namespace Vector {
+namespace BLF {
 
-#ifdef USE_STRINGSTREAM_FOR_MSTREAM
-#else
-
-int membuf::overflow(int c)
+void CompressedFile::read(char * s, std::streamsize n)
 {
+    std::fstream::read(s, n);
 }
 
-int membuf::pbackfail(int c)
+std::streampos CompressedFile::tellg()
 {
+    return std::fstream::tellg();
 }
 
-std::streampos membuf::seekoff(std::streamoff off, std::ios_base::seekdir way,
-                       std::ios_base::openmode which)
+void CompressedFile::seekg(std::streampos pos)
 {
+    std::fstream::seekg(pos);
 }
 
-std::streampos membuf::seekpos(std::streampos sp, std::ios_base::openmode which)
+void CompressedFile::seekg(std::streamoff off, std::ios_base::seekdir way)
 {
+    std::fstream::seekg(off, way);
 }
 
-std::streambuf * membuf::setbuf(char * s, std::streamsize n)
+void CompressedFile::write(const char * s, std::streamsize n)
 {
+    std::fstream::write(s, n);
 }
 
-std::streamsize membuf::showmanyc()
+std::streampos CompressedFile::tellp()
 {
+    return std::fstream::tellp();
 }
 
-int membuf::uflow()
-{
 }
-
-int membuf::underflow()
-{
-}
-
-#endif
-
 }

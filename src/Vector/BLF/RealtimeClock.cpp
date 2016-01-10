@@ -32,14 +32,14 @@ RealtimeClock::RealtimeClock() :
     objectType = ObjectType::REALTIMECLOCK;
 }
 
-void RealtimeClock::read(std::istream & is)
+void RealtimeClock::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &time, sizeof(time));
     is.read((char *) &loggingOffset, sizeof(loggingOffset));
 }
 
-void RealtimeClock::write(std::ostream & os)
+void RealtimeClock::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write((char *) &time, sizeof(time));

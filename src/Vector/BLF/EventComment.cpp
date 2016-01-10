@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include <string.h>
+#include <cstring>
 
 #include "EventComment.h"
 
@@ -36,7 +36,7 @@ EventComment::EventComment() :
     objectType = ObjectType::EVENT_COMMENT;
 }
 
-void EventComment::read(std::istream & is)
+void EventComment::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &commentedEventType, sizeof(commentedEventType));
@@ -50,7 +50,7 @@ void EventComment::read(std::istream & is)
     objectSize = calculateObjectSize();
 }
 
-void EventComment::write(std::ostream & os)
+void EventComment::write(AbstractFile & os)
 {
     /* pre processing */
     textLength = text.size();

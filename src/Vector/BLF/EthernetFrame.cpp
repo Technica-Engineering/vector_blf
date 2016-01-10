@@ -40,7 +40,7 @@ EthernetFrame::EthernetFrame() :
     objectType = ObjectType::ETHERNET_FRAME;
 }
 
-void EthernetFrame::read(std::istream & is)
+void EthernetFrame::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) sourceAddress.data(), sourceAddress.size());
@@ -52,11 +52,11 @@ void EthernetFrame::read(std::istream & is)
     is.read((char *) &tci, sizeof(tci));
     is.read((char *) &payLoadLength, sizeof(payLoadLength));
     is.read((char *) reserved.data(), reserved.size());
-    payLoad.reserve(payLoadLength);
+    payLoad.resize(payLoadLength);
     is.read((char *) payLoad.data(), payLoadLength);
 }
 
-void EthernetFrame::write(std::ostream & os)
+void EthernetFrame::write(AbstractFile & os)
 {
     /* pre processing */
     payLoadLength = payLoad.size();

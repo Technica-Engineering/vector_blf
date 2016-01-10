@@ -33,7 +33,7 @@ MostLightLock::MostLightLock() :
     objectType = ObjectType::MOST_LIGHTLOCK;
 }
 
-void MostLightLock::read(std::istream & is)
+void MostLightLock::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -41,7 +41,7 @@ void MostLightLock::read(std::istream & is)
     is.read((char *) reserved.data(), reserved.size());
 }
 
-void MostLightLock::write(std::ostream & os)
+void MostLightLock::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write((char *) &channel, sizeof(channel));

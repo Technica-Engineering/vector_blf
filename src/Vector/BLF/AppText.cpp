@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include <string.h>
+#include <cstring>
 
 #include "AppText.h"
 
@@ -36,7 +36,7 @@ AppText::AppText() :
     objectType = ObjectType::APP_TEXT;
 }
 
-void AppText::read(std::istream & is)
+void AppText::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &source, sizeof(source));
@@ -50,7 +50,7 @@ void AppText::read(std::istream & is)
     objectSize = calculateObjectSize();
 }
 
-void AppText::write(std::ostream & os)
+void AppText::write(AbstractFile & os)
 {
     /* pre processing */
     textLength = text.size();

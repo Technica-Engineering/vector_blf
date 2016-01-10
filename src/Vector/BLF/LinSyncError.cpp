@@ -33,7 +33,7 @@ LinSyncError::LinSyncError() :
     objectType = ObjectType::LIN_SYN_ERROR;
 }
 
-void LinSyncError::read(std::istream & is)
+void LinSyncError::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -41,7 +41,7 @@ void LinSyncError::read(std::istream & is)
     is.read((char *) timeDiff.data(), timeDiff.size() * sizeof(WORD));
 }
 
-void LinSyncError::write(std::ostream & os)
+void LinSyncError::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write((char *) &channel, sizeof(channel));

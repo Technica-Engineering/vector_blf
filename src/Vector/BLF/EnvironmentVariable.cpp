@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include <string.h>
+#include <cstring>
 
 #include "EnvironmentVariable.h"
 
@@ -42,7 +42,7 @@ EnvironmentVariable::EnvironmentVariable() :
      */
 }
 
-void EnvironmentVariable::read(std::istream & is)
+void EnvironmentVariable::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &nameLength, sizeof(nameLength));
@@ -50,7 +50,7 @@ void EnvironmentVariable::read(std::istream & is)
     is.read((char *) &reserved, sizeof(reserved));
     name.resize(nameLength);
     is.read((char *) name.data(), nameLength);
-    data.reserve(dataLength);
+    data.resize(dataLength);
     is.read((char *) data.data(), dataLength);
 
     /* post processing */
@@ -58,7 +58,7 @@ void EnvironmentVariable::read(std::istream & is)
     objectSize = calculateObjectSize();
 }
 
-void EnvironmentVariable::write(std::ostream & os)
+void EnvironmentVariable::write(AbstractFile & os)
 {
     /* pre processing */
     nameLength = name.size();

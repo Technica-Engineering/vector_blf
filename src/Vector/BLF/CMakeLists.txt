@@ -9,6 +9,7 @@ configure_file(
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 set(source_files
+  AbstractFile.cpp
   AfdxFrame.cpp
   AfdxStatistic.cpp
   AppText.cpp
@@ -25,6 +26,7 @@ set(source_files
   CanMessage2.cpp
   CanMessage.cpp
   CanOverloadFrame.cpp
+  CompressedFile.cpp
   DriverOverrun.cpp
   EnvironmentVariable.cpp
   EthernetFrame.cpp
@@ -105,17 +107,18 @@ set(source_files
   MostSystemEvent.cpp
   MostTrigger.cpp
   MostTxLight.cpp
-  mstream.cpp
   ObjectHeader2.cpp
   ObjectHeaderBase.cpp
   ObjectHeader.cpp
   RealtimeClock.cpp
   SerialEvent.cpp
   SystemVariable.cpp
+  UncompressedFile.cpp
   WlanFrame.cpp
   WlanStatistic.cpp)
 
 set(public_header_files
+  AbstractFile.h
   AfdxFrame.h
   AfdxStatistic.h
   AppText.h
@@ -132,6 +135,7 @@ set(public_header_files
   CanMessage2.h
   CanMessage.h
   CanOverloadFrame.h
+  CompressedFile.cpp
   DriverOverrun.h
   EnvironmentVariable.h
   EthernetFrame.h
@@ -212,7 +216,6 @@ set(public_header_files
   MostSystemEvent.h
   MostTrigger.h
   MostTxLight.h
-  mstream.h
   ObjectHeader2.h
   ObjectHeaderBase.h
   ObjectHeader.h
@@ -220,6 +223,7 @@ set(public_header_files
   SerialEvent.h
   SystemVariable.h
   VectorTypes.h
+  UncompressedFile.cpp
   WlanFrame.h
   WlanStatistic.h)
 

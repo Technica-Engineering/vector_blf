@@ -30,13 +30,13 @@ LinDatabyteTimestampEvent::LinDatabyteTimestampEvent() :
 {
 }
 
-void LinDatabyteTimestampEvent::read(std::istream & is)
+void LinDatabyteTimestampEvent::read(AbstractFile & is)
 {
     LinMessageDescriptor::read(is);
     is.read((char *) databyteTimestamps.data(), databyteTimestamps.size() * sizeof(ULONGLONG));
 }
 
-void LinDatabyteTimestampEvent::write(std::ostream & os)
+void LinDatabyteTimestampEvent::write(AbstractFile & os)
 {
     LinMessageDescriptor::write(os);
     os.write((char *) databyteTimestamps.data(), databyteTimestamps.size() * sizeof(ULONGLONG));

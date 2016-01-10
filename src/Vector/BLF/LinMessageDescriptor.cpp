@@ -35,7 +35,7 @@ LinMessageDescriptor::LinMessageDescriptor() :
 {
 }
 
-void LinMessageDescriptor::read(std::istream & is)
+void LinMessageDescriptor::read(AbstractFile & is)
 {
     LinSynchFieldEvent::read(is);
     is.read((char *) &supplierId, sizeof(supplierId));
@@ -46,7 +46,7 @@ void LinMessageDescriptor::read(std::istream & is)
     is.read((char *) &checksumModel, sizeof(checksumModel));
 }
 
-void LinMessageDescriptor::write(std::ostream & os)
+void LinMessageDescriptor::write(AbstractFile & os)
 {
     LinSynchFieldEvent::write(os);
     os.write((char *) &supplierId, sizeof(supplierId));

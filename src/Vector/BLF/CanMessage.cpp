@@ -35,7 +35,7 @@ CanMessage::CanMessage() :
     objectType = ObjectType::CAN_MESSAGE;
 }
 
-void CanMessage::read(std::istream & is)
+void CanMessage::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -45,7 +45,7 @@ void CanMessage::read(std::istream & is)
     is.read((char *) data.data(), data.size());
 }
 
-void CanMessage::write(std::ostream & os)
+void CanMessage::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write((char *) &channel, sizeof(channel));

@@ -36,7 +36,7 @@ LinBusEvent::~LinBusEvent()
 {
 }
 
-void LinBusEvent::read(std::istream & is)
+void LinBusEvent::read(AbstractFile & is)
 {
     is.read((char *) &sof, sizeof(sof));
     is.read((char *) &eventBaudrate, sizeof(eventBaudrate));
@@ -44,7 +44,7 @@ void LinBusEvent::read(std::istream & is)
     is.read((char *) reserved.data(), reserved.size());
 }
 
-void LinBusEvent::write(std::ostream & os)
+void LinBusEvent::write(AbstractFile & os)
 {
     os.write((char *) &sof, sizeof(sof));
     os.write((char *) &eventBaudrate, sizeof(eventBaudrate));

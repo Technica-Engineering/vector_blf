@@ -33,7 +33,7 @@ MostTxLight::MostTxLight() :
     objectType = ObjectType::MOST_TXLIGHT;
 }
 
-void MostTxLight::read(std::istream & is)
+void MostTxLight::read(AbstractFile & is)
 {
     ObjectHeader2::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -41,7 +41,7 @@ void MostTxLight::read(std::istream & is)
     is.read((char *) reserved.data(), reserved.size());
 }
 
-void MostTxLight::write(std::ostream & os)
+void MostTxLight::write(AbstractFile & os)
 {
     ObjectHeader2::write(os);
     os.write((char *) &channel, sizeof(channel));

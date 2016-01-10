@@ -41,7 +41,7 @@ LinCrcError::LinCrcError() :
     objectType = ObjectType::LIN_CRC_ERROR;
 }
 
-void LinCrcError::read(std::istream & is)
+void LinCrcError::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -57,7 +57,7 @@ void LinCrcError::read(std::istream & is)
     is.read((char *) &reserved, sizeof(reserved));
 }
 
-void LinCrcError::write(std::ostream & os)
+void LinCrcError::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write((char *) &channel, sizeof(channel));

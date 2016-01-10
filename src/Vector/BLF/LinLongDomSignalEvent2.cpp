@@ -34,7 +34,7 @@ LinLongDomSignalEvent2::LinLongDomSignalEvent2() :
     objectType = ObjectType::LIN_LONG_DOM_SIG2;
 }
 
-void LinLongDomSignalEvent2::read(std::istream & is)
+void LinLongDomSignalEvent2::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     LinBusEvent::read(is);
@@ -43,7 +43,7 @@ void LinLongDomSignalEvent2::read(std::istream & is)
     is.read((char *) &length, sizeof(length));
 }
 
-void LinLongDomSignalEvent2::write(std::ostream & os)
+void LinLongDomSignalEvent2::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     LinBusEvent::write(os);

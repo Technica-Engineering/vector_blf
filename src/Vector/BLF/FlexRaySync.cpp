@@ -40,7 +40,7 @@ FlexRaySync::FlexRaySync() :
     objectType = ObjectType::FLEXRAY_SYNC;
 }
 
-void FlexRaySync::read(std::istream & is)
+void FlexRaySync::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -55,7 +55,7 @@ void FlexRaySync::read(std::istream & is)
     is.read((char *) &cycle, sizeof(cycle));
 }
 
-void FlexRaySync::write(std::ostream & os)
+void FlexRaySync::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write((char *) &channel, sizeof(channel));

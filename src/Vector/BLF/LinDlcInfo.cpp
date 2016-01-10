@@ -34,7 +34,7 @@ LinDlcInfo::LinDlcInfo() :
     objectType = ObjectType::LIN_DLC_INFO;
 }
 
-void LinDlcInfo::read(std::istream & is)
+void LinDlcInfo::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -43,7 +43,7 @@ void LinDlcInfo::read(std::istream & is)
     is.read((char *) reserved.data(), reserved.size());
 }
 
-void LinDlcInfo::write(std::ostream & os)
+void LinDlcInfo::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write((char *) &channel, sizeof(channel));

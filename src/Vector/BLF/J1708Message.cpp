@@ -40,7 +40,7 @@ J1708Message::J1708Message() :
      */
 }
 
-void J1708Message::read(std::istream & is)
+void J1708Message::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -52,7 +52,7 @@ void J1708Message::read(std::istream & is)
     is.read((char *) reserved2.data(), reserved2.size());
 }
 
-void J1708Message::write(std::ostream & os)
+void J1708Message::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write((char *) &channel, sizeof(channel));

@@ -39,7 +39,7 @@ CanDriverStatistic::CanDriverStatistic() :
     objectType = ObjectType::CAN_STATISTIC;
 }
 
-void CanDriverStatistic::read(std::istream & is)
+void CanDriverStatistic::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -53,7 +53,7 @@ void CanDriverStatistic::read(std::istream & is)
     is.read((char *) reserved.data(), reserved.size());
 }
 
-void CanDriverStatistic::write(std::ostream & os)
+void CanDriverStatistic::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write((char *) &channel, sizeof(channel));

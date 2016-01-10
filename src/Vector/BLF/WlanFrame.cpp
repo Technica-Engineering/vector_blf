@@ -38,7 +38,7 @@ WlanFrame::WlanFrame() :
     objectType = ObjectType::WLAN_FRAME;
 }
 
-void WlanFrame::read(std::istream & is)
+void WlanFrame::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -48,11 +48,11 @@ void WlanFrame::read(std::istream & is)
     is.read((char *) &signalStrength, sizeof(signalStrength));
     is.read((char *) &signalQuality, sizeof(signalQuality));
     is.read((char *) &frameLength, sizeof(frameLength));
-    frameData.reserve(frameLength);
+    frameData.resize(frameLength);
     is.read((char *) frameData.data(), frameLength);
 }
 
-void WlanFrame::write(std::ostream & os)
+void WlanFrame::write(AbstractFile & os)
 {
     /* pre processing */
     frameLength = frameData.size();

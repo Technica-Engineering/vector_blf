@@ -37,7 +37,7 @@ LinSendError::LinSendError() :
     objectType = ObjectType::LIN_SND_ERROR;
 }
 
-void LinSendError::read(std::istream & is)
+void LinSendError::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -49,7 +49,7 @@ void LinSendError::read(std::istream & is)
     is.read((char *) &fullTime, sizeof(fullTime));
 }
 
-void LinSendError::write(std::ostream & os)
+void LinSendError::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write((char *) &channel, sizeof(channel));

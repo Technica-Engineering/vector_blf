@@ -33,7 +33,7 @@ LinWakeupEvent::LinWakeupEvent() :
     objectType = ObjectType::LIN_WAKEUP;
 }
 
-void LinWakeupEvent::read(std::istream & is)
+void LinWakeupEvent::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -41,7 +41,7 @@ void LinWakeupEvent::read(std::istream & is)
     is.read((char *) &external, sizeof(external));
 }
 
-void LinWakeupEvent::write(std::ostream & os)
+void LinWakeupEvent::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write((char *) &channel, sizeof(channel));

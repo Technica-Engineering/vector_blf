@@ -22,8 +22,8 @@
 #pragma once
 
 #include <array>
-#include <iostream>
 
+#include "AbstractFile.h"
 #include "VectorTypes.h"
 
 #include "vector_blf_export.h"
@@ -73,14 +73,14 @@ public:
      *
      * @param is input stream
      */
-    virtual void read(std::istream & is);
+    virtual void read(AbstractFile & is);
 
     /**
      * write file statistics
      *
      * @param os output stream
      */
-    virtual void write(std::ostream & os);
+    virtual void write(AbstractFile & os);
 
     /**
      * Calculates the statisticsSize

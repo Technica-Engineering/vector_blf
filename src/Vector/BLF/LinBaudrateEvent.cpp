@@ -33,7 +33,7 @@ LinBaudrateEvent::LinBaudrateEvent() :
     objectType = ObjectType::LIN_BAUDRATE;
 }
 
-void LinBaudrateEvent::read(std::istream & is)
+void LinBaudrateEvent::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -41,7 +41,7 @@ void LinBaudrateEvent::read(std::istream & is)
     is.read((char *) &baudrate, sizeof(baudrate));
 }
 
-void LinBaudrateEvent::write(std::ostream & os)
+void LinBaudrateEvent::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write((char *) &channel, sizeof(channel));

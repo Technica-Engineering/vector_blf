@@ -20,6 +20,7 @@
  */
 
 #include "LogContainer.h"
+#include "ObjectHeader.h"
 
 namespace Vector {
 namespace BLF {
@@ -37,7 +38,7 @@ LogContainer::LogContainer() :
     objectType = ObjectType::LOG_CONTAINER;
 }
 
-void LogContainer::read(std::istream & is)
+void LogContainer::read(AbstractFile & is)
 {
     ObjectHeaderBase::read(is);
     is.read((char *) &objectFlags, sizeof(objectFlags));
@@ -45,11 +46,11 @@ void LogContainer::read(std::istream & is)
     is.read((char *) &objectVersion, sizeof(objectVersion));
     is.read((char *) &uncompressedFileSize, sizeof(uncompressedFileSize));
     compressedFileSize = objectSize - internalHeaderSize();
-    compressedFile.reserve(compressedFileSize);
+    compressedFile.resize(compressedFileSize);
     is.read((char *) compressedFile.data(), compressedFileSize);
 }
 
-void LogContainer::write(std::ostream & os)
+void LogContainer::write(AbstractFile & os)
 {
     /* pre processing */
     compressedFileSize = compressedFile.size();

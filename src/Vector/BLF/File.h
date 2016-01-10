@@ -25,9 +25,10 @@
 
 #include "zlib.h"
 
-#include "mstream.h"
+#include "CompressedFile.h"
 #include "FileStatistics.h"
 #include "ObjectHeaderBase.h"
+#include "UncompressedFile.h"
 #include "VectorTypes.h"
 
 // UNKNOWN = 0
@@ -227,10 +228,10 @@ public:
 
 private:
     /** compressed file */
-    std::fstream compressedFile;
+    CompressedFile compressedFile;
 
     /** uncompressed file */
-    std::mstream uncompressedFile;
+    UncompressedFile uncompressedFile;
 
     /**
      * create object of given type

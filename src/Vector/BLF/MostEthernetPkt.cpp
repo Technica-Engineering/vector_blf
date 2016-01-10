@@ -46,7 +46,7 @@ MostEthernetPkt::MostEthernetPkt() :
     objectType = ObjectType::MOST_ETHERNET_PKT;
 }
 
-void MostEthernetPkt::read(std::istream & is)
+void MostEthernetPkt::read(AbstractFile & is)
 {
     ObjectHeader2::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -64,11 +64,11 @@ void MostEthernetPkt::read(std::istream & is)
     is.read((char *) &reserved3, sizeof(reserved3));
     is.read((char *) &pktDataLength, sizeof(pktDataLength));
     is.read((char *) reserved4.data(), reserved4.size());
-    pktData.reserve(pktDataLength);
+    pktData.resize(pktDataLength);
     is.read((char *) pktData.data(), pktDataLength);
 }
 
-void MostEthernetPkt::write(std::ostream & os)
+void MostEthernetPkt::write(AbstractFile & os)
 {
     /* pre processing */
     pktDataLength = pktData.size();

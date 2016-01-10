@@ -34,7 +34,7 @@ MostNetState::MostNetState() :
     objectType = ObjectType::MOST_NETSTATE;
 }
 
-void MostNetState::read(std::istream & is)
+void MostNetState::read(AbstractFile & is)
 {
     ObjectHeader2::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -43,7 +43,7 @@ void MostNetState::read(std::istream & is)
     is.read((char *) &reserved, sizeof(reserved));
 }
 
-void MostNetState::write(std::ostream & os)
+void MostNetState::write(AbstractFile & os)
 {
     ObjectHeader2::write(os);
     os.write((char *) &channel, sizeof(channel));

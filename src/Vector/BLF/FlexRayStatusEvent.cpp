@@ -37,7 +37,7 @@ FlexRayStatusEvent::FlexRayStatusEvent() :
     objectType = ObjectType::FLEXRAY_STATUS;
 }
 
-void FlexRayStatusEvent::read(std::istream & is)
+void FlexRayStatusEvent::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -49,7 +49,7 @@ void FlexRayStatusEvent::read(std::istream & is)
     is.read((char *) reserved.data(), reserved.size());
 }
 
-void FlexRayStatusEvent::write(std::ostream & os)
+void FlexRayStatusEvent::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write((char *) &channel, sizeof(channel));

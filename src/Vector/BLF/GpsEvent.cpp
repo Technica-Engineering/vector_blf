@@ -38,7 +38,7 @@ GpsEvent::GpsEvent() :
     objectType = ObjectType::GPS_EVENT;
 }
 
-void GpsEvent::read(std::istream & is)
+void GpsEvent::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &flags, sizeof(flags));
@@ -51,7 +51,7 @@ void GpsEvent::read(std::istream & is)
     is.read((char *) &course, sizeof(course));
 }
 
-void GpsEvent::write(std::ostream & os)
+void GpsEvent::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write((char *) &flags, sizeof(flags));

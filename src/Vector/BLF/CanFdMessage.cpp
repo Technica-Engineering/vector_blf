@@ -41,7 +41,7 @@ CanFdMessage::CanFdMessage() :
     objectType = ObjectType::CAN_FD_MESSAGE;
 }
 
-void CanFdMessage::read(std::istream & is)
+void CanFdMessage::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -56,7 +56,7 @@ void CanFdMessage::read(std::istream & is)
     is.read((char *) data.data(), data.size());
 }
 
-void CanFdMessage::write(std::ostream & os)
+void CanFdMessage::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write((char *) &channel, sizeof(channel));

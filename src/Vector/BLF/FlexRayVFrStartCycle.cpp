@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include <iostream>
+#include "AbstractFile.h"
 
 #include "FlexRayVFrStartCycle.h"
 
@@ -45,7 +45,7 @@ FlexRayVFrStartCycle::FlexRayVFrStartCycle() :
     objectType = ObjectType::FR_STARTCYCLE;
 }
 
-void FlexRayVFrStartCycle::read(std::istream & is)
+void FlexRayVFrStartCycle::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -63,7 +63,7 @@ void FlexRayVFrStartCycle::read(std::istream & is)
     is.read((char *) reserved2.data(), reserved2.size());
 }
 
-void FlexRayVFrStartCycle::write(std::ostream & os)
+void FlexRayVFrStartCycle::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write((char *) &channel, sizeof(channel));

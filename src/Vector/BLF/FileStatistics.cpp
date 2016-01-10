@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include <iostream>
+#include "AbstractFile.h"
 #include <string>
 
 #include "FileStatistics.h"
@@ -48,7 +48,7 @@ FileStatistics::FileStatistics() :
 {
 }
 
-void FileStatistics::read(std::istream & is)
+void FileStatistics::read(AbstractFile & is)
 {
     is.read((char *) &signature, sizeof(signature));
     if (signature != FileSignature) {
@@ -76,7 +76,7 @@ void FileStatistics::read(std::istream & is)
     is.read((char *) reserved.data(), reserved.size() * sizeof(DWORD));
 }
 
-void FileStatistics::write(std::ostream & os)
+void FileStatistics::write(AbstractFile & os)
 {
     os.write((char *) &signature, sizeof(signature));
     os.write((char *) &statisticsSize, sizeof(statisticsSize));

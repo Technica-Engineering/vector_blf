@@ -45,7 +45,7 @@ MostEthernetPktFragment::MostEthernetPktFragment() :
     objectType = ObjectType::MOST_ETHERNET_PKT_FRAGMENT;
 }
 
-void MostEthernetPktFragment::read(std::istream & is)
+void MostEthernetPktFragment::read(AbstractFile & is)
 {
     ObjectHeader2::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -62,11 +62,11 @@ void MostEthernetPktFragment::read(std::istream & is)
     is.read((char *) &dataLenAnnounced, sizeof(dataLenAnnounced));
     is.read((char *) &firstDataLen, sizeof(firstDataLen));
     is.read((char *) reserved3.data(), reserved3.size());
-    firstData.reserve(firstDataLen);
+    firstData.resize(firstDataLen);
     is.read((char *) firstData.data(), firstDataLen);
 }
 
-void MostEthernetPktFragment::write(std::ostream & os)
+void MostEthernetPktFragment::write(AbstractFile & os)
 {
     /* pre processing */
     firstDataLen = firstData.size();

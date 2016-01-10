@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include <string.h>
+#include <cstring>
 
 #include "SystemVariable.h"
 
@@ -39,7 +39,7 @@ SystemVariable::SystemVariable() :
     objectType = ObjectType::SYS_VARIABLE;
 }
 
-void SystemVariable::read(std::istream & is)
+void SystemVariable::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &type, sizeof(type));
@@ -49,7 +49,7 @@ void SystemVariable::read(std::istream & is)
     is.read((char *) reserved2.data(), reserved2.size());
     name.resize(nameLength);
     is.read((char *) name.data(), nameLength);
-    data.reserve(dataLength);
+    data.resize(dataLength);
     is.read((char *) data.data(), dataLength);
 
     /* post processing */
@@ -57,7 +57,7 @@ void SystemVariable::read(std::istream & is)
     objectSize = calculateObjectSize();
 }
 
-void SystemVariable::write(std::ostream & os)
+void SystemVariable::write(AbstractFile & os)
 {
     /* pre processing */
     nameLength = name.size();

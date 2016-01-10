@@ -38,7 +38,7 @@ MostReg::MostReg() :
     objectType = ObjectType::MOST_REG;
 }
 
-void MostReg::read(std::istream & is)
+void MostReg::read(AbstractFile & is)
 {
     ObjectHeader2::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -51,7 +51,7 @@ void MostReg::read(std::istream & is)
     is.read((char *) regData.data(), regData.size());
 }
 
-void MostReg::write(std::ostream & os)
+void MostReg::write(AbstractFile & os)
 {
     ObjectHeader2::write(os);
     os.write((char *) &channel, sizeof(channel));

@@ -39,7 +39,7 @@ EthernetRxError::EthernetRxError() :
     objectType = ObjectType::ETHERNET_RX_ERROR;
 }
 
-void EthernetRxError::read(std::istream & is)
+void EthernetRxError::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &structLength, sizeof(structLength));
@@ -50,11 +50,11 @@ void EthernetRxError::read(std::istream & is)
     is.read((char *) &frameDataLength, sizeof(frameDataLength));
     is.read((char *) reserved2.data(), reserved2.size());
     is.read((char *) &error, sizeof(error));
-    frameData.reserve(frameDataLength);
+    frameData.resize(frameDataLength);
     is.read((char *) frameData.data(), frameDataLength);
 }
 
-void EthernetRxError::write(std::ostream & os)
+void EthernetRxError::write(AbstractFile & os)
 {
     /* pre processing */
     frameDataLength = frameData.size();

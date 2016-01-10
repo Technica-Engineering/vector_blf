@@ -34,7 +34,7 @@ CanDriverError::CanDriverError() :
     objectType = ObjectType::CAN_DRIVER_ERROR;
 }
 
-void CanDriverError::read(std::istream & is)
+void CanDriverError::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -43,7 +43,7 @@ void CanDriverError::read(std::istream & is)
     is.read((char *) &errorCode, sizeof(errorCode));
 }
 
-void CanDriverError::write(std::ostream & os)
+void CanDriverError::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write((char *) &channel, sizeof(channel));

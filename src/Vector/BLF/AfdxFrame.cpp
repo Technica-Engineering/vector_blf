@@ -45,7 +45,7 @@ AfdxFrame::AfdxFrame() :
     objectType = ObjectType::AFDX_FRAME;
 }
 
-void AfdxFrame::read(std::istream & is)
+void AfdxFrame::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) sourceAddress.data(), sourceAddress.size());
@@ -62,11 +62,11 @@ void AfdxFrame::read(std::istream & is)
     is.read((char *) &bagUsec, sizeof(bagUsec));
     is.read((char *) &payLoadLength, sizeof(payLoadLength));
     is.read((char *) reserved3.data(), reserved3.size());
-    payLoad.reserve(payLoadLength);
+    payLoad.resize(payLoadLength);
     is.read((char *) payLoad.data(), payLoadLength);
 }
 
-void AfdxFrame::write(std::ostream & os)
+void AfdxFrame::write(AbstractFile & os)
 {
     /* pre processing */
     payLoadLength = payLoad.size();

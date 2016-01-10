@@ -39,7 +39,7 @@ CanDriverErrorExt::CanDriverErrorExt() :
     objectType = ObjectType::CAN_DRIVER_ERROR_EXT;
 }
 
-void CanDriverErrorExt::read(std::istream & is)
+void CanDriverErrorExt::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -53,7 +53,7 @@ void CanDriverErrorExt::read(std::istream & is)
     is.read((char *) reserved3.data(), reserved3.size());
 }
 
-void CanDriverErrorExt::write(std::ostream & os)
+void CanDriverErrorExt::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write((char *) &channel, sizeof(channel));

@@ -36,7 +36,7 @@ ObjectHeader2::ObjectHeader2() :
     headerVersion = 2;
 }
 
-void ObjectHeader2::read(std::istream & is)
+void ObjectHeader2::read(AbstractFile & is)
 {
     ObjectHeaderBase::read(is);
     is.read((char *) &objectFlags, sizeof(objectFlags));
@@ -47,7 +47,7 @@ void ObjectHeader2::read(std::istream & is)
     is.read((char *) &originalTimeStamp, sizeof(originalTimeStamp));
 }
 
-void ObjectHeader2::write(std::ostream & os)
+void ObjectHeader2::write(AbstractFile & os)
 {
     ObjectHeaderBase::write(os);
     os.write((char *) &objectFlags, sizeof(objectFlags));

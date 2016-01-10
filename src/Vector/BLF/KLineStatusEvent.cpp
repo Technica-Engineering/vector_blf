@@ -35,7 +35,7 @@ KLineStatusEvent::KLineStatusEvent() :
     objectType = ObjectType::KLINE_STATUSEVENT;
 }
 
-void KLineStatusEvent::read(std::istream & is)
+void KLineStatusEvent::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &type, sizeof(type));
@@ -45,7 +45,7 @@ void KLineStatusEvent::read(std::istream & is)
     is.read((char *) data.data(), data.size());
 }
 
-void KLineStatusEvent::write(std::ostream & os)
+void KLineStatusEvent::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write((char *) &type, sizeof(type));

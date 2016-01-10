@@ -33,7 +33,7 @@ CanErrorFrame::CanErrorFrame() :
     objectType = ObjectType::CAN_ERROR;
 }
 
-void CanErrorFrame::read(std::istream & is)
+void CanErrorFrame::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -41,7 +41,7 @@ void CanErrorFrame::read(std::istream & is)
     is.read((char *) reserved.data(), reserved.size());
 }
 
-void CanErrorFrame::write(std::ostream & os)
+void CanErrorFrame::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write((char *) &channel, sizeof(channel));

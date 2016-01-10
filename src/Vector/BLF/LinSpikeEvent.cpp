@@ -33,7 +33,7 @@ LinSpikeEvent::LinSpikeEvent() :
     objectType = ObjectType::LIN_SPIKE_EVENT;
 }
 
-void LinSpikeEvent::read(std::istream & is)
+void LinSpikeEvent::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -41,7 +41,7 @@ void LinSpikeEvent::read(std::istream & is)
     is.read((char *) reserved.data(), reserved.size());
 }
 
-void LinSpikeEvent::write(std::ostream & os)
+void LinSpikeEvent::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write((char *) &channel, sizeof(channel));

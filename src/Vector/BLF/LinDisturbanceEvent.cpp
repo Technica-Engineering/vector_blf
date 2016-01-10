@@ -38,7 +38,7 @@ LinDisturbanceEvent::LinDisturbanceEvent() :
     objectType = ObjectType::LIN_DISTURBANCE_EVENT;
 }
 
-void LinDisturbanceEvent::read(std::istream & is)
+void LinDisturbanceEvent::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -51,7 +51,7 @@ void LinDisturbanceEvent::read(std::istream & is)
     is.read((char *) &disturbanceLengthInSixteenthBits, sizeof(disturbanceLengthInSixteenthBits));
 }
 
-void LinDisturbanceEvent::write(std::ostream & os)
+void LinDisturbanceEvent::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write((char *) &channel, sizeof(channel));

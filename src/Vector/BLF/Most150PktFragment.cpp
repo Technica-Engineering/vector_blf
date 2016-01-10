@@ -46,7 +46,7 @@ Most150PktFragment::Most150PktFragment() :
     objectType = ObjectType::MOST_150_PKT_FRAGMENT;
 }
 
-void Most150PktFragment::read(std::istream & is)
+void Most150PktFragment::read(AbstractFile & is)
 {
     ObjectHeader2::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -64,11 +64,11 @@ void Most150PktFragment::read(std::istream & is)
     is.read((char *) &dataLenAnnounced, sizeof(dataLenAnnounced));
     is.read((char *) &firstDataLen, sizeof(firstDataLen));
     is.read((char *) reserved2.data(), reserved2.size());
-    firstData.reserve(firstDataLen);
+    firstData.resize(firstDataLen);
     is.read((char *) firstData.data(), firstDataLen);
 }
 
-void Most150PktFragment::write(std::ostream & os)
+void Most150PktFragment::write(AbstractFile & os)
 {
     /* pre processing */
     firstDataLen = firstData.size();

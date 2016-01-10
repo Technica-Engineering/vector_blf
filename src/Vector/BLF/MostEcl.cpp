@@ -34,7 +34,7 @@ MostEcl::MostEcl() :
     objectType = ObjectType::MOST_ECL;
 }
 
-void MostEcl::read(std::istream & is)
+void MostEcl::read(AbstractFile & is)
 {
     ObjectHeader2::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -43,7 +43,7 @@ void MostEcl::read(std::istream & is)
     is.read((char *) &reserved, sizeof(reserved));
 }
 
-void MostEcl::write(std::ostream & os)
+void MostEcl::write(AbstractFile & os)
 {
     ObjectHeader2::write(os);
     os.write((char *) &channel, sizeof(channel));

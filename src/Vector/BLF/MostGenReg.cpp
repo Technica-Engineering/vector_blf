@@ -38,7 +38,7 @@ MostGenReg::MostGenReg() :
     objectType = ObjectType::MOST_GENREG;
 }
 
-void MostGenReg::read(std::istream & is)
+void MostGenReg::read(AbstractFile & is)
 {
     ObjectHeader2::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -51,7 +51,7 @@ void MostGenReg::read(std::istream & is)
     is.read((char *) &regValue, sizeof(regValue));
 }
 
-void MostGenReg::write(std::ostream & os)
+void MostGenReg::write(AbstractFile & os)
 {
     ObjectHeader2::write(os);
     os.write((char *) &channel, sizeof(channel));

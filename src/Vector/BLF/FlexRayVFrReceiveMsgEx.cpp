@@ -53,7 +53,7 @@ FlexRayVFrReceiveMsgEx::FlexRayVFrReceiveMsgEx() :
     objectType = ObjectType::FR_RCVMESSAGE_EX;
 }
 
-void FlexRayVFrReceiveMsgEx::read(std::istream & is)
+void FlexRayVFrReceiveMsgEx::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -78,11 +78,11 @@ void FlexRayVFrReceiveMsgEx::read(std::istream & is)
     is.read((char *) &pduOffset, sizeof(pduOffset));
     is.read((char *) &blfLogMask, sizeof(blfLogMask));
     is.read((char *) reserved.data(), reserved.size());
-    dataBytes.reserve(dataCount);
+    dataBytes.resize(dataCount);
     is.read((char *) dataBytes.data(), dataCount);
 }
 
-void FlexRayVFrReceiveMsgEx::write(std::ostream & os)
+void FlexRayVFrReceiveMsgEx::write(AbstractFile & os)
 {
     /* pre processing */
     dataCount = dataBytes.size();

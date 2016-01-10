@@ -35,7 +35,7 @@ MostSystemEvent::MostSystemEvent() :
     objectType = ObjectType::MOST_SYSTEM_EVENT;
 }
 
-void MostSystemEvent::read(std::istream & is)
+void MostSystemEvent::read(AbstractFile & is)
 {
     ObjectHeader2::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -45,7 +45,7 @@ void MostSystemEvent::read(std::istream & is)
     is.read((char *) reserved.data(), reserved.size());
 }
 
-void MostSystemEvent::write(std::ostream & os)
+void MostSystemEvent::write(AbstractFile & os)
 {
     ObjectHeader2::write(os);
     os.write((char *) &channel, sizeof(channel));

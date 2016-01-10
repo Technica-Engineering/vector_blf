@@ -34,7 +34,7 @@ LinSpikeEvent2::LinSpikeEvent2() :
     objectType = ObjectType::LIN_SPIKE_EVENT2;
 }
 
-void LinSpikeEvent2::read(std::istream & is)
+void LinSpikeEvent2::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     LinBusEvent::read(is);
@@ -43,7 +43,7 @@ void LinSpikeEvent2::read(std::istream & is)
     is.read((char *) reserved.data(), reserved.size());
 }
 
-void LinSpikeEvent2::write(std::ostream & os)
+void LinSpikeEvent2::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     LinBusEvent::write(os);

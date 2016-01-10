@@ -47,7 +47,7 @@ MostPkt2::MostPkt2() :
     objectType = ObjectType::MOST_PKT2;
 }
 
-void MostPkt2::read(std::istream & is)
+void MostPkt2::read(AbstractFile & is)
 {
     ObjectHeader2::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -66,11 +66,11 @@ void MostPkt2::read(std::istream & is)
     is.read((char *) reserved3.data(), reserved3.size());
     is.read((char *) &pktDataLength, sizeof(pktDataLength));
     is.read((char *) reserved4.data(), reserved4.size());
-    pktData.reserve(pktDataLength);
+    pktData.resize(pktDataLength);
     is.read((char *) pktData.data(), pktDataLength);
 }
 
-void MostPkt2::write(std::ostream & os)
+void MostPkt2::write(AbstractFile & os)
 {
     /* pre processing */
     pktDataLength = pktData.size();

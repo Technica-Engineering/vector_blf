@@ -35,7 +35,7 @@ MostStatisticEx::MostStatisticEx() :
     objectType = ObjectType::MOST_STATISTICEX;
 }
 
-void MostStatisticEx::read(std::istream & is)
+void MostStatisticEx::read(AbstractFile & is)
 {
     ObjectHeader2::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -45,7 +45,7 @@ void MostStatisticEx::read(std::istream & is)
     is.read((char *) reserved2.data(), reserved2.size());
 }
 
-void MostStatisticEx::write(std::ostream & os)
+void MostStatisticEx::write(AbstractFile & os)
 {
     ObjectHeader2::write(os);
     os.write((char *) &channel, sizeof(channel));

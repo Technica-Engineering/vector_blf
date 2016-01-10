@@ -43,7 +43,7 @@ MostSpy::MostSpy() :
     objectType = ObjectType::MOST_SPY;
 }
 
-void MostSpy::read(std::istream & is)
+void MostSpy::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -61,7 +61,7 @@ void MostSpy::read(std::istream & is)
     is.read((char *) &crc, sizeof(crc));
 }
 
-void MostSpy::write(std::ostream & os)
+void MostSpy::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write((char *) &channel, sizeof(channel));

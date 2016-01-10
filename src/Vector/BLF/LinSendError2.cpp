@@ -40,7 +40,7 @@ LinSendError2::LinSendError2() :
     objectType = ObjectType::LIN_SND_ERROR2;
 }
 
-void LinSendError2::read(std::istream & is)
+void LinSendError2::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     LinMessageDescriptor::read(is);
@@ -55,7 +55,7 @@ void LinSendError2::read(std::istream & is)
     is.read((char *) reserved3.data(), reserved3.size());
 }
 
-void LinSendError2::write(std::ostream & os)
+void LinSendError2::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     LinMessageDescriptor::write(os);

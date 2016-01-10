@@ -46,7 +46,7 @@ FlexRayV6Message::FlexRayV6Message() :
     objectType = ObjectType::FLEXRAY_MESSAGE;
 }
 
-void FlexRayV6Message::read(std::istream & is)
+void FlexRayV6Message::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -67,7 +67,7 @@ void FlexRayV6Message::read(std::istream & is)
     is.read((char *) dataBytes.data(), dataBytes.size());
 }
 
-void FlexRayV6Message::write(std::ostream & os)
+void FlexRayV6Message::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write((char *) &channel, sizeof(channel));

@@ -56,7 +56,7 @@ SerialEvent::SerialEvent() :
     objectType = ObjectType::SERIAL_EVENT;
 }
 
-void SerialEvent::read(std::istream & is)
+void SerialEvent::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &flags, sizeof(flags));
@@ -73,15 +73,15 @@ void SerialEvent::read(std::istream & is)
         } else {
             is.read((char *) &general.dataLength, sizeof(general.dataLength));
             is.read((char *) &general.timeStampsLength, sizeof(general.timeStampsLength));
-            general.data.reserve(general.dataLength);
+            general.data.resize(general.dataLength);
             is.read((char *) general.data.data(), general.dataLength);
-            general.timeStamps.reserve(general.timeStampsLength / sizeof(LONGLONG));
+            general.timeStamps.resize(general.timeStampsLength / sizeof(LONGLONG));
             is.read((char *) general.timeStamps.data(), general.timeStampsLength);
         }
     }
 }
 
-void SerialEvent::write(std::ostream & os)
+void SerialEvent::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write((char *) &flags, sizeof(flags));

@@ -34,7 +34,7 @@ LinSlaveTimeout::LinSlaveTimeout() :
     objectType = ObjectType::LIN_SLV_TIMEOUT;
 }
 
-void LinSlaveTimeout::read(std::istream & is)
+void LinSlaveTimeout::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -43,7 +43,7 @@ void LinSlaveTimeout::read(std::istream & is)
     is.read((char *) &followStateId, sizeof(followStateId));
 }
 
-void LinSlaveTimeout::write(std::ostream & os)
+void LinSlaveTimeout::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write((char *) &channel, sizeof(channel));

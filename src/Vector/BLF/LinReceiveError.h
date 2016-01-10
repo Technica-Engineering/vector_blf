@@ -21,10 +21,9 @@
 
 #pragma once
 
-#include <iostream>
-
-#include "VectorTypes.h"
+#include "AbstractFile.h"
 #include "ObjectHeader.h"
+#include "VectorTypes.h"
 
 #include "vector_blf_export.h"
 
@@ -57,8 +56,8 @@ class VECTOR_BLF_EXPORT LinReceiveError : public ObjectHeader
 public:
     LinReceiveError();
 
-    virtual void read(std::istream & is);
-    virtual void write(std::ostream & os);
+    virtual void read(AbstractFile & is);
+    virtual void write(AbstractFile & os);
     virtual size_t calculateObjectSize();
 
     /**

@@ -35,18 +35,18 @@ Most150AllocTab::Most150AllocTab() :
     objectType = ObjectType::MOST_150_ALLOCTAB;
 }
 
-void Most150AllocTab::read(std::istream & is)
+void Most150AllocTab::read(AbstractFile & is)
 {
     ObjectHeader2::read(is);
     is.read((char *) &channel, sizeof(channel));
     is.read((char *) &eventModeFlags, sizeof(eventModeFlags));
     is.read((char *) &freeBytes, sizeof(freeBytes));
     is.read((char *) &length, sizeof(length));
-    tableData.reserve(length);
+    tableData.resize(length);
     is.read((char *) tableData.data(), length * sizeof(WORD));
 }
 
-void Most150AllocTab::write(std::ostream & os)
+void Most150AllocTab::write(AbstractFile & os)
 {
     /* pre processing */
     length = tableData.size();

@@ -39,7 +39,7 @@ CanMessage2::CanMessage2() :
     objectType = ObjectType::CAN_MESSAGE2;
 }
 
-void CanMessage2::read(std::istream & is)
+void CanMessage2::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -53,7 +53,7 @@ void CanMessage2::read(std::istream & is)
     is.read((char *) &reserved2, sizeof(reserved2));
 }
 
-void CanMessage2::write(std::ostream & os)
+void CanMessage2::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write((char *) &channel, sizeof(channel));

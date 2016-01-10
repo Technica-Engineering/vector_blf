@@ -47,7 +47,7 @@ Most150Pkt::Most150Pkt() :
     objectType = ObjectType::MOST_150_PKT;
 }
 
-void Most150Pkt::read(std::istream & is)
+void Most150Pkt::read(AbstractFile & is)
 {
     ObjectHeader2::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -66,11 +66,11 @@ void Most150Pkt::read(std::istream & is)
     is.read((char *) &pIndex, sizeof(pIndex));
     is.read((char *) &pktDataLength, sizeof(pktDataLength));
     is.read((char *) reserved3.data(), reserved3.size());
-    pktData.reserve(pktDataLength);
+    pktData.resize(pktDataLength);
     is.read((char *) pktData.data(), pktDataLength);
 }
 
-void Most150Pkt::write(std::ostream & os)
+void Most150Pkt::write(AbstractFile & os)
 {
     /* pre processing */
     pktDataLength = pktData.size();

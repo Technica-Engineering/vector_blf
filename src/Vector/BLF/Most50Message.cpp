@@ -47,7 +47,7 @@ Most50Message::Most50Message() :
     objectType = ObjectType::MOST_50_MESSAGE;
 }
 
-void Most50Message::read(std::istream & is)
+void Most50Message::read(AbstractFile & is)
 {
     ObjectHeader2::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -66,11 +66,11 @@ void Most50Message::read(std::istream & is)
     is.read((char *) &reserved5, sizeof(reserved5));
     is.read((char *) &msgLen, sizeof(msgLen));
     is.read((char *) reserved6.data(), reserved6.size());
-    msg.reserve(msgLen);
+    msg.resize(msgLen);
     is.read((char *) msg.data(), msgLen);
 }
 
-void Most50Message::write(std::ostream & os)
+void Most50Message::write(AbstractFile & os)
 {
     /* pre processing */
     msgLen = msg.size();

@@ -27,41 +27,6 @@
 namespace Vector {
 namespace BLF {
 
-static void hexDump(char * data, size_t size)
-{
-    if (size > 0x20000)
-        size = 0x20000;
-    bool endedOnEndl = false;
-    // std::cerr << "hexdump size: 0x" << std::hex << size << std::endl;
-    for (size_t n = 0; n < size; ++n) {
-        endedOnEndl = false;
-        unsigned short value = (unsigned char) *data;
-        if (value < 0x10)
-            std::cerr << "0";
-        std::cerr << std::hex << value << " ";
-        data++;
-        if (n % 4 == 3)
-            std::cerr << " ";
-        if ((n % 16 == 15)) {
-            endedOnEndl = true;
-            std::cerr << std::endl;
-        }
-    }
-    if (!endedOnEndl)
-        std::cerr << std::endl;
-}
-
-static void hexDump(ObjectHeaderBase * ohb)
-{
-    std::stringstream ss;
-    ohb->write(ss);
-
-    char * buffer = new char[ohb->objectSize];
-    ss.read(buffer, ohb->objectSize);
-
-    hexDump(buffer, ohb->objectSize);
-}
-
 File::File() :
     openMode(OpenMode::Read),
     fileStatistics(),
@@ -555,7 +520,7 @@ ObjectHeaderBase * File::readObjectFromCompressedFile()
 ObjectHeaderBase * File::readObjectFromUncompressedFile()
 {
     /* first read some more compressed data and inflate it */
-    while ((uncompressedFile.tellp() - uncompressedFile.tellg()) < 0x10)
+    while ((uncompressedFile.tellp() - uncompressedFile.tellg()) < 0x10) // sizeof(ObjectHeaderBase)
         inflate();
 
     /* identify type */
@@ -579,6 +544,9 @@ ObjectHeaderBase * File::readObjectFromUncompressedFile()
 
     /* skip padding */
     uncompressedFile.seekg(ohb.objectSize % 4, std::iostream::cur);
+
+    /* drop old data */
+    uncompressedFile.dropOldData(defaultLogContainerSize, 0x10); // sizeof(ObjectHeaderBase)
 
     currentObjectCount++;
     return obj;
@@ -633,18 +601,22 @@ ObjectHeaderBase * File::read()
 
 void File::deflate()
 {
-    /* write uncompressedFile into buffer */
-    size_t bufferSizeIn = defaultLogContainerSize;
-    if ((uncompressedFile.tellp() - uncompressedFile.tellg()) < bufferSizeIn)
-        bufferSizeIn = uncompressedFile.tellp() - uncompressedFile.tellg();
+    /* calculate size of data to compress */
+    size_t bufferSizeIn = uncompressedFile.tellp() - uncompressedFile.tellg();
+    if (bufferSizeIn > defaultLogContainerSize)
+        bufferSizeIn = defaultLogContainerSize;
+
+    /* create buffer */
     char * bufferIn = new char[bufferSizeIn];
     if (bufferIn == nullptr) {
         std::cerr << "out of memory" << std::endl;
         return;
     }
+
+    /* copy data into buffer */
     uncompressedFile.read(bufferIn, bufferSizeIn);
 
-    /* deflate */
+    /* deflate/compress it */
     size_t bufferSizeOut = compressBound(bufferSizeIn);
     char * bufferOut = new char[bufferSizeOut];
     if (bufferOut == nullptr) {
@@ -658,10 +630,13 @@ void File::deflate()
              reinterpret_cast<uLong>(bufferSizeIn));
     delete[] bufferIn;
 
+    /* drop old data */
+    uncompressedFile.dropOldData(bufferSizeIn, 0);
+
     /* setup new log container */
     LogContainer logContainer;
     logContainer.uncompressedFileSize = bufferSizeIn;
-    logContainer.compressedFile.reserve(bufferSizeOut);
+    logContainer.compressedFile.resize(bufferSizeOut);
     memcpy(logContainer.compressedFile.data(), bufferOut, bufferSizeOut);
     logContainer.compressedFileSize = bufferSizeOut;
     logContainer.objectSize = logContainer.calculateObjectSize();

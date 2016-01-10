@@ -32,14 +32,14 @@ CanOverloadFrame::CanOverloadFrame() :
     objectType = ObjectType::CAN_OVERLOAD;
 }
 
-void CanOverloadFrame::read(std::istream & is)
+void CanOverloadFrame::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &channel, sizeof(channel));
     is.read((char *) &reserved, sizeof(reserved));
 }
 
-void CanOverloadFrame::write(std::ostream & os)
+void CanOverloadFrame::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write((char *) &channel, sizeof(channel));

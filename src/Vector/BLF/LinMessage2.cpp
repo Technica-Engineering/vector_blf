@@ -46,7 +46,7 @@ LinMessage2::LinMessage2() :
     objectVersion = 1;
 }
 
-void LinMessage2::read(std::istream & is)
+void LinMessage2::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     LinDatabyteTimestampEvent::read(is);
@@ -76,7 +76,7 @@ void LinMessage2::read(std::istream & is)
     is.read((char *) &earlyStopbitOffsetResponse, sizeof(earlyStopbitOffsetResponse));
 }
 
-void LinMessage2::write(std::ostream & os)
+void LinMessage2::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     LinDatabyteTimestampEvent::write(os);

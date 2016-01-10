@@ -35,7 +35,7 @@ AppTrigger::AppTrigger() :
     objectType = ObjectType::APP_TRIGGER;
 }
 
-void AppTrigger::read(std::istream & is)
+void AppTrigger::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &preTriggerTime, sizeof(preTriggerTime));
@@ -45,7 +45,7 @@ void AppTrigger::read(std::istream & is)
     is.read((char *) &appSpecific2, sizeof(appSpecific2));
 }
 
-void AppTrigger::write(std::ostream & os)
+void AppTrigger::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write((char *) &preTriggerTime, sizeof(preTriggerTime));

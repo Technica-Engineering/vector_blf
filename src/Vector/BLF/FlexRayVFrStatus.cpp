@@ -42,7 +42,7 @@ FlexRayVFrStatus::FlexRayVFrStatus() :
     objectType = ObjectType::FR_STATUS;
 }
 
-void FlexRayVFrStatus::read(std::istream & is)
+void FlexRayVFrStatus::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -59,7 +59,7 @@ void FlexRayVFrStatus::read(std::istream & is)
     is.read((char *) reserved2.data(), reserved2.size());
 }
 
-void FlexRayVFrStatus::write(std::ostream & os)
+void FlexRayVFrStatus::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write((char *) &channel, sizeof(channel));

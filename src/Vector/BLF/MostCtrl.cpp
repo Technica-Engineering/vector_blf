@@ -43,7 +43,7 @@ MostCtrl::MostCtrl() :
     objectType = ObjectType::MOST_CTRL;
 }
 
-void MostCtrl::read(std::istream & is)
+void MostCtrl::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -61,7 +61,7 @@ void MostCtrl::read(std::istream & is)
     is.read((char *) reserved4.data(), reserved4.size());
 }
 
-void MostCtrl::write(std::ostream & os)
+void MostCtrl::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write((char *) &channel, sizeof(channel));

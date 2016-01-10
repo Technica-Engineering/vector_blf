@@ -36,7 +36,7 @@ MostTrigger::MostTrigger() :
     objectType = ObjectType::MOST_TRIGGER;
 }
 
-void MostTrigger::read(std::istream & is)
+void MostTrigger::read(AbstractFile & is)
 {
     ObjectHeader2::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -47,7 +47,7 @@ void MostTrigger::read(std::istream & is)
     is.read((char *) &currentTriggerValue, sizeof(currentTriggerValue));
 }
 
-void MostTrigger::write(std::ostream & os)
+void MostTrigger::write(AbstractFile & os)
 {
     ObjectHeader2::write(os);
     os.write((char *) &channel, sizeof(channel));

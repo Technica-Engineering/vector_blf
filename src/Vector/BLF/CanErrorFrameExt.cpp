@@ -42,7 +42,7 @@ CanErrorFrameExt::CanErrorFrameExt() :
     objectType = ObjectType::CAN_ERROR_EXT;
 }
 
-void CanErrorFrameExt::read(std::istream & is)
+void CanErrorFrameExt::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -59,7 +59,7 @@ void CanErrorFrameExt::read(std::istream & is)
     is.read((char *) data.data(), data.size());
 }
 
-void CanErrorFrameExt::write(std::ostream & os)
+void CanErrorFrameExt::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write((char *) &channel, sizeof(channel));

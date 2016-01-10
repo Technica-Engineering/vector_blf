@@ -39,7 +39,7 @@ LinStatisticEvent::LinStatisticEvent() :
     objectType = ObjectType::LIN_STATISTIC;
 }
 
-void LinStatisticEvent::read(std::istream & is)
+void LinStatisticEvent::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -53,7 +53,7 @@ void LinStatisticEvent::read(std::istream & is)
     is.read((char *) reserved2.data(), reserved2.size());
 }
 
-void LinStatisticEvent::write(std::ostream & os)
+void LinStatisticEvent::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write((char *) &channel, sizeof(channel));

@@ -21,11 +21,11 @@
 
 #pragma once
 
-#include <iostream>
 #include <vector>
 
-#include "VectorTypes.h"
+#include "AbstractFile.h"
 #include "ObjectHeader2.h"
+#include "VectorTypes.h"
 
 #include "vector_blf_export.h"
 
@@ -42,8 +42,8 @@ class VECTOR_BLF_EXPORT Most150AllocTab : public ObjectHeader2 /* applied for MO
 public:
     Most150AllocTab();
 
-    virtual void read(std::istream & is);
-    virtual void write(std::ostream & os);
+    virtual void read(AbstractFile & is);
+    virtual void write(AbstractFile & os);
     virtual size_t calculateObjectSize();
 
     /**

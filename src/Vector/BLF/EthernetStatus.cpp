@@ -41,7 +41,7 @@ EthernetStatus::EthernetStatus() :
     objectType = ObjectType::ETHERNET_STATUS;
 }
 
-void EthernetStatus::read(std::istream & is)
+void EthernetStatus::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -57,7 +57,7 @@ void EthernetStatus::read(std::istream & is)
     is.read((char *) &bitrate, sizeof(bitrate));
 }
 
-void EthernetStatus::write(std::ostream & os)
+void EthernetStatus::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write((char *) &channel, sizeof(channel));

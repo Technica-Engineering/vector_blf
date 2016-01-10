@@ -33,7 +33,7 @@ DriverOverrun::DriverOverrun() :
     objectType = ObjectType::OVERRUN_ERROR;
 }
 
-void DriverOverrun::read(std::istream & is)
+void DriverOverrun::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &busType, sizeof(busType));
@@ -41,7 +41,7 @@ void DriverOverrun::read(std::istream & is)
     is.read((char *) &reserved, sizeof(reserved));
 }
 
-void DriverOverrun::write(std::ostream & os)
+void DriverOverrun::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write((char *) &busType, sizeof(busType));

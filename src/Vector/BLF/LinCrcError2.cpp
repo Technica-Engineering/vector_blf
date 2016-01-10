@@ -43,7 +43,7 @@ LinCrcError2::LinCrcError2() :
     objectType = ObjectType::LIN_CRC_ERROR2;
 }
 
-void LinCrcError2::read(std::istream & is)
+void LinCrcError2::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     LinDatabyteTimestampEvent::read(is);
@@ -61,7 +61,7 @@ void LinCrcError2::read(std::istream & is)
     is.read((char *) &earlyStopbitOffsetResponse, sizeof(earlyStopbitOffsetResponse));
 }
 
-void LinCrcError2::write(std::ostream & os)
+void LinCrcError2::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     LinDatabyteTimestampEvent::write(os);

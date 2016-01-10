@@ -46,7 +46,7 @@ Most150MessageFragment::Most150MessageFragment() :
     objectType = ObjectType::MOST_150_MESSAGE_FRAGMENT;
 }
 
-void Most150MessageFragment::read(std::istream & is)
+void Most150MessageFragment::read(AbstractFile & is)
 {
     ObjectHeader2::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -64,11 +64,11 @@ void Most150MessageFragment::read(std::istream & is)
     is.read((char *) &dataLenAnnounced, sizeof(dataLenAnnounced));
     is.read((char *) &firstDataLen, sizeof(firstDataLen));
     is.read((char *) reserved2.data(), reserved2.size());
-    firstData.reserve(firstDataLen);
+    firstData.resize(firstDataLen);
     is.read((char *) firstData.data(), firstDataLen);
 }
 
-void Most150MessageFragment::write(std::ostream & os)
+void Most150MessageFragment::write(AbstractFile & os)
 {
     /* pre processing */
     firstDataLen = firstData.size();

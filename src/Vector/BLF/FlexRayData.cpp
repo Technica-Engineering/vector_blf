@@ -39,7 +39,7 @@ FlexRayData::FlexRayData() :
     objectType = ObjectType::FLEXRAY_DATA;
 }
 
-void FlexRayData::read(std::istream & is)
+void FlexRayData::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read((char *) &channel, sizeof(channel));
@@ -53,7 +53,7 @@ void FlexRayData::read(std::istream & is)
     is.read((char *) dataBytes.data(), dataBytes.size());
 }
 
-void FlexRayData::write(std::ostream & os)
+void FlexRayData::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write((char *) &channel, sizeof(channel));

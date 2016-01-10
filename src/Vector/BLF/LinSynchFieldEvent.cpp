@@ -31,14 +31,14 @@ LinSynchFieldEvent::LinSynchFieldEvent() :
 {
 }
 
-void LinSynchFieldEvent::read(std::istream & is)
+void LinSynchFieldEvent::read(AbstractFile & is)
 {
     LinBusEvent::read(is);
     is.read((char *) &synchBreakLength, sizeof(synchBreakLength));
     is.read((char *) &synchDelLength, sizeof(synchDelLength));
 }
 
-void LinSynchFieldEvent::write(std::ostream & os)
+void LinSynchFieldEvent::write(AbstractFile & os)
 {
     LinBusEvent::write(os);
     os.write((char *) &synchBreakLength, sizeof(synchBreakLength));
