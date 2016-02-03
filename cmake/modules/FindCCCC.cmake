@@ -1,8 +1,9 @@
 find_program(CCCC_EXECUTABLE
   NAMES cccc cccc.exe
-  PATHS
+  HINTS
+    "$ENV{ProgramFiles}/CCCC"
+    "$ENV{ProgramFiles(x86)}/CCCC"
     "[HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\C and C++ Code Counter_is1;Inno Setup: App Path]/bin"
-    "C:/Program Files/CCCC"
   DOC "C and C++ Code Counter (http://cccc.sourceforge.net)")
 
 include(FindPackageHandleStandardArgs)

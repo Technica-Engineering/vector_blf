@@ -1,6 +1,8 @@
 find_program(DOXYGEN_EXECUTABLE
   NAMES doxygen doxygen.exe
-  PATHS
+  HINTS
+    "$ENV{ProgramFiles}/doxygen/bin"
+    "$ENV{ProgramFiles(x86)}/doxygen/bin"
     "[HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\doxygen_is1;Inno Setup: App Path]/bin"
   DOC "Doxygen documentation generation tool (http://www.doxygen.org)")
 

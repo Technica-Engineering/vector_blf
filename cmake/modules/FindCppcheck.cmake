@@ -1,6 +1,8 @@
 find_program(CPPCHECK_EXECUTABLE
   NAMES cppcheck cppcheck.exe
-  PATHS "C:/Program Files/Cppcheck"
+  HINTS
+    "$ENV{ProgramFiles}/Cppcheck"
+    "$ENV{ProgramFiles(x86)}/Cppcheck"
   DOC "Cppcheck (http://cppcheck.sourceforge.net)")
 
 include(FindPackageHandleStandardArgs)
