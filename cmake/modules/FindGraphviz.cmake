@@ -1,8 +1,9 @@
+include(CMakeGenericSystem)
+
 find_program(GRAPHVIZ_DOT_EXECUTABLE
   NAMES dot dot.exe
   HINTS
-    "$ENV{ProgramFiles}/Graphviz/bin"
-    "$ENV{ProgramFiles(x86)}/Graphviz/bin"
+    "${CMAKE_GENERIC_PROGRAM_FILES}/Graphviz/bin"
   DOC "Graphviz Dot tool for using Doxygen")
 
 include(FindPackageHandleStandardArgs)
