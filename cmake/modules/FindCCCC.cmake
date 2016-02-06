@@ -1,9 +1,7 @@
-include(CMakeGenericSystem)
-
 find_program(CCCC_EXECUTABLE
   NAMES cccc cccc.exe
   HINTS
-    "${CMAKE_GENERIC_PROGRAM_FILES}/CCCC"
+    "$ENV{ProgramFiles}/CCCC"
     "[HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\C and C++ Code Counter_is1;Inno Setup: App Path]/bin"
   DOC "C and C++ Code Counter (http://cccc.sourceforge.net)")
 

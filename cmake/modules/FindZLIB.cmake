@@ -1,16 +1,14 @@
-include(CMakeGenericSystem)
-
 find_path(ZLIB_INCLUDE_DIR
   NAMES zlib.h
   HINTS
-    "${CMAKE_GENERIC_PROGRAM_FILES}/zlib/include"
+    "$ENV{ProgramFiles}/zlib/include"
     "[HKEY_LOCAL_MACHINE\\SOFTWARE\\GnuWin32\\Zlib;InstallPath]/include"
   DOC "zlib (http://www.zlib.net.net)")
 
 find_library(ZLIB_LIBRARY
   NAMES z zlib zlibd
   HINTS
-    "${CMAKE_GENERIC_PROGRAM_FILES}/zlib/lib"
+    "$ENV{ProgramFiles}/zlib/lib"
     "[HKEY_LOCAL_MACHINE\\SOFTWARE\\GnuWin32\\Zlib;InstallPath]/lib"
   DOC "zlib (http://www.zlib.net.net)")
 

@@ -1,9 +1,7 @@
-include(CMakeGenericSystem)
-
 find_program(CPPCHECK_EXECUTABLE
   NAMES cppcheck cppcheck.exe
   HINTS
-    "${CMAKE_GENERIC_PROGRAM_FILES}/Cppcheck"
+    "$ENV{ProgramFiles}/Cppcheck"
   DOC "Cppcheck (http://cppcheck.sourceforge.net)")
 
 include(FindPackageHandleStandardArgs)
