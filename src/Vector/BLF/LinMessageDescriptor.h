@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include "platform.h"
+
 #include "AbstractFile.h"
 #include "LinSynchFieldEvent.h"
 #include "ObjectHeader.h"

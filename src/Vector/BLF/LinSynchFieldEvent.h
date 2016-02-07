@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include "platform.h"
+
 #include "AbstractFile.h"
 #include "LinBusEvent.h"
 #include "ObjectHeader.h"

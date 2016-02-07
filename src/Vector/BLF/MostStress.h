@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include "platform.h"
+
 #include "AbstractFile.h"
 #include "ObjectHeader2.h"
 #include "VectorTypes.h"

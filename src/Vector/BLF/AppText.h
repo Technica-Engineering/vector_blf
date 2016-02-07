@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include "platform.h"
+
 #include <string>
 
 #include "AbstractFile.h"
