@@ -628,7 +628,7 @@ void File::deflate()
     compress(reinterpret_cast<Bytef *>(bufferOut),
              reinterpret_cast<uLongf *>(&bufferSizeOut),
              reinterpret_cast<Bytef *>(bufferIn),
-             reinterpret_cast<uLong>(bufferSizeIn));
+             bufferSizeIn);
     delete[] bufferIn;
 
     /* drop old data */
