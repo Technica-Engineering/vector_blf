@@ -23,7 +23,7 @@
 
 #include <fstream>
 
-#include "zlib.h"
+#include <zlib.h>
 
 #include "CompressedFile.h"
 #include "FileStatistics.h"

@@ -6,7 +6,9 @@ configure_file(
   config.h.in
   config.h)
 
-include_directories(${CMAKE_CURRENT_BINARY_DIR})
+include_directories(
+    ${ZLIB_INCLUDE_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR})
 
 set(source_files
   AbstractFile.cpp
