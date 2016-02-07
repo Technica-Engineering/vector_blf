@@ -249,7 +249,7 @@ endif()
 
 find_package(ZLIB)
 include_directories(${ZLIB_INCLUDE_DIRS})
-target_link_libraries(${PROJECT_NAME} -lz ${ZLIB_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} ${ZLIB_LIBRARY})
 
 install(
   TARGETS ${PROJECT_NAME}

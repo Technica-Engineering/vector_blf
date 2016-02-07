@@ -23,8 +23,6 @@
 
 #include <fstream>
 
-#include <zlib.h>
-
 #include "CompressedFile.h"
 #include "FileStatistics.h"
 #include "ObjectHeaderBase.h"

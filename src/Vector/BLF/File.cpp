@@ -23,6 +23,7 @@
 
 #include <cstring>
 #include <iostream>
+#include <zlib.h>
 
 namespace Vector {
 namespace BLF {
