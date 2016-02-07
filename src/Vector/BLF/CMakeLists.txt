@@ -221,6 +221,7 @@ set(public_header_files
   ObjectHeader2.h
   ObjectHeaderBase.h
   ObjectHeader.h
+  platform.h
   RealtimeClock.h
   SerialEvent.h
   SystemVariable.h
@@ -234,7 +235,8 @@ set(private_header_files
 
 add_compiler_export_flags()
 
-add_library(${PROJECT_NAME} SHARED ${source_files} ${public_header_files} ${private_header_files})
+add_library(${PROJECT_NAME} SHARED
+  ${source_files} ${public_header_files} ${private_header_files})
 
 if(OPTION_USE_GCOV_LCOV)
   target_link_libraries(${PROJECT_NAME} gcov)
