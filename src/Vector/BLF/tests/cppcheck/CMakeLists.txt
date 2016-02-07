@@ -8,7 +8,10 @@ if(CPPCHECK_FOUND)
 
   add_custom_target(cppcheck ALL
     ${CPPCHECK_EXECUTABLE}
-    --xml-version=2 --enable=all --suppressions ${CMAKE_CURRENT_SOURCE_DIR}/suppressions.txt
+    --enable=all
+    --suppressions-list=${CMAKE_CURRENT_SOURCE_DIR}/suppressions.txt
+    --xml
+    --xml-version=2
     ${source_files_with_path}
     -I "${PROJECT_BINARY_DIR}/src/Vector/BLF"
     > cppcheck-out.txt 2> cppcheck-err.xml)
