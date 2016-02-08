@@ -64,7 +64,7 @@ void ObjectHeaderBase::write(AbstractFile & os)
     os.write((char *) &objectType, sizeof(objectType));
 }
 
-const size_t ObjectHeaderBase::calculateHeaderSize()
+size_t ObjectHeaderBase::calculateHeaderSize()
 {
     return
         sizeof(signature) +

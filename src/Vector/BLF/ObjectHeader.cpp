@@ -52,7 +52,7 @@ void ObjectHeader::write(AbstractFile & os)
     os.write((char *) &objectTimeStamp, sizeof(objectTimeStamp));
 }
 
-const size_t ObjectHeader::calculateHeaderSize()
+size_t ObjectHeader::calculateHeaderSize()
 {
     return
         ObjectHeaderBase::calculateHeaderSize() +

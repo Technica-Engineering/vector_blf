@@ -77,7 +77,7 @@ public:
      * @note Not to be mixed with headerSize, which is only takes ObjectHeaderBase headers into account.
      * @return Size of all headers.
      */
-    const size_t internalHeaderSize();
+    size_t internalHeaderSize();
 };
 
 }

@@ -490,7 +490,7 @@ bool File::is_open() const
 
 bool File::eof()
 {
-    bool compressedFileEmpty = (compressedFile.tellg() >= fileStatistics.fileSize) || compressedFile.eof();
+    bool compressedFileEmpty = (compressedFile.tellg() >= (signed) fileStatistics.fileSize) || compressedFile.eof();
     bool uncompressedFileEmpty = (uncompressedFile.tellp() <= uncompressedFile.tellg());
     return compressedFileEmpty && uncompressedFileEmpty;
 }
@@ -675,7 +675,7 @@ void File::write(ObjectHeaderBase * objectHeaderBase)
         uncompressedFile.write(buffer, objectHeaderBase->objectSize % 4);
 
         /* if data exceeds defined logContainerSize, compress and write it into compressedFile */
-        if ((uncompressedFile.tellp() - uncompressedFile.tellg()) >= defaultLogContainerSize)
+        if ((uncompressedFile.tellp() - uncompressedFile.tellg()) >= (signed) defaultLogContainerSize)
             deflate();
     }
 

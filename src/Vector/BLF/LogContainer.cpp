@@ -68,7 +68,7 @@ size_t LogContainer::calculateObjectSize()
     return internalHeaderSize() + compressedFileSize;
 }
 
-const size_t LogContainer::internalHeaderSize()
+size_t LogContainer::internalHeaderSize()
 {
     return
         ObjectHeaderBase::calculateHeaderSize() +

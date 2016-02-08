@@ -44,7 +44,7 @@ public:
 
     virtual void read(AbstractFile & is);
     virtual void write(AbstractFile & os);
-    virtual const size_t calculateHeaderSize();
+    virtual size_t calculateHeaderSize();
     virtual size_t calculateObjectSize();
 
     /** enumeration for objectFlags */

@@ -59,6 +59,7 @@ void UncompressedFile::seekg(std::streampos pos)
 void UncompressedFile::seekg(std::streamoff off, std::ios_base::seekdir way)
 {
     switch(way) {
+    default:
     case std::ios_base::beg:
         privateTellg = 0 + off;
         break;

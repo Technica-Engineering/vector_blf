@@ -62,8 +62,8 @@ void LinMessage2::read(AbstractFile & is)
     is.read((char *) reserved.data(), reserved.size());
 
     /* the following variables are only available in Version 2 and above */
-    if (objectVersion < 0) // Vector bug: Shouldn't this be < 1?
-        return;
+    /*if (objectVersion < 0)*/ // Vector bug: Shouldn't this be < 1?
+    /*    return;*/
 
     is.read((char *) &respBaudrate, sizeof(respBaudrate));
 
@@ -92,8 +92,8 @@ void LinMessage2::write(AbstractFile & os)
     os.write((char *) reserved.data(), reserved.size());
 
     /* the following variables are only available in Version 2 and above */
-    if (objectVersion < 0) // Vector bug: Shouldn't this be < 1?
-        return;
+    /*if (objectVersion < 0)*/ // Vector bug: Shouldn't this be < 1?
+    /*    return;*/
 
     os.write((char *) &respBaudrate, sizeof(respBaudrate));
 
@@ -122,7 +122,7 @@ size_t LinMessage2::calculateObjectSize()
         sizeof(fsmState) +
         reserved.size();
 
-    if (objectVersion >= 0) // Vector bug: Shouldn't this be >= 1?
+    /*if (objectVersion >= 0)*/ // Vector bug: Shouldn't this be >= 1?
         size += sizeof(respBaudrate);
 
     if (objectVersion >= 1) // Vector bug: Shouldn't this be >= 2?

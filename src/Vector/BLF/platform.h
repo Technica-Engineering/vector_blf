@@ -23,7 +23,16 @@
 
 #include "config.h"
 
-#ifdef _WINDOWS
+/* GCC */
+#ifdef __GNUC__
+
+#pragma GCC diagnostic warning "-Wall"
+#pragma GCC diagnostic warning "-Wextra"
+
+#endif
+
+/* Visual Studio */
+#ifdef _MSC_VER
 
 /* '...' : class '...' needs to have dll-interface to be used by clients of class '..' */
 #pragma warning (disable: 4251)
