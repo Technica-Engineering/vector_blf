@@ -1,7 +1,6 @@
 find_package(LCOV)
 
 if(LCOV_FOUND)
-
   add_custom_target(lcov_capture ALL
     ${LCOV_EXECUTABLE}
     --capture
@@ -15,6 +14,5 @@ if(LCOV_FOUND)
 
   install(
     DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lcov
-    DESTINATION share/doc/${PROJECT_NAME})
-
+    DESTINATION ${CMAKE_INSTALL_DOCDIR})
 endif()

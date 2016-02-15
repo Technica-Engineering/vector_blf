@@ -17,6 +17,11 @@ option(OPTION_RUN_EXAMPLES "Run examples" OFF)
 option(OPTION_RUN_TESTS "Run tests" OFF)
 option(OPTION_USE_GCOV_LCOV "Use gcov and run lcov" OFF)
 
+# directories
+include(GNUInstallDirs)
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules")
+set(CMAKE_INSTALL_PREFIX /)
+
 # package
 set(CPACK_PACKAGE_CONTACT "Tobias Lorenz <tobias.lorenz@gmx.net>")
 set(CPACK_PACKAGE_VENDOR "Tobias Lorenz <tobias.lorenz@gmx.net>")
@@ -30,14 +35,13 @@ set(CPACK_NSIS_CONTACT "Tobias Lorenz <tobias.lorenz@gmx.net>")
 set(CPACK_NSIS_MUI_ICON ${CMAKE_CURRENT_SOURCE_DIR}/icon.ico)
 set(CPACK_NSIS_MUI_UNICON ${CMAKE_CURRENT_SOURCE_DIR}/icon.ico)
 
-set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules")
-set(CMAKE_INSTALL_PREFIX /)
-
 include(CTest)
 include(CPack)
 
 add_subdirectory(src)
 
 install(
-  FILES ${CMAKE_CURRENT_SOURCE_DIR}/README.md ${CMAKE_CURRENT_SOURCE_DIR}/LICENSE.GPL
-  DESTINATION share/doc/${PROJECT_NAME})
+    FILES
+        ${CMAKE_CURRENT_SOURCE_DIR}/README.md
+        ${CMAKE_CURRENT_SOURCE_DIR}/LICENSE.GPL
+    DESTINATION ${CMAKE_INSTALL_DOCDIR})
