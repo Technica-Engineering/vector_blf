@@ -4,9 +4,8 @@ find_package(ZLIB)
 
 include(GenerateExportHeader)
 
-configure_file(
-    config.h.in
-    config.h)
+configure_file(config.h.in config.h)
+configure_file(${PROJECT_NAME}.pc.in ${PROJECT_NAME}.pc @ONLY)
 
 include_directories(
     ${ZLIB_INCLUDE_DIRS}
@@ -257,6 +256,10 @@ target_link_libraries(${PROJECT_NAME} ${ZLIB_LIBRARY})
 install(
     TARGETS ${PROJECT_NAME}
     DESTINATION ${CMAKE_INSTALL_LIBDIR})
+
+install(
+    FILES ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
 
 install(
     FILES
