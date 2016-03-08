@@ -22,7 +22,6 @@
 #include "File.h"
 
 #include <cstring>
-#include <iostream>
 #include <zlib.h>
 
 namespace Vector {
@@ -505,7 +504,6 @@ ObjectHeaderBase * File::readObjectFromCompressedFile()
     /* create object */
     ObjectHeaderBase * obj = createObject(ohb.objectType);
     if (obj == nullptr) {
-        std::cerr << "createObject returned nullptr" << std::endl;
         return nullptr;
     }
 
@@ -513,7 +511,7 @@ ObjectHeaderBase * File::readObjectFromCompressedFile()
     obj->read(compressedFile);
 
     /* skip padding */
-    compressedFile.seekg(ohb.objectSize % 4, std::iostream::cur);
+    compressedFile.seekg(ohb.objectSize % 4, std::ios_base::cur);
 
     return obj;
 }
@@ -536,7 +534,6 @@ ObjectHeaderBase * File::readObjectFromUncompressedFile()
     /* create object */
     ObjectHeaderBase * obj = createObject(ohb.objectType);
     if (obj == nullptr) {
-        std::cerr << "createObject(" << std::dec << (uint16_t) ohb.objectType << ") returned nullptr" << std::endl;
         return nullptr;
     }
 
@@ -544,7 +541,7 @@ ObjectHeaderBase * File::readObjectFromUncompressedFile()
     obj->read(uncompressedFile);
 
     /* skip padding */
-    uncompressedFile.seekg(ohb.objectSize % 4, std::iostream::cur);
+    uncompressedFile.seekg(ohb.objectSize % 4, std::ios_base::cur);
 
     /* drop old data */
     uncompressedFile.dropOldData(defaultLogContainerSize, 0x10); // sizeof(ObjectHeaderBase)
@@ -558,11 +555,9 @@ void File::inflate()
     /* read LogContainer */
     ObjectHeaderBase * obj = readObjectFromCompressedFile();
     if (obj == nullptr) {
-        std::cerr << "readObjectFromCompressedFile returned nullptr" << std::endl;
         return;
     }
     if (obj->objectType != ObjectType::LOG_CONTAINER) {
-        std::cerr << "unexpected object in compressed file" << std::endl;
         return;
     }
     LogContainer * logContainer = reinterpret_cast<LogContainer *>(obj);
@@ -577,7 +572,6 @@ void File::inflate()
     char * buffer = new char[bufferSize];
     if (buffer == nullptr) {
         delete logContainer;
-        std::cerr << "out of memory" << std::endl;
         return;
     }
 
@@ -610,7 +604,6 @@ void File::deflate()
     /* create buffer */
     char * bufferIn = new char[bufferSizeIn];
     if (bufferIn == nullptr) {
-        std::cerr << "out of memory" << std::endl;
         return;
     }
 
@@ -622,7 +615,6 @@ void File::deflate()
     char * bufferOut = new char[bufferSizeOut];
     if (bufferOut == nullptr) {
         delete[] bufferIn;
-        std::cerr << "out of memory" << std::endl;
         return;
     }
     compress(reinterpret_cast<Bytef *>(bufferOut),

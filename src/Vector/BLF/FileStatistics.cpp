@@ -19,9 +19,9 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "AbstractFile.h"
 #include <string>
 
+#include "AbstractFile.h"
 #include "FileStatistics.h"
 
 namespace Vector {
@@ -52,12 +52,11 @@ void FileStatistics::read(AbstractFile & is)
 {
     is.read((char *) &signature, sizeof(signature));
     if (signature != FileSignature) {
-        std::cerr << "unexpected file signature" << std::endl;
         return;
     }
     is.read((char *) &statisticsSize, sizeof(statisticsSize));
     if (statisticsSize != calculateStatisticsSize()) {
-        std::cerr << "unexpected file statistics size" << std::endl;
+        return;
     }
     is.read((char *) &applicationId, sizeof(applicationId));
     is.read((char *) &applicationMajor, sizeof(applicationMajor));

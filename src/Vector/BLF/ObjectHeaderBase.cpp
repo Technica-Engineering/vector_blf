@@ -19,9 +19,8 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "ObjectHeaderBase.h"
-
 #include "AbstractFile.h"
+#include "ObjectHeaderBase.h"
 
 namespace Vector {
 namespace BLF {
@@ -43,7 +42,7 @@ void ObjectHeaderBase::read(AbstractFile & is)
 {
     is.read((char *) &signature, sizeof(signature));
     if (signature != ObjectSignature)
-        std::cerr << "unexpected object signature" << std::endl;
+        return;
     is.read((char *) &headerSize, sizeof(headerSize));
     is.read((char *) &headerVersion, sizeof(headerVersion));
     is.read((char *) &objectSize, sizeof(objectSize));
@@ -57,7 +56,7 @@ void ObjectHeaderBase::write(AbstractFile & os)
 
     os.write((char *) &signature, sizeof(signature));
     if (signature != ObjectSignature)
-        std::cerr << "unexpected object signature" << std::endl;
+        return;
     os.write((char *) &headerSize, sizeof(headerSize));
     os.write((char *) &headerVersion, sizeof(headerVersion));
     os.write((char *) &objectSize, sizeof(objectSize));
