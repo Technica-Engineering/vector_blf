@@ -3306,8 +3306,8 @@ BOOST_AUTO_TEST_CASE(SerialEvent)
     BOOST_CHECK(serialEvent->objectVersion == 0);
     BOOST_CHECK(serialEvent->objectTimeStamp == 12315000000); // ns
     /* SerialEvent */
-    BOOST_CHECK(serialEvent->flags == (uint32_t) (Vector::BLF::SerialEvent::Flags::KLineEvent) |
-                                      (uint32_t) (Vector::BLF::SerialEvent::Flags::CompactByte));
+    BOOST_CHECK(serialEvent->flags == ((uint32_t) (Vector::BLF::SerialEvent::Flags::KLineEvent) |
+                                       (uint32_t) (Vector::BLF::SerialEvent::Flags::CompactByte)));
     BOOST_CHECK(serialEvent->port == 2);
     BOOST_CHECK(serialEvent->baudrate == 10400);
     // reserved
