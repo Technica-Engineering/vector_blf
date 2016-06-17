@@ -39,8 +39,6 @@ class VECTOR_BLF_EXPORT UncompressedFile : public AbstractFile
 public:
     UncompressedFile();
 
-    /** Default size of old data to keep until its trashed */
-    size_t oldDataSize;
     virtual void read(char * s, std::streamsize n);
     virtual std::streampos tellg();
     virtual void seekg(std::streampos pos);

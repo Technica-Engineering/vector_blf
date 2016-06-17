@@ -25,8 +25,6 @@
 
 #include <iostream>
 
-#include "AbstractFile.h"
-
 #include "vector_blf_export.h"
 
 namespace Vector {
@@ -36,6 +34,8 @@ namespace BLF {
 class VECTOR_BLF_EXPORT AbstractFile
 {
 public:
+    virtual ~AbstractFile();
+
     /**
      * Read block of data
      *

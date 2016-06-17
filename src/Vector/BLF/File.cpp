@@ -439,9 +439,6 @@ ObjectHeaderBase * File::createObject(ObjectType type)
     case ObjectType::CAN_FD_ERROR_64:
         obj = new CanFdErrorFrame64();
         break;
-
-    default:
-        break;
     }
 
     return obj;

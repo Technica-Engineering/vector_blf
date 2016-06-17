@@ -24,5 +24,9 @@
 namespace Vector {
 namespace BLF {
 
+AbstractFile::~AbstractFile()
+{
+}
+
 }
 }
