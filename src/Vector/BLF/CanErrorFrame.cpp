@@ -36,17 +36,17 @@ CanErrorFrame::CanErrorFrame() :
 void CanErrorFrame::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
-    is.read((char *) &channel, sizeof(channel));
-    is.read((char *) &length, sizeof(length));
-    is.read((char *) reserved.data(), reserved.size());
+    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    is.read(reinterpret_cast<char *>(&length), sizeof(length));
+    is.read(reinterpret_cast<char *>(reserved.data()), reserved.size());
 }
 
 void CanErrorFrame::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
-    os.write((char *) &channel, sizeof(channel));
-    os.write((char *) &length, sizeof(length));
-    os.write((char *) reserved.data(), reserved.size());
+    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    os.write(reinterpret_cast<char *>(&length), sizeof(length));
+    os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
 }
 
 size_t CanErrorFrame::calculateObjectSize()

@@ -38,18 +38,18 @@ LinBusEvent::~LinBusEvent()
 
 void LinBusEvent::read(AbstractFile & is)
 {
-    is.read((char *) &sof, sizeof(sof));
-    is.read((char *) &eventBaudrate, sizeof(eventBaudrate));
-    is.read((char *) &channel, sizeof(channel));
-    is.read((char *) reserved.data(), reserved.size());
+    is.read(reinterpret_cast<char *>(&sof), sizeof(sof));
+    is.read(reinterpret_cast<char *>(&eventBaudrate), sizeof(eventBaudrate));
+    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    is.read(reinterpret_cast<char *>(reserved.data()), reserved.size());
 }
 
 void LinBusEvent::write(AbstractFile & os)
 {
-    os.write((char *) &sof, sizeof(sof));
-    os.write((char *) &eventBaudrate, sizeof(eventBaudrate));
-    os.write((char *) &channel, sizeof(channel));
-    os.write((char *) reserved.data(), reserved.size());
+    os.write(reinterpret_cast<char *>(&sof), sizeof(sof));
+    os.write(reinterpret_cast<char *>(&eventBaudrate), sizeof(eventBaudrate));
+    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
 }
 
 size_t LinBusEvent::calculateObjectSize()

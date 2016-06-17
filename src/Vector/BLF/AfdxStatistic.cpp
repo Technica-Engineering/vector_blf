@@ -48,41 +48,41 @@ AfdxStatistic::AfdxStatistic() :
 void AfdxStatistic::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
-    is.read((char *) &channel, sizeof(channel));
-    is.read((char *) &flags, sizeof(flags));
-    is.read((char *) &rxPacketCount, sizeof(rxPacketCount));
-    is.read((char *) &rxByteCount, sizeof(rxByteCount));
-    is.read((char *) &txPacketCount, sizeof(txPacketCount));
-    is.read((char *) &txByteCount, sizeof(txByteCount));
-    is.read((char *) &collisionCount, sizeof(collisionCount));
-    is.read((char *) &errorCount, sizeof(errorCount));
-    is.read((char *) &statDroppedRedundantPacketCount, sizeof(statDroppedRedundantPacketCount));
-    is.read((char *) &statRedundantErrorPacketCount, sizeof(statRedundantErrorPacketCount));
-    is.read((char *) &statIntegrityErrorPacketCount, sizeof(statIntegrityErrorPacketCount));
-    is.read((char *) &statAvrgPeriodMsec, sizeof(statAvrgPeriodMsec));
-    is.read((char *) &statAvrgJitterMysec, sizeof(statAvrgJitterMysec));
-    is.read((char *) &vlid, sizeof(vlid));
-    is.read((char *) &statDuration, sizeof(statDuration));
+    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
+    is.read(reinterpret_cast<char *>(&rxPacketCount), sizeof(rxPacketCount));
+    is.read(reinterpret_cast<char *>(&rxByteCount), sizeof(rxByteCount));
+    is.read(reinterpret_cast<char *>(&txPacketCount), sizeof(txPacketCount));
+    is.read(reinterpret_cast<char *>(&txByteCount), sizeof(txByteCount));
+    is.read(reinterpret_cast<char *>(&collisionCount), sizeof(collisionCount));
+    is.read(reinterpret_cast<char *>(&errorCount), sizeof(errorCount));
+    is.read(reinterpret_cast<char *>(&statDroppedRedundantPacketCount), sizeof(statDroppedRedundantPacketCount));
+    is.read(reinterpret_cast<char *>(&statRedundantErrorPacketCount), sizeof(statRedundantErrorPacketCount));
+    is.read(reinterpret_cast<char *>(&statIntegrityErrorPacketCount), sizeof(statIntegrityErrorPacketCount));
+    is.read(reinterpret_cast<char *>(&statAvrgPeriodMsec), sizeof(statAvrgPeriodMsec));
+    is.read(reinterpret_cast<char *>(&statAvrgJitterMysec), sizeof(statAvrgJitterMysec));
+    is.read(reinterpret_cast<char *>(&vlid), sizeof(vlid));
+    is.read(reinterpret_cast<char *>(&statDuration), sizeof(statDuration));
 }
 
 void AfdxStatistic::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
-    os.write((char *) &channel, sizeof(channel));
-    os.write((char *) &flags, sizeof(flags));
-    os.write((char *) &rxPacketCount, sizeof(rxPacketCount));
-    os.write((char *) &rxByteCount, sizeof(rxByteCount));
-    os.write((char *) &txPacketCount, sizeof(txPacketCount));
-    os.write((char *) &txByteCount, sizeof(txByteCount));
-    os.write((char *) &collisionCount, sizeof(collisionCount));
-    os.write((char *) &errorCount, sizeof(errorCount));
-    os.write((char *) &statDroppedRedundantPacketCount, sizeof(statDroppedRedundantPacketCount));
-    os.write((char *) &statRedundantErrorPacketCount, sizeof(statRedundantErrorPacketCount));
-    os.write((char *) &statIntegrityErrorPacketCount, sizeof(statIntegrityErrorPacketCount));
-    os.write((char *) &statAvrgPeriodMsec, sizeof(statAvrgPeriodMsec));
-    os.write((char *) &statAvrgJitterMysec, sizeof(statAvrgJitterMysec));
-    os.write((char *) &vlid, sizeof(vlid));
-    os.write((char *) &statDuration, sizeof(statDuration));
+    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    os.write(reinterpret_cast<char *>(&flags), sizeof(flags));
+    os.write(reinterpret_cast<char *>(&rxPacketCount), sizeof(rxPacketCount));
+    os.write(reinterpret_cast<char *>(&rxByteCount), sizeof(rxByteCount));
+    os.write(reinterpret_cast<char *>(&txPacketCount), sizeof(txPacketCount));
+    os.write(reinterpret_cast<char *>(&txByteCount), sizeof(txByteCount));
+    os.write(reinterpret_cast<char *>(&collisionCount), sizeof(collisionCount));
+    os.write(reinterpret_cast<char *>(&errorCount), sizeof(errorCount));
+    os.write(reinterpret_cast<char *>(&statDroppedRedundantPacketCount), sizeof(statDroppedRedundantPacketCount));
+    os.write(reinterpret_cast<char *>(&statRedundantErrorPacketCount), sizeof(statRedundantErrorPacketCount));
+    os.write(reinterpret_cast<char *>(&statIntegrityErrorPacketCount), sizeof(statIntegrityErrorPacketCount));
+    os.write(reinterpret_cast<char *>(&statAvrgPeriodMsec), sizeof(statAvrgPeriodMsec));
+    os.write(reinterpret_cast<char *>(&statAvrgJitterMysec), sizeof(statAvrgJitterMysec));
+    os.write(reinterpret_cast<char *>(&vlid), sizeof(vlid));
+    os.write(reinterpret_cast<char *>(&statDuration), sizeof(statDuration));
 }
 
 size_t AfdxStatistic::calculateObjectSize()

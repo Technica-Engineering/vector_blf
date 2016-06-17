@@ -38,21 +38,21 @@ AppTrigger::AppTrigger() :
 void AppTrigger::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
-    is.read((char *) &preTriggerTime, sizeof(preTriggerTime));
-    is.read((char *) &postTriggerTime, sizeof(postTriggerTime));
-    is.read((char *) &channel, sizeof(channel));
-    is.read((char *) &flags, sizeof(flags));
-    is.read((char *) &appSpecific2, sizeof(appSpecific2));
+    is.read(reinterpret_cast<char *>(&preTriggerTime), sizeof(preTriggerTime));
+    is.read(reinterpret_cast<char *>(&postTriggerTime), sizeof(postTriggerTime));
+    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
+    is.read(reinterpret_cast<char *>(&appSpecific2), sizeof(appSpecific2));
 }
 
 void AppTrigger::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
-    os.write((char *) &preTriggerTime, sizeof(preTriggerTime));
-    os.write((char *) &postTriggerTime, sizeof(postTriggerTime));
-    os.write((char *) &channel, sizeof(channel));
-    os.write((char *) &flags, sizeof(flags));
-    os.write((char *) &appSpecific2, sizeof(appSpecific2));
+    os.write(reinterpret_cast<char *>(&preTriggerTime), sizeof(preTriggerTime));
+    os.write(reinterpret_cast<char *>(&postTriggerTime), sizeof(postTriggerTime));
+    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    os.write(reinterpret_cast<char *>(&flags), sizeof(flags));
+    os.write(reinterpret_cast<char *>(&appSpecific2), sizeof(appSpecific2));
 }
 
 size_t AppTrigger::calculateObjectSize()

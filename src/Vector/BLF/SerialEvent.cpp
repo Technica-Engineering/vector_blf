@@ -59,24 +59,24 @@ SerialEvent::SerialEvent() :
 void SerialEvent::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
-    is.read((char *) &flags, sizeof(flags));
-    is.read((char *) &port, sizeof(port));
-    is.read((char *) &baudrate, sizeof(baudrate));
-    is.read((char *) &reserved, sizeof(reserved));
+    is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
+    is.read(reinterpret_cast<char *>(&port), sizeof(port));
+    is.read(reinterpret_cast<char *>(&baudrate), sizeof(baudrate));
+    is.read(reinterpret_cast<char *>(&reserved), sizeof(reserved));
 
     if ((flags & ((DWORD) Flags::SingleByte)) != 0) {
-        is.read((char *) &singleByte.byte, sizeof(singleByte.byte));
+        is.read(reinterpret_cast<char *>(&singleByte.byte), sizeof(singleByte.byte));
     } else {
         if ((flags & ((DWORD) Flags::CompactByte)) != 0) {
-            is.read((char *) &compact.compactLength, sizeof(compact.compactLength));
-            is.read((char *) &compact.compactData, sizeof(compact.compactData));
+            is.read(reinterpret_cast<char *>(&compact.compactLength), sizeof(compact.compactLength));
+            is.read(reinterpret_cast<char *>(&compact.compactData), sizeof(compact.compactData));
         } else {
-            is.read((char *) &general.dataLength, sizeof(general.dataLength));
-            is.read((char *) &general.timeStampsLength, sizeof(general.timeStampsLength));
+            is.read(reinterpret_cast<char *>(&general.dataLength), sizeof(general.dataLength));
+            is.read(reinterpret_cast<char *>(&general.timeStampsLength), sizeof(general.timeStampsLength));
             general.data.resize(general.dataLength);
-            is.read((char *) general.data.data(), general.dataLength);
+            is.read(reinterpret_cast<char *>(general.data.data()), general.dataLength);
             general.timeStamps.resize(general.timeStampsLength / sizeof(LONGLONG));
-            is.read((char *) general.timeStamps.data(), general.timeStampsLength);
+            is.read(reinterpret_cast<char *>(general.timeStamps.data()), general.timeStampsLength);
         }
     }
 }
@@ -84,26 +84,26 @@ void SerialEvent::read(AbstractFile & is)
 void SerialEvent::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
-    os.write((char *) &flags, sizeof(flags));
-    os.write((char *) &port, sizeof(port));
-    os.write((char *) &baudrate, sizeof(baudrate));
-    os.write((char *) &reserved, sizeof(reserved));
+    os.write(reinterpret_cast<char *>(&flags), sizeof(flags));
+    os.write(reinterpret_cast<char *>(&port), sizeof(port));
+    os.write(reinterpret_cast<char *>(&baudrate), sizeof(baudrate));
+    os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
 
     if ((flags & ((DWORD) Flags::SingleByte)) != 0) {
-        os.write((char *) &singleByte.byte, sizeof(singleByte.byte));
+        os.write(reinterpret_cast<char *>(&singleByte.byte), sizeof(singleByte.byte));
     } else {
         if ((flags & ((DWORD) Flags::CompactByte)) != 0) {
-            os.write((char *) &compact.compactLength, sizeof(compact.compactLength));
-            os.write((char *) &compact.compactData, sizeof(compact.compactData));
+            os.write(reinterpret_cast<char *>(&compact.compactLength), sizeof(compact.compactLength));
+            os.write(reinterpret_cast<char *>(&compact.compactData), sizeof(compact.compactData));
         } else {
             /* pre processing */
             general.dataLength = general.data.size();
             general.timeStampsLength = general.timeStamps.size() * sizeof(LONGLONG);
 
-            os.write((char *) &general.dataLength, sizeof(general.dataLength));
-            os.write((char *) &general.timeStampsLength, sizeof(general.timeStampsLength));
-            os.write((char *) general.data.data(), general.dataLength);
-            os.write((char *) general.timeStamps.data(), general.timeStampsLength);
+            os.write(reinterpret_cast<char *>(&general.dataLength), sizeof(general.dataLength));
+            os.write(reinterpret_cast<char *>(&general.timeStampsLength), sizeof(general.timeStampsLength));
+            os.write(reinterpret_cast<char *>(general.data.data()), general.dataLength);
+            os.write(reinterpret_cast<char *>(general.timeStamps.data()), general.timeStampsLength);
         }
     }
 }

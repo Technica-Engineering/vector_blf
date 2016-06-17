@@ -37,19 +37,19 @@ CanDriverError::CanDriverError() :
 void CanDriverError::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
-    is.read((char *) &channel, sizeof(channel));
-    is.read((char *) &txErrors, sizeof(txErrors));
-    is.read((char *) &rxErrors, sizeof(rxErrors));
-    is.read((char *) &errorCode, sizeof(errorCode));
+    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    is.read(reinterpret_cast<char *>(&txErrors), sizeof(txErrors));
+    is.read(reinterpret_cast<char *>(&rxErrors), sizeof(rxErrors));
+    is.read(reinterpret_cast<char *>(&errorCode), sizeof(errorCode));
 }
 
 void CanDriverError::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
-    os.write((char *) &channel, sizeof(channel));
-    os.write((char *) &txErrors, sizeof(txErrors));
-    os.write((char *) &rxErrors, sizeof(rxErrors));
-    os.write((char *) &errorCode, sizeof(errorCode));
+    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    os.write(reinterpret_cast<char *>(&txErrors), sizeof(txErrors));
+    os.write(reinterpret_cast<char *>(&rxErrors), sizeof(rxErrors));
+    os.write(reinterpret_cast<char *>(&errorCode), sizeof(errorCode));
 }
 
 size_t CanDriverError::calculateObjectSize()

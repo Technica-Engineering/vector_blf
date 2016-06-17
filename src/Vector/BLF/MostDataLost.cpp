@@ -40,25 +40,25 @@ MostDataLost::MostDataLost() :
 void MostDataLost::read(AbstractFile & is)
 {
     ObjectHeader2::read(is);
-    is.read((char *) &channel, sizeof(channel));
-    is.read((char *) &reserved, sizeof(reserved));
-    is.read((char *) &info, sizeof(info));
-    is.read((char *) &lostMsgsCtrl, sizeof(lostMsgsCtrl));
-    is.read((char *) &lostMsgsAsync, sizeof(lostMsgsAsync));
-    is.read((char *) &lastGoodTimeStampNs, sizeof(lastGoodTimeStampNs));
-    is.read((char *) &nextGoodTimeStampNs, sizeof(nextGoodTimeStampNs));
+    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    is.read(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    is.read(reinterpret_cast<char *>(&info), sizeof(info));
+    is.read(reinterpret_cast<char *>(&lostMsgsCtrl), sizeof(lostMsgsCtrl));
+    is.read(reinterpret_cast<char *>(&lostMsgsAsync), sizeof(lostMsgsAsync));
+    is.read(reinterpret_cast<char *>(&lastGoodTimeStampNs), sizeof(lastGoodTimeStampNs));
+    is.read(reinterpret_cast<char *>(&nextGoodTimeStampNs), sizeof(nextGoodTimeStampNs));
 }
 
 void MostDataLost::write(AbstractFile & os)
 {
     ObjectHeader2::write(os);
-    os.write((char *) &channel, sizeof(channel));
-    os.write((char *) &reserved, sizeof(reserved));
-    os.write((char *) &info, sizeof(info));
-    os.write((char *) &lostMsgsCtrl, sizeof(lostMsgsCtrl));
-    os.write((char *) &lostMsgsAsync, sizeof(lostMsgsAsync));
-    os.write((char *) &lastGoodTimeStampNs, sizeof(lastGoodTimeStampNs));
-    os.write((char *) &nextGoodTimeStampNs, sizeof(nextGoodTimeStampNs));
+    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    os.write(reinterpret_cast<char *>(&info), sizeof(info));
+    os.write(reinterpret_cast<char *>(&lostMsgsCtrl), sizeof(lostMsgsCtrl));
+    os.write(reinterpret_cast<char *>(&lostMsgsAsync), sizeof(lostMsgsAsync));
+    os.write(reinterpret_cast<char *>(&lastGoodTimeStampNs), sizeof(lastGoodTimeStampNs));
+    os.write(reinterpret_cast<char *>(&nextGoodTimeStampNs), sizeof(nextGoodTimeStampNs));
 }
 
 size_t MostDataLost::calculateObjectSize()

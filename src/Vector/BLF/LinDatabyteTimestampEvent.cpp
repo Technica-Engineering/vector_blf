@@ -33,13 +33,13 @@ LinDatabyteTimestampEvent::LinDatabyteTimestampEvent() :
 void LinDatabyteTimestampEvent::read(AbstractFile & is)
 {
     LinMessageDescriptor::read(is);
-    is.read((char *) databyteTimestamps.data(), databyteTimestamps.size() * sizeof(ULONGLONG));
+    is.read(reinterpret_cast<char *>(databyteTimestamps.data()), databyteTimestamps.size() * sizeof(ULONGLONG));
 }
 
 void LinDatabyteTimestampEvent::write(AbstractFile & os)
 {
     LinMessageDescriptor::write(os);
-    os.write((char *) databyteTimestamps.data(), databyteTimestamps.size() * sizeof(ULONGLONG));
+    os.write(reinterpret_cast<char *>(databyteTimestamps.data()), databyteTimestamps.size() * sizeof(ULONGLONG));
 }
 
 size_t LinDatabyteTimestampEvent::calculateObjectSize()

@@ -44,31 +44,31 @@ CanFdMessage::CanFdMessage() :
 void CanFdMessage::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
-    is.read((char *) &channel, sizeof(channel));
-    is.read((char *) &flags, sizeof(flags));
-    is.read((char *) &dlc, sizeof(dlc));
-    is.read((char *) &frameLength, sizeof(frameLength));
-    is.read((char *) &arbBitCount, sizeof(arbBitCount));
-    is.read((char *) &canFdFlags, sizeof(canFdFlags));
-    is.read((char *) &validDataBytes, sizeof(validDataBytes));
-    is.read((char *) &reserved1, sizeof(reserved1));
-    is.read((char *) &reserved2, sizeof(reserved2));
-    is.read((char *) data.data(), data.size());
+    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
+    is.read(reinterpret_cast<char *>(&dlc), sizeof(dlc));
+    is.read(reinterpret_cast<char *>(&frameLength), sizeof(frameLength));
+    is.read(reinterpret_cast<char *>(&arbBitCount), sizeof(arbBitCount));
+    is.read(reinterpret_cast<char *>(&canFdFlags), sizeof(canFdFlags));
+    is.read(reinterpret_cast<char *>(&validDataBytes), sizeof(validDataBytes));
+    is.read(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    is.read(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    is.read(reinterpret_cast<char *>(data.data()), data.size());
 }
 
 void CanFdMessage::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
-    os.write((char *) &channel, sizeof(channel));
-    os.write((char *) &flags, sizeof(flags));
-    os.write((char *) &dlc, sizeof(dlc));
-    os.write((char *) &frameLength, sizeof(frameLength));
-    os.write((char *) &arbBitCount, sizeof(arbBitCount));
-    os.write((char *) &canFdFlags, sizeof(canFdFlags));
-    os.write((char *) &validDataBytes, sizeof(validDataBytes));
-    os.write((char *) &reserved1, sizeof(reserved1));
-    os.write((char *) &reserved2, sizeof(reserved2));
-    os.write((char *) data.data(), data.size());
+    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    os.write(reinterpret_cast<char *>(&flags), sizeof(flags));
+    os.write(reinterpret_cast<char *>(&dlc), sizeof(dlc));
+    os.write(reinterpret_cast<char *>(&frameLength), sizeof(frameLength));
+    os.write(reinterpret_cast<char *>(&arbBitCount), sizeof(arbBitCount));
+    os.write(reinterpret_cast<char *>(&canFdFlags), sizeof(canFdFlags));
+    os.write(reinterpret_cast<char *>(&validDataBytes), sizeof(validDataBytes));
+    os.write(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    os.write(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    os.write(reinterpret_cast<char *>(data.data()), data.size());
 }
 
 size_t CanFdMessage::calculateObjectSize()

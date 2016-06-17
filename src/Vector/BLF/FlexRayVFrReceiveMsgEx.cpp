@@ -56,30 +56,30 @@ FlexRayVFrReceiveMsgEx::FlexRayVFrReceiveMsgEx() :
 void FlexRayVFrReceiveMsgEx::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
-    is.read((char *) &channel, sizeof(channel));
-    is.read((char *) &version, sizeof(version));
-    is.read((char *) &channelMask, sizeof(channelMask));
-    is.read((char *) &dir, sizeof(dir));
-    is.read((char *) &clientIndex, sizeof(clientIndex));
-    is.read((char *) &clusterNo, sizeof(clusterNo));
-    is.read((char *) &frameId, sizeof(frameId));
-    is.read((char *) &headerCrc1, sizeof(headerCrc1));
-    is.read((char *) &headerCrc2, sizeof(headerCrc2));
-    is.read((char *) &byteCount, sizeof(byteCount));
-    is.read((char *) &dataCount, sizeof(dataCount));
-    is.read((char *) &cycle, sizeof(cycle));
-    is.read((char *) &tag, sizeof(tag));
-    is.read((char *) &data, sizeof(data));
-    is.read((char *) &frameFlags, sizeof(frameFlags));
-    is.read((char *) &appParameter, sizeof(appParameter));
-    is.read((char *) &frameCrc, sizeof(frameCrc));
-    is.read((char *) &frameLengthNs, sizeof(frameLengthNs));
-    is.read((char *) &frameId1, sizeof(frameId1));
-    is.read((char *) &pduOffset, sizeof(pduOffset));
-    is.read((char *) &blfLogMask, sizeof(blfLogMask));
-    is.read((char *) reserved.data(), reserved.size());
+    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    is.read(reinterpret_cast<char *>(&version), sizeof(version));
+    is.read(reinterpret_cast<char *>(&channelMask), sizeof(channelMask));
+    is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
+    is.read(reinterpret_cast<char *>(&clientIndex), sizeof(clientIndex));
+    is.read(reinterpret_cast<char *>(&clusterNo), sizeof(clusterNo));
+    is.read(reinterpret_cast<char *>(&frameId), sizeof(frameId));
+    is.read(reinterpret_cast<char *>(&headerCrc1), sizeof(headerCrc1));
+    is.read(reinterpret_cast<char *>(&headerCrc2), sizeof(headerCrc2));
+    is.read(reinterpret_cast<char *>(&byteCount), sizeof(byteCount));
+    is.read(reinterpret_cast<char *>(&dataCount), sizeof(dataCount));
+    is.read(reinterpret_cast<char *>(&cycle), sizeof(cycle));
+    is.read(reinterpret_cast<char *>(&tag), sizeof(tag));
+    is.read(reinterpret_cast<char *>(&data), sizeof(data));
+    is.read(reinterpret_cast<char *>(&frameFlags), sizeof(frameFlags));
+    is.read(reinterpret_cast<char *>(&appParameter), sizeof(appParameter));
+    is.read(reinterpret_cast<char *>(&frameCrc), sizeof(frameCrc));
+    is.read(reinterpret_cast<char *>(&frameLengthNs), sizeof(frameLengthNs));
+    is.read(reinterpret_cast<char *>(&frameId1), sizeof(frameId1));
+    is.read(reinterpret_cast<char *>(&pduOffset), sizeof(pduOffset));
+    is.read(reinterpret_cast<char *>(&blfLogMask), sizeof(blfLogMask));
+    is.read(reinterpret_cast<char *>(reserved.data()), reserved.size());
     dataBytes.resize(dataCount);
-    is.read((char *) dataBytes.data(), dataCount);
+    is.read(reinterpret_cast<char *>(dataBytes.data()), dataCount);
 }
 
 void FlexRayVFrReceiveMsgEx::write(AbstractFile & os)
@@ -88,29 +88,29 @@ void FlexRayVFrReceiveMsgEx::write(AbstractFile & os)
     dataCount = dataBytes.size();
 
     ObjectHeader::write(os);
-    os.write((char *) &channel, sizeof(channel));
-    os.write((char *) &version, sizeof(version));
-    os.write((char *) &channelMask, sizeof(channelMask));
-    os.write((char *) &dir, sizeof(dir));
-    os.write((char *) &clientIndex, sizeof(clientIndex));
-    os.write((char *) &clusterNo, sizeof(clusterNo));
-    os.write((char *) &frameId, sizeof(frameId));
-    os.write((char *) &headerCrc1, sizeof(headerCrc1));
-    os.write((char *) &headerCrc2, sizeof(headerCrc2));
-    os.write((char *) &byteCount, sizeof(byteCount));
-    os.write((char *) &dataCount, sizeof(dataCount));
-    os.write((char *) &cycle, sizeof(cycle));
-    os.write((char *) &tag, sizeof(tag));
-    os.write((char *) &data, sizeof(data));
-    os.write((char *) &frameFlags, sizeof(frameFlags));
-    os.write((char *) &appParameter, sizeof(appParameter));
-    os.write((char *) &frameCrc, sizeof(frameCrc));
-    os.write((char *) &frameLengthNs, sizeof(frameLengthNs));
-    os.write((char *) &frameId1, sizeof(frameId1));
-    os.write((char *) &pduOffset, sizeof(pduOffset));
-    os.write((char *) &blfLogMask, sizeof(blfLogMask));
-    os.write((char *) reserved.data(), reserved.size());
-    os.write((char *) dataBytes.data(), dataCount);
+    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    os.write(reinterpret_cast<char *>(&version), sizeof(version));
+    os.write(reinterpret_cast<char *>(&channelMask), sizeof(channelMask));
+    os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
+    os.write(reinterpret_cast<char *>(&clientIndex), sizeof(clientIndex));
+    os.write(reinterpret_cast<char *>(&clusterNo), sizeof(clusterNo));
+    os.write(reinterpret_cast<char *>(&frameId), sizeof(frameId));
+    os.write(reinterpret_cast<char *>(&headerCrc1), sizeof(headerCrc1));
+    os.write(reinterpret_cast<char *>(&headerCrc2), sizeof(headerCrc2));
+    os.write(reinterpret_cast<char *>(&byteCount), sizeof(byteCount));
+    os.write(reinterpret_cast<char *>(&dataCount), sizeof(dataCount));
+    os.write(reinterpret_cast<char *>(&cycle), sizeof(cycle));
+    os.write(reinterpret_cast<char *>(&tag), sizeof(tag));
+    os.write(reinterpret_cast<char *>(&data), sizeof(data));
+    os.write(reinterpret_cast<char *>(&frameFlags), sizeof(frameFlags));
+    os.write(reinterpret_cast<char *>(&appParameter), sizeof(appParameter));
+    os.write(reinterpret_cast<char *>(&frameCrc), sizeof(frameCrc));
+    os.write(reinterpret_cast<char *>(&frameLengthNs), sizeof(frameLengthNs));
+    os.write(reinterpret_cast<char *>(&frameId1), sizeof(frameId1));
+    os.write(reinterpret_cast<char *>(&pduOffset), sizeof(pduOffset));
+    os.write(reinterpret_cast<char *>(&blfLogMask), sizeof(blfLogMask));
+    os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
+    os.write(reinterpret_cast<char *>(dataBytes.data()), dataCount);
 }
 
 size_t FlexRayVFrReceiveMsgEx::calculateObjectSize()

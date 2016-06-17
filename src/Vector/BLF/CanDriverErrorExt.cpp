@@ -42,29 +42,29 @@ CanDriverErrorExt::CanDriverErrorExt() :
 void CanDriverErrorExt::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
-    is.read((char *) &channel, sizeof(channel));
-    is.read((char *) &txErrors, sizeof(txErrors));
-    is.read((char *) &rxErrors, sizeof(rxErrors));
-    is.read((char *) &errorCode, sizeof(errorCode));
-    is.read((char *) &flags, sizeof(flags));
-    is.read((char *) &state, sizeof(state));
-    is.read((char *) &reserved1, sizeof(reserved1));
-    is.read((char *) &reserved2, sizeof(reserved2));
-    is.read((char *) reserved3.data(), reserved3.size());
+    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    is.read(reinterpret_cast<char *>(&txErrors), sizeof(txErrors));
+    is.read(reinterpret_cast<char *>(&rxErrors), sizeof(rxErrors));
+    is.read(reinterpret_cast<char *>(&errorCode), sizeof(errorCode));
+    is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
+    is.read(reinterpret_cast<char *>(&state), sizeof(state));
+    is.read(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    is.read(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    is.read(reinterpret_cast<char *>(reserved3.data()), reserved3.size());
 }
 
 void CanDriverErrorExt::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
-    os.write((char *) &channel, sizeof(channel));
-    os.write((char *) &txErrors, sizeof(txErrors));
-    os.write((char *) &rxErrors, sizeof(rxErrors));
-    os.write((char *) &errorCode, sizeof(errorCode));
-    os.write((char *) &flags, sizeof(flags));
-    os.write((char *) &state, sizeof(state));
-    os.write((char *) &reserved1, sizeof(reserved1));
-    os.write((char *) &reserved2, sizeof(reserved2));
-    os.write((char *) reserved3.data(), reserved3.size());
+    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    os.write(reinterpret_cast<char *>(&txErrors), sizeof(txErrors));
+    os.write(reinterpret_cast<char *>(&rxErrors), sizeof(rxErrors));
+    os.write(reinterpret_cast<char *>(&errorCode), sizeof(errorCode));
+    os.write(reinterpret_cast<char *>(&flags), sizeof(flags));
+    os.write(reinterpret_cast<char *>(&state), sizeof(state));
+    os.write(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    os.write(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    os.write(reinterpret_cast<char *>(reserved3.data()), reserved3.size());
 }
 
 size_t CanDriverErrorExt::calculateObjectSize()

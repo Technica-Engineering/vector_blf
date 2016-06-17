@@ -36,17 +36,17 @@ LinBaudrateEvent::LinBaudrateEvent() :
 void LinBaudrateEvent::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
-    is.read((char *) &channel, sizeof(channel));
-    is.read((char *) &reserved, sizeof(reserved));
-    is.read((char *) &baudrate, sizeof(baudrate));
+    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    is.read(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    is.read(reinterpret_cast<char *>(&baudrate), sizeof(baudrate));
 }
 
 void LinBaudrateEvent::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
-    os.write((char *) &channel, sizeof(channel));
-    os.write((char *) &reserved, sizeof(reserved));
-    os.write((char *) &baudrate, sizeof(baudrate));
+    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    os.write(reinterpret_cast<char *>(&baudrate), sizeof(baudrate));
 }
 
 size_t LinBaudrateEvent::calculateObjectSize()

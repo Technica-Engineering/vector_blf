@@ -38,12 +38,12 @@ Most150AllocTab::Most150AllocTab() :
 void Most150AllocTab::read(AbstractFile & is)
 {
     ObjectHeader2::read(is);
-    is.read((char *) &channel, sizeof(channel));
-    is.read((char *) &eventModeFlags, sizeof(eventModeFlags));
-    is.read((char *) &freeBytes, sizeof(freeBytes));
-    is.read((char *) &length, sizeof(length));
+    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    is.read(reinterpret_cast<char *>(&eventModeFlags), sizeof(eventModeFlags));
+    is.read(reinterpret_cast<char *>(&freeBytes), sizeof(freeBytes));
+    is.read(reinterpret_cast<char *>(&length), sizeof(length));
     tableData.resize(length);
-    is.read((char *) tableData.data(), length * sizeof(WORD));
+    is.read(reinterpret_cast<char *>(tableData.data()), length * sizeof(WORD));
 }
 
 void Most150AllocTab::write(AbstractFile & os)
@@ -52,11 +52,11 @@ void Most150AllocTab::write(AbstractFile & os)
     length = tableData.size();
 
     ObjectHeader2::write(os);
-    os.write((char *) &channel, sizeof(channel));
-    os.write((char *) &eventModeFlags, sizeof(eventModeFlags));
-    os.write((char *) &freeBytes, sizeof(freeBytes));
-    os.write((char *) &length, sizeof(length));
-    os.write((char *) tableData.data(), length * sizeof(WORD));
+    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    os.write(reinterpret_cast<char *>(&eventModeFlags), sizeof(eventModeFlags));
+    os.write(reinterpret_cast<char *>(&freeBytes), sizeof(freeBytes));
+    os.write(reinterpret_cast<char *>(&length), sizeof(length));
+    os.write(reinterpret_cast<char *>(tableData.data()), length * sizeof(WORD));
 }
 
 size_t Most150AllocTab::calculateObjectSize()

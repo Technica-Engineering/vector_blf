@@ -43,25 +43,25 @@ J1708Message::J1708Message() :
 void J1708Message::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
-    is.read((char *) &channel, sizeof(channel));
-    is.read((char *) &dir, sizeof(dir));
-    is.read((char *) &reserved1, sizeof(reserved1));
-    is.read((char *) &error, sizeof(error));
-    is.read((char *) &size, sizeof(size));
-    is.read((char *) data.data(), data.size());
-    is.read((char *) reserved2.data(), reserved2.size());
+    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
+    is.read(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    is.read(reinterpret_cast<char *>(&error), sizeof(error));
+    is.read(reinterpret_cast<char *>(&size), sizeof(size));
+    is.read(reinterpret_cast<char *>(data.data()), data.size());
+    is.read(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
 }
 
 void J1708Message::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
-    os.write((char *) &channel, sizeof(channel));
-    os.write((char *) &dir, sizeof(dir));
-    os.write((char *) &reserved1, sizeof(reserved1));
-    os.write((char *) &error, sizeof(error));
-    os.write((char *) &size, sizeof(size));
-    os.write((char *) data.data(), data.size());
-    os.write((char *) reserved2.data(), reserved2.size());
+    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
+    os.write(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    os.write(reinterpret_cast<char *>(&error), sizeof(error));
+    os.write(reinterpret_cast<char *>(&size), sizeof(size));
+    os.write(reinterpret_cast<char *>(data.data()), data.size());
+    os.write(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
 }
 
 size_t J1708Message::calculateObjectSize()

@@ -38,21 +38,21 @@ MostStatisticEx::MostStatisticEx() :
 void MostStatisticEx::read(AbstractFile & is)
 {
     ObjectHeader2::read(is);
-    is.read((char *) &channel, sizeof(channel));
-    is.read((char *) &reserved1, sizeof(reserved1));
-    is.read((char *) &codingErrors, sizeof(codingErrors));
-    is.read((char *) &frameCounter, sizeof(frameCounter));
-    is.read((char *) reserved2.data(), reserved2.size());
+    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    is.read(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    is.read(reinterpret_cast<char *>(&codingErrors), sizeof(codingErrors));
+    is.read(reinterpret_cast<char *>(&frameCounter), sizeof(frameCounter));
+    is.read(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
 }
 
 void MostStatisticEx::write(AbstractFile & os)
 {
     ObjectHeader2::write(os);
-    os.write((char *) &channel, sizeof(channel));
-    os.write((char *) &reserved1, sizeof(reserved1));
-    os.write((char *) &codingErrors, sizeof(codingErrors));
-    os.write((char *) &frameCounter, sizeof(frameCounter));
-    os.write((char *) reserved2.data(), reserved2.size());
+    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    os.write(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    os.write(reinterpret_cast<char *>(&codingErrors), sizeof(codingErrors));
+    os.write(reinterpret_cast<char *>(&frameCounter), sizeof(frameCounter));
+    os.write(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
 }
 
 size_t MostStatisticEx::calculateObjectSize()

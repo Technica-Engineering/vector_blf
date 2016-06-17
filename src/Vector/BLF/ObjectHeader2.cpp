@@ -39,23 +39,23 @@ ObjectHeader2::ObjectHeader2() :
 void ObjectHeader2::read(AbstractFile & is)
 {
     ObjectHeaderBase::read(is);
-    is.read((char *) &objectFlags, sizeof(objectFlags));
-    is.read((char *) &timeStampStatus, sizeof(timeStampStatus));
-    is.read((char *) &reserved, sizeof(reserved));
-    is.read((char *) &objectVersion, sizeof(objectVersion));
-    is.read((char *) &objectTimeStamp, sizeof(objectTimeStamp));
-    is.read((char *) &originalTimeStamp, sizeof(originalTimeStamp));
+    is.read(reinterpret_cast<char *>(&objectFlags), sizeof(objectFlags));
+    is.read(reinterpret_cast<char *>(&timeStampStatus), sizeof(timeStampStatus));
+    is.read(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    is.read(reinterpret_cast<char *>(&objectVersion), sizeof(objectVersion));
+    is.read(reinterpret_cast<char *>(&objectTimeStamp), sizeof(objectTimeStamp));
+    is.read(reinterpret_cast<char *>(&originalTimeStamp), sizeof(originalTimeStamp));
 }
 
 void ObjectHeader2::write(AbstractFile & os)
 {
     ObjectHeaderBase::write(os);
-    os.write((char *) &objectFlags, sizeof(objectFlags));
-    os.write((char *) &timeStampStatus, sizeof(timeStampStatus));
-    os.write((char *) &reserved, sizeof(reserved));
-    os.write((char *) &objectVersion, sizeof(objectVersion));
-    os.write((char *) &objectTimeStamp, sizeof(objectTimeStamp));
-    os.write((char *) &originalTimeStamp, sizeof(originalTimeStamp));
+    os.write(reinterpret_cast<char *>(&objectFlags), sizeof(objectFlags));
+    os.write(reinterpret_cast<char *>(&timeStampStatus), sizeof(timeStampStatus));
+    os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    os.write(reinterpret_cast<char *>(&objectVersion), sizeof(objectVersion));
+    os.write(reinterpret_cast<char *>(&objectTimeStamp), sizeof(objectTimeStamp));
+    os.write(reinterpret_cast<char *>(&originalTimeStamp), sizeof(originalTimeStamp));
 }
 
 size_t ObjectHeader2::calculateHeaderSize()

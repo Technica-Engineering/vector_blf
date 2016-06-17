@@ -39,23 +39,23 @@ MostTrigger::MostTrigger() :
 void MostTrigger::read(AbstractFile & is)
 {
     ObjectHeader2::read(is);
-    is.read((char *) &channel, sizeof(channel));
-    is.read((char *) &reserved, sizeof(reserved));
-    is.read((char *) &mode, sizeof(mode));
-    is.read((char *) &hw, sizeof(hw));
-    is.read((char *) &previousTriggerValue, sizeof(previousTriggerValue));
-    is.read((char *) &currentTriggerValue, sizeof(currentTriggerValue));
+    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    is.read(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    is.read(reinterpret_cast<char *>(&mode), sizeof(mode));
+    is.read(reinterpret_cast<char *>(&hw), sizeof(hw));
+    is.read(reinterpret_cast<char *>(&previousTriggerValue), sizeof(previousTriggerValue));
+    is.read(reinterpret_cast<char *>(&currentTriggerValue), sizeof(currentTriggerValue));
 }
 
 void MostTrigger::write(AbstractFile & os)
 {
     ObjectHeader2::write(os);
-    os.write((char *) &channel, sizeof(channel));
-    os.write((char *) &reserved, sizeof(reserved));
-    os.write((char *) &mode, sizeof(mode));
-    os.write((char *) &hw, sizeof(hw));
-    os.write((char *) &previousTriggerValue, sizeof(previousTriggerValue));
-    os.write((char *) &currentTriggerValue, sizeof(currentTriggerValue));
+    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    os.write(reinterpret_cast<char *>(&mode), sizeof(mode));
+    os.write(reinterpret_cast<char *>(&hw), sizeof(hw));
+    os.write(reinterpret_cast<char *>(&previousTriggerValue), sizeof(previousTriggerValue));
+    os.write(reinterpret_cast<char *>(&currentTriggerValue), sizeof(currentTriggerValue));
 }
 
 size_t MostTrigger::calculateObjectSize()

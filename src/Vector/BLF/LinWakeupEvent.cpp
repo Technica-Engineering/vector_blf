@@ -36,17 +36,17 @@ LinWakeupEvent::LinWakeupEvent() :
 void LinWakeupEvent::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
-    is.read((char *) &channel, sizeof(channel));
-    is.read((char *) &signal, sizeof(signal));
-    is.read((char *) &external, sizeof(external));
+    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    is.read(reinterpret_cast<char *>(&signal), sizeof(signal));
+    is.read(reinterpret_cast<char *>(&external), sizeof(external));
 }
 
 void LinWakeupEvent::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
-    os.write((char *) &channel, sizeof(channel));
-    os.write((char *) &signal, sizeof(signal));
-    os.write((char *) &external, sizeof(external));
+    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    os.write(reinterpret_cast<char *>(&signal), sizeof(signal));
+    os.write(reinterpret_cast<char *>(&external), sizeof(external));
 }
 
 size_t LinWakeupEvent::calculateObjectSize()

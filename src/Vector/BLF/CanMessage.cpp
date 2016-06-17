@@ -38,21 +38,21 @@ CanMessage::CanMessage() :
 void CanMessage::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
-    is.read((char *) &channel, sizeof(channel));
-    is.read((char *) &flags, sizeof(flags));
-    is.read((char *) &dlc, sizeof(dlc));
-    is.read((char *) &id, sizeof(id));
-    is.read((char *) data.data(), data.size());
+    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
+    is.read(reinterpret_cast<char *>(&dlc), sizeof(dlc));
+    is.read(reinterpret_cast<char *>(&id), sizeof(id));
+    is.read(reinterpret_cast<char *>(data.data()), data.size());
 }
 
 void CanMessage::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
-    os.write((char *) &channel, sizeof(channel));
-    os.write((char *) &flags, sizeof(flags));
-    os.write((char *) &dlc, sizeof(dlc));
-    os.write((char *) &id, sizeof(id));
-    os.write((char *) data.data(), data.size());
+    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    os.write(reinterpret_cast<char *>(&flags), sizeof(flags));
+    os.write(reinterpret_cast<char *>(&dlc), sizeof(dlc));
+    os.write(reinterpret_cast<char *>(&id), sizeof(id));
+    os.write(reinterpret_cast<char *>(data.data()), data.size());
 }
 
 size_t CanMessage::calculateObjectSize()

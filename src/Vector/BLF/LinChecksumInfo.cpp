@@ -37,19 +37,19 @@ LinChecksumInfo::LinChecksumInfo() :
 void LinChecksumInfo::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
-    is.read((char *) &channel, sizeof(channel));
-    is.read((char *) &id, sizeof(id));
-    is.read((char *) &checksumModel, sizeof(checksumModel));
-    is.read((char *) reserved.data(), reserved.size());
+    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    is.read(reinterpret_cast<char *>(&id), sizeof(id));
+    is.read(reinterpret_cast<char *>(&checksumModel), sizeof(checksumModel));
+    is.read(reinterpret_cast<char *>(reserved.data()), reserved.size());
 }
 
 void LinChecksumInfo::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
-    os.write((char *) &channel, sizeof(channel));
-    os.write((char *) &id, sizeof(id));
-    os.write((char *) &checksumModel, sizeof(checksumModel));
-    os.write((char *) reserved.data(), reserved.size());
+    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    os.write(reinterpret_cast<char *>(&id), sizeof(id));
+    os.write(reinterpret_cast<char *>(&checksumModel), sizeof(checksumModel));
+    os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
 }
 
 size_t LinChecksumInfo::calculateObjectSize()

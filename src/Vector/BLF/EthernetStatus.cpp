@@ -44,33 +44,33 @@ EthernetStatus::EthernetStatus() :
 void EthernetStatus::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
-    is.read((char *) &channel, sizeof(channel));
-    is.read((char *) &flags, sizeof(flags));
-    is.read((char *) &linkStatus, sizeof(linkStatus));
-    is.read((char *) &ethernetPhy, sizeof(ethernetPhy));
-    is.read((char *) &duplex, sizeof(duplex));
-    is.read((char *) &mdi, sizeof(mdi));
-    is.read((char *) &connector, sizeof(connector));
-    is.read((char *) &clockMode, sizeof(clockMode));
-    is.read((char *) &pairs, sizeof(pairs));
-    is.read((char *) &reserved, sizeof(reserved));
-    is.read((char *) &bitrate, sizeof(bitrate));
+    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
+    is.read(reinterpret_cast<char *>(&linkStatus), sizeof(linkStatus));
+    is.read(reinterpret_cast<char *>(&ethernetPhy), sizeof(ethernetPhy));
+    is.read(reinterpret_cast<char *>(&duplex), sizeof(duplex));
+    is.read(reinterpret_cast<char *>(&mdi), sizeof(mdi));
+    is.read(reinterpret_cast<char *>(&connector), sizeof(connector));
+    is.read(reinterpret_cast<char *>(&clockMode), sizeof(clockMode));
+    is.read(reinterpret_cast<char *>(&pairs), sizeof(pairs));
+    is.read(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    is.read(reinterpret_cast<char *>(&bitrate), sizeof(bitrate));
 }
 
 void EthernetStatus::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
-    os.write((char *) &channel, sizeof(channel));
-    os.write((char *) &flags, sizeof(flags));
-    os.write((char *) &linkStatus, sizeof(linkStatus));
-    os.write((char *) &ethernetPhy, sizeof(ethernetPhy));
-    os.write((char *) &duplex, sizeof(duplex));
-    os.write((char *) &mdi, sizeof(mdi));
-    os.write((char *) &connector, sizeof(connector));
-    os.write((char *) &clockMode, sizeof(clockMode));
-    os.write((char *) &pairs, sizeof(pairs));
-    os.write((char *) &reserved, sizeof(reserved));
-    os.write((char *) &bitrate, sizeof(bitrate));
+    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    os.write(reinterpret_cast<char *>(&flags), sizeof(flags));
+    os.write(reinterpret_cast<char *>(&linkStatus), sizeof(linkStatus));
+    os.write(reinterpret_cast<char *>(&ethernetPhy), sizeof(ethernetPhy));
+    os.write(reinterpret_cast<char *>(&duplex), sizeof(duplex));
+    os.write(reinterpret_cast<char *>(&mdi), sizeof(mdi));
+    os.write(reinterpret_cast<char *>(&connector), sizeof(connector));
+    os.write(reinterpret_cast<char *>(&clockMode), sizeof(clockMode));
+    os.write(reinterpret_cast<char *>(&pairs), sizeof(pairs));
+    os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    os.write(reinterpret_cast<char *>(&bitrate), sizeof(bitrate));
 }
 
 size_t EthernetStatus::calculateObjectSize()

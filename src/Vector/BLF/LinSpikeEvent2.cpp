@@ -38,18 +38,18 @@ void LinSpikeEvent2::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     LinBusEvent::read(is);
-    is.read((char *) &width, sizeof(width));
-    is.read((char *) &internal, sizeof(internal));
-    is.read((char *) reserved.data(), reserved.size());
+    is.read(reinterpret_cast<char *>(&width), sizeof(width));
+    is.read(reinterpret_cast<char *>(&internal), sizeof(internal));
+    is.read(reinterpret_cast<char *>(reserved.data()), reserved.size());
 }
 
 void LinSpikeEvent2::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     LinBusEvent::write(os);
-    os.write((char *) &width, sizeof(width));
-    os.write((char *) &internal, sizeof(internal));
-    os.write((char *) reserved.data(), reserved.size());
+    os.write(reinterpret_cast<char *>(&width), sizeof(width));
+    os.write(reinterpret_cast<char *>(&internal), sizeof(internal));
+    os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
 }
 
 size_t LinSpikeEvent2::calculateObjectSize()

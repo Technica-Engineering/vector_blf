@@ -48,22 +48,22 @@ AfdxFrame::AfdxFrame() :
 void AfdxFrame::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
-    is.read((char *) sourceAddress.data(), sourceAddress.size());
-    is.read((char *) &channel, sizeof(channel));
-    is.read((char *) destinationAddress.data(), destinationAddress.size());
-    is.read((char *) &dir, sizeof(dir));
-    is.read((char *) &type, sizeof(type));
-    is.read((char *) &tpid, sizeof(tpid));
-    is.read((char *) &tci, sizeof(tci));
-    is.read((char *) &ethChannel, sizeof(ethChannel));
-    is.read((char *) &reserved1, sizeof(reserved1));
-    is.read((char *) &afdxFlags, sizeof(afdxFlags));
-    is.read((char *) reserved2.data(), reserved2.size());
-    is.read((char *) &bagUsec, sizeof(bagUsec));
-    is.read((char *) &payLoadLength, sizeof(payLoadLength));
-    is.read((char *) reserved3.data(), reserved3.size());
+    is.read(reinterpret_cast<char *>(sourceAddress.data()), sourceAddress.size());
+    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    is.read(reinterpret_cast<char *>(destinationAddress.data()), destinationAddress.size());
+    is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
+    is.read(reinterpret_cast<char *>(&type), sizeof(type));
+    is.read(reinterpret_cast<char *>(&tpid), sizeof(tpid));
+    is.read(reinterpret_cast<char *>(&tci), sizeof(tci));
+    is.read(reinterpret_cast<char *>(&ethChannel), sizeof(ethChannel));
+    is.read(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    is.read(reinterpret_cast<char *>(&afdxFlags), sizeof(afdxFlags));
+    is.read(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
+    is.read(reinterpret_cast<char *>(&bagUsec), sizeof(bagUsec));
+    is.read(reinterpret_cast<char *>(&payLoadLength), sizeof(payLoadLength));
+    is.read(reinterpret_cast<char *>(reserved3.data()), reserved3.size());
     payLoad.resize(payLoadLength);
-    is.read((char *) payLoad.data(), payLoadLength);
+    is.read(reinterpret_cast<char *>(payLoad.data()), payLoadLength);
 }
 
 void AfdxFrame::write(AbstractFile & os)
@@ -72,21 +72,21 @@ void AfdxFrame::write(AbstractFile & os)
     payLoadLength = payLoad.size();
 
     ObjectHeader::write(os);
-    os.write((char *) sourceAddress.data(), sourceAddress.size());
-    os.write((char *) &channel, sizeof(channel));
-    os.write((char *) destinationAddress.data(), destinationAddress.size());
-    os.write((char *) &dir, sizeof(dir));
-    os.write((char *) &type, sizeof(type));
-    os.write((char *) &tpid, sizeof(tpid));
-    os.write((char *) &tci, sizeof(tci));
-    os.write((char *) &ethChannel, sizeof(ethChannel));
-    os.write((char *) &reserved1, sizeof(reserved1));
-    os.write((char *) &afdxFlags, sizeof(afdxFlags));
-    os.write((char *) reserved2.data(), reserved2.size());
-    os.write((char *) &bagUsec, sizeof(bagUsec));
-    os.write((char *) &payLoadLength, sizeof(payLoadLength));
-    os.write((char *) reserved3.data(), reserved3.size());
-    os.write((char *) payLoad.data(), payLoadLength);
+    os.write(reinterpret_cast<char *>(sourceAddress.data()), sourceAddress.size());
+    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    os.write(reinterpret_cast<char *>(destinationAddress.data()), destinationAddress.size());
+    os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
+    os.write(reinterpret_cast<char *>(&type), sizeof(type));
+    os.write(reinterpret_cast<char *>(&tpid), sizeof(tpid));
+    os.write(reinterpret_cast<char *>(&tci), sizeof(tci));
+    os.write(reinterpret_cast<char *>(&ethChannel), sizeof(ethChannel));
+    os.write(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    os.write(reinterpret_cast<char *>(&afdxFlags), sizeof(afdxFlags));
+    os.write(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
+    os.write(reinterpret_cast<char *>(&bagUsec), sizeof(bagUsec));
+    os.write(reinterpret_cast<char *>(&payLoadLength), sizeof(payLoadLength));
+    os.write(reinterpret_cast<char *>(reserved3.data()), reserved3.size());
+    os.write(reinterpret_cast<char *>(payLoad.data()), payLoadLength);
 }
 
 size_t AfdxFrame::calculateObjectSize()

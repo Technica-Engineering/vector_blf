@@ -40,22 +40,22 @@ void LinShortOrSlowResponse::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     LinDatabyteTimestampEvent::read(is);
-    is.read((char *) &numberOfRespBytes, sizeof(numberOfRespBytes));
-    is.read((char *) respBytes.data(), respBytes.size());
-    is.read((char *) &slowResponse, sizeof(slowResponse));
-    is.read((char *) &interruptedByBreak, sizeof(interruptedByBreak));
-    is.read((char *) &reserved, sizeof(reserved));
+    is.read(reinterpret_cast<char *>(&numberOfRespBytes), sizeof(numberOfRespBytes));
+    is.read(reinterpret_cast<char *>(respBytes.data()), respBytes.size());
+    is.read(reinterpret_cast<char *>(&slowResponse), sizeof(slowResponse));
+    is.read(reinterpret_cast<char *>(&interruptedByBreak), sizeof(interruptedByBreak));
+    is.read(reinterpret_cast<char *>(&reserved), sizeof(reserved));
 }
 
 void LinShortOrSlowResponse::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     LinDatabyteTimestampEvent::write(os);
-    os.write((char *) &numberOfRespBytes, sizeof(numberOfRespBytes));
-    os.write((char *) respBytes.data(), respBytes.size());
-    os.write((char *) &slowResponse, sizeof(slowResponse));
-    os.write((char *) &interruptedByBreak, sizeof(interruptedByBreak));
-    os.write((char *) &reserved, sizeof(reserved));
+    os.write(reinterpret_cast<char *>(&numberOfRespBytes), sizeof(numberOfRespBytes));
+    os.write(reinterpret_cast<char *>(respBytes.data()), respBytes.size());
+    os.write(reinterpret_cast<char *>(&slowResponse), sizeof(slowResponse));
+    os.write(reinterpret_cast<char *>(&interruptedByBreak), sizeof(interruptedByBreak));
+    os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
 }
 
 size_t LinShortOrSlowResponse::calculateObjectSize()

@@ -37,19 +37,19 @@ MostHwMode::MostHwMode() :
 void MostHwMode::read(AbstractFile & is)
 {
     ObjectHeader2::read(is);
-    is.read((char *) &channel, sizeof(channel));
-    is.read((char *) &reserved, sizeof(reserved));
-    is.read((char *) &hwMode, sizeof(hwMode));
-    is.read((char *) &hwModeMask, sizeof(hwModeMask));
+    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    is.read(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    is.read(reinterpret_cast<char *>(&hwMode), sizeof(hwMode));
+    is.read(reinterpret_cast<char *>(&hwModeMask), sizeof(hwModeMask));
 }
 
 void MostHwMode::write(AbstractFile & os)
 {
     ObjectHeader2::write(os);
-    os.write((char *) &channel, sizeof(channel));
-    os.write((char *) &reserved, sizeof(reserved));
-    os.write((char *) &hwMode, sizeof(hwMode));
-    os.write((char *) &hwModeMask, sizeof(hwModeMask));
+    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    os.write(reinterpret_cast<char *>(&hwMode), sizeof(hwMode));
+    os.write(reinterpret_cast<char *>(&hwModeMask), sizeof(hwModeMask));
 }
 
 size_t MostHwMode::calculateObjectSize()

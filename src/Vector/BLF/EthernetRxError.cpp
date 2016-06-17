@@ -42,16 +42,16 @@ EthernetRxError::EthernetRxError() :
 void EthernetRxError::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
-    is.read((char *) &structLength, sizeof(structLength));
-    is.read((char *) &channel, sizeof(channel));
-    is.read((char *) &dir, sizeof(dir));
-    is.read((char *) reserved1.data(), reserved1.size());
-    is.read((char *) &fcs, sizeof(fcs));
-    is.read((char *) &frameDataLength, sizeof(frameDataLength));
-    is.read((char *) reserved2.data(), reserved2.size());
-    is.read((char *) &error, sizeof(error));
+    is.read(reinterpret_cast<char *>(&structLength), sizeof(structLength));
+    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
+    is.read(reinterpret_cast<char *>(reserved1.data()), reserved1.size());
+    is.read(reinterpret_cast<char *>(&fcs), sizeof(fcs));
+    is.read(reinterpret_cast<char *>(&frameDataLength), sizeof(frameDataLength));
+    is.read(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
+    is.read(reinterpret_cast<char *>(&error), sizeof(error));
     frameData.resize(frameDataLength);
-    is.read((char *) frameData.data(), frameDataLength);
+    is.read(reinterpret_cast<char *>(frameData.data()), frameDataLength);
 }
 
 void EthernetRxError::write(AbstractFile & os)
@@ -60,15 +60,15 @@ void EthernetRxError::write(AbstractFile & os)
     frameDataLength = frameData.size();
 
     ObjectHeader::write(os);
-    os.write((char *) &structLength, sizeof(structLength));
-    os.write((char *) &channel, sizeof(channel));
-    os.write((char *) &dir, sizeof(dir));
-    os.write((char *) reserved1.data(), reserved1.size());
-    os.write((char *) &fcs, sizeof(fcs));
-    os.write((char *) &frameDataLength, sizeof(frameDataLength));
-    os.write((char *) reserved2.data(), reserved2.size());
-    os.write((char *) &error, sizeof(error));
-    os.write((char *) frameData.data(), frameDataLength);
+    os.write(reinterpret_cast<char *>(&structLength), sizeof(structLength));
+    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
+    os.write(reinterpret_cast<char *>(reserved1.data()), reserved1.size());
+    os.write(reinterpret_cast<char *>(&fcs), sizeof(fcs));
+    os.write(reinterpret_cast<char *>(&frameDataLength), sizeof(frameDataLength));
+    os.write(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
+    os.write(reinterpret_cast<char *>(&error), sizeof(error));
+    os.write(reinterpret_cast<char *>(frameData.data()), frameDataLength);
 }
 
 size_t EthernetRxError::calculateObjectSize()

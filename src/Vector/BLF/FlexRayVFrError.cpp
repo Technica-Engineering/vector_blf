@@ -43,31 +43,31 @@ FlexRayVFrError::FlexRayVFrError() :
 void FlexRayVFrError::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
-    is.read((char *) &channel, sizeof(channel));
-    is.read((char *) &version, sizeof(version));
-    is.read((char *) &channelMask, sizeof(channelMask));
-    is.read((char *) &cycle, sizeof(cycle));
-    is.read((char *) &reserved1, sizeof(reserved1));
-    is.read((char *) &clientIndex, sizeof(clientIndex));
-    is.read((char *) &clusterNo, sizeof(clusterNo));
-    is.read((char *) &tag, sizeof(tag));
-    is.read((char *) data.data(), data.size());
-    is.read((char *) reserved2.data(), reserved2.size());
+    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    is.read(reinterpret_cast<char *>(&version), sizeof(version));
+    is.read(reinterpret_cast<char *>(&channelMask), sizeof(channelMask));
+    is.read(reinterpret_cast<char *>(&cycle), sizeof(cycle));
+    is.read(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    is.read(reinterpret_cast<char *>(&clientIndex), sizeof(clientIndex));
+    is.read(reinterpret_cast<char *>(&clusterNo), sizeof(clusterNo));
+    is.read(reinterpret_cast<char *>(&tag), sizeof(tag));
+    is.read(reinterpret_cast<char *>(data.data()), data.size());
+    is.read(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
 }
 
 void FlexRayVFrError::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
-    os.write((char *) &channel, sizeof(channel));
-    os.write((char *) &version, sizeof(version));
-    os.write((char *) &channelMask, sizeof(channelMask));
-    os.write((char *) &cycle, sizeof(cycle));
-    os.write((char *) &reserved1, sizeof(reserved1));
-    os.write((char *) &clientIndex, sizeof(clientIndex));
-    os.write((char *) &clusterNo, sizeof(clusterNo));
-    os.write((char *) &tag, sizeof(tag));
-    os.write((char *) data.data(), data.size());
-    os.write((char *) reserved2.data(), reserved2.size());
+    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    os.write(reinterpret_cast<char *>(&version), sizeof(version));
+    os.write(reinterpret_cast<char *>(&channelMask), sizeof(channelMask));
+    os.write(reinterpret_cast<char *>(&cycle), sizeof(cycle));
+    os.write(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    os.write(reinterpret_cast<char *>(&clientIndex), sizeof(clientIndex));
+    os.write(reinterpret_cast<char *>(&clusterNo), sizeof(clusterNo));
+    os.write(reinterpret_cast<char *>(&tag), sizeof(tag));
+    os.write(reinterpret_cast<char *>(data.data()), data.size());
+    os.write(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
 }
 
 size_t FlexRayVFrError::calculateObjectSize()

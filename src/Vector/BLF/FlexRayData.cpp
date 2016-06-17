@@ -42,29 +42,29 @@ FlexRayData::FlexRayData() :
 void FlexRayData::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
-    is.read((char *) &channel, sizeof(channel));
-    is.read((char *) &mux, sizeof(mux));
-    is.read((char *) &len, sizeof(len));
-    is.read((char *) &messageId, sizeof(messageId));
-    is.read((char *) &crc, sizeof(crc));
-    is.read((char *) &dir, sizeof(dir));
-    is.read((char *) &reserved1, sizeof(reserved1));
-    is.read((char *) &reserved2, sizeof(reserved2));
-    is.read((char *) dataBytes.data(), dataBytes.size());
+    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    is.read(reinterpret_cast<char *>(&mux), sizeof(mux));
+    is.read(reinterpret_cast<char *>(&len), sizeof(len));
+    is.read(reinterpret_cast<char *>(&messageId), sizeof(messageId));
+    is.read(reinterpret_cast<char *>(&crc), sizeof(crc));
+    is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
+    is.read(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    is.read(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    is.read(reinterpret_cast<char *>(dataBytes.data()), dataBytes.size());
 }
 
 void FlexRayData::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
-    os.write((char *) &channel, sizeof(channel));
-    os.write((char *) &mux, sizeof(mux));
-    os.write((char *) &len, sizeof(len));
-    os.write((char *) &messageId, sizeof(messageId));
-    os.write((char *) &crc, sizeof(crc));
-    os.write((char *) &dir, sizeof(dir));
-    os.write((char *) &reserved1, sizeof(reserved1));
-    os.write((char *) &reserved2, sizeof(reserved2));
-    os.write((char *) dataBytes.data(), dataBytes.size());
+    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    os.write(reinterpret_cast<char *>(&mux), sizeof(mux));
+    os.write(reinterpret_cast<char *>(&len), sizeof(len));
+    os.write(reinterpret_cast<char *>(&messageId), sizeof(messageId));
+    os.write(reinterpret_cast<char *>(&crc), sizeof(crc));
+    os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
+    os.write(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    os.write(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    os.write(reinterpret_cast<char *>(dataBytes.data()), dataBytes.size());
 }
 
 size_t FlexRayData::calculateObjectSize()

@@ -38,21 +38,21 @@ MostSystemEvent::MostSystemEvent() :
 void MostSystemEvent::read(AbstractFile & is)
 {
     ObjectHeader2::read(is);
-    is.read((char *) &channel, sizeof(channel));
-    is.read((char *) &id, sizeof(id));
-    is.read((char *) &value, sizeof(value));
-    is.read((char *) &valueOld, sizeof(valueOld));
-    is.read((char *) reserved.data(), reserved.size());
+    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    is.read(reinterpret_cast<char *>(&id), sizeof(id));
+    is.read(reinterpret_cast<char *>(&value), sizeof(value));
+    is.read(reinterpret_cast<char *>(&valueOld), sizeof(valueOld));
+    is.read(reinterpret_cast<char *>(reserved.data()), reserved.size());
 }
 
 void MostSystemEvent::write(AbstractFile & os)
 {
     ObjectHeader2::write(os);
-    os.write((char *) &channel, sizeof(channel));
-    os.write((char *) &id, sizeof(id));
-    os.write((char *) &value, sizeof(value));
-    os.write((char *) &valueOld, sizeof(valueOld));
-    os.write((char *) reserved.data(), reserved.size());
+    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    os.write(reinterpret_cast<char *>(&id), sizeof(id));
+    os.write(reinterpret_cast<char *>(&value), sizeof(value));
+    os.write(reinterpret_cast<char *>(&valueOld), sizeof(valueOld));
+    os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
 }
 
 size_t MostSystemEvent::calculateObjectSize()

@@ -41,15 +41,15 @@ WlanFrame::WlanFrame() :
 void WlanFrame::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
-    is.read((char *) &channel, sizeof(channel));
-    is.read((char *) &flags, sizeof(flags));
-    is.read((char *) &dir, sizeof(dir));
-    is.read((char *) &radioChannel, sizeof(radioChannel));
-    is.read((char *) &signalStrength, sizeof(signalStrength));
-    is.read((char *) &signalQuality, sizeof(signalQuality));
-    is.read((char *) &frameLength, sizeof(frameLength));
+    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
+    is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
+    is.read(reinterpret_cast<char *>(&radioChannel), sizeof(radioChannel));
+    is.read(reinterpret_cast<char *>(&signalStrength), sizeof(signalStrength));
+    is.read(reinterpret_cast<char *>(&signalQuality), sizeof(signalQuality));
+    is.read(reinterpret_cast<char *>(&frameLength), sizeof(frameLength));
     frameData.resize(frameLength);
-    is.read((char *) frameData.data(), frameLength);
+    is.read(reinterpret_cast<char *>(frameData.data()), frameLength);
 }
 
 void WlanFrame::write(AbstractFile & os)
@@ -58,14 +58,14 @@ void WlanFrame::write(AbstractFile & os)
     frameLength = frameData.size();
 
     ObjectHeader::write(os);
-    os.write((char *) &channel, sizeof(channel));
-    os.write((char *) &flags, sizeof(flags));
-    os.write((char *) &dir, sizeof(dir));
-    os.write((char *) &radioChannel, sizeof(radioChannel));
-    os.write((char *) &signalStrength, sizeof(signalStrength));
-    os.write((char *) &signalQuality, sizeof(signalQuality));
-    os.write((char *) &frameLength, sizeof(frameLength));
-    os.write((char *) frameData.data(), frameLength);
+    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    os.write(reinterpret_cast<char *>(&flags), sizeof(flags));
+    os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
+    os.write(reinterpret_cast<char *>(&radioChannel), sizeof(radioChannel));
+    os.write(reinterpret_cast<char *>(&signalStrength), sizeof(signalStrength));
+    os.write(reinterpret_cast<char *>(&signalQuality), sizeof(signalQuality));
+    os.write(reinterpret_cast<char *>(&frameLength), sizeof(frameLength));
+    os.write(reinterpret_cast<char *>(frameData.data()), frameLength);
 }
 
 size_t WlanFrame::calculateObjectSize()

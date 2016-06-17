@@ -39,11 +39,11 @@ EventComment::EventComment() :
 void EventComment::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
-    is.read((char *) &commentedEventType, sizeof(commentedEventType));
-    is.read((char *) &textLength, sizeof(textLength));
-    is.read((char *) reserved.data(), reserved.size());
+    is.read(reinterpret_cast<char *>(&commentedEventType), sizeof(commentedEventType));
+    is.read(reinterpret_cast<char *>(&textLength), sizeof(textLength));
+    is.read(reinterpret_cast<char *>(reserved.data()), reserved.size());
     text.resize(textLength);
-    is.read((char *) text.data(), textLength);
+    is.read(const_cast<char *>(text.data()), textLength);
 
     /* post processing */
     text.resize(strnlen(text.c_str(), textLength)); // Vector bug: the actual string can be shorter than size!
@@ -56,10 +56,10 @@ void EventComment::write(AbstractFile & os)
     textLength = text.size();
 
     ObjectHeader::write(os);
-    os.write((char *) &commentedEventType, sizeof(commentedEventType));
-    os.write((char *) &textLength, sizeof(textLength));
-    os.write((char *) reserved.data(), reserved.size());
-    os.write((char *) text.data(), textLength);
+    os.write(reinterpret_cast<char *>(&commentedEventType), sizeof(commentedEventType));
+    os.write(reinterpret_cast<char *>(&textLength), sizeof(textLength));
+    os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
+    os.write(const_cast<char *>(text.data()), textLength);
 }
 
 size_t EventComment::calculateObjectSize()

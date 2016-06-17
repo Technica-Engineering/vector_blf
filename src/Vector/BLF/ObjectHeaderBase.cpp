@@ -40,13 +40,13 @@ ObjectHeaderBase::~ObjectHeaderBase()
 
 void ObjectHeaderBase::read(AbstractFile & is)
 {
-    is.read((char *) &signature, sizeof(signature));
+    is.read(reinterpret_cast<char *>(&signature), sizeof(signature));
     if (signature != ObjectSignature)
         return;
-    is.read((char *) &headerSize, sizeof(headerSize));
-    is.read((char *) &headerVersion, sizeof(headerVersion));
-    is.read((char *) &objectSize, sizeof(objectSize));
-    is.read((char *) &objectType, sizeof(objectType));
+    is.read(reinterpret_cast<char *>(&headerSize), sizeof(headerSize));
+    is.read(reinterpret_cast<char *>(&headerVersion), sizeof(headerVersion));
+    is.read(reinterpret_cast<char *>(&objectSize), sizeof(objectSize));
+    is.read(reinterpret_cast<char *>(&objectType), sizeof(objectType));
 }
 
 void ObjectHeaderBase::write(AbstractFile & os)
@@ -54,13 +54,13 @@ void ObjectHeaderBase::write(AbstractFile & os)
     /* pre processing */
     objectSize = calculateObjectSize();
 
-    os.write((char *) &signature, sizeof(signature));
+    os.write(reinterpret_cast<char *>(&signature), sizeof(signature));
     if (signature != ObjectSignature)
         return;
-    os.write((char *) &headerSize, sizeof(headerSize));
-    os.write((char *) &headerVersion, sizeof(headerVersion));
-    os.write((char *) &objectSize, sizeof(objectSize));
-    os.write((char *) &objectType, sizeof(objectType));
+    os.write(reinterpret_cast<char *>(&headerSize), sizeof(headerSize));
+    os.write(reinterpret_cast<char *>(&headerVersion), sizeof(headerVersion));
+    os.write(reinterpret_cast<char *>(&objectSize), sizeof(objectSize));
+    os.write(reinterpret_cast<char *>(&objectType), sizeof(objectType));
 }
 
 size_t ObjectHeaderBase::calculateHeaderSize()

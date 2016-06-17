@@ -41,27 +41,27 @@ WlanStatistic::WlanStatistic() :
 void WlanStatistic::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
-    is.read((char *) &channel, sizeof(channel));
-    is.read((char *) &flags, sizeof(flags));
-    is.read((char *) &rxPacketCount, sizeof(rxPacketCount));
-    is.read((char *) &rxByteCount, sizeof(rxByteCount));
-    is.read((char *) &txPacketCount, sizeof(txPacketCount));
-    is.read((char *) &txByteCount, sizeof(txByteCount));
-    is.read((char *) &collisionCount, sizeof(collisionCount));
-    is.read((char *) &errorCount, sizeof(errorCount));
+    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
+    is.read(reinterpret_cast<char *>(&rxPacketCount), sizeof(rxPacketCount));
+    is.read(reinterpret_cast<char *>(&rxByteCount), sizeof(rxByteCount));
+    is.read(reinterpret_cast<char *>(&txPacketCount), sizeof(txPacketCount));
+    is.read(reinterpret_cast<char *>(&txByteCount), sizeof(txByteCount));
+    is.read(reinterpret_cast<char *>(&collisionCount), sizeof(collisionCount));
+    is.read(reinterpret_cast<char *>(&errorCount), sizeof(errorCount));
 }
 
 void WlanStatistic::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
-    os.write((char *) &channel, sizeof(channel));
-    os.write((char *) &flags, sizeof(flags));
-    os.write((char *) &rxPacketCount, sizeof(rxPacketCount));
-    os.write((char *) &rxByteCount, sizeof(rxByteCount));
-    os.write((char *) &txPacketCount, sizeof(txPacketCount));
-    os.write((char *) &txByteCount, sizeof(txByteCount));
-    os.write((char *) &collisionCount, sizeof(collisionCount));
-    os.write((char *) &errorCount, sizeof(errorCount));
+    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    os.write(reinterpret_cast<char *>(&flags), sizeof(flags));
+    os.write(reinterpret_cast<char *>(&rxPacketCount), sizeof(rxPacketCount));
+    os.write(reinterpret_cast<char *>(&rxByteCount), sizeof(rxByteCount));
+    os.write(reinterpret_cast<char *>(&txPacketCount), sizeof(txPacketCount));
+    os.write(reinterpret_cast<char *>(&txByteCount), sizeof(txByteCount));
+    os.write(reinterpret_cast<char *>(&collisionCount), sizeof(collisionCount));
+    os.write(reinterpret_cast<char *>(&errorCount), sizeof(errorCount));
 }
 
 size_t WlanStatistic::calculateObjectSize()

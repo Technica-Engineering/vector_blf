@@ -41,13 +41,13 @@ LogContainer::LogContainer() :
 void LogContainer::read(AbstractFile & is)
 {
     ObjectHeaderBase::read(is);
-    is.read((char *) &objectFlags, sizeof(objectFlags));
-    is.read((char *) &reserved, sizeof(reserved));
-    is.read((char *) &objectVersion, sizeof(objectVersion));
-    is.read((char *) &uncompressedFileSize, sizeof(uncompressedFileSize));
+    is.read(reinterpret_cast<char *>(&objectFlags), sizeof(objectFlags));
+    is.read(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    is.read(reinterpret_cast<char *>(&objectVersion), sizeof(objectVersion));
+    is.read(reinterpret_cast<char *>(&uncompressedFileSize), sizeof(uncompressedFileSize));
     compressedFileSize = objectSize - internalHeaderSize();
     compressedFile.resize(compressedFileSize);
-    is.read((char *) compressedFile.data(), compressedFileSize);
+    is.read(reinterpret_cast<char *>(compressedFile.data()), compressedFileSize);
 }
 
 void LogContainer::write(AbstractFile & os)
@@ -56,11 +56,11 @@ void LogContainer::write(AbstractFile & os)
     compressedFileSize = compressedFile.size();
 
     ObjectHeaderBase::write(os);
-    os.write((char *) &objectFlags, sizeof(objectFlags));
-    os.write((char *) &reserved, sizeof(reserved));
-    os.write((char *) &objectVersion, sizeof(objectVersion));
-    os.write((char *) &uncompressedFileSize, sizeof(uncompressedFileSize));
-    os.write((char *) compressedFile.data(), compressedFileSize);
+    os.write(reinterpret_cast<char *>(&objectFlags), sizeof(objectFlags));
+    os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    os.write(reinterpret_cast<char *>(&objectVersion), sizeof(objectVersion));
+    os.write(reinterpret_cast<char *>(&uncompressedFileSize), sizeof(uncompressedFileSize));
+    os.write(reinterpret_cast<char *>(compressedFile.data()), compressedFileSize);
 }
 
 size_t LogContainer::calculateObjectSize()

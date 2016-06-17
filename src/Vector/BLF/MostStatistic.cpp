@@ -38,21 +38,21 @@ MostStatistic::MostStatistic() :
 void MostStatistic::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
-    is.read((char *) &channel, sizeof(channel));
-    is.read((char *) &pktCnt, sizeof(pktCnt));
-    is.read((char *) &frmCnt, sizeof(frmCnt));
-    is.read((char *) &lightCnt, sizeof(lightCnt));
-    is.read((char *) &bufferLevel, sizeof(bufferLevel));
+    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    is.read(reinterpret_cast<char *>(&pktCnt), sizeof(pktCnt));
+    is.read(reinterpret_cast<char *>(&frmCnt), sizeof(frmCnt));
+    is.read(reinterpret_cast<char *>(&lightCnt), sizeof(lightCnt));
+    is.read(reinterpret_cast<char *>(&bufferLevel), sizeof(bufferLevel));
 }
 
 void MostStatistic::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
-    os.write((char *) &channel, sizeof(channel));
-    os.write((char *) &pktCnt, sizeof(pktCnt));
-    os.write((char *) &frmCnt, sizeof(frmCnt));
-    os.write((char *) &lightCnt, sizeof(lightCnt));
-    os.write((char *) &bufferLevel, sizeof(bufferLevel));
+    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    os.write(reinterpret_cast<char *>(&pktCnt), sizeof(pktCnt));
+    os.write(reinterpret_cast<char *>(&frmCnt), sizeof(frmCnt));
+    os.write(reinterpret_cast<char *>(&lightCnt), sizeof(lightCnt));
+    os.write(reinterpret_cast<char *>(&bufferLevel), sizeof(bufferLevel));
 }
 
 size_t MostStatistic::calculateObjectSize()

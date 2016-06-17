@@ -41,27 +41,27 @@ MostGenReg::MostGenReg() :
 void MostGenReg::read(AbstractFile & is)
 {
     ObjectHeader2::read(is);
-    is.read((char *) &channel, sizeof(channel));
-    is.read((char *) &subType, sizeof(subType));
-    is.read((char *) &reserved1, sizeof(reserved1));
-    is.read((char *) &handle, sizeof(handle));
-    is.read((char *) &regId, sizeof(regId));
-    is.read((char *) &reserved2, sizeof(reserved2));
-    is.read((char *) &reserved3, sizeof(reserved3));
-    is.read((char *) &regValue, sizeof(regValue));
+    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    is.read(reinterpret_cast<char *>(&subType), sizeof(subType));
+    is.read(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    is.read(reinterpret_cast<char *>(&handle), sizeof(handle));
+    is.read(reinterpret_cast<char *>(&regId), sizeof(regId));
+    is.read(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    is.read(reinterpret_cast<char *>(&reserved3), sizeof(reserved3));
+    is.read(reinterpret_cast<char *>(&regValue), sizeof(regValue));
 }
 
 void MostGenReg::write(AbstractFile & os)
 {
     ObjectHeader2::write(os);
-    os.write((char *) &channel, sizeof(channel));
-    os.write((char *) &subType, sizeof(subType));
-    os.write((char *) &reserved1, sizeof(reserved1));
-    os.write((char *) &handle, sizeof(handle));
-    os.write((char *) &regId, sizeof(regId));
-    os.write((char *) &reserved2, sizeof(reserved2));
-    os.write((char *) &reserved3, sizeof(reserved3));
-    os.write((char *) &regValue, sizeof(regValue));
+    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    os.write(reinterpret_cast<char *>(&subType), sizeof(subType));
+    os.write(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    os.write(reinterpret_cast<char *>(&handle), sizeof(handle));
+    os.write(reinterpret_cast<char *>(&regId), sizeof(regId));
+    os.write(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    os.write(reinterpret_cast<char *>(&reserved3), sizeof(reserved3));
+    os.write(reinterpret_cast<char *>(&regValue), sizeof(regValue));
 }
 
 size_t MostGenReg::calculateObjectSize()

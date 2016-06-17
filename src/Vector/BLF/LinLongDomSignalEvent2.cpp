@@ -38,18 +38,18 @@ void LinLongDomSignalEvent2::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     LinBusEvent::read(is);
-    is.read((char *) &type, sizeof(type));
-    is.read((char *) reserved.data(), reserved.size());
-    is.read((char *) &length, sizeof(length));
+    is.read(reinterpret_cast<char *>(&type), sizeof(type));
+    is.read(reinterpret_cast<char *>(reserved.data()), reserved.size());
+    is.read(reinterpret_cast<char *>(&length), sizeof(length));
 }
 
 void LinLongDomSignalEvent2::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     LinBusEvent::write(os);
-    os.write((char *) &type, sizeof(type));
-    os.write((char *) reserved.data(), reserved.size());
-    os.write((char *) &length, sizeof(length));
+    os.write(reinterpret_cast<char *>(&type), sizeof(type));
+    os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
+    os.write(reinterpret_cast<char *>(&length), sizeof(length));
 }
 
 size_t LinLongDomSignalEvent2::calculateObjectSize()

@@ -38,23 +38,23 @@ LinMessageDescriptor::LinMessageDescriptor() :
 void LinMessageDescriptor::read(AbstractFile & is)
 {
     LinSynchFieldEvent::read(is);
-    is.read((char *) &supplierId, sizeof(supplierId));
-    is.read((char *) &messageId, sizeof(messageId));
-    is.read((char *) &nad, sizeof(nad));
-    is.read((char *) &id, sizeof(id));
-    is.read((char *) &dlc, sizeof(dlc));
-    is.read((char *) &checksumModel, sizeof(checksumModel));
+    is.read(reinterpret_cast<char *>(&supplierId), sizeof(supplierId));
+    is.read(reinterpret_cast<char *>(&messageId), sizeof(messageId));
+    is.read(reinterpret_cast<char *>(&nad), sizeof(nad));
+    is.read(reinterpret_cast<char *>(&id), sizeof(id));
+    is.read(reinterpret_cast<char *>(&dlc), sizeof(dlc));
+    is.read(reinterpret_cast<char *>(&checksumModel), sizeof(checksumModel));
 }
 
 void LinMessageDescriptor::write(AbstractFile & os)
 {
     LinSynchFieldEvent::write(os);
-    os.write((char *) &supplierId, sizeof(supplierId));
-    os.write((char *) &messageId, sizeof(messageId));
-    os.write((char *) &nad, sizeof(nad));
-    os.write((char *) &id, sizeof(id));
-    os.write((char *) &dlc, sizeof(dlc));
-    os.write((char *) &checksumModel, sizeof(checksumModel));
+    os.write(reinterpret_cast<char *>(&supplierId), sizeof(supplierId));
+    os.write(reinterpret_cast<char *>(&messageId), sizeof(messageId));
+    os.write(reinterpret_cast<char *>(&nad), sizeof(nad));
+    os.write(reinterpret_cast<char *>(&id), sizeof(id));
+    os.write(reinterpret_cast<char *>(&dlc), sizeof(dlc));
+    os.write(reinterpret_cast<char *>(&checksumModel), sizeof(checksumModel));
 }
 
 size_t LinMessageDescriptor::calculateObjectSize()

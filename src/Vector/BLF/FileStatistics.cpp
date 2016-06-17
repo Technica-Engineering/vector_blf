@@ -50,50 +50,50 @@ FileStatistics::FileStatistics() :
 
 void FileStatistics::read(AbstractFile & is)
 {
-    is.read((char *) &signature, sizeof(signature));
+    is.read(reinterpret_cast<char *>(&signature), sizeof(signature));
     if (signature != FileSignature) {
         return;
     }
-    is.read((char *) &statisticsSize, sizeof(statisticsSize));
+    is.read(reinterpret_cast<char *>(&statisticsSize), sizeof(statisticsSize));
     if (statisticsSize != calculateStatisticsSize()) {
         return;
     }
-    is.read((char *) &applicationId, sizeof(applicationId));
-    is.read((char *) &applicationMajor, sizeof(applicationMajor));
-    is.read((char *) &applicationMinor, sizeof(applicationMinor));
-    is.read((char *) &applicationBuild, sizeof(applicationBuild));
-    is.read((char *) &apiMajor, sizeof(apiMajor));
-    is.read((char *) &apiMinor, sizeof(apiMinor));
-    is.read((char *) &apiBuild, sizeof(apiBuild));
-    is.read((char *) &apiPatch, sizeof(apiPatch));
-    is.read((char *) &fileSize, sizeof(fileSize));
-    is.read((char *) &uncompressedFileSize, sizeof(uncompressedFileSize));
-    is.read((char *) &objectCount, sizeof(objectCount));
-    is.read((char *) &objectsRead, sizeof(objectsRead));
-    is.read((char *) &measurementStartTime, sizeof(measurementStartTime));
-    is.read((char *) &lastObjectTime, sizeof(lastObjectTime));
-    is.read((char *) reserved.data(), reserved.size() * sizeof(DWORD));
+    is.read(reinterpret_cast<char *>(&applicationId), sizeof(applicationId));
+    is.read(reinterpret_cast<char *>(&applicationMajor), sizeof(applicationMajor));
+    is.read(reinterpret_cast<char *>(&applicationMinor), sizeof(applicationMinor));
+    is.read(reinterpret_cast<char *>(&applicationBuild), sizeof(applicationBuild));
+    is.read(reinterpret_cast<char *>(&apiMajor), sizeof(apiMajor));
+    is.read(reinterpret_cast<char *>(&apiMinor), sizeof(apiMinor));
+    is.read(reinterpret_cast<char *>(&apiBuild), sizeof(apiBuild));
+    is.read(reinterpret_cast<char *>(&apiPatch), sizeof(apiPatch));
+    is.read(reinterpret_cast<char *>(&fileSize), sizeof(fileSize));
+    is.read(reinterpret_cast<char *>(&uncompressedFileSize), sizeof(uncompressedFileSize));
+    is.read(reinterpret_cast<char *>(&objectCount), sizeof(objectCount));
+    is.read(reinterpret_cast<char *>(&objectsRead), sizeof(objectsRead));
+    is.read(reinterpret_cast<char *>(&measurementStartTime), sizeof(measurementStartTime));
+    is.read(reinterpret_cast<char *>(&lastObjectTime), sizeof(lastObjectTime));
+    is.read(reinterpret_cast<char *>(reserved.data()), reserved.size() * sizeof(DWORD));
 }
 
 void FileStatistics::write(AbstractFile & os)
 {
-    os.write((char *) &signature, sizeof(signature));
-    os.write((char *) &statisticsSize, sizeof(statisticsSize));
-    os.write((char *) &applicationId, sizeof(applicationId));
-    os.write((char *) &applicationMajor, sizeof(applicationMajor));
-    os.write((char *) &applicationMinor, sizeof(applicationMinor));
-    os.write((char *) &applicationBuild, sizeof(applicationBuild));
-    os.write((char *) &apiMajor, sizeof(apiMajor));
-    os.write((char *) &apiMinor, sizeof(apiMinor));
-    os.write((char *) &apiBuild, sizeof(apiBuild));
-    os.write((char *) &apiPatch, sizeof(apiPatch));
-    os.write((char *) &fileSize, sizeof(fileSize));
-    os.write((char *) &uncompressedFileSize, sizeof(uncompressedFileSize));
-    os.write((char *) &objectCount, sizeof(objectCount));
-    os.write((char *) &objectsRead, sizeof(objectsRead));
-    os.write((char *) &measurementStartTime, sizeof(measurementStartTime));
-    os.write((char *) &lastObjectTime, sizeof(lastObjectTime));
-    os.write((char *) reserved.data(), reserved.size() * sizeof(DWORD));
+    os.write(reinterpret_cast<char *>(&signature), sizeof(signature));
+    os.write(reinterpret_cast<char *>(&statisticsSize), sizeof(statisticsSize));
+    os.write(reinterpret_cast<char *>(&applicationId), sizeof(applicationId));
+    os.write(reinterpret_cast<char *>(&applicationMajor), sizeof(applicationMajor));
+    os.write(reinterpret_cast<char *>(&applicationMinor), sizeof(applicationMinor));
+    os.write(reinterpret_cast<char *>(&applicationBuild), sizeof(applicationBuild));
+    os.write(reinterpret_cast<char *>(&apiMajor), sizeof(apiMajor));
+    os.write(reinterpret_cast<char *>(&apiMinor), sizeof(apiMinor));
+    os.write(reinterpret_cast<char *>(&apiBuild), sizeof(apiBuild));
+    os.write(reinterpret_cast<char *>(&apiPatch), sizeof(apiPatch));
+    os.write(reinterpret_cast<char *>(&fileSize), sizeof(fileSize));
+    os.write(reinterpret_cast<char *>(&uncompressedFileSize), sizeof(uncompressedFileSize));
+    os.write(reinterpret_cast<char *>(&objectCount), sizeof(objectCount));
+    os.write(reinterpret_cast<char *>(&objectsRead), sizeof(objectsRead));
+    os.write(reinterpret_cast<char *>(&measurementStartTime), sizeof(measurementStartTime));
+    os.write(reinterpret_cast<char *>(&lastObjectTime), sizeof(lastObjectTime));
+    os.write(reinterpret_cast<char *>(reserved.data()), reserved.size() * sizeof(DWORD));
 }
 
 size_t FileStatistics::calculateStatisticsSize()

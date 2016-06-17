@@ -49,43 +49,43 @@ FlexRayV6Message::FlexRayV6Message() :
 void FlexRayV6Message::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
-    is.read((char *) &channel, sizeof(channel));
-    is.read((char *) &dir, sizeof(dir));
-    is.read((char *) &lowTime, sizeof(lowTime));
-    is.read((char *) &fpgaTick, sizeof(fpgaTick));
-    is.read((char *) &fpgaTickOverflow, sizeof(fpgaTickOverflow));
-    is.read((char *) &clientIndex, sizeof(clientIndex));
-    is.read((char *) &clusterTime, sizeof(clusterTime));
-    is.read((char *) &frameId, sizeof(frameId));
-    is.read((char *) &headerCrc, sizeof(headerCrc));
-    is.read((char *) &frameState, sizeof(frameState));
-    is.read((char *) &length, sizeof(length));
-    is.read((char *) &cycle, sizeof(cycle));
-    is.read((char *) &headerBitMask, sizeof(headerBitMask));
-    is.read((char *) &reserved1, sizeof(reserved1));
-    is.read((char *) &reserved2, sizeof(reserved2));
-    is.read((char *) dataBytes.data(), dataBytes.size());
+    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
+    is.read(reinterpret_cast<char *>(&lowTime), sizeof(lowTime));
+    is.read(reinterpret_cast<char *>(&fpgaTick), sizeof(fpgaTick));
+    is.read(reinterpret_cast<char *>(&fpgaTickOverflow), sizeof(fpgaTickOverflow));
+    is.read(reinterpret_cast<char *>(&clientIndex), sizeof(clientIndex));
+    is.read(reinterpret_cast<char *>(&clusterTime), sizeof(clusterTime));
+    is.read(reinterpret_cast<char *>(&frameId), sizeof(frameId));
+    is.read(reinterpret_cast<char *>(&headerCrc), sizeof(headerCrc));
+    is.read(reinterpret_cast<char *>(&frameState), sizeof(frameState));
+    is.read(reinterpret_cast<char *>(&length), sizeof(length));
+    is.read(reinterpret_cast<char *>(&cycle), sizeof(cycle));
+    is.read(reinterpret_cast<char *>(&headerBitMask), sizeof(headerBitMask));
+    is.read(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    is.read(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    is.read(reinterpret_cast<char *>(dataBytes.data()), dataBytes.size());
 }
 
 void FlexRayV6Message::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
-    os.write((char *) &channel, sizeof(channel));
-    os.write((char *) &dir, sizeof(dir));
-    os.write((char *) &lowTime, sizeof(lowTime));
-    os.write((char *) &fpgaTick, sizeof(fpgaTick));
-    os.write((char *) &fpgaTickOverflow, sizeof(fpgaTickOverflow));
-    os.write((char *) &clientIndex, sizeof(clientIndex));
-    os.write((char *) &clusterTime, sizeof(clusterTime));
-    os.write((char *) &frameId, sizeof(frameId));
-    os.write((char *) &headerCrc, sizeof(headerCrc));
-    os.write((char *) &frameState, sizeof(frameState));
-    os.write((char *) &length, sizeof(length));
-    os.write((char *) &cycle, sizeof(cycle));
-    os.write((char *) &headerBitMask, sizeof(headerBitMask));
-    os.write((char *) &reserved1, sizeof(reserved1));
-    os.write((char *) &reserved2, sizeof(reserved2));
-    os.write((char *) dataBytes.data(), dataBytes.size());
+    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
+    os.write(reinterpret_cast<char *>(&lowTime), sizeof(lowTime));
+    os.write(reinterpret_cast<char *>(&fpgaTick), sizeof(fpgaTick));
+    os.write(reinterpret_cast<char *>(&fpgaTickOverflow), sizeof(fpgaTickOverflow));
+    os.write(reinterpret_cast<char *>(&clientIndex), sizeof(clientIndex));
+    os.write(reinterpret_cast<char *>(&clusterTime), sizeof(clusterTime));
+    os.write(reinterpret_cast<char *>(&frameId), sizeof(frameId));
+    os.write(reinterpret_cast<char *>(&headerCrc), sizeof(headerCrc));
+    os.write(reinterpret_cast<char *>(&frameState), sizeof(frameState));
+    os.write(reinterpret_cast<char *>(&length), sizeof(length));
+    os.write(reinterpret_cast<char *>(&cycle), sizeof(cycle));
+    os.write(reinterpret_cast<char *>(&headerBitMask), sizeof(headerBitMask));
+    os.write(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    os.write(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    os.write(reinterpret_cast<char *>(dataBytes.data()), dataBytes.size());
 }
 
 size_t FlexRayV6Message::calculateObjectSize()

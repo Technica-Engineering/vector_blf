@@ -35,15 +35,15 @@ RealtimeClock::RealtimeClock() :
 void RealtimeClock::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
-    is.read((char *) &time, sizeof(time));
-    is.read((char *) &loggingOffset, sizeof(loggingOffset));
+    is.read(reinterpret_cast<char *>(&time), sizeof(time));
+    is.read(reinterpret_cast<char *>(&loggingOffset), sizeof(loggingOffset));
 }
 
 void RealtimeClock::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
-    os.write((char *) &time, sizeof(time));
-    os.write((char *) &loggingOffset, sizeof(loggingOffset));
+    os.write(reinterpret_cast<char *>(&time), sizeof(time));
+    os.write(reinterpret_cast<char *>(&loggingOffset), sizeof(loggingOffset));
 }
 
 size_t RealtimeClock::calculateObjectSize()

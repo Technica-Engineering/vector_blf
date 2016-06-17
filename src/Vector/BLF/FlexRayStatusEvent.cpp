@@ -40,25 +40,25 @@ FlexRayStatusEvent::FlexRayStatusEvent() :
 void FlexRayStatusEvent::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
-    is.read((char *) &channel, sizeof(channel));
-    is.read((char *) &version, sizeof(version));
-    is.read((char *) &statusType, sizeof(statusType));
-    is.read((char *) &infoMask1, sizeof(infoMask1));
-    is.read((char *) &infoMask2, sizeof(infoMask2));
-    is.read((char *) &infoMask3, sizeof(infoMask3));
-    is.read((char *) reserved.data(), reserved.size());
+    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    is.read(reinterpret_cast<char *>(&version), sizeof(version));
+    is.read(reinterpret_cast<char *>(&statusType), sizeof(statusType));
+    is.read(reinterpret_cast<char *>(&infoMask1), sizeof(infoMask1));
+    is.read(reinterpret_cast<char *>(&infoMask2), sizeof(infoMask2));
+    is.read(reinterpret_cast<char *>(&infoMask3), sizeof(infoMask3));
+    is.read(reinterpret_cast<char *>(reserved.data()), reserved.size());
 }
 
 void FlexRayStatusEvent::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
-    os.write((char *) &channel, sizeof(channel));
-    os.write((char *) &version, sizeof(version));
-    os.write((char *) &statusType, sizeof(statusType));
-    os.write((char *) &infoMask1, sizeof(infoMask1));
-    os.write((char *) &infoMask2, sizeof(infoMask2));
-    os.write((char *) &infoMask3, sizeof(infoMask3));
-    os.write((char *) reserved.data(), reserved.size());
+    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    os.write(reinterpret_cast<char *>(&version), sizeof(version));
+    os.write(reinterpret_cast<char *>(&statusType), sizeof(statusType));
+    os.write(reinterpret_cast<char *>(&infoMask1), sizeof(infoMask1));
+    os.write(reinterpret_cast<char *>(&infoMask2), sizeof(infoMask2));
+    os.write(reinterpret_cast<char *>(&infoMask3), sizeof(infoMask3));
+    os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
 }
 
 size_t FlexRayStatusEvent::calculateObjectSize()

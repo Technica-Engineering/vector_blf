@@ -37,19 +37,19 @@ LinSleepModeEvent::LinSleepModeEvent() :
 void LinSleepModeEvent::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
-    is.read((char *) &channel, sizeof(channel));
-    is.read((char *) &reason, sizeof(reason));
-    is.read((char *) &flags, sizeof(flags));
-    is.read((char *) reserved.data(), reserved.size());
+    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    is.read(reinterpret_cast<char *>(&reason), sizeof(reason));
+    is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
+    is.read(reinterpret_cast<char *>(reserved.data()), reserved.size());
 }
 
 void LinSleepModeEvent::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
-    os.write((char *) &channel, sizeof(channel));
-    os.write((char *) &reason, sizeof(reason));
-    os.write((char *) &flags, sizeof(flags));
-    os.write((char *) reserved.data(), reserved.size());
+    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    os.write(reinterpret_cast<char *>(&reason), sizeof(reason));
+    os.write(reinterpret_cast<char *>(&flags), sizeof(flags));
+    os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
 }
 
 size_t LinSleepModeEvent::calculateObjectSize()

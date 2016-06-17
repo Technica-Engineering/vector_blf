@@ -37,19 +37,19 @@ ObjectHeader::ObjectHeader() :
 void ObjectHeader::read(AbstractFile & is)
 {
     ObjectHeaderBase::read(is);
-    is.read((char *) &objectFlags, sizeof(objectFlags));
-    is.read((char *) &reserved, sizeof(reserved));
-    is.read((char *) &objectVersion, sizeof(objectVersion));
-    is.read((char *) &objectTimeStamp, sizeof(objectTimeStamp));
+    is.read(reinterpret_cast<char *>(&objectFlags), sizeof(objectFlags));
+    is.read(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    is.read(reinterpret_cast<char *>(&objectVersion), sizeof(objectVersion));
+    is.read(reinterpret_cast<char *>(&objectTimeStamp), sizeof(objectTimeStamp));
 }
 
 void ObjectHeader::write(AbstractFile & os)
 {
     ObjectHeaderBase::write(os);
-    os.write((char *) &objectFlags, sizeof(objectFlags));
-    os.write((char *) &reserved, sizeof(reserved));
-    os.write((char *) &objectVersion, sizeof(objectVersion));
-    os.write((char *) &objectTimeStamp, sizeof(objectTimeStamp));
+    os.write(reinterpret_cast<char *>(&objectFlags), sizeof(objectFlags));
+    os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    os.write(reinterpret_cast<char *>(&objectVersion), sizeof(objectVersion));
+    os.write(reinterpret_cast<char *>(&objectTimeStamp), sizeof(objectTimeStamp));
 }
 
 size_t ObjectHeader::calculateHeaderSize()

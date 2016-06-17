@@ -51,47 +51,47 @@ CanFdErrorFrame64::CanFdErrorFrame64() :
 void CanFdErrorFrame64::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
-    is.read((char *) &channel, sizeof(channel));
-    is.read((char *) &dlc, sizeof(dlc));
-    is.read((char *) &validDataBytes, sizeof(validDataBytes));
-    is.read((char *) &ecc, sizeof(ecc));
-    is.read((char *) &flags, sizeof(flags));
-    is.read((char *) &errorCodeExt, sizeof(errorCodeExt));
-    is.read((char *) &extFlags, sizeof(extFlags));
-    is.read((char *) &reserved1, sizeof(reserved1));
-    is.read((char *) &id, sizeof(id));
-    is.read((char *) &frameLength, sizeof(frameLength));
-    is.read((char *) &btrCfgArb, sizeof(btrCfgArb));
-    is.read((char *) &btrCfgData, sizeof(btrCfgData));
-    is.read((char *) &timeOffsetBrsNs, sizeof(timeOffsetBrsNs));
-    is.read((char *) &timeOffsetCrcDelNs, sizeof(timeOffsetCrcDelNs));
-    is.read((char *) &crc, sizeof(crc));
-    is.read((char *) &errorPosition, sizeof(errorPosition));
-    is.read((char *) &reserved2, sizeof(reserved2));
-    is.read((char *) data.data(), data.size());
+    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    is.read(reinterpret_cast<char *>(&dlc), sizeof(dlc));
+    is.read(reinterpret_cast<char *>(&validDataBytes), sizeof(validDataBytes));
+    is.read(reinterpret_cast<char *>(&ecc), sizeof(ecc));
+    is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
+    is.read(reinterpret_cast<char *>(&errorCodeExt), sizeof(errorCodeExt));
+    is.read(reinterpret_cast<char *>(&extFlags), sizeof(extFlags));
+    is.read(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    is.read(reinterpret_cast<char *>(&id), sizeof(id));
+    is.read(reinterpret_cast<char *>(&frameLength), sizeof(frameLength));
+    is.read(reinterpret_cast<char *>(&btrCfgArb), sizeof(btrCfgArb));
+    is.read(reinterpret_cast<char *>(&btrCfgData), sizeof(btrCfgData));
+    is.read(reinterpret_cast<char *>(&timeOffsetBrsNs), sizeof(timeOffsetBrsNs));
+    is.read(reinterpret_cast<char *>(&timeOffsetCrcDelNs), sizeof(timeOffsetCrcDelNs));
+    is.read(reinterpret_cast<char *>(&crc), sizeof(crc));
+    is.read(reinterpret_cast<char *>(&errorPosition), sizeof(errorPosition));
+    is.read(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    is.read(reinterpret_cast<char *>(data.data()), data.size());
 }
 
 void CanFdErrorFrame64::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
-    os.write((char *) &channel, sizeof(channel));
-    os.write((char *) &dlc, sizeof(dlc));
-    os.write((char *) &validDataBytes, sizeof(validDataBytes));
-    os.write((char *) &ecc, sizeof(ecc));
-    os.write((char *) &flags, sizeof(flags));
-    os.write((char *) &errorCodeExt, sizeof(errorCodeExt));
-    os.write((char *) &extFlags, sizeof(extFlags));
-    os.write((char *) &reserved1, sizeof(reserved1));
-    os.write((char *) &id, sizeof(id));
-    os.write((char *) &frameLength, sizeof(frameLength));
-    os.write((char *) &btrCfgArb, sizeof(btrCfgArb));
-    os.write((char *) &btrCfgData, sizeof(btrCfgData));
-    os.write((char *) &timeOffsetBrsNs, sizeof(timeOffsetBrsNs));
-    os.write((char *) &timeOffsetCrcDelNs, sizeof(timeOffsetCrcDelNs));
-    os.write((char *) &crc, sizeof(crc));
-    os.write((char *) &errorPosition, sizeof(errorPosition));
-    os.write((char *) &reserved2, sizeof(reserved2));
-    os.write((char *) data.data(), data.size());
+    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    os.write(reinterpret_cast<char *>(&dlc), sizeof(dlc));
+    os.write(reinterpret_cast<char *>(&validDataBytes), sizeof(validDataBytes));
+    os.write(reinterpret_cast<char *>(&ecc), sizeof(ecc));
+    os.write(reinterpret_cast<char *>(&flags), sizeof(flags));
+    os.write(reinterpret_cast<char *>(&errorCodeExt), sizeof(errorCodeExt));
+    os.write(reinterpret_cast<char *>(&extFlags), sizeof(extFlags));
+    os.write(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    os.write(reinterpret_cast<char *>(&id), sizeof(id));
+    os.write(reinterpret_cast<char *>(&frameLength), sizeof(frameLength));
+    os.write(reinterpret_cast<char *>(&btrCfgArb), sizeof(btrCfgArb));
+    os.write(reinterpret_cast<char *>(&btrCfgData), sizeof(btrCfgData));
+    os.write(reinterpret_cast<char *>(&timeOffsetBrsNs), sizeof(timeOffsetBrsNs));
+    os.write(reinterpret_cast<char *>(&timeOffsetCrcDelNs), sizeof(timeOffsetCrcDelNs));
+    os.write(reinterpret_cast<char *>(&crc), sizeof(crc));
+    os.write(reinterpret_cast<char *>(&errorPosition), sizeof(errorPosition));
+    os.write(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    os.write(reinterpret_cast<char *>(data.data()), data.size());
 }
 
 size_t CanFdErrorFrame64::calculateObjectSize()

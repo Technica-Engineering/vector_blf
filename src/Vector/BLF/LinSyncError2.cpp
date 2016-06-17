@@ -36,14 +36,14 @@ void LinSyncError2::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     LinSynchFieldEvent::read(is);
-    is.read((char *) timeDiff.data(), timeDiff.size() * sizeof(WORD));
+    is.read(reinterpret_cast<char *>(timeDiff.data()), timeDiff.size() * sizeof(WORD));
 }
 
 void LinSyncError2::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     LinSynchFieldEvent::write(os);
-    os.write((char *) timeDiff.data(), timeDiff.size() * sizeof(WORD));
+    os.write(reinterpret_cast<char *>(timeDiff.data()), timeDiff.size() * sizeof(WORD));
 }
 
 size_t LinSyncError2::calculateObjectSize()

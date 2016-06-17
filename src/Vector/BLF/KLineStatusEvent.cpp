@@ -38,21 +38,21 @@ KLineStatusEvent::KLineStatusEvent() :
 void KLineStatusEvent::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
-    is.read((char *) &type, sizeof(type));
-    is.read((char *) &dataLen, sizeof(dataLen));
-    is.read((char *) &port, sizeof(port));
-    is.read((char *) &reserved, sizeof(reserved));
-    is.read((char *) data.data(), data.size());
+    is.read(reinterpret_cast<char *>(&type), sizeof(type));
+    is.read(reinterpret_cast<char *>(&dataLen), sizeof(dataLen));
+    is.read(reinterpret_cast<char *>(&port), sizeof(port));
+    is.read(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    is.read(reinterpret_cast<char *>(data.data()), data.size());
 }
 
 void KLineStatusEvent::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
-    os.write((char *) &type, sizeof(type));
-    os.write((char *) &dataLen, sizeof(dataLen));
-    os.write((char *) &port, sizeof(port));
-    os.write((char *) &reserved, sizeof(reserved));
-    os.write((char *) data.data(), data.size());
+    os.write(reinterpret_cast<char *>(&type), sizeof(type));
+    os.write(reinterpret_cast<char *>(&dataLen), sizeof(dataLen));
+    os.write(reinterpret_cast<char *>(&port), sizeof(port));
+    os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    os.write(reinterpret_cast<char *>(data.data()), data.size());
 }
 
 size_t KLineStatusEvent::calculateObjectSize()

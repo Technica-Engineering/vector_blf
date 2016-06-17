@@ -44,30 +44,30 @@ void LinSendError2::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     LinMessageDescriptor::read(is);
-    is.read((char *) &eoh, sizeof(eoh));
-    is.read((char *) &isEtf, sizeof(isEtf));
-    is.read((char *) &fsmId, sizeof(fsmId));
-    is.read((char *) &fsmState, sizeof(fsmState));
-    is.read((char *) &reserved1, sizeof(reserved1));
-    is.read((char *) reserved2.data(), reserved2.size());
-    is.read((char *) &exactHeaderBaudrate, sizeof(exactHeaderBaudrate));
-    is.read((char *) &earlyStopbitOffset, sizeof(earlyStopbitOffset));
-    is.read((char *) reserved3.data(), reserved3.size());
+    is.read(reinterpret_cast<char *>(&eoh), sizeof(eoh));
+    is.read(reinterpret_cast<char *>(&isEtf), sizeof(isEtf));
+    is.read(reinterpret_cast<char *>(&fsmId), sizeof(fsmId));
+    is.read(reinterpret_cast<char *>(&fsmState), sizeof(fsmState));
+    is.read(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    is.read(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
+    is.read(reinterpret_cast<char *>(&exactHeaderBaudrate), sizeof(exactHeaderBaudrate));
+    is.read(reinterpret_cast<char *>(&earlyStopbitOffset), sizeof(earlyStopbitOffset));
+    is.read(reinterpret_cast<char *>(reserved3.data()), reserved3.size());
 }
 
 void LinSendError2::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     LinMessageDescriptor::write(os);
-    os.write((char *) &eoh, sizeof(eoh));
-    os.write((char *) &isEtf, sizeof(isEtf));
-    os.write((char *) &fsmId, sizeof(fsmId));
-    os.write((char *) &fsmState, sizeof(fsmState));
-    os.write((char *) &reserved1, sizeof(reserved1));
-    os.write((char *) reserved2.data(), reserved2.size());
-    os.write((char *) &exactHeaderBaudrate, sizeof(exactHeaderBaudrate));
-    os.write((char *) &earlyStopbitOffset, sizeof(earlyStopbitOffset));
-    os.write((char *) reserved3.data(), reserved3.size());
+    os.write(reinterpret_cast<char *>(&eoh), sizeof(eoh));
+    os.write(reinterpret_cast<char *>(&isEtf), sizeof(isEtf));
+    os.write(reinterpret_cast<char *>(&fsmId), sizeof(fsmId));
+    os.write(reinterpret_cast<char *>(&fsmState), sizeof(fsmState));
+    os.write(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    os.write(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
+    os.write(reinterpret_cast<char *>(&exactHeaderBaudrate), sizeof(exactHeaderBaudrate));
+    os.write(reinterpret_cast<char *>(&earlyStopbitOffset), sizeof(earlyStopbitOffset));
+    os.write(reinterpret_cast<char *>(reserved3.data()), reserved3.size());
 }
 
 size_t LinSendError2::calculateObjectSize()

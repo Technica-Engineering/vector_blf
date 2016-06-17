@@ -42,29 +42,29 @@ LinStatisticEvent::LinStatisticEvent() :
 void LinStatisticEvent::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
-    is.read((char *) &channel, sizeof(channel));
-    is.read((char *) reserved1.data(), reserved1.size());
-    is.read((char *) &busLoad, sizeof(busLoad));
-    is.read((char *) &burstsTotal, sizeof(burstsTotal));
-    is.read((char *) &burstsOverrun, sizeof(burstsOverrun));
-    is.read((char *) &framesSent, sizeof(framesSent));
-    is.read((char *) &framesReceived, sizeof(framesReceived));
-    is.read((char *) &framesUnanswered, sizeof(framesUnanswered));
-    is.read((char *) reserved2.data(), reserved2.size());
+    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    is.read(reinterpret_cast<char *>(reserved1.data()), reserved1.size());
+    is.read(reinterpret_cast<char *>(&busLoad), sizeof(busLoad));
+    is.read(reinterpret_cast<char *>(&burstsTotal), sizeof(burstsTotal));
+    is.read(reinterpret_cast<char *>(&burstsOverrun), sizeof(burstsOverrun));
+    is.read(reinterpret_cast<char *>(&framesSent), sizeof(framesSent));
+    is.read(reinterpret_cast<char *>(&framesReceived), sizeof(framesReceived));
+    is.read(reinterpret_cast<char *>(&framesUnanswered), sizeof(framesUnanswered));
+    is.read(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
 }
 
 void LinStatisticEvent::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
-    os.write((char *) &channel, sizeof(channel));
-    os.write((char *) reserved1.data(), reserved1.size());
-    os.write((char *) &busLoad, sizeof(busLoad));
-    os.write((char *) &burstsTotal, sizeof(burstsTotal));
-    os.write((char *) &burstsOverrun, sizeof(burstsOverrun));
-    os.write((char *) &framesSent, sizeof(framesSent));
-    os.write((char *) &framesReceived, sizeof(framesReceived));
-    os.write((char *) &framesUnanswered, sizeof(framesUnanswered));
-    os.write((char *) reserved2.data(), reserved2.size());
+    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    os.write(reinterpret_cast<char *>(reserved1.data()), reserved1.size());
+    os.write(reinterpret_cast<char *>(&busLoad), sizeof(busLoad));
+    os.write(reinterpret_cast<char *>(&burstsTotal), sizeof(burstsTotal));
+    os.write(reinterpret_cast<char *>(&burstsOverrun), sizeof(burstsOverrun));
+    os.write(reinterpret_cast<char *>(&framesSent), sizeof(framesSent));
+    os.write(reinterpret_cast<char *>(&framesReceived), sizeof(framesReceived));
+    os.write(reinterpret_cast<char *>(&framesUnanswered), sizeof(framesUnanswered));
+    os.write(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
 }
 
 size_t LinStatisticEvent::calculateObjectSize()

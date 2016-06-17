@@ -45,35 +45,35 @@ CanErrorFrameExt::CanErrorFrameExt() :
 void CanErrorFrameExt::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
-    is.read((char *) &channel, sizeof(channel));
-    is.read((char *) &length, sizeof(length));
-    is.read((char *) &flags, sizeof(flags));
-    is.read((char *) &ecc, sizeof(ecc));
-    is.read((char *) &position, sizeof(position));
-    is.read((char *) &dlc, sizeof(dlc));
-    is.read((char *) &reserved1, sizeof(reserved1));
-    is.read((char *) &frameLengthInNs, sizeof(frameLengthInNs));
-    is.read((char *) &id, sizeof(id));
-    is.read((char *) &flagsExt, sizeof(flagsExt));
-    is.read((char *) &reserved2, sizeof(reserved2));
-    is.read((char *) data.data(), data.size());
+    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    is.read(reinterpret_cast<char *>(&length), sizeof(length));
+    is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
+    is.read(reinterpret_cast<char *>(&ecc), sizeof(ecc));
+    is.read(reinterpret_cast<char *>(&position), sizeof(position));
+    is.read(reinterpret_cast<char *>(&dlc), sizeof(dlc));
+    is.read(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    is.read(reinterpret_cast<char *>(&frameLengthInNs), sizeof(frameLengthInNs));
+    is.read(reinterpret_cast<char *>(&id), sizeof(id));
+    is.read(reinterpret_cast<char *>(&flagsExt), sizeof(flagsExt));
+    is.read(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    is.read(reinterpret_cast<char *>(data.data()), data.size());
 }
 
 void CanErrorFrameExt::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
-    os.write((char *) &channel, sizeof(channel));
-    os.write((char *) &length, sizeof(length));
-    os.write((char *) &flags, sizeof(flags));
-    os.write((char *) &ecc, sizeof(ecc));
-    os.write((char *) &position, sizeof(position));
-    os.write((char *) &dlc, sizeof(dlc));
-    os.write((char *) &reserved1, sizeof(reserved1));
-    os.write((char *) &frameLengthInNs, sizeof(frameLengthInNs));
-    os.write((char *) &id, sizeof(id));
-    os.write((char *) &flagsExt, sizeof(flagsExt));
-    os.write((char *) &reserved2, sizeof(reserved2));
-    os.write((char *) data.data(), data.size());
+    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    os.write(reinterpret_cast<char *>(&length), sizeof(length));
+    os.write(reinterpret_cast<char *>(&flags), sizeof(flags));
+    os.write(reinterpret_cast<char *>(&ecc), sizeof(ecc));
+    os.write(reinterpret_cast<char *>(&position), sizeof(position));
+    os.write(reinterpret_cast<char *>(&dlc), sizeof(dlc));
+    os.write(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    os.write(reinterpret_cast<char *>(&frameLengthInNs), sizeof(frameLengthInNs));
+    os.write(reinterpret_cast<char *>(&id), sizeof(id));
+    os.write(reinterpret_cast<char *>(&flagsExt), sizeof(flagsExt));
+    os.write(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    os.write(reinterpret_cast<char *>(data.data()), data.size());
 }
 
 size_t CanErrorFrameExt::calculateObjectSize()

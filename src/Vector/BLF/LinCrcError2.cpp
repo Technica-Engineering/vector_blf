@@ -47,36 +47,36 @@ void LinCrcError2::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     LinDatabyteTimestampEvent::read(is);
-    is.read((char *) data.data(), data.size());
-    is.read((char *) &crc, sizeof(crc));
-    is.read((char *) &dir, sizeof(dir));
-    is.read((char *) &fsmId, sizeof(fsmId));
-    is.read((char *) &fsmState, sizeof(fsmState));
-    is.read((char *) &simulated, sizeof(simulated));
-    is.read((char *) reserved1.data(), reserved1.size());
-    is.read((char *) &respBaudrate, sizeof(respBaudrate));
-    is.read((char *) reserved2.data(), reserved2.size());
-    is.read((char *) &exactHeaderBaudrate, sizeof(exactHeaderBaudrate));
-    is.read((char *) &earlyStopbitOffset, sizeof(earlyStopbitOffset));
-    is.read((char *) &earlyStopbitOffsetResponse, sizeof(earlyStopbitOffsetResponse));
+    is.read(reinterpret_cast<char *>(data.data()), data.size());
+    is.read(reinterpret_cast<char *>(&crc), sizeof(crc));
+    is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
+    is.read(reinterpret_cast<char *>(&fsmId), sizeof(fsmId));
+    is.read(reinterpret_cast<char *>(&fsmState), sizeof(fsmState));
+    is.read(reinterpret_cast<char *>(&simulated), sizeof(simulated));
+    is.read(reinterpret_cast<char *>(reserved1.data()), reserved1.size());
+    is.read(reinterpret_cast<char *>(&respBaudrate), sizeof(respBaudrate));
+    is.read(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
+    is.read(reinterpret_cast<char *>(&exactHeaderBaudrate), sizeof(exactHeaderBaudrate));
+    is.read(reinterpret_cast<char *>(&earlyStopbitOffset), sizeof(earlyStopbitOffset));
+    is.read(reinterpret_cast<char *>(&earlyStopbitOffsetResponse), sizeof(earlyStopbitOffsetResponse));
 }
 
 void LinCrcError2::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     LinDatabyteTimestampEvent::write(os);
-    os.write((char *) data.data(), data.size());
-    os.write((char *) &crc, sizeof(crc));
-    os.write((char *) &dir, sizeof(dir));
-    os.write((char *) &fsmId, sizeof(fsmId));
-    os.write((char *) &fsmState, sizeof(fsmState));
-    os.write((char *) &simulated, sizeof(simulated));
-    os.write((char *) reserved1.data(), reserved1.size());
-    os.write((char *) &respBaudrate, sizeof(respBaudrate));
-    os.write((char *) reserved2.data(), reserved2.size());
-    os.write((char *) &exactHeaderBaudrate, sizeof(exactHeaderBaudrate));
-    os.write((char *) &earlyStopbitOffset, sizeof(earlyStopbitOffset));
-    os.write((char *) &earlyStopbitOffsetResponse, sizeof(earlyStopbitOffsetResponse));
+    os.write(reinterpret_cast<char *>(data.data()), data.size());
+    os.write(reinterpret_cast<char *>(&crc), sizeof(crc));
+    os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
+    os.write(reinterpret_cast<char *>(&fsmId), sizeof(fsmId));
+    os.write(reinterpret_cast<char *>(&fsmState), sizeof(fsmState));
+    os.write(reinterpret_cast<char *>(&simulated), sizeof(simulated));
+    os.write(reinterpret_cast<char *>(reserved1.data()), reserved1.size());
+    os.write(reinterpret_cast<char *>(&respBaudrate), sizeof(respBaudrate));
+    os.write(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
+    os.write(reinterpret_cast<char *>(&exactHeaderBaudrate), sizeof(exactHeaderBaudrate));
+    os.write(reinterpret_cast<char *>(&earlyStopbitOffset), sizeof(earlyStopbitOffset));
+    os.write(reinterpret_cast<char *>(&earlyStopbitOffsetResponse), sizeof(earlyStopbitOffsetResponse));
 }
 
 size_t LinCrcError2::calculateObjectSize()

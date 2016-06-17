@@ -50,24 +50,24 @@ Most150Pkt::Most150Pkt() :
 void Most150Pkt::read(AbstractFile & is)
 {
     ObjectHeader2::read(is);
-    is.read((char *) &channel, sizeof(channel));
-    is.read((char *) &dir, sizeof(dir));
-    is.read((char *) &reserved1, sizeof(reserved1));
-    is.read((char *) &sourceAdr, sizeof(sourceAdr));
-    is.read((char *) &destAdr, sizeof(destAdr));
-    is.read((char *) &transferType, sizeof(transferType));
-    is.read((char *) &state, sizeof(state));
-    is.read((char *) &ackNack, sizeof(ackNack));
-    is.read((char *) &reserved2, sizeof(reserved2));
-    is.read((char *) &crc, sizeof(crc));
-    is.read((char *) &pAck, sizeof(pAck));
-    is.read((char *) &cAck, sizeof(cAck));
-    is.read((char *) &priority, sizeof(priority));
-    is.read((char *) &pIndex, sizeof(pIndex));
-    is.read((char *) &pktDataLength, sizeof(pktDataLength));
-    is.read((char *) reserved3.data(), reserved3.size());
+    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
+    is.read(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    is.read(reinterpret_cast<char *>(&sourceAdr), sizeof(sourceAdr));
+    is.read(reinterpret_cast<char *>(&destAdr), sizeof(destAdr));
+    is.read(reinterpret_cast<char *>(&transferType), sizeof(transferType));
+    is.read(reinterpret_cast<char *>(&state), sizeof(state));
+    is.read(reinterpret_cast<char *>(&ackNack), sizeof(ackNack));
+    is.read(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    is.read(reinterpret_cast<char *>(&crc), sizeof(crc));
+    is.read(reinterpret_cast<char *>(&pAck), sizeof(pAck));
+    is.read(reinterpret_cast<char *>(&cAck), sizeof(cAck));
+    is.read(reinterpret_cast<char *>(&priority), sizeof(priority));
+    is.read(reinterpret_cast<char *>(&pIndex), sizeof(pIndex));
+    is.read(reinterpret_cast<char *>(&pktDataLength), sizeof(pktDataLength));
+    is.read(reinterpret_cast<char *>(reserved3.data()), reserved3.size());
     pktData.resize(pktDataLength);
-    is.read((char *) pktData.data(), pktDataLength);
+    is.read(reinterpret_cast<char *>(pktData.data()), pktDataLength);
 }
 
 void Most150Pkt::write(AbstractFile & os)
@@ -76,23 +76,23 @@ void Most150Pkt::write(AbstractFile & os)
     pktDataLength = pktData.size();
 
     ObjectHeader2::write(os);
-    os.write((char *) &channel, sizeof(channel));
-    os.write((char *) &dir, sizeof(dir));
-    os.write((char *) &reserved1, sizeof(reserved1));
-    os.write((char *) &sourceAdr, sizeof(sourceAdr));
-    os.write((char *) &destAdr, sizeof(destAdr));
-    os.write((char *) &transferType, sizeof(transferType));
-    os.write((char *) &state, sizeof(state));
-    os.write((char *) &ackNack, sizeof(ackNack));
-    os.write((char *) &reserved2, sizeof(reserved2));
-    os.write((char *) &crc, sizeof(crc));
-    os.write((char *) &pAck, sizeof(pAck));
-    os.write((char *) &cAck, sizeof(cAck));
-    os.write((char *) &priority, sizeof(priority));
-    os.write((char *) &pIndex, sizeof(pIndex));
-    os.write((char *) &pktDataLength, sizeof(pktDataLength));
-    os.write((char *) reserved3.data(), reserved3.size());
-    os.write((char *) pktData.data(), pktDataLength);
+    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
+    os.write(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    os.write(reinterpret_cast<char *>(&sourceAdr), sizeof(sourceAdr));
+    os.write(reinterpret_cast<char *>(&destAdr), sizeof(destAdr));
+    os.write(reinterpret_cast<char *>(&transferType), sizeof(transferType));
+    os.write(reinterpret_cast<char *>(&state), sizeof(state));
+    os.write(reinterpret_cast<char *>(&ackNack), sizeof(ackNack));
+    os.write(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    os.write(reinterpret_cast<char *>(&crc), sizeof(crc));
+    os.write(reinterpret_cast<char *>(&pAck), sizeof(pAck));
+    os.write(reinterpret_cast<char *>(&cAck), sizeof(cAck));
+    os.write(reinterpret_cast<char *>(&priority), sizeof(priority));
+    os.write(reinterpret_cast<char *>(&pIndex), sizeof(pIndex));
+    os.write(reinterpret_cast<char *>(&pktDataLength), sizeof(pktDataLength));
+    os.write(reinterpret_cast<char *>(reserved3.data()), reserved3.size());
+    os.write(reinterpret_cast<char *>(pktData.data()), pktDataLength);
 }
 
 size_t Most150Pkt::calculateObjectSize()

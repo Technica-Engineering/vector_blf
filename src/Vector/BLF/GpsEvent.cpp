@@ -41,27 +41,27 @@ GpsEvent::GpsEvent() :
 void GpsEvent::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
-    is.read((char *) &flags, sizeof(flags));
-    is.read((char *) &channel, sizeof(channel));
-    is.read((char *) &reserved, sizeof(reserved));
-    is.read((char *) &latitude, sizeof(latitude));
-    is.read((char *) &longitude, sizeof(longitude));
-    is.read((char *) &altitude, sizeof(altitude));
-    is.read((char *) &speed, sizeof(speed));
-    is.read((char *) &course, sizeof(course));
+    is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
+    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    is.read(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    is.read(reinterpret_cast<char *>(&latitude), sizeof(latitude));
+    is.read(reinterpret_cast<char *>(&longitude), sizeof(longitude));
+    is.read(reinterpret_cast<char *>(&altitude), sizeof(altitude));
+    is.read(reinterpret_cast<char *>(&speed), sizeof(speed));
+    is.read(reinterpret_cast<char *>(&course), sizeof(course));
 }
 
 void GpsEvent::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
-    os.write((char *) &flags, sizeof(flags));
-    os.write((char *) &channel, sizeof(channel));
-    os.write((char *) &reserved, sizeof(reserved));
-    os.write((char *) &latitude, sizeof(latitude));
-    os.write((char *) &longitude, sizeof(longitude));
-    os.write((char *) &altitude, sizeof(altitude));
-    os.write((char *) &speed, sizeof(speed));
-    os.write((char *) &course, sizeof(course));
+    os.write(reinterpret_cast<char *>(&flags), sizeof(flags));
+    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    os.write(reinterpret_cast<char *>(&latitude), sizeof(latitude));
+    os.write(reinterpret_cast<char *>(&longitude), sizeof(longitude));
+    os.write(reinterpret_cast<char *>(&altitude), sizeof(altitude));
+    os.write(reinterpret_cast<char *>(&speed), sizeof(speed));
+    os.write(reinterpret_cast<char *>(&course), sizeof(course));
 }
 
 size_t GpsEvent::calculateObjectSize()

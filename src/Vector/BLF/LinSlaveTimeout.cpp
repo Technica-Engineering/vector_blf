@@ -37,19 +37,19 @@ LinSlaveTimeout::LinSlaveTimeout() :
 void LinSlaveTimeout::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
-    is.read((char *) &channel, sizeof(channel));
-    is.read((char *) &slaveId, sizeof(slaveId));
-    is.read((char *) &stateId, sizeof(stateId));
-    is.read((char *) &followStateId, sizeof(followStateId));
+    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    is.read(reinterpret_cast<char *>(&slaveId), sizeof(slaveId));
+    is.read(reinterpret_cast<char *>(&stateId), sizeof(stateId));
+    is.read(reinterpret_cast<char *>(&followStateId), sizeof(followStateId));
 }
 
 void LinSlaveTimeout::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
-    os.write((char *) &channel, sizeof(channel));
-    os.write((char *) &slaveId, sizeof(slaveId));
-    os.write((char *) &stateId, sizeof(stateId));
-    os.write((char *) &followStateId, sizeof(followStateId));
+    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    os.write(reinterpret_cast<char *>(&slaveId), sizeof(slaveId));
+    os.write(reinterpret_cast<char *>(&stateId), sizeof(stateId));
+    os.write(reinterpret_cast<char *>(&followStateId), sizeof(followStateId));
 }
 
 size_t LinSlaveTimeout::calculateObjectSize()

@@ -41,27 +41,27 @@ LinDisturbanceEvent::LinDisturbanceEvent() :
 void LinDisturbanceEvent::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
-    is.read((char *) &channel, sizeof(channel));
-    is.read((char *) &id, sizeof(id));
-    is.read((char *) &disturbingFrameId, sizeof(disturbingFrameId));
-    is.read((char *) &disturbanceType, sizeof(disturbanceType));
-    is.read((char *) &byteIndex, sizeof(byteIndex));
-    is.read((char *) &bitIndex, sizeof(bitIndex));
-    is.read((char *) &bitOffsetInSixteenthBits, sizeof(bitOffsetInSixteenthBits));
-    is.read((char *) &disturbanceLengthInSixteenthBits, sizeof(disturbanceLengthInSixteenthBits));
+    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    is.read(reinterpret_cast<char *>(&id), sizeof(id));
+    is.read(reinterpret_cast<char *>(&disturbingFrameId), sizeof(disturbingFrameId));
+    is.read(reinterpret_cast<char *>(&disturbanceType), sizeof(disturbanceType));
+    is.read(reinterpret_cast<char *>(&byteIndex), sizeof(byteIndex));
+    is.read(reinterpret_cast<char *>(&bitIndex), sizeof(bitIndex));
+    is.read(reinterpret_cast<char *>(&bitOffsetInSixteenthBits), sizeof(bitOffsetInSixteenthBits));
+    is.read(reinterpret_cast<char *>(&disturbanceLengthInSixteenthBits), sizeof(disturbanceLengthInSixteenthBits));
 }
 
 void LinDisturbanceEvent::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
-    os.write((char *) &channel, sizeof(channel));
-    os.write((char *) &id, sizeof(id));
-    os.write((char *) &disturbingFrameId, sizeof(disturbingFrameId));
-    os.write((char *) &disturbanceType, sizeof(disturbanceType));
-    os.write((char *) &byteIndex, sizeof(byteIndex));
-    os.write((char *) &bitIndex, sizeof(bitIndex));
-    os.write((char *) &bitOffsetInSixteenthBits, sizeof(bitOffsetInSixteenthBits));
-    os.write((char *) &disturbanceLengthInSixteenthBits, sizeof(disturbanceLengthInSixteenthBits));
+    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    os.write(reinterpret_cast<char *>(&id), sizeof(id));
+    os.write(reinterpret_cast<char *>(&disturbingFrameId), sizeof(disturbingFrameId));
+    os.write(reinterpret_cast<char *>(&disturbanceType), sizeof(disturbanceType));
+    os.write(reinterpret_cast<char *>(&byteIndex), sizeof(byteIndex));
+    os.write(reinterpret_cast<char *>(&bitIndex), sizeof(bitIndex));
+    os.write(reinterpret_cast<char *>(&bitOffsetInSixteenthBits), sizeof(bitOffsetInSixteenthBits));
+    os.write(reinterpret_cast<char *>(&disturbanceLengthInSixteenthBits), sizeof(disturbanceLengthInSixteenthBits));
 }
 
 size_t LinDisturbanceEvent::calculateObjectSize()

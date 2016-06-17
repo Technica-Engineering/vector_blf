@@ -37,11 +37,11 @@ MostAllocTab::MostAllocTab() :
 void MostAllocTab::read(AbstractFile & is)
 {
     ObjectHeader2::read(is);
-    is.read((char *) &channel, sizeof(channel));
-    is.read((char *) &length, sizeof(length));
-    is.read((char *) reserved.data(), reserved.size());
+    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    is.read(reinterpret_cast<char *>(&length), sizeof(length));
+    is.read(reinterpret_cast<char *>(reserved.data()), reserved.size());
     tableData.resize(length);
-    is.read((char *) tableData.data(), length);
+    is.read(reinterpret_cast<char *>(tableData.data()), length);
 }
 
 void MostAllocTab::write(AbstractFile & os)
@@ -50,10 +50,10 @@ void MostAllocTab::write(AbstractFile & os)
     length = tableData.size();
 
     ObjectHeader2::write(os);
-    os.write((char *) &channel, sizeof(channel));
-    os.write((char *) &length, sizeof(length));
-    os.write((char *) reserved.data(), reserved.size());
-    os.write((char *) tableData.data(), length);
+    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    os.write(reinterpret_cast<char *>(&length), sizeof(length));
+    os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
+    os.write(reinterpret_cast<char *>(tableData.data()), length);
 }
 
 size_t MostAllocTab::calculateObjectSize()

@@ -36,17 +36,17 @@ CanDriverHwSync::CanDriverHwSync() :
 void CanDriverHwSync::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
-    is.read((char *) &channel, sizeof(channel));
-    is.read((char *) &flags, sizeof(flags));
-    is.read((char *) &reserved, sizeof(reserved));
+    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
+    is.read(reinterpret_cast<char *>(&reserved), sizeof(reserved));
 }
 
 void CanDriverHwSync::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
-    os.write((char *) &channel, sizeof(channel));
-    os.write((char *) &flags, sizeof(flags));
-    os.write((char *) &reserved, sizeof(reserved));
+    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    os.write(reinterpret_cast<char *>(&flags), sizeof(flags));
+    os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
 }
 
 size_t CanDriverHwSync::calculateObjectSize()

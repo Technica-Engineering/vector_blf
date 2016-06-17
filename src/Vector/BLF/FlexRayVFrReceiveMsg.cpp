@@ -52,49 +52,49 @@ FlexRayVFrReceiveMsg::FlexRayVFrReceiveMsg() :
 void FlexRayVFrReceiveMsg::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
-    is.read((char *) &channel, sizeof(channel));
-    is.read((char *) &version, sizeof(version));
-    is.read((char *) &channelMask, sizeof(channelMask));
-    is.read((char *) &dir, sizeof(dir));
-    is.read((char *) &reserved1, sizeof(reserved1));
-    is.read((char *) &clientIndex, sizeof(clientIndex));
-    is.read((char *) &clusterNo, sizeof(clusterNo));
-    is.read((char *) &frameId, sizeof(frameId));
-    is.read((char *) &headerCrc1, sizeof(headerCrc1));
-    is.read((char *) &headerCrc2, sizeof(headerCrc2));
-    is.read((char *) &byteCount, sizeof(byteCount));
-    is.read((char *) &dataCount, sizeof(dataCount));
-    is.read((char *) &cycle, sizeof(cycle));
-    is.read((char *) &reserved2, sizeof(reserved2));
-    is.read((char *) &tag, sizeof(tag));
-    is.read((char *) &data, sizeof(data));
-    is.read((char *) &frameFlags, sizeof(frameFlags));
-    is.read((char *) &appParameter, sizeof(appParameter));
-    is.read((char *) dataBytes.data(), dataBytes.size());
+    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    is.read(reinterpret_cast<char *>(&version), sizeof(version));
+    is.read(reinterpret_cast<char *>(&channelMask), sizeof(channelMask));
+    is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
+    is.read(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    is.read(reinterpret_cast<char *>(&clientIndex), sizeof(clientIndex));
+    is.read(reinterpret_cast<char *>(&clusterNo), sizeof(clusterNo));
+    is.read(reinterpret_cast<char *>(&frameId), sizeof(frameId));
+    is.read(reinterpret_cast<char *>(&headerCrc1), sizeof(headerCrc1));
+    is.read(reinterpret_cast<char *>(&headerCrc2), sizeof(headerCrc2));
+    is.read(reinterpret_cast<char *>(&byteCount), sizeof(byteCount));
+    is.read(reinterpret_cast<char *>(&dataCount), sizeof(dataCount));
+    is.read(reinterpret_cast<char *>(&cycle), sizeof(cycle));
+    is.read(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    is.read(reinterpret_cast<char *>(&tag), sizeof(tag));
+    is.read(reinterpret_cast<char *>(&data), sizeof(data));
+    is.read(reinterpret_cast<char *>(&frameFlags), sizeof(frameFlags));
+    is.read(reinterpret_cast<char *>(&appParameter), sizeof(appParameter));
+    is.read(reinterpret_cast<char *>(dataBytes.data()), dataBytes.size());
 }
 
 void FlexRayVFrReceiveMsg::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
-    os.write((char *) &channel, sizeof(channel));
-    os.write((char *) &version, sizeof(version));
-    os.write((char *) &channelMask, sizeof(channelMask));
-    os.write((char *) &dir, sizeof(dir));
-    os.write((char *) &reserved1, sizeof(reserved1));
-    os.write((char *) &clientIndex, sizeof(clientIndex));
-    os.write((char *) &clusterNo, sizeof(clusterNo));
-    os.write((char *) &frameId, sizeof(frameId));
-    os.write((char *) &headerCrc1, sizeof(headerCrc1));
-    os.write((char *) &headerCrc2, sizeof(headerCrc2));
-    os.write((char *) &byteCount, sizeof(byteCount));
-    os.write((char *) &dataCount, sizeof(dataCount));
-    os.write((char *) &cycle, sizeof(cycle));
-    os.write((char *) &reserved2, sizeof(reserved2));
-    os.write((char *) &tag, sizeof(tag));
-    os.write((char *) &data, sizeof(data));
-    os.write((char *) &frameFlags, sizeof(frameFlags));
-    os.write((char *) &appParameter, sizeof(appParameter));
-    os.write((char *) dataBytes.data(), dataBytes.size());
+    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    os.write(reinterpret_cast<char *>(&version), sizeof(version));
+    os.write(reinterpret_cast<char *>(&channelMask), sizeof(channelMask));
+    os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
+    os.write(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    os.write(reinterpret_cast<char *>(&clientIndex), sizeof(clientIndex));
+    os.write(reinterpret_cast<char *>(&clusterNo), sizeof(clusterNo));
+    os.write(reinterpret_cast<char *>(&frameId), sizeof(frameId));
+    os.write(reinterpret_cast<char *>(&headerCrc1), sizeof(headerCrc1));
+    os.write(reinterpret_cast<char *>(&headerCrc2), sizeof(headerCrc2));
+    os.write(reinterpret_cast<char *>(&byteCount), sizeof(byteCount));
+    os.write(reinterpret_cast<char *>(&dataCount), sizeof(dataCount));
+    os.write(reinterpret_cast<char *>(&cycle), sizeof(cycle));
+    os.write(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    os.write(reinterpret_cast<char *>(&tag), sizeof(tag));
+    os.write(reinterpret_cast<char *>(&data), sizeof(data));
+    os.write(reinterpret_cast<char *>(&frameFlags), sizeof(frameFlags));
+    os.write(reinterpret_cast<char *>(&appParameter), sizeof(appParameter));
+    os.write(reinterpret_cast<char *>(dataBytes.data()), dataBytes.size());
 }
 
 size_t FlexRayVFrReceiveMsg::calculateObjectSize()

@@ -49,40 +49,40 @@ void LinReceiveError2::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     LinDatabyteTimestampEvent::read(is);
-    is.read((char *) data.data(), data.size());
-    is.read((char *) &fsmId, sizeof(fsmId));
-    is.read((char *) &fsmState, sizeof(fsmState));
-    is.read((char *) &stateReason, sizeof(stateReason));
-    is.read((char *) &offendingByte, sizeof(offendingByte));
-    is.read((char *) &shortError, sizeof(shortError));
-    is.read((char *) &timeoutDuringDlcDetection, sizeof(timeoutDuringDlcDetection));
-    is.read((char *) &isEtf, sizeof(isEtf));
-    is.read((char *) &hasDatabytes, sizeof(hasDatabytes));
-    is.read((char *) &respBaudrate, sizeof(respBaudrate));
-    is.read((char *) reserved.data(), reserved.size());
-    is.read((char *) &exactHeaderBaudrate, sizeof(exactHeaderBaudrate));
-    is.read((char *) &earlyStopbitOffset, sizeof(earlyStopbitOffset));
-    is.read((char *) &earlyStopbitOffsetResponse, sizeof(earlyStopbitOffsetResponse));
+    is.read(reinterpret_cast<char *>(data.data()), data.size());
+    is.read(reinterpret_cast<char *>(&fsmId), sizeof(fsmId));
+    is.read(reinterpret_cast<char *>(&fsmState), sizeof(fsmState));
+    is.read(reinterpret_cast<char *>(&stateReason), sizeof(stateReason));
+    is.read(reinterpret_cast<char *>(&offendingByte), sizeof(offendingByte));
+    is.read(reinterpret_cast<char *>(&shortError), sizeof(shortError));
+    is.read(reinterpret_cast<char *>(&timeoutDuringDlcDetection), sizeof(timeoutDuringDlcDetection));
+    is.read(reinterpret_cast<char *>(&isEtf), sizeof(isEtf));
+    is.read(reinterpret_cast<char *>(&hasDatabytes), sizeof(hasDatabytes));
+    is.read(reinterpret_cast<char *>(&respBaudrate), sizeof(respBaudrate));
+    is.read(reinterpret_cast<char *>(reserved.data()), reserved.size());
+    is.read(reinterpret_cast<char *>(&exactHeaderBaudrate), sizeof(exactHeaderBaudrate));
+    is.read(reinterpret_cast<char *>(&earlyStopbitOffset), sizeof(earlyStopbitOffset));
+    is.read(reinterpret_cast<char *>(&earlyStopbitOffsetResponse), sizeof(earlyStopbitOffsetResponse));
 }
 
 void LinReceiveError2::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     LinDatabyteTimestampEvent::write(os);
-    os.write((char *) data.data(), data.size());
-    os.write((char *) &fsmId, sizeof(fsmId));
-    os.write((char *) &fsmState, sizeof(fsmState));
-    os.write((char *) &stateReason, sizeof(stateReason));
-    os.write((char *) &offendingByte, sizeof(offendingByte));
-    os.write((char *) &shortError, sizeof(shortError));
-    os.write((char *) &timeoutDuringDlcDetection, sizeof(timeoutDuringDlcDetection));
-    os.write((char *) &isEtf, sizeof(isEtf));
-    os.write((char *) &hasDatabytes, sizeof(hasDatabytes));
-    os.write((char *) &respBaudrate, sizeof(respBaudrate));
-    os.write((char *) reserved.data(), reserved.size());
-    os.write((char *) &exactHeaderBaudrate, sizeof(exactHeaderBaudrate));
-    os.write((char *) &earlyStopbitOffset, sizeof(earlyStopbitOffset));
-    os.write((char *) &earlyStopbitOffsetResponse, sizeof(earlyStopbitOffsetResponse));
+    os.write(reinterpret_cast<char *>(data.data()), data.size());
+    os.write(reinterpret_cast<char *>(&fsmId), sizeof(fsmId));
+    os.write(reinterpret_cast<char *>(&fsmState), sizeof(fsmState));
+    os.write(reinterpret_cast<char *>(&stateReason), sizeof(stateReason));
+    os.write(reinterpret_cast<char *>(&offendingByte), sizeof(offendingByte));
+    os.write(reinterpret_cast<char *>(&shortError), sizeof(shortError));
+    os.write(reinterpret_cast<char *>(&timeoutDuringDlcDetection), sizeof(timeoutDuringDlcDetection));
+    os.write(reinterpret_cast<char *>(&isEtf), sizeof(isEtf));
+    os.write(reinterpret_cast<char *>(&hasDatabytes), sizeof(hasDatabytes));
+    os.write(reinterpret_cast<char *>(&respBaudrate), sizeof(respBaudrate));
+    os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
+    os.write(reinterpret_cast<char *>(&exactHeaderBaudrate), sizeof(exactHeaderBaudrate));
+    os.write(reinterpret_cast<char *>(&earlyStopbitOffset), sizeof(earlyStopbitOffset));
+    os.write(reinterpret_cast<char *>(&earlyStopbitOffsetResponse), sizeof(earlyStopbitOffsetResponse));
 }
 
 size_t LinReceiveError2::calculateObjectSize()

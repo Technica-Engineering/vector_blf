@@ -42,29 +42,29 @@ FlexRayV6StartCycleEvent::FlexRayV6StartCycleEvent() :
 void FlexRayV6StartCycleEvent::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
-    is.read((char *) &channel, sizeof(channel));
-    is.read((char *) &dir, sizeof(dir));
-    is.read((char *) &lowTime, sizeof(lowTime));
-    is.read((char *) &fpgaTick, sizeof(fpgaTick));
-    is.read((char *) &fpgaTickOverflow, sizeof(fpgaTickOverflow));
-    is.read((char *) &clientIndex, sizeof(clientIndex));
-    is.read((char *) &clusterTime, sizeof(clusterTime));
-    is.read((char *) dataBytes.data(), dataBytes.size());
-    is.read((char *) reserved.data(), reserved.size());
+    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
+    is.read(reinterpret_cast<char *>(&lowTime), sizeof(lowTime));
+    is.read(reinterpret_cast<char *>(&fpgaTick), sizeof(fpgaTick));
+    is.read(reinterpret_cast<char *>(&fpgaTickOverflow), sizeof(fpgaTickOverflow));
+    is.read(reinterpret_cast<char *>(&clientIndex), sizeof(clientIndex));
+    is.read(reinterpret_cast<char *>(&clusterTime), sizeof(clusterTime));
+    is.read(reinterpret_cast<char *>(dataBytes.data()), dataBytes.size());
+    is.read(reinterpret_cast<char *>(reserved.data()), reserved.size());
 }
 
 void FlexRayV6StartCycleEvent::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
-    os.write((char *) &channel, sizeof(channel));
-    os.write((char *) &dir, sizeof(dir));
-    os.write((char *) &lowTime, sizeof(lowTime));
-    os.write((char *) &fpgaTick, sizeof(fpgaTick));
-    os.write((char *) &fpgaTickOverflow, sizeof(fpgaTickOverflow));
-    os.write((char *) &clientIndex, sizeof(clientIndex));
-    os.write((char *) &clusterTime, sizeof(clusterTime));
-    os.write((char *) dataBytes.data(), dataBytes.size());
-    os.write((char *) reserved.data(), reserved.size());
+    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
+    os.write(reinterpret_cast<char *>(&lowTime), sizeof(lowTime));
+    os.write(reinterpret_cast<char *>(&fpgaTick), sizeof(fpgaTick));
+    os.write(reinterpret_cast<char *>(&fpgaTickOverflow), sizeof(fpgaTickOverflow));
+    os.write(reinterpret_cast<char *>(&clientIndex), sizeof(clientIndex));
+    os.write(reinterpret_cast<char *>(&clusterTime), sizeof(clusterTime));
+    os.write(reinterpret_cast<char *>(dataBytes.data()), dataBytes.size());
+    os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
 }
 
 size_t FlexRayV6StartCycleEvent::calculateObjectSize()

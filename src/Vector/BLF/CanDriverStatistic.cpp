@@ -42,29 +42,29 @@ CanDriverStatistic::CanDriverStatistic() :
 void CanDriverStatistic::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
-    is.read((char *) &channel, sizeof(channel));
-    is.read((char *) &busLoad, sizeof(busLoad));
-    is.read((char *) &standardDataFrames, sizeof(standardDataFrames));
-    is.read((char *) &extendedDataFrames, sizeof(extendedDataFrames));
-    is.read((char *) &standardRemoteFrames, sizeof(standardRemoteFrames));
-    is.read((char *) &extendedRemoteFrames, sizeof(extendedRemoteFrames));
-    is.read((char *) &errorFrames, sizeof(errorFrames));
-    is.read((char *) &overloadFrames, sizeof(overloadFrames));
-    is.read((char *) reserved.data(), reserved.size());
+    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    is.read(reinterpret_cast<char *>(&busLoad), sizeof(busLoad));
+    is.read(reinterpret_cast<char *>(&standardDataFrames), sizeof(standardDataFrames));
+    is.read(reinterpret_cast<char *>(&extendedDataFrames), sizeof(extendedDataFrames));
+    is.read(reinterpret_cast<char *>(&standardRemoteFrames), sizeof(standardRemoteFrames));
+    is.read(reinterpret_cast<char *>(&extendedRemoteFrames), sizeof(extendedRemoteFrames));
+    is.read(reinterpret_cast<char *>(&errorFrames), sizeof(errorFrames));
+    is.read(reinterpret_cast<char *>(&overloadFrames), sizeof(overloadFrames));
+    is.read(reinterpret_cast<char *>(reserved.data()), reserved.size());
 }
 
 void CanDriverStatistic::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
-    os.write((char *) &channel, sizeof(channel));
-    os.write((char *) &busLoad, sizeof(busLoad));
-    os.write((char *) &standardDataFrames, sizeof(standardDataFrames));
-    os.write((char *) &extendedDataFrames, sizeof(extendedDataFrames));
-    os.write((char *) &standardRemoteFrames, sizeof(standardRemoteFrames));
-    os.write((char *) &extendedRemoteFrames, sizeof(extendedRemoteFrames));
-    os.write((char *) &errorFrames, sizeof(errorFrames));
-    os.write((char *) &overloadFrames, sizeof(overloadFrames));
-    os.write((char *) reserved.data(), reserved.size());
+    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    os.write(reinterpret_cast<char *>(&busLoad), sizeof(busLoad));
+    os.write(reinterpret_cast<char *>(&standardDataFrames), sizeof(standardDataFrames));
+    os.write(reinterpret_cast<char *>(&extendedDataFrames), sizeof(extendedDataFrames));
+    os.write(reinterpret_cast<char *>(&standardRemoteFrames), sizeof(standardRemoteFrames));
+    os.write(reinterpret_cast<char *>(&extendedRemoteFrames), sizeof(extendedRemoteFrames));
+    os.write(reinterpret_cast<char *>(&errorFrames), sizeof(errorFrames));
+    os.write(reinterpret_cast<char *>(&overloadFrames), sizeof(overloadFrames));
+    os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
 }
 
 size_t CanDriverStatistic::calculateObjectSize()

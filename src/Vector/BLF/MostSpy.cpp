@@ -46,37 +46,37 @@ MostSpy::MostSpy() :
 void MostSpy::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
-    is.read((char *) &channel, sizeof(channel));
-    is.read((char *) &dir, sizeof(dir));
-    is.read((char *) &reserved1, sizeof(reserved1));
-    is.read((char *) &sourceAdr, sizeof(sourceAdr));
-    is.read((char *) &destAdr, sizeof(destAdr));
-    is.read((char *) msg.data(), msg.size());
-    is.read((char *) &reserved2, sizeof(reserved2));
-    is.read((char *) &rTyp, sizeof(rTyp));
-    is.read((char *) &rTypAdr, sizeof(rTypAdr));
-    is.read((char *) &state, sizeof(state));
-    is.read((char *) &reserved3, sizeof(reserved3));
-    is.read((char *) &ackNack, sizeof(ackNack));
-    is.read((char *) &crc, sizeof(crc));
+    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
+    is.read(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    is.read(reinterpret_cast<char *>(&sourceAdr), sizeof(sourceAdr));
+    is.read(reinterpret_cast<char *>(&destAdr), sizeof(destAdr));
+    is.read(reinterpret_cast<char *>(msg.data()), msg.size());
+    is.read(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    is.read(reinterpret_cast<char *>(&rTyp), sizeof(rTyp));
+    is.read(reinterpret_cast<char *>(&rTypAdr), sizeof(rTypAdr));
+    is.read(reinterpret_cast<char *>(&state), sizeof(state));
+    is.read(reinterpret_cast<char *>(&reserved3), sizeof(reserved3));
+    is.read(reinterpret_cast<char *>(&ackNack), sizeof(ackNack));
+    is.read(reinterpret_cast<char *>(&crc), sizeof(crc));
 }
 
 void MostSpy::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
-    os.write((char *) &channel, sizeof(channel));
-    os.write((char *) &dir, sizeof(dir));
-    os.write((char *) &reserved1, sizeof(reserved1));
-    os.write((char *) &sourceAdr, sizeof(sourceAdr));
-    os.write((char *) &destAdr, sizeof(destAdr));
-    os.write((char *) msg.data(), msg.size());
-    os.write((char *) &reserved2, sizeof(reserved2));
-    os.write((char *) &rTyp, sizeof(rTyp));
-    os.write((char *) &rTypAdr, sizeof(rTypAdr));
-    os.write((char *) &state, sizeof(state));
-    os.write((char *) &reserved3, sizeof(reserved3));
-    os.write((char *) &ackNack, sizeof(ackNack));
-    os.write((char *) &crc, sizeof(crc));
+    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
+    os.write(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    os.write(reinterpret_cast<char *>(&sourceAdr), sizeof(sourceAdr));
+    os.write(reinterpret_cast<char *>(&destAdr), sizeof(destAdr));
+    os.write(reinterpret_cast<char *>(msg.data()), msg.size());
+    os.write(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    os.write(reinterpret_cast<char *>(&rTyp), sizeof(rTyp));
+    os.write(reinterpret_cast<char *>(&rTypAdr), sizeof(rTypAdr));
+    os.write(reinterpret_cast<char *>(&state), sizeof(state));
+    os.write(reinterpret_cast<char *>(&reserved3), sizeof(reserved3));
+    os.write(reinterpret_cast<char *>(&ackNack), sizeof(ackNack));
+    os.write(reinterpret_cast<char *>(&crc), sizeof(crc));
 }
 
 size_t MostSpy::calculateObjectSize()

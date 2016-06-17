@@ -37,19 +37,19 @@ LinSchedulerModeChange::LinSchedulerModeChange() :
 void LinSchedulerModeChange::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
-    is.read((char *) &channel, sizeof(channel));
-    is.read((char *) &oldMode, sizeof(oldMode));
-    is.read((char *) &newMode, sizeof(newMode));
-    is.read((char *) reserved.data(), reserved.size());
+    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    is.read(reinterpret_cast<char *>(&oldMode), sizeof(oldMode));
+    is.read(reinterpret_cast<char *>(&newMode), sizeof(newMode));
+    is.read(reinterpret_cast<char *>(reserved.data()), reserved.size());
 }
 
 void LinSchedulerModeChange::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
-    os.write((char *) &channel, sizeof(channel));
-    os.write((char *) &oldMode, sizeof(oldMode));
-    os.write((char *) &newMode, sizeof(newMode));
-    os.write((char *) reserved.data(), reserved.size());
+    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    os.write(reinterpret_cast<char *>(&oldMode), sizeof(oldMode));
+    os.write(reinterpret_cast<char *>(&newMode), sizeof(newMode));
+    os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
 }
 
 size_t LinSchedulerModeChange::calculateObjectSize()

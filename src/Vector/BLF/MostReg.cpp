@@ -41,27 +41,27 @@ MostReg::MostReg() :
 void MostReg::read(AbstractFile & is)
 {
     ObjectHeader2::read(is);
-    is.read((char *) &channel, sizeof(channel));
-    is.read((char *) &subType, sizeof(subType));
-    is.read((char *) &reserved, sizeof(reserved));
-    is.read((char *) &handle, sizeof(handle));
-    is.read((char *) &offset, sizeof(offset));
-    is.read((char *) &chip, sizeof(chip));
-    is.read((char *) &regDataLen, sizeof(regDataLen));
-    is.read((char *) regData.data(), regData.size());
+    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    is.read(reinterpret_cast<char *>(&subType), sizeof(subType));
+    is.read(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    is.read(reinterpret_cast<char *>(&handle), sizeof(handle));
+    is.read(reinterpret_cast<char *>(&offset), sizeof(offset));
+    is.read(reinterpret_cast<char *>(&chip), sizeof(chip));
+    is.read(reinterpret_cast<char *>(&regDataLen), sizeof(regDataLen));
+    is.read(reinterpret_cast<char *>(regData.data()), regData.size());
 }
 
 void MostReg::write(AbstractFile & os)
 {
     ObjectHeader2::write(os);
-    os.write((char *) &channel, sizeof(channel));
-    os.write((char *) &subType, sizeof(subType));
-    os.write((char *) &reserved, sizeof(reserved));
-    os.write((char *) &handle, sizeof(handle));
-    os.write((char *) &offset, sizeof(offset));
-    os.write((char *) &chip, sizeof(chip));
-    os.write((char *) &regDataLen, sizeof(regDataLen));
-    os.write((char *) regData.data(), regData.size());
+    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    os.write(reinterpret_cast<char *>(&subType), sizeof(subType));
+    os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    os.write(reinterpret_cast<char *>(&handle), sizeof(handle));
+    os.write(reinterpret_cast<char *>(&offset), sizeof(offset));
+    os.write(reinterpret_cast<char *>(&chip), sizeof(chip));
+    os.write(reinterpret_cast<char *>(&regDataLen), sizeof(regDataLen));
+    os.write(reinterpret_cast<char *>(regData.data()), regData.size());
 }
 
 size_t MostReg::calculateObjectSize()

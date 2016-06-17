@@ -39,11 +39,11 @@ AppText::AppText() :
 void AppText::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
-    is.read((char *) &source, sizeof(source));
-    is.read((char *) &reserved, sizeof(reserved));
-    is.read((char *) &textLength, sizeof(textLength));
+    is.read(reinterpret_cast<char *>(&source), sizeof(source));
+    is.read(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    is.read(reinterpret_cast<char *>(&textLength), sizeof(textLength));
     text.resize(textLength);
-    is.read((char *) text.data(), textLength);
+    is.read(const_cast<char *>(text.data()), textLength);
 
     /* post processing */
     text.resize(strnlen(text.c_str(), textLength)); // Vector bug: the actual string can be shorter than size!
@@ -56,10 +56,10 @@ void AppText::write(AbstractFile & os)
     textLength = text.size();
 
     ObjectHeader::write(os);
-    os.write((char *) &source, sizeof(source));
-    os.write((char *) &reserved, sizeof(reserved));
-    os.write((char *) &textLength, sizeof(textLength));
-    os.write((char *) text.data(), textLength);
+    os.write(reinterpret_cast<char *>(&source), sizeof(source));
+    os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    os.write(reinterpret_cast<char *>(&textLength), sizeof(textLength));
+    os.write(const_cast<char *>(text.data()), textLength);
 }
 
 size_t AppText::calculateObjectSize()

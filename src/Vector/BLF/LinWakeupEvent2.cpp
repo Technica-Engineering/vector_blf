@@ -39,20 +39,20 @@ void LinWakeupEvent2::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     LinBusEvent::read(is);
-    is.read((char *) &lengthInfo, sizeof(lengthInfo));
-    is.read((char *) &signal, sizeof(signal));
-    is.read((char *) &external, sizeof(external));
-    is.read((char *) reserved.data(), reserved.size());
+    is.read(reinterpret_cast<char *>(&lengthInfo), sizeof(lengthInfo));
+    is.read(reinterpret_cast<char *>(&signal), sizeof(signal));
+    is.read(reinterpret_cast<char *>(&external), sizeof(external));
+    is.read(reinterpret_cast<char *>(reserved.data()), reserved.size());
 }
 
 void LinWakeupEvent2::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     LinBusEvent::write(os);
-    os.write((char *) &lengthInfo, sizeof(lengthInfo));
-    os.write((char *) &signal, sizeof(signal));
-    os.write((char *) &external, sizeof(external));
-    os.write((char *) reserved.data(), reserved.size());
+    os.write(reinterpret_cast<char *>(&lengthInfo), sizeof(lengthInfo));
+    os.write(reinterpret_cast<char *>(&signal), sizeof(signal));
+    os.write(reinterpret_cast<char *>(&external), sizeof(external));
+    os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
 }
 
 size_t LinWakeupEvent2::calculateObjectSize()

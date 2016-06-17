@@ -36,17 +36,17 @@ LinSyncError::LinSyncError() :
 void LinSyncError::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
-    is.read((char *) &channel, sizeof(channel));
-    is.read((char *) &reserved, sizeof(reserved));
-    is.read((char *) timeDiff.data(), timeDiff.size() * sizeof(WORD));
+    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    is.read(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    is.read(reinterpret_cast<char *>(timeDiff.data()), timeDiff.size() * sizeof(WORD));
 }
 
 void LinSyncError::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
-    os.write((char *) &channel, sizeof(channel));
-    os.write((char *) &reserved, sizeof(reserved));
-    os.write((char *) timeDiff.data(), timeDiff.size() * sizeof(WORD));
+    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    os.write(reinterpret_cast<char *>(timeDiff.data()), timeDiff.size() * sizeof(WORD));
 }
 
 size_t LinSyncError::calculateObjectSize()

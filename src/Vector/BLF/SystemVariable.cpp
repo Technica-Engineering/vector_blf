@@ -42,15 +42,15 @@ SystemVariable::SystemVariable() :
 void SystemVariable::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
-    is.read((char *) &type, sizeof(type));
-    is.read((char *) reserved1.data(), reserved1.size() * sizeof(DWORD));
-    is.read((char *) &nameLength, sizeof(nameLength));
-    is.read((char *) &dataLength, sizeof(dataLength));
-    is.read((char *) reserved2.data(), reserved2.size());
+    is.read(reinterpret_cast<char *>(&type), sizeof(type));
+    is.read(reinterpret_cast<char *>(reserved1.data()), reserved1.size() * sizeof(DWORD));
+    is.read(reinterpret_cast<char *>(&nameLength), sizeof(nameLength));
+    is.read(reinterpret_cast<char *>(&dataLength), sizeof(dataLength));
+    is.read(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
     name.resize(nameLength);
-    is.read((char *) name.data(), nameLength);
+    is.read(const_cast<char *>(name.data()), nameLength);
     data.resize(dataLength);
-    is.read((char *) data.data(), dataLength);
+    is.read(reinterpret_cast<char *>(data.data()), dataLength);
 
     /* post processing */
     name.resize(strnlen(name.c_str(), nameLength)); // Vector bug: the actual string can be shorter than size!
@@ -64,13 +64,13 @@ void SystemVariable::write(AbstractFile & os)
     dataLength = data.size();
 
     ObjectHeader::write(os);
-    os.write((char *) &type, sizeof(type));
-    os.write((char *) reserved1.data(), reserved1.size() * sizeof(DWORD));
-    os.write((char *) &nameLength, sizeof(nameLength));
-    os.write((char *) &dataLength, sizeof(dataLength));
-    os.write((char *) reserved2.data(), reserved2.size());
-    os.write((char *) name.data(), nameLength);
-    os.write((char *) data.data(), dataLength);
+    os.write(reinterpret_cast<char *>(&type), sizeof(type));
+    os.write(reinterpret_cast<char *>(reserved1.data()), reserved1.size() * sizeof(DWORD));
+    os.write(reinterpret_cast<char *>(&nameLength), sizeof(nameLength));
+    os.write(reinterpret_cast<char *>(&dataLength), sizeof(dataLength));
+    os.write(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
+    os.write(const_cast<char *>(name.data()), nameLength);
+    os.write(reinterpret_cast<char *>(data.data()), dataLength);
 }
 
 size_t SystemVariable::calculateObjectSize()

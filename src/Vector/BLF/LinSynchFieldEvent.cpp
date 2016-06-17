@@ -34,15 +34,15 @@ LinSynchFieldEvent::LinSynchFieldEvent() :
 void LinSynchFieldEvent::read(AbstractFile & is)
 {
     LinBusEvent::read(is);
-    is.read((char *) &synchBreakLength, sizeof(synchBreakLength));
-    is.read((char *) &synchDelLength, sizeof(synchDelLength));
+    is.read(reinterpret_cast<char *>(&synchBreakLength), sizeof(synchBreakLength));
+    is.read(reinterpret_cast<char *>(&synchDelLength), sizeof(synchDelLength));
 }
 
 void LinSynchFieldEvent::write(AbstractFile & os)
 {
     LinBusEvent::write(os);
-    os.write((char *) &synchBreakLength, sizeof(synchBreakLength));
-    os.write((char *) &synchDelLength, sizeof(synchDelLength));
+    os.write(reinterpret_cast<char *>(&synchBreakLength), sizeof(synchBreakLength));
+    os.write(reinterpret_cast<char *>(&synchDelLength), sizeof(synchDelLength));
 }
 
 size_t LinSynchFieldEvent::calculateObjectSize()

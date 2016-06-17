@@ -48,22 +48,22 @@ MostEthernetPktFragment::MostEthernetPktFragment() :
 void MostEthernetPktFragment::read(AbstractFile & is)
 {
     ObjectHeader2::read(is);
-    is.read((char *) &channel, sizeof(channel));
-    is.read((char *) &reserved1, sizeof(reserved1));
-    is.read((char *) &ackNack, sizeof(ackNack));
-    is.read((char *) &validMask, sizeof(validMask));
-    is.read((char *) &sourceMacAdr, sizeof(sourceMacAdr));
-    is.read((char *) &destMacAdr, sizeof(destMacAdr));
-    is.read((char *) &pAck, sizeof(pAck));
-    is.read((char *) &cAck, sizeof(cAck));
-    is.read((char *) &reserved2, sizeof(reserved2));
-    is.read((char *) &crc, sizeof(crc));
-    is.read((char *) &dataLen, sizeof(dataLen));
-    is.read((char *) &dataLenAnnounced, sizeof(dataLenAnnounced));
-    is.read((char *) &firstDataLen, sizeof(firstDataLen));
-    is.read((char *) reserved3.data(), reserved3.size());
+    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    is.read(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    is.read(reinterpret_cast<char *>(&ackNack), sizeof(ackNack));
+    is.read(reinterpret_cast<char *>(&validMask), sizeof(validMask));
+    is.read(reinterpret_cast<char *>(&sourceMacAdr), sizeof(sourceMacAdr));
+    is.read(reinterpret_cast<char *>(&destMacAdr), sizeof(destMacAdr));
+    is.read(reinterpret_cast<char *>(&pAck), sizeof(pAck));
+    is.read(reinterpret_cast<char *>(&cAck), sizeof(cAck));
+    is.read(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    is.read(reinterpret_cast<char *>(&crc), sizeof(crc));
+    is.read(reinterpret_cast<char *>(&dataLen), sizeof(dataLen));
+    is.read(reinterpret_cast<char *>(&dataLenAnnounced), sizeof(dataLenAnnounced));
+    is.read(reinterpret_cast<char *>(&firstDataLen), sizeof(firstDataLen));
+    is.read(reinterpret_cast<char *>(reserved3.data()), reserved3.size());
     firstData.resize(firstDataLen);
-    is.read((char *) firstData.data(), firstDataLen);
+    is.read(reinterpret_cast<char *>(firstData.data()), firstDataLen);
 }
 
 void MostEthernetPktFragment::write(AbstractFile & os)
@@ -72,21 +72,21 @@ void MostEthernetPktFragment::write(AbstractFile & os)
     firstDataLen = firstData.size();
 
     ObjectHeader2::write(os);
-    os.write((char *) &channel, sizeof(channel));
-    os.write((char *) &reserved1, sizeof(reserved1));
-    os.write((char *) &ackNack, sizeof(ackNack));
-    os.write((char *) &validMask, sizeof(validMask));
-    os.write((char *) &sourceMacAdr, sizeof(sourceMacAdr));
-    os.write((char *) &destMacAdr, sizeof(destMacAdr));
-    os.write((char *) &pAck, sizeof(pAck));
-    os.write((char *) &cAck, sizeof(cAck));
-    os.write((char *) &reserved2, sizeof(reserved2));
-    os.write((char *) &crc, sizeof(crc));
-    os.write((char *) &dataLen, sizeof(dataLen));
-    os.write((char *) &dataLenAnnounced, sizeof(dataLenAnnounced));
-    os.write((char *) &firstDataLen, sizeof(firstDataLen));
-    os.write((char *) reserved3.data(), reserved3.size());
-    os.write((char *) firstData.data(), firstDataLen);
+    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    os.write(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    os.write(reinterpret_cast<char *>(&ackNack), sizeof(ackNack));
+    os.write(reinterpret_cast<char *>(&validMask), sizeof(validMask));
+    os.write(reinterpret_cast<char *>(&sourceMacAdr), sizeof(sourceMacAdr));
+    os.write(reinterpret_cast<char *>(&destMacAdr), sizeof(destMacAdr));
+    os.write(reinterpret_cast<char *>(&pAck), sizeof(pAck));
+    os.write(reinterpret_cast<char *>(&cAck), sizeof(cAck));
+    os.write(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    os.write(reinterpret_cast<char *>(&crc), sizeof(crc));
+    os.write(reinterpret_cast<char *>(&dataLen), sizeof(dataLen));
+    os.write(reinterpret_cast<char *>(&dataLenAnnounced), sizeof(dataLenAnnounced));
+    os.write(reinterpret_cast<char *>(&firstDataLen), sizeof(firstDataLen));
+    os.write(reinterpret_cast<char *>(reserved3.data()), reserved3.size());
+    os.write(reinterpret_cast<char *>(firstData.data()), firstDataLen);
 }
 
 size_t MostEthernetPktFragment::calculateObjectSize()

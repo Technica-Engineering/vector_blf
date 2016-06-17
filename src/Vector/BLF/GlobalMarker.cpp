@@ -47,21 +47,21 @@ GlobalMarker::GlobalMarker() :
 void GlobalMarker::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
-    is.read((char *) &commentedEventType, sizeof(commentedEventType));
-    is.read((char *) &foregroundColor, sizeof(foregroundColor));
-    is.read((char *) &backgroundColor, sizeof(backgroundColor));
-    is.read((char *) reserved1.data(), reserved1.size());
-    is.read((char *) &isRelocatable, sizeof(isRelocatable));
-    is.read((char *) &groupNameLength, sizeof(groupNameLength));
-    is.read((char *) &markerNameLength, sizeof(markerNameLength));
-    is.read((char *) &descriptionLength, sizeof(descriptionLength));
-    is.read((char *) reserved2.data(), reserved2.size());
+    is.read(reinterpret_cast<char *>(&commentedEventType), sizeof(commentedEventType));
+    is.read(reinterpret_cast<char *>(&foregroundColor), sizeof(foregroundColor));
+    is.read(reinterpret_cast<char *>(&backgroundColor), sizeof(backgroundColor));
+    is.read(reinterpret_cast<char *>(reserved1.data()), reserved1.size());
+    is.read(reinterpret_cast<char *>(&isRelocatable), sizeof(isRelocatable));
+    is.read(reinterpret_cast<char *>(&groupNameLength), sizeof(groupNameLength));
+    is.read(reinterpret_cast<char *>(&markerNameLength), sizeof(markerNameLength));
+    is.read(reinterpret_cast<char *>(&descriptionLength), sizeof(descriptionLength));
+    is.read(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
     groupName.resize(groupNameLength);
-    is.read((char *) groupName.data(), groupNameLength);
+    is.read(const_cast<char *>(groupName.data()), groupNameLength);
     markerName.resize(markerNameLength);
-    is.read((char *) markerName.data(), markerNameLength);
+    is.read(const_cast<char *>(markerName.data()), markerNameLength);
     description.resize(descriptionLength);
-    is.read((char *) description.data(), descriptionLength);
+    is.read(const_cast<char *>(description.data()), descriptionLength);
 
     /* post processing */
     groupName.resize(strnlen(groupName.c_str(), groupNameLength)); // Vector bug: the actual string can be shorter than size!
@@ -78,18 +78,18 @@ void GlobalMarker::write(AbstractFile & os)
     descriptionLength = description.size();
 
     ObjectHeader::write(os);
-    os.write((char *) &commentedEventType, sizeof(commentedEventType));
-    os.write((char *) &foregroundColor, sizeof(foregroundColor));
-    os.write((char *) &backgroundColor, sizeof(backgroundColor));
-    os.write((char *) reserved1.data(), reserved1.size());
-    os.write((char *) &isRelocatable, sizeof(isRelocatable));
-    os.write((char *) &groupNameLength, sizeof(groupNameLength));
-    os.write((char *) &markerNameLength, sizeof(markerNameLength));
-    os.write((char *) &descriptionLength, sizeof(descriptionLength));
-    os.write((char *) reserved2.data(), reserved2.size());
-    os.write((char *) groupName.data(), groupNameLength);
-    os.write((char *) markerName.data(), markerNameLength);
-    os.write((char *) description.data(), descriptionLength);
+    os.write(reinterpret_cast<char *>(&commentedEventType), sizeof(commentedEventType));
+    os.write(reinterpret_cast<char *>(&foregroundColor), sizeof(foregroundColor));
+    os.write(reinterpret_cast<char *>(&backgroundColor), sizeof(backgroundColor));
+    os.write(reinterpret_cast<char *>(reserved1.data()), reserved1.size());
+    os.write(reinterpret_cast<char *>(&isRelocatable), sizeof(isRelocatable));
+    os.write(reinterpret_cast<char *>(&groupNameLength), sizeof(groupNameLength));
+    os.write(reinterpret_cast<char *>(&markerNameLength), sizeof(markerNameLength));
+    os.write(reinterpret_cast<char *>(&descriptionLength), sizeof(descriptionLength));
+    os.write(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
+    os.write(const_cast<char *>(groupName.data()), groupNameLength);
+    os.write(const_cast<char *>(markerName.data()), markerNameLength);
+    os.write(const_cast<char *>(description.data()), descriptionLength);
 }
 
 size_t GlobalMarker::calculateObjectSize()
