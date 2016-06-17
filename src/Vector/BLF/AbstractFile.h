@@ -36,22 +36,49 @@ namespace BLF {
 class VECTOR_BLF_EXPORT AbstractFile
 {
 public:
-    /** Read block of data */
+    /**
+     * Read block of data
+     *
+     * @param[out] s Pointer to data
+     * @param[in] n Requested size of data
+     */
     virtual void read(char * s, std::streamsize n) = 0;
 
-    /** Get position in input sequence */
+    /**
+     * Get position in input sequence
+     *
+     * @return Read position
+     */
     virtual std::streampos tellg() = 0;
 
-    /** Set position in input sequence */
+    /**
+     * Set position in input sequence
+     *
+     * @param[in] pos Seek position
+     */
     virtual void seekg(std::streampos pos) = 0;
 
-    /** Set position in input sequence */
+    /**
+     * Set position in input sequence
+     *
+     * @param[in] off Offset
+     * @param[in] way Direction
+     */
     virtual void seekg(std::streamoff off, std::ios_base::seekdir way) = 0;
 
-    /** Write block of data */
+    /**
+     * Write block of data
+     *
+     * @param[in] s Pointer to data
+     * @param[in] n Size of data
+     */
     virtual void write(const char * s, std::streamsize n) = 0;
 
-    /** Get position in input sequence */
+    /**
+     * Get position in input sequence
+     *
+     * @return Write position
+     */
     virtual std::streampos tellp() = 0;
 };
 

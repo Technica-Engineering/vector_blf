@@ -41,23 +41,11 @@ public:
 
     /** Default size of old data to keep until its trashed */
     size_t oldDataSize;
-
-    /** Read block of data */
     virtual void read(char * s, std::streamsize n);
-
-    /** Get position in input sequence */
     virtual std::streampos tellg();
-
-    /** Set position in input sequence */
     virtual void seekg(std::streampos pos);
-
-    /** Set position in input sequence */
     virtual void seekg(std::streamoff off, std::ios_base::seekdir way);
-
-    /** Write block of data */
     virtual void write(const char * s, std::streamsize n);
-
-    /** Get position in input sequence */
     virtual std::streampos tellp();
 
     /**
