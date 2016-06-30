@@ -104,6 +104,13 @@ public:
         virtual ~GeneralSerialEvent();
 
         /**
+         * Calculates the objectSize
+         *
+         * @return object size
+         */
+        virtual DWORD calculateObjectSize() const;
+
+        /**
          * @brief length of variable data in bytes
          *
          * length of variable data in bytes
@@ -141,6 +148,13 @@ public:
         SingleByteSerialEvent();
         virtual ~SingleByteSerialEvent();
 
+        /**
+         * Calculates the objectSize
+         *
+         * @return object size
+         */
+        virtual DWORD calculateObjectSize() const;
+
         /** single byte */
         BYTE byte;
     };
@@ -153,6 +167,13 @@ public:
     {
         CompactSerialEvent();
         virtual ~CompactSerialEvent();
+
+        /**
+         * Calculates the objectSize
+         *
+         * @return object size
+         */
+        virtual DWORD calculateObjectSize() const;
 
         /** compact length */
         BYTE compactLength;

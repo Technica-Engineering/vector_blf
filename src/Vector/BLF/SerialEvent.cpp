@@ -36,6 +36,15 @@ SerialEvent::GeneralSerialEvent::~GeneralSerialEvent()
 {
 }
 
+DWORD SerialEvent::GeneralSerialEvent::calculateObjectSize() const
+{
+    return
+        sizeof(dataLength) +
+        sizeof(timeStampsLength) +
+        dataLength +
+        timeStampsLength;
+}
+
 SerialEvent::SingleByteSerialEvent::SingleByteSerialEvent() :
     byte()
 {
@@ -43,6 +52,11 @@ SerialEvent::SingleByteSerialEvent::SingleByteSerialEvent() :
 
 SerialEvent::SingleByteSerialEvent::~SingleByteSerialEvent()
 {
+}
+
+DWORD SerialEvent::SingleByteSerialEvent::calculateObjectSize() const
+{
+    return sizeof(byte);
 }
 
 SerialEvent::CompactSerialEvent::CompactSerialEvent() :
@@ -53,6 +67,13 @@ SerialEvent::CompactSerialEvent::CompactSerialEvent() :
 
 SerialEvent::CompactSerialEvent::~CompactSerialEvent()
 {
+}
+
+DWORD SerialEvent::CompactSerialEvent::calculateObjectSize() const
+{
+    return
+        sizeof(compactLength) +
+        compactData.size();
 }
 
 SerialEvent::SerialEvent() :
@@ -133,15 +154,13 @@ DWORD SerialEvent::calculateObjectSize() const
         sizeof(baudrate) +
         sizeof(reserved);
 
-    if ((flags & ((DWORD) Flags::SingleByte)) != 0)
-        size += sizeof(singleByte);
-    else if ((flags & ((DWORD) Flags::CompactByte)) != 0)
-        size += sizeof(compact);
-    else
-        size += sizeof(general.dataLength) +
-                sizeof(general.timeStampsLength) +
-                general.dataLength +
-                general.timeStampsLength;
+    if ((flags & ((DWORD) Flags::SingleByte)) != 0) {
+        size += singleByte.calculateObjectSize();
+    } else if ((flags & ((DWORD) Flags::CompactByte)) != 0) {
+        size += compact.calculateObjectSize();
+    } else {
+        size += general.calculateObjectSize();
+    }
 
     return size;
 }
