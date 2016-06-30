@@ -52,7 +52,7 @@ void LinDlcInfo::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
 }
 
-DWORD LinDlcInfo::calculateObjectSize()
+DWORD LinDlcInfo::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

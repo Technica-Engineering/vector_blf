@@ -89,7 +89,7 @@ public:
      *
      * @return statistics size
      */
-    DWORD calculateStatisticsSize();
+    DWORD calculateStatisticsSize() const;
 
     /** signature (signature) */
     DWORD signature;

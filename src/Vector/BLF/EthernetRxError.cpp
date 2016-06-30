@@ -71,7 +71,7 @@ void EthernetRxError::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(frameData.data()), frameDataLength);
 }
 
-DWORD EthernetRxError::calculateObjectSize()
+DWORD EthernetRxError::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

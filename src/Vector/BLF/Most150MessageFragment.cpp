@@ -92,7 +92,7 @@ void Most150MessageFragment::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(firstData.data()), firstDataLen);
 }
 
-DWORD Most150MessageFragment::calculateObjectSize()
+DWORD Most150MessageFragment::calculateObjectSize() const
 {
     return
         ObjectHeader2::calculateObjectSize() +

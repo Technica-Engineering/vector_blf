@@ -47,7 +47,7 @@ public:
 
     virtual void read(AbstractFile & is);
     virtual void write(AbstractFile & os);
-    virtual DWORD calculateObjectSize();
+    virtual DWORD calculateObjectSize() const;
 
     /** enumeration for flags */
     enum class Flags : DWORD {

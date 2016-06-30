@@ -55,7 +55,7 @@ void LinWakeupEvent2::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
 }
 
-DWORD LinWakeupEvent2::calculateObjectSize()
+DWORD LinWakeupEvent2::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

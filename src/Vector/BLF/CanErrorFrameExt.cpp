@@ -76,7 +76,7 @@ void CanErrorFrameExt::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(data.data()), data.size());
 }
 
-DWORD CanErrorFrameExt::calculateObjectSize()
+DWORD CanErrorFrameExt::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

@@ -79,7 +79,7 @@ void MostSpy::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&crc), sizeof(crc));
 }
 
-DWORD MostSpy::calculateObjectSize()
+DWORD MostSpy::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

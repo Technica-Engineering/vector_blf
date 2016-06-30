@@ -85,7 +85,7 @@ void AfdxStatistic::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&statDuration), sizeof(statDuration));
 }
 
-DWORD AfdxStatistic::calculateObjectSize()
+DWORD AfdxStatistic::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

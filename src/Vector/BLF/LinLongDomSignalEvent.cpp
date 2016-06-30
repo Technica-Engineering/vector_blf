@@ -49,7 +49,7 @@ void LinLongDomSignalEvent::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
 }
 
-DWORD LinLongDomSignalEvent::calculateObjectSize()
+DWORD LinLongDomSignalEvent::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

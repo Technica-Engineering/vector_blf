@@ -73,7 +73,7 @@ void LinMessage::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
 }
 
-DWORD LinMessage::calculateObjectSize()
+DWORD LinMessage::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

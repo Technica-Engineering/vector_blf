@@ -55,7 +55,7 @@ void MostStatisticEx::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
 }
 
-DWORD MostStatisticEx::calculateObjectSize()
+DWORD MostStatisticEx::calculateObjectSize() const
 {
     return
         ObjectHeader2::calculateObjectSize() +

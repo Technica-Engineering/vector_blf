@@ -49,7 +49,7 @@ void LinWakeupEvent::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&external), sizeof(external));
 }
 
-DWORD LinWakeupEvent::calculateObjectSize()
+DWORD LinWakeupEvent::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

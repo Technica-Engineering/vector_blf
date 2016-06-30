@@ -95,7 +95,7 @@ void Most50Message::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(msg.data()), msgLen);
 }
 
-DWORD Most50Message::calculateObjectSize()
+DWORD Most50Message::calculateObjectSize() const
 {
     return
         ObjectHeader2::calculateObjectSize() +

@@ -52,7 +52,7 @@ void MostEcl::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
 }
 
-DWORD MostEcl::calculateObjectSize()
+DWORD MostEcl::calculateObjectSize() const
 {
     return
         ObjectHeader2::calculateObjectSize() +

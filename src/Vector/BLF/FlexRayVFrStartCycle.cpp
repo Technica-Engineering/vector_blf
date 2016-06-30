@@ -81,7 +81,7 @@ void FlexRayVFrStartCycle::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
 }
 
-DWORD FlexRayVFrStartCycle::calculateObjectSize()
+DWORD FlexRayVFrStartCycle::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

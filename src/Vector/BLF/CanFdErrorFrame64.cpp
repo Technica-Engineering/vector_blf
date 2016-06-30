@@ -94,7 +94,7 @@ void CanFdErrorFrame64::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(data.data()), data.size());
 }
 
-DWORD CanFdErrorFrame64::calculateObjectSize()
+DWORD CanFdErrorFrame64::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

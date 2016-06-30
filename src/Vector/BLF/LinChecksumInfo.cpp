@@ -52,7 +52,7 @@ void LinChecksumInfo::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
 }
 
-DWORD LinChecksumInfo::calculateObjectSize()
+DWORD LinChecksumInfo::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

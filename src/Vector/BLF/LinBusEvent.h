@@ -50,7 +50,7 @@ public:
     virtual void write(AbstractFile & os);
 
     /** @copydoc ObjectHeader::calculateObjectSize */
-    virtual DWORD calculateObjectSize();
+    virtual DWORD calculateObjectSize() const;
 
     /**
      * @brief Start Of Frame timestamp

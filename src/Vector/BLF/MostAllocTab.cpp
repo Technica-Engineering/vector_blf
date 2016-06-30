@@ -56,7 +56,7 @@ void MostAllocTab::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(tableData.data()), length);
 }
 
-DWORD MostAllocTab::calculateObjectSize()
+DWORD MostAllocTab::calculateObjectSize() const
 {
     return
         ObjectHeader2::calculateObjectSize() +

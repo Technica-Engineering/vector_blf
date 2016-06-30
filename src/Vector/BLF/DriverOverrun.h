@@ -42,7 +42,7 @@ public:
 
     virtual void read(AbstractFile & is);
     virtual void write(AbstractFile & os);
-    virtual DWORD calculateObjectSize();
+    virtual DWORD calculateObjectSize() const;
 
     /** enumeration for busType */
     enum class BusType : DWORD {

@@ -50,7 +50,7 @@ public:
 
     virtual void read(AbstractFile & is);
     virtual void write(AbstractFile & os);
-    virtual DWORD calculateObjectSize();
+    virtual DWORD calculateObjectSize() const;
 
     /**
      * One dominant signal can be reported with

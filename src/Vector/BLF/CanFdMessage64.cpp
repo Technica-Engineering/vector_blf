@@ -88,7 +88,7 @@ void CanFdMessage64::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(data.data()), data.size());
 }
 
-DWORD CanFdMessage64::calculateObjectSize()
+DWORD CanFdMessage64::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

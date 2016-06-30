@@ -52,7 +52,7 @@ void MostNetState::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
 }
 
-DWORD MostNetState::calculateObjectSize()
+DWORD MostNetState::calculateObjectSize() const
 {
     return
         ObjectHeader2::calculateObjectSize() +

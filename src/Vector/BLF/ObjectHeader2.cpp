@@ -58,7 +58,7 @@ void ObjectHeader2::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&originalTimeStamp), sizeof(originalTimeStamp));
 }
 
-WORD ObjectHeader2::calculateHeaderSize()
+WORD ObjectHeader2::calculateHeaderSize() const
 {
     return
         ObjectHeaderBase::calculateHeaderSize() +
@@ -70,7 +70,7 @@ WORD ObjectHeader2::calculateHeaderSize()
         sizeof(originalTimeStamp);
 }
 
-DWORD ObjectHeader2::calculateObjectSize()
+DWORD ObjectHeader2::calculateObjectSize() const
 {
     return calculateHeaderSize();
 }

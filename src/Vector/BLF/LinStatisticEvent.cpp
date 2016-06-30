@@ -67,7 +67,7 @@ void LinStatisticEvent::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
 }
 
-DWORD LinStatisticEvent::calculateObjectSize()
+DWORD LinStatisticEvent::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

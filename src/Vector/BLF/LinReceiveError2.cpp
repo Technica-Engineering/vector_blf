@@ -85,7 +85,7 @@ void LinReceiveError2::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&earlyStopbitOffsetResponse), sizeof(earlyStopbitOffsetResponse));
 }
 
-DWORD LinReceiveError2::calculateObjectSize()
+DWORD LinReceiveError2::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

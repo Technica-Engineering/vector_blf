@@ -49,7 +49,7 @@ void DriverOverrun::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
 }
 
-DWORD DriverOverrun::calculateObjectSize()
+DWORD DriverOverrun::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

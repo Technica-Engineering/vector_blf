@@ -181,14 +181,14 @@ public:
      *
      * @return header size
      */
-    virtual WORD calculateHeaderSize();
+    virtual WORD calculateHeaderSize() const;
 
     /**
      * Calculates the objectSize
      *
      * @return object size
      */
-    virtual DWORD calculateObjectSize();
+    virtual DWORD calculateObjectSize() const;
 
     /**
      * @brief signature (ObjectSignature)

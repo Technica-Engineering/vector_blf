@@ -63,7 +63,7 @@ void ObjectHeaderBase::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&objectType), sizeof(objectType));
 }
 
-WORD ObjectHeaderBase::calculateHeaderSize()
+WORD ObjectHeaderBase::calculateHeaderSize() const
 {
     return
         sizeof(signature) +
@@ -73,7 +73,7 @@ WORD ObjectHeaderBase::calculateHeaderSize()
         sizeof(objectType);
 }
 
-DWORD ObjectHeaderBase::calculateObjectSize()
+DWORD ObjectHeaderBase::calculateObjectSize() const
 {
     return calculateHeaderSize();
 }

@@ -52,7 +52,7 @@ void MostStress::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
 }
 
-DWORD MostStress::calculateObjectSize()
+DWORD MostStress::calculateObjectSize() const
 {
     return
         ObjectHeader2::calculateObjectSize() +

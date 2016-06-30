@@ -97,7 +97,7 @@ void FlexRayVFrReceiveMsg::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(dataBytes.data()), dataBytes.size());
 }
 
-DWORD FlexRayVFrReceiveMsg::calculateObjectSize()
+DWORD FlexRayVFrReceiveMsg::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

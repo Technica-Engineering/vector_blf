@@ -70,7 +70,7 @@ void FlexRayVFrError::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
 }
 
-DWORD FlexRayVFrError::calculateObjectSize()
+DWORD FlexRayVFrError::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

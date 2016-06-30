@@ -49,7 +49,7 @@ void LinSyncError::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(timeDiff.data()), timeDiff.size() * sizeof(WORD));
 }
 
-DWORD LinSyncError::calculateObjectSize()
+DWORD LinSyncError::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

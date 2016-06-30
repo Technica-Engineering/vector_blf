@@ -106,7 +106,7 @@ void LinMessage2::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&earlyStopbitOffsetResponse), sizeof(earlyStopbitOffsetResponse));
 }
 
-DWORD LinMessage2::calculateObjectSize()
+DWORD LinMessage2::calculateObjectSize() const
 {
     DWORD size =
         ObjectHeader::calculateObjectSize() +

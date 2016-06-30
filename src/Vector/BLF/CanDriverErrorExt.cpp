@@ -67,7 +67,7 @@ void CanDriverErrorExt::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(reserved3.data()), reserved3.size());
 }
 
-DWORD CanDriverErrorExt::calculateObjectSize()
+DWORD CanDriverErrorExt::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

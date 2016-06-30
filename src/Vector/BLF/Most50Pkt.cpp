@@ -95,7 +95,7 @@ void Most50Pkt::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(pktData.data()), pktDataLength);
 }
 
-DWORD Most50Pkt::calculateObjectSize()
+DWORD Most50Pkt::calculateObjectSize() const
 {
     return
         ObjectHeader2::calculateObjectSize() +

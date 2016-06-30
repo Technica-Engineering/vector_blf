@@ -70,7 +70,7 @@ void FlexRaySync::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&cycle), sizeof(cycle));
 }
 
-DWORD FlexRaySync::calculateObjectSize()
+DWORD FlexRaySync::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

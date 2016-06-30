@@ -52,7 +52,7 @@ void LinSleepModeEvent::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
 }
 
-DWORD LinSleepModeEvent::calculateObjectSize()
+DWORD LinSleepModeEvent::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

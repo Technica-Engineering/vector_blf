@@ -73,7 +73,7 @@ void LinReceiveError::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&timeoutDuringDlcDetection), sizeof(timeoutDuringDlcDetection));
 }
 
-DWORD LinReceiveError::calculateObjectSize()
+DWORD LinReceiveError::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

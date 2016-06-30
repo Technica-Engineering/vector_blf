@@ -44,7 +44,7 @@ public:
 
     virtual void read(AbstractFile & is);
     virtual void write(AbstractFile & os);
-    virtual DWORD calculateObjectSize();
+    virtual DWORD calculateObjectSize() const;
 
     /**
      * @brief object flags (usually BL_OBJ_FLAG_TIME_ONE_NANS)
@@ -77,7 +77,7 @@ public:
      * @note Not to be mixed with headerSize, which is only takes ObjectHeaderBase headers into account.
      * @return Size of all headers.
      */
-    WORD internalHeaderSize();
+    WORD internalHeaderSize() const;
 };
 
 }

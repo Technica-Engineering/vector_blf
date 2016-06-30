@@ -52,7 +52,7 @@ void LinSlaveTimeout::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&followStateId), sizeof(followStateId));
 }
 
-DWORD LinSlaveTimeout::calculateObjectSize()
+DWORD LinSlaveTimeout::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

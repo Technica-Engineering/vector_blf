@@ -49,7 +49,7 @@ void MostTxLight::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
 }
 
-DWORD MostTxLight::calculateObjectSize()
+DWORD MostTxLight::calculateObjectSize() const
 {
     return
         ObjectHeader2::calculateObjectSize() +

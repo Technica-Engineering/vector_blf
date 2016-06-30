@@ -67,7 +67,7 @@ void CanDriverStatistic::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
 }
 
-DWORD CanDriverStatistic::calculateObjectSize()
+DWORD CanDriverStatistic::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

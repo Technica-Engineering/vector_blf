@@ -49,7 +49,7 @@ void LinSpikeEvent::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
 }
 
-DWORD LinSpikeEvent::calculateObjectSize()
+DWORD LinSpikeEvent::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

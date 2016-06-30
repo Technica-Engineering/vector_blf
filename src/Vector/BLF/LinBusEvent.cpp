@@ -52,7 +52,7 @@ void LinBusEvent::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
 }
 
-DWORD LinBusEvent::calculateObjectSize()
+DWORD LinBusEvent::calculateObjectSize() const
 {
     return
         sizeof(sof) +

@@ -42,7 +42,7 @@ void LinDatabyteTimestampEvent::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(databyteTimestamps.data()), databyteTimestamps.size() * sizeof(ULONGLONG));
 }
 
-DWORD LinDatabyteTimestampEvent::calculateObjectSize()
+DWORD LinDatabyteTimestampEvent::calculateObjectSize() const
 {
     return
         LinMessageDescriptor::calculateObjectSize() +

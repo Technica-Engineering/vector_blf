@@ -61,7 +61,7 @@ void MostDataLost::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&nextGoodTimeStampNs), sizeof(nextGoodTimeStampNs));
 }
 
-DWORD MostDataLost::calculateObjectSize()
+DWORD MostDataLost::calculateObjectSize() const
 {
     return
         ObjectHeader2::calculateObjectSize() +

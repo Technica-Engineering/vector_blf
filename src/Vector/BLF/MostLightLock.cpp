@@ -49,7 +49,7 @@ void MostLightLock::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
 }
 
-DWORD MostLightLock::calculateObjectSize()
+DWORD MostLightLock::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

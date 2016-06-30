@@ -61,7 +61,7 @@ void LinSendError::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&fullTime), sizeof(fullTime));
 }
 
-DWORD LinSendError::calculateObjectSize()
+DWORD LinSendError::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

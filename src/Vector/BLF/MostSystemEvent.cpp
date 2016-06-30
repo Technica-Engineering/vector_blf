@@ -55,7 +55,7 @@ void MostSystemEvent::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
 }
 
-DWORD MostSystemEvent::calculateObjectSize()
+DWORD MostSystemEvent::calculateObjectSize() const
 {
     return
         ObjectHeader2::calculateObjectSize() +

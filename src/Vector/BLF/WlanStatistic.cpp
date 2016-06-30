@@ -64,7 +64,7 @@ void WlanStatistic::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&errorCount), sizeof(errorCount));
 }
 
-DWORD WlanStatistic::calculateObjectSize()
+DWORD WlanStatistic::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

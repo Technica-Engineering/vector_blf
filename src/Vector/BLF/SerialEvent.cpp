@@ -108,7 +108,7 @@ void SerialEvent::write(AbstractFile & os)
     }
 }
 
-DWORD SerialEvent::calculateObjectSize()
+DWORD SerialEvent::calculateObjectSize() const
 {
     DWORD size =
         ObjectHeader::calculateObjectSize() +

@@ -79,7 +79,7 @@ void LinCrcError2::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&earlyStopbitOffsetResponse), sizeof(earlyStopbitOffsetResponse));
 }
 
-DWORD LinCrcError2::calculateObjectSize()
+DWORD LinCrcError2::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

@@ -55,7 +55,7 @@ void KLineStatusEvent::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(data.data()), data.size());
 }
 
-DWORD KLineStatusEvent::calculateObjectSize()
+DWORD KLineStatusEvent::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

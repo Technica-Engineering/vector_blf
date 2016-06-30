@@ -88,7 +88,7 @@ void FlexRayV6Message::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(dataBytes.data()), dataBytes.size());
 }
 
-DWORD FlexRayV6Message::calculateObjectSize()
+DWORD FlexRayV6Message::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

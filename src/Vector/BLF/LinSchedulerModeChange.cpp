@@ -52,7 +52,7 @@ void LinSchedulerModeChange::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
 }
 
-DWORD LinSchedulerModeChange::calculateObjectSize()
+DWORD LinSchedulerModeChange::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

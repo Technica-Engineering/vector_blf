@@ -92,7 +92,7 @@ void MostEthernetPkt::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(pktData.data()), pktDataLength);
 }
 
-DWORD MostEthernetPkt::calculateObjectSize()
+DWORD MostEthernetPkt::calculateObjectSize() const
 {
     return
         ObjectHeader2::calculateObjectSize() +

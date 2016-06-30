@@ -73,7 +73,7 @@ void SystemVariable::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(data.data()), dataLength);
 }
 
-DWORD SystemVariable::calculateObjectSize()
+DWORD SystemVariable::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

@@ -74,7 +74,7 @@ void EthernetFrame::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(payLoad.data()), payLoadLength);
 }
 
-DWORD EthernetFrame::calculateObjectSize()
+DWORD EthernetFrame::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

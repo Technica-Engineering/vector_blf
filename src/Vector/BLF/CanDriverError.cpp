@@ -52,7 +52,7 @@ void CanDriverError::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&errorCode), sizeof(errorCode));
 }
 
-DWORD CanDriverError::calculateObjectSize()
+DWORD CanDriverError::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

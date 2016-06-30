@@ -67,7 +67,7 @@ void CanMessage2::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
 }
 
-DWORD CanMessage2::calculateObjectSize()
+DWORD CanMessage2::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

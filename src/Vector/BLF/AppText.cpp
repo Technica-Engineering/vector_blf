@@ -62,7 +62,7 @@ void AppText::write(AbstractFile & os)
     os.write(const_cast<char *>(text.data()), textLength);
 }
 
-DWORD AppText::calculateObjectSize()
+DWORD AppText::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

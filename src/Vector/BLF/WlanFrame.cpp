@@ -68,7 +68,7 @@ void WlanFrame::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(frameData.data()), frameLength);
 }
 
-DWORD WlanFrame::calculateObjectSize()
+DWORD WlanFrame::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

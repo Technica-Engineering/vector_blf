@@ -67,7 +67,7 @@ void FlexRayData::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(dataBytes.data()), dataBytes.size());
 }
 
-DWORD FlexRayData::calculateObjectSize()
+DWORD FlexRayData::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

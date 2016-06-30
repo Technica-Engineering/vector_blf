@@ -64,7 +64,7 @@ void J1708Message::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
 }
 
-DWORD J1708Message::calculateObjectSize()
+DWORD J1708Message::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

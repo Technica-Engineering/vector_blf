@@ -52,7 +52,7 @@ void MostHwMode::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&hwModeMask), sizeof(hwModeMask));
 }
 
-DWORD MostHwMode::calculateObjectSize()
+DWORD MostHwMode::calculateObjectSize() const
 {
     return
         ObjectHeader2::calculateObjectSize() +

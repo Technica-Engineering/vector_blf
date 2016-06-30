@@ -92,7 +92,7 @@ void GlobalMarker::write(AbstractFile & os)
     os.write(const_cast<char *>(description.data()), descriptionLength);
 }
 
-DWORD GlobalMarker::calculateObjectSize()
+DWORD GlobalMarker::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

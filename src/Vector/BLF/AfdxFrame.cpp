@@ -89,7 +89,7 @@ void AfdxFrame::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(payLoad.data()), payLoadLength);
 }
 
-DWORD AfdxFrame::calculateObjectSize()
+DWORD AfdxFrame::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

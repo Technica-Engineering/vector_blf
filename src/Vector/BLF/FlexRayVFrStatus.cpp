@@ -76,7 +76,7 @@ void FlexRayVFrStatus::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
 }
 
-DWORD FlexRayVFrStatus::calculateObjectSize()
+DWORD FlexRayVFrStatus::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

@@ -49,7 +49,7 @@ void CanDriverHwSync::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
 }
 
-DWORD CanDriverHwSync::calculateObjectSize()
+DWORD CanDriverHwSync::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

@@ -55,7 +55,7 @@ void AppTrigger::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&appSpecific2), sizeof(appSpecific2));
 }
 
-DWORD AppTrigger::calculateObjectSize()
+DWORD AppTrigger::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

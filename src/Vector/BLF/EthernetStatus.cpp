@@ -73,7 +73,7 @@ void EthernetStatus::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&bitrate), sizeof(bitrate));
 }
 
-DWORD EthernetStatus::calculateObjectSize()
+DWORD EthernetStatus::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

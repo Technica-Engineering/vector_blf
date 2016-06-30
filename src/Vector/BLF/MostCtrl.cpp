@@ -79,7 +79,7 @@ void MostCtrl::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(reserved4.data()), reserved4.size());
 }
 
-DWORD MostCtrl::calculateObjectSize()
+DWORD MostCtrl::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

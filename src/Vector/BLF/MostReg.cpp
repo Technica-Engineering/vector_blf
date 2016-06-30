@@ -64,7 +64,7 @@ void MostReg::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(regData.data()), regData.size());
 }
 
-DWORD MostReg::calculateObjectSize()
+DWORD MostReg::calculateObjectSize() const
 {
     return
         ObjectHeader2::calculateObjectSize() +

@@ -73,7 +73,7 @@ void LinCrcError::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
 }
 
-DWORD LinCrcError::calculateObjectSize()
+DWORD LinCrcError::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

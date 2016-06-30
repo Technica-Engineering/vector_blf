@@ -58,7 +58,7 @@ void LinShortOrSlowResponse::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
 }
 
-DWORD LinShortOrSlowResponse::calculateObjectSize()
+DWORD LinShortOrSlowResponse::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

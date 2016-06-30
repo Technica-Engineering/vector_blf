@@ -58,7 +58,7 @@ void MostTrigger::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&currentTriggerValue), sizeof(currentTriggerValue));
 }
 
-DWORD MostTrigger::calculateObjectSize()
+DWORD MostTrigger::calculateObjectSize() const
 {
     return
         ObjectHeader2::calculateObjectSize() +

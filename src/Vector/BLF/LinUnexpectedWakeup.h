@@ -48,7 +48,7 @@ public:
 
     virtual void read(AbstractFile & is);
     virtual void write(AbstractFile & os);
-    virtual DWORD calculateObjectSize();
+    virtual DWORD calculateObjectSize() const;
 
     /**
      * @brief width of the unexpected wakeup in nanoseconds (valid for LIN 2.x)

@@ -70,7 +70,7 @@ void LinSendError2::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(reserved3.data()), reserved3.size());
 }
 
-DWORD LinSendError2::calculateObjectSize()
+DWORD LinSendError2::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

@@ -55,7 +55,7 @@ void MostStatistic::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&bufferLevel), sizeof(bufferLevel));
 }
 
-DWORD MostStatistic::calculateObjectSize()
+DWORD MostStatistic::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

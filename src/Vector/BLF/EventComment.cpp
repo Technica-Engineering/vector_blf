@@ -62,7 +62,7 @@ void EventComment::write(AbstractFile & os)
     os.write(const_cast<char *>(text.data()), textLength);
 }
 
-DWORD EventComment::calculateObjectSize()
+DWORD EventComment::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +

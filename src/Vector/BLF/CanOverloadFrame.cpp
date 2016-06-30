@@ -46,7 +46,7 @@ void CanOverloadFrame::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
 }
 
-DWORD CanOverloadFrame::calculateObjectSize()
+DWORD CanOverloadFrame::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +
