@@ -621,10 +621,11 @@ void File::deflate()
     logContainer.uncompressedFileSize = bufferSizeIn;
     uLong bufferSizeOut = compressBound(bufferSizeIn);
     logContainer.compressedFile.resize(bufferSizeOut);
-    compress(reinterpret_cast<Byte *>(logContainer.compressedFile.data()),
-             &bufferSizeOut,
-             reinterpret_cast<Byte *>(bufferIn.data()),
-             bufferSizeIn);
+    compress2(reinterpret_cast<Byte *>(logContainer.compressedFile.data()),
+              &bufferSizeOut,
+              reinterpret_cast<Byte *>(bufferIn.data()),
+              bufferSizeIn,
+              compressionLevel);
     logContainer.compressedFile.resize(bufferSizeOut);
     logContainer.compressedFileSize = bufferSizeOut;
     logContainer.objectSize = logContainer.calculateObjectSize();
