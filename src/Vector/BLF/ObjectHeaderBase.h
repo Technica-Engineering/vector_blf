@@ -38,7 +38,8 @@ namespace BLF {
  *
  * Object type.
  */
-enum class ObjectType : DWORD {
+enum class ObjectType : DWORD
+{
     UNKNOWN = 0, /**< unknown object */
     CAN_MESSAGE = 1, /**< CAN message object */
     CAN_ERROR = 2, /**< CAN error frame object */

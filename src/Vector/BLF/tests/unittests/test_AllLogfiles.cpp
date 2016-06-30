@@ -23,8 +23,7 @@ BOOST_AUTO_TEST_CASE(AllLogfiles)
         BOOST_REQUIRE(create_directory(outdir));
     }
 
-    for(boost::filesystem::directory_entry & x : boost::filesystem::directory_iterator(indir))
-    {
+    for (boost::filesystem::directory_entry & x : boost::filesystem::directory_iterator(indir)) {
         //std::string eventFile = "CANSystem_A.blf";
         std::string eventFile = x.path().filename().string();
         std::cout << eventFile << std::endl;
@@ -55,7 +54,7 @@ BOOST_AUTO_TEST_CASE(AllLogfiles)
         fileout.fileStatistics.apiPatch = filein.fileStatistics.apiPatch;
         // all others should be set on close
 
-        while(!filein.eof()) {
+        while (!filein.eof()) {
             Vector::BLF::ObjectHeaderBase * ohb;
             ohb = filein.read();
             BOOST_CHECK((ohb != nullptr) || filein.eof());

@@ -63,7 +63,8 @@ public:
     virtual DWORD calculateObjectSize() const;
 
     /** enumeration for source */
-    enum class Source : DWORD {
+    enum class Source : DWORD
+    {
         /** measurement comment */
         MeasurementComment = 0,
 

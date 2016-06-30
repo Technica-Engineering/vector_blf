@@ -54,18 +54,19 @@ public:
     /**
      * enumeration for flags
      */
-    enum class Flags : BYTE {
+    enum class Flags : BYTE
+    {
         /** transmit direction */
-        TX = (1<<0),
+        TX = (1 << 0),
 
         /** single wire operation */
-        NERR = (1<<5),
+        NERR = (1 << 5),
 
         /** wake up message (high voltage) */
-        WU = (1<<6),
+        WU = (1 << 6),
 
         /** remote transmission request */
-        RTR = (1<<7)
+        RTR = (1 << 7)
     };
 
     /**
@@ -100,15 +101,16 @@ public:
     /**
      * enumeration for canFdFlags
      */
-    enum class CanFdFlags : BYTE {
+    enum class CanFdFlags : BYTE
+    {
         /** extended data length */
-        EDL = (1<<0),
+        EDL = (1 << 0),
 
         /** bit rate switch */
-        BRS = (1<<1),
+        BRS = (1 << 1),
 
         /** error state indicator */
-        ESI = (1<<2)
+        ESI = (1 << 2)
     };
 
     /**

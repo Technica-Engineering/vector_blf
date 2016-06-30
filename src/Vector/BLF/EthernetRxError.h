@@ -64,7 +64,8 @@ public:
     WORD channel;
 
     /** enumeration for dir */
-    enum class Dir : WORD {
+    enum class Dir : WORD
+    {
         /** receive */
         Rx = 0,
 

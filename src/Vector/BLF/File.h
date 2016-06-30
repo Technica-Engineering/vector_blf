@@ -154,7 +154,8 @@ public:
     virtual ~File();
 
     /** enumeration for openMode */
-    enum class OpenMode {
+    enum class OpenMode
+    {
         /** Read */
         Read = 0,
 

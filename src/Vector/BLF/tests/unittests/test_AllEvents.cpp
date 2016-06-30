@@ -22,8 +22,7 @@ BOOST_AUTO_TEST_CASE(AllEvents)
         BOOST_REQUIRE(create_directory(outdir));
     }
 
-    for(boost::filesystem::directory_entry & x : boost::filesystem::directory_iterator(indir))
-    {
+    for (boost::filesystem::directory_entry & x : boost::filesystem::directory_iterator(indir)) {
         //std::string eventFile = "AfdxFrame.blf";
         std::string eventFile = x.path().filename().string();
         std::cout << eventFile << std::endl;
@@ -53,7 +52,7 @@ BOOST_AUTO_TEST_CASE(AllEvents)
         // all others should be set on close
 
         /* parse log file */
-        while(!filein.eof()) {
+        while (!filein.eof()) {
             Vector::BLF::ObjectHeaderBase * ohb;
             ohb = filein.read();
             BOOST_CHECK((ohb != nullptr) || filein.eof());

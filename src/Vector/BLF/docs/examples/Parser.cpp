@@ -18,7 +18,7 @@ void showFileStatistics(Vector::BLF::FileStatistics * fileStatistics)
               << (unsigned short) fileStatistics->apiPatch << std::endl;
     std::cout << "fileSize: " << fileStatistics->fileSize << std::endl;
     std::cout << "uncompressedFileSize: " << fileStatistics->uncompressedFileSize <<
-                 " (hex: 0x" << std::hex << fileStatistics->uncompressedFileSize << ")" << std::dec << std::endl;
+              " (hex: 0x" << std::hex << fileStatistics->uncompressedFileSize << ")" << std::dec << std::endl;
     std::cout << "objectCount: " << fileStatistics->objectCount << std::endl;
     std::cout << "objectsRead: " << fileStatistics->objectsRead << std::endl;
     std::cout << "measurementStartTime: "
@@ -57,8 +57,9 @@ void showCanMessage(Vector::BLF::CanMessage * canMessage)
               << " data=";
     for (int i = 0; (i < canMessage->dlc) && (i < 8); ++i) {
         std::cout << std::hex;
-        if (canMessage->data[i] <= 0xf)
+        if (canMessage->data[i] <= 0xf) {
             std::cout << '0';
+        }
         std::cout << ((unsigned short) canMessage->data[i]);
         std::cout << " ";
     }
@@ -68,10 +69,10 @@ void showCanMessage(Vector::BLF::CanMessage * canMessage)
 // CAN_ERROR = 2
 void showCanErrorFrame(Vector::BLF::CanErrorFrame * canErrorFrame)
 {
-     std::cout << "CanErrorFrame:";
-     std::cout << " ch=" << std::dec << canErrorFrame->channel;
-     std::cout << " len=" << std::dec << canErrorFrame->length;
-     std::cout << std::endl;
+    std::cout << "CanErrorFrame:";
+    std::cout << " ch=" << std::dec << canErrorFrame->channel;
+    std::cout << " len=" << std::dec << canErrorFrame->length;
+    std::cout << std::endl;
 }
 
 // CAN_OVERLOAD = 3
@@ -101,7 +102,7 @@ void showEnvironmentVariable(Vector::BLF::EnvironmentVariable * environmentVaria
 {
     std::cout << "EnvironmentVariable:";
     std::cout << " name=" << environmentVariable->name;
-    switch(environmentVariable->objectType) {
+    switch (environmentVariable->objectType) {
     case Vector::BLF::ObjectType::ENV_INTEGER:
         std::cout << " value=" << std::dec << (int) *environmentVariable->data.data();
         std::cout << " type=Integer";
@@ -527,7 +528,7 @@ void showSystemVariable(Vector::BLF::SystemVariable * systemVariable)
 {
     std::cout << "SystemVariable:";
     std::cout << " name=" << systemVariable->name;
-    switch(systemVariable->type) {
+    switch (systemVariable->type) {
     case Vector::BLF::SystemVariable::Type::Double:
         std::cout << " value=" << std::fixed << (double) *systemVariable->data.data();
         std::cout << " type=Double";
@@ -718,7 +719,7 @@ void showAfdxStatistic(Vector::BLF::AfdxStatistic * afdxStatistic)
 
 // CAN_FD_ERROR_64 = 104
 
-int main(int argc, char *argv[])
+int main(int argc, char * argv[])
 {
     if (argc != 2) {
         std::cout << "Parser <filename.blf>" << std::endl;
@@ -730,12 +731,13 @@ int main(int argc, char *argv[])
 
     showFileStatistics(&file.fileStatistics);
 
-    while(!file.eof()) {
+    while (!file.eof()) {
         Vector::BLF::ObjectHeaderBase * obj = file.read();
-        if (obj == nullptr)
+        if (obj == nullptr) {
             continue;
+        }
 
-        switch(obj->objectType) {
+        switch (obj->objectType) {
         case Vector::BLF::ObjectType::CAN_MESSAGE:
             showCanMessage(reinterpret_cast<Vector::BLF::CanMessage *>(obj));
             break;

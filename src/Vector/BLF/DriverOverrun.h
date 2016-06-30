@@ -45,7 +45,8 @@ public:
     virtual DWORD calculateObjectSize() const;
 
     /** enumeration for busType */
-    enum class BusType : DWORD {
+    enum class BusType : DWORD
+    {
         /** CAN */
         Can = 1,
 

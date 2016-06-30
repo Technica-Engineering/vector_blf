@@ -68,8 +68,9 @@ void LinMessage2::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&respBaudrate), sizeof(respBaudrate));
 
     /* the following variables are only available in Version 3 and above */
-    if (objectVersion < 1) // Vector bug: Shouldn't this be < 2?
+    if (objectVersion < 1) { // Vector bug: Shouldn't this be < 2?
         return;
+    }
 
     is.read(reinterpret_cast<char *>(&exactHeaderBaudrate), sizeof(exactHeaderBaudrate));
     is.read(reinterpret_cast<char *>(&earlyStopbitOffset), sizeof(earlyStopbitOffset));
@@ -98,8 +99,9 @@ void LinMessage2::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&respBaudrate), sizeof(respBaudrate));
 
     /* the following variables are only available in Version 3 and above */
-    if (objectVersion < 1) // Vector bug: Shouldn't this be < 2?
+    if (objectVersion < 1) { // Vector bug: Shouldn't this be < 2?
         return;
+    }
 
     os.write(reinterpret_cast<char *>(&exactHeaderBaudrate), sizeof(exactHeaderBaudrate));
     os.write(reinterpret_cast<char *>(&earlyStopbitOffset), sizeof(earlyStopbitOffset));
@@ -123,7 +125,7 @@ DWORD LinMessage2::calculateObjectSize() const
         reserved.size();
 
     /*if (objectVersion >= 0)*/ // Vector bug: Shouldn't this be >= 1?
-        size += sizeof(respBaudrate);
+    size += sizeof(respBaudrate);
 
     if (objectVersion >= 1) // Vector bug: Shouldn't this be >= 2?
         size += sizeof(exactHeaderBaudrate) +

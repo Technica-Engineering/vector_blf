@@ -51,7 +51,8 @@ public:
     virtual DWORD calculateObjectSize() const;
 
     /** enumeration for flags */
-    enum class Flags : DWORD {
+    enum class Flags : DWORD
+    {
         /** K-Line event */
         KLineEvent = 0x00000001,
 
@@ -98,8 +99,7 @@ public:
     DWORD reserved;
 
     /** general serial event */
-    struct GeneralSerialEvent
-    {
+    struct GeneralSerialEvent {
         GeneralSerialEvent();
         virtual ~GeneralSerialEvent();
 
@@ -143,8 +143,7 @@ public:
     GeneralSerialEvent general;
 
     /** single byte serial event */
-    struct SingleByteSerialEvent
-    {
+    struct SingleByteSerialEvent {
         SingleByteSerialEvent();
         virtual ~SingleByteSerialEvent();
 
@@ -163,8 +162,7 @@ public:
     SingleByteSerialEvent singleByte;
 
     /** compact serial event */
-    struct CompactSerialEvent
-    {
+    struct CompactSerialEvent {
         CompactSerialEvent();
         virtual ~CompactSerialEvent();
 

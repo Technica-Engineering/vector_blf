@@ -14,7 +14,7 @@
 
 static bool isEqual(double a, double b)
 {
-    return ((a-b) < 0.000001) && ((b-a) < 0.000001);
+    return ((a - b) < 0.000001) && ((b - a) < 0.000001);
 }
 
 /* UNKNOWN = 0 */

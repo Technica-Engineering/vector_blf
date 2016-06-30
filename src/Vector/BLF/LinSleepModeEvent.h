@@ -81,7 +81,8 @@ public:
     BYTE reason;
 
     /** Bit values for flags */
-    enum class Flags : BYTE {
+    enum class Flags : BYTE
+    {
         /** @brief LIN "was awake" */
         WasAwake = 0x01,
 

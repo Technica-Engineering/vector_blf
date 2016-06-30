@@ -41,8 +41,9 @@ ObjectHeaderBase::~ObjectHeaderBase()
 void ObjectHeaderBase::read(AbstractFile & is)
 {
     is.read(reinterpret_cast<char *>(&signature), sizeof(signature));
-    if (signature != ObjectSignature)
+    if (signature != ObjectSignature) {
         return;
+    }
     is.read(reinterpret_cast<char *>(&headerSize), sizeof(headerSize));
     is.read(reinterpret_cast<char *>(&headerVersion), sizeof(headerVersion));
     is.read(reinterpret_cast<char *>(&objectSize), sizeof(objectSize));
@@ -55,8 +56,9 @@ void ObjectHeaderBase::write(AbstractFile & os)
     objectSize = calculateObjectSize();
 
     os.write(reinterpret_cast<char *>(&signature), sizeof(signature));
-    if (signature != ObjectSignature)
+    if (signature != ObjectSignature) {
         return;
+    }
     os.write(reinterpret_cast<char *>(&headerSize), sizeof(headerSize));
     os.write(reinterpret_cast<char *>(&headerVersion), sizeof(headerVersion));
     os.write(reinterpret_cast<char *>(&objectSize), sizeof(objectSize));

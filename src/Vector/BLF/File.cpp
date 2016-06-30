@@ -47,7 +47,7 @@ ObjectHeaderBase * File::createObject(ObjectType type)
 {
     ObjectHeaderBase * obj = nullptr;
 
-    switch(type) {
+    switch (type) {
     case ObjectType::UNKNOWN:
         break;
 
@@ -452,12 +452,13 @@ void File::open(const char * filename, OpenMode openMode)
 {
     this->openMode = openMode;
 
-    switch(this->openMode) {
+    switch (this->openMode) {
     case OpenMode::Read:
         /* open file for reading */
         compressedFile.open(filename, std::ios_base::in | std::ios_base::binary);
-        if (!is_open())
+        if (!is_open()) {
             return;
+        }
 
         /* read file statistics */
         fileStatistics.read(compressedFile);
@@ -466,8 +467,9 @@ void File::open(const char * filename, OpenMode openMode)
     case OpenMode::Write:
         /* open file for writing */
         compressedFile.open(filename, std::ios_base::out | std::ios_base::binary);
-        if (!is_open())
+        if (!is_open()) {
             return;
+        }
 
         /* write file statistics */
         fileStatistics.write(compressedFile);
@@ -490,7 +492,9 @@ bool File::is_open() const
 
 bool File::eof()
 {
-    bool compressedFileEmpty = (compressedFile.tellg() >= (signed) fileStatistics.fileSize) || compressedFile.eof();
+    bool compressedFileEmpty =
+        (compressedFile.tellg() >= fileStatistics.fileSize) ||
+        compressedFile.eof();
     bool uncompressedFileEmpty = (uncompressedFile.tellp() <= uncompressedFile.tellg());
     return compressedFileEmpty && uncompressedFileEmpty;
 }
@@ -568,8 +572,8 @@ void File::inflate()
 
     /* statistics */
     currentUncompressedFileSize +=
-            logContainer->internalHeaderSize() +
-            logContainer->uncompressedFileSize;
+        logContainer->internalHeaderSize() +
+        logContainer->uncompressedFileSize;
 
     /* create buffer */
     size_t bufferSize = logContainer->uncompressedFileSize;
@@ -598,8 +602,9 @@ void File::deflate()
 {
     /* calculate size of data to compress */
     size_t bufferSizeIn = uncompressedFile.tellp() - uncompressedFile.tellg();
-    if (bufferSizeIn > defaultLogContainerSize)
+    if (bufferSizeIn > defaultLogContainerSize) {
         bufferSizeIn = defaultLogContainerSize;
+    }
 
     /* create buffer */
     std::vector<char> bufferIn;
@@ -626,14 +631,14 @@ void File::deflate()
 
     /* statistics */
     currentUncompressedFileSize +=
-            logContainer.internalHeaderSize() +
-            logContainer.uncompressedFileSize;
+        logContainer.internalHeaderSize() +
+        logContainer.uncompressedFileSize;
 
     /* write log container */
     logContainer.write(compressedFile);
 
     /* skip padding */
-    char buffer[] = {0,0,0,0};
+    char buffer[] = {0, 0, 0, 0};
     compressedFile.write(buffer, logContainer.objectSize % 4);
 }
 
@@ -645,19 +650,20 @@ void File::write(ObjectHeaderBase * objectHeaderBase)
         objectHeaderBase->write(compressedFile);
 
         /* skip padding */
-        char buffer[] = {0,0,0,0};
+        char buffer[] = {0, 0, 0, 0};
         compressedFile.write(buffer, objectHeaderBase->objectSize % 4);
     } else {
         /* write into uncompressedFile */
         objectHeaderBase->write(uncompressedFile);
 
         /* skip padding */
-        char buffer[] = {0,0,0,0};
+        char buffer[] = {0, 0, 0, 0};
         uncompressedFile.write(buffer, objectHeaderBase->objectSize % 4);
 
         /* if data exceeds defined logContainerSize, compress and write it into compressedFile */
-        if ((uncompressedFile.tellp() - uncompressedFile.tellg()) >= (signed) defaultLogContainerSize)
+        if ((uncompressedFile.tellp() - uncompressedFile.tellg()) >= defaultLogContainerSize) {
             deflate();
+        }
     }
 
     /* statistics */
@@ -668,11 +674,12 @@ void File::close()
 {
     if (openMode == OpenMode::Write) {
         /* if data left, compress and write it */
-        if (uncompressedFile.tellp() > uncompressedFile.tellg())
+        if (uncompressedFile.tellp() > uncompressedFile.tellg()) {
             deflate();
+        }
 
         /* write statistics */
-        fileStatistics.fileSize = ((ULONGLONG) compressedFile.tellp());
+        fileStatistics.fileSize = compressedFile.tellp();
         fileStatistics.uncompressedFileSize = currentUncompressedFileSize;
         fileStatistics.objectCount = currentObjectCount;
         //fileStatistics.objectsRead = 0; // @todo what is objectsRead?
