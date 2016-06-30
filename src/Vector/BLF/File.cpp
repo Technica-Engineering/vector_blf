@@ -493,7 +493,7 @@ bool File::is_open() const
 bool File::eof()
 {
     bool compressedFileEmpty =
-        (compressedFile.tellg() >= fileStatistics.fileSize) ||
+        (static_cast<ULONGLONG>(compressedFile.tellg()) >= fileStatistics.fileSize) ||
         compressedFile.eof();
     bool uncompressedFileEmpty = (uncompressedFile.tellp() <= uncompressedFile.tellg());
     return compressedFileEmpty && uncompressedFileEmpty;
@@ -552,7 +552,7 @@ ObjectHeaderBase * File::readObjectFromUncompressedFile()
     uncompressedFile.seekg(ohb.objectSize % 4, std::ios_base::cur);
 
     /* drop old data */
-    uncompressedFile.dropOldData(defaultLogContainerSize, ohb.calculateObjectSize());
+    uncompressedFile.dropOldData(static_cast<std::streamsize>(defaultLogContainerSize), ohb.calculateObjectSize());
 
     currentObjectCount++;
     return obj;
@@ -587,7 +587,7 @@ void File::inflate()
                logContainer->compressedFileSize);
 
     /* copy into uncompressedFile */
-    uncompressedFile.write(buffer.data(), bufferSize);
+    uncompressedFile.write(buffer.data(), static_cast<std::streamsize>(bufferSize));
 
     /* delete buffer */
     delete logContainer;
@@ -601,7 +601,7 @@ ObjectHeaderBase * File::read()
 void File::deflate()
 {
     /* calculate size of data to compress */
-    size_t bufferSizeIn = uncompressedFile.tellp() - uncompressedFile.tellg();
+    ULONGLONG bufferSizeIn = static_cast<ULONGLONG>(uncompressedFile.tellp() - uncompressedFile.tellg());
     if (bufferSizeIn > defaultLogContainerSize) {
         bufferSizeIn = defaultLogContainerSize;
     }
@@ -611,10 +611,10 @@ void File::deflate()
     bufferIn.resize(bufferSizeIn);
 
     /* copy data into buffer */
-    uncompressedFile.read(bufferIn.data(), bufferSizeIn);
+    uncompressedFile.read(bufferIn.data(), static_cast<std::streamsize>(bufferSizeIn));
 
     /* drop old data */
-    uncompressedFile.dropOldData(bufferSizeIn, 0);
+    uncompressedFile.dropOldData(static_cast<std::streamsize>(bufferSizeIn), 0);
 
     /* setup new log container and directly deflate/compress data */
     LogContainer logContainer;
@@ -661,7 +661,8 @@ void File::write(ObjectHeaderBase * objectHeaderBase)
         uncompressedFile.write(buffer, objectHeaderBase->objectSize % 4);
 
         /* if data exceeds defined logContainerSize, compress and write it into compressedFile */
-        if ((uncompressedFile.tellp() - uncompressedFile.tellg()) >= defaultLogContainerSize) {
+        ULONGLONG requestedSize = static_cast<ULONGLONG>(uncompressedFile.tellp() - uncompressedFile.tellg());
+        if (requestedSize >= defaultLogContainerSize) {
             deflate();
         }
     }
@@ -679,7 +680,7 @@ void File::close()
         }
 
         /* write statistics */
-        fileStatistics.fileSize = compressedFile.tellp();
+        fileStatistics.fileSize = static_cast<ULONGLONG>(compressedFile.tellp());
         fileStatistics.uncompressedFileSize = currentUncompressedFileSize;
         fileStatistics.objectCount = currentObjectCount;
         //fileStatistics.objectsRead = 0; // @todo what is objectsRead?
