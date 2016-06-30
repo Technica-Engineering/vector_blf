@@ -519,18 +519,21 @@ ObjectHeaderBase * File::readObjectFromCompressedFile()
 
 ObjectHeaderBase * File::readObjectFromUncompressedFile()
 {
+    ObjectHeaderBase ohb;
+
     /* first read some more compressed data and inflate it */
-    while ((uncompressedFile.tellp() - uncompressedFile.tellg()) < 0x10) // sizeof(ObjectHeaderBase)
+    while ((uncompressedFile.tellp() - uncompressedFile.tellg()) < ohb.calculateObjectSize()) {
         inflate();
+    }
 
     /* identify type */
-    ObjectHeaderBase ohb;
     ohb.read(uncompressedFile);
     uncompressedFile.seekg(-ohb.calculateHeaderSize(), std::ios_base::cur);
 
     /* ensure sufficient date is available */
-    while ((uncompressedFile.tellp() - uncompressedFile.tellg()) < ohb.objectSize)
+    while ((uncompressedFile.tellp() - uncompressedFile.tellg()) < ohb.objectSize) {
         inflate();
+    }
 
     /* create object */
     ObjectHeaderBase * obj = createObject(ohb.objectType);
@@ -545,7 +548,7 @@ ObjectHeaderBase * File::readObjectFromUncompressedFile()
     uncompressedFile.seekg(ohb.objectSize % 4, std::ios_base::cur);
 
     /* drop old data */
-    uncompressedFile.dropOldData(defaultLogContainerSize, 0x10); // sizeof(ObjectHeaderBase)
+    uncompressedFile.dropOldData(defaultLogContainerSize, ohb.calculateObjectSize());
 
     currentObjectCount++;
     return obj;
