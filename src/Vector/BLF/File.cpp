@@ -39,6 +39,10 @@ File::File() :
 {
 }
 
+File::~File()
+{
+}
+
 ObjectHeaderBase * File::createObject(ObjectType type)
 {
     ObjectHeaderBase * obj = nullptr;

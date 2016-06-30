@@ -69,6 +69,7 @@ class VECTOR_BLF_EXPORT FileStatistics
 {
 public:
     FileStatistics();
+    virtual ~FileStatistics();
 
     /**
      * read file statistics

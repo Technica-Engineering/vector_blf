@@ -44,6 +44,7 @@ class VECTOR_BLF_EXPORT SerialEvent : public ObjectHeader
 {
 public:
     SerialEvent();
+    virtual ~SerialEvent();
 
     virtual void read(AbstractFile & is);
     virtual void write(AbstractFile & os);
@@ -100,6 +101,7 @@ public:
     struct GeneralSerialEvent
     {
         GeneralSerialEvent();
+        virtual ~GeneralSerialEvent();
 
         /**
          * @brief length of variable data in bytes
@@ -137,6 +139,7 @@ public:
     struct SingleByteSerialEvent
     {
         SingleByteSerialEvent();
+        virtual ~SingleByteSerialEvent();
 
         /** single byte */
         BYTE byte;
@@ -149,6 +152,7 @@ public:
     struct CompactSerialEvent
     {
         CompactSerialEvent();
+        virtual ~CompactSerialEvent();
 
         /** compact length */
         BYTE compactLength;

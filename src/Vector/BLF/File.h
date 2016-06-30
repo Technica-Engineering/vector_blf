@@ -151,6 +151,7 @@ class VECTOR_BLF_EXPORT File
 {
 public:
     File();
+    virtual ~File();
 
     /** enumeration for openMode */
     enum class OpenMode {

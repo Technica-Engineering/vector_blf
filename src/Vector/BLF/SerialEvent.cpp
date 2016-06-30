@@ -32,14 +32,26 @@ SerialEvent::GeneralSerialEvent::GeneralSerialEvent() :
 {
 }
 
+SerialEvent::GeneralSerialEvent::~GeneralSerialEvent()
+{
+}
+
 SerialEvent::SingleByteSerialEvent::SingleByteSerialEvent() :
     byte()
+{
+}
+
+SerialEvent::SingleByteSerialEvent::~SingleByteSerialEvent()
 {
 }
 
 SerialEvent::CompactSerialEvent::CompactSerialEvent() :
     compactLength(),
     compactData()
+{
+}
+
+SerialEvent::CompactSerialEvent::~CompactSerialEvent()
 {
 }
 
@@ -54,6 +66,10 @@ SerialEvent::SerialEvent() :
     compact()
 {
     objectType = ObjectType::SERIAL_EVENT;
+}
+
+SerialEvent::~SerialEvent()
+{
 }
 
 void SerialEvent::read(AbstractFile & is)

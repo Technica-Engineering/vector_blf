@@ -48,6 +48,10 @@ FileStatistics::FileStatistics() :
 {
 }
 
+FileStatistics::~FileStatistics()
+{
+}
+
 void FileStatistics::read(AbstractFile & is)
 {
     is.read(reinterpret_cast<char *>(&signature), sizeof(signature));
