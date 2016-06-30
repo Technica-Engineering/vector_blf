@@ -67,7 +67,7 @@ DWORD LogContainer::calculateObjectSize() const
 {
     return
         internalHeaderSize() +
-        compressedFileSize;
+        static_cast<DWORD>(compressedFileSize);
 }
 
 WORD LogContainer::internalHeaderSize() const

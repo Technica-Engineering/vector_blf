@@ -576,15 +576,15 @@ void File::inflate()
         logContainer->uncompressedFileSize;
 
     /* create buffer */
-    size_t bufferSize = logContainer->uncompressedFileSize;
+    uLong bufferSize = static_cast<uLong>(logContainer->uncompressedFileSize);
     std::vector<char> buffer;
     buffer.resize(bufferSize);
 
     /* inflate */
-    uncompress(reinterpret_cast<Bytef *>(buffer.data()),
-               reinterpret_cast<uLongf *>(&bufferSize),
-               reinterpret_cast<Bytef *>(logContainer->compressedFile.data()),
-               logContainer->compressedFileSize);
+    uncompress(reinterpret_cast<Byte *>(buffer.data()),
+               &bufferSize,
+               reinterpret_cast<Byte *>(logContainer->compressedFile.data()),
+               static_cast<uLong>(logContainer->compressedFileSize));
 
     /* copy into uncompressedFile */
     uncompressedFile.write(buffer.data(), static_cast<std::streamsize>(bufferSize));
@@ -601,9 +601,9 @@ ObjectHeaderBase * File::read()
 void File::deflate()
 {
     /* calculate size of data to compress */
-    ULONGLONG bufferSizeIn = static_cast<ULONGLONG>(uncompressedFile.tellp() - uncompressedFile.tellg());
+    uLong bufferSizeIn = static_cast<uLong>(uncompressedFile.tellp() - uncompressedFile.tellg());
     if (bufferSizeIn > defaultLogContainerSize) {
-        bufferSizeIn = defaultLogContainerSize;
+        bufferSizeIn = static_cast<uLong>(defaultLogContainerSize);
     }
 
     /* create buffer */
@@ -619,11 +619,11 @@ void File::deflate()
     /* setup new log container and directly deflate/compress data */
     LogContainer logContainer;
     logContainer.uncompressedFileSize = bufferSizeIn;
-    size_t bufferSizeOut = compressBound(bufferSizeIn);
+    uLong bufferSizeOut = compressBound(bufferSizeIn);
     logContainer.compressedFile.resize(bufferSizeOut);
-    compress(reinterpret_cast<Bytef *>(logContainer.compressedFile.data()),
-             reinterpret_cast<uLongf *>(&bufferSizeOut),
-             reinterpret_cast<Bytef *>(bufferIn.data()),
+    compress(reinterpret_cast<Byte *>(logContainer.compressedFile.data()),
+             &bufferSizeOut,
+             reinterpret_cast<Byte *>(bufferIn.data()),
              bufferSizeIn);
     logContainer.compressedFile.resize(bufferSizeOut);
     logContainer.compressedFileSize = bufferSizeOut;
