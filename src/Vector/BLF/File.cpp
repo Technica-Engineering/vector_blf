@@ -570,24 +570,20 @@ void File::inflate()
 
     /* create buffer */
     size_t bufferSize = logContainer->uncompressedFileSize;
-    char * buffer = new char[bufferSize];
-    if (buffer == nullptr) {
-        delete logContainer;
-        return;
-    }
+    std::vector<char> buffer;
+    buffer.resize(bufferSize);
 
     /* inflate */
-    uncompress(reinterpret_cast<Bytef *>(buffer),
+    uncompress(reinterpret_cast<Bytef *>(buffer.data()),
                reinterpret_cast<uLongf *>(&bufferSize),
                reinterpret_cast<Bytef *>(logContainer->compressedFile.data()),
                logContainer->compressedFileSize);
 
     /* copy into uncompressedFile */
-    uncompressedFile.write(buffer, bufferSize);
+    uncompressedFile.write(buffer.data(), bufferSize);
 
     /* delete buffer */
     delete logContainer;
-    delete[] buffer;
 }
 
 ObjectHeaderBase * File::read()
@@ -603,38 +599,27 @@ void File::deflate()
         bufferSizeIn = defaultLogContainerSize;
 
     /* create buffer */
-    char * bufferIn = new char[bufferSizeIn];
-    if (bufferIn == nullptr) {
-        return;
-    }
+    std::vector<char> bufferIn;
+    bufferIn.resize(bufferSizeIn);
 
     /* copy data into buffer */
-    uncompressedFile.read(bufferIn, bufferSizeIn);
-
-    /* deflate/compress it */
-    size_t bufferSizeOut = compressBound(bufferSizeIn);
-    char * bufferOut = new char[bufferSizeOut];
-    if (bufferOut == nullptr) {
-        delete[] bufferIn;
-        return;
-    }
-    compress(reinterpret_cast<Bytef *>(bufferOut),
-             reinterpret_cast<uLongf *>(&bufferSizeOut),
-             reinterpret_cast<Bytef *>(bufferIn),
-             bufferSizeIn);
-    delete[] bufferIn;
+    uncompressedFile.read(bufferIn.data(), bufferSizeIn);
 
     /* drop old data */
     uncompressedFile.dropOldData(bufferSizeIn, 0);
 
-    /* setup new log container */
+    /* setup new log container and directly deflate/compress data */
     LogContainer logContainer;
     logContainer.uncompressedFileSize = bufferSizeIn;
+    size_t bufferSizeOut = compressBound(bufferSizeIn);
     logContainer.compressedFile.resize(bufferSizeOut);
-    memcpy(logContainer.compressedFile.data(), bufferOut, bufferSizeOut);
+    compress(reinterpret_cast<Bytef *>(logContainer.compressedFile.data()),
+             reinterpret_cast<uLongf *>(&bufferSizeOut),
+             reinterpret_cast<Bytef *>(bufferIn.data()),
+             bufferSizeIn);
+    logContainer.compressedFile.resize(bufferSizeOut);
     logContainer.compressedFileSize = bufferSizeOut;
     logContainer.objectSize = logContainer.calculateObjectSize();
-    delete[] bufferOut;
 
     /* statistics */
     currentUncompressedFileSize +=
