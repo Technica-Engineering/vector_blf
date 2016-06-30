@@ -40,7 +40,7 @@ void UncompressedFile::read(char * s, std::streamsize n)
     std::streamoff offset = privateTellg - dataTell;
 
     /** copy data */
-    memcpy(s, data.data() + offset, n);
+    std::copy(data.data() + offset, data.data() + offset + n, s);
 
     /** new get position */
     privateTellg += n;
@@ -77,11 +77,8 @@ void UncompressedFile::write(const char * s, std::streamsize n)
     /** offset to write */
     std::streamoff offset = privateTellp - dataTell;
 
-    /** extend data */
-    data.resize(data.size() + n);
-
     /** copy data */
-    memcpy(data.data() + offset, s, n);
+    data.insert(data.begin() + offset, s, s + n);
 
     /** new put position */
     privateTellp += n;
