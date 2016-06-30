@@ -64,9 +64,9 @@ void LinDisturbanceEvent::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&disturbanceLengthInSixteenthBits), sizeof(disturbanceLengthInSixteenthBits));
 }
 
-size_t LinDisturbanceEvent::calculateObjectSize()
+DWORD LinDisturbanceEvent::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(id) +
@@ -76,8 +76,6 @@ size_t LinDisturbanceEvent::calculateObjectSize()
         sizeof(bitIndex) +
         sizeof(bitOffsetInSixteenthBits) +
         sizeof(disturbanceLengthInSixteenthBits);
-
-    return size;
 }
 
 }

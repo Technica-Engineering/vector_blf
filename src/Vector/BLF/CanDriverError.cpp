@@ -52,16 +52,14 @@ void CanDriverError::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&errorCode), sizeof(errorCode));
 }
 
-size_t CanDriverError::calculateObjectSize()
+DWORD CanDriverError::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(txErrors) +
         sizeof(rxErrors) +
         sizeof(errorCode);
-
-    return size;
 }
 
 }

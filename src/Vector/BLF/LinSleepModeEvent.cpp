@@ -52,16 +52,14 @@ void LinSleepModeEvent::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
 }
 
-size_t LinSleepModeEvent::calculateObjectSize()
+DWORD LinSleepModeEvent::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(reason) +
         sizeof(flags) +
         reserved.size();
-
-    return size;
 }
 
 }

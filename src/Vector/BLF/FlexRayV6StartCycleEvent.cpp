@@ -67,9 +67,9 @@ void FlexRayV6StartCycleEvent::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
 }
 
-size_t FlexRayV6StartCycleEvent::calculateObjectSize()
+DWORD FlexRayV6StartCycleEvent::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(dir) +
@@ -80,8 +80,6 @@ size_t FlexRayV6StartCycleEvent::calculateObjectSize()
         sizeof(clusterTime) +
         dataBytes.size() +
         reserved.size();
-
-    return size;
 }
 
 }

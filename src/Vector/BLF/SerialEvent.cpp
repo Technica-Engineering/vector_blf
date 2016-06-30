@@ -108,9 +108,9 @@ void SerialEvent::write(AbstractFile & os)
     }
 }
 
-size_t SerialEvent::calculateObjectSize()
+DWORD SerialEvent::calculateObjectSize()
 {
-    size_t size =
+    DWORD size =
         ObjectHeader::calculateObjectSize() +
         sizeof(flags) +
         sizeof(port) +

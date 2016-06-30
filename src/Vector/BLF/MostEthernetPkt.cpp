@@ -92,9 +92,9 @@ void MostEthernetPkt::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(pktData.data()), pktDataLength);
 }
 
-size_t MostEthernetPkt::calculateObjectSize()
+DWORD MostEthernetPkt::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +
         sizeof(dir) +
@@ -112,8 +112,6 @@ size_t MostEthernetPkt::calculateObjectSize()
         sizeof(pktDataLength) +
         reserved4.size() +
         pktDataLength;
-
-    return size;
 }
 
 }

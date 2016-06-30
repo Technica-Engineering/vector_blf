@@ -70,9 +70,9 @@ void LinSendError2::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(reserved3.data()), reserved3.size());
 }
 
-size_t LinSendError2::calculateObjectSize()
+DWORD LinSendError2::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         LinMessageDescriptor::calculateObjectSize() +
         sizeof(eoh) +
@@ -84,8 +84,6 @@ size_t LinSendError2::calculateObjectSize()
         sizeof(exactHeaderBaudrate) +
         sizeof(earlyStopbitOffset) +
         reserved3.size();
-
-    return size;
 }
 
 }

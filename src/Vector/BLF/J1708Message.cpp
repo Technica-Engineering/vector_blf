@@ -64,9 +64,9 @@ void J1708Message::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
 }
 
-size_t J1708Message::calculateObjectSize()
+DWORD J1708Message::calculateObjectSize()
 {
-    size_t size_ =
+    return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(dir) +
@@ -75,8 +75,6 @@ size_t J1708Message::calculateObjectSize()
         sizeof(size) +
         data.size() +
         reserved2.size();
-
-    return size_;
 }
 
 }

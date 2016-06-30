@@ -113,9 +113,9 @@ void FlexRayVFrReceiveMsgEx::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(dataBytes.data()), dataCount);
 }
 
-size_t FlexRayVFrReceiveMsgEx::calculateObjectSize()
+DWORD FlexRayVFrReceiveMsgEx::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(version) +
@@ -140,8 +140,6 @@ size_t FlexRayVFrReceiveMsgEx::calculateObjectSize()
         sizeof(blfLogMask) +
         reserved.size() +
         dataCount;
-
-    return size;
 }
 
 }

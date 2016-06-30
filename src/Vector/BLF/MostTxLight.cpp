@@ -49,15 +49,13 @@ void MostTxLight::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
 }
 
-size_t MostTxLight::calculateObjectSize()
+DWORD MostTxLight::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +
         sizeof(state) +
         reserved.size();
-
-    return size;
 }
 
 }

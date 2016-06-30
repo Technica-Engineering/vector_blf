@@ -52,16 +52,14 @@ void MostHwMode::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&hwModeMask), sizeof(hwModeMask));
 }
 
-size_t MostHwMode::calculateObjectSize()
+DWORD MostHwMode::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +
         sizeof(reserved) +
         sizeof(hwMode) +
         sizeof(hwModeMask);
-
-    return size;
 }
 
 }

@@ -67,9 +67,9 @@ void CanDriverStatistic::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
 }
 
-size_t CanDriverStatistic::calculateObjectSize()
+DWORD CanDriverStatistic::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(busLoad) +
@@ -80,8 +80,6 @@ size_t CanDriverStatistic::calculateObjectSize()
         sizeof(errorFrames) +
         sizeof(overloadFrames) +
         reserved.size();
-
-    return size;
 }
 
 }

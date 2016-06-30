@@ -89,9 +89,9 @@ void AfdxFrame::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(payLoad.data()), payLoadLength);
 }
 
-size_t AfdxFrame::calculateObjectSize()
+DWORD AfdxFrame::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         sourceAddress.size() +
         sizeof(channel) +
@@ -108,8 +108,6 @@ size_t AfdxFrame::calculateObjectSize()
         sizeof(payLoadLength) +
         reserved3.size() +
         payLoadLength;
-
-    return size;
 }
 
 }

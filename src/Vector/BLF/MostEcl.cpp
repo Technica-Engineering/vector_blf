@@ -52,16 +52,14 @@ void MostEcl::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
 }
 
-size_t MostEcl::calculateObjectSize()
+DWORD MostEcl::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +
         sizeof(mode) +
         sizeof(eclState) +
         sizeof(reserved);
-
-    return size;
 }
 
 }

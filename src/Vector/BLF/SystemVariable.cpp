@@ -73,9 +73,9 @@ void SystemVariable::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(data.data()), dataLength);
 }
 
-size_t SystemVariable::calculateObjectSize()
+DWORD SystemVariable::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         sizeof(type) +
         reserved1.size() * sizeof(DWORD) +
@@ -84,8 +84,6 @@ size_t SystemVariable::calculateObjectSize()
         reserved2.size() +
         nameLength +
         dataLength;
-
-    return size;
 }
 
 }

@@ -79,9 +79,9 @@ void MostCtrl::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(reserved4.data()), reserved4.size());
 }
 
-size_t MostCtrl::calculateObjectSize()
+DWORD MostCtrl::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(dir) +
@@ -96,8 +96,6 @@ size_t MostCtrl::calculateObjectSize()
         sizeof(reserved3) +
         sizeof(ackNack) +
         reserved4.size();
-
-    return size;
 }
 
 }

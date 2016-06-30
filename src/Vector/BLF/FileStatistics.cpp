@@ -96,7 +96,7 @@ void FileStatistics::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(reserved.data()), reserved.size() * sizeof(DWORD));
 }
 
-size_t FileStatistics::calculateStatisticsSize()
+DWORD FileStatistics::calculateStatisticsSize()
 {
     return
         sizeof(signature) +

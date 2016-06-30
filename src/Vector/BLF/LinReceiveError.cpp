@@ -73,9 +73,9 @@ void LinReceiveError::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&timeoutDuringDlcDetection), sizeof(timeoutDuringDlcDetection));
 }
 
-size_t LinReceiveError::calculateObjectSize()
+DWORD LinReceiveError::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(id) +
@@ -88,8 +88,6 @@ size_t LinReceiveError::calculateObjectSize()
         sizeof(offendingByte) +
         sizeof(shortError) +
         sizeof(timeoutDuringDlcDetection);
-
-    return size;
 }
 
 }

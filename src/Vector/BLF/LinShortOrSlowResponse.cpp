@@ -58,9 +58,9 @@ void LinShortOrSlowResponse::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
 }
 
-size_t LinShortOrSlowResponse::calculateObjectSize()
+DWORD LinShortOrSlowResponse::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         LinDatabyteTimestampEvent::calculateObjectSize() +
         sizeof(numberOfRespBytes) +
@@ -68,8 +68,6 @@ size_t LinShortOrSlowResponse::calculateObjectSize()
         sizeof(slowResponse) +
         sizeof(interruptedByBreak) +
         sizeof(reserved);
-
-    return size;
 }
 
 }

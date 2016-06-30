@@ -46,14 +46,12 @@ void LinSyncError2::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(timeDiff.data()), timeDiff.size() * sizeof(WORD));
 }
 
-size_t LinSyncError2::calculateObjectSize()
+DWORD LinSyncError2::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         LinSynchFieldEvent::calculateObjectSize() +
         timeDiff.size() * sizeof(WORD);
-
-    return size;
 }
 
 }

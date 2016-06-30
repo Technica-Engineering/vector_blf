@@ -52,16 +52,14 @@ void LinSlaveTimeout::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&followStateId), sizeof(followStateId));
 }
 
-size_t LinSlaveTimeout::calculateObjectSize()
+DWORD LinSlaveTimeout::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(slaveId) +
         sizeof(stateId) +
         sizeof(followStateId);
-
-    return size;
 }
 
 }

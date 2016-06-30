@@ -67,9 +67,9 @@ void FlexRayData::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(dataBytes.data()), dataBytes.size());
 }
 
-size_t FlexRayData::calculateObjectSize()
+DWORD FlexRayData::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(mux) +
@@ -80,8 +80,6 @@ size_t FlexRayData::calculateObjectSize()
         sizeof(reserved1) +
         sizeof(reserved2) +
         dataBytes.size();
-
-    return size;
 }
 
 }

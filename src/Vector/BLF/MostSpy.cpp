@@ -79,9 +79,9 @@ void MostSpy::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&crc), sizeof(crc));
 }
 
-size_t MostSpy::calculateObjectSize()
+DWORD MostSpy::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(dir) +
@@ -96,8 +96,6 @@ size_t MostSpy::calculateObjectSize()
         sizeof(reserved3) +
         sizeof(ackNack) +
         sizeof(crc);
-
-    return size;
 }
 
 }

@@ -61,9 +61,9 @@ void LinSendError::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&fullTime), sizeof(fullTime));
 }
 
-size_t LinSendError::calculateObjectSize()
+DWORD LinSendError::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(id) +
@@ -72,8 +72,6 @@ size_t LinSendError::calculateObjectSize()
         sizeof(fsmState) +
         sizeof(headerTime) +
         sizeof(fullTime);
-
-    return size;
 }
 
 }

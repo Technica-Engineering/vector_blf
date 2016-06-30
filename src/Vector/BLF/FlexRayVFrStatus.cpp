@@ -76,9 +76,9 @@ void FlexRayVFrStatus::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
 }
 
-size_t FlexRayVFrStatus::calculateObjectSize()
+DWORD FlexRayVFrStatus::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(version) +
@@ -92,8 +92,6 @@ size_t FlexRayVFrStatus::calculateObjectSize()
         sizeof(tag) +
         data.size() * sizeof(DWORD) +
         reserved2.size() * sizeof(WORD);
-
-    return size;
 }
 
 }

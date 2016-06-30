@@ -49,15 +49,13 @@ void LinWakeupEvent::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&external), sizeof(external));
 }
 
-size_t LinWakeupEvent::calculateObjectSize()
+DWORD LinWakeupEvent::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(signal) +
         sizeof(external);
-
-    return size;
 }
 
 }

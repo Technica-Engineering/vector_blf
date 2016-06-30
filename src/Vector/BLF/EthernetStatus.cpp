@@ -73,9 +73,9 @@ void EthernetStatus::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&bitrate), sizeof(bitrate));
 }
 
-size_t EthernetStatus::calculateObjectSize()
+DWORD EthernetStatus::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(flags) +
@@ -88,8 +88,6 @@ size_t EthernetStatus::calculateObjectSize()
         sizeof(pairs) +
         sizeof(reserved) +
         sizeof(bitrate);
-
-    return size;
 }
 
 }

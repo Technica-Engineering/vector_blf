@@ -81,9 +81,9 @@ void FlexRayVFrStartCycle::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
 }
 
-size_t FlexRayVFrStartCycle::calculateObjectSize()
+DWORD FlexRayVFrStartCycle::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(version) +
@@ -98,8 +98,6 @@ size_t FlexRayVFrStartCycle::calculateObjectSize()
         sizeof(tag) +
         data.size() * sizeof(DWORD) +
         reserved2.size();
-
-    return size;
 }
 
 }

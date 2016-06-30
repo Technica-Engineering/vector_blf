@@ -89,9 +89,9 @@ void MostEthernetPktFragment::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(firstData.data()), firstDataLen);
 }
 
-size_t MostEthernetPktFragment::calculateObjectSize()
+DWORD MostEthernetPktFragment::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +
         sizeof(reserved1) +
@@ -108,8 +108,6 @@ size_t MostEthernetPktFragment::calculateObjectSize()
         sizeof(firstDataLen) +
         reserved3.size() +
         firstDataLen;
-
-    return size;
 }
 
 }

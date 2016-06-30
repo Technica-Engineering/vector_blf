@@ -49,15 +49,13 @@ void LinBaudrateEvent::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&baudrate), sizeof(baudrate));
 }
 
-size_t LinBaudrateEvent::calculateObjectSize()
+DWORD LinBaudrateEvent::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(reserved) +
         sizeof(baudrate);
-
-    return size;
 }
 
 }

@@ -74,9 +74,9 @@ void EthernetFrame::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(payLoad.data()), payLoadLength);
 }
 
-size_t EthernetFrame::calculateObjectSize()
+DWORD EthernetFrame::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         sourceAddress.size() +
         sizeof(channel) +
@@ -88,8 +88,6 @@ size_t EthernetFrame::calculateObjectSize()
         sizeof(payLoadLength) +
         reserved.size() +
         payLoadLength;
-
-    return size;
 }
 
 }

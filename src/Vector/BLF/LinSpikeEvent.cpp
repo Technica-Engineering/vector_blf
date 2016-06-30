@@ -49,15 +49,13 @@ void LinSpikeEvent::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
 }
 
-size_t LinSpikeEvent::calculateObjectSize()
+DWORD LinSpikeEvent::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(width) +
         reserved.size();
-
-    return size;
 }
 
 }

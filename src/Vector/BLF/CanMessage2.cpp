@@ -67,9 +67,9 @@ void CanMessage2::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
 }
 
-size_t CanMessage2::calculateObjectSize()
+DWORD CanMessage2::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(flags) +
@@ -80,8 +80,6 @@ size_t CanMessage2::calculateObjectSize()
         sizeof(bitCount) +
         sizeof(reserved1) +
         sizeof(reserved2);
-
-    return size;
 }
 
 }

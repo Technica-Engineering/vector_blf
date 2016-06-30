@@ -72,17 +72,15 @@ void EnvironmentVariable::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(data.data()), dataLength);
 }
 
-size_t EnvironmentVariable::calculateObjectSize()
+DWORD EnvironmentVariable::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         sizeof(nameLength) +
         sizeof(dataLength) +
         reserved.size() +
         nameLength +
         dataLength;
-
-    return size;
 }
 
 }

@@ -88,9 +88,9 @@ void CanFdMessage64::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(data.data()), data.size());
 }
 
-size_t CanFdMessage64::calculateObjectSize()
+DWORD CanFdMessage64::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(dlc) +
@@ -108,8 +108,6 @@ size_t CanFdMessage64::calculateObjectSize()
         sizeof(reserved1) +
         sizeof(reserved2) +
         data.size();
-
-    return size;
 }
 
 }

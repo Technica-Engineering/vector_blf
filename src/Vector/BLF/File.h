@@ -168,16 +168,16 @@ public:
     FileStatistics fileStatistics;
 
     /** current uncompressed file size */
-    unsigned long currentUncompressedFileSize;
+    ULONGLONG currentUncompressedFileSize;
 
     /** current number of objects read */
-    unsigned long currentObjectCount;
+    DWORD currentObjectCount;
 
     /** zlib compression level (0=no compression, 1=best speed, 9=best compression, -1=default compression */
     int compressionLevel;
 
     /** default log container size */
-    size_t defaultLogContainerSize;
+    ULONGLONG defaultLogContainerSize;
 
     /**
      * open file

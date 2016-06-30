@@ -89,7 +89,7 @@ public:
      *
      * @return statistics size
      */
-    size_t calculateStatisticsSize();
+    DWORD calculateStatisticsSize();
 
     /** signature (signature) */
     DWORD signature;

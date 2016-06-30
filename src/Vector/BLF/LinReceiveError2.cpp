@@ -85,9 +85,9 @@ void LinReceiveError2::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&earlyStopbitOffsetResponse), sizeof(earlyStopbitOffsetResponse));
 }
 
-size_t LinReceiveError2::calculateObjectSize()
+DWORD LinReceiveError2::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         LinDatabyteTimestampEvent::calculateObjectSize() +
         data.size() +
@@ -104,8 +104,6 @@ size_t LinReceiveError2::calculateObjectSize()
         sizeof(exactHeaderBaudrate) +
         sizeof(earlyStopbitOffset) +
         sizeof(earlyStopbitOffsetResponse);
-
-    return size;
 }
 
 }

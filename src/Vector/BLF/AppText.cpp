@@ -62,16 +62,14 @@ void AppText::write(AbstractFile & os)
     os.write(const_cast<char *>(text.data()), textLength);
 }
 
-size_t AppText::calculateObjectSize()
+DWORD AppText::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         sizeof(source) +
         sizeof(reserved) +
         sizeof(textLength) +
         textLength;
-
-    return size;
 }
 
 }

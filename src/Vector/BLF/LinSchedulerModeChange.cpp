@@ -52,16 +52,14 @@ void LinSchedulerModeChange::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
 }
 
-size_t LinSchedulerModeChange::calculateObjectSize()
+DWORD LinSchedulerModeChange::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(oldMode) +
         sizeof(newMode) +
         reserved.size();
-
-    return size;
 }
 
 }

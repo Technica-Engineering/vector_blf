@@ -68,9 +68,9 @@ void WlanFrame::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(frameData.data()), frameLength);
 }
 
-size_t WlanFrame::calculateObjectSize()
+DWORD WlanFrame::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(flags) +
@@ -80,8 +80,6 @@ size_t WlanFrame::calculateObjectSize()
         sizeof(signalQuality) +
         sizeof(frameLength) +
         frameLength;
-
-    return size;
 }
 
 }

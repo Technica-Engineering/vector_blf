@@ -88,9 +88,9 @@ void FlexRayV6Message::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(dataBytes.data()), dataBytes.size());
 }
 
-size_t FlexRayV6Message::calculateObjectSize()
+DWORD FlexRayV6Message::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(dir) +
@@ -108,8 +108,6 @@ size_t FlexRayV6Message::calculateObjectSize()
         sizeof(reserved1) +
         sizeof(reserved2) +
         dataBytes.size();
-
-    return size;
 }
 
 }

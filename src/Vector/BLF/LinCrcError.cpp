@@ -73,9 +73,9 @@ void LinCrcError::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
 }
 
-size_t LinCrcError::calculateObjectSize()
+DWORD LinCrcError::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(id) +
@@ -88,8 +88,6 @@ size_t LinCrcError::calculateObjectSize()
         sizeof(crc) +
         sizeof(dir) +
         sizeof(reserved);
-
-    return size;
 }
 
 }

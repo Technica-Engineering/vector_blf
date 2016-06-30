@@ -61,9 +61,9 @@ void MostDataLost::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&nextGoodTimeStampNs), sizeof(nextGoodTimeStampNs));
 }
 
-size_t MostDataLost::calculateObjectSize()
+DWORD MostDataLost::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +
         sizeof(reserved) +
@@ -72,8 +72,6 @@ size_t MostDataLost::calculateObjectSize()
         sizeof(lostMsgsAsync) +
         sizeof(lastGoodTimeStampNs) +
         sizeof(nextGoodTimeStampNs);
-
-    return size;
 }
 
 }

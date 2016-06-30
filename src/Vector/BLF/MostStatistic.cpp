@@ -55,17 +55,15 @@ void MostStatistic::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&bufferLevel), sizeof(bufferLevel));
 }
 
-size_t MostStatistic::calculateObjectSize()
+DWORD MostStatistic::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(pktCnt) +
         sizeof(frmCnt) +
         sizeof(lightCnt) +
         sizeof(bufferLevel);
-
-    return size;
 }
 
 }

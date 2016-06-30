@@ -45,7 +45,7 @@ public:
 
     virtual void read(AbstractFile & is);
     virtual void write(AbstractFile & os);
-    virtual size_t calculateObjectSize();
+    virtual DWORD calculateObjectSize();
 
     /**
      * @brief Databyte timestamps, where d[0] = EndOfHeader, d[1]=EndOfDataByte1, ..., d[8]=EndOfDataByte8

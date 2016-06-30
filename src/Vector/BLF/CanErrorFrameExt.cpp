@@ -76,9 +76,9 @@ void CanErrorFrameExt::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(data.data()), data.size());
 }
 
-size_t CanErrorFrameExt::calculateObjectSize()
+DWORD CanErrorFrameExt::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(length) +
@@ -92,8 +92,6 @@ size_t CanErrorFrameExt::calculateObjectSize()
         sizeof(flagsExt) +
         sizeof(reserved2) +
         data.size();
-
-    return size;
 }
 
 }

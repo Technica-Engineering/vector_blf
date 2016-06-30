@@ -52,15 +52,13 @@ void LinBusEvent::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
 }
 
-size_t LinBusEvent::calculateObjectSize()
+DWORD LinBusEvent::calculateObjectSize()
 {
-    size_t size =
+    return
         sizeof(sof) +
         sizeof(eventBaudrate) +
         sizeof(channel) +
         reserved.size();
-
-    return size;
 }
 
 }

@@ -64,9 +64,9 @@ void GpsEvent::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&course), sizeof(course));
 }
 
-size_t GpsEvent::calculateObjectSize()
+DWORD GpsEvent::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         sizeof(flags) +
         sizeof(channel) +
@@ -76,8 +76,6 @@ size_t GpsEvent::calculateObjectSize()
         sizeof(altitude) +
         sizeof(speed) +
         sizeof(course);
-
-    return size;
 }
 
 }

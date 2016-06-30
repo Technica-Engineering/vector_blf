@@ -70,9 +70,9 @@ void FlexRayVFrError::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
 }
 
-size_t FlexRayVFrError::calculateObjectSize()
+DWORD FlexRayVFrError::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(version) +
@@ -84,8 +84,6 @@ size_t FlexRayVFrError::calculateObjectSize()
         sizeof(tag) +
         data.size() * sizeof(DWORD) +
         reserved2.size();
-
-    return size;
 }
 
 }

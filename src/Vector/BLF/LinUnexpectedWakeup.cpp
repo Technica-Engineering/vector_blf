@@ -52,16 +52,14 @@ void LinUnexpectedWakeup::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
 }
 
-size_t LinUnexpectedWakeup::calculateObjectSize()
+DWORD LinUnexpectedWakeup::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         LinBusEvent::calculateObjectSize() +
         sizeof(width) +
         sizeof(signal) +
         reserved.size();
-
-    return size;
 }
 
 }

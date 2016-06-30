@@ -44,7 +44,7 @@ public:
 
     virtual void read(AbstractFile & is);
     virtual void write(AbstractFile & os);
-    virtual size_t calculateObjectSize();
+    virtual DWORD calculateObjectSize();
 
     /**
      * @brief object flags (usually BL_OBJ_FLAG_TIME_ONE_NANS)
@@ -70,14 +70,14 @@ public:
     std::vector<uint8_t> compressedFile;
 
     /** compressed file size in bytes */
-    std::streamsize compressedFileSize;
+    ULONGLONG compressedFileSize;
 
     /**
      * internalHeaderSize returns the size of all headers.
      * @note Not to be mixed with headerSize, which is only takes ObjectHeaderBase headers into account.
      * @return Size of all headers.
      */
-    size_t internalHeaderSize();
+    WORD internalHeaderSize();
 };
 
 }

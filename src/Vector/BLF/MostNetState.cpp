@@ -52,16 +52,14 @@ void MostNetState::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
 }
 
-size_t MostNetState::calculateObjectSize()
+DWORD MostNetState::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +
         sizeof(stateNew) +
         sizeof(stateOld) +
         sizeof(reserved);
-
-    return size;
 }
 
 }

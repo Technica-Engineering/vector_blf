@@ -55,17 +55,15 @@ void MostStatisticEx::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
 }
 
-size_t MostStatisticEx::calculateObjectSize()
+DWORD MostStatisticEx::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +
         sizeof(reserved1) +
         sizeof(codingErrors) +
         sizeof(frameCounter) +
         reserved2.size();
-
-    return size;
 }
 
 }

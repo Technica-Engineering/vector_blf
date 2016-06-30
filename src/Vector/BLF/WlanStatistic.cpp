@@ -64,9 +64,9 @@ void WlanStatistic::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&errorCount), sizeof(errorCount));
 }
 
-size_t WlanStatistic::calculateObjectSize()
+DWORD WlanStatistic::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(flags) +
@@ -76,8 +76,6 @@ size_t WlanStatistic::calculateObjectSize()
         sizeof(txByteCount) +
         sizeof(collisionCount) +
         sizeof(errorCount);
-
-    return size;
 }
 
 }

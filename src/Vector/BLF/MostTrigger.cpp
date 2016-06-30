@@ -58,9 +58,9 @@ void MostTrigger::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&currentTriggerValue), sizeof(currentTriggerValue));
 }
 
-size_t MostTrigger::calculateObjectSize()
+DWORD MostTrigger::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +
         sizeof(reserved) +
@@ -68,8 +68,6 @@ size_t MostTrigger::calculateObjectSize()
         sizeof(hw) +
         sizeof(previousTriggerValue) +
         sizeof(currentTriggerValue);
-
-    return size;
 }
 
 }

@@ -56,16 +56,14 @@ void MostAllocTab::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(tableData.data()), length);
 }
 
-size_t MostAllocTab::calculateObjectSize()
+DWORD MostAllocTab::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +
         sizeof(length) +
         reserved.size() +
         length;
-
-    return size;
 }
 
 }

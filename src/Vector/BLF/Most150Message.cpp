@@ -95,9 +95,9 @@ void Most150Message::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(msg.data()), msgLen);
 }
 
-size_t Most150Message::calculateObjectSize()
+DWORD Most150Message::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +
         sizeof(dir) +
@@ -116,8 +116,6 @@ size_t Most150Message::calculateObjectSize()
         sizeof(msgLen) +
         reserved3.size() +
         msgLen;
-
-    return size;
 }
 
 }

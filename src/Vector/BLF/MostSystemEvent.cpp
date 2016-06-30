@@ -55,17 +55,15 @@ void MostSystemEvent::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
 }
 
-size_t MostSystemEvent::calculateObjectSize()
+DWORD MostSystemEvent::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +
         sizeof(id) +
         sizeof(value) +
         sizeof(valueOld) +
         reserved.size();
-
-    return size;
 }
 
 }

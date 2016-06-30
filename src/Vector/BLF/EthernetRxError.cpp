@@ -71,9 +71,9 @@ void EthernetRxError::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(frameData.data()), frameDataLength);
 }
 
-size_t EthernetRxError::calculateObjectSize()
+DWORD EthernetRxError::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         sizeof(structLength) +
         sizeof(channel) +
@@ -84,8 +84,6 @@ size_t EthernetRxError::calculateObjectSize()
         reserved2.size() +
         sizeof(error) +
         frameDataLength;
-
-    return size;
 }
 
 }

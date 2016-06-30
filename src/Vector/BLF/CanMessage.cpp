@@ -55,17 +55,15 @@ void CanMessage::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(data.data()), data.size());
 }
 
-size_t CanMessage::calculateObjectSize()
+DWORD CanMessage::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(flags) +
         sizeof(dlc) +
         sizeof(id) +
         data.size();
-
-    return size;
 }
 
 }

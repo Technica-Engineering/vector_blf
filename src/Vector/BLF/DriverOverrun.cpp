@@ -49,15 +49,13 @@ void DriverOverrun::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
 }
 
-size_t DriverOverrun::calculateObjectSize()
+DWORD DriverOverrun::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         sizeof(busType) +
         sizeof(channel) +
         sizeof(reserved);
-
-    return size;
 }
 
 }

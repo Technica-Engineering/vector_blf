@@ -49,15 +49,13 @@ void CanErrorFrame::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
 }
 
-size_t CanErrorFrame::calculateObjectSize()
+DWORD CanErrorFrame::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(length) +
         reserved.size();
-
-    return size;
 }
 
 }

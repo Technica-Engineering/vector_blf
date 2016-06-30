@@ -64,9 +64,9 @@ void MostReg::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(regData.data()), regData.size());
 }
 
-size_t MostReg::calculateObjectSize()
+DWORD MostReg::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +
         sizeof(subType) +
@@ -76,8 +76,6 @@ size_t MostReg::calculateObjectSize()
         sizeof(chip) +
         sizeof(regDataLen) +
         regData.size();
-
-    return size;
 }
 
 }

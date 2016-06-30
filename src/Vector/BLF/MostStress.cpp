@@ -52,16 +52,14 @@ void MostStress::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
 }
 
-size_t MostStress::calculateObjectSize()
+DWORD MostStress::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +
         sizeof(state) +
         sizeof(mode) +
         sizeof(reserved);
-
-    return size;
 }
 
 }

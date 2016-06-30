@@ -52,16 +52,14 @@ void LinChecksumInfo::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
 }
 
-size_t LinChecksumInfo::calculateObjectSize()
+DWORD LinChecksumInfo::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(id) +
         sizeof(checksumModel) +
         reserved.size();
-
-    return size;
 }
 
 }

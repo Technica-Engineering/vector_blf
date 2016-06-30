@@ -92,9 +92,9 @@ void Most150PktFragment::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(firstData.data()), firstDataLen);
 }
 
-size_t Most150PktFragment::calculateObjectSize()
+DWORD Most150PktFragment::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +
         sizeof(reserved1) +
@@ -112,8 +112,6 @@ size_t Most150PktFragment::calculateObjectSize()
         sizeof(firstDataLen) +
         reserved2.size() +
         firstDataLen;
-
-    return size;
 }
 
 }

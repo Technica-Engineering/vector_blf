@@ -48,7 +48,7 @@ public:
 
     virtual void read(AbstractFile & is);
     virtual void write(AbstractFile & os);
-    virtual size_t calculateObjectSize();
+    virtual DWORD calculateObjectSize();
 
     /**
      * @brief application channel

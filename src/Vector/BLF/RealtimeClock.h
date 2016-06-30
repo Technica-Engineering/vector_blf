@@ -44,7 +44,7 @@ public:
 
     virtual void read(AbstractFile & is);
     virtual void write(AbstractFile & os);
-    virtual size_t calculateObjectSize();
+    virtual DWORD calculateObjectSize();
 
     /**
      * @brief logging start time in ns since 00:00 1.1.1970 GMT

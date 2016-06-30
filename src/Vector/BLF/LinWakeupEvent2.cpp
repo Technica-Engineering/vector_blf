@@ -55,17 +55,15 @@ void LinWakeupEvent2::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
 }
 
-size_t LinWakeupEvent2::calculateObjectSize()
+DWORD LinWakeupEvent2::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         LinBusEvent::calculateObjectSize() +
         sizeof(lengthInfo) +
         sizeof(signal) +
         sizeof(external) +
         reserved.size();
-
-    return size;
 }
 
 }

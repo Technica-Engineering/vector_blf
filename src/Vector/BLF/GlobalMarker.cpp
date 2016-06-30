@@ -92,9 +92,9 @@ void GlobalMarker::write(AbstractFile & os)
     os.write(const_cast<char *>(description.data()), descriptionLength);
 }
 
-size_t GlobalMarker::calculateObjectSize()
+DWORD GlobalMarker::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         sizeof(commentedEventType) +
         sizeof(foregroundColor) +
@@ -108,8 +108,6 @@ size_t GlobalMarker::calculateObjectSize()
         groupNameLength +
         markerNameLength +
         descriptionLength;
-
-    return size;
 }
 
 }

@@ -44,8 +44,8 @@ public:
 
     virtual void read(AbstractFile & is);
     virtual void write(AbstractFile & os);
-    virtual size_t calculateHeaderSize();
-    virtual size_t calculateObjectSize();
+    virtual WORD calculateHeaderSize();
+    virtual DWORD calculateObjectSize();
 
     /** enumeration for objectFlags */
     enum class ObjectFlags : DWORD {

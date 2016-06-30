@@ -55,17 +55,15 @@ void AppTrigger::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&appSpecific2), sizeof(appSpecific2));
 }
 
-size_t AppTrigger::calculateObjectSize()
+DWORD AppTrigger::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         sizeof(preTriggerTime) +
         sizeof(postTriggerTime) +
         sizeof(channel) +
         sizeof(flags) +
         sizeof(appSpecific2);
-
-    return size;
 }
 
 }

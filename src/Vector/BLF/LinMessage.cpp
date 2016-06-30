@@ -73,9 +73,9 @@ void LinMessage::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
 }
 
-size_t LinMessage::calculateObjectSize()
+DWORD LinMessage::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(id) +
@@ -88,8 +88,6 @@ size_t LinMessage::calculateObjectSize()
         sizeof(crc) +
         sizeof(dir) +
         sizeof(reserved);
-
-    return size;
 }
 
 }

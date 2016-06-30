@@ -95,9 +95,9 @@ void Most150Pkt::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(pktData.data()), pktDataLength);
 }
 
-size_t Most150Pkt::calculateObjectSize()
+DWORD Most150Pkt::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +
         sizeof(dir) +
@@ -116,8 +116,6 @@ size_t Most150Pkt::calculateObjectSize()
         sizeof(pktDataLength) +
         reserved3.size() +
         pktDataLength;
-
-    return size;
 }
 
 }

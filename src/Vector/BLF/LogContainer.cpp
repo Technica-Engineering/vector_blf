@@ -63,12 +63,14 @@ void LogContainer::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(compressedFile.data()), compressedFileSize);
 }
 
-size_t LogContainer::calculateObjectSize()
+DWORD LogContainer::calculateObjectSize()
 {
-    return internalHeaderSize() + compressedFileSize;
+    return
+        internalHeaderSize() +
+        compressedFileSize;
 }
 
-size_t LogContainer::internalHeaderSize()
+WORD LogContainer::internalHeaderSize()
 {
     return
         ObjectHeaderBase::calculateHeaderSize() +

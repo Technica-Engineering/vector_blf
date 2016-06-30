@@ -94,9 +94,9 @@ void CanFdErrorFrame64::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(data.data()), data.size());
 }
 
-size_t CanFdErrorFrame64::calculateObjectSize()
+DWORD CanFdErrorFrame64::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(dlc) +
@@ -116,8 +116,6 @@ size_t CanFdErrorFrame64::calculateObjectSize()
         sizeof(errorPosition) +
         sizeof(reserved2) +
         data.size();
-
-    return size;
 }
 
 }

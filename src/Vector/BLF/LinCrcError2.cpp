@@ -79,9 +79,9 @@ void LinCrcError2::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&earlyStopbitOffsetResponse), sizeof(earlyStopbitOffsetResponse));
 }
 
-size_t LinCrcError2::calculateObjectSize()
+DWORD LinCrcError2::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         LinDatabyteTimestampEvent::calculateObjectSize() +
         data.size() +
@@ -96,8 +96,6 @@ size_t LinCrcError2::calculateObjectSize()
         sizeof(exactHeaderBaudrate) +
         sizeof(earlyStopbitOffset) +
         sizeof(earlyStopbitOffsetResponse);
-
-    return size;
 }
 
 }

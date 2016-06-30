@@ -67,9 +67,9 @@ void CanDriverErrorExt::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(reserved3.data()), reserved3.size());
 }
 
-size_t CanDriverErrorExt::calculateObjectSize()
+DWORD CanDriverErrorExt::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(txErrors) +
@@ -80,8 +80,6 @@ size_t CanDriverErrorExt::calculateObjectSize()
         sizeof(reserved1) +
         sizeof(reserved2) +
         reserved3.size();
-
-    return size;
 }
 
 }

@@ -49,15 +49,13 @@ void MostLightLock::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
 }
 
-size_t MostLightLock::calculateObjectSize()
+DWORD MostLightLock::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(state) +
         reserved.size();
-
-    return size;
 }
 
 }

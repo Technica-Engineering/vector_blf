@@ -70,9 +70,9 @@ void FlexRaySync::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&cycle), sizeof(cycle));
 }
 
-size_t FlexRaySync::calculateObjectSize()
+DWORD FlexRaySync::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(mux) +
@@ -84,8 +84,6 @@ size_t FlexRaySync::calculateObjectSize()
         sizeof(reserved2) +
         dataBytes.size() +
         sizeof(cycle);
-
-    return size;
 }
 
 }

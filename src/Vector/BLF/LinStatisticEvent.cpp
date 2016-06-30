@@ -67,9 +67,9 @@ void LinStatisticEvent::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
 }
 
-size_t LinStatisticEvent::calculateObjectSize()
+DWORD LinStatisticEvent::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         reserved1.size() +
@@ -80,8 +80,6 @@ size_t LinStatisticEvent::calculateObjectSize()
         sizeof(framesReceived) +
         sizeof(framesUnanswered) +
         reserved2.size();
-
-    return size;
 }
 
 }

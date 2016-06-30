@@ -85,9 +85,9 @@ void AfdxStatistic::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&statDuration), sizeof(statDuration));
 }
 
-size_t AfdxStatistic::calculateObjectSize()
+DWORD AfdxStatistic::calculateObjectSize()
 {
-    size_t size =
+    return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(flags) +
@@ -104,8 +104,6 @@ size_t AfdxStatistic::calculateObjectSize()
         sizeof(statAvrgJitterMysec) +
         sizeof(vlid) +
         sizeof(statDuration);
-
-    return size;
 }
 
 }
