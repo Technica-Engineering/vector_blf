@@ -39,7 +39,7 @@ void MostAllocTab::read(AbstractFile & is)
     ObjectHeader2::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&length), sizeof(length));
-    is.read(reinterpret_cast<char *>(reserved.data()), reserved.size());
+    is.read(reinterpret_cast<char *>(reserved.data()), static_cast<std::streamsize>(reserved.size()));
     tableData.resize(length);
     is.read(reinterpret_cast<char *>(tableData.data()), length);
 }
@@ -47,12 +47,12 @@ void MostAllocTab::read(AbstractFile & is)
 void MostAllocTab::write(AbstractFile & os)
 {
     /* pre processing */
-    length = tableData.size();
+    length = static_cast<WORD>(tableData.size());
 
     ObjectHeader2::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&length), sizeof(length));
-    os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
+    os.write(reinterpret_cast<char *>(reserved.data()), static_cast<std::streamsize>(reserved.size()));
     os.write(reinterpret_cast<char *>(tableData.data()), length);
 }
 
@@ -62,7 +62,7 @@ DWORD MostAllocTab::calculateObjectSize() const
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +
         sizeof(length) +
-        reserved.size() +
+        static_cast<DWORD>(reserved.size()) +
         length;
 }
 

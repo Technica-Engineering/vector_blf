@@ -40,7 +40,7 @@ void LinChecksumInfo::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&id), sizeof(id));
     is.read(reinterpret_cast<char *>(&checksumModel), sizeof(checksumModel));
-    is.read(reinterpret_cast<char *>(reserved.data()), reserved.size());
+    is.read(reinterpret_cast<char *>(reserved.data()), static_cast<std::streamsize>(reserved.size()));
 }
 
 void LinChecksumInfo::write(AbstractFile & os)
@@ -49,7 +49,7 @@ void LinChecksumInfo::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&id), sizeof(id));
     os.write(reinterpret_cast<char *>(&checksumModel), sizeof(checksumModel));
-    os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
+    os.write(reinterpret_cast<char *>(reserved.data()), static_cast<std::streamsize>(reserved.size()));
 }
 
 DWORD LinChecksumInfo::calculateObjectSize() const
@@ -59,7 +59,7 @@ DWORD LinChecksumInfo::calculateObjectSize() const
         sizeof(channel) +
         sizeof(id) +
         sizeof(checksumModel) +
-        reserved.size();
+        static_cast<DWORD>(reserved.size());
 }
 
 }

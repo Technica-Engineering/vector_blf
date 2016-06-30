@@ -64,7 +64,7 @@ void CanFdMessage64::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
     is.read(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
     is.read(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
-    is.read(reinterpret_cast<char *>(data.data()), data.size());
+    is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
 }
 
 void CanFdMessage64::write(AbstractFile & os)
@@ -85,7 +85,7 @@ void CanFdMessage64::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
     os.write(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
     os.write(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
-    os.write(reinterpret_cast<char *>(data.data()), data.size());
+    os.write(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
 }
 
 DWORD CanFdMessage64::calculateObjectSize() const
@@ -107,7 +107,7 @@ DWORD CanFdMessage64::calculateObjectSize() const
         sizeof(dir) +
         sizeof(reserved1) +
         sizeof(reserved2) +
-        data.size();
+        static_cast<DWORD>(data.size());
 }
 
 }

@@ -40,7 +40,7 @@ void LinUnexpectedWakeup::read(AbstractFile & is)
     LinBusEvent::read(is);
     is.read(reinterpret_cast<char *>(&width), sizeof(width));
     is.read(reinterpret_cast<char *>(&signal), sizeof(signal));
-    is.read(reinterpret_cast<char *>(reserved.data()), reserved.size());
+    is.read(reinterpret_cast<char *>(reserved.data()), static_cast<std::streamsize>(reserved.size()));
 }
 
 void LinUnexpectedWakeup::write(AbstractFile & os)
@@ -49,7 +49,7 @@ void LinUnexpectedWakeup::write(AbstractFile & os)
     LinBusEvent::write(os);
     os.write(reinterpret_cast<char *>(&width), sizeof(width));
     os.write(reinterpret_cast<char *>(&signal), sizeof(signal));
-    os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
+    os.write(reinterpret_cast<char *>(reserved.data()), static_cast<std::streamsize>(reserved.size()));
 }
 
 DWORD LinUnexpectedWakeup::calculateObjectSize() const
@@ -59,7 +59,7 @@ DWORD LinUnexpectedWakeup::calculateObjectSize() const
         LinBusEvent::calculateObjectSize() +
         sizeof(width) +
         sizeof(signal) +
-        reserved.size();
+        static_cast<DWORD>(reserved.size());
 }
 
 }

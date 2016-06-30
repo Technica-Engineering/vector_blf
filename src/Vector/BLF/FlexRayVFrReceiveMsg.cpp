@@ -70,7 +70,7 @@ void FlexRayVFrReceiveMsg::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&data), sizeof(data));
     is.read(reinterpret_cast<char *>(&frameFlags), sizeof(frameFlags));
     is.read(reinterpret_cast<char *>(&appParameter), sizeof(appParameter));
-    is.read(reinterpret_cast<char *>(dataBytes.data()), dataBytes.size());
+    is.read(reinterpret_cast<char *>(dataBytes.data()), static_cast<std::streamsize>(dataBytes.size()));
 }
 
 void FlexRayVFrReceiveMsg::write(AbstractFile & os)
@@ -94,7 +94,7 @@ void FlexRayVFrReceiveMsg::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&data), sizeof(data));
     os.write(reinterpret_cast<char *>(&frameFlags), sizeof(frameFlags));
     os.write(reinterpret_cast<char *>(&appParameter), sizeof(appParameter));
-    os.write(reinterpret_cast<char *>(dataBytes.data()), dataBytes.size());
+    os.write(reinterpret_cast<char *>(dataBytes.data()), static_cast<std::streamsize>(dataBytes.size()));
 }
 
 DWORD FlexRayVFrReceiveMsg::calculateObjectSize() const
@@ -119,7 +119,7 @@ DWORD FlexRayVFrReceiveMsg::calculateObjectSize() const
         sizeof(data) +
         sizeof(frameFlags) +
         sizeof(appParameter) +
-        dataBytes.size();
+        static_cast<DWORD>(dataBytes.size());
 }
 
 }

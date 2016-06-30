@@ -61,8 +61,8 @@ void EnvironmentVariable::read(AbstractFile & is)
 void EnvironmentVariable::write(AbstractFile & os)
 {
     /* pre processing */
-    nameLength = name.size();
-    dataLength = data.size();
+    nameLength = static_cast<DWORD>(name.size());
+    dataLength = static_cast<DWORD>(data.size());
 
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&nameLength), sizeof(nameLength));
@@ -78,7 +78,7 @@ DWORD EnvironmentVariable::calculateObjectSize() const
         ObjectHeader::calculateObjectSize() +
         sizeof(nameLength) +
         sizeof(dataLength) +
-        reserved.size() +
+        static_cast<DWORD>(reserved.size()) +
         nameLength +
         dataLength;
 }

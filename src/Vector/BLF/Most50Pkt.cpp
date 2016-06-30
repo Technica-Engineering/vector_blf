@@ -65,7 +65,7 @@ void Most50Pkt::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&priority), sizeof(priority));
     is.read(reinterpret_cast<char *>(&reserved5), sizeof(reserved5));
     is.read(reinterpret_cast<char *>(&pktDataLength), sizeof(pktDataLength));
-    is.read(reinterpret_cast<char *>(reserved6.data()), reserved6.size());
+    is.read(reinterpret_cast<char *>(reserved6.data()), static_cast<std::streamsize>(reserved6.size()));
     pktData.resize(pktDataLength);
     is.read(reinterpret_cast<char *>(pktData.data()), pktDataLength);
 }
@@ -73,7 +73,7 @@ void Most50Pkt::read(AbstractFile & is)
 void Most50Pkt::write(AbstractFile & os)
 {
     /* pre processing */
-    pktDataLength = pktData.size();
+    pktDataLength = static_cast<DWORD>(pktData.size());
 
     ObjectHeader2::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
@@ -91,7 +91,7 @@ void Most50Pkt::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&priority), sizeof(priority));
     os.write(reinterpret_cast<char *>(&reserved5), sizeof(reserved5));
     os.write(reinterpret_cast<char *>(&pktDataLength), sizeof(pktDataLength));
-    os.write(reinterpret_cast<char *>(reserved6.data()), reserved6.size());
+    os.write(reinterpret_cast<char *>(reserved6.data()), static_cast<std::streamsize>(reserved6.size()));
     os.write(reinterpret_cast<char *>(pktData.data()), pktDataLength);
 }
 
@@ -114,7 +114,7 @@ DWORD Most50Pkt::calculateObjectSize() const
         sizeof(priority) +
         sizeof(reserved5) +
         sizeof(pktDataLength) +
-        reserved6.size() +
+        static_cast<DWORD>(reserved6.size()) +
         pktDataLength;
 }
 

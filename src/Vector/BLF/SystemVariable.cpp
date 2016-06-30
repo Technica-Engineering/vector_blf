@@ -43,10 +43,10 @@ void SystemVariable::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&type), sizeof(type));
-    is.read(reinterpret_cast<char *>(reserved1.data()), reserved1.size() * sizeof(DWORD));
+    is.read(reinterpret_cast<char *>(reserved1.data()), static_cast<std::streamsize>(reserved1.size() * sizeof(DWORD)));
     is.read(reinterpret_cast<char *>(&nameLength), sizeof(nameLength));
     is.read(reinterpret_cast<char *>(&dataLength), sizeof(dataLength));
-    is.read(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
+    is.read(reinterpret_cast<char *>(reserved2.data()), static_cast<std::streamsize>(reserved2.size()));
     name.resize(nameLength);
     is.read(const_cast<char *>(name.data()), nameLength);
     data.resize(dataLength);
@@ -60,15 +60,15 @@ void SystemVariable::read(AbstractFile & is)
 void SystemVariable::write(AbstractFile & os)
 {
     /* pre processing */
-    nameLength = name.size();
-    dataLength = data.size();
+    nameLength = static_cast<DWORD>(name.size());
+    dataLength = static_cast<DWORD>(data.size());
 
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&type), sizeof(type));
-    os.write(reinterpret_cast<char *>(reserved1.data()), reserved1.size() * sizeof(DWORD));
+    os.write(reinterpret_cast<char *>(reserved1.data()), static_cast<std::streamsize>(reserved1.size() * sizeof(DWORD)));
     os.write(reinterpret_cast<char *>(&nameLength), sizeof(nameLength));
     os.write(reinterpret_cast<char *>(&dataLength), sizeof(dataLength));
-    os.write(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
+    os.write(reinterpret_cast<char *>(reserved2.data()), static_cast<std::streamsize>(reserved2.size()));
     os.write(const_cast<char *>(name.data()), nameLength);
     os.write(reinterpret_cast<char *>(data.data()), dataLength);
 }
@@ -78,10 +78,10 @@ DWORD SystemVariable::calculateObjectSize() const
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(type) +
-        reserved1.size() * sizeof(DWORD) +
+        static_cast<DWORD>(reserved1.size() * sizeof(DWORD)) +
         sizeof(nameLength) +
         sizeof(dataLength) +
-        reserved2.size() +
+        static_cast<DWORD>(reserved2.size()) +
         nameLength +
         dataLength;
 }

@@ -42,7 +42,7 @@ void MostStatisticEx::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
     is.read(reinterpret_cast<char *>(&codingErrors), sizeof(codingErrors));
     is.read(reinterpret_cast<char *>(&frameCounter), sizeof(frameCounter));
-    is.read(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
+    is.read(reinterpret_cast<char *>(reserved2.data()), static_cast<std::streamsize>(reserved2.size()));
 }
 
 void MostStatisticEx::write(AbstractFile & os)
@@ -52,7 +52,7 @@ void MostStatisticEx::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
     os.write(reinterpret_cast<char *>(&codingErrors), sizeof(codingErrors));
     os.write(reinterpret_cast<char *>(&frameCounter), sizeof(frameCounter));
-    os.write(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
+    os.write(reinterpret_cast<char *>(reserved2.data()), static_cast<std::streamsize>(reserved2.size()));
 }
 
 DWORD MostStatisticEx::calculateObjectSize() const
@@ -63,7 +63,7 @@ DWORD MostStatisticEx::calculateObjectSize() const
         sizeof(reserved1) +
         sizeof(codingErrors) +
         sizeof(frameCounter) +
-        reserved2.size();
+        static_cast<DWORD>(reserved2.size());
 }
 
 }

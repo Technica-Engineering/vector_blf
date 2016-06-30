@@ -40,7 +40,7 @@ void LinSpikeEvent2::read(AbstractFile & is)
     LinBusEvent::read(is);
     is.read(reinterpret_cast<char *>(&width), sizeof(width));
     is.read(reinterpret_cast<char *>(&internal), sizeof(internal));
-    is.read(reinterpret_cast<char *>(reserved.data()), reserved.size());
+    is.read(reinterpret_cast<char *>(reserved.data()), static_cast<std::streamsize>(reserved.size()));
 }
 
 void LinSpikeEvent2::write(AbstractFile & os)
@@ -49,7 +49,7 @@ void LinSpikeEvent2::write(AbstractFile & os)
     LinBusEvent::write(os);
     os.write(reinterpret_cast<char *>(&width), sizeof(width));
     os.write(reinterpret_cast<char *>(&internal), sizeof(internal));
-    os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
+    os.write(reinterpret_cast<char *>(reserved.data()), static_cast<std::streamsize>(reserved.size()));
 }
 
 DWORD LinSpikeEvent2::calculateObjectSize() const
@@ -59,7 +59,7 @@ DWORD LinSpikeEvent2::calculateObjectSize() const
         LinBusEvent::calculateObjectSize() +
         sizeof(width) +
         sizeof(internal) +
-        reserved.size();
+        static_cast<DWORD>(reserved.size());
 }
 
 }

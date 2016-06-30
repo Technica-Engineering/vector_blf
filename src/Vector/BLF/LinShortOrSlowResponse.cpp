@@ -41,7 +41,7 @@ void LinShortOrSlowResponse::read(AbstractFile & is)
     ObjectHeader::read(is);
     LinDatabyteTimestampEvent::read(is);
     is.read(reinterpret_cast<char *>(&numberOfRespBytes), sizeof(numberOfRespBytes));
-    is.read(reinterpret_cast<char *>(respBytes.data()), respBytes.size());
+    is.read(reinterpret_cast<char *>(respBytes.data()), static_cast<std::streamsize>(respBytes.size()));
     is.read(reinterpret_cast<char *>(&slowResponse), sizeof(slowResponse));
     is.read(reinterpret_cast<char *>(&interruptedByBreak), sizeof(interruptedByBreak));
     is.read(reinterpret_cast<char *>(&reserved), sizeof(reserved));
@@ -52,7 +52,7 @@ void LinShortOrSlowResponse::write(AbstractFile & os)
     ObjectHeader::write(os);
     LinDatabyteTimestampEvent::write(os);
     os.write(reinterpret_cast<char *>(&numberOfRespBytes), sizeof(numberOfRespBytes));
-    os.write(reinterpret_cast<char *>(respBytes.data()), respBytes.size());
+    os.write(reinterpret_cast<char *>(respBytes.data()), static_cast<std::streamsize>(respBytes.size()));
     os.write(reinterpret_cast<char *>(&slowResponse), sizeof(slowResponse));
     os.write(reinterpret_cast<char *>(&interruptedByBreak), sizeof(interruptedByBreak));
     os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
@@ -64,7 +64,7 @@ DWORD LinShortOrSlowResponse::calculateObjectSize() const
         ObjectHeader::calculateObjectSize() +
         LinDatabyteTimestampEvent::calculateObjectSize() +
         sizeof(numberOfRespBytes) +
-        respBytes.size() +
+        static_cast<DWORD>(respBytes.size()) +
         sizeof(slowResponse) +
         sizeof(interruptedByBreak) +
         sizeof(reserved);

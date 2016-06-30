@@ -48,9 +48,9 @@ AfdxFrame::AfdxFrame() :
 void AfdxFrame::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(sourceAddress.data()), sourceAddress.size());
+    is.read(reinterpret_cast<char *>(sourceAddress.data()), static_cast<std::streamsize>(sourceAddress.size()));
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(destinationAddress.data()), destinationAddress.size());
+    is.read(reinterpret_cast<char *>(destinationAddress.data()), static_cast<std::streamsize>(destinationAddress.size()));
     is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
     is.read(reinterpret_cast<char *>(&type), sizeof(type));
     is.read(reinterpret_cast<char *>(&tpid), sizeof(tpid));
@@ -58,10 +58,10 @@ void AfdxFrame::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&ethChannel), sizeof(ethChannel));
     is.read(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
     is.read(reinterpret_cast<char *>(&afdxFlags), sizeof(afdxFlags));
-    is.read(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
+    is.read(reinterpret_cast<char *>(reserved2.data()), static_cast<std::streamsize>(reserved2.size()));
     is.read(reinterpret_cast<char *>(&bagUsec), sizeof(bagUsec));
     is.read(reinterpret_cast<char *>(&payLoadLength), sizeof(payLoadLength));
-    is.read(reinterpret_cast<char *>(reserved3.data()), reserved3.size());
+    is.read(reinterpret_cast<char *>(reserved3.data()), static_cast<std::streamsize>(reserved3.size()));
     payLoad.resize(payLoadLength);
     is.read(reinterpret_cast<char *>(payLoad.data()), payLoadLength);
 }
@@ -69,12 +69,12 @@ void AfdxFrame::read(AbstractFile & is)
 void AfdxFrame::write(AbstractFile & os)
 {
     /* pre processing */
-    payLoadLength = payLoad.size();
+    payLoadLength = static_cast<WORD>(payLoad.size());
 
     ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(sourceAddress.data()), sourceAddress.size());
+    os.write(reinterpret_cast<char *>(sourceAddress.data()), static_cast<std::streamsize>(sourceAddress.size()));
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(destinationAddress.data()), destinationAddress.size());
+    os.write(reinterpret_cast<char *>(destinationAddress.data()), static_cast<std::streamsize>(destinationAddress.size()));
     os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
     os.write(reinterpret_cast<char *>(&type), sizeof(type));
     os.write(reinterpret_cast<char *>(&tpid), sizeof(tpid));
@@ -82,10 +82,10 @@ void AfdxFrame::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&ethChannel), sizeof(ethChannel));
     os.write(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
     os.write(reinterpret_cast<char *>(&afdxFlags), sizeof(afdxFlags));
-    os.write(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
+    os.write(reinterpret_cast<char *>(reserved2.data()), static_cast<std::streamsize>(reserved2.size()));
     os.write(reinterpret_cast<char *>(&bagUsec), sizeof(bagUsec));
     os.write(reinterpret_cast<char *>(&payLoadLength), sizeof(payLoadLength));
-    os.write(reinterpret_cast<char *>(reserved3.data()), reserved3.size());
+    os.write(reinterpret_cast<char *>(reserved3.data()), static_cast<std::streamsize>(reserved3.size()));
     os.write(reinterpret_cast<char *>(payLoad.data()), payLoadLength);
 }
 
@@ -93,9 +93,9 @@ DWORD AfdxFrame::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +
-        sourceAddress.size() +
+        static_cast<DWORD>(sourceAddress.size()) +
         sizeof(channel) +
-        destinationAddress.size() +
+        static_cast<DWORD>(destinationAddress.size()) +
         sizeof(dir) +
         sizeof(type) +
         sizeof(tpid) +
@@ -103,10 +103,10 @@ DWORD AfdxFrame::calculateObjectSize() const
         sizeof(ethChannel) +
         sizeof(reserved1) +
         sizeof(afdxFlags) +
-        reserved2.size() +
+        static_cast<DWORD>(reserved2.size()) +
         sizeof(bagUsec) +
         sizeof(payLoadLength) +
-        reserved3.size() +
+        static_cast<DWORD>(reserved3.size()) +
         payLoadLength;
 }
 

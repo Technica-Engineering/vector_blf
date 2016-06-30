@@ -50,12 +50,12 @@ void GlobalMarker::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&commentedEventType), sizeof(commentedEventType));
     is.read(reinterpret_cast<char *>(&foregroundColor), sizeof(foregroundColor));
     is.read(reinterpret_cast<char *>(&backgroundColor), sizeof(backgroundColor));
-    is.read(reinterpret_cast<char *>(reserved1.data()), reserved1.size());
+    is.read(reinterpret_cast<char *>(reserved1.data()), static_cast<std::streamsize>(reserved1.size()));
     is.read(reinterpret_cast<char *>(&isRelocatable), sizeof(isRelocatable));
     is.read(reinterpret_cast<char *>(&groupNameLength), sizeof(groupNameLength));
     is.read(reinterpret_cast<char *>(&markerNameLength), sizeof(markerNameLength));
     is.read(reinterpret_cast<char *>(&descriptionLength), sizeof(descriptionLength));
-    is.read(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
+    is.read(reinterpret_cast<char *>(reserved2.data()), static_cast<std::streamsize>(reserved2.size()));
     groupName.resize(groupNameLength);
     is.read(const_cast<char *>(groupName.data()), groupNameLength);
     markerName.resize(markerNameLength);
@@ -73,20 +73,20 @@ void GlobalMarker::read(AbstractFile & is)
 void GlobalMarker::write(AbstractFile & os)
 {
     /* pre processing */
-    groupNameLength = groupName.size();
-    markerNameLength = markerName.size();
-    descriptionLength = description.size();
+    groupNameLength = static_cast<DWORD>(groupName.size());
+    markerNameLength = static_cast<DWORD>(markerName.size());
+    descriptionLength = static_cast<DWORD>(description.size());
 
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&commentedEventType), sizeof(commentedEventType));
     os.write(reinterpret_cast<char *>(&foregroundColor), sizeof(foregroundColor));
     os.write(reinterpret_cast<char *>(&backgroundColor), sizeof(backgroundColor));
-    os.write(reinterpret_cast<char *>(reserved1.data()), reserved1.size());
+    os.write(reinterpret_cast<char *>(reserved1.data()), static_cast<std::streamsize>(reserved1.size()));
     os.write(reinterpret_cast<char *>(&isRelocatable), sizeof(isRelocatable));
     os.write(reinterpret_cast<char *>(&groupNameLength), sizeof(groupNameLength));
     os.write(reinterpret_cast<char *>(&markerNameLength), sizeof(markerNameLength));
     os.write(reinterpret_cast<char *>(&descriptionLength), sizeof(descriptionLength));
-    os.write(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
+    os.write(reinterpret_cast<char *>(reserved2.data()), static_cast<std::streamsize>(reserved2.size()));
     os.write(const_cast<char *>(groupName.data()), groupNameLength);
     os.write(const_cast<char *>(markerName.data()), markerNameLength);
     os.write(const_cast<char *>(description.data()), descriptionLength);
@@ -100,11 +100,11 @@ DWORD GlobalMarker::calculateObjectSize() const
         sizeof(foregroundColor) +
         sizeof(backgroundColor) +
         sizeof(isRelocatable) +
-        reserved1.size() +
+        static_cast<DWORD>(reserved1.size()) +
         sizeof(groupNameLength) +
         sizeof(markerNameLength) +
         sizeof(descriptionLength) +
-        reserved2.size() +
+        static_cast<DWORD>(reserved2.size()) +
         groupNameLength +
         markerNameLength +
         descriptionLength;

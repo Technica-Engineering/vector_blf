@@ -51,7 +51,7 @@ void MostEthernetPkt::read(AbstractFile & is)
     ObjectHeader2::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
-    is.read(reinterpret_cast<char *>(reserved1.data()), reserved1.size());
+    is.read(reinterpret_cast<char *>(reserved1.data()), static_cast<std::streamsize>(reserved1.size()));
     is.read(reinterpret_cast<char *>(&sourceMacAdr), sizeof(sourceMacAdr));
     is.read(reinterpret_cast<char *>(&destMacAdr), sizeof(destMacAdr));
     is.read(reinterpret_cast<char *>(&transferType), sizeof(transferType));
@@ -63,7 +63,7 @@ void MostEthernetPkt::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&cAck), sizeof(cAck));
     is.read(reinterpret_cast<char *>(&reserved3), sizeof(reserved3));
     is.read(reinterpret_cast<char *>(&pktDataLength), sizeof(pktDataLength));
-    is.read(reinterpret_cast<char *>(reserved4.data()), reserved4.size());
+    is.read(reinterpret_cast<char *>(reserved4.data()), static_cast<std::streamsize>(reserved4.size()));
     pktData.resize(pktDataLength);
     is.read(reinterpret_cast<char *>(pktData.data()), pktDataLength);
 }
@@ -71,12 +71,12 @@ void MostEthernetPkt::read(AbstractFile & is)
 void MostEthernetPkt::write(AbstractFile & os)
 {
     /* pre processing */
-    pktDataLength = pktData.size();
+    pktDataLength = static_cast<DWORD>(pktData.size());
 
     ObjectHeader2::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
-    os.write(reinterpret_cast<char *>(reserved1.data()), reserved1.size());
+    os.write(reinterpret_cast<char *>(reserved1.data()), static_cast<std::streamsize>(reserved1.size()));
     os.write(reinterpret_cast<char *>(&sourceMacAdr), sizeof(sourceMacAdr));
     os.write(reinterpret_cast<char *>(&destMacAdr), sizeof(destMacAdr));
     os.write(reinterpret_cast<char *>(&transferType), sizeof(transferType));
@@ -88,7 +88,7 @@ void MostEthernetPkt::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&cAck), sizeof(cAck));
     os.write(reinterpret_cast<char *>(&reserved3), sizeof(reserved3));
     os.write(reinterpret_cast<char *>(&pktDataLength), sizeof(pktDataLength));
-    os.write(reinterpret_cast<char *>(reserved4.data()), reserved4.size());
+    os.write(reinterpret_cast<char *>(reserved4.data()), static_cast<std::streamsize>(reserved4.size()));
     os.write(reinterpret_cast<char *>(pktData.data()), pktDataLength);
 }
 
@@ -98,7 +98,7 @@ DWORD MostEthernetPkt::calculateObjectSize() const
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +
         sizeof(dir) +
-        reserved1.size() +
+        static_cast<DWORD>(reserved1.size()) +
         sizeof(sourceMacAdr) +
         sizeof(destMacAdr) +
         sizeof(transferType) +
@@ -110,7 +110,7 @@ DWORD MostEthernetPkt::calculateObjectSize() const
         sizeof(cAck) +
         sizeof(reserved3) +
         sizeof(pktDataLength) +
-        reserved4.size() +
+        static_cast<DWORD>(reserved4.size()) +
         pktDataLength;
 }
 

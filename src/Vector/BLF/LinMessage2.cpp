@@ -50,7 +50,7 @@ void LinMessage2::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     LinDatabyteTimestampEvent::read(is);
-    is.read(reinterpret_cast<char *>(data.data()), data.size());
+    is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
     is.read(reinterpret_cast<char *>(&crc), sizeof(crc));
     is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
     is.read(reinterpret_cast<char *>(&simulated), sizeof(simulated));
@@ -59,7 +59,7 @@ void LinMessage2::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&etfAssocEtfId), sizeof(etfAssocEtfId));
     is.read(reinterpret_cast<char *>(&fsmId), sizeof(fsmId));
     is.read(reinterpret_cast<char *>(&fsmState), sizeof(fsmState));
-    is.read(reinterpret_cast<char *>(reserved.data()), reserved.size());
+    is.read(reinterpret_cast<char *>(reserved.data()), static_cast<std::streamsize>(reserved.size()));
 
     /* the following variables are only available in Version 2 and above */
     /*if (objectVersion < 0)*/ // Vector bug: Shouldn't this be < 1?
@@ -81,7 +81,7 @@ void LinMessage2::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     LinDatabyteTimestampEvent::write(os);
-    os.write(reinterpret_cast<char *>(data.data()), data.size());
+    os.write(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
     os.write(reinterpret_cast<char *>(&crc), sizeof(crc));
     os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
     os.write(reinterpret_cast<char *>(&simulated), sizeof(simulated));
@@ -90,7 +90,7 @@ void LinMessage2::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&etfAssocEtfId), sizeof(etfAssocEtfId));
     os.write(reinterpret_cast<char *>(&fsmId), sizeof(fsmId));
     os.write(reinterpret_cast<char *>(&fsmState), sizeof(fsmState));
-    os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
+    os.write(reinterpret_cast<char *>(reserved.data()), static_cast<std::streamsize>(reserved.size()));
 
     /* the following variables are only available in Version 2 and above */
     /*if (objectVersion < 0)*/ // Vector bug: Shouldn't this be < 1?
@@ -113,7 +113,7 @@ DWORD LinMessage2::calculateObjectSize() const
     DWORD size =
         ObjectHeader::calculateObjectSize() +
         LinDatabyteTimestampEvent::calculateObjectSize() +
-        data.size() +
+        static_cast<DWORD>(data.size()) +
         sizeof(crc) +
         sizeof(dir) +
         sizeof(simulated) +
@@ -122,7 +122,7 @@ DWORD LinMessage2::calculateObjectSize() const
         sizeof(etfAssocEtfId) +
         sizeof(fsmId) +
         sizeof(fsmState) +
-        reserved.size();
+        static_cast<DWORD>(reserved.size());
 
     /*if (objectVersion >= 0)*/ // Vector bug: Shouldn't this be >= 1?
     size += sizeof(respBaudrate);

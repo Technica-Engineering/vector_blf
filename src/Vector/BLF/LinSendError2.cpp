@@ -49,10 +49,10 @@ void LinSendError2::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&fsmId), sizeof(fsmId));
     is.read(reinterpret_cast<char *>(&fsmState), sizeof(fsmState));
     is.read(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
-    is.read(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
+    is.read(reinterpret_cast<char *>(reserved2.data()), static_cast<std::streamsize>(reserved2.size()));
     is.read(reinterpret_cast<char *>(&exactHeaderBaudrate), sizeof(exactHeaderBaudrate));
     is.read(reinterpret_cast<char *>(&earlyStopbitOffset), sizeof(earlyStopbitOffset));
-    is.read(reinterpret_cast<char *>(reserved3.data()), reserved3.size());
+    is.read(reinterpret_cast<char *>(reserved3.data()), static_cast<std::streamsize>(reserved3.size()));
 }
 
 void LinSendError2::write(AbstractFile & os)
@@ -64,10 +64,10 @@ void LinSendError2::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&fsmId), sizeof(fsmId));
     os.write(reinterpret_cast<char *>(&fsmState), sizeof(fsmState));
     os.write(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
-    os.write(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
+    os.write(reinterpret_cast<char *>(reserved2.data()), static_cast<std::streamsize>(reserved2.size()));
     os.write(reinterpret_cast<char *>(&exactHeaderBaudrate), sizeof(exactHeaderBaudrate));
     os.write(reinterpret_cast<char *>(&earlyStopbitOffset), sizeof(earlyStopbitOffset));
-    os.write(reinterpret_cast<char *>(reserved3.data()), reserved3.size());
+    os.write(reinterpret_cast<char *>(reserved3.data()), static_cast<std::streamsize>(reserved3.size()));
 }
 
 DWORD LinSendError2::calculateObjectSize() const
@@ -80,10 +80,10 @@ DWORD LinSendError2::calculateObjectSize() const
         sizeof(fsmId) +
         sizeof(fsmState) +
         sizeof(reserved1) +
-        reserved2.size() +
+        static_cast<DWORD>(reserved2.size()) +
         sizeof(exactHeaderBaudrate) +
         sizeof(earlyStopbitOffset) +
-        reserved3.size();
+        static_cast<DWORD>(reserved3.size());
 }
 
 }

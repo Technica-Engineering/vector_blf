@@ -51,7 +51,7 @@ void MostSpy::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
     is.read(reinterpret_cast<char *>(&sourceAdr), sizeof(sourceAdr));
     is.read(reinterpret_cast<char *>(&destAdr), sizeof(destAdr));
-    is.read(reinterpret_cast<char *>(msg.data()), msg.size());
+    is.read(reinterpret_cast<char *>(msg.data()), static_cast<std::streamsize>(msg.size()));
     is.read(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
     is.read(reinterpret_cast<char *>(&rTyp), sizeof(rTyp));
     is.read(reinterpret_cast<char *>(&rTypAdr), sizeof(rTypAdr));
@@ -69,7 +69,7 @@ void MostSpy::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
     os.write(reinterpret_cast<char *>(&sourceAdr), sizeof(sourceAdr));
     os.write(reinterpret_cast<char *>(&destAdr), sizeof(destAdr));
-    os.write(reinterpret_cast<char *>(msg.data()), msg.size());
+    os.write(reinterpret_cast<char *>(msg.data()), static_cast<std::streamsize>(msg.size()));
     os.write(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
     os.write(reinterpret_cast<char *>(&rTyp), sizeof(rTyp));
     os.write(reinterpret_cast<char *>(&rTypAdr), sizeof(rTypAdr));
@@ -88,7 +88,7 @@ DWORD MostSpy::calculateObjectSize() const
         sizeof(reserved1) +
         sizeof(sourceAdr) +
         sizeof(destAdr) +
-        msg.size() +
+        static_cast<DWORD>(msg.size()) +
         sizeof(reserved2) +
         sizeof(rTyp) +
         sizeof(rTypAdr) +

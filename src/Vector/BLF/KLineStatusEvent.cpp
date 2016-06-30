@@ -42,7 +42,7 @@ void KLineStatusEvent::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&dataLen), sizeof(dataLen));
     is.read(reinterpret_cast<char *>(&port), sizeof(port));
     is.read(reinterpret_cast<char *>(&reserved), sizeof(reserved));
-    is.read(reinterpret_cast<char *>(data.data()), data.size());
+    is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
 }
 
 void KLineStatusEvent::write(AbstractFile & os)
@@ -52,7 +52,7 @@ void KLineStatusEvent::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&dataLen), sizeof(dataLen));
     os.write(reinterpret_cast<char *>(&port), sizeof(port));
     os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
-    os.write(reinterpret_cast<char *>(data.data()), data.size());
+    os.write(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
 }
 
 DWORD KLineStatusEvent::calculateObjectSize() const

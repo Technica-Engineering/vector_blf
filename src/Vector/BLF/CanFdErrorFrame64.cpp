@@ -68,7 +68,7 @@ void CanFdErrorFrame64::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&crc), sizeof(crc));
     is.read(reinterpret_cast<char *>(&errorPosition), sizeof(errorPosition));
     is.read(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
-    is.read(reinterpret_cast<char *>(data.data()), data.size());
+    is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
 }
 
 void CanFdErrorFrame64::write(AbstractFile & os)
@@ -91,7 +91,7 @@ void CanFdErrorFrame64::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&crc), sizeof(crc));
     os.write(reinterpret_cast<char *>(&errorPosition), sizeof(errorPosition));
     os.write(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
-    os.write(reinterpret_cast<char *>(data.data()), data.size());
+    os.write(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
 }
 
 DWORD CanFdErrorFrame64::calculateObjectSize() const
@@ -115,7 +115,7 @@ DWORD CanFdErrorFrame64::calculateObjectSize() const
         sizeof(crc) +
         sizeof(errorPosition) +
         sizeof(reserved2) +
-        data.size();
+        static_cast<DWORD>(data.size());
 }
 
 }

@@ -40,7 +40,7 @@ void LinSleepModeEvent::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&reason), sizeof(reason));
     is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
-    is.read(reinterpret_cast<char *>(reserved.data()), reserved.size());
+    is.read(reinterpret_cast<char *>(reserved.data()), static_cast<std::streamsize>(reserved.size()));
 }
 
 void LinSleepModeEvent::write(AbstractFile & os)
@@ -49,7 +49,7 @@ void LinSleepModeEvent::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&reason), sizeof(reason));
     os.write(reinterpret_cast<char *>(&flags), sizeof(flags));
-    os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
+    os.write(reinterpret_cast<char *>(reserved.data()), static_cast<std::streamsize>(reserved.size()));
 }
 
 DWORD LinSleepModeEvent::calculateObjectSize() const
@@ -59,7 +59,7 @@ DWORD LinSleepModeEvent::calculateObjectSize() const
         sizeof(channel) +
         sizeof(reason) +
         sizeof(flags) +
-        reserved.size();
+        static_cast<DWORD>(reserved.size());
 }
 
 }

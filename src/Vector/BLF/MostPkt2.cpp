@@ -63,9 +63,9 @@ void MostPkt2::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&priority), sizeof(priority));
     is.read(reinterpret_cast<char *>(&transferType), sizeof(transferType));
     is.read(reinterpret_cast<char *>(&state), sizeof(state));
-    is.read(reinterpret_cast<char *>(reserved3.data()), reserved3.size());
+    is.read(reinterpret_cast<char *>(reserved3.data()), static_cast<std::streamsize>(reserved3.size()));
     is.read(reinterpret_cast<char *>(&pktDataLength), sizeof(pktDataLength));
-    is.read(reinterpret_cast<char *>(reserved4.data()), reserved4.size());
+    is.read(reinterpret_cast<char *>(reserved4.data()), static_cast<std::streamsize>(reserved4.size()));
     pktData.resize(pktDataLength);
     is.read(reinterpret_cast<char *>(pktData.data()), pktDataLength);
 }
@@ -73,7 +73,7 @@ void MostPkt2::read(AbstractFile & is)
 void MostPkt2::write(AbstractFile & os)
 {
     /* pre processing */
-    pktDataLength = pktData.size();
+    pktDataLength = static_cast<DWORD>(pktData.size());
 
     ObjectHeader2::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
@@ -89,9 +89,9 @@ void MostPkt2::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&priority), sizeof(priority));
     os.write(reinterpret_cast<char *>(&transferType), sizeof(transferType));
     os.write(reinterpret_cast<char *>(&state), sizeof(state));
-    os.write(reinterpret_cast<char *>(reserved3.data()), reserved3.size());
+    os.write(reinterpret_cast<char *>(reserved3.data()), static_cast<std::streamsize>(reserved3.size()));
     os.write(reinterpret_cast<char *>(&pktDataLength), sizeof(pktDataLength));
-    os.write(reinterpret_cast<char *>(reserved4.data()), reserved4.size());
+    os.write(reinterpret_cast<char *>(reserved4.data()), static_cast<std::streamsize>(reserved4.size()));
     os.write(reinterpret_cast<char *>(pktData.data()), pktDataLength);
 }
 
@@ -112,9 +112,9 @@ DWORD MostPkt2::calculateObjectSize() const
         sizeof(priority) +
         sizeof(transferType) +
         sizeof(state) +
-        reserved3.size() +
+        static_cast<DWORD>(reserved3.size()) +
         sizeof(pktDataLength) +
-        reserved4.size() +
+        static_cast<DWORD>(reserved4.size()) +
         pktDataLength;
 }
 

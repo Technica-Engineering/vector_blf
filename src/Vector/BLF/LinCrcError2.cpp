@@ -47,15 +47,15 @@ void LinCrcError2::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     LinDatabyteTimestampEvent::read(is);
-    is.read(reinterpret_cast<char *>(data.data()), data.size());
+    is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
     is.read(reinterpret_cast<char *>(&crc), sizeof(crc));
     is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
     is.read(reinterpret_cast<char *>(&fsmId), sizeof(fsmId));
     is.read(reinterpret_cast<char *>(&fsmState), sizeof(fsmState));
     is.read(reinterpret_cast<char *>(&simulated), sizeof(simulated));
-    is.read(reinterpret_cast<char *>(reserved1.data()), reserved1.size());
+    is.read(reinterpret_cast<char *>(reserved1.data()), static_cast<std::streamsize>(reserved1.size()));
     is.read(reinterpret_cast<char *>(&respBaudrate), sizeof(respBaudrate));
-    is.read(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
+    is.read(reinterpret_cast<char *>(reserved2.data()), static_cast<std::streamsize>(reserved2.size()));
     is.read(reinterpret_cast<char *>(&exactHeaderBaudrate), sizeof(exactHeaderBaudrate));
     is.read(reinterpret_cast<char *>(&earlyStopbitOffset), sizeof(earlyStopbitOffset));
     is.read(reinterpret_cast<char *>(&earlyStopbitOffsetResponse), sizeof(earlyStopbitOffsetResponse));
@@ -65,15 +65,15 @@ void LinCrcError2::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     LinDatabyteTimestampEvent::write(os);
-    os.write(reinterpret_cast<char *>(data.data()), data.size());
+    os.write(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
     os.write(reinterpret_cast<char *>(&crc), sizeof(crc));
     os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
     os.write(reinterpret_cast<char *>(&fsmId), sizeof(fsmId));
     os.write(reinterpret_cast<char *>(&fsmState), sizeof(fsmState));
     os.write(reinterpret_cast<char *>(&simulated), sizeof(simulated));
-    os.write(reinterpret_cast<char *>(reserved1.data()), reserved1.size());
+    os.write(reinterpret_cast<char *>(reserved1.data()), static_cast<std::streamsize>(reserved1.size()));
     os.write(reinterpret_cast<char *>(&respBaudrate), sizeof(respBaudrate));
-    os.write(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
+    os.write(reinterpret_cast<char *>(reserved2.data()), static_cast<std::streamsize>(reserved2.size()));
     os.write(reinterpret_cast<char *>(&exactHeaderBaudrate), sizeof(exactHeaderBaudrate));
     os.write(reinterpret_cast<char *>(&earlyStopbitOffset), sizeof(earlyStopbitOffset));
     os.write(reinterpret_cast<char *>(&earlyStopbitOffsetResponse), sizeof(earlyStopbitOffsetResponse));
@@ -84,15 +84,15 @@ DWORD LinCrcError2::calculateObjectSize() const
     return
         ObjectHeader::calculateObjectSize() +
         LinDatabyteTimestampEvent::calculateObjectSize() +
-        data.size() +
+        static_cast<DWORD>(data.size()) +
         sizeof(crc) +
         sizeof(dir) +
         sizeof(fsmId) +
         sizeof(fsmState) +
         sizeof(simulated) +
-        reserved1.size() +
+        static_cast<DWORD>(reserved1.size()) +
         sizeof(respBaudrate) +
-        reserved2.size() +
+        static_cast<DWORD>(reserved2.size()) +
         sizeof(exactHeaderBaudrate) +
         sizeof(earlyStopbitOffset) +
         sizeof(earlyStopbitOffsetResponse);

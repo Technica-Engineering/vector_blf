@@ -38,7 +38,7 @@ void CanErrorFrame::read(AbstractFile & is)
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&length), sizeof(length));
-    is.read(reinterpret_cast<char *>(reserved.data()), reserved.size());
+    is.read(reinterpret_cast<char *>(reserved.data()), static_cast<std::streamsize>(reserved.size()));
 }
 
 void CanErrorFrame::write(AbstractFile & os)
@@ -46,7 +46,7 @@ void CanErrorFrame::write(AbstractFile & os)
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&length), sizeof(length));
-    os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
+    os.write(reinterpret_cast<char *>(reserved.data()), static_cast<std::streamsize>(reserved.size()));
 }
 
 DWORD CanErrorFrame::calculateObjectSize() const
@@ -55,7 +55,7 @@ DWORD CanErrorFrame::calculateObjectSize() const
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(length) +
-        reserved.size();
+        static_cast<DWORD>(reserved.size());
 }
 
 }

@@ -48,8 +48,8 @@ void J1708Message::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
     is.read(reinterpret_cast<char *>(&error), sizeof(error));
     is.read(reinterpret_cast<char *>(&size), sizeof(size));
-    is.read(reinterpret_cast<char *>(data.data()), data.size());
-    is.read(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
+    is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
+    is.read(reinterpret_cast<char *>(reserved2.data()), static_cast<std::streamsize>(reserved2.size()));
 }
 
 void J1708Message::write(AbstractFile & os)
@@ -60,8 +60,8 @@ void J1708Message::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
     os.write(reinterpret_cast<char *>(&error), sizeof(error));
     os.write(reinterpret_cast<char *>(&size), sizeof(size));
-    os.write(reinterpret_cast<char *>(data.data()), data.size());
-    os.write(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
+    os.write(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
+    os.write(reinterpret_cast<char *>(reserved2.data()), static_cast<std::streamsize>(reserved2.size()));
 }
 
 DWORD J1708Message::calculateObjectSize() const
@@ -73,8 +73,8 @@ DWORD J1708Message::calculateObjectSize() const
         sizeof(reserved1) +
         sizeof(error) +
         sizeof(size) +
-        data.size() +
-        reserved2.size();
+        static_cast<DWORD>(data.size()) +
+        static_cast<DWORD>(reserved2.size());
 }
 
 }

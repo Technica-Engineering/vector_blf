@@ -41,7 +41,7 @@ void EventComment::read(AbstractFile & is)
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&commentedEventType), sizeof(commentedEventType));
     is.read(reinterpret_cast<char *>(&textLength), sizeof(textLength));
-    is.read(reinterpret_cast<char *>(reserved.data()), reserved.size());
+    is.read(reinterpret_cast<char *>(reserved.data()), static_cast<std::streamsize>(reserved.size()));
     text.resize(textLength);
     is.read(const_cast<char *>(text.data()), textLength);
 
@@ -53,12 +53,12 @@ void EventComment::read(AbstractFile & is)
 void EventComment::write(AbstractFile & os)
 {
     /* pre processing */
-    textLength = text.size();
+    textLength = static_cast<DWORD>(text.size());
 
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&commentedEventType), sizeof(commentedEventType));
     os.write(reinterpret_cast<char *>(&textLength), sizeof(textLength));
-    os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
+    os.write(reinterpret_cast<char *>(reserved.data()), static_cast<std::streamsize>(reserved.size()));
     os.write(const_cast<char *>(text.data()), textLength);
 }
 
@@ -68,7 +68,7 @@ DWORD EventComment::calculateObjectSize() const
         ObjectHeader::calculateObjectSize() +
         sizeof(commentedEventType) +
         sizeof(textLength) +
-        reserved.size() +
+        static_cast<DWORD>(reserved.size()) +
         textLength;
 }
 

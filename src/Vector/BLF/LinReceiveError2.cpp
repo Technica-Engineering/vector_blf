@@ -49,7 +49,7 @@ void LinReceiveError2::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     LinDatabyteTimestampEvent::read(is);
-    is.read(reinterpret_cast<char *>(data.data()), data.size());
+    is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
     is.read(reinterpret_cast<char *>(&fsmId), sizeof(fsmId));
     is.read(reinterpret_cast<char *>(&fsmState), sizeof(fsmState));
     is.read(reinterpret_cast<char *>(&stateReason), sizeof(stateReason));
@@ -59,7 +59,7 @@ void LinReceiveError2::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&isEtf), sizeof(isEtf));
     is.read(reinterpret_cast<char *>(&hasDatabytes), sizeof(hasDatabytes));
     is.read(reinterpret_cast<char *>(&respBaudrate), sizeof(respBaudrate));
-    is.read(reinterpret_cast<char *>(reserved.data()), reserved.size());
+    is.read(reinterpret_cast<char *>(reserved.data()), static_cast<std::streamsize>(reserved.size()));
     is.read(reinterpret_cast<char *>(&exactHeaderBaudrate), sizeof(exactHeaderBaudrate));
     is.read(reinterpret_cast<char *>(&earlyStopbitOffset), sizeof(earlyStopbitOffset));
     is.read(reinterpret_cast<char *>(&earlyStopbitOffsetResponse), sizeof(earlyStopbitOffsetResponse));
@@ -69,7 +69,7 @@ void LinReceiveError2::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     LinDatabyteTimestampEvent::write(os);
-    os.write(reinterpret_cast<char *>(data.data()), data.size());
+    os.write(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
     os.write(reinterpret_cast<char *>(&fsmId), sizeof(fsmId));
     os.write(reinterpret_cast<char *>(&fsmState), sizeof(fsmState));
     os.write(reinterpret_cast<char *>(&stateReason), sizeof(stateReason));
@@ -79,7 +79,7 @@ void LinReceiveError2::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&isEtf), sizeof(isEtf));
     os.write(reinterpret_cast<char *>(&hasDatabytes), sizeof(hasDatabytes));
     os.write(reinterpret_cast<char *>(&respBaudrate), sizeof(respBaudrate));
-    os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
+    os.write(reinterpret_cast<char *>(reserved.data()), static_cast<std::streamsize>(reserved.size()));
     os.write(reinterpret_cast<char *>(&exactHeaderBaudrate), sizeof(exactHeaderBaudrate));
     os.write(reinterpret_cast<char *>(&earlyStopbitOffset), sizeof(earlyStopbitOffset));
     os.write(reinterpret_cast<char *>(&earlyStopbitOffsetResponse), sizeof(earlyStopbitOffsetResponse));
@@ -90,7 +90,7 @@ DWORD LinReceiveError2::calculateObjectSize() const
     return
         ObjectHeader::calculateObjectSize() +
         LinDatabyteTimestampEvent::calculateObjectSize() +
-        data.size() +
+        static_cast<DWORD>(data.size()) +
         sizeof(fsmId) +
         sizeof(fsmState) +
         sizeof(stateReason) +
@@ -100,7 +100,7 @@ DWORD LinReceiveError2::calculateObjectSize() const
         sizeof(isEtf) +
         sizeof(hasDatabytes) +
         sizeof(respBaudrate) +
-        reserved.size() +
+        static_cast<DWORD>(reserved.size()) +
         sizeof(exactHeaderBaudrate) +
         sizeof(earlyStopbitOffset) +
         sizeof(earlyStopbitOffsetResponse);

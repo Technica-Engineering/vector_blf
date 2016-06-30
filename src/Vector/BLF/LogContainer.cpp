@@ -53,7 +53,7 @@ void LogContainer::read(AbstractFile & is)
 void LogContainer::write(AbstractFile & os)
 {
     /* pre processing */
-    compressedFileSize = compressedFile.size();
+    compressedFileSize = static_cast<ULONGLONG>(compressedFile.size());
 
     ObjectHeaderBase::write(os);
     os.write(reinterpret_cast<char *>(&objectFlags), sizeof(objectFlags));

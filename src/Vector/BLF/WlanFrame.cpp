@@ -55,7 +55,7 @@ void WlanFrame::read(AbstractFile & is)
 void WlanFrame::write(AbstractFile & os)
 {
     /* pre processing */
-    frameLength = frameData.size();
+    frameLength = static_cast<WORD>(frameData.size());
 
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));

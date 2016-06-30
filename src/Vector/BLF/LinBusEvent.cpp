@@ -41,7 +41,7 @@ void LinBusEvent::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&sof), sizeof(sof));
     is.read(reinterpret_cast<char *>(&eventBaudrate), sizeof(eventBaudrate));
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(reserved.data()), reserved.size());
+    is.read(reinterpret_cast<char *>(reserved.data()), static_cast<std::streamsize>(reserved.size()));
 }
 
 void LinBusEvent::write(AbstractFile & os)
@@ -49,7 +49,7 @@ void LinBusEvent::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&sof), sizeof(sof));
     os.write(reinterpret_cast<char *>(&eventBaudrate), sizeof(eventBaudrate));
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
+    os.write(reinterpret_cast<char *>(reserved.data()), static_cast<std::streamsize>(reserved.size()));
 }
 
 DWORD LinBusEvent::calculateObjectSize() const
@@ -58,7 +58,7 @@ DWORD LinBusEvent::calculateObjectSize() const
         sizeof(sof) +
         sizeof(eventBaudrate) +
         sizeof(channel) +
-        reserved.size();
+        static_cast<DWORD>(reserved.size());
 }
 
 }

@@ -64,7 +64,7 @@ void FlexRayV6Message::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&headerBitMask), sizeof(headerBitMask));
     is.read(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
     is.read(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
-    is.read(reinterpret_cast<char *>(dataBytes.data()), dataBytes.size());
+    is.read(reinterpret_cast<char *>(dataBytes.data()), static_cast<std::streamsize>(dataBytes.size()));
 }
 
 void FlexRayV6Message::write(AbstractFile & os)
@@ -85,7 +85,7 @@ void FlexRayV6Message::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&headerBitMask), sizeof(headerBitMask));
     os.write(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
     os.write(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
-    os.write(reinterpret_cast<char *>(dataBytes.data()), dataBytes.size());
+    os.write(reinterpret_cast<char *>(dataBytes.data()), static_cast<std::streamsize>(dataBytes.size()));
 }
 
 DWORD FlexRayV6Message::calculateObjectSize() const
@@ -107,7 +107,7 @@ DWORD FlexRayV6Message::calculateObjectSize() const
         sizeof(headerBitMask) +
         sizeof(reserved1) +
         sizeof(reserved2) +
-        dataBytes.size();
+        static_cast<DWORD>(dataBytes.size());
 }
 
 }

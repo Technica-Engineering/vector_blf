@@ -47,7 +47,7 @@ void LinCrcError::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&id), sizeof(id));
     is.read(reinterpret_cast<char *>(&dlc), sizeof(dlc));
-    is.read(reinterpret_cast<char *>(data.data()), data.size());
+    is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
     is.read(reinterpret_cast<char *>(&fsmId), sizeof(fsmId));
     is.read(reinterpret_cast<char *>(&fsmState), sizeof(fsmState));
     is.read(reinterpret_cast<char *>(&headerTime), sizeof(headerTime));
@@ -63,7 +63,7 @@ void LinCrcError::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&id), sizeof(id));
     os.write(reinterpret_cast<char *>(&dlc), sizeof(dlc));
-    os.write(reinterpret_cast<char *>(data.data()), data.size());
+    os.write(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
     os.write(reinterpret_cast<char *>(&fsmId), sizeof(fsmId));
     os.write(reinterpret_cast<char *>(&fsmState), sizeof(fsmState));
     os.write(reinterpret_cast<char *>(&headerTime), sizeof(headerTime));
@@ -80,7 +80,7 @@ DWORD LinCrcError::calculateObjectSize() const
         sizeof(channel) +
         sizeof(id) +
         sizeof(dlc) +
-        data.size() +
+        static_cast<DWORD>(data.size()) +
         sizeof(fsmId) +
         sizeof(fsmState) +
         sizeof(headerTime) +

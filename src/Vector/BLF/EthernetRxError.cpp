@@ -45,10 +45,10 @@ void EthernetRxError::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&structLength), sizeof(structLength));
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
-    is.read(reinterpret_cast<char *>(reserved1.data()), reserved1.size());
+    is.read(reinterpret_cast<char *>(reserved1.data()), static_cast<std::streamsize>(reserved1.size()));
     is.read(reinterpret_cast<char *>(&fcs), sizeof(fcs));
     is.read(reinterpret_cast<char *>(&frameDataLength), sizeof(frameDataLength));
-    is.read(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
+    is.read(reinterpret_cast<char *>(reserved2.data()), static_cast<std::streamsize>(reserved2.size()));
     is.read(reinterpret_cast<char *>(&error), sizeof(error));
     frameData.resize(frameDataLength);
     is.read(reinterpret_cast<char *>(frameData.data()), frameDataLength);
@@ -57,16 +57,16 @@ void EthernetRxError::read(AbstractFile & is)
 void EthernetRxError::write(AbstractFile & os)
 {
     /* pre processing */
-    frameDataLength = frameData.size();
+    frameDataLength = static_cast<WORD>(frameData.size());
 
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&structLength), sizeof(structLength));
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
-    os.write(reinterpret_cast<char *>(reserved1.data()), reserved1.size());
+    os.write(reinterpret_cast<char *>(reserved1.data()), static_cast<std::streamsize>(reserved1.size()));
     os.write(reinterpret_cast<char *>(&fcs), sizeof(fcs));
     os.write(reinterpret_cast<char *>(&frameDataLength), sizeof(frameDataLength));
-    os.write(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
+    os.write(reinterpret_cast<char *>(reserved2.data()), static_cast<std::streamsize>(reserved2.size()));
     os.write(reinterpret_cast<char *>(&error), sizeof(error));
     os.write(reinterpret_cast<char *>(frameData.data()), frameDataLength);
 }
@@ -78,10 +78,10 @@ DWORD EthernetRxError::calculateObjectSize() const
         sizeof(structLength) +
         sizeof(channel) +
         sizeof(dir) +
-        reserved1.size() +
+        static_cast<DWORD>(reserved1.size()) +
         sizeof(fcs) +
         sizeof(frameDataLength) +
-        reserved2.size() +
+        static_cast<DWORD>(reserved2.size()) +
         sizeof(error) +
         frameDataLength;
 }

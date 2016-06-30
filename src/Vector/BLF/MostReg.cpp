@@ -48,7 +48,7 @@ void MostReg::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&offset), sizeof(offset));
     is.read(reinterpret_cast<char *>(&chip), sizeof(chip));
     is.read(reinterpret_cast<char *>(&regDataLen), sizeof(regDataLen));
-    is.read(reinterpret_cast<char *>(regData.data()), regData.size());
+    is.read(reinterpret_cast<char *>(regData.data()), static_cast<std::streamsize>(regData.size()));
 }
 
 void MostReg::write(AbstractFile & os)
@@ -61,7 +61,7 @@ void MostReg::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&offset), sizeof(offset));
     os.write(reinterpret_cast<char *>(&chip), sizeof(chip));
     os.write(reinterpret_cast<char *>(&regDataLen), sizeof(regDataLen));
-    os.write(reinterpret_cast<char *>(regData.data()), regData.size());
+    os.write(reinterpret_cast<char *>(regData.data()), static_cast<std::streamsize>(regData.size()));
 }
 
 DWORD MostReg::calculateObjectSize() const
@@ -75,7 +75,7 @@ DWORD MostReg::calculateObjectSize() const
         sizeof(offset) +
         sizeof(chip) +
         sizeof(regDataLen) +
-        regData.size();
+        static_cast<DWORD>(regData.size());
 }
 
 }

@@ -38,7 +38,7 @@ void LinSyncError::read(AbstractFile & is)
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&reserved), sizeof(reserved));
-    is.read(reinterpret_cast<char *>(timeDiff.data()), timeDiff.size() * sizeof(WORD));
+    is.read(reinterpret_cast<char *>(timeDiff.data()), static_cast<std::streamsize>(timeDiff.size() * sizeof(WORD)));
 }
 
 void LinSyncError::write(AbstractFile & os)
@@ -46,7 +46,7 @@ void LinSyncError::write(AbstractFile & os)
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
-    os.write(reinterpret_cast<char *>(timeDiff.data()), timeDiff.size() * sizeof(WORD));
+    os.write(reinterpret_cast<char *>(timeDiff.data()), static_cast<std::streamsize>(timeDiff.size() * sizeof(WORD)));
 }
 
 DWORD LinSyncError::calculateObjectSize() const
@@ -55,7 +55,7 @@ DWORD LinSyncError::calculateObjectSize() const
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(reserved) +
-        timeDiff.size() * sizeof(WORD);
+        static_cast<DWORD>(timeDiff.size() * sizeof(WORD));
 }
 
 }

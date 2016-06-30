@@ -51,8 +51,8 @@ void FlexRayVFrError::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&clientIndex), sizeof(clientIndex));
     is.read(reinterpret_cast<char *>(&clusterNo), sizeof(clusterNo));
     is.read(reinterpret_cast<char *>(&tag), sizeof(tag));
-    is.read(reinterpret_cast<char *>(data.data()), data.size());
-    is.read(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
+    is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
+    is.read(reinterpret_cast<char *>(reserved2.data()), static_cast<std::streamsize>(reserved2.size()));
 }
 
 void FlexRayVFrError::write(AbstractFile & os)
@@ -66,8 +66,8 @@ void FlexRayVFrError::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&clientIndex), sizeof(clientIndex));
     os.write(reinterpret_cast<char *>(&clusterNo), sizeof(clusterNo));
     os.write(reinterpret_cast<char *>(&tag), sizeof(tag));
-    os.write(reinterpret_cast<char *>(data.data()), data.size());
-    os.write(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
+    os.write(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
+    os.write(reinterpret_cast<char *>(reserved2.data()), static_cast<std::streamsize>(reserved2.size()));
 }
 
 DWORD FlexRayVFrError::calculateObjectSize() const
@@ -82,8 +82,8 @@ DWORD FlexRayVFrError::calculateObjectSize() const
         sizeof(clientIndex) +
         sizeof(clusterNo) +
         sizeof(tag) +
-        data.size() * sizeof(DWORD) +
-        reserved2.size();
+        static_cast<DWORD>(data.size() * sizeof(DWORD)) +
+        static_cast<DWORD>(reserved2.size());
 }
 
 }

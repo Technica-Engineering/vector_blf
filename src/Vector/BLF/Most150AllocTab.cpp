@@ -49,7 +49,7 @@ void Most150AllocTab::read(AbstractFile & is)
 void Most150AllocTab::write(AbstractFile & os)
 {
     /* pre processing */
-    length = tableData.size();
+    length = static_cast<WORD>(tableData.size());
 
     ObjectHeader2::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));

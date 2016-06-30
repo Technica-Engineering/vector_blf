@@ -53,7 +53,7 @@ void AppText::read(AbstractFile & is)
 void AppText::write(AbstractFile & os)
 {
     /* pre processing */
-    textLength = text.size();
+    textLength = static_cast<DWORD>(text.size());
 
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&source), sizeof(source));

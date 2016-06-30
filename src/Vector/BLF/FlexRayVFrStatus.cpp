@@ -55,8 +55,8 @@ void FlexRayVFrStatus::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&wus), sizeof(wus));
     is.read(reinterpret_cast<char *>(&ccSyncState), sizeof(ccSyncState));
     is.read(reinterpret_cast<char *>(&tag), sizeof(tag));
-    is.read(reinterpret_cast<char *>(data.data()), data.size());
-    is.read(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
+    is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
+    is.read(reinterpret_cast<char *>(reserved2.data()), static_cast<std::streamsize>(reserved2.size()));
 }
 
 void FlexRayVFrStatus::write(AbstractFile & os)
@@ -72,8 +72,8 @@ void FlexRayVFrStatus::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&wus), sizeof(wus));
     os.write(reinterpret_cast<char *>(&ccSyncState), sizeof(ccSyncState));
     os.write(reinterpret_cast<char *>(&tag), sizeof(tag));
-    os.write(reinterpret_cast<char *>(data.data()), data.size());
-    os.write(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
+    os.write(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
+    os.write(reinterpret_cast<char *>(reserved2.data()), static_cast<std::streamsize>(reserved2.size()));
 }
 
 DWORD FlexRayVFrStatus::calculateObjectSize() const
@@ -90,8 +90,8 @@ DWORD FlexRayVFrStatus::calculateObjectSize() const
         sizeof(wus) +
         sizeof(ccSyncState) +
         sizeof(tag) +
-        data.size() * sizeof(DWORD) +
-        reserved2.size() * sizeof(WORD);
+        static_cast<DWORD>(data.size() * sizeof(DWORD)) +
+        static_cast<DWORD>(reserved2.size() * sizeof(WORD));
 }
 
 }

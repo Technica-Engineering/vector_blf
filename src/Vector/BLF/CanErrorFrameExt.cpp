@@ -56,7 +56,7 @@ void CanErrorFrameExt::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&id), sizeof(id));
     is.read(reinterpret_cast<char *>(&flagsExt), sizeof(flagsExt));
     is.read(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
-    is.read(reinterpret_cast<char *>(data.data()), data.size());
+    is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
 }
 
 void CanErrorFrameExt::write(AbstractFile & os)
@@ -73,7 +73,7 @@ void CanErrorFrameExt::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&id), sizeof(id));
     os.write(reinterpret_cast<char *>(&flagsExt), sizeof(flagsExt));
     os.write(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
-    os.write(reinterpret_cast<char *>(data.data()), data.size());
+    os.write(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
 }
 
 DWORD CanErrorFrameExt::calculateObjectSize() const
@@ -91,7 +91,7 @@ DWORD CanErrorFrameExt::calculateObjectSize() const
         sizeof(id) +
         sizeof(flagsExt) +
         sizeof(reserved2) +
-        data.size();
+        static_cast<DWORD>(data.size());
 }
 
 }

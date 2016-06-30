@@ -43,28 +43,28 @@ void LinStatisticEvent::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(reserved1.data()), reserved1.size());
+    is.read(reinterpret_cast<char *>(reserved1.data()), static_cast<std::streamsize>(reserved1.size()));
     is.read(reinterpret_cast<char *>(&busLoad), sizeof(busLoad));
     is.read(reinterpret_cast<char *>(&burstsTotal), sizeof(burstsTotal));
     is.read(reinterpret_cast<char *>(&burstsOverrun), sizeof(burstsOverrun));
     is.read(reinterpret_cast<char *>(&framesSent), sizeof(framesSent));
     is.read(reinterpret_cast<char *>(&framesReceived), sizeof(framesReceived));
     is.read(reinterpret_cast<char *>(&framesUnanswered), sizeof(framesUnanswered));
-    is.read(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
+    is.read(reinterpret_cast<char *>(reserved2.data()), static_cast<std::streamsize>(reserved2.size()));
 }
 
 void LinStatisticEvent::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(reserved1.data()), reserved1.size());
+    os.write(reinterpret_cast<char *>(reserved1.data()), static_cast<std::streamsize>(reserved1.size()));
     os.write(reinterpret_cast<char *>(&busLoad), sizeof(busLoad));
     os.write(reinterpret_cast<char *>(&burstsTotal), sizeof(burstsTotal));
     os.write(reinterpret_cast<char *>(&burstsOverrun), sizeof(burstsOverrun));
     os.write(reinterpret_cast<char *>(&framesSent), sizeof(framesSent));
     os.write(reinterpret_cast<char *>(&framesReceived), sizeof(framesReceived));
     os.write(reinterpret_cast<char *>(&framesUnanswered), sizeof(framesUnanswered));
-    os.write(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
+    os.write(reinterpret_cast<char *>(reserved2.data()), static_cast<std::streamsize>(reserved2.size()));
 }
 
 DWORD LinStatisticEvent::calculateObjectSize() const
@@ -72,14 +72,14 @@ DWORD LinStatisticEvent::calculateObjectSize() const
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
-        reserved1.size() +
+        static_cast<DWORD>(reserved1.size()) +
         sizeof(busLoad) +
         sizeof(burstsTotal) +
         sizeof(burstsOverrun) +
         sizeof(framesSent) +
         sizeof(framesReceived) +
         sizeof(framesUnanswered) +
-        reserved2.size();
+        static_cast<DWORD>(reserved2.size());
 }
 
 }

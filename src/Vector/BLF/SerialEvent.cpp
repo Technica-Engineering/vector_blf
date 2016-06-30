@@ -73,7 +73,7 @@ DWORD SerialEvent::CompactSerialEvent::calculateObjectSize() const
 {
     return
         sizeof(compactLength) +
-        compactData.size();
+        static_cast<DWORD>(compactData.size());
 }
 
 SerialEvent::SerialEvent() :
@@ -134,8 +134,8 @@ void SerialEvent::write(AbstractFile & os)
             os.write(reinterpret_cast<char *>(&compact.compactData), sizeof(compact.compactData));
         } else {
             /* pre processing */
-            general.dataLength = general.data.size();
-            general.timeStampsLength = general.timeStamps.size() * sizeof(LONGLONG);
+            general.dataLength = static_cast<DWORD>(general.data.size());
+            general.timeStampsLength = static_cast<DWORD>(general.timeStamps.size() * sizeof(LONGLONG));
 
             os.write(reinterpret_cast<char *>(&general.dataLength), sizeof(general.dataLength));
             os.write(reinterpret_cast<char *>(&general.timeStampsLength), sizeof(general.timeStampsLength));

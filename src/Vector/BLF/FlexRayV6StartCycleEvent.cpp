@@ -49,8 +49,8 @@ void FlexRayV6StartCycleEvent::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&fpgaTickOverflow), sizeof(fpgaTickOverflow));
     is.read(reinterpret_cast<char *>(&clientIndex), sizeof(clientIndex));
     is.read(reinterpret_cast<char *>(&clusterTime), sizeof(clusterTime));
-    is.read(reinterpret_cast<char *>(dataBytes.data()), dataBytes.size());
-    is.read(reinterpret_cast<char *>(reserved.data()), reserved.size());
+    is.read(reinterpret_cast<char *>(dataBytes.data()), static_cast<std::streamsize>(dataBytes.size()));
+    is.read(reinterpret_cast<char *>(reserved.data()), static_cast<std::streamsize>(reserved.size()));
 }
 
 void FlexRayV6StartCycleEvent::write(AbstractFile & os)
@@ -63,8 +63,8 @@ void FlexRayV6StartCycleEvent::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&fpgaTickOverflow), sizeof(fpgaTickOverflow));
     os.write(reinterpret_cast<char *>(&clientIndex), sizeof(clientIndex));
     os.write(reinterpret_cast<char *>(&clusterTime), sizeof(clusterTime));
-    os.write(reinterpret_cast<char *>(dataBytes.data()), dataBytes.size());
-    os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
+    os.write(reinterpret_cast<char *>(dataBytes.data()), static_cast<std::streamsize>(dataBytes.size()));
+    os.write(reinterpret_cast<char *>(reserved.data()), static_cast<std::streamsize>(reserved.size()));
 }
 
 DWORD FlexRayV6StartCycleEvent::calculateObjectSize() const
@@ -78,8 +78,8 @@ DWORD FlexRayV6StartCycleEvent::calculateObjectSize() const
         sizeof(fpgaTickOverflow) +
         sizeof(clientIndex) +
         sizeof(clusterTime) +
-        dataBytes.size() +
-        reserved.size();
+        static_cast<DWORD>(dataBytes.size()) +
+        static_cast<DWORD>(reserved.size());
 }
 
 }

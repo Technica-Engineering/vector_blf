@@ -51,14 +51,14 @@ void MostCtrl::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
     is.read(reinterpret_cast<char *>(&sourceAdr), sizeof(sourceAdr));
     is.read(reinterpret_cast<char *>(&destAdr), sizeof(destAdr));
-    is.read(reinterpret_cast<char *>(msg.data()), msg.size());
+    is.read(reinterpret_cast<char *>(msg.data()), static_cast<std::streamsize>(msg.size()));
     is.read(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
     is.read(reinterpret_cast<char *>(&rTyp), sizeof(rTyp));
     is.read(reinterpret_cast<char *>(&rTypAdr), sizeof(rTypAdr));
     is.read(reinterpret_cast<char *>(&state), sizeof(state));
     is.read(reinterpret_cast<char *>(&reserved3), sizeof(reserved3));
     is.read(reinterpret_cast<char *>(&ackNack), sizeof(ackNack));
-    is.read(reinterpret_cast<char *>(reserved4.data()), reserved4.size());
+    is.read(reinterpret_cast<char *>(reserved4.data()), static_cast<std::streamsize>(reserved4.size()));
 }
 
 void MostCtrl::write(AbstractFile & os)
@@ -69,14 +69,14 @@ void MostCtrl::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
     os.write(reinterpret_cast<char *>(&sourceAdr), sizeof(sourceAdr));
     os.write(reinterpret_cast<char *>(&destAdr), sizeof(destAdr));
-    os.write(reinterpret_cast<char *>(msg.data()), msg.size());
+    os.write(reinterpret_cast<char *>(msg.data()), static_cast<std::streamsize>(msg.size()));
     os.write(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
     os.write(reinterpret_cast<char *>(&rTyp), sizeof(rTyp));
     os.write(reinterpret_cast<char *>(&rTypAdr), sizeof(rTypAdr));
     os.write(reinterpret_cast<char *>(&state), sizeof(state));
     os.write(reinterpret_cast<char *>(&reserved3), sizeof(reserved3));
     os.write(reinterpret_cast<char *>(&ackNack), sizeof(ackNack));
-    os.write(reinterpret_cast<char *>(reserved4.data()), reserved4.size());
+    os.write(reinterpret_cast<char *>(reserved4.data()), static_cast<std::streamsize>(reserved4.size()));
 }
 
 DWORD MostCtrl::calculateObjectSize() const
@@ -88,14 +88,14 @@ DWORD MostCtrl::calculateObjectSize() const
         sizeof(reserved1) +
         sizeof(sourceAdr) +
         sizeof(destAdr) +
-        msg.size() +
+        static_cast<DWORD>(msg.size()) +
         sizeof(reserved2) +
         sizeof(rTyp) +
         sizeof(rTypAdr) +
         sizeof(state) +
         sizeof(reserved3) +
         sizeof(ackNack) +
-        reserved4.size();
+        static_cast<DWORD>(reserved4.size());
 }
 
 }

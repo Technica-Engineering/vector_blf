@@ -40,7 +40,7 @@ void LinSchedulerModeChange::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&oldMode), sizeof(oldMode));
     is.read(reinterpret_cast<char *>(&newMode), sizeof(newMode));
-    is.read(reinterpret_cast<char *>(reserved.data()), reserved.size());
+    is.read(reinterpret_cast<char *>(reserved.data()), static_cast<std::streamsize>(reserved.size()));
 }
 
 void LinSchedulerModeChange::write(AbstractFile & os)
@@ -49,7 +49,7 @@ void LinSchedulerModeChange::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&oldMode), sizeof(oldMode));
     os.write(reinterpret_cast<char *>(&newMode), sizeof(newMode));
-    os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
+    os.write(reinterpret_cast<char *>(reserved.data()), static_cast<std::streamsize>(reserved.size()));
 }
 
 DWORD LinSchedulerModeChange::calculateObjectSize() const
@@ -59,7 +59,7 @@ DWORD LinSchedulerModeChange::calculateObjectSize() const
         sizeof(channel) +
         sizeof(oldMode) +
         sizeof(newMode) +
-        reserved.size();
+        static_cast<DWORD>(reserved.size());
 }
 
 }

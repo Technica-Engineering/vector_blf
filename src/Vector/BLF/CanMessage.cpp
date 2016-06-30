@@ -42,7 +42,7 @@ void CanMessage::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
     is.read(reinterpret_cast<char *>(&dlc), sizeof(dlc));
     is.read(reinterpret_cast<char *>(&id), sizeof(id));
-    is.read(reinterpret_cast<char *>(data.data()), data.size());
+    is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
 }
 
 void CanMessage::write(AbstractFile & os)
@@ -52,7 +52,7 @@ void CanMessage::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&flags), sizeof(flags));
     os.write(reinterpret_cast<char *>(&dlc), sizeof(dlc));
     os.write(reinterpret_cast<char *>(&id), sizeof(id));
-    os.write(reinterpret_cast<char *>(data.data()), data.size());
+    os.write(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
 }
 
 DWORD CanMessage::calculateObjectSize() const
@@ -63,7 +63,7 @@ DWORD CanMessage::calculateObjectSize() const
         sizeof(flags) +
         sizeof(dlc) +
         sizeof(id) +
-        data.size();
+        static_cast<DWORD>(data.size());
 }
 
 }

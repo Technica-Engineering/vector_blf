@@ -65,7 +65,7 @@ void Most150Message::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&priority), sizeof(priority));
     is.read(reinterpret_cast<char *>(&pIndex), sizeof(pIndex));
     is.read(reinterpret_cast<char *>(&msgLen), sizeof(msgLen));
-    is.read(reinterpret_cast<char *>(reserved3.data()), reserved3.size());
+    is.read(reinterpret_cast<char *>(reserved3.data()), static_cast<std::streamsize>(reserved3.size()));
     msg.resize(msgLen);
     is.read(reinterpret_cast<char *>(msg.data()), msgLen);
 }
@@ -73,7 +73,7 @@ void Most150Message::read(AbstractFile & is)
 void Most150Message::write(AbstractFile & os)
 {
     /* pre processing */
-    msgLen = msg.size();
+    msgLen = static_cast<DWORD>(msg.size());
 
     ObjectHeader2::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
@@ -91,7 +91,7 @@ void Most150Message::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&priority), sizeof(priority));
     os.write(reinterpret_cast<char *>(&pIndex), sizeof(pIndex));
     os.write(reinterpret_cast<char *>(&msgLen), sizeof(msgLen));
-    os.write(reinterpret_cast<char *>(reserved3.data()), reserved3.size());
+    os.write(reinterpret_cast<char *>(reserved3.data()), static_cast<std::streamsize>(reserved3.size()));
     os.write(reinterpret_cast<char *>(msg.data()), msgLen);
 }
 
@@ -114,7 +114,7 @@ DWORD Most150Message::calculateObjectSize() const
         sizeof(priority) +
         sizeof(pIndex) +
         sizeof(msgLen) +
-        reserved3.size() +
+        static_cast<DWORD>(reserved3.size()) +
         msgLen;
 }
 

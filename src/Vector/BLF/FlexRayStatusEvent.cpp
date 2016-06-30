@@ -46,7 +46,7 @@ void FlexRayStatusEvent::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&infoMask1), sizeof(infoMask1));
     is.read(reinterpret_cast<char *>(&infoMask2), sizeof(infoMask2));
     is.read(reinterpret_cast<char *>(&infoMask3), sizeof(infoMask3));
-    is.read(reinterpret_cast<char *>(reserved.data()), reserved.size());
+    is.read(reinterpret_cast<char *>(reserved.data()), static_cast<std::streamsize>(reserved.size()));
 }
 
 void FlexRayStatusEvent::write(AbstractFile & os)
@@ -58,7 +58,7 @@ void FlexRayStatusEvent::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&infoMask1), sizeof(infoMask1));
     os.write(reinterpret_cast<char *>(&infoMask2), sizeof(infoMask2));
     os.write(reinterpret_cast<char *>(&infoMask3), sizeof(infoMask3));
-    os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
+    os.write(reinterpret_cast<char *>(reserved.data()), static_cast<std::streamsize>(reserved.size()));
 }
 
 DWORD FlexRayStatusEvent::calculateObjectSize() const
@@ -71,7 +71,7 @@ DWORD FlexRayStatusEvent::calculateObjectSize() const
         sizeof(infoMask1) +
         sizeof(infoMask2) +
         sizeof(infoMask3) +
-        reserved.size() * sizeof(WORD);
+        static_cast<DWORD>(reserved.size() * sizeof(WORD));
 }
 
 }

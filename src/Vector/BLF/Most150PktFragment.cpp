@@ -63,7 +63,7 @@ void Most150PktFragment::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&dataLen), sizeof(dataLen));
     is.read(reinterpret_cast<char *>(&dataLenAnnounced), sizeof(dataLenAnnounced));
     is.read(reinterpret_cast<char *>(&firstDataLen), sizeof(firstDataLen));
-    is.read(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
+    is.read(reinterpret_cast<char *>(reserved2.data()), static_cast<std::streamsize>(reserved2.size()));
     firstData.resize(firstDataLen);
     is.read(reinterpret_cast<char *>(firstData.data()), firstDataLen);
 }
@@ -71,7 +71,7 @@ void Most150PktFragment::read(AbstractFile & is)
 void Most150PktFragment::write(AbstractFile & os)
 {
     /* pre processing */
-    firstDataLen = firstData.size();
+    firstDataLen = static_cast<DWORD>(firstData.size());
 
     ObjectHeader2::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
@@ -88,7 +88,7 @@ void Most150PktFragment::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&dataLen), sizeof(dataLen));
     os.write(reinterpret_cast<char *>(&dataLenAnnounced), sizeof(dataLenAnnounced));
     os.write(reinterpret_cast<char *>(&firstDataLen), sizeof(firstDataLen));
-    os.write(reinterpret_cast<char *>(reserved2.data()), reserved2.size());
+    os.write(reinterpret_cast<char *>(reserved2.data()), static_cast<std::streamsize>(reserved2.size()));
     os.write(reinterpret_cast<char *>(firstData.data()), firstDataLen);
 }
 
@@ -110,7 +110,7 @@ DWORD Most150PktFragment::calculateObjectSize() const
         sizeof(dataLen) +
         sizeof(dataLenAnnounced) +
         sizeof(firstDataLen) +
-        reserved2.size() +
+        static_cast<DWORD>(reserved2.size()) +
         firstDataLen;
 }
 

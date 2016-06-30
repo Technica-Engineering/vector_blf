@@ -42,7 +42,7 @@ void LinWakeupEvent2::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&lengthInfo), sizeof(lengthInfo));
     is.read(reinterpret_cast<char *>(&signal), sizeof(signal));
     is.read(reinterpret_cast<char *>(&external), sizeof(external));
-    is.read(reinterpret_cast<char *>(reserved.data()), reserved.size());
+    is.read(reinterpret_cast<char *>(reserved.data()), static_cast<std::streamsize>(reserved.size()));
 }
 
 void LinWakeupEvent2::write(AbstractFile & os)
@@ -52,7 +52,7 @@ void LinWakeupEvent2::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&lengthInfo), sizeof(lengthInfo));
     os.write(reinterpret_cast<char *>(&signal), sizeof(signal));
     os.write(reinterpret_cast<char *>(&external), sizeof(external));
-    os.write(reinterpret_cast<char *>(reserved.data()), reserved.size());
+    os.write(reinterpret_cast<char *>(reserved.data()), static_cast<std::streamsize>(reserved.size()));
 }
 
 DWORD LinWakeupEvent2::calculateObjectSize() const
@@ -63,7 +63,7 @@ DWORD LinWakeupEvent2::calculateObjectSize() const
         sizeof(lengthInfo) +
         sizeof(signal) +
         sizeof(external) +
-        reserved.size();
+        static_cast<DWORD>(reserved.size());
 }
 
 }
