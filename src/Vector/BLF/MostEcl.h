@@ -37,14 +37,14 @@ namespace BLF {
  *
  * State change of the MOST Electrical Control Line.
  */
-class VECTOR_BLF_EXPORT MostEcl : public ObjectHeader2
+class VECTOR_BLF_EXPORT MostEcl final : public ObjectHeader2
 {
 public:
     MostEcl();
 
-    virtual void read(AbstractFile & is);
-    virtual void write(AbstractFile & os);
-    virtual DWORD calculateObjectSize() const;
+    virtual void read(AbstractFile & is) override;
+    virtual void write(AbstractFile & os) override;
+    virtual DWORD calculateObjectSize() const override;
 
     /**
      * @brief application channel

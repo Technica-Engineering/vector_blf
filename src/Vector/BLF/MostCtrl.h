@@ -39,14 +39,14 @@ namespace BLF {
  *
  * Message on MOST 25 Control Channel; received or transmitted in node mode.
  */
-class VECTOR_BLF_EXPORT MostCtrl : public ObjectHeader
+class VECTOR_BLF_EXPORT MostCtrl final : public ObjectHeader
 {
 public:
     MostCtrl();
 
-    virtual void read(AbstractFile & is);
-    virtual void write(AbstractFile & os);
-    virtual DWORD calculateObjectSize() const;
+    virtual void read(AbstractFile & is) override;
+    virtual void write(AbstractFile & os) override;
+    virtual DWORD calculateObjectSize() const override;
 
     /**
      * @brief application channel

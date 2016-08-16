@@ -40,14 +40,14 @@ namespace BLF {
  *
  * FlexRay message or PDU received or transmitted on FlexRay bus.
  */
-class VECTOR_BLF_EXPORT FlexRayVFrReceiveMsgEx : public ObjectHeader
+class VECTOR_BLF_EXPORT FlexRayVFrReceiveMsgEx final : public ObjectHeader
 {
 public:
     FlexRayVFrReceiveMsgEx();
 
-    virtual void read(AbstractFile & is);
-    virtual void write(AbstractFile & os);
-    virtual DWORD calculateObjectSize() const;
+    virtual void read(AbstractFile & is) override;
+    virtual void write(AbstractFile & os) override;
+    virtual DWORD calculateObjectSize() const override;
 
     /**
      * @brief application channel

@@ -38,14 +38,14 @@ namespace BLF {
  * Application defined trigger to be saved in BLF log file (currently not used in CANoe
  * / CANalyzer).
  */
-class VECTOR_BLF_EXPORT AppTrigger : public ObjectHeader
+class VECTOR_BLF_EXPORT AppTrigger final : public ObjectHeader
 {
 public:
     AppTrigger();
 
-    virtual void read(AbstractFile & is);
-    virtual void write(AbstractFile & os);
-    virtual DWORD calculateObjectSize() const;
+    virtual void read(AbstractFile & is) override;
+    virtual void write(AbstractFile & os) override;
+    virtual DWORD calculateObjectSize() const override;
 
     /**
      * @brief pre-trigger time

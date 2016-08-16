@@ -39,14 +39,14 @@ namespace BLF {
  *
  * @deprecated
  */
-class VECTOR_BLF_EXPORT FlexRayData : public ObjectHeader
+class VECTOR_BLF_EXPORT FlexRayData final : public ObjectHeader
 {
 public:
     FlexRayData();
 
-    virtual void read(AbstractFile & is);
-    virtual void write(AbstractFile & os);
-    virtual DWORD calculateObjectSize() const;
+    virtual void read(AbstractFile & is) override;
+    virtual void write(AbstractFile & os) override;
+    virtual DWORD calculateObjectSize() const override;
 
     /**
      * @brief application channel

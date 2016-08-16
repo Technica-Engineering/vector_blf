@@ -41,14 +41,14 @@ namespace BLF {
  * This event structure was never and should never be used. Use MostPkt2
  * instead.
  */
-class VECTOR_BLF_EXPORT MostPkt : public ObjectHeader
+class VECTOR_BLF_EXPORT MostPkt final : public ObjectHeader
 {
 public:
     MostPkt();
 
-    virtual void read(AbstractFile & is);
-    virtual void write(AbstractFile & os);
-    virtual DWORD calculateObjectSize() const;
+    virtual void read(AbstractFile & is) override;
+    virtual void write(AbstractFile & os) override;
+    virtual DWORD calculateObjectSize() const override;
 
     /**
      * @brief application channel

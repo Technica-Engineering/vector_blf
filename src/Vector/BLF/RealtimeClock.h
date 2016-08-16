@@ -37,14 +37,14 @@ namespace BLF {
  *
  * Realtime clock object
  */
-class VECTOR_BLF_EXPORT RealtimeClock : public ObjectHeader
+class VECTOR_BLF_EXPORT RealtimeClock final : public ObjectHeader
 {
 public:
     RealtimeClock();
 
-    virtual void read(AbstractFile & is);
-    virtual void write(AbstractFile & os);
-    virtual DWORD calculateObjectSize() const;
+    virtual void read(AbstractFile & is) override;
+    virtual void write(AbstractFile & os) override;
+    virtual DWORD calculateObjectSize() const override;
 
     /**
      * @brief logging start time in ns since 00:00 1.1.1970 GMT

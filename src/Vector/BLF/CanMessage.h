@@ -41,14 +41,14 @@ namespace BLF {
  *
  * CAN data or CAN remote frame received or transmitted on a CAN channel.
  */
-class VECTOR_BLF_EXPORT CanMessage : public ObjectHeader
+class VECTOR_BLF_EXPORT CanMessage final : public ObjectHeader
 {
 public:
     CanMessage();
 
-    virtual void read(AbstractFile & is);
-    virtual void write(AbstractFile & os);
-    virtual DWORD calculateObjectSize() const;
+    virtual void read(AbstractFile & is) override;
+    virtual void write(AbstractFile & os) override;
+    virtual DWORD calculateObjectSize() const override;
 
     /**
      * @brief application channel

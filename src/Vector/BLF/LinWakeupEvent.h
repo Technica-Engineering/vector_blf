@@ -39,14 +39,14 @@ namespace BLF {
  *
  * LIN Wakeup-Frame received or transmitted on a LIN channel.
  */
-class VECTOR_BLF_EXPORT LinWakeupEvent : public ObjectHeader
+class VECTOR_BLF_EXPORT LinWakeupEvent final : public ObjectHeader
 {
 public:
     LinWakeupEvent();
 
-    virtual void read(AbstractFile & is);
-    virtual void write(AbstractFile & os);
-    virtual DWORD calculateObjectSize() const;
+    virtual void read(AbstractFile & is) override;
+    virtual void write(AbstractFile & os) override;
+    virtual DWORD calculateObjectSize() const override;
 
     /**
      * @brief application channel

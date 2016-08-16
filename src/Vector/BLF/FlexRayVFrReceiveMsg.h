@@ -39,14 +39,14 @@ namespace BLF {
  *
  * FlexRay message received or transmitted on FlexRay bus.
  */
-class VECTOR_BLF_EXPORT FlexRayVFrReceiveMsg : public ObjectHeader
+class VECTOR_BLF_EXPORT FlexRayVFrReceiveMsg final : public ObjectHeader
 {
 public:
     FlexRayVFrReceiveMsg();
 
-    virtual void read(AbstractFile & is);
-    virtual void write(AbstractFile & os);
-    virtual DWORD calculateObjectSize() const;
+    virtual void read(AbstractFile & is) override;
+    virtual void write(AbstractFile & os) override;
+    virtual DWORD calculateObjectSize() const override;
 
     /**
      * @brief application channel

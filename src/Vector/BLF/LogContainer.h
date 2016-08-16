@@ -37,14 +37,14 @@ namespace BLF {
 /**
  * @brief LOG_CONTAINER
  */
-class VECTOR_BLF_EXPORT LogContainer : public ObjectHeaderBase
+class VECTOR_BLF_EXPORT LogContainer final : public ObjectHeaderBase
 {
 public:
     LogContainer();
 
-    virtual void read(AbstractFile & is);
-    virtual void write(AbstractFile & os);
-    virtual DWORD calculateObjectSize() const;
+    virtual void read(AbstractFile & is) override;
+    virtual void write(AbstractFile & os) override;
+    virtual DWORD calculateObjectSize() const override;
 
     /**
      * @brief object flags (usually BL_OBJ_FLAG_TIME_ONE_NANS)

@@ -42,10 +42,10 @@ class VECTOR_BLF_EXPORT ObjectHeader : public ObjectHeaderBase
 public:
     ObjectHeader();
 
-    virtual void read(AbstractFile & is);
-    virtual void write(AbstractFile & os);
-    virtual WORD calculateHeaderSize() const;
-    virtual DWORD calculateObjectSize() const;
+    virtual void read(AbstractFile & is) override;
+    virtual void write(AbstractFile & os) override;
+    virtual WORD calculateHeaderSize() const override;
+    virtual DWORD calculateObjectSize() const override;
 
     /** enumeration for objectFlags */
     enum ObjectFlags : DWORD {

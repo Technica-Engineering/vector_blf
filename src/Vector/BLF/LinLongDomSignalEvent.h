@@ -43,14 +43,14 @@ namespace BLF {
  * This event occurs when a LIN channel remains in the dominant state for a time, which
  * is longer than a valid wakeup frame and it is not a valid sync break.
  */
-class VECTOR_BLF_EXPORT LinLongDomSignalEvent : public ObjectHeader, public LinBusEvent
+class VECTOR_BLF_EXPORT LinLongDomSignalEvent final : public ObjectHeader, public LinBusEvent
 {
 public:
     LinLongDomSignalEvent();
 
-    virtual void read(AbstractFile & is);
-    virtual void write(AbstractFile & os);
-    virtual DWORD calculateObjectSize() const;
+    virtual void read(AbstractFile & is) override;
+    virtual void write(AbstractFile & os) override;
+    virtual DWORD calculateObjectSize() const override;
 
     /**
      * One dominant signal can be reported with

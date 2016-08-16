@@ -41,14 +41,14 @@ namespace BLF {
  * Transports current state of the MOST25 Allocation Table of connected hardware
  * interface.
  */
-class VECTOR_BLF_EXPORT MostAllocTab : public ObjectHeader2
+class VECTOR_BLF_EXPORT MostAllocTab final : public ObjectHeader2
 {
 public:
     MostAllocTab();
 
-    virtual void read(AbstractFile & is);
-    virtual void write(AbstractFile & os);
-    virtual DWORD calculateObjectSize() const;
+    virtual void read(AbstractFile & is) override;
+    virtual void write(AbstractFile & os) override;
+    virtual DWORD calculateObjectSize() const override;
 
     /**
      * @brief application channel

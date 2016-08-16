@@ -41,14 +41,14 @@ namespace BLF {
  * CANalyzerVersion 6.1) carried by the main bus statistic event but was not logged. Usually the
  * event is not visible in a Trace window.
  */
-class VECTOR_BLF_EXPORT MostStatisticEx : public ObjectHeader2
+class VECTOR_BLF_EXPORT MostStatisticEx final : public ObjectHeader2
 {
 public:
     MostStatisticEx();
 
-    virtual void read(AbstractFile & is);
-    virtual void write(AbstractFile & os);
-    virtual DWORD calculateObjectSize() const;
+    virtual void read(AbstractFile & is) override;
+    virtual void write(AbstractFile & os) override;
+    virtual DWORD calculateObjectSize() const override;
 
     /**
      * @brief application channel

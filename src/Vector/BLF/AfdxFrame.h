@@ -40,14 +40,14 @@ namespace BLF {
  *
  * AFDX frame.
  */
-class VECTOR_BLF_EXPORT AfdxFrame : public ObjectHeader
+class VECTOR_BLF_EXPORT AfdxFrame final : public ObjectHeader
 {
 public:
     AfdxFrame();
 
-    virtual void read(AbstractFile & is);
-    virtual void write(AbstractFile & os);
-    virtual DWORD calculateObjectSize() const;
+    virtual void read(AbstractFile & is) override;
+    virtual void write(AbstractFile & os) override;
+    virtual DWORD calculateObjectSize() const override;
 
     /**
      * Ethernet (MAC) address of source computer

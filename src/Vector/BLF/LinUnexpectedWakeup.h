@@ -41,14 +41,14 @@ namespace BLF {
  * This event occurs if an unexpected byte received in bus idle phase of wake mode
  * could be a wakeup frame
  */
-class VECTOR_BLF_EXPORT LinUnexpectedWakeup : public ObjectHeader, public LinBusEvent
+class VECTOR_BLF_EXPORT LinUnexpectedWakeup final : public ObjectHeader, public LinBusEvent
 {
 public:
     LinUnexpectedWakeup();
 
-    virtual void read(AbstractFile & is);
-    virtual void write(AbstractFile & os);
-    virtual DWORD calculateObjectSize() const;
+    virtual void read(AbstractFile & is) override;
+    virtual void write(AbstractFile & os) override;
+    virtual DWORD calculateObjectSize() const override;
 
     /**
      * @brief width of the unexpected wakeup in nanoseconds (valid for LIN 2.x)

@@ -40,14 +40,14 @@ namespace BLF {
  *
  * Message on MOST150 Packet Data Channel.
  */
-class VECTOR_BLF_EXPORT Most150Pkt : public ObjectHeader2
+class VECTOR_BLF_EXPORT Most150Pkt final : public ObjectHeader2
 {
 public:
     Most150Pkt();
 
-    virtual void read(AbstractFile & is);
-    virtual void write(AbstractFile & os);
-    virtual DWORD calculateObjectSize() const;
+    virtual void read(AbstractFile & is) override;
+    virtual void write(AbstractFile & os) override;
+    virtual DWORD calculateObjectSize() const override;
 
     /**
      * @brief application channel

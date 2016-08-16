@@ -40,14 +40,14 @@ namespace BLF {
  *
  * Message on MOST150 Control Channel.
  */
-class VECTOR_BLF_EXPORT Most150Message : public ObjectHeader2
+class VECTOR_BLF_EXPORT Most150Message final : public ObjectHeader2
 {
 public:
     Most150Message();
 
-    virtual void read(AbstractFile & is);
-    virtual void write(AbstractFile & os);
-    virtual DWORD calculateObjectSize() const;
+    virtual void read(AbstractFile & is) override;
+    virtual void write(AbstractFile & os) override;
+    virtual DWORD calculateObjectSize() const override;
 
     /**
      * @brief application channel

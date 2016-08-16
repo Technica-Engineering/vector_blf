@@ -37,14 +37,14 @@ namespace BLF {
  *
  * GPS event.
  */
-class VECTOR_BLF_EXPORT GpsEvent : public ObjectHeader
+class VECTOR_BLF_EXPORT GpsEvent final : public ObjectHeader
 {
 public:
     GpsEvent();
 
-    virtual void read(AbstractFile & is);
-    virtual void write(AbstractFile & os);
-    virtual DWORD calculateObjectSize() const;
+    virtual void read(AbstractFile & is) override;
+    virtual void write(AbstractFile & os) override;
+    virtual DWORD calculateObjectSize() const override;
 
     /**
      * Not used, must be 0.

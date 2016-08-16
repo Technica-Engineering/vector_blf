@@ -41,9 +41,9 @@ class VECTOR_BLF_EXPORT LinMessageDescriptor : public LinSynchFieldEvent
 public:
     LinMessageDescriptor();
 
-    virtual void read(AbstractFile & is);
-    virtual void write(AbstractFile & os);
-    virtual DWORD calculateObjectSize() const;
+    virtual void read(AbstractFile & is) override;
+    virtual void write(AbstractFile & os) override;
+    virtual DWORD calculateObjectSize() const override;
 
     /**
      * @brief LIN Sub-Identifier - Supplier ID

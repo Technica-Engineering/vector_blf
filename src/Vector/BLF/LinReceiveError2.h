@@ -53,14 +53,14 @@ namespace BLF {
  *   - LIN hardware only receives part of a frame, at the start of a measurement (in a correctly
  *     functioning system).
  */
-class VECTOR_BLF_EXPORT LinReceiveError2 : public ObjectHeader, public LinDatabyteTimestampEvent
+class VECTOR_BLF_EXPORT LinReceiveError2 final : public ObjectHeader, public LinDatabyteTimestampEvent
 {
 public:
     LinReceiveError2();
 
-    virtual void read(AbstractFile & is);
-    virtual void write(AbstractFile & os);
-    virtual DWORD calculateObjectSize() const;
+    virtual void read(AbstractFile & is) override;
+    virtual void write(AbstractFile & os) override;
+    virtual DWORD calculateObjectSize() const override;
 
     /**
      * @brief data bytes.

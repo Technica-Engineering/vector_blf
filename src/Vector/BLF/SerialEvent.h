@@ -40,15 +40,15 @@ namespace BLF {
  *
  * serial event
  */
-class VECTOR_BLF_EXPORT SerialEvent : public ObjectHeader
+class VECTOR_BLF_EXPORT SerialEvent final : public ObjectHeader
 {
 public:
     SerialEvent();
     virtual ~SerialEvent();
 
-    virtual void read(AbstractFile & is);
-    virtual void write(AbstractFile & os);
-    virtual DWORD calculateObjectSize() const;
+    virtual void read(AbstractFile & is) override;
+    virtual void write(AbstractFile & os) override;
+    virtual DWORD calculateObjectSize() const override;
 
     /** enumeration for flags */
     enum class Flags : DWORD

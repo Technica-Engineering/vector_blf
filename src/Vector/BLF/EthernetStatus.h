@@ -37,14 +37,14 @@ namespace BLF {
  *
  * Ethernet status.
  */
-class VECTOR_BLF_EXPORT EthernetStatus : public ObjectHeader
+class VECTOR_BLF_EXPORT EthernetStatus final : public ObjectHeader
 {
 public:
     EthernetStatus();
 
-    virtual void read(AbstractFile & is);
-    virtual void write(AbstractFile & os);
-    virtual DWORD calculateObjectSize() const;
+    virtual void read(AbstractFile & is) override;
+    virtual void write(AbstractFile & os) override;
+    virtual DWORD calculateObjectSize() const override;
 
     /**
      * The channel of the event.

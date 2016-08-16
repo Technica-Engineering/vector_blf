@@ -39,14 +39,14 @@ namespace BLF {
  *
  * Global Marker assigned to another event or to a time stamp.
  */
-class VECTOR_BLF_EXPORT GlobalMarker : public ObjectHeader
+class VECTOR_BLF_EXPORT GlobalMarker final : public ObjectHeader
 {
 public:
     GlobalMarker();
 
-    virtual void read(AbstractFile & is);
-    virtual void write(AbstractFile & os);
-    virtual DWORD calculateObjectSize() const;
+    virtual void read(AbstractFile & is) override;
+    virtual void write(AbstractFile & os) override;
+    virtual DWORD calculateObjectSize() const override;
 
     /**
      * @brief commented event type

@@ -37,14 +37,14 @@ namespace BLF {
  *
  * Event that occurs when hardware sync is executed.
  */
-class VECTOR_BLF_EXPORT CanDriverHwSync : public ObjectHeader
+class VECTOR_BLF_EXPORT CanDriverHwSync final : public ObjectHeader
 {
 public:
     CanDriverHwSync();
 
-    virtual void read(AbstractFile & is);
-    virtual void write(AbstractFile & os);
-    virtual DWORD calculateObjectSize() const;
+    virtual void read(AbstractFile & is) override;
+    virtual void write(AbstractFile & os) override;
+    virtual DWORD calculateObjectSize() const override;
 
     /**
      * @brief channel where sync occured

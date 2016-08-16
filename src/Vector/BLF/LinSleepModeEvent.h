@@ -40,14 +40,14 @@ namespace BLF {
  * This info event occurs at the start of a measurement in order to report the initial state
  * of the LIN hardware and every time the mode (awake/asleep) of LIN hardware changes.
  */
-class VECTOR_BLF_EXPORT LinSleepModeEvent : public ObjectHeader
+class VECTOR_BLF_EXPORT LinSleepModeEvent final : public ObjectHeader
 {
 public:
     LinSleepModeEvent();
 
-    virtual void read(AbstractFile & is);
-    virtual void write(AbstractFile & os);
-    virtual DWORD calculateObjectSize() const;
+    virtual void read(AbstractFile & is) override;
+    virtual void write(AbstractFile & os) override;
+    virtual DWORD calculateObjectSize() const override;
 
     /**
      * @brief application channel

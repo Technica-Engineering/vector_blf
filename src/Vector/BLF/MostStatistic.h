@@ -38,14 +38,14 @@ namespace BLF {
  * The event transports common network statistics. Usually the event is not visible in a
  * trace window.
  */
-class VECTOR_BLF_EXPORT MostStatistic : public ObjectHeader
+class VECTOR_BLF_EXPORT MostStatistic final : public ObjectHeader
 {
 public:
     MostStatistic();
 
-    virtual void read(AbstractFile & is);
-    virtual void write(AbstractFile & os);
-    virtual DWORD calculateObjectSize() const;
+    virtual void read(AbstractFile & is) override;
+    virtual void write(AbstractFile & os) override;
+    virtual DWORD calculateObjectSize() const override;
 
     /**
      * @brief application channel

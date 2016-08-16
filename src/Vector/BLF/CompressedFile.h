@@ -33,15 +33,15 @@ namespace Vector {
 namespace BLF {
 
 /** CompressedFile (Input/output file stream) */
-class VECTOR_BLF_EXPORT CompressedFile : public AbstractFile, public std::fstream
+class VECTOR_BLF_EXPORT CompressedFile final : public AbstractFile, public std::fstream
 {
 public:
-    virtual void read(char * s, std::streamsize n);
-    virtual std::streampos tellg();
-    virtual void seekg(std::streampos pos);
-    virtual void seekg(std::streamoff off, std::ios_base::seekdir way);
-    virtual void write(const char * s, std::streamsize n);
-    virtual std::streampos tellp();
+    virtual void read(char * s, std::streamsize n) override;
+    virtual std::streampos tellg() override;
+    virtual void seekg(std::streampos pos) override;
+    virtual void seekg(std::streamoff off, std::ios_base::seekdir way) override;
+    virtual void write(const char * s, std::streamsize n) override;
+    virtual std::streampos tellp() override;
 };
 
 }

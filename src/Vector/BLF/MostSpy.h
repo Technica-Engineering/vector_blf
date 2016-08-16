@@ -39,14 +39,14 @@ namespace BLF {
  *
  * Message from MOST 25 Control Channel; received in spy mode (listen only).
  */
-class VECTOR_BLF_EXPORT MostSpy : public ObjectHeader
+class VECTOR_BLF_EXPORT MostSpy final : public ObjectHeader
 {
 public:
     MostSpy();
 
-    virtual void read(AbstractFile & is);
-    virtual void write(AbstractFile & os);
-    virtual DWORD calculateObjectSize() const;
+    virtual void read(AbstractFile & is) override;
+    virtual void write(AbstractFile & os) override;
+    virtual DWORD calculateObjectSize() const override;
 
     /**
      * @brief application channel

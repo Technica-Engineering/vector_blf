@@ -42,14 +42,14 @@ namespace BLF {
  * This event occurs when a short (normally less than 1 bit time) dominant signal has
  * been detected on a LIN channel.
  */
-class VECTOR_BLF_EXPORT LinSpikeEvent : public ObjectHeader
+class VECTOR_BLF_EXPORT LinSpikeEvent final : public ObjectHeader
 {
 public:
     LinSpikeEvent();
 
-    virtual void read(AbstractFile & is);
-    virtual void write(AbstractFile & os);
-    virtual DWORD calculateObjectSize() const;
+    virtual void read(AbstractFile & is) override;
+    virtual void write(AbstractFile & os) override;
+    virtual DWORD calculateObjectSize() const override;
 
     /**
      * @brief application channel

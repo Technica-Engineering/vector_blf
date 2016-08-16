@@ -40,14 +40,14 @@ namespace BLF {
  * the Asynchronous spy. The event transports all states even if only a single state has changed.
  * hwModeMask denotes which state differs regarding to the previous HW mode event.
  */
-class VECTOR_BLF_EXPORT MostHwMode : public ObjectHeader2
+class VECTOR_BLF_EXPORT MostHwMode final : public ObjectHeader2
 {
 public:
     MostHwMode();
 
-    virtual void read(AbstractFile & is);
-    virtual void write(AbstractFile & os);
-    virtual DWORD calculateObjectSize() const;
+    virtual void read(AbstractFile & is) override;
+    virtual void write(AbstractFile & os) override;
+    virtual DWORD calculateObjectSize() const override;
 
     /**
      * @brief application channel

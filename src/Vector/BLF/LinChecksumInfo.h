@@ -41,14 +41,14 @@ namespace BLF {
  * model of an unknown frame. This checksum model is set as the expected one for this frame in the
  * future.
  */
-class VECTOR_BLF_EXPORT LinChecksumInfo : public ObjectHeader
+class VECTOR_BLF_EXPORT LinChecksumInfo final : public ObjectHeader
 {
 public:
     LinChecksumInfo();
 
-    virtual void read(AbstractFile & is);
-    virtual void write(AbstractFile & os);
-    virtual DWORD calculateObjectSize() const;
+    virtual void read(AbstractFile & is) override;
+    virtual void write(AbstractFile & os) override;
+    virtual DWORD calculateObjectSize() const override;
 
     /**
      * @brief application channel

@@ -37,14 +37,14 @@ namespace BLF {
 /**
  * @brief KLINE_STATUSEVENT
  */
-class VECTOR_BLF_EXPORT KLineStatusEvent : public ObjectHeader
+class VECTOR_BLF_EXPORT KLineStatusEvent final : public ObjectHeader
 {
 public:
     KLineStatusEvent();
 
-    virtual void read(AbstractFile & is);
-    virtual void write(AbstractFile & os);
-    virtual DWORD calculateObjectSize() const;
+    virtual void read(AbstractFile & is) override;
+    virtual void write(AbstractFile & os) override;
+    virtual DWORD calculateObjectSize() const override;
 
     /** enumeration for type */
     enum class Type : WORD

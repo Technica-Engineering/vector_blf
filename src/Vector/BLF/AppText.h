@@ -53,14 +53,14 @@ namespace BLF {
  * Application defined text to be saved in BLF log file (currently not used in
  * CANoe/CANalyzer).
  */
-class VECTOR_BLF_EXPORT AppText : public ObjectHeader
+class VECTOR_BLF_EXPORT AppText final : public ObjectHeader
 {
 public:
     AppText();
 
-    virtual void read(AbstractFile & is);
-    virtual void write(AbstractFile & os);
-    virtual DWORD calculateObjectSize() const;
+    virtual void read(AbstractFile & is) override;
+    virtual void write(AbstractFile & os) override;
+    virtual DWORD calculateObjectSize() const override;
 
     /** enumeration for source */
     enum class Source : DWORD

@@ -41,14 +41,14 @@ namespace BLF {
  * This event occurs if a set of receive errors could be a valid header followed by a short
  * or slow response.
  */
-class VECTOR_BLF_EXPORT LinShortOrSlowResponse : public ObjectHeader, public LinDatabyteTimestampEvent
+class VECTOR_BLF_EXPORT LinShortOrSlowResponse final : public ObjectHeader, public LinDatabyteTimestampEvent
 {
 public:
     LinShortOrSlowResponse();
 
-    virtual void read(AbstractFile & is);
-    virtual void write(AbstractFile & os);
-    virtual DWORD calculateObjectSize() const;
+    virtual void read(AbstractFile & is) override;
+    virtual void write(AbstractFile & os) override;
+    virtual DWORD calculateObjectSize() const override;
 
     /**
      * @brief number of valid response bytes

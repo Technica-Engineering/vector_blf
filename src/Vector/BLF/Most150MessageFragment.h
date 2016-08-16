@@ -41,14 +41,14 @@ namespace BLF {
  * Partial transmitted MOST50 or MOST150 Control Channel message. Fragments are
  * reported from a network spy if the message transmission is corrupted or terminated.
  */
-class VECTOR_BLF_EXPORT Most150MessageFragment : public ObjectHeader2 /* applied for MOST50 and MOST150 */
+class VECTOR_BLF_EXPORT Most150MessageFragment final : public ObjectHeader2 /* applied for MOST50 and MOST150 */
 {
 public:
     Most150MessageFragment();
 
-    virtual void read(AbstractFile & is);
-    virtual void write(AbstractFile & os);
-    virtual DWORD calculateObjectSize() const;
+    virtual void read(AbstractFile & is) override;
+    virtual void write(AbstractFile & os) override;
+    virtual DWORD calculateObjectSize() const override;
 
     /**
      * @brief application channel

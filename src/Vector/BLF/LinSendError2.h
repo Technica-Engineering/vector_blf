@@ -40,14 +40,14 @@ namespace BLF {
  *
  * This event occurs when no Slave responds to a frame header from Master.
  */
-class VECTOR_BLF_EXPORT LinSendError2 : public ObjectHeader, public LinMessageDescriptor
+class VECTOR_BLF_EXPORT LinSendError2 final : public ObjectHeader, public LinMessageDescriptor
 {
 public:
     LinSendError2();
 
-    virtual void read(AbstractFile & is);
-    virtual void write(AbstractFile & os);
-    virtual DWORD calculateObjectSize() const;
+    virtual void read(AbstractFile & is) override;
+    virtual void write(AbstractFile & os) override;
+    virtual DWORD calculateObjectSize() const override;
 
     /**
      * @brief EndOfHeader timestamp
