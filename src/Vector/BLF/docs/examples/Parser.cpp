@@ -732,407 +732,451 @@ int main(int argc, char * argv[])
     showFileStatistics(&file.fileStatistics);
 
     while (!file.eof()) {
-        Vector::BLF::ObjectHeaderBase * obj = file.read();
-        if (obj == nullptr) {
+        Vector::BLF::ObjectHeaderBase * ohb = file.read();
+        if (ohb == nullptr) {
             continue;
         }
 
-        switch (obj->objectType) {
+        /* ObjectHeader */
+        Vector::BLF::ObjectHeader * oh = dynamic_cast<Vector::BLF::ObjectHeader *>(ohb);
+        if (oh != nullptr) {
+            std::cout << std::dec << oh->objectTimeStamp;
+            switch (oh->objectFlags) {
+            case Vector::BLF::ObjectHeader::ObjectFlags::TimeTenMics:
+                std::cout << "0 ms: ";
+                break;
+            case Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans:
+                std::cout << " ns: ";
+                break;
+            }
+        }
+
+        /* ObjectHeader2 */
+        Vector::BLF::ObjectHeader2 * oh2 = dynamic_cast<Vector::BLF::ObjectHeader2 *>(ohb);
+        if (oh2 != nullptr) {
+            std::cout << std::dec << oh2->objectTimeStamp;
+            switch (oh2->objectFlags) {
+            case Vector::BLF::ObjectHeader2::ObjectFlags::TimeTenMics:
+                std::cout << "0 ms: ";
+                break;
+            case Vector::BLF::ObjectHeader2::ObjectFlags::TimeOneNans:
+                std::cout << " ns: ";
+                break;
+            }
+        }
+
+        /* Object */
+        switch (ohb->objectType) {
+        case Vector::BLF::ObjectType::UNKNOWN:
+            /* do nothing */
+            break;
+
         case Vector::BLF::ObjectType::CAN_MESSAGE:
-            showCanMessage(reinterpret_cast<Vector::BLF::CanMessage *>(obj));
+            showCanMessage(reinterpret_cast<Vector::BLF::CanMessage *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::CAN_ERROR:
-            showCanErrorFrame(reinterpret_cast<Vector::BLF::CanErrorFrame *>(obj));
+            showCanErrorFrame(reinterpret_cast<Vector::BLF::CanErrorFrame *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::CAN_OVERLOAD:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::CAN_STATISTIC:
-            showCanDriverStatistic(reinterpret_cast<Vector::BLF::CanDriverStatistic *>(obj));
+            showCanDriverStatistic(reinterpret_cast<Vector::BLF::CanDriverStatistic *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::APP_TRIGGER:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::ENV_INTEGER:
         case Vector::BLF::ObjectType::ENV_DOUBLE:
         case Vector::BLF::ObjectType::ENV_STRING:
         case Vector::BLF::ObjectType::ENV_DATA:
-            showEnvironmentVariable(reinterpret_cast<Vector::BLF::EnvironmentVariable *>(obj));
+            showEnvironmentVariable(reinterpret_cast<Vector::BLF::EnvironmentVariable *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::LOG_CONTAINER:
-            showLogContainer(reinterpret_cast<Vector::BLF::LogContainer *>(obj));
+            showLogContainer(reinterpret_cast<Vector::BLF::LogContainer *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::LIN_MESSAGE:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::LIN_CRC_ERROR:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::LIN_DLC_INFO:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::LIN_RCV_ERROR:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::LIN_SND_ERROR:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::LIN_SLV_TIMEOUT:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::LIN_SCHED_MODCH:
-            showLinSchedulerModeChange(reinterpret_cast<Vector::BLF::LinSchedulerModeChange *>(obj));
+            showLinSchedulerModeChange(reinterpret_cast<Vector::BLF::LinSchedulerModeChange *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::LIN_SYN_ERROR:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::LIN_BAUDRATE:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::LIN_SLEEP:
-            showLinSleepModeEvent(reinterpret_cast<Vector::BLF::LinSleepModeEvent *>(obj));
+            showLinSleepModeEvent(reinterpret_cast<Vector::BLF::LinSleepModeEvent *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::LIN_WAKEUP:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::MOST_SPY:
-            showMostSpy(reinterpret_cast<Vector::BLF::MostSpy *>(obj));
+            showMostSpy(reinterpret_cast<Vector::BLF::MostSpy *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::MOST_CTRL:
-            showMostCtrl(reinterpret_cast<Vector::BLF::MostCtrl *>(obj));
+            showMostCtrl(reinterpret_cast<Vector::BLF::MostCtrl *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::MOST_LIGHTLOCK:
-            showMostLightLock(reinterpret_cast<Vector::BLF::MostLightLock *>(obj));
+            showMostLightLock(reinterpret_cast<Vector::BLF::MostLightLock *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::MOST_STATISTIC:
-            showMostStatistic(reinterpret_cast<Vector::BLF::MostStatistic *>(obj));
+            showMostStatistic(reinterpret_cast<Vector::BLF::MostStatistic *>(ohb));
+            break;
+
+        case Vector::BLF::ObjectType::reserved_1:
+        case Vector::BLF::ObjectType::reserved_2:
+        case Vector::BLF::ObjectType::reserved_3:
+            /* do nothing */
             break;
 
         case Vector::BLF::ObjectType::FLEXRAY_DATA:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::FLEXRAY_SYNC:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::CAN_DRIVER_ERROR:
-            showCanDriverError(reinterpret_cast<Vector::BLF::CanDriverError *>(obj));
+            showCanDriverError(reinterpret_cast<Vector::BLF::CanDriverError *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::MOST_PKT:
-            showMostPkt(reinterpret_cast<Vector::BLF::MostPkt *>(obj));
+            showMostPkt(reinterpret_cast<Vector::BLF::MostPkt *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::MOST_PKT2:
-            showMostPkt2(reinterpret_cast<Vector::BLF::MostPkt2 *>(obj));
+            showMostPkt2(reinterpret_cast<Vector::BLF::MostPkt2 *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::MOST_HWMODE:
-            showMostHwMode(reinterpret_cast<Vector::BLF::MostHwMode *>(obj));
+            showMostHwMode(reinterpret_cast<Vector::BLF::MostHwMode *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::MOST_REG:
-            showMostReg(reinterpret_cast<Vector::BLF::MostReg *>(obj));
+            showMostReg(reinterpret_cast<Vector::BLF::MostReg *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::MOST_GENREG:
-            showMostGenReg(reinterpret_cast<Vector::BLF::MostGenReg *>(obj));
+            showMostGenReg(reinterpret_cast<Vector::BLF::MostGenReg *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::MOST_NETSTATE:
-            showMostNetState(reinterpret_cast<Vector::BLF::MostNetState *>(obj));
+            showMostNetState(reinterpret_cast<Vector::BLF::MostNetState *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::MOST_DATALOST:
-            showMostDataLost(reinterpret_cast<Vector::BLF::MostDataLost *>(obj));
+            showMostDataLost(reinterpret_cast<Vector::BLF::MostDataLost *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::MOST_TRIGGER:
-            showMostTrigger(reinterpret_cast<Vector::BLF::MostTrigger *>(obj));
+            showMostTrigger(reinterpret_cast<Vector::BLF::MostTrigger *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::FLEXRAY_CYCLE:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::FLEXRAY_MESSAGE:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::LIN_CHECKSUM_INFO:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::LIN_SPIKE_EVENT:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::CAN_DRIVER_SYNC:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::FLEXRAY_STATUS:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::GPS_EVENT:
-            showGpsEvent(reinterpret_cast<Vector::BLF::GpsEvent *>(obj));
+            showGpsEvent(reinterpret_cast<Vector::BLF::GpsEvent *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::FR_ERROR:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::FR_STATUS:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::FR_STARTCYCLE:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::FR_RCVMESSAGE:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::REALTIMECLOCK:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            break;
+
+        case Vector::BLF::ObjectType::AVAILABLE2:
+        case Vector::BLF::ObjectType::AVAILABLE3:
+            /* do nothing */
             break;
 
         case Vector::BLF::ObjectType::LIN_STATISTIC:
-            showLinStatisticEvent(reinterpret_cast<Vector::BLF::LinStatisticEvent *>(obj));
+            showLinStatisticEvent(reinterpret_cast<Vector::BLF::LinStatisticEvent *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::J1708_MESSAGE:
         case Vector::BLF::ObjectType::J1708_VIRTUAL_MSG:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::LIN_MESSAGE2:
-            showLinMessage2(reinterpret_cast<Vector::BLF::LinMessage2 *>(obj));
+            showLinMessage2(reinterpret_cast<Vector::BLF::LinMessage2 *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::LIN_SND_ERROR2:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::LIN_SYN_ERROR2:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::LIN_CRC_ERROR2:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::LIN_RCV_ERROR2:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::LIN_WAKEUP2:
-            showLinWakeupEvent2(reinterpret_cast<Vector::BLF::LinWakeupEvent2 *>(obj));
+            showLinWakeupEvent2(reinterpret_cast<Vector::BLF::LinWakeupEvent2 *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::LIN_SPIKE_EVENT2:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::LIN_LONG_DOM_SIG:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::APP_TEXT:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::FR_RCVMESSAGE_EX:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::MOST_STATISTICEX:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::MOST_TXLIGHT:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::MOST_ALLOCTAB:
-            showMostAllocTab(reinterpret_cast<Vector::BLF::MostAllocTab *>(obj));
+            showMostAllocTab(reinterpret_cast<Vector::BLF::MostAllocTab *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::MOST_STRESS:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::ETHERNET_FRAME:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::SYS_VARIABLE:
-            showSystemVariable(reinterpret_cast<Vector::BLF::SystemVariable *>(obj));
+            showSystemVariable(reinterpret_cast<Vector::BLF::SystemVariable *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::CAN_ERROR_EXT:
-            showCanErrorFrameExt(reinterpret_cast<Vector::BLF::CanErrorFrameExt *>(obj));
+            showCanErrorFrameExt(reinterpret_cast<Vector::BLF::CanErrorFrameExt *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::CAN_DRIVER_ERROR_EXT:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::LIN_LONG_DOM_SIG2:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::MOST_150_MESSAGE:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::MOST_150_PKT:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::MOST_ETHERNET_PKT:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::MOST_150_MESSAGE_FRAGMENT:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::MOST_150_PKT_FRAGMENT:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::MOST_ETHERNET_PKT_FRAGMENT:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::MOST_SYSTEM_EVENT:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::MOST_150_ALLOCTAB:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::MOST_50_MESSAGE:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::MOST_50_PKT:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::CAN_MESSAGE2:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::LIN_UNEXPECTED_WAKEUP:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::LIN_SHORT_OR_SLOW_RESPONSE:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::LIN_DISTURBANCE_EVENT:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::SERIAL_EVENT:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::OVERRUN_ERROR:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::EVENT_COMMENT:
-            showEventComment(reinterpret_cast<Vector::BLF::EventComment *>(obj));
+            showEventComment(reinterpret_cast<Vector::BLF::EventComment *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::WLAN_FRAME:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::WLAN_STATISTIC:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::MOST_ECL:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::GLOBAL_MARKER:
-            showGlobalMarker(reinterpret_cast<Vector::BLF::GlobalMarker *>(obj));
+            showGlobalMarker(reinterpret_cast<Vector::BLF::GlobalMarker *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::AFDX_FRAME:
-            showAfdxFrame(reinterpret_cast<Vector::BLF::AfdxFrame *>(obj));
+            showAfdxFrame(reinterpret_cast<Vector::BLF::AfdxFrame *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::AFDX_STATISTIC:
-            showAfdxStatistic(reinterpret_cast<Vector::BLF::AfdxStatistic *>(obj));
+            showAfdxStatistic(reinterpret_cast<Vector::BLF::AfdxStatistic *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::KLINE_STATUSEVENT:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::CAN_FD_MESSAGE:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::CAN_FD_MESSAGE_64:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::ETHERNET_RX_ERROR:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::ETHERNET_STATUS:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         case Vector::BLF::ObjectType::CAN_FD_ERROR_64:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
             break;
 
         default:
-            std::cout << "Unexpected ObjectType " << std::dec << (unsigned int) obj->objectType << std::endl;
+            std::cout << "Unexpected ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
         }
 
         /* check objectSize */
-        if (obj->objectSize != obj->calculateObjectSize()) {
-            std::cout << "ObjectSize=" << obj->objectSize << " doesn't match calculatedObjectSize()=" << obj->calculateObjectSize() << std::endl;
+        if (ohb->objectSize != ohb->calculateObjectSize()) {
+            std::cout << "ObjectSize=" << ohb->objectSize << " doesn't match calculatedObjectSize()=" << ohb->calculateObjectSize() << std::endl;
         }
 
         /* delete object */
-        delete obj;
+        delete ohb;
     }
 
     std::cout << "End of file." << std::endl;

@@ -20,6 +20,7 @@
  */
 
 #include "AbstractFile.h"
+#include "Exceptions.h"
 #include "ObjectHeaderBase.h"
 
 namespace Vector {
@@ -42,7 +43,7 @@ void ObjectHeaderBase::read(AbstractFile & is)
 {
     is.read(reinterpret_cast<char *>(&signature), sizeof(signature));
     if (signature != ObjectSignature) {
-        return;
+        throw ObjectSignatureMismatch();
     }
     is.read(reinterpret_cast<char *>(&headerSize), sizeof(headerSize));
     is.read(reinterpret_cast<char *>(&headerVersion), sizeof(headerVersion));

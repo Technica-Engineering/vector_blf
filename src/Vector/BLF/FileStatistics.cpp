@@ -22,6 +22,7 @@
 #include <string>
 
 #include "AbstractFile.h"
+#include "Exceptions.h"
 #include "FileStatistics.h"
 
 namespace Vector {
@@ -56,7 +57,7 @@ void FileStatistics::read(AbstractFile & is)
 {
     is.read(reinterpret_cast<char *>(&signature), sizeof(signature));
     if (signature != FileSignature) {
-        return;
+        throw FileSignatureMismatch();
     }
     is.read(reinterpret_cast<char *>(&statisticsSize), sizeof(statisticsSize));
     if (statisticsSize != calculateStatisticsSize()) {

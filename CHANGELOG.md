@@ -2,12 +2,15 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+## [1.1.0] - 2016-03-22
+### Added
+- Exceptions to handle unexpected file or object signature.
 ### Changed
 - C++11 override and final clauses
 - Fixed further static compiler warnings under msvc, clang
 ### Fixed
 - compressionLevel is now used. Previously only default compression was applied.
+- Update CMakeLists.txt to latest project standard. Maybe fix #1.
 
 ## [1.0.2] - 2016-06-30
 ### Changed

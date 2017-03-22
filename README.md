@@ -68,6 +68,7 @@ The following files are products of installation and building:
 
 # Wanted features
 
+* File Append
 * There is currently no transition between little/big endian. Current support is only for little endian machines.
 
 # Missing test coverage

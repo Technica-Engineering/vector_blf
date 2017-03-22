@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0)
 
-project(Vector_BLF VERSION 1.0.3)
+project(Vector_BLF VERSION 1.1.0)
 
 # build types: None, Debug, Release, RelWithDebInfo, MinSizeRel
 set(CMAKE_BUILD_TYPE Release)
