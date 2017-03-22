@@ -34,6 +34,6 @@ if(DOXYGEN_FOUND)
     if(NOT WIN32)
         install(
             DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/man
-            DESTINATION ${CMAKE_INSTALL_MANDIR})
+            DESTINATION ${CMAKE_INSTALL_MANDIR}/..)
     endif()
 endif()

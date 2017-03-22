@@ -10,15 +10,19 @@ if(OPTION_RUN_EXAMPLES)
 
     if(WIN32)
         add_custom_target(Vector_DLL-Copy ALL
-            ${CMAKE_COMMAND} -E copy_if_different
-            "${PROJECT_BINARY_DIR}/src/Vector/BLF/${PROJECT_NAME}.dll"
-            "${CMAKE_CURRENT_BINARY_DIR}"
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                "${PROJECT_BINARY_DIR}/src/Vector/BLF/${PROJECT_NAME}.dll"
+                "${CMAKE_CURRENT_BINARY_DIR}"
             COMMENT "Copy ${PROJECT_BINARY_DIR}/src/Vector/BLF/${PROJECT_NAME}.dll to ${CMAKE_CURRENT_BINARY_DIR}")
     endif()
 
-    add_executable(example_Parser Parser.cpp)
+    add_executable(vector-blf-parser Parser.cpp)
 
-    target_link_libraries(example_Parser ${PROJECT_NAME})
+    target_link_libraries(vector-blf-parser ${PROJECT_NAME})
+
+    install(
+        TARGETS vector-blf-parser
+        DESTINATION ${CMAKE_INSTALL_BINDIR})
 endif()
 
 install(

@@ -2,8 +2,7 @@ find_package(Cppcheck)
 
 if(CPPCHECK_FOUND)
     foreach(source_file ${source_files})
-        list(APPEND source_files_with_path
-            "${PROJECT_SOURCE_DIR}/src/Vector/BLF/${source_file}")
+        list(APPEND source_files_with_path "${PROJECT_SOURCE_DIR}/src/Vector/BLF/${source_file}")
     endforeach()
 
     add_custom_target(cppcheck ALL

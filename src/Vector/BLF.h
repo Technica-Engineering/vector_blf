@@ -23,3 +23,6 @@
 
 /* file load/save operations */
 #include "BLF/File.h"
+
+/* exceptions */
+#include "BLF/Exceptions.h"
