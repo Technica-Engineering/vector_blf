@@ -19,6 +19,10 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
+/**
+ * This file contains compiler/linker flags applicable for the library and components using it.
+ */
+
 #pragma once
 
 #include "config.h"
@@ -34,8 +38,14 @@
 /* Visual Studio */
 #ifdef _MSC_VER
 
+/* '...': conversion from '...' to '...', possible loss of data */
+#pragma warning (disable: 4244)
+
 /* '...' : class '...' needs to have dll-interface to be used by clients of class '..' */
 #pragma warning (disable: 4251)
+
+/* non dll-interface class '...' used as base for dll-interface class */
+#pragma warning (disable: 4275)
 
 /* elements of array '...' will be default initialized */
 #pragma warning (disable: 4351)

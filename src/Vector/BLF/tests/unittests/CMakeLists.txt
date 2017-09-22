@@ -1,3 +1,26 @@
+# combines: targets, sources/headers, compiler/linker settings, tests
+function(add_boost_test test_name exec_name)
+    # targets
+    add_executable(${exec_name} "")
+
+    # sources/headers
+    target_sources(${exec_name} PRIVATE ${ARGN})
+
+    # compiler/linker settings
+    target_link_libraries(${exec_name}
+        PRIVATE
+            ${PROJECT_NAME}
+            ${Boost_SYSTEM_LIBRARY}
+            ${Boost_FILESYSTEM_LIBRARY}
+            ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
+    if(OPTION_USE_GCOV_LCOV)
+        target_link_libraries(${exec_name} PRIVATE gcov)
+    endif()
+
+    # tests
+    add_test(${test_name} COMMAND ${exec_name})
+endfunction()
+
 # search paths
 include_directories(
     ${PROJECT_SOURCE_DIR}/src
@@ -10,40 +33,15 @@ add_definitions(
     -DCMAKE_CURRENT_SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}"
     -DCMAKE_CURRENT_BINARY_DIR="${CMAKE_CURRENT_BINARY_DIR}")
 
-# targets
-add_executable(test_AllEvents test_AllEvents.cpp)
-add_executable(test_AllLogfiles test_AllLogfiles.cpp)
-add_executable(test_Events test_Events.cpp)
-
-target_link_libraries(test_AllEvents
-    ${PROJECT_NAME}
-    ${Boost_SYSTEM_LIBRARY}
-    ${Boost_FILESYSTEM_LIBRARY}
-    ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
-target_link_libraries(test_AllLogfiles
-    ${PROJECT_NAME}
-    ${Boost_SYSTEM_LIBRARY}
-    ${Boost_FILESYSTEM_LIBRARY}
-    ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
-target_link_libraries(test_Events
-    ${PROJECT_NAME}
-    ${Boost_SYSTEM_LIBRARY}
-    ${Boost_FILESYSTEM_LIBRARY}
-    ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
-
 # tests
 include(CTest)
 enable_testing()
-add_test(AllEvents test_AllEvents)
-add_test(AllLogfile test_AllLogfile)
-add_test(Events test_Events)
+add_boost_test(AllEvents test_AllEvents test_AllEvents.cpp)
+add_boost_test(AllLogfiles test_AllLogfiles test_AllLogfiles.cpp)
+add_boost_test(Events test_Events test_Events.cpp)
 
 # coverage
 if(OPTION_USE_GCOV_LCOV)
-    target_link_libraries(test_AllEvents gcov)
-    target_link_libraries(test_AllLogfiles gcov)
-    target_link_libraries(test_Events gcov)
-
     add_custom_target(lcov_capture ALL
         COMMAND ${LCOV_EXECUTABLE}
             --capture

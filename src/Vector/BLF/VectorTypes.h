@@ -29,37 +29,37 @@ namespace Vector {
 namespace BLF {
 
 /** unsigned 8 bit */
-typedef uint8_t BYTE;
+using BYTE = uint8_t;
 
 /** unsigned 16 bit */
-typedef uint16_t WORD;
+using WORD = uint16_t;
 
 /** signed 16 bit */
-typedef int16_t SHORT;
+using SHORT = int16_t;
 
 /** unsigned 32 bit */
-typedef uint32_t DWORD;
+using DWORD = uint32_t;
 
 /** unsigned 32 bit */
-typedef uint32_t ULONG;
+using ULONG = uint32_t;
 
 /** signed 32 bit */
-typedef int32_t LONG;
+using LONG = int32_t;
 
 /** unsigned 64 bit */
-typedef uint64_t ULONGLONG;
+using ULONGLONG = uint64_t;
 
 /** unsigned 64 bit */
-typedef uint64_t UINT64;
+using UINT64 = uint64_t;
 
 /** signed 64 bit */
-typedef int64_t LONGLONG;
+using LONGLONG = int64_t;
 
 /** double */
-typedef double DOUBLE;
+using DOUBLE = double;
 
 /** color reference */
-typedef uint32_t COLORREF;
+using COLORREF = uint32_t;
 
 /** system time */
 struct SYSTEMTIME {

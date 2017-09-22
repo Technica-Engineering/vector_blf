@@ -1,263 +1,261 @@
 # dependencies
 include(GenerateExportHeader)
 
+# targets
+add_library(${PROJECT_NAME} SHARED "")
+
 # search paths
 include_directories(
     ${ZLIB_INCLUDE_DIRS}
-    ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR})
 
 # sources/headers
-set(source_files
-    AbstractFile.cpp
-    AfdxFrame.cpp
-    AfdxStatistic.cpp
-    AppText.cpp
-    AppTrigger.cpp
-    CanDriverErrorExt.cpp
-    CanDriverError.cpp
-    CanDriverHwSync.cpp
-    CanDriverStatistic.cpp
-    CanErrorFrameExt.cpp
-    CanErrorFrame.cpp
-    CanFdErrorFrame64.cpp
-    CanFdMessage64.cpp
-    CanFdMessage.cpp
-    CanMessage2.cpp
-    CanMessage.cpp
-    CanOverloadFrame.cpp
-    CompressedFile.cpp
-    DriverOverrun.cpp
-    EnvironmentVariable.cpp
-    EthernetFrame.cpp
-    EthernetRxError.cpp
-    EthernetStatus.cpp
-    EventComment.cpp
-    FileStatistics.cpp
-    File.cpp
-    FlexRayData.cpp
-    FlexRayStatusEvent.cpp
-    FlexRaySync.cpp
-    FlexRayV6Message.cpp
-    FlexRayV6StartCycleEvent.cpp
-    FlexRayVFrError.cpp
-    FlexRayVFrReceiveMsgEx.cpp
-    FlexRayVFrReceiveMsg.cpp
-    FlexRayVFrStartCycle.cpp
-    FlexRayVFrStatus.cpp
-    GlobalMarker.cpp
-    GpsEvent.cpp
-    J1708Message.cpp
-    KLineStatusEvent.cpp
-    LinBaudrateEvent.cpp
-    LinBusEvent.cpp
-    LinChecksumInfo.cpp
-    LinCrcError2.cpp
-    LinCrcError.cpp
-    LinDatabyteTimestampEvent.cpp
-    LinDisturbanceEvent.cpp
-    LinDlcInfo.cpp
-    LinLongDomSignalEvent2.cpp
-    LinLongDomSignalEvent.cpp
-    LinMessage2.cpp
-    LinMessageDescriptor.cpp
-    LinMessage.cpp
-    LinReceiveError2.cpp
-    LinReceiveError.cpp
-    LinSchedulerModeChange.cpp
-    LinSendError2.cpp
-    LinSendError.cpp
-    LinShortOrSlowResponse.cpp
-    LinSlaveTimeout.cpp
-    LinSleepModeEvent.cpp
-    LinSpikeEvent2.cpp
-    LinSpikeEvent.cpp
-    LinStatisticEvent.cpp
-    LinSyncError2.cpp
-    LinSyncError.cpp
-    LinSynchFieldEvent.cpp
-    LinUnexpectedWakeup.cpp
-    LinWakeupEvent2.cpp
-    LinWakeupEvent.cpp
-    LogContainer.cpp
-    Most150AllocTab.cpp
-    Most150MessageFragment.cpp
-    Most150Message.cpp
-    Most150PktFragment.cpp
-    Most150Pkt.cpp
-    Most50Message.cpp
-    Most50Pkt.cpp
-    MostAllocTab.cpp
-    MostCtrl.cpp
-    MostDataLost.cpp
-    MostEcl.cpp
-    MostEthernetPktFragment.cpp
-    MostEthernetPkt.cpp
-    MostGenReg.cpp
-    MostHwMode.cpp
-    MostLightLock.cpp
-    MostNetState.cpp
-    MostPkt2.cpp
-    MostPkt.cpp
-    MostReg.cpp
-    MostSpy.cpp
-    MostStatisticEx.cpp
-    MostStatistic.cpp
-    MostStress.cpp
-    MostSystemEvent.cpp
-    MostTrigger.cpp
-    MostTxLight.cpp
-    ObjectHeader2.cpp
-    ObjectHeaderBase.cpp
-    ObjectHeader.cpp
-    RealtimeClock.cpp
-    SerialEvent.cpp
-    SystemVariable.cpp
-    UncompressedFile.cpp
-    WlanFrame.cpp
-    WlanStatistic.cpp)
-set(public_header_files
-    AbstractFile.h
-    AfdxFrame.h
-    AfdxStatistic.h
-    AppText.h
-    AppTrigger.h
-    CanDriverErrorExt.h
-    CanDriverError.h
-    CanDriverHwSync.h
-    CanDriverStatistic.h
-    CanErrorFrameExt.h
-    CanErrorFrame.h
-    CanFdErrorFrame64.h
-    CanFdMessage64.h
-    CanFdMessage.h
-    CanMessage2.h
-    CanMessage.h
-    CanOverloadFrame.h
-    CompressedFile.h
-    DriverOverrun.h
-    EnvironmentVariable.h
-    EthernetFrame.h
-    EthernetRxError.h
-    EthernetStatus.h
-    EventComment.h
-    Exceptions.h
-    FileStatistics.h
-    File.h
-    FlexRayData.h
-    FlexRayStatusEvent.h
-    FlexRaySync.h
-    FlexRayV6Message.h
-    FlexRayV6StartCycleEvent.h
-    FlexRayVFrError.h
-    FlexRayVFrReceiveMsgEx.h
-    FlexRayVFrReceiveMsg.h
-    FlexRayVFrStartCycle.h
-    FlexRayVFrStatus.h
-    GlobalMarker.h
-    GpsEvent.h
-    J1708Message.h
-    KLineStatusEvent.h
-    LinBaudrateEvent.h
-    LinBusEvent.h
-    LinChecksumInfo.h
-    LinCrcError2.h
-    LinCrcError.h
-    LinDatabyteTimestampEvent.h
-    LinDisturbanceEvent.h
-    LinDlcInfo.h
-    LinLongDomSignalEvent2.h
-    LinLongDomSignalEvent.h
-    LinMessage2.h
-    LinMessageDescriptor.h
-    LinMessage.h
-    LinReceiveError2.h
-    LinReceiveError.h
-    LinSchedulerModeChange.h
-    LinSendError2.h
-    LinSendError.h
-    LinShortOrSlowResponse.h
-    LinSlaveTimeout.h
-    LinSleepModeEvent.h
-    LinSpikeEvent2.h
-    LinSpikeEvent.h
-    LinStatisticEvent.h
-    LinSyncError2.h
-    LinSyncError.h
-    LinSynchFieldEvent.h
-    LinUnexpectedWakeup.h
-    LinWakeupEvent2.h
-    LinWakeupEvent.h
-    LogContainer.h
-    Most150AllocTab.h
-    Most150MessageFragment.h
-    Most150Message.h
-    Most150PktFragment.h
-    Most150Pkt.h
-    Most50Message.h
-    Most50Pkt.h
-    MostAllocTab.h
-    MostCtrl.h
-    MostDataLost.h
-    MostEcl.h
-    MostEthernetPktFragment.h
-    MostEthernetPkt.h
-    MostGenReg.h
-    MostHwMode.h
-    MostLightLock.h
-    MostNetState.h
-    MostPkt2.h
-    MostPkt.h
-    MostReg.h
-    MostSpy.h
-    MostStatisticEx.h
-    MostStatistic.h
-    MostStress.h
-    MostSystemEvent.h
-    MostTrigger.h
-    MostTxLight.h
-    ObjectHeader2.h
-    ObjectHeaderBase.h
-    ObjectHeader.h
-    platform.h
-    RealtimeClock.h
-    SerialEvent.h
-    SystemVariable.h
-    VectorTypes.h
-    UncompressedFile.h
-    WlanFrame.h
-    WlanStatistic.h)
-set(private_header_files
-    )
+target_sources(${PROJECT_NAME}
+    INTERFACE
+        ${CMAKE_CURRENT_SOURCE_DIR}/AbstractFile.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/AfdxFrame.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/AfdxStatistic.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/AppText.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/AppTrigger.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/CanDriverErrorExt.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/CanDriverError.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/CanDriverHwSync.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/CanDriverStatistic.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/CanErrorFrameExt.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/CanErrorFrame.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/CanFdErrorFrame64.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/CanFdMessage64.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/CanFdMessage.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/CanMessage2.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/CanMessage.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/CanOverloadFrame.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/CompressedFile.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/DriverOverrun.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/EnvironmentVariable.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/EthernetFrame.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/EthernetRxError.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/EthernetStatus.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/EventComment.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/Exceptions.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/FileStatistics.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/File.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/FlexRayData.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/FlexRayStatusEvent.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/FlexRaySync.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/FlexRayV6Message.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/FlexRayV6StartCycleEvent.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/FlexRayVFrError.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/FlexRayVFrReceiveMsgEx.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/FlexRayVFrReceiveMsg.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/FlexRayVFrStartCycle.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/FlexRayVFrStatus.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/GlobalMarker.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/GpsEvent.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/J1708Message.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/KLineStatusEvent.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinBaudrateEvent.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinBusEvent.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinChecksumInfo.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinCrcError2.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinCrcError.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinDatabyteTimestampEvent.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinDisturbanceEvent.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinDlcInfo.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinLongDomSignalEvent2.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinLongDomSignalEvent.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinMessage2.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinMessageDescriptor.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinMessage.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinReceiveError2.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinReceiveError.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinSchedulerModeChange.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinSendError2.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinSendError.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinShortOrSlowResponse.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinSlaveTimeout.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinSleepModeEvent.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinSpikeEvent2.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinSpikeEvent.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinStatisticEvent.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinSyncError2.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinSyncError.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinSynchFieldEvent.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinUnexpectedWakeup.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinWakeupEvent2.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinWakeupEvent.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/LogContainer.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/Most150AllocTab.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/Most150MessageFragment.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/Most150Message.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/Most150PktFragment.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/Most150Pkt.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/Most50Message.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/Most50Pkt.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/MostAllocTab.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/MostCtrl.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/MostDataLost.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/MostEcl.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/MostEthernetPktFragment.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/MostEthernetPkt.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/MostGenReg.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/MostHwMode.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/MostLightLock.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/MostNetState.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/MostPkt2.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/MostPkt.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/MostReg.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/MostSpy.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/MostStatisticEx.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/MostStatistic.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/MostStress.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/MostSystemEvent.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/MostTrigger.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/MostTxLight.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/ObjectHeader2.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/ObjectHeaderBase.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/ObjectHeader.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/platform.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/RealtimeClock.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/SerialEvent.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/SystemVariable.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/VectorTypes.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/UncompressedFile.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/WlanFrame.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/WlanStatistic.h
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/AbstractFile.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/AfdxFrame.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/AfdxStatistic.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/AppText.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/AppTrigger.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CanDriverErrorExt.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CanDriverError.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CanDriverHwSync.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CanDriverStatistic.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CanErrorFrameExt.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CanErrorFrame.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CanFdErrorFrame64.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CanFdMessage64.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CanFdMessage.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CanMessage2.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CanMessage.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CanOverloadFrame.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CompressedFile.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/DriverOverrun.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/EnvironmentVariable.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/EthernetFrame.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/EthernetRxError.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/EthernetStatus.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/EventComment.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/FileStatistics.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/File.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/FlexRayData.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/FlexRayStatusEvent.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/FlexRaySync.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/FlexRayV6Message.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/FlexRayV6StartCycleEvent.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/FlexRayVFrError.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/FlexRayVFrReceiveMsgEx.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/FlexRayVFrReceiveMsg.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/FlexRayVFrStartCycle.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/FlexRayVFrStatus.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/GlobalMarker.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/GpsEvent.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/J1708Message.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/KLineStatusEvent.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinBaudrateEvent.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinBusEvent.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinChecksumInfo.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinCrcError2.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinCrcError.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinDatabyteTimestampEvent.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinDisturbanceEvent.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinDlcInfo.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinLongDomSignalEvent2.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinLongDomSignalEvent.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinMessage2.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinMessageDescriptor.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinMessage.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinReceiveError2.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinReceiveError.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinSchedulerModeChange.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinSendError2.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinSendError.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinShortOrSlowResponse.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinSlaveTimeout.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinSleepModeEvent.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinSpikeEvent2.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinSpikeEvent.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinStatisticEvent.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinSyncError2.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinSyncError.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinSynchFieldEvent.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinUnexpectedWakeup.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinWakeupEvent2.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinWakeupEvent.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/LogContainer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Most150AllocTab.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Most150MessageFragment.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Most150Message.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Most150PktFragment.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Most150Pkt.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Most50Message.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Most50Pkt.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/MostAllocTab.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/MostCtrl.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/MostDataLost.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/MostEcl.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/MostEthernetPktFragment.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/MostEthernetPkt.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/MostGenReg.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/MostHwMode.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/MostLightLock.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/MostNetState.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/MostPkt2.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/MostPkt.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/MostReg.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/MostSpy.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/MostStatisticEx.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/MostStatistic.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/MostStress.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/MostSystemEvent.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/MostTrigger.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/MostTxLight.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ObjectHeader2.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ObjectHeaderBase.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ObjectHeader.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/RealtimeClock.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/SerialEvent.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/SystemVariable.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/UncompressedFile.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/WlanFrame.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/WlanStatistic.cpp)
 
 # generated files
 configure_file(config.h.in config.h)
 configure_file(${PROJECT_NAME}.pc.in ${PROJECT_NAME}.pc @ONLY)
+generate_export_header(${PROJECT_NAME})
 
 # compiler/linker settings
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    CXX_STANDARD_REQUIRED 11
+    CXX_VISIBILITY_PRESET "hidden"
+    SOVERSION ${PROJECT_VERSION_MAJOR}
+    VERSION ${PROJECT_VERSION}
+    VISIBILITY_INLINES_HIDDEN 1)
 if(CMAKE_COMPILER_IS_GNUCXX)
-    add_definitions(-std=c++11)
     add_definitions(-D_FORTIFY_SOURCE=2)
     #add_definitions(-fPIE -pie)
     add_definitions(-Wl,-z,relro,-z,now)
     if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 4.9)
         add_definitions(-fstack-protector-strong)
     endif()
+    if(OPTION_USE_GCOV_LCOV)
+        add_definitions(-g -O0 -fprofile-arcs -ftest-coverage)
+    endif()
 endif()
-if(OPTION_USE_GCOV_LCOV)
-    add_definitions(-g -O0 -fprofile-arcs -ftest-coverage)
-endif()
-
-# targets
-add_library(${PROJECT_NAME} SHARED
-    ${source_files} ${public_header_files} ${private_header_files})
-set_target_properties(${PROJECT_NAME} PROPERTIES
-    VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}
-    SOVERSION ${PROJECT_VERSION_MAJOR}
-    CXX_VISIBILITY_PRESET "hidden"
-    VISIBILITY_INLINES_HIDDEN 1)
 target_link_libraries(${PROJECT_NAME}
-    ${ZLIB_LIBRARY})
+    ${ZLIB_LIBRARIES})
 if(OPTION_USE_GCOV_LCOV)
     target_link_libraries(${PROJECT_NAME} gcov)
 endif()
@@ -271,9 +269,9 @@ install(
     DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig)
 install(
     FILES
-        ${CMAKE_CURRENT_BINARY_DIR}/config.h
         ${CMAKE_CURRENT_BINARY_DIR}/vector_blf_export.h
-        ${public_header_files}
+        ${CMAKE_CURRENT_BINARY_DIR}/config.h
+        $<TARGET_PROPERTY:${PROJECT_NAME},INTERFACE_SOURCES>
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/Vector/BLF)
 
 # sub directories
