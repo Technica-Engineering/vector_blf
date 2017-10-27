@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.1.2] - 2017-10-27
+### Changed
+- CXX_EXTENSIONS added and gcc pedantic flag for portability reasons
+### Fixed
+- CXX_STANDARD_REQUIRED was fixed to reflect C++11 requirement
+
 ## [1.1.1] - 2017-09-22
 ### Changed
 - Update to latest project template

@@ -238,12 +238,15 @@ generate_export_header(${PROJECT_NAME})
 
 # compiler/linker settings
 set_target_properties(${PROJECT_NAME} PROPERTIES
-    CXX_STANDARD_REQUIRED 11
+    CXX_EXTENSIONS OFF
+    CXX_STANDARD 11
+    CXX_STANDARD_REQUIRED ON
     CXX_VISIBILITY_PRESET "hidden"
     SOVERSION ${PROJECT_VERSION_MAJOR}
     VERSION ${PROJECT_VERSION}
     VISIBILITY_INLINES_HIDDEN 1)
 if(CMAKE_COMPILER_IS_GNUCXX)
+    add_definitions(-pedantic)
     add_definitions(-D_FORTIFY_SOURCE=2)
     #add_definitions(-fPIE -pie)
     add_definitions(-Wl,-z,relro,-z,now)
