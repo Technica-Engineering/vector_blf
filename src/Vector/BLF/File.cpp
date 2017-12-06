@@ -443,6 +443,74 @@ ObjectHeaderBase * File::createObject(ObjectType type)
     case ObjectType::CAN_FD_ERROR_64:
         obj = new CanFdErrorFrame64();
         break;
+
+    case ObjectType::LIN_SHORT_OR_SLOW_RESPONSE2:
+        // @todo
+        break;
+
+    case ObjectType::AFDX_STATUS:
+        // @todo
+        break;
+
+    case ObjectType::AFDX_BUS_STATISTIC:
+        // @todo
+        break;
+
+    case ObjectType::reserved_4:
+        break;
+
+    case ObjectType::AFDX_ERROR_EVENT:
+        // @todo
+        break;
+
+    case ObjectType::A429_ERROR:
+        // @todo
+        break;
+
+    case ObjectType::A429_STATUS:
+        // @todo
+        break;
+
+    case ObjectType::A429_BUS_STATISTIC:
+        // @todo
+        break;
+
+    case ObjectType::A429_MESSAGE:
+        // @todo
+        break;
+
+    case ObjectType::ETHERNET_STATISTIC:
+        // @todo
+        break;
+
+    case ObjectType::reserved_5:
+    case ObjectType::reserved_6:
+    case ObjectType::reserved_7:
+        break;
+
+    case ObjectType::TEST_STRUCTURE:
+        // @todo
+        break;
+
+    case ObjectType::DIAG_REQUEST_INTERPRETATION:
+        // @todo
+        break;
+
+    case ObjectType::ETHERNET_FRAME_EX:
+        // @todo
+        break;
+
+    case ObjectType::ETHERNET_FRAME_FORWARDED:
+        // @todo
+        break;
+
+    case ObjectType::ETHERNET_ERROR_EX:
+        // @todo
+        break;
+
+    case ObjectType::ETHERNET_ERROR_FORWARDED:
+        // @todo
+        break;
     }
 
     return obj;

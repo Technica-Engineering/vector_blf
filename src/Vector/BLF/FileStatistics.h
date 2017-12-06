@@ -58,7 +58,13 @@ enum class ApplicationId : BYTE
     Canape = 5,
 
     /** CANcaseXL log */
-    Cancasexllog = 6
+    Cancasexllog = 6,
+
+    /** Vector Logger Configurator */
+    Vlconfig = 7,
+
+    /** Porsche Logger */
+    Porschelogger = 8
 };
 
 /**

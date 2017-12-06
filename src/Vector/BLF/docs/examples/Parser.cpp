@@ -1508,6 +1508,76 @@ int main(int argc, char * argv[])
         case Vector::BLF::ObjectType::CAN_FD_ERROR_64:
             show(reinterpret_cast<Vector::BLF::CanFdErrorFrame64 *>(ohb));
             break;
+
+        case Vector::BLF::ObjectType::LIN_SHORT_OR_SLOW_RESPONSE2:
+            // @todo
+            break;
+
+        case Vector::BLF::ObjectType::AFDX_STATUS:
+            // @todo
+            break;
+
+        case Vector::BLF::ObjectType::AFDX_BUS_STATISTIC:
+            // @todo
+            break;
+
+        case Vector::BLF::ObjectType::reserved_4:
+            /* do nothing */
+            break;
+
+        case Vector::BLF::ObjectType::AFDX_ERROR_EVENT:
+            // @todo
+            break;
+
+        case Vector::BLF::ObjectType::A429_ERROR:
+            // @todo
+            break;
+
+        case Vector::BLF::ObjectType::A429_STATUS:
+            // @todo
+            break;
+
+        case Vector::BLF::ObjectType::A429_BUS_STATISTIC:
+            // @todo
+            break;
+
+        case Vector::BLF::ObjectType::A429_MESSAGE:
+            // @todo
+            break;
+
+        case Vector::BLF::ObjectType::ETHERNET_STATISTIC:
+            // @todo
+            break;
+
+        case Vector::BLF::ObjectType::reserved_5:
+        case Vector::BLF::ObjectType::reserved_6:
+        case Vector::BLF::ObjectType::reserved_7:
+            /* do nothing */
+            break;
+
+        case Vector::BLF::ObjectType::TEST_STRUCTURE:
+            // @todo
+            break;
+
+        case Vector::BLF::ObjectType::DIAG_REQUEST_INTERPRETATION:
+            // @todo
+            break;
+
+        case Vector::BLF::ObjectType::ETHERNET_FRAME_EX:
+            // @todo
+            break;
+
+        case Vector::BLF::ObjectType::ETHERNET_FRAME_FORWARDED:
+            // @todo
+            break;
+
+        case Vector::BLF::ObjectType::ETHERNET_ERROR_EX:
+            // @todo
+            break;
+
+        case Vector::BLF::ObjectType::ETHERNET_ERROR_FORWARDED:
+            // @todo
+            break;
         }
 
         /* check objectSize */

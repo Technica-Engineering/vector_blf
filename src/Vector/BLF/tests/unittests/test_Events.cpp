@@ -3796,3 +3796,114 @@ BOOST_AUTO_TEST_CASE(CanFdErrorFrame64)
     file.close();
 }
 #endif
+
+/* LIN_SHORT_OR_SLOW_RESPONSE2 = 105 */
+#if 0
+BOOST_AUTO_TEST_CASE(LinShortOrSlowResponse2)
+{
+}
+#endif
+
+/* AFDX_STATUS = 106 */
+#if 0
+BOOST_AUTO_TEST_CASE(AfdxStatus)
+{
+}
+#endif
+
+/* AFDX_BUS_STATISTIC = 107 */
+#if 0
+BOOST_AUTO_TEST_CASE(AfdxBusStatistic)
+{
+}
+#endif
+
+/* reserved_4 = 108 */
+
+/* AFDX_ERROR_EVENT = 109 */
+#if 0
+BOOST_AUTO_TEST_CASE(AfdxErrorEvent)
+{
+}
+#endif
+
+/* A429_ERROR = 110 */
+#if 0
+BOOST_AUTO_TEST_CASE(A429Error)
+{
+}
+#endif
+
+/* A429_STATUS = 111 */
+#if 0
+BOOST_AUTO_TEST_CASE(A429Status)
+{
+}
+#endif
+
+/* A429_BUS_STATISTIC = 112 */
+#if 0
+BOOST_AUTO_TEST_CASE(A429BusStatistic)
+{
+}
+#endif
+
+/* A429_MESSAGE = 113 */
+#if 0
+BOOST_AUTO_TEST_CASE(A429Message)
+{
+}
+#endif
+
+/* ETHERNET_STATISTIC = 114 */
+#if 0
+BOOST_AUTO_TEST_CASE(EthernetStatistic)
+{
+}
+#endif
+
+/* reserved_5 = 115 */
+/* reserved_6 = 116 */
+/* reserved_7 = 117 */
+
+/* TEST_STRUCTURE = 118 */
+#if 0
+BOOST_AUTO_TEST_CASE(TestStructure)
+{
+}
+#endif
+
+/* DIAG_REQUEST_INTERPRETATION = 119 */
+#if 0
+BOOST_AUTO_TEST_CASE(DiagRequestInterpretation)
+{
+}
+#endif
+
+/* ETHERNET_FRAME_EX = 120 */
+#if 0
+BOOST_AUTO_TEST_CASE(EthernetFrameEx)
+{
+}
+#endif
+
+/* ETHERNET_FRAME_FORWARDED = 121 */
+#if 0
+BOOST_AUTO_TEST_CASE(EthernetFrameForwarded)
+{
+}
+#endif
+
+/* ETHERNET_ERROR_EX = 122 */
+#if 0
+BOOST_AUTO_TEST_CASE(EthernetErrorEx)
+{
+}
+#endif
+
+/* ETHERNET_ERROR_FORWARDED = 123 */
+#if 0
+BOOST_AUTO_TEST_CASE(EthernetErrorForwarded)
+{
+}
+#endif

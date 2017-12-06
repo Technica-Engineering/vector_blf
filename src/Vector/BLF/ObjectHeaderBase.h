@@ -75,7 +75,7 @@ enum class ObjectType : DWORD
     MOST_PKT = 32, /**< MOST Packet */
     MOST_PKT2 = 33, /**< MOST Packet including original timestamp */
     MOST_HWMODE = 34, /**< MOST hardware mode event */
-    MOST_REG = 35, /**< MOST register data (various chips)*/
+    MOST_REG = 35, /**< MOST register data (various chips) */
     MOST_GENREG = 36, /**< MOST register data (MOST register) */
     MOST_NETSTATE = 37, /**< MOST NetState event */
     MOST_DATALOST = 38, /**< MOST data lost */
@@ -140,11 +140,30 @@ enum class ObjectType : DWORD
     AFDX_FRAME = 97,
     AFDX_STATISTIC = 98,
     KLINE_STATUSEVENT = 99, /**< E.g. wake-up pattern */
-    CAN_FD_MESSAGE = 100, /**< CAN FD message object*/
+    CAN_FD_MESSAGE = 100, /**< CAN FD message object */
     CAN_FD_MESSAGE_64 = 101, /**< CAN FD message object */
     ETHERNET_RX_ERROR = 102, /**< Ethernet RX error object */
     ETHERNET_STATUS = 103, /**< Ethernet status object */
-    CAN_FD_ERROR_64 = 104 /**< CAN FD Error Frame object */
+    CAN_FD_ERROR_64 = 104, /**< CAN FD Error Frame object */
+    LIN_SHORT_OR_SLOW_RESPONSE2 = 105,
+    AFDX_STATUS = 106, /**< AFDX status object */
+    AFDX_BUS_STATISTIC = 107, /**< AFDX line-dependent busstatistic object */
+    reserved_4 = 108,
+    AFDX_ERROR_EVENT = 109, /**< AFDX asynchronous error event */
+    A429_ERROR = 110, /**< A429 error object */
+    A429_STATUS = 111, /**< A429 status object */
+    A429_BUS_STATISTIC = 112, /**< A429 busstatistic object */
+    A429_MESSAGE = 113, /**< A429 Message */
+    ETHERNET_STATISTIC = 114, /**< Ethernet statistic object */
+    reserved_5 = 115,
+    reserved_6 = 116,
+    reserved_7 = 117,
+    TEST_STRUCTURE = 118, /**< Event for test execution flow */
+    DIAG_REQUEST_INTERPRETATION = 119, /**< Event for correct interpretation of diagnostic requests */
+    ETHERNET_FRAME_EX = 120, /**< Ethernet packet extended object */
+    ETHERNET_FRAME_FORWARDED = 121, /**< Ethernet packet forwarded object */
+    ETHERNET_ERROR_EX = 122, /**< Ethernet error extended object */
+    ETHERNET_ERROR_FORWARDED = 123 /**< Ethernet error forwarded object */
 };
 
 /**
