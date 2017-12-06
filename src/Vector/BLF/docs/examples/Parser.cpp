@@ -3,43 +3,48 @@
 
 #include "Vector/BLF.h"
 
-void showFileStatistics(Vector::BLF::FileStatistics * fileStatistics)
+void show(Vector::BLF::FileStatistics * obj)
 {
-    std::cout << "statisticsSize: 0x" << std::hex << fileStatistics->statisticsSize << std::endl;
-    std::cout << "applicationId: " << std::dec << (unsigned short) fileStatistics->applicationId << std::endl;
+    std::cout << "statisticsSize: "
+              << "0x" << std::hex << obj->statisticsSize << std::endl;
+    std::cout << "applicationId: "
+              << std::dec << static_cast<uint16_t>(obj->applicationId) << std::endl;
     std::cout << "applicationVersion: "
-              << (unsigned short) fileStatistics->applicationMajor << "."
-              << (unsigned short) fileStatistics->applicationMinor << "."
-              << (unsigned short) fileStatistics->applicationBuild << std::endl;
+              << static_cast<uint16_t>(obj->applicationMajor) << "."
+              << static_cast<uint16_t>(obj->applicationMinor) << "."
+              << static_cast<uint16_t>(obj->applicationBuild) << std::endl;
     std::cout << "apiVersion: "
-              << (unsigned short) fileStatistics->apiMajor << "."
-              << (unsigned short) fileStatistics->apiMinor << "."
-              << (unsigned short) fileStatistics->apiBuild << "."
-              << (unsigned short) fileStatistics->apiPatch << std::endl;
-    std::cout << "fileSize: " << fileStatistics->fileSize << std::endl;
-    std::cout << "uncompressedFileSize: " << fileStatistics->uncompressedFileSize <<
-              " (hex: 0x" << std::hex << fileStatistics->uncompressedFileSize << ")" << std::dec << std::endl;
-    std::cout << "objectCount: " << fileStatistics->objectCount << std::endl;
-    std::cout << "objectsRead: " << fileStatistics->objectsRead << std::endl;
+              << static_cast<uint16_t>(obj->apiMajor) << "."
+              << static_cast<uint16_t>(obj->apiMinor) << "."
+              << static_cast<uint16_t>(obj->apiBuild) << "."
+              << static_cast<uint16_t>(obj->apiPatch) << std::endl;
+    std::cout << "fileSize: "
+              << obj->fileSize << std::endl;
+    std::cout << "uncompressedFileSize: " << obj->uncompressedFileSize <<
+              " (hex: 0x" << std::hex << obj->uncompressedFileSize << ")" << std::dec << std::endl;
+    std::cout << "objectCount: "
+              << obj->objectCount << std::endl;
+    std::cout << "objectsRead: "
+              << obj->objectsRead << std::endl;
     std::cout << "measurementStartTime: "
-              << fileStatistics->measurementStartTime.year << "-"
-              << fileStatistics->measurementStartTime.month << "-"
-              << fileStatistics->measurementStartTime.day << " "
-              << fileStatistics->measurementStartTime.dayOfWeek << " "
-              << fileStatistics->measurementStartTime.hour << ":"
-              << fileStatistics->measurementStartTime.minute << ":"
-              << fileStatistics->measurementStartTime.second << "."
-              << fileStatistics->measurementStartTime.milliseconds
+              << obj->measurementStartTime.year << "-"
+              << obj->measurementStartTime.month << "-"
+              << obj->measurementStartTime.day << " "
+              << obj->measurementStartTime.dayOfWeek << " "
+              << obj->measurementStartTime.hour << ":"
+              << obj->measurementStartTime.minute << ":"
+              << obj->measurementStartTime.second << "."
+              << obj->measurementStartTime.milliseconds
               << std::endl;
     std::cout << "lastObjectTime: "
-              << fileStatistics->lastObjectTime.year << "-"
-              << fileStatistics->lastObjectTime.month << "-"
-              << fileStatistics->lastObjectTime.day << " "
-              << fileStatistics->lastObjectTime.dayOfWeek << " "
-              << fileStatistics->lastObjectTime.hour << ":"
-              << fileStatistics->lastObjectTime.minute << ":"
-              << fileStatistics->lastObjectTime.second << "."
-              << fileStatistics->lastObjectTime.milliseconds
+              << obj->lastObjectTime.year << "-"
+              << obj->lastObjectTime.month << "-"
+              << obj->lastObjectTime.day << " "
+              << obj->lastObjectTime.dayOfWeek << " "
+              << obj->lastObjectTime.hour << ":"
+              << obj->lastObjectTime.minute << ":"
+              << obj->lastObjectTime.second << "."
+              << obj->lastObjectTime.milliseconds
               << std::endl;
     std::cout << std::endl;
 }
@@ -47,90 +52,104 @@ void showFileStatistics(Vector::BLF::FileStatistics * fileStatistics)
 // UNKNOWN = 0
 
 // CAN_MESSAGE = 1
-void showCanMessage(Vector::BLF::CanMessage * canMessage)
+void show(Vector::BLF::CanMessage * obj)
 {
     std::cout << "CanMessage:"
-              << " ch=" << canMessage->channel
-              << " flags=" << (unsigned short) canMessage->flags
-              << " dlc=" << (unsigned short) canMessage->dlc
-              << " id=0x" << std::hex << canMessage->id
+              << " ch=" << obj->channel
+              << " flags=" << static_cast<uint16_t>(obj->flags)
+              << " dlc=" << static_cast<uint16_t>(obj->dlc)
+              << " id=0x" << std::hex << obj->id
               << " data=";
-    for (int i = 0; (i < canMessage->dlc) && (i < 8); ++i) {
+    for (uint8_t i = 0; (i < obj->dlc) && (i < 8); ++i) {
         std::cout << std::hex;
-        if (canMessage->data[i] <= 0xf) {
+        if (obj->data[i] <= 0xf) {
             std::cout << '0';
         }
-        std::cout << ((unsigned short) canMessage->data[i]);
+        std::cout << static_cast<uint16_t>(obj->data[i]);
         std::cout << " ";
     }
     std::cout << std::endl;
 }
 
 // CAN_ERROR = 2
-void showCanErrorFrame(Vector::BLF::CanErrorFrame * canErrorFrame)
+void show(Vector::BLF::CanErrorFrame * obj)
 {
     std::cout << "CanErrorFrame:";
-    std::cout << " ch=" << std::dec << canErrorFrame->channel;
-    std::cout << " len=" << std::dec << canErrorFrame->length;
+    std::cout << " ch=" << std::dec << obj->channel;
+    std::cout << " len=" << std::dec << obj->length;
     std::cout << std::endl;
 }
 
 // CAN_OVERLOAD = 3
+void show(Vector::BLF::CanOverloadFrame * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // CAN_STATISTIC = 4
-void showCanDriverStatistic(Vector::BLF::CanDriverStatistic * canDriverStatistic)
+void show(Vector::BLF::CanDriverStatistic * obj)
 {
     std::cout << "CanDriverStatistic:";
-    std::cout << " ch=" << std::dec << canDriverStatistic->channel;
-    std::cout << " busLoad=" << std::dec << canDriverStatistic->busLoad;
-    std::cout << " stdDtFrm=" << std::dec << canDriverStatistic->standardDataFrames;
-    std::cout << " extDtFrm=" << std::dec << canDriverStatistic->extendedDataFrames;
-    std::cout << " stdRmtFrm=" << std::dec << canDriverStatistic->standardRemoteFrames;
-    std::cout << " extRmtFrm=" << std::dec << canDriverStatistic->extendedRemoteFrames;
-    std::cout << " errFrm=" << std::dec << canDriverStatistic->errorFrames;
-    std::cout << " ovrldFrm=" << std::dec << canDriverStatistic->overloadFrames;
+    std::cout << " ch=" << std::dec << obj->channel;
+    std::cout << " busLoad=" << std::dec << obj->busLoad;
+    std::cout << " stdDtFrm=" << std::dec << obj->standardDataFrames;
+    std::cout << " extDtFrm=" << std::dec << obj->extendedDataFrames;
+    std::cout << " stdRmtFrm=" << std::dec << obj->standardRemoteFrames;
+    std::cout << " extRmtFrm=" << std::dec << obj->extendedRemoteFrames;
+    std::cout << " errFrm=" << std::dec << obj->errorFrames;
+    std::cout << " ovrldFrm=" << std::dec << obj->overloadFrames;
     std::cout << std::endl;
 }
 
 // APP_TRIGGER = 5
+void show(Vector::BLF::AppTrigger * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
+
 
 // ENV_INTEGER = 6
 // ENV_DOUBLE = 7
 // ENV_STRING = 8
 // ENV_DATA = 9
-void showEnvironmentVariable(Vector::BLF::EnvironmentVariable * environmentVariable)
+void show(Vector::BLF::EnvironmentVariable * environmentVariable)
 {
     std::cout << "EnvironmentVariable:";
     std::cout << " name=" << environmentVariable->name;
     switch (environmentVariable->objectType) {
     case Vector::BLF::ObjectType::ENV_INTEGER:
-        std::cout << " value=" << std::dec << (int) *environmentVariable->data.data();
+        std::cout << " value=" << std::dec << static_cast<int>(*environmentVariable->data.data());
         std::cout << " type=Integer";
         break;
     case Vector::BLF::ObjectType::ENV_DOUBLE:
-        std::cout << " value=" << std::fixed << (double) *environmentVariable->data.data();
+        std::cout << " value=" << std::fixed << static_cast<double>(*environmentVariable->data.data());
         std::cout << " type=Double";
         break;
     case Vector::BLF::ObjectType::ENV_STRING:
         std::cout << " type=String";
-        // todo
+        // @todo
         break;
     case Vector::BLF::ObjectType::ENV_DATA:
         std::cout << " type=Data";
-        // todo
+        // @todo
+        break;
+    default:
+        std::cout << " type=Unknown";
         break;
     }
     std::cout << std::endl;
 }
 
 // LOG_CONTAINER = 10
-void showLogContainer(Vector::BLF::LogContainer * logContainer)
+void show(Vector::BLF::LogContainer * logContainer)
 {
     std::cout << "signature: 0x" << std::hex << logContainer->signature << std::endl;
     std::cout << "headerSize: 0x" << std::hex << logContainer->headerSize << std::endl;
     std::cout << "headerVersion: 0x" << std::hex << logContainer->headerVersion << std::endl;
     std::cout << "objectSize: 0x" << std::hex << logContainer->objectSize << std::endl;
-    std::cout << "objectType: " << std::dec << (int) logContainer->objectType << std::endl;
+    std::cout << "objectType: " << std::dec << static_cast<int>(logContainer->objectType) << std::endl;
 
     std::cout << "objectFlags: 0x" << std::hex << logContainer->objectFlags << std::endl;
     std::cout << "objectVersion: 0x" << std::hex << logContainer->objectVersion << std::endl;
@@ -139,90 +158,135 @@ void showLogContainer(Vector::BLF::LogContainer * logContainer)
 }
 
 // LIN_MESSAGE = 11
+void show(Vector::BLF::LinMessage * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // LIN_CRC_ERROR = 12
+void show(Vector::BLF::LinCrcError * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // LIN_DLC_INFO = 13
+void show(Vector::BLF::LinDlcInfo * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // LIN_RCV_ERROR =  14
+void show(Vector::BLF::LinReceiveError * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // LIN_SND_ERROR = 15
+void show(Vector::BLF::LinSendError * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // LIN_SLV_TIMEOUT = 16
+void show(Vector::BLF::LinSlaveTimeout * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // LIN_SCHED_MODCH = 17
-void showLinSchedulerModeChange(Vector::BLF::LinSchedulerModeChange * linSchedulerModeChange)
+void show(Vector::BLF::LinSchedulerModeChange * linSchedulerModeChange)
 {
     std::cout << "LinSchedulerModeChange:";
     std::cout << " ch=" << std::dec << linSchedulerModeChange->channel;
-    std::cout << " old=" << std::dec << (unsigned short) linSchedulerModeChange->oldMode;
-    std::cout << " new=" << std::dec << (unsigned short) linSchedulerModeChange->newMode;
+    std::cout << " old=" << std::dec << static_cast<uint16_t>(linSchedulerModeChange->oldMode);
+    std::cout << " new=" << std::dec << static_cast<uint16_t>(linSchedulerModeChange->newMode);
     std::cout << std::endl;
 }
 
 // LIN_SYN_ERROR = 18
+void show(Vector::BLF::LinSyncError * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // LIN_BAUDRATE = 19
+void show(Vector::BLF::LinBaudrateEvent * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // LIN_SLEEP = 20
-void showLinSleepModeEvent(Vector::BLF::LinSleepModeEvent * linSleepModeEvent)
+void show(Vector::BLF::LinSleepModeEvent * linSleepModeEvent)
 {
     std::cout << "LinSleepModeEvent:";
     std::cout << " ch=" << std::dec << linSleepModeEvent->channel;
-    std::cout << " rsn=" << std::dec << (unsigned short) linSleepModeEvent->reason;
-    std::cout << " flags=0x" << std::hex << (unsigned short) linSleepModeEvent->flags;
+    std::cout << " rsn=" << std::dec << static_cast<uint16_t>(linSleepModeEvent->reason);
+    std::cout << " flags=0x" << std::hex << static_cast<uint16_t>(linSleepModeEvent->flags);
     std::cout << std::endl;
 }
 
 // LIN_WAKEUP = 21
+void show(Vector::BLF::LinWakeupEvent * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // MOST_SPY = 22
-void showMostSpy(Vector::BLF::MostSpy * mostSpy)
+void show(Vector::BLF::MostSpy * mostSpy)
 {
     std::cout << "MostSpy:";
     std::cout << " ch=" << std::dec << mostSpy->channel;
-    std::cout << " dir=" << std::dec << (unsigned short) mostSpy->dir;
+    std::cout << " dir=" << std::dec << static_cast<uint16_t>(mostSpy->dir);
     std::cout << " sourceAdr=" << std::dec << mostSpy->sourceAdr;
     std::cout << " destAdr=" << std::dec << mostSpy->destAdr;
     std::cout << " msg=" << std::hex;
-    for (int i = 0; i < 17; ++i) {
+    for (uint8_t i = 0; i < 17; ++i) {
         if (mostSpy->msg[i] < 0x10) {
             std::cout << "0";
         }
-        std::cout << (unsigned short) mostSpy->msg[i];
+        std::cout << static_cast<uint16_t>(mostSpy->msg[i]);
     }
     std::cout << " rTyp=0x" << std::hex << mostSpy->rTyp;
-    std::cout << " rTypAdr=0x" << std::hex << (unsigned short) mostSpy->rTypAdr;
-    std::cout << " state=0x" << std::hex << (unsigned short) mostSpy->state;
-    std::cout << " ackNack=0x" << std::hex << (unsigned short) mostSpy->ackNack;
+    std::cout << " rTypAdr=0x" << std::hex << static_cast<uint16_t>(mostSpy->rTypAdr);
+    std::cout << " state=0x" << std::hex << static_cast<uint16_t>(mostSpy->state);
+    std::cout << " ackNack=0x" << std::hex << static_cast<uint16_t>(mostSpy->ackNack);
     std::cout << " crc=0x" << std::hex << mostSpy->crc;
     std::cout << std::endl;
 }
 
 // MOST_CTRL = 23
-void showMostCtrl(Vector::BLF::MostCtrl * mostCtrl)
+void show(Vector::BLF::MostCtrl * mostCtrl)
 {
     std::cout << "MostCtrl:";
     std::cout << " ch=" << std::dec << mostCtrl->channel;
-    std::cout << " dir=" << std::dec << (unsigned short) mostCtrl->dir;
+    std::cout << " dir=" << std::dec << static_cast<uint16_t>(mostCtrl->dir);
     std::cout << " sourceAdr=" << std::dec << mostCtrl->sourceAdr;
     std::cout << " destAdr=" << std::dec << mostCtrl->destAdr;
     std::cout << " msg=" << std::hex;
-    for (int i = 0; i < 17; ++i) {
+    for (uint8_t i = 0; i < 17; ++i) {
         if (mostCtrl->msg[i] < 0x10) {
             std::cout << "0";
         }
-        std::cout << (unsigned short) mostCtrl->msg[i];
+        std::cout << static_cast<uint16_t>(mostCtrl->msg[i]);
     }
     std::cout << " rTyp=0x" << std::hex << mostCtrl->rTyp;
-    std::cout << " rTypAdr=0x" << std::hex << (unsigned short) mostCtrl->rTypAdr;
-    std::cout << " state=0x" << std::hex << (unsigned short) mostCtrl->state;
-    std::cout << " ackNack=0x" << std::hex << (unsigned short) mostCtrl->ackNack;
+    std::cout << " rTypAdr=0x" << std::hex << static_cast<uint16_t>(mostCtrl->rTypAdr);
+    std::cout << " state=0x" << std::hex << static_cast<uint16_t>(mostCtrl->state);
+    std::cout << " ackNack=0x" << std::hex << static_cast<uint16_t>(mostCtrl->ackNack);
     std::cout << std::endl;
 }
 
 // MOST_LIGHTLOCK = 24
-void showMostLightLock(Vector::BLF::MostLightLock * mostLightLock)
+void show(Vector::BLF::MostLightLock * mostLightLock)
 {
     std::cout << "MostLightLock:";
     std::cout << " ch=" << std::dec << mostLightLock->channel;
@@ -231,7 +295,7 @@ void showMostLightLock(Vector::BLF::MostLightLock * mostLightLock)
 }
 
 // MOST_STATISTIC = 25
-void showMostStatistic(Vector::BLF::MostStatistic * mostStatistic)
+void show(Vector::BLF::MostStatistic * mostStatistic)
 {
     std::cout << "MostStatistic:";
     std::cout << " ch=" << std::dec << mostStatistic->channel;
@@ -247,74 +311,84 @@ void showMostStatistic(Vector::BLF::MostStatistic * mostStatistic)
 // reserved_3 = 28
 
 // FLEXRAY_DATA = 29
+void show(Vector::BLF::FlexRayData * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // FLEXRAY_SYNC = 30
+void show(Vector::BLF::FlexRaySync * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // CAN_DRIVER_ERROR = 31
-void showCanDriverError(Vector::BLF::CanDriverError * canDriverError)
+void show(Vector::BLF::CanDriverError * canDriverError)
 {
     std::cout << "CanDriverError:";
     std::cout << " ch=" << std::dec << canDriverError->channel;
-    std::cout << " txErr=" << std::dec << (unsigned short) canDriverError->txErrors;
-    std::cout << " rxErr=" << std::dec << (unsigned short) canDriverError->rxErrors;
+    std::cout << " txErr=" << std::dec << static_cast<uint16_t>(canDriverError->txErrors);
+    std::cout << " rxErr=" << std::dec << static_cast<uint16_t>(canDriverError->rxErrors);
     std::cout << " errCode=" << std::dec << canDriverError->errorCode;
     std::cout << std::endl;
 }
 
 // MOST_PKT = 32
-void showMostPkt(Vector::BLF::MostPkt * mostPkt)
+void show(Vector::BLF::MostPkt * mostPkt)
 {
     std::cout << "MostPkt:";
     std::cout << " ch=" << std::dec << mostPkt->channel;
-    std::cout << " dir=" << std::dec << (unsigned short) mostPkt->dir;
+    std::cout << " dir=" << std::dec << static_cast<uint16_t>(mostPkt->dir);
     std::cout << " sa=" << std::dec << mostPkt->sourceAdr;
     std::cout << " da=" << std::dec << mostPkt->destAdr;
-    std::cout << " arb=" << std::dec << (unsigned short) mostPkt->arbitration;
-    std::cout << " tr=" << std::dec << (unsigned short) mostPkt->timeRes;
-    std::cout << " qtf=" << std::dec << (unsigned short) mostPkt->quadsToFollow;
+    std::cout << " arb=" << std::dec << static_cast<uint16_t>(mostPkt->arbitration);
+    std::cout << " tr=" << std::dec << static_cast<uint16_t>(mostPkt->timeRes);
+    std::cout << " qtf=" << std::dec << static_cast<uint16_t>(mostPkt->quadsToFollow);
     std::cout << " crc=" << std::dec << mostPkt->crc;
-    std::cout << " prio=" << std::dec << (unsigned short) mostPkt->priority;
-    std::cout << " tt=" << std::dec << (unsigned short) mostPkt->transferType;
-    std::cout << " st=0x" << std::hex << (unsigned short) mostPkt->state;
+    std::cout << " prio=" << std::dec << static_cast<uint16_t>(mostPkt->priority);
+    std::cout << " tt=" << std::dec << static_cast<uint16_t>(mostPkt->transferType);
+    std::cout << " st=0x" << std::hex << static_cast<uint16_t>(mostPkt->state);
     std::cout << " len=" << std::dec << mostPkt->pktDataLength;
     std::cout << " data=" << std::hex;
-    for (int i = 0; i < mostPkt->pktDataLength; ++i) {
+    for (uint16_t i = 0; i < mostPkt->pktDataLength; ++i) {
         if (mostPkt->pktData[i] < 0x10) {
             std::cout << "0";
         }
-        std::cout << (unsigned short) mostPkt->pktData[i];
+        std::cout << static_cast<uint16_t>(mostPkt->pktData[i]);
     }
     std::cout << std::endl;
 }
 
 // MOST_PKT2 = 33
-void showMostPkt2(Vector::BLF::MostPkt2 * mostPkt2)
+void show(Vector::BLF::MostPkt2 * mostPkt2)
 {
     std::cout << "MostPkt2:";
     std::cout << " ch=" << std::dec << mostPkt2->channel;
-    std::cout << " dir=" << std::dec << (unsigned short) mostPkt2->dir;
+    std::cout << " dir=" << std::dec << static_cast<uint16_t>(mostPkt2->dir);
     std::cout << " sa=" << std::dec << mostPkt2->sourceAdr;
     std::cout << " da=" << std::dec << mostPkt2->destAdr;
-    std::cout << " arb=" << std::dec << (unsigned short) mostPkt2->arbitration;
-    std::cout << " tr=" << std::dec << (unsigned short) mostPkt2->timeRes;
-    std::cout << " qtf=" << std::dec << (unsigned short) mostPkt2->quadsToFollow;
+    std::cout << " arb=" << std::dec << static_cast<uint16_t>(mostPkt2->arbitration);
+    std::cout << " tr=" << std::dec << static_cast<uint16_t>(mostPkt2->timeRes);
+    std::cout << " qtf=" << std::dec << static_cast<uint16_t>(mostPkt2->quadsToFollow);
     std::cout << " crc=" << std::dec << mostPkt2->crc;
-    std::cout << " prio=" << std::dec << (unsigned short) mostPkt2->priority;
-    std::cout << " tt=" << std::dec << (unsigned short) mostPkt2->transferType;
-    std::cout << " st=0x" << std::hex << (unsigned short) mostPkt2->state;
+    std::cout << " prio=" << std::dec << static_cast<uint16_t>(mostPkt2->priority);
+    std::cout << " tt=" << std::dec << static_cast<uint16_t>(mostPkt2->transferType);
+    std::cout << " st=0x" << std::hex << static_cast<uint16_t>(mostPkt2->state);
     std::cout << " len=" << std::dec << mostPkt2->pktDataLength;
     std::cout << " data=" << std::hex;
-    for (int i = 0; i < mostPkt2->pktDataLength; ++i) {
+    for (uint16_t i = 0; i < mostPkt2->pktDataLength; ++i) {
         if (mostPkt2->pktData[i] < 0x10) {
             std::cout << "0";
         }
-        std::cout << (unsigned short) mostPkt2->pktData[i];
+        std::cout << static_cast<uint16_t>(mostPkt2->pktData[i]);
     }
     std::cout << std::endl;
 }
 
 // MOST_HWMODE = 34
-void showMostHwMode(Vector::BLF::MostHwMode * mostHwMode)
+void show(Vector::BLF::MostHwMode * mostHwMode)
 {
     std::cout << "MostHwMode:";
     std::cout << " ch=" << std::dec << mostHwMode->channel;
@@ -324,31 +398,31 @@ void showMostHwMode(Vector::BLF::MostHwMode * mostHwMode)
 }
 
 // MOST_REG = 35
-void showMostReg(Vector::BLF::MostReg * mostReg)
+void show(Vector::BLF::MostReg * mostReg)
 {
     std::cout << "MostReg:";
     std::cout << " ch=" << std::dec << mostReg->channel;
-    std::cout << " subType=" << std::dec << (unsigned short) mostReg->subType;
+    std::cout << " subType=" << std::dec << static_cast<uint16_t>(mostReg->subType);
     std::cout << " handle=" << std::dec << mostReg->handle;
     std::cout << " offset=" << std::dec << mostReg->offset;
     std::cout << " chip=" << std::dec << mostReg->chip;
     std::cout << " regDataLen=" << std::dec << mostReg->regDataLen;
     std::cout << " regData=0x" << std::hex;
-    for (int i = 0; i < mostReg->regDataLen; ++i) {
+    for (uint16_t i = 0; i < mostReg->regDataLen; ++i) {
         if (mostReg->regData[i] < 0x10) {
             std::cout << "0";
         }
-        std::cout << (unsigned short) mostReg->regData[i];
+        std::cout << static_cast<uint16_t>(mostReg->regData[i]);
     }
     std::cout << std::endl;
 }
 
 // MOST_GENREG = 36
-void showMostGenReg(Vector::BLF::MostGenReg * mostGenReg)
+void show(Vector::BLF::MostGenReg * mostGenReg)
 {
     std::cout << "MostGenReg:";
     std::cout << " ch=" << std::dec << mostGenReg->channel;
-    std::cout << " subType=" << std::dec << (unsigned short) mostGenReg->subType;
+    std::cout << " subType=" << std::dec << static_cast<uint16_t>(mostGenReg->subType);
     std::cout << " handle=" << std::dec << mostGenReg->handle;
     std::cout << " regId=0x" << std::hex << mostGenReg->regId;
     std::cout << " regVal=0x" << std::hex << mostGenReg->regValue;
@@ -356,7 +430,7 @@ void showMostGenReg(Vector::BLF::MostGenReg * mostGenReg)
 }
 
 // MOST_NETSTATE = 37
-void showMostNetState(Vector::BLF::MostNetState * mostNetState)
+void show(Vector::BLF::MostNetState * mostNetState)
 {
     std::cout << "MostNetState:";
     std::cout << " ch=" << std::dec << mostNetState->channel;
@@ -366,7 +440,7 @@ void showMostNetState(Vector::BLF::MostNetState * mostNetState)
 }
 
 // MOST_DATALOST = 38
-void showMostDataLost(Vector::BLF::MostDataLost * mostDataLost)
+void show(Vector::BLF::MostDataLost * mostDataLost)
 {
     std::cout << "MostDataLost:";
     std::cout << " ch=" << std::dec << mostDataLost->channel;
@@ -379,7 +453,7 @@ void showMostDataLost(Vector::BLF::MostDataLost * mostDataLost)
 }
 
 // MOST_TRIGGER = 39
-void showMostTrigger(Vector::BLF::MostTrigger * mostTrigger)
+void show(Vector::BLF::MostTrigger * mostTrigger)
 {
     std::cout << "MostTrigger:";
     std::cout << " ch=" << std::dec << mostTrigger->channel;
@@ -391,19 +465,49 @@ void showMostTrigger(Vector::BLF::MostTrigger * mostTrigger)
 }
 
 // FLEXRAY_CYCLE = 40
+void show(Vector::BLF::FlexRayV6StartCycleEvent * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // FLEXRAY_MESSAGE = 41
+void show(Vector::BLF::FlexRayV6Message * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // LIN_CHECKSUM_INFO = 42
+void show(Vector::BLF::LinChecksumInfo * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // LIN_SPIKE_EVENT = 43
+void show(Vector::BLF::LinSpikeEvent * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // CAN_DRIVER_SYNC = 44
+void show(Vector::BLF::CanDriverHwSync * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // FLEXRAY_STATUS = 45
+void show(Vector::BLF::FlexRayStatusEvent * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // GPS_EVENT = 46
-void showGpsEvent(Vector::BLF::GpsEvent * gpsEvent)
+void show(Vector::BLF::GpsEvent * gpsEvent)
 {
     std::cout << "GpsEvent:";
     std::cout << " flags=0x" << std::hex << gpsEvent->flags;
@@ -417,20 +521,45 @@ void showGpsEvent(Vector::BLF::GpsEvent * gpsEvent)
 }
 
 // FR_ERROR = 47
+void show(Vector::BLF::FlexRayVFrError * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // FR_STATUS = 48
+void show(Vector::BLF::FlexRayVFrStatus * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // FR_STARTCYCLE = 49
+void show(Vector::BLF::FlexRayVFrStartCycle * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // FR_RCVMESSAGE = 50
+void show(Vector::BLF::FlexRayVFrReceiveMsg * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // REALTIMECLOCK = 51
+void show(Vector::BLF::RealtimeClock * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // AVAILABLE2 = 52
 // AVAILABLE3 = 53
 
 // LIN_STATISTIC = 54
-void showLinStatisticEvent(Vector::BLF::LinStatisticEvent * linStatisticEvent)
+void show(Vector::BLF::LinStatisticEvent * linStatisticEvent)
 {
     std::cout << "LinStatisticEvent:";
     std::cout << " ch=" << std::dec << linStatisticEvent->channel;
@@ -444,28 +573,32 @@ void showLinStatisticEvent(Vector::BLF::LinStatisticEvent * linStatisticEvent)
 }
 
 // J1708_MESSAGE = 55
-
 // J1708_VIRTUAL_MSG = 56
+void show(Vector::BLF::J1708Message * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // LIN_MESSAGE2 = 57
-void showLinMessage2(Vector::BLF::LinMessage2 * linMessage2)
+void show(Vector::BLF::LinMessage2 * linMessage2)
 {
     std::cout << "LinMessage2:";
     std::cout << " data=0x";
-    for (int i = 0; i < linMessage2->dlc; ++i) {
+    for (uint8_t i = 0; i < linMessage2->dlc; ++i) {
         if (linMessage2->data[i] < 0x10) {
             std::cout << "0";
         }
-        std::cout << std::hex << (unsigned short) linMessage2->data[i];
+        std::cout << std::hex << static_cast<uint16_t>(linMessage2->data[i]);
     }
     std::cout << " crc=0x" << std::hex << linMessage2->crc;
-    std::cout << " dir=" << std::dec << (unsigned short) linMessage2->dir;
-    std::cout << " sim=" << std::dec << (unsigned short) linMessage2->simulated;
-    std::cout << " etf=" << std::dec << (unsigned short) linMessage2->isEtf;
-    std::cout << " etfAI=" << std::dec << (unsigned short) linMessage2->etfAssocIndex;
-    std::cout << " etfAEI=" << std::dec << (unsigned short) linMessage2->etfAssocEtfId;
-    std::cout << " fsmId=" << std::dec << (unsigned short) linMessage2->fsmId;
-    std::cout << " fsmState=" << std::dec << (unsigned short) linMessage2->fsmState;
+    std::cout << " dir=" << std::dec << static_cast<uint16_t>(linMessage2->dir);
+    std::cout << " sim=" << std::dec << static_cast<uint16_t>(linMessage2->simulated);
+    std::cout << " etf=" << std::dec << static_cast<uint16_t>(linMessage2->isEtf);
+    std::cout << " etfAI=" << std::dec << static_cast<uint16_t>(linMessage2->etfAssocIndex);
+    std::cout << " etfAEI=" << std::dec << static_cast<uint16_t>(linMessage2->etfAssocEtfId);
+    std::cout << " fsmId=" << std::dec << static_cast<uint16_t>(linMessage2->fsmId);
+    std::cout << " fsmState=" << std::dec << static_cast<uint16_t>(linMessage2->fsmState);
     std::cout << " respBaudrate=" << std::dec << linMessage2->respBaudrate;
     std::cout << " exactHeaderBaudrate=" << std::dec << linMessage2->exactHeaderBaudrate;
     std::cout << " earlyStopbitOffset=" << std::dec << linMessage2->earlyStopbitOffset;
@@ -474,154 +607,319 @@ void showLinMessage2(Vector::BLF::LinMessage2 * linMessage2)
 }
 
 // LIN_SND_ERROR2 = 58
+void show(Vector::BLF::LinSendError2 * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // LIN_SYN_ERROR2 = 59
+void show(Vector::BLF::LinSyncError2 * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // LIN_CRC_ERROR2 = 60
+void show(Vector::BLF::LinCrcError2 * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // LIN_RCV_ERROR2 = 61
+void show(Vector::BLF::LinReceiveError2 * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // LIN_WAKEUP2 = 62
-void showLinWakeupEvent2(Vector::BLF::LinWakeupEvent2 * linWakeupEvent2)
+void show(Vector::BLF::LinWakeupEvent2 * linWakeupEvent2)
 {
     std::cout << "LinWakeupEvent2:";
-    std::cout << " len=" << std::dec << (unsigned short) linWakeupEvent2->lengthInfo;
-    std::cout << " sig=" << std::dec << (unsigned short) linWakeupEvent2->signal;
-    std::cout << " ext=" << std::dec << (unsigned short) linWakeupEvent2->external;
+    std::cout << " len=" << std::dec << static_cast<uint16_t>(linWakeupEvent2->lengthInfo);
+    std::cout << " sig=" << std::dec << static_cast<uint16_t>(linWakeupEvent2->signal);
+    std::cout << " ext=" << std::dec << static_cast<uint16_t>(linWakeupEvent2->external);
     std::cout << std::endl;
 }
 
 // LIN_SPIKE_EVENT2 = 63
+void show(Vector::BLF::LinSpikeEvent2 * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // LIN_LONG_DOM_SIG = 64
+void show(Vector::BLF::LinLongDomSignalEvent * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // APP_TEXT = 65
+void show(Vector::BLF::AppText * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // FR_RCVMESSAGE_EX = 66
+void show(Vector::BLF::FlexRayVFrReceiveMsgEx * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // MOST_STATISTICEX = 67
+void show(Vector::BLF::MostStatisticEx * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // MOST_TXLIGHT = 68
+void show(Vector::BLF::MostTxLight * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // MOST_ALLOCTAB = 69
-void showMostAllocTab(Vector::BLF::MostAllocTab * mostAllocTab)
+void show(Vector::BLF::MostAllocTab * mostAllocTab)
 {
     std::cout << "MostAllocTab:";
     std::cout << " ch=" << std::dec << mostAllocTab->channel;
     std::cout << " len=0x" << std::hex << mostAllocTab->length;
     std::cout << " allocTab=0x" << std::hex;
-    for (int i = 0; i < mostAllocTab->length; ++i) {
+    for (uint16_t i = 0; i < mostAllocTab->length; ++i) {
         if (mostAllocTab->tableData[i] < 0x10) {
             std::cout << "0";
         }
-        std::cout << (unsigned short) mostAllocTab->tableData[i];
+        std::cout << static_cast<uint16_t>(mostAllocTab->tableData[i]);
     }
     std::cout << std::endl;
 }
 
 // MOST_STRESS = 70
+void show(Vector::BLF::MostStress * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // ETHERNET_FRAME = 71
+void show(Vector::BLF::EthernetFrame * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // SYS_VARIABLE = 72
-void showSystemVariable(Vector::BLF::SystemVariable * systemVariable)
+void show(Vector::BLF::SystemVariable * systemVariable)
 {
     std::cout << "SystemVariable:";
     std::cout << " name=" << systemVariable->name;
     switch (systemVariable->type) {
     case Vector::BLF::SystemVariable::Type::Double:
-        std::cout << " value=" << std::fixed << (double) *systemVariable->data.data();
+        std::cout << " value=" << std::fixed << static_cast<double>(*systemVariable->data.data());
         std::cout << " type=Double";
         break;
     case Vector::BLF::SystemVariable::Type::Long:
-        std::cout << " value=" << std::dec << (long) *systemVariable->data.data();
+        std::cout << " value=" << std::dec << static_cast<long>(*systemVariable->data.data());
         std::cout << " type=Long";
         break;
     case Vector::BLF::SystemVariable::Type::String:
         std::cout << " type=String";
-        // todo
+        // @todo
         break;
     case Vector::BLF::SystemVariable::Type::DoubleArray:
         std::cout << " type=DoubleArray";
-        // todo
+        // @todo
         break;
     case Vector::BLF::SystemVariable::Type::LongArray:
         std::cout << " type=LongArray";
-        // todo
+        // @todo
         break;
     case Vector::BLF::SystemVariable::Type::LongLong:
         std::cout << " type=LongLong";
-        // todo
+        // @todo
         break;
     case Vector::BLF::SystemVariable::Type::ByteArray:
         std::cout << " type=ByteArray";
-        // todo
+        // @todo
         break;
     }
     std::cout << std::endl;
 }
 
 // CAN_ERROR_EXT = 73
-void showCanErrorFrameExt(Vector::BLF::CanErrorFrameExt * canErrorFrameExt)
+void show(Vector::BLF::CanErrorFrameExt * canErrorFrameExt)
 {
     std::cout << "CanErrorFrameExt:";
     std::cout << " ch=" << std::dec << canErrorFrameExt->channel;
     std::cout << " len=" << std::dec << canErrorFrameExt->length;
     std::cout << " flags=0x" << std::hex << canErrorFrameExt->flags;
-    std::cout << " ecc=0x" << std::hex << (unsigned short) canErrorFrameExt->ecc;
-    std::cout << " pos=" << std::dec << (unsigned short) canErrorFrameExt->position;
-    std::cout << " dlc=" << std::dec << (unsigned short) canErrorFrameExt->dlc;
+    std::cout << " ecc=0x" << std::hex << static_cast<uint16_t>(canErrorFrameExt->ecc);
+    std::cout << " pos=" << std::dec << static_cast<uint16_t>(canErrorFrameExt->position);
+    std::cout << " dlc=" << std::dec << static_cast<uint16_t>(canErrorFrameExt->dlc);
     std::cout << " ns=" << std::dec << canErrorFrameExt->frameLengthInNs;
     std::cout << " id=0x" << std::hex << canErrorFrameExt->id;
     std::cout << " flagsExt=0x" << std::hex << canErrorFrameExt->flagsExt;
     std::cout << " msg=" << std::hex;
-    for (int i = 0; i < canErrorFrameExt->dlc; ++i) {
+    for (uint8_t i = 0; i < canErrorFrameExt->dlc; ++i) {
         if (canErrorFrameExt->data[i] < 0x10) {
             std::cout << "0";
         }
-        std::cout << (unsigned short) canErrorFrameExt->data[i];
+        std::cout << static_cast<uint16_t>(canErrorFrameExt->data[i]);
     }
     std::cout << std::endl;
 }
 
 // CAN_DRIVER_ERROR_EXT = 74
+void show(Vector::BLF::CanDriverErrorExt * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // LIN_LONG_DOM_SIG2 = 75
+void show(Vector::BLF::LinLongDomSignalEvent2 * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // MOST_150_MESSAGE = 76
+void show(Vector::BLF::Most150Message * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // MOST_150_PKT = 77
+void show(Vector::BLF::Most150Pkt * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // MOST_ETHERNET_PKT = 78
+void show(Vector::BLF::MostEthernetPkt * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // MOST_150_MESSAGE_FRAGMENT = 79
+void show(Vector::BLF::Most150MessageFragment * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // MOST_150_PKT_FRAGMENT = 80
+void show(Vector::BLF::Most150PktFragment * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // MOST_ETHERNET_PKT_FRAGMENT = 81
+void show(Vector::BLF::MostEthernetPktFragment * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // MOST_SYSTEM_EVENT = 82
+void show(Vector::BLF::MostSystemEvent * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // MOST_150_ALLOCTAB = 83
+void show(Vector::BLF::Most150AllocTab * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // MOST_50_MESSAGE = 84
+void show(Vector::BLF::Most50Message * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // MOST_50_PKT = 85
+void show(Vector::BLF::Most50Pkt * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // CAN_MESSAGE2 = 86
+void show(Vector::BLF::CanMessage2 * obj)
+{
+    std::cout << "CanMessage2:"
+              << " ch=" << obj->channel
+              << " flags=" << static_cast<uint16_t>(obj->flags)
+              << " dlc=" << static_cast<uint16_t>(obj->dlc)
+              << " id=0x" << std::hex << obj->id
+              << " frameLength=" << std::dec << obj->frameLength << "ms"
+              << " bitCount=" << static_cast<uint16_t>(obj->bitCount)
+              << " data=";
+    for (uint8_t i = 0; (i < obj->dlc) && (i < 8); ++i) {
+        std::cout << std::hex;
+        if (obj->data[i] <= 0xf) {
+            std::cout << '0';
+        }
+        std::cout << static_cast<uint16_t>(obj->data[i]);
+        std::cout << " ";
+    }
+    std::cout << std::endl;
+}
 
 // LIN_UNEXPECTED_WAKEUP = 87
+void show(Vector::BLF::LinUnexpectedWakeup * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // LIN_SHORT_OR_SLOW_RESPONSE = 88
+void show(Vector::BLF::LinShortOrSlowResponse * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // LIN_DISTURBANCE_EVENT = 89
+void show(Vector::BLF::LinDisturbanceEvent * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // SERIAL_EVENT = 90
+void show(Vector::BLF::SerialEvent * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // OVERRUN_ERROR = 91
+void show(Vector::BLF::DriverOverrun * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // EVENT_COMMENT = 92
-void showEventComment(Vector::BLF::EventComment * eventComment)
+void show(Vector::BLF::EventComment * eventComment)
 {
     std::cout << "EventComment:";
     std::cout << " type=" << std::dec << eventComment->commentedEventType;
@@ -630,13 +928,28 @@ void showEventComment(Vector::BLF::EventComment * eventComment)
 }
 
 // WLAN_FRAME = 93
+void show(Vector::BLF::WlanFrame * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // WLAN_STATISTIC = 94
+void show(Vector::BLF::WlanStatistic * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // MOST_ECL = 95
+void show(Vector::BLF::MostEcl * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // GLOBAL_MARKER = 96
-void showGlobalMarker(Vector::BLF::GlobalMarker * globalMarker)
+void show(Vector::BLF::GlobalMarker * globalMarker)
 {
     std::cout << "GlobalMarker:";
     std::cout << " type=" << std::dec << globalMarker->commentedEventType;
@@ -649,35 +962,35 @@ void showGlobalMarker(Vector::BLF::GlobalMarker * globalMarker)
 }
 
 // AFDX_FRAME = 97
-void showAfdxFrame(Vector::BLF::AfdxFrame * afdxFrame)
+void show(Vector::BLF::AfdxFrame * afdxFrame)
 {
     std::cout << "AfdxFrame:";
     std::cout << " SA=";
-    for (int i = 0; i < 6; ++i) {
+    for (uint32_t i = 0; i < 6; ++i) {
         if (afdxFrame->sourceAddress[i] < 0x10) {
             std::cout << "0";
         }
-        std::cout << std::hex << (unsigned short) afdxFrame->sourceAddress[i];
+        std::cout << std::hex << static_cast<uint16_t>(afdxFrame->sourceAddress[i]);
         if (i < 5) {
             std::cout << ":";
         }
     }
     std::cout << " ch=" << std::dec << afdxFrame->channel;
     std::cout << " DA=";
-    for (int i = 0; i < 6; ++i) {
+    for (uint32_t i = 0; i < 6; ++i) {
         if (afdxFrame->destinationAddress[i] < 0x10) {
             std::cout << "0";
         }
-        std::cout << std::hex << (unsigned short) afdxFrame->destinationAddress[i];
+        std::cout << std::hex << static_cast<uint16_t>(afdxFrame->destinationAddress[i]);
         if (i < 5) {
             std::cout << ":";
         }
     }
-    std::cout << " dir=" << std::dec << (unsigned short) afdxFrame->dir;
+    std::cout << " dir=" << std::dec << static_cast<uint16_t>(afdxFrame->dir);
     std::cout << " type=0x" << std::hex << afdxFrame->type;
     std::cout << " tpid=" << std::dec << afdxFrame->tpid;
     std::cout << " tci=" << std::dec << afdxFrame->tci;
-    std::cout << " ethChan=" << std::dec << (unsigned short) afdxFrame->ethChannel;
+    std::cout << " ethChan=" << std::dec << static_cast<uint16_t>(afdxFrame->ethChannel);
     std::cout << " flags=0x" << std::hex << afdxFrame->afdxFlags;
     std::cout << " bagUsec=" << std::dec << afdxFrame->bagUsec;
     std::cout << " len=0x" << std::hex << afdxFrame->payLoadLength;
@@ -686,11 +999,11 @@ void showAfdxFrame(Vector::BLF::AfdxFrame * afdxFrame)
 }
 
 // AFDX_STATISTIC = 98
-void showAfdxStatistic(Vector::BLF::AfdxStatistic * afdxStatistic)
+void show(Vector::BLF::AfdxStatistic * afdxStatistic)
 {
     std::cout << "AfdxStatistic:";
     std::cout << " ch=" << std::dec << afdxStatistic->channel;
-    std::cout << " flags=0x" << std::hex << (unsigned short) afdxStatistic->flags;
+    std::cout << " flags=0x" << std::hex << static_cast<uint16_t>(afdxStatistic->flags);
     std::cout << " rxPktCnt=" << std::dec << afdxStatistic->rxPacketCount;
     std::cout << " rxBytCnt=" << std::dec << afdxStatistic->rxByteCount;
     std::cout << " txPktCnt=" << std::dec << afdxStatistic->txPacketCount;
@@ -708,16 +1021,46 @@ void showAfdxStatistic(Vector::BLF::AfdxStatistic * afdxStatistic)
 }
 
 // KLINE_STATUSEVENT = 99
+void show(Vector::BLF::KLineStatusEvent * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // CAN_FD_MESSAGE = 100
+void show(Vector::BLF::CanFdMessage * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // CAN_FD_MESSAGE_64 = 101
+void show(Vector::BLF::CanFdMessage64 * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // ETHERNET_RX_ERROR = 102
+void show(Vector::BLF::EthernetRxError * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // ETHERNET_STATUS = 103
+void show(Vector::BLF::EthernetStatus * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 // CAN_FD_ERROR_64 = 104
+void show(Vector::BLF::CanFdErrorFrame64 * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo
+}
 
 int main(int argc, char * argv[])
 {
@@ -729,12 +1072,12 @@ int main(int argc, char * argv[])
     Vector::BLF::File file;
     file.open(argv[1]);
 
-    showFileStatistics(&file.fileStatistics);
+    show(&file.fileStatistics);
 
     while (!file.eof()) {
         Vector::BLF::ObjectHeaderBase * ohb = file.read();
         if (ohb == nullptr) {
-            continue;
+            break;
         }
 
         /* ObjectHeader */
@@ -772,94 +1115,94 @@ int main(int argc, char * argv[])
             break;
 
         case Vector::BLF::ObjectType::CAN_MESSAGE:
-            showCanMessage(reinterpret_cast<Vector::BLF::CanMessage *>(ohb));
+            show(reinterpret_cast<Vector::BLF::CanMessage *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::CAN_ERROR:
-            showCanErrorFrame(reinterpret_cast<Vector::BLF::CanErrorFrame *>(ohb));
+            show(reinterpret_cast<Vector::BLF::CanErrorFrame *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::CAN_OVERLOAD:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::CanOverloadFrame *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::CAN_STATISTIC:
-            showCanDriverStatistic(reinterpret_cast<Vector::BLF::CanDriverStatistic *>(ohb));
+            show(reinterpret_cast<Vector::BLF::CanDriverStatistic *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::APP_TRIGGER:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::AppTrigger *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::ENV_INTEGER:
         case Vector::BLF::ObjectType::ENV_DOUBLE:
         case Vector::BLF::ObjectType::ENV_STRING:
         case Vector::BLF::ObjectType::ENV_DATA:
-            showEnvironmentVariable(reinterpret_cast<Vector::BLF::EnvironmentVariable *>(ohb));
+            show(reinterpret_cast<Vector::BLF::EnvironmentVariable *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::LOG_CONTAINER:
-            showLogContainer(reinterpret_cast<Vector::BLF::LogContainer *>(ohb));
+            show(reinterpret_cast<Vector::BLF::LogContainer *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::LIN_MESSAGE:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::LinMessage *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::LIN_CRC_ERROR:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::LinCrcError *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::LIN_DLC_INFO:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::LinDlcInfo *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::LIN_RCV_ERROR:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::LinReceiveError *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::LIN_SND_ERROR:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::LinSendError *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::LIN_SLV_TIMEOUT:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::LinSlaveTimeout *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::LIN_SCHED_MODCH:
-            showLinSchedulerModeChange(reinterpret_cast<Vector::BLF::LinSchedulerModeChange *>(ohb));
+            show(reinterpret_cast<Vector::BLF::LinSchedulerModeChange *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::LIN_SYN_ERROR:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::LinSyncError *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::LIN_BAUDRATE:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::LinBaudrateEvent *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::LIN_SLEEP:
-            showLinSleepModeEvent(reinterpret_cast<Vector::BLF::LinSleepModeEvent *>(ohb));
+            show(reinterpret_cast<Vector::BLF::LinSleepModeEvent *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::LIN_WAKEUP:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::LinWakeupEvent *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::MOST_SPY:
-            showMostSpy(reinterpret_cast<Vector::BLF::MostSpy *>(ohb));
+            show(reinterpret_cast<Vector::BLF::MostSpy *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::MOST_CTRL:
-            showMostCtrl(reinterpret_cast<Vector::BLF::MostCtrl *>(ohb));
+            show(reinterpret_cast<Vector::BLF::MostCtrl *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::MOST_LIGHTLOCK:
-            showMostLightLock(reinterpret_cast<Vector::BLF::MostLightLock *>(ohb));
+            show(reinterpret_cast<Vector::BLF::MostLightLock *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::MOST_STATISTIC:
-            showMostStatistic(reinterpret_cast<Vector::BLF::MostStatistic *>(ohb));
+            show(reinterpret_cast<Vector::BLF::MostStatistic *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::reserved_1:
@@ -869,95 +1212,95 @@ int main(int argc, char * argv[])
             break;
 
         case Vector::BLF::ObjectType::FLEXRAY_DATA:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::FlexRayData *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::FLEXRAY_SYNC:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::FlexRaySync *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::CAN_DRIVER_ERROR:
-            showCanDriverError(reinterpret_cast<Vector::BLF::CanDriverError *>(ohb));
+            show(reinterpret_cast<Vector::BLF::CanDriverError *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::MOST_PKT:
-            showMostPkt(reinterpret_cast<Vector::BLF::MostPkt *>(ohb));
+            show(reinterpret_cast<Vector::BLF::MostPkt *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::MOST_PKT2:
-            showMostPkt2(reinterpret_cast<Vector::BLF::MostPkt2 *>(ohb));
+            show(reinterpret_cast<Vector::BLF::MostPkt2 *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::MOST_HWMODE:
-            showMostHwMode(reinterpret_cast<Vector::BLF::MostHwMode *>(ohb));
+            show(reinterpret_cast<Vector::BLF::MostHwMode *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::MOST_REG:
-            showMostReg(reinterpret_cast<Vector::BLF::MostReg *>(ohb));
+            show(reinterpret_cast<Vector::BLF::MostReg *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::MOST_GENREG:
-            showMostGenReg(reinterpret_cast<Vector::BLF::MostGenReg *>(ohb));
+            show(reinterpret_cast<Vector::BLF::MostGenReg *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::MOST_NETSTATE:
-            showMostNetState(reinterpret_cast<Vector::BLF::MostNetState *>(ohb));
+            show(reinterpret_cast<Vector::BLF::MostNetState *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::MOST_DATALOST:
-            showMostDataLost(reinterpret_cast<Vector::BLF::MostDataLost *>(ohb));
+            show(reinterpret_cast<Vector::BLF::MostDataLost *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::MOST_TRIGGER:
-            showMostTrigger(reinterpret_cast<Vector::BLF::MostTrigger *>(ohb));
+            show(reinterpret_cast<Vector::BLF::MostTrigger *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::FLEXRAY_CYCLE:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::FlexRayV6StartCycleEvent *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::FLEXRAY_MESSAGE:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::FlexRayV6Message *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::LIN_CHECKSUM_INFO:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::LinChecksumInfo *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::LIN_SPIKE_EVENT:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::LinSpikeEvent *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::CAN_DRIVER_SYNC:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::CanDriverHwSync *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::FLEXRAY_STATUS:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::FlexRayStatusEvent *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::GPS_EVENT:
-            showGpsEvent(reinterpret_cast<Vector::BLF::GpsEvent *>(ohb));
+            show(reinterpret_cast<Vector::BLF::GpsEvent *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::FR_ERROR:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::FlexRayVFrError *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::FR_STATUS:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::FlexRayVFrStatus *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::FR_STARTCYCLE:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::FlexRayVFrStartCycle *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::FR_RCVMESSAGE:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::FlexRayVFrReceiveMsg *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::REALTIMECLOCK:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::RealtimeClock *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::AVAILABLE2:
@@ -966,208 +1309,205 @@ int main(int argc, char * argv[])
             break;
 
         case Vector::BLF::ObjectType::LIN_STATISTIC:
-            showLinStatisticEvent(reinterpret_cast<Vector::BLF::LinStatisticEvent *>(ohb));
+            show(reinterpret_cast<Vector::BLF::LinStatisticEvent *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::J1708_MESSAGE:
         case Vector::BLF::ObjectType::J1708_VIRTUAL_MSG:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::J1708Message *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::LIN_MESSAGE2:
-            showLinMessage2(reinterpret_cast<Vector::BLF::LinMessage2 *>(ohb));
+            show(reinterpret_cast<Vector::BLF::LinMessage2 *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::LIN_SND_ERROR2:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::LinSendError2 *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::LIN_SYN_ERROR2:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::LinSyncError2 *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::LIN_CRC_ERROR2:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::LinCrcError2 *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::LIN_RCV_ERROR2:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::LinReceiveError2 *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::LIN_WAKEUP2:
-            showLinWakeupEvent2(reinterpret_cast<Vector::BLF::LinWakeupEvent2 *>(ohb));
+            show(reinterpret_cast<Vector::BLF::LinWakeupEvent2 *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::LIN_SPIKE_EVENT2:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::LinSpikeEvent2 *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::LIN_LONG_DOM_SIG:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::LinLongDomSignalEvent *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::APP_TEXT:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::AppText *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::FR_RCVMESSAGE_EX:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::FlexRayVFrReceiveMsgEx *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::MOST_STATISTICEX:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::MostStatisticEx *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::MOST_TXLIGHT:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::MostTxLight *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::MOST_ALLOCTAB:
-            showMostAllocTab(reinterpret_cast<Vector::BLF::MostAllocTab *>(ohb));
+            show(reinterpret_cast<Vector::BLF::MostAllocTab *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::MOST_STRESS:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::MostStress *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::ETHERNET_FRAME:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::EthernetFrame *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::SYS_VARIABLE:
-            showSystemVariable(reinterpret_cast<Vector::BLF::SystemVariable *>(ohb));
+            show(reinterpret_cast<Vector::BLF::SystemVariable *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::CAN_ERROR_EXT:
-            showCanErrorFrameExt(reinterpret_cast<Vector::BLF::CanErrorFrameExt *>(ohb));
+            show(reinterpret_cast<Vector::BLF::CanErrorFrameExt *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::CAN_DRIVER_ERROR_EXT:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::CanDriverErrorExt *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::LIN_LONG_DOM_SIG2:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::LinLongDomSignalEvent2 *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::MOST_150_MESSAGE:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::Most150Message *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::MOST_150_PKT:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::Most150Pkt *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::MOST_ETHERNET_PKT:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::MostEthernetPkt *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::MOST_150_MESSAGE_FRAGMENT:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::Most150MessageFragment *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::MOST_150_PKT_FRAGMENT:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::Most150PktFragment *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::MOST_ETHERNET_PKT_FRAGMENT:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::MostEthernetPktFragment *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::MOST_SYSTEM_EVENT:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::MostSystemEvent *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::MOST_150_ALLOCTAB:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::Most150AllocTab *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::MOST_50_MESSAGE:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::Most50Message *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::MOST_50_PKT:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::Most50Pkt *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::CAN_MESSAGE2:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::CanMessage2 *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::LIN_UNEXPECTED_WAKEUP:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::LinUnexpectedWakeup *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::LIN_SHORT_OR_SLOW_RESPONSE:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::LinShortOrSlowResponse *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::LIN_DISTURBANCE_EVENT:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::LinDisturbanceEvent *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::SERIAL_EVENT:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::SerialEvent *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::OVERRUN_ERROR:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::DriverOverrun *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::EVENT_COMMENT:
-            showEventComment(reinterpret_cast<Vector::BLF::EventComment *>(ohb));
+            show(reinterpret_cast<Vector::BLF::EventComment *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::WLAN_FRAME:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::WlanFrame *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::WLAN_STATISTIC:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::WlanStatistic *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::MOST_ECL:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::MostEcl *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::GLOBAL_MARKER:
-            showGlobalMarker(reinterpret_cast<Vector::BLF::GlobalMarker *>(ohb));
+            show(reinterpret_cast<Vector::BLF::GlobalMarker *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::AFDX_FRAME:
-            showAfdxFrame(reinterpret_cast<Vector::BLF::AfdxFrame *>(ohb));
+            show(reinterpret_cast<Vector::BLF::AfdxFrame *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::AFDX_STATISTIC:
-            showAfdxStatistic(reinterpret_cast<Vector::BLF::AfdxStatistic *>(ohb));
+            show(reinterpret_cast<Vector::BLF::AfdxStatistic *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::KLINE_STATUSEVENT:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::KLineStatusEvent *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::CAN_FD_MESSAGE:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::CanFdMessage *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::CAN_FD_MESSAGE_64:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::CanFdMessage64 *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::ETHERNET_RX_ERROR:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::EthernetRxError *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::ETHERNET_STATUS:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::EthernetStatus *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::CAN_FD_ERROR_64:
-            std::cout << "No parser support for ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
+            show(reinterpret_cast<Vector::BLF::CanFdErrorFrame64 *>(ohb));
             break;
-
-        default:
-            std::cout << "Unexpected ObjectType " << std::dec << (unsigned int) ohb->objectType << std::endl;
         }
 
         /* check objectSize */
