@@ -66,17 +66,8 @@ public:
         /** Duplex */
         Duplex = 0x0008,
 
-        /** MDI Type */
-        MDIType = 0x0010,
-
-        /** Connector */
-        Connector = 0x0020,
-
-        /** Clock Mode */
-        ClockMode = 0x0040,
-
-        /** BroadR-Reach Pair */
-        BroadRReachPair = 0x0080
+        /** Hardware Channel */
+        HardwareChannel = 0x0010,
     };
 
     /** flags */
@@ -209,8 +200,8 @@ public:
     /** pairs */
     Pairs pairs;
 
-    /** reserved */
-    BYTE reserved;
+    /** hardware channel */
+    BYTE hardwareChannel;
 
     /**
      * @brief Bitrate in [kbit/sec]

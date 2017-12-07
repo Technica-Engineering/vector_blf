@@ -36,6 +36,7 @@ namespace BLF {
  * @brief AFDX_STATISTIC
  *
  * AFDX statistic event per virtual link.
+ * AFDX combined bus- and VL- statistic event; used before 8.2
  */
 class VECTOR_BLF_EXPORT AfdxStatistic final : public ObjectHeader
 {
@@ -56,14 +57,29 @@ public:
     /** enumeration for flags */
     enum class Flags : WORD
     {
-        /** Valid Rx/Tx counter */
-        ValidRxTxCounter = 0x01,
+        /** channel is configured */
+        ChannelIsConfigured = 0x0001,
 
-        /** Valid error counter */
-        ValidErrorCounter = 0x02,
+        /** HW related counters valid */
+        HwRelatedCountersValid = 0x0002,
 
-        /** Valid VirtualLink ID */
-        ValidVlid = 0x04
+        /** CANwin related counters are valid */
+        CanWinRelatedCountersAreValid = 0x0004,
+
+        /** link-related info is valid */
+        LinkRelatedInfoIsValud = 0x0008,
+
+        /** invalid packet counter is valid */
+        InvalidPacketCounterIsValid = 0x0010,
+
+        /** lost packet counter is valid */
+        LostPacketCounterIsValud = 0x0020,
+
+        /** dropped packet counter is valid */
+        DroppedPacketCounterIsValid = 0x0040,
+
+        /** byte counters are based on CANwin packets, not HW */
+        ByteCountersAreBasedOnCanWinPackets = 0x0080
     };
 
     /** flags */

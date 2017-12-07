@@ -81,9 +81,12 @@ public:
     Type type;
 
     /**
-     * Reserved, must be 0.
+     * @brief signed, later perhaps also string codepage
      */
-    std::array<DWORD, 3> reserved1;
+    DWORD representation;
+
+    /** reserved */
+    std::array<DWORD, 2> reserved1;
 
     /**
      * @brief length of variable name in bytes

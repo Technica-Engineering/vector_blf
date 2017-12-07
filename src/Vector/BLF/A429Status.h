@@ -23,70 +23,49 @@
 
 #include "platform.h"
 
-#include <cstdint>
+#include "AbstractFile.h"
+#include "ObjectHeader.h"
+#include "VectorTypes.h"
+
+#include "vector_blf_export.h"
 
 namespace Vector {
 namespace BLF {
 
-/** unsigned 8 bit */
-using BYTE = uint8_t;
+/**
+ * @brief A429_STATUS
+ *
+ * A429 status object
+ */
+class VECTOR_BLF_EXPORT A429Status final : public ObjectHeader
+{
+public:
+    A429Status();
 
-/** unsigned 16 bit */
-using WORD = uint16_t;
-using USHORT = uint16_t;
+    virtual void read(AbstractFile & is) override;
+    virtual void write(AbstractFile & os) override;
+    virtual DWORD calculateObjectSize() const override;
 
-/** signed 16 bit */
-using SHORT = int16_t;
+    /** application channel */
+    WORD channel;
 
-/** unsigned 32 bit */
-using DWORD = uint32_t;
+    /** direction flag: 0=Rx, 1=Tx */
+    BYTE dir;
 
-/** unsigned 32 bit */
-using ULONG = uint32_t;
+    /** parity */
+    WORD parity;
 
-/** signed 32 bit */
-using LONG = int32_t;
+    /** minimum gap */
+    ULONG minGap;
 
-/** unsigned 64 bit */
-using ULONGLONG = uint64_t;
+    /** Tx bit rate */
+    ULONG bitrate;
 
-/** unsigned 64 bit */
-using UINT64 = uint64_t;
+    /** Rx min bit rate */
+    ULONG minBitrate;
 
-/** signed 64 bit */
-using LONGLONG = int64_t;
-
-/** double */
-using DOUBLE = double;
-
-/** color reference */
-using COLORREF = uint32_t;
-
-/** system time */
-struct SYSTEMTIME {
-    /** year */
-    WORD year;
-
-    /** month */
-    WORD month;
-
-    /** day of week */
-    WORD dayOfWeek;
-
-    /** day */
-    WORD day;
-
-    /** hour */
-    WORD hour;
-
-    /** minute */
-    WORD minute;
-
-    /** second */
-    WORD second;
-
-    /** milliseconds */
-    WORD milliseconds;
+    /** Rx max bit rate */
+    ULONG maxBitrate;
 };
 
 }

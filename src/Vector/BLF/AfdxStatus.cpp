@@ -19,14 +19,12 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "EthernetStatus.h"
+#include "AfdxStatus.h"
 
 namespace Vector {
 namespace BLF {
 
-EthernetStatus::EthernetStatus() :
-    ObjectHeader(),
-    channel(),
+AfdxLineStatus::AfdxLineStatus() :
     flags(),
     linkStatus(),
     ethernetPhy(),
@@ -35,16 +33,13 @@ EthernetStatus::EthernetStatus() :
     connector(),
     clockMode(),
     pairs(),
-    hardwareChannel(),
+    reserved(),
     bitrate()
 {
-    objectType = ObjectType::ETHERNET_STATUS;
 }
 
-void EthernetStatus::read(AbstractFile & is)
+void AfdxLineStatus::read(AbstractFile & is)
 {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
     is.read(reinterpret_cast<char *>(&linkStatus), sizeof(linkStatus));
     is.read(reinterpret_cast<char *>(&ethernetPhy), sizeof(ethernetPhy));
@@ -53,14 +48,12 @@ void EthernetStatus::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&connector), sizeof(connector));
     is.read(reinterpret_cast<char *>(&clockMode), sizeof(clockMode));
     is.read(reinterpret_cast<char *>(&pairs), sizeof(pairs));
-    is.read(reinterpret_cast<char *>(&hardwareChannel), sizeof(hardwareChannel));
+    is.read(reinterpret_cast<char *>(&reserved), sizeof(reserved));
     is.read(reinterpret_cast<char *>(&bitrate), sizeof(bitrate));
 }
 
-void EthernetStatus::write(AbstractFile & os)
+void AfdxLineStatus::write(AbstractFile & os)
 {
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&flags), sizeof(flags));
     os.write(reinterpret_cast<char *>(&linkStatus), sizeof(linkStatus));
     os.write(reinterpret_cast<char *>(&ethernetPhy), sizeof(ethernetPhy));
@@ -69,15 +62,13 @@ void EthernetStatus::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&connector), sizeof(connector));
     os.write(reinterpret_cast<char *>(&clockMode), sizeof(clockMode));
     os.write(reinterpret_cast<char *>(&pairs), sizeof(pairs));
-    os.write(reinterpret_cast<char *>(&hardwareChannel), sizeof(hardwareChannel));
+    os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
     os.write(reinterpret_cast<char *>(&bitrate), sizeof(bitrate));
 }
 
-DWORD EthernetStatus::calculateObjectSize() const
+DWORD AfdxLineStatus::calculateObjectSize() const
 {
     return
-        ObjectHeader::calculateObjectSize() +
-        sizeof(channel) +
         sizeof(flags) +
         sizeof(linkStatus) +
         sizeof(ethernetPhy) +
@@ -86,8 +77,42 @@ DWORD EthernetStatus::calculateObjectSize() const
         sizeof(connector) +
         sizeof(clockMode) +
         sizeof(pairs) +
-        sizeof(hardwareChannel) +
+        sizeof(reserved) +
         sizeof(bitrate);
+}
+
+AfdxStatus::AfdxStatus() :
+    ObjectHeader(),
+    channel(),
+    statusA(),
+    statusB()
+{
+    objectType = ObjectType::AFDX_STATUS;
+}
+
+void AfdxStatus::read(AbstractFile & is)
+{
+    ObjectHeader::read(is);
+    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    statusA.read(is);
+    statusB.read(is);
+}
+
+void AfdxStatus::write(AbstractFile & os)
+{
+    ObjectHeader::write(os);
+    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    statusA.write(os);
+    statusB.write(os);
+}
+
+DWORD AfdxStatus::calculateObjectSize() const
+{
+    return
+        ObjectHeader::calculateObjectSize() +
+        sizeof(channel) +
+        statusA.calculateObjectSize() +
+        statusB.calculateObjectSize();
 }
 
 }

@@ -31,8 +31,6 @@
 namespace Vector {
 namespace BLF {
 
-/* BL API */
-
 /**
  * @brief object type
  *
@@ -166,9 +164,7 @@ enum class ObjectType : DWORD
     ETHERNET_ERROR_FORWARDED = 123 /**< Ethernet error forwarded object */
 };
 
-/**
- * object signature
- */
+/** object signature */
 const DWORD ObjectSignature = 0x4A424F4C; /* LOBJ */
 
 /**

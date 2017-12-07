@@ -29,6 +29,7 @@ namespace BLF {
 SystemVariable::SystemVariable() :
     ObjectHeader(),
     type(),
+    representation(),
     reserved1(),
     nameLength(),
     dataLength(),
@@ -43,6 +44,7 @@ void SystemVariable::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&type), sizeof(type));
+    is.read(reinterpret_cast<char *>(&representation), sizeof(representation));
     is.read(reinterpret_cast<char *>(reserved1.data()), static_cast<std::streamsize>(reserved1.size() * sizeof(DWORD)));
     is.read(reinterpret_cast<char *>(&nameLength), sizeof(nameLength));
     is.read(reinterpret_cast<char *>(&dataLength), sizeof(dataLength));
@@ -65,6 +67,7 @@ void SystemVariable::write(AbstractFile & os)
 
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&type), sizeof(type));
+    os.write(reinterpret_cast<char *>(&representation), sizeof(representation));
     os.write(reinterpret_cast<char *>(reserved1.data()), static_cast<std::streamsize>(reserved1.size() * sizeof(DWORD)));
     os.write(reinterpret_cast<char *>(&nameLength), sizeof(nameLength));
     os.write(reinterpret_cast<char *>(&dataLength), sizeof(dataLength));
@@ -78,6 +81,7 @@ DWORD SystemVariable::calculateObjectSize() const
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(type) +
+        sizeof(representation) +
         static_cast<DWORD>(reserved1.size() * sizeof(DWORD)) +
         sizeof(nameLength) +
         sizeof(dataLength) +

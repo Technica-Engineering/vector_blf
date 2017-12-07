@@ -23,8 +23,11 @@
 
 #include "platform.h"
 
+#include <array>
+
 #include "AbstractFile.h"
-#include "ObjectHeaderBase.h"
+#include "LinDatabyteTimestampEvent.h"
+#include "ObjectHeader.h"
 #include "VectorTypes.h"
 
 #include "vector_blf_export.h"
@@ -33,68 +36,68 @@ namespace Vector {
 namespace BLF {
 
 /**
- * @brief Object header
- *
- * Object header. Version 1.
+ * @brief LIN_SHORT_OR_SLOW_RESPONSE2
  */
-class VECTOR_BLF_EXPORT ObjectHeader : public ObjectHeaderBase
+class VECTOR_BLF_EXPORT LinShortOrSlowResponse2 final : public ObjectHeader, public LinDatabyteTimestampEvent
 {
 public:
-    ObjectHeader();
+    LinShortOrSlowResponse2();
 
     virtual void read(AbstractFile & is) override;
     virtual void write(AbstractFile & os) override;
-    virtual WORD calculateHeaderSize() const override;
     virtual DWORD calculateObjectSize() const override;
 
-    /** enumeration for objectFlags */
-    enum ObjectFlags : DWORD {
-        /**
-         * @brief 10 micro second timestamp
-         *
-         * Object time stamp is saved as multiple of ten
-         * microseconds.
-         * (BL_OBJ_FLAG_TIME_TEN_MICS)
-         */
-        TimeTenMics = 0x00000001,
-
-        /**
-         * @brief 1 nano second timestamp
-         *
-         * Object time stamp is saved in nanoseconds.
-         * (BL_OBJ_FLAG_TIME_ONE_NANS)
-         */
-        TimeOneNans = 0x00000002
-    };
-
     /**
-     * @brief object flags
+     * @brief number of valid response bytes
      *
-     * Unit of object timestamp.
+     * The number of response bytes.
      */
-    ObjectFlags objectFlags;
+    ULONG numberOfRespBytes;
 
     /**
-     * @brief client index of send node
-     */
-    WORD clientIndex;
-
-    /**
-     * @brief object specific version
+     * @brief the response bytes (can include the checksum)
      *
-     * Object specific version, has to be set to 0 unless
-     * stated otherwise in the description of a specific
-     * event.
+     * The response bytes (can include the
+     * checksum).
      */
-    WORD objectVersion;
+    std::array<BYTE, 9> respBytes;
 
     /**
-     * @brief object timestamp
+     * @brief non-zero, if the response was too slow
      *
-     * Time stamp of this object in the unit specified in
-     * objectFlags.
+     * Non-zero, if the response was too
+     * slow; otherwise zero.
      */
-    ULONGLONG objectTimeStamp;
+    BYTE slowResponse;
+
+    /**
+     * @brief non-zero, if the response was interrupted by a sync break
+     *
+     * Non-zero, if the response was
+     * interrupted by a sync break;
+     * otherwise zero.
+     */
+    BYTE interruptedByBreak;
+
+    /** reserved */
+    BYTE reserved;
+
+    /**
+     * @brief Exact baudrate of the header in bit/sec
+     *
+     * Event's baudrate measured in
+     * header [in bits/sec]
+     */
+    DOUBLE exactHeaderBaudrate;
+
+    /**
+     * @brief Early stop bit offset for UART timestamps in ns
+     *
+     * Early stop bit offset in frame
+     * header for UART timestamps
+     * [in ns]
+     */
+    DWORD earlyStopbitOffset;
 };
 
 }

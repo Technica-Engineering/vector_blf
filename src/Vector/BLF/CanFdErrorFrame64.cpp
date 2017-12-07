@@ -33,7 +33,7 @@ CanFdErrorFrame64::CanFdErrorFrame64() :
     flags(),
     errorCodeExt(),
     extFlags(),
-    reserved1(),
+    extDataOffset(0),
     id(),
     frameLength(),
     btrCfgArb(),
@@ -43,7 +43,8 @@ CanFdErrorFrame64::CanFdErrorFrame64() :
     crc(),
     errorPosition(),
     reserved2(),
-    data()
+    data(),
+    extFrameData()
 {
     objectType = ObjectType::CAN_FD_ERROR_64;
 }
@@ -58,7 +59,7 @@ void CanFdErrorFrame64::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
     is.read(reinterpret_cast<char *>(&errorCodeExt), sizeof(errorCodeExt));
     is.read(reinterpret_cast<char *>(&extFlags), sizeof(extFlags));
-    is.read(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    is.read(reinterpret_cast<char *>(&extDataOffset), sizeof(extDataOffset));
     is.read(reinterpret_cast<char *>(&id), sizeof(id));
     is.read(reinterpret_cast<char *>(&frameLength), sizeof(frameLength));
     is.read(reinterpret_cast<char *>(&btrCfgArb), sizeof(btrCfgArb));
@@ -69,6 +70,10 @@ void CanFdErrorFrame64::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&errorPosition), sizeof(errorPosition));
     is.read(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
     is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
+    if (extDataOffset != 0) {
+        is.read(reinterpret_cast<char *>(&extFrameData.btrExtArb), sizeof(extFrameData.btrExtArb));
+        is.read(reinterpret_cast<char *>(&extFrameData.btrExtData), sizeof(extFrameData.btrExtData));
+    }
 }
 
 void CanFdErrorFrame64::write(AbstractFile & os)
@@ -81,7 +86,7 @@ void CanFdErrorFrame64::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&flags), sizeof(flags));
     os.write(reinterpret_cast<char *>(&errorCodeExt), sizeof(errorCodeExt));
     os.write(reinterpret_cast<char *>(&extFlags), sizeof(extFlags));
-    os.write(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    os.write(reinterpret_cast<char *>(&extDataOffset), sizeof(extDataOffset));
     os.write(reinterpret_cast<char *>(&id), sizeof(id));
     os.write(reinterpret_cast<char *>(&frameLength), sizeof(frameLength));
     os.write(reinterpret_cast<char *>(&btrCfgArb), sizeof(btrCfgArb));
@@ -92,11 +97,15 @@ void CanFdErrorFrame64::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&errorPosition), sizeof(errorPosition));
     os.write(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
     os.write(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
+    if (extDataOffset != 0) {
+        os.write(reinterpret_cast<char *>(&extFrameData.btrExtArb), sizeof(extFrameData.btrExtArb));
+        os.write(reinterpret_cast<char *>(&extFrameData.btrExtData), sizeof(extFrameData.btrExtData));
+    }
 }
 
 DWORD CanFdErrorFrame64::calculateObjectSize() const
 {
-    return
+    DWORD size =
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(dlc) +
@@ -105,7 +114,7 @@ DWORD CanFdErrorFrame64::calculateObjectSize() const
         sizeof(flags) +
         sizeof(errorCodeExt) +
         sizeof(extFlags) +
-        sizeof(reserved1) +
+        sizeof(extDataOffset) +
         sizeof(id) +
         sizeof(frameLength) +
         sizeof(btrCfgArb) +
@@ -116,6 +125,12 @@ DWORD CanFdErrorFrame64::calculateObjectSize() const
         sizeof(errorPosition) +
         sizeof(reserved2) +
         static_cast<DWORD>(data.size());
+    if (extDataOffset != 0) {
+        size +=
+            sizeof(extFrameData.btrExtArb) +
+            sizeof(extFrameData.btrExtData);
+    }
+    return size;
 }
 
 }

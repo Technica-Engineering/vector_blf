@@ -39,9 +39,10 @@ CanFdMessage64::CanFdMessage64() :
     timeOffsetCrcDelNs(),
     bitCount(),
     dir(),
-    reserved1(),
-    reserved2(),
-    data()
+    extDataOffset(),
+    crc(),
+    data(),
+    extFrameData()
 {
     objectType = ObjectType::CAN_FD_MESSAGE_64;
 }
@@ -62,9 +63,13 @@ void CanFdMessage64::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&timeOffsetCrcDelNs), sizeof(timeOffsetCrcDelNs));
     is.read(reinterpret_cast<char *>(&bitCount), sizeof(bitCount));
     is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
-    is.read(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
-    is.read(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    is.read(reinterpret_cast<char *>(&extDataOffset), sizeof(extDataOffset));
+    is.read(reinterpret_cast<char *>(&crc), sizeof(crc));
     is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
+    if (extDataOffset != 0) {
+        is.read(reinterpret_cast<char *>(&extFrameData.btrExtArb), sizeof(extFrameData.btrExtArb));
+        is.read(reinterpret_cast<char *>(&extFrameData.btrExtData), sizeof(extFrameData.btrExtData));
+    }
 }
 
 void CanFdMessage64::write(AbstractFile & os)
@@ -83,14 +88,18 @@ void CanFdMessage64::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&timeOffsetCrcDelNs), sizeof(timeOffsetCrcDelNs));
     os.write(reinterpret_cast<char *>(&bitCount), sizeof(bitCount));
     os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
-    os.write(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
-    os.write(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    os.write(reinterpret_cast<char *>(&extDataOffset), sizeof(extDataOffset));
+    os.write(reinterpret_cast<char *>(&crc), sizeof(crc));
     os.write(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
+    if (extDataOffset != 0) {
+        os.write(reinterpret_cast<char *>(&extFrameData.btrExtArb), sizeof(extFrameData.btrExtArb));
+        os.write(reinterpret_cast<char *>(&extFrameData.btrExtData), sizeof(extFrameData.btrExtData));
+    }
 }
 
 DWORD CanFdMessage64::calculateObjectSize() const
 {
-    return
+    DWORD size =
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(dlc) +
@@ -105,9 +114,15 @@ DWORD CanFdMessage64::calculateObjectSize() const
         sizeof(timeOffsetCrcDelNs) +
         sizeof(bitCount) +
         sizeof(dir) +
-        sizeof(reserved1) +
-        sizeof(reserved2) +
+        sizeof(extDataOffset) +
+        sizeof(crc) +
         static_cast<DWORD>(data.size());
+    if (extDataOffset != 0) {
+        size +=
+            sizeof(extFrameData.btrExtArb) +
+            sizeof(extFrameData.btrExtData);
+    }
+    return size;
 }
 
 }

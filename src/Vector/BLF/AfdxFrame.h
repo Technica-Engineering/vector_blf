@@ -154,7 +154,9 @@ public:
      * @brief Ethernet payload data
      *
      * Ethernet payload data (without Ethernet
-     * header). Max 1500 data bytes per frame
+     * header).
+     *
+     * Max 1582 (1600 packet length - 18 header) data bytes per frame
      */
     std::vector<uint8_t> payLoad;
 };

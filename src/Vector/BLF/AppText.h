@@ -34,19 +34,6 @@
 namespace Vector {
 namespace BLF {
 
-#define BL_APPTEXT_MEASUREMENTCOMMENT 0x00000000
-#define BL_APPTEXT_DBCHANNELINFO      0x00000001
-
-#define APPTEXT_DBCHANNELINFO_VERSION( f) ( BYTE)(   f & 0x000000FF)
-#define APPTEXT_DBCHANNELINFO_CHANNEL( f) ( BYTE)( ( f & 0x0000FF00) >> 8)
-#define APPTEXT_DBCHANNELINFO_BUSTYPE( f) ( BYTE)( ( f & 0x00FF0000) >> 16)
-#define APPTEXT_DBCHANNELINFO_CANFD( f)   ( BYTE)( ( f & 0x01000000) >> 24)
-#define APPTEXT_DBCHANNELINFO_FLAGS( version, bustype, channel, canfd) \
-    (DWORD)( ( ( DWORD)(canfd   & 0x01) << 24) | \
-             ( ( DWORD)(bustype & 0xFF) << 16) | \
-             ( ( DWORD)(channel & 0xFF) << 8) | \
-             ( ( DWORD)(version & 0xFF)))
-
 /**
  * @brief APP_TEXT
  *
@@ -66,10 +53,13 @@ public:
     enum class Source : DWORD
     {
         /** measurement comment */
-        MeasurementComment = 0,
+        MeasurementComment = 0x00000000,
 
         /** database channel info */
-        DbChannelInfo = 1
+        DbChannelInfo = 0x00000001,
+
+        /** meta data */
+        MetaData = 0x00000002,
     };
 
     /**
@@ -78,11 +68,11 @@ public:
      * Defines the source/semantic of the text. Actually two
      * different values are defined:
      *
-     * 0: BL_APPTEXT_MEASUREMENTCOMMENT
+     * 0: Measurement comment
      * - reserved is not used
      * - text contains a measurement comment
      *
-     * 1: BL_APPTEXT_DBCHANNELINFO
+     * 1: Database channel information
      * - reserved contains channel information. The following
      * - table show how the 4 bytes are used:
      *   - Bit 0-7: Version of the data
@@ -107,6 +97,8 @@ public:
      *   \<Path1\>;\<ClusterName1\>;\<Path2\>;\<ClusterName2\>;...
      *   If for a database there's no cluster name available, an
      *   empty string is written as cluster name.
+     *
+     * 2: Meta data
      */
     Source source;
 

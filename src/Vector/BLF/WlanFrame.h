@@ -59,7 +59,10 @@ public:
     enum class Flags : WORD
     {
         /** Genuine MAC Header */
-        GenuineMacHeader = 0x0001
+        GenuineMacHeader = 0x0001,
+
+        /** Correct Frame Control Format */
+        CorrectFrameControlFormat = 0x0002,
     };
 
     /** flags */

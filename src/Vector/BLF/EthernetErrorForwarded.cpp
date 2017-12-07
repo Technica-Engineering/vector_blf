@@ -19,71 +19,79 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "EthernetRxError.h"
+#include "EthernetErrorForwarded.h"
 
 namespace Vector {
 namespace BLF {
 
-EthernetRxError::EthernetRxError() :
+EthernetErrorForwarded::EthernetErrorForwarded() :
     ObjectHeader(),
     structLength(),
+    flags(),
     channel(),
-    dir(),
     hardwareChannel(),
-    fcs(),
-    frameDataLength(),
-    reserved2(),
+    frameDuration(),
+    frameChecksum(),
+    dir(),
+    frameLength(),
+    frameHandle(),
     error(),
     frameData()
 {
-    objectType = ObjectType::ETHERNET_RX_ERROR;
+    objectType = ObjectType::ETHERNET_ERROR_FORWARDED;
 }
 
-void EthernetRxError::read(AbstractFile & is)
+void EthernetErrorForwarded::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&structLength), sizeof(structLength));
+    is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
     is.read(reinterpret_cast<char *>(&hardwareChannel), sizeof(hardwareChannel));
-    is.read(reinterpret_cast<char *>(&fcs), sizeof(fcs));
-    is.read(reinterpret_cast<char *>(&frameDataLength), sizeof(frameDataLength));
-    is.read(reinterpret_cast<char *>(reserved2.data()), static_cast<std::streamsize>(reserved2.size()));
+    is.read(reinterpret_cast<char *>(&frameDuration), sizeof(frameDuration));
+    is.read(reinterpret_cast<char *>(&frameChecksum), sizeof(frameChecksum));
+    is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
+    is.read(reinterpret_cast<char *>(&frameLength), sizeof(frameLength));
+    is.read(reinterpret_cast<char *>(&frameHandle), sizeof(frameHandle));
     is.read(reinterpret_cast<char *>(&error), sizeof(error));
-    frameData.resize(frameDataLength);
-    is.read(reinterpret_cast<char *>(frameData.data()), frameDataLength);
+    frameData.resize(frameLength);
+    is.read(reinterpret_cast<char *>(frameData.data()), frameLength);
 }
 
-void EthernetRxError::write(AbstractFile & os)
+void EthernetErrorForwarded::write(AbstractFile & os)
 {
     /* pre processing */
-    frameDataLength = static_cast<WORD>(frameData.size());
+    frameLength = static_cast<WORD>(frameData.size());
 
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&structLength), sizeof(structLength));
+    os.write(reinterpret_cast<char *>(&flags), sizeof(flags));
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
     os.write(reinterpret_cast<char *>(&hardwareChannel), sizeof(hardwareChannel));
-    os.write(reinterpret_cast<char *>(&fcs), sizeof(fcs));
-    os.write(reinterpret_cast<char *>(&frameDataLength), sizeof(frameDataLength));
-    os.write(reinterpret_cast<char *>(reserved2.data()), static_cast<std::streamsize>(reserved2.size()));
+    os.write(reinterpret_cast<char *>(&frameDuration), sizeof(frameDuration));
+    os.write(reinterpret_cast<char *>(&frameChecksum), sizeof(frameChecksum));
+    os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
+    os.write(reinterpret_cast<char *>(&frameLength), sizeof(frameLength));
+    os.write(reinterpret_cast<char *>(&frameHandle), sizeof(frameHandle));
     os.write(reinterpret_cast<char *>(&error), sizeof(error));
-    os.write(reinterpret_cast<char *>(frameData.data()), frameDataLength);
+    os.write(reinterpret_cast<char *>(frameData.data()), frameLength);
 }
 
-DWORD EthernetRxError::calculateObjectSize() const
+DWORD EthernetErrorForwarded::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(structLength) +
+        sizeof(flags) +
         sizeof(channel) +
-        sizeof(dir) +
         sizeof(hardwareChannel) +
-        sizeof(fcs) +
-        sizeof(frameDataLength) +
-        static_cast<DWORD>(reserved2.size()) +
+        sizeof(frameDuration) +
+        sizeof(frameChecksum) +
+        sizeof(dir) +
+        sizeof(frameLength) +
+        sizeof(frameHandle) +
         sizeof(error) +
-        frameDataLength;
+        frameLength;
 }
 
 }

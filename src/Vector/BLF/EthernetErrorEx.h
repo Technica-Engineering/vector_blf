@@ -23,7 +23,6 @@
 
 #include "platform.h"
 
-#include <array>
 #include <vector>
 
 #include "AbstractFile.h"
@@ -36,14 +35,12 @@ namespace Vector {
 namespace BLF {
 
 /**
- * @brief ETHERNET_RX_ERROR
- *
- * Ethernet RX error frame.
+ * @brief ETHERNET_ERROR_EX
  */
-class VECTOR_BLF_EXPORT EthernetRxError final : public ObjectHeader
+class VECTOR_BLF_EXPORT EthernetErrorEx final : public ObjectHeader
 {
 public:
-    EthernetRxError();
+    EthernetErrorEx();
 
     virtual void read(AbstractFile & is) override;
     virtual void write(AbstractFile & os) override;
@@ -59,50 +56,49 @@ public:
     WORD structLength;
 
     /**
-     * The channel of the frame.
+     * @brief flags, which indicates the valid fields:
+     *   - Bit 0 - normal packet = 0, forwarded packet = 1
+     *   - Bit 1 - mHardwareChannel valid
+     *   - Bit 2 - mFrameDuration valid
+     *   - Bit 3 - mFrameChecksum valid
+     *   - Bit 4 - mFrameHandle valid
+     */
+    WORD flags;
+
+    /**
+     * @brief application channel, i.e. Eth 1
      */
     WORD channel;
 
-    /** enumeration for dir */
-    enum class Dir : WORD
-    {
-        /** receive */
-        Rx = 0,
-
-        /** transmit */
-        Tx = 1,
-
-        /** transmit request */
-        TxRq = 2
-    };
+    /**
+     * @brief HW channel
+     */
+    WORD hardwareChannel;
 
     /**
-     * @brief Direction flag
+     * @brief Transmission duration in [ns]
      */
-    Dir dir;
+    UINT64 frameDuration;
 
     /**
-     * @brief HW channel. 0 = invalid.
+     * @brief Ethernet checksum
      */
-    DWORD hardwareChannel;
+    DWORD frameChecksum;
 
     /**
-     * @brief Frame Check Sum
-     *
-     * Ethernet frame checksum.
+     * @brief Direction flag: 0=Rx, 1=Tx, 2=TxRq
      */
-    DWORD fcs;
+    WORD dir;
 
     /**
-     * @brief Number of valid raw ethernet data bytes
-     *
-     * Number of valid raw ethernet data bytes, starting
-     * with Target MAC ID.
+     * @brief Number of valid frameData bytes
      */
-    WORD frameDataLength;
+    WORD frameLength;
 
-    /** reserved */
-    std::array<BYTE, 2> reserved2;
+    /**
+     * @brief Handle which refer the corresponding EthernetFrameForwarded event
+     */
+    DWORD frameHandle;
 
     /**
      * Error code
@@ -115,10 +111,7 @@ public:
     DWORD error;
 
     /**
-     * @brief Max 1600 data bytes per frame
-     *
-     * Raw Ethernet frame data.
-     * Max 1522 data bytes per frame.
+     * @brief Max 1612 data bytes per frame. Contains Ethernet header + Ethernet payload
      */
     std::vector<uint8_t> frameData;
 };

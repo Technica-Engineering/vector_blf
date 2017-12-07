@@ -27,7 +27,7 @@ namespace BLF {
 ObjectHeader::ObjectHeader() :
     ObjectHeaderBase(),
     objectFlags(ObjectFlags::TimeOneNans),
-    reserved(),
+    clientIndex(),
     objectVersion(),
     objectTimeStamp()
 {
@@ -38,7 +38,7 @@ void ObjectHeader::read(AbstractFile & is)
 {
     ObjectHeaderBase::read(is);
     is.read(reinterpret_cast<char *>(&objectFlags), sizeof(objectFlags));
-    is.read(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    is.read(reinterpret_cast<char *>(&clientIndex), sizeof(clientIndex));
     is.read(reinterpret_cast<char *>(&objectVersion), sizeof(objectVersion));
     is.read(reinterpret_cast<char *>(&objectTimeStamp), sizeof(objectTimeStamp));
 }
@@ -47,7 +47,7 @@ void ObjectHeader::write(AbstractFile & os)
 {
     ObjectHeaderBase::write(os);
     os.write(reinterpret_cast<char *>(&objectFlags), sizeof(objectFlags));
-    os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    os.write(reinterpret_cast<char *>(&clientIndex), sizeof(clientIndex));
     os.write(reinterpret_cast<char *>(&objectVersion), sizeof(objectVersion));
     os.write(reinterpret_cast<char *>(&objectTimeStamp), sizeof(objectTimeStamp));
 }
@@ -57,7 +57,7 @@ WORD ObjectHeader::calculateHeaderSize() const
     return
         ObjectHeaderBase::calculateHeaderSize() +
         sizeof(objectFlags) +
-        sizeof(reserved) +
+        sizeof(clientIndex) +
         sizeof(objectVersion) +
         sizeof(objectTimeStamp);
 }

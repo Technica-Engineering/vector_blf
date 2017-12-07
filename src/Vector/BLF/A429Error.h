@@ -23,70 +23,48 @@
 
 #include "platform.h"
 
-#include <cstdint>
+#include <array>
+
+#include "AbstractFile.h"
+#include "ObjectHeader.h"
+#include "VectorTypes.h"
+
+#include "vector_blf_export.h"
 
 namespace Vector {
 namespace BLF {
 
-/** unsigned 8 bit */
-using BYTE = uint8_t;
+/**
+ * @brief A429_ERROR
+ *
+ * A429 error object
+ */
+class VECTOR_BLF_EXPORT A429Error final : public ObjectHeader
+{
+public:
+    A429Error();
 
-/** unsigned 16 bit */
-using WORD = uint16_t;
-using USHORT = uint16_t;
+    virtual void read(AbstractFile & is) override;
+    virtual void write(AbstractFile & os) override;
+    virtual DWORD calculateObjectSize() const override;
 
-/** signed 16 bit */
-using SHORT = int16_t;
+    /** application channel */
+    WORD channel;
 
-/** unsigned 32 bit */
-using DWORD = uint32_t;
+    /** error type, 0=error, 1=warning, 2=info */
+    WORD errorType;
 
-/** unsigned 32 bit */
-using ULONG = uint32_t;
+    /** source identifier */
+    ULONG sourceIdentifier;
 
-/** signed 32 bit */
-using LONG = int32_t;
+    /** error reason */
+    ULONG errReason;
 
-/** unsigned 64 bit */
-using ULONGLONG = uint64_t;
+    /** error text */
+    std::array<char, 512> errorText;
 
-/** unsigned 64 bit */
-using UINT64 = uint64_t;
-
-/** signed 64 bit */
-using LONGLONG = int64_t;
-
-/** double */
-using DOUBLE = double;
-
-/** color reference */
-using COLORREF = uint32_t;
-
-/** system time */
-struct SYSTEMTIME {
-    /** year */
-    WORD year;
-
-    /** month */
-    WORD month;
-
-    /** day of week */
-    WORD dayOfWeek;
-
-    /** day */
-    WORD day;
-
-    /** hour */
-    WORD hour;
-
-    /** minute */
-    WORD minute;
-
-    /** second */
-    WORD second;
-
-    /** milliseconds */
-    WORD milliseconds;
+    /** error attributes */
+    std::array<char, 512> errorAttributes;
 };
 
 }

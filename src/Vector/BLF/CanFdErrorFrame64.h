@@ -26,6 +26,7 @@
 #include <array>
 
 #include "AbstractFile.h"
+#include "CanFdExtFrameData.h"
 #include "ObjectHeader.h"
 #include "VectorTypes.h"
 
@@ -110,8 +111,7 @@ public:
      */
     WORD extFlags;
 
-    /** reserved */
-    WORD reserved1;
+    WORD extDataOffset;
 
     /**
      * @brief CAN ID
@@ -193,6 +193,8 @@ public:
      * 24)
      */
     std::array<BYTE, 64> data;
+
+    CanFdExtFrameData extFrameData;
 };
 
 }

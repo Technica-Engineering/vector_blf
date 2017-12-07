@@ -12,9 +12,16 @@ include_directories(
 # sources/headers
 target_sources(${PROJECT_NAME}
     INTERFACE
+        ${CMAKE_CURRENT_SOURCE_DIR}/A429BusStatistic.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/A429Error.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/A429Message.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/A429Status.h
         ${CMAKE_CURRENT_SOURCE_DIR}/AbstractFile.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/AfdxBusStatistic.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/AfdxErrorEvent.h
         ${CMAKE_CURRENT_SOURCE_DIR}/AfdxFrame.h
         ${CMAKE_CURRENT_SOURCE_DIR}/AfdxStatistic.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/AfdxStatus.h
         ${CMAKE_CURRENT_SOURCE_DIR}/AppText.h
         ${CMAKE_CURRENT_SOURCE_DIR}/AppTrigger.h
         ${CMAKE_CURRENT_SOURCE_DIR}/CanDriverErrorExt.h
@@ -24,21 +31,28 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/CanErrorFrameExt.h
         ${CMAKE_CURRENT_SOURCE_DIR}/CanErrorFrame.h
         ${CMAKE_CURRENT_SOURCE_DIR}/CanFdErrorFrame64.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/CanFdExtFrameData.h
         ${CMAKE_CURRENT_SOURCE_DIR}/CanFdMessage64.h
         ${CMAKE_CURRENT_SOURCE_DIR}/CanFdMessage.h
         ${CMAKE_CURRENT_SOURCE_DIR}/CanMessage2.h
         ${CMAKE_CURRENT_SOURCE_DIR}/CanMessage.h
         ${CMAKE_CURRENT_SOURCE_DIR}/CanOverloadFrame.h
         ${CMAKE_CURRENT_SOURCE_DIR}/CompressedFile.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/DiagRequestInterpretation.h
         ${CMAKE_CURRENT_SOURCE_DIR}/DriverOverrun.h
         ${CMAKE_CURRENT_SOURCE_DIR}/EnvironmentVariable.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/EthernetErrorEx.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/EthernetErrorForwarded.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/EthernetFrameEx.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/EthernetFrameForwarded.h
         ${CMAKE_CURRENT_SOURCE_DIR}/EthernetFrame.h
         ${CMAKE_CURRENT_SOURCE_DIR}/EthernetRxError.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/EthernetStatistic.h
         ${CMAKE_CURRENT_SOURCE_DIR}/EthernetStatus.h
         ${CMAKE_CURRENT_SOURCE_DIR}/EventComment.h
         ${CMAKE_CURRENT_SOURCE_DIR}/Exceptions.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/FileStatistics.h
         ${CMAKE_CURRENT_SOURCE_DIR}/File.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/FileStatistics.h
         ${CMAKE_CURRENT_SOURCE_DIR}/FlexRayData.h
         ${CMAKE_CURRENT_SOURCE_DIR}/FlexRayStatusEvent.h
         ${CMAKE_CURRENT_SOURCE_DIR}/FlexRaySync.h
@@ -71,6 +85,7 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/LinSchedulerModeChange.h
         ${CMAKE_CURRENT_SOURCE_DIR}/LinSendError2.h
         ${CMAKE_CURRENT_SOURCE_DIR}/LinSendError.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinShortOrSlowResponse2.h
         ${CMAKE_CURRENT_SOURCE_DIR}/LinShortOrSlowResponse.h
         ${CMAKE_CURRENT_SOURCE_DIR}/LinSlaveTimeout.h
         ${CMAKE_CURRENT_SOURCE_DIR}/LinSleepModeEvent.h
@@ -118,22 +133,30 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/RealtimeClock.h
         ${CMAKE_CURRENT_SOURCE_DIR}/SerialEvent.h
         ${CMAKE_CURRENT_SOURCE_DIR}/SystemVariable.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/VectorTypes.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/TestStructure.h
         ${CMAKE_CURRENT_SOURCE_DIR}/UncompressedFile.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/VectorTypes.h
         ${CMAKE_CURRENT_SOURCE_DIR}/WlanFrame.h
         ${CMAKE_CURRENT_SOURCE_DIR}/WlanStatistic.h
     PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/A429BusStatistic.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/A429Error.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/A429Message.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/A429Status.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/AbstractFile.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/AfdxBusStatistic.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/AfdxErrorEvent.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/AfdxFrame.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/AfdxStatistic.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/AfdxStatus.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/AppText.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/AppTrigger.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/CanDriverErrorExt.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/CanDriverError.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CanDriverErrorExt.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/CanDriverHwSync.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/CanDriverStatistic.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/CanErrorFrameExt.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/CanErrorFrame.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CanErrorFrameExt.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/CanFdErrorFrame64.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/CanFdMessage64.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/CanFdMessage.cpp
@@ -141,22 +164,28 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/CanMessage.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/CanOverloadFrame.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/CompressedFile.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/DiagRequestInterpretation.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/DriverOverrun.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/EnvironmentVariable.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/EthernetErrorEx.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/EthernetErrorForwarded.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/EthernetFrame.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/EthernetFrameEx.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/EthernetFrameForwarded.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/EthernetRxError.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/EthernetStatistic.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/EthernetStatus.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/EventComment.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/FileStatistics.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/File.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/FileStatistics.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/FlexRayData.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/FlexRayStatusEvent.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/FlexRaySync.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/FlexRayV6Message.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/FlexRayV6StartCycleEvent.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/FlexRayVFrError.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/FlexRayVFrReceiveMsgEx.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/FlexRayVFrReceiveMsg.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/FlexRayVFrReceiveMsgEx.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/FlexRayVFrStartCycle.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/FlexRayVFrStatus.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/GlobalMarker.cpp
@@ -174,13 +203,14 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/LinLongDomSignalEvent2.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/LinLongDomSignalEvent.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/LinMessage2.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/LinMessageDescriptor.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/LinMessage.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinMessageDescriptor.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/LinReceiveError2.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/LinReceiveError.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/LinSchedulerModeChange.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/LinSendError2.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/LinSendError.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/LinShortOrSlowResponse2.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/LinShortOrSlowResponse.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/LinSlaveTimeout.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/LinSleepModeEvent.cpp
@@ -195,18 +225,18 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/LinWakeupEvent.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/LogContainer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Most150AllocTab.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Most150MessageFragment.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Most150Message.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Most150PktFragment.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Most150MessageFragment.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Most150Pkt.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Most150PktFragment.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Most50Message.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Most50Pkt.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/MostAllocTab.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/MostCtrl.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/MostDataLost.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/MostEcl.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/MostEthernetPktFragment.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/MostEthernetPkt.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/MostEthernetPktFragment.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/MostGenReg.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/MostHwMode.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/MostLightLock.cpp
@@ -215,8 +245,8 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/MostPkt.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/MostReg.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/MostSpy.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/MostStatisticEx.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/MostStatistic.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/MostStatisticEx.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/MostStress.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/MostSystemEvent.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/MostTrigger.cpp
@@ -227,6 +257,7 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/RealtimeClock.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/SerialEvent.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/SystemVariable.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/TestStructure.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UncompressedFile.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/WlanFrame.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/WlanStatistic.cpp)

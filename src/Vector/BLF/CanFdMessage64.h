@@ -26,6 +26,7 @@
 #include <array>
 
 #include "AbstractFile.h"
+#include "CanFdExtFrameData.h"
 #include "ObjectHeader.h"
 #include "VectorTypes.h"
 
@@ -180,11 +181,12 @@ public:
      */
     BYTE dir;
 
-    /** reserved */
-    BYTE reserved1;
+    BYTE extDataOffset;
 
-    /** reserved */
-    DWORD reserved2;
+    /**
+     * @brief CRC for CAN
+     */
+    DWORD crc;
 
     /**
      * @brief CAN FD data
@@ -194,6 +196,8 @@ public:
      * dlc).
      */
     std::array<BYTE, 64> data;
+
+    CanFdExtFrameData extFrameData;
 };
 
 }

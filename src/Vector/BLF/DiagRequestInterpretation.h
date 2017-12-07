@@ -24,7 +24,7 @@
 #include "platform.h"
 
 #include "AbstractFile.h"
-#include "ObjectHeaderBase.h"
+#include "ObjectHeader.h"
 #include "VectorTypes.h"
 
 #include "vector_blf_export.h"
@@ -33,68 +33,61 @@ namespace Vector {
 namespace BLF {
 
 /**
- * @brief Object header
- *
- * Object header. Version 1.
+ * @brief DIAG_REQUEST_INTERPRETATION
  */
-class VECTOR_BLF_EXPORT ObjectHeader : public ObjectHeaderBase
+class VECTOR_BLF_EXPORT DiagRequestInterpretation final : public ObjectHeader
 {
 public:
-    ObjectHeader();
+    DiagRequestInterpretation();
 
     virtual void read(AbstractFile & is) override;
     virtual void write(AbstractFile & os) override;
-    virtual WORD calculateHeaderSize() const override;
     virtual DWORD calculateObjectSize() const override;
 
-    /** enumeration for objectFlags */
-    enum ObjectFlags : DWORD {
-        /**
-         * @brief 10 micro second timestamp
-         *
-         * Object time stamp is saved as multiple of ten
-         * microseconds.
-         * (BL_OBJ_FLAG_TIME_TEN_MICS)
-         */
-        TimeTenMics = 0x00000001,
-
-        /**
-         * @brief 1 nano second timestamp
-         *
-         * Object time stamp is saved in nanoseconds.
-         * (BL_OBJ_FLAG_TIME_ONE_NANS)
-         */
-        TimeOneNans = 0x00000002
-    };
+    /**
+     * unique ID identifying the used diagnostic description
+     */
+    DWORD diagDescriptionHandle;
 
     /**
-     * @brief object flags
-     *
-     * Unit of object timestamp.
+     * unique ID identifying the used diagnostic variant
      */
-    ObjectFlags objectFlags;
+    DWORD diagVariantHandle;
 
     /**
-     * @brief client index of send node
+     * unique ID identifying the used diagnostic service
      */
-    WORD clientIndex;
+    DWORD diagServiceHandle;
 
     /**
-     * @brief object specific version
-     *
-     * Object specific version, has to be set to 0 unless
-     * stated otherwise in the description of a specific
-     * event.
+     * string length for ecuQualifier
      */
-    WORD objectVersion;
+    DWORD ecuQualifierLength;
 
     /**
-     * @brief object timestamp
-     *
-     * Time stamp of this object in the unit specified in
-     * objectFlags.
+     * string length for variantQualifier
      */
-    ULONGLONG objectTimeStamp;
+    DWORD variantQualifierLength;
+
+    /**
+     * string length for serviceQualifier
+     */
+    DWORD serviceQualifierLength;
+
+    /**
+     * qualifier of the ECU the request was sent to
+     */
+    std::string ecuQualifier;
+
+    /**
+     * qualifier of the active diagnostic variant
+     */
+    std::string variantQualifier;
+
+    /**
+     * qualifier of the diagnostic service
+     */
+    std::string serviceQualifier;
 };
 
 }
