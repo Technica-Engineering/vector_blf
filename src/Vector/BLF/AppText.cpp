@@ -29,7 +29,7 @@ namespace BLF {
 AppText::AppText() :
     ObjectHeader(),
     source(),
-    reserved(),
+    reserved1(),
     textLength(),
     text()
 {
@@ -40,14 +40,11 @@ void AppText::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&source), sizeof(source));
-    is.read(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    is.read(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
     is.read(reinterpret_cast<char *>(&textLength), sizeof(textLength));
+    is.read(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
     text.resize(textLength);
     is.read(const_cast<char *>(text.data()), textLength);
-
-    /* post processing */
-    text.resize(strnlen(text.c_str(), textLength)); // Vector bug: the actual string can be shorter than size!
-    objectSize = calculateObjectSize();
 }
 
 void AppText::write(AbstractFile & os)
@@ -57,8 +54,9 @@ void AppText::write(AbstractFile & os)
 
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&source), sizeof(source));
-    os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    os.write(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
     os.write(reinterpret_cast<char *>(&textLength), sizeof(textLength));
+    os.write(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
     os.write(const_cast<char *>(text.data()), textLength);
 }
 
@@ -67,8 +65,9 @@ DWORD AppText::calculateObjectSize() const
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(source) +
-        sizeof(reserved) +
+        sizeof(reserved1) +
         sizeof(textLength) +
+        sizeof(reserved2) +
         textLength;
 }
 
