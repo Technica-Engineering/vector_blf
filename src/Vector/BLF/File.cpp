@@ -643,19 +643,27 @@ void File::inflate()
         logContainer->internalHeaderSize() +
         logContainer->uncompressedFileSize;
 
-    /* create buffer */
-    uLong bufferSize = static_cast<uLong>(logContainer->uncompressedFileSize);
-    std::vector<char> buffer;
-    buffer.resize(bufferSize);
+    /* fill uncompressedFile */
+    bool uncompressed = (logContainer->compressedFileSize == logContainer->uncompressedFileSize);
+    if (uncompressed) {
+        uncompressedFile.write(
+                    reinterpret_cast<const char *>(logContainer->compressedFile.data()),
+                    static_cast<std::streamsize>(logContainer->compressedFileSize));
+    } else {
+        /* create buffer */
+        uLong bufferSize = static_cast<uLong>(logContainer->uncompressedFileSize);
+        std::vector<char> buffer;
+        buffer.resize(bufferSize);
 
-    /* inflate */
-    uncompress(reinterpret_cast<Byte *>(buffer.data()),
-               &bufferSize,
-               reinterpret_cast<Byte *>(logContainer->compressedFile.data()),
-               static_cast<uLong>(logContainer->compressedFileSize));
+        /* inflate */
+        (void) uncompress(reinterpret_cast<Byte *>(buffer.data()),
+                   &bufferSize,
+                   reinterpret_cast<Byte *>(logContainer->compressedFile.data()),
+                   static_cast<uLong>(logContainer->compressedFileSize));
 
-    /* copy into uncompressedFile */
-    uncompressedFile.write(buffer.data(), static_cast<std::streamsize>(bufferSize));
+        /* copy into uncompressedFile */
+        uncompressedFile.write(buffer.data(), static_cast<std::streamsize>(bufferSize));
+    }
 
     /* delete buffer */
     delete logContainer;
@@ -713,27 +721,17 @@ void File::deflate()
 
 void File::write(ObjectHeaderBase * objectHeaderBase)
 {
-    /* compressionLevel 0 doesn't use LogContainers */
-    if (compressionLevel == 0) {
-        /* write into compressedFile */
-        objectHeaderBase->write(compressedFile);
+    /* write into uncompressedFile */
+    objectHeaderBase->write(uncompressedFile);
 
-        /* skip padding */
-        char buffer[] = {0, 0, 0, 0};
-        compressedFile.write(buffer, objectHeaderBase->objectSize % 4);
-    } else {
-        /* write into uncompressedFile */
-        objectHeaderBase->write(uncompressedFile);
+    /* skip padding */
+    char buffer[] = {0, 0, 0, 0};
+    uncompressedFile.write(buffer, objectHeaderBase->objectSize % 4);
 
-        /* skip padding */
-        char buffer[] = {0, 0, 0, 0};
-        uncompressedFile.write(buffer, objectHeaderBase->objectSize % 4);
-
-        /* if data exceeds defined logContainerSize, compress and write it into compressedFile */
-        ULONGLONG requestedSize = static_cast<ULONGLONG>(uncompressedFile.tellp() - uncompressedFile.tellg());
-        if (requestedSize >= defaultLogContainerSize) {
-            deflate();
-        }
+    /* if data exceeds defined logContainerSize, compress and write it into compressedFile */
+    ULONGLONG requestedSize = static_cast<ULONGLONG>(uncompressedFile.tellp() - uncompressedFile.tellg());
+    if (requestedSize >= defaultLogContainerSize) {
+        deflate();
     }
 
     /* statistics */

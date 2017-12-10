@@ -47,30 +47,23 @@ public:
     virtual DWORD calculateObjectSize() const override;
 
     /**
-     * @brief object flags (usually BL_OBJ_FLAG_TIME_ONE_NANS)
-     */
-    DWORD objectFlags;
-
-    /**
      * @brief reserved
      */
-    WORD reserved;
-
-    /**
-     * @brief object specific version (usually 0)
-     */
-    WORD objectVersion;
+    ULONGLONG reserved1; // @todo often 0x02
 
     /**
      * @brief uncompressed file size in bytes
      */
-    ULONGLONG uncompressedFileSize;
+    DWORD uncompressedFileSize;
+
+    /** reserved */
+    DWORD reserved2; // @todo often 0x0215, 0x9a, 0, 0x0c
 
     /** compressed file content */
     std::vector<uint8_t> compressedFile;
 
     /** compressed file size in bytes */
-    ULONGLONG compressedFileSize;
+    DWORD compressedFileSize;
 
     /**
      * internalHeaderSize returns the size of all headers.

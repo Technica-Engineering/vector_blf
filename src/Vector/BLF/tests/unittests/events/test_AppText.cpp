@@ -37,9 +37,9 @@ BOOST_AUTO_TEST_CASE(AppText)
     /* AppText */
     BOOST_CHECK(obj->source == Vector::BLF::AppText::Source::MetaData);
     BOOST_CHECK_EQUAL(obj->reserved1, 0);
-    BOOST_CHECK_EQUAL(obj->textLength, 4);
+    BOOST_CHECK_EQUAL(obj->textLength, 3);
     BOOST_CHECK_EQUAL(obj->reserved2, 0);
-    BOOST_CHECK_EQUAL(obj->text, "test");
+    BOOST_CHECK_EQUAL(obj->text, "xyz");
 
     delete obj;
 

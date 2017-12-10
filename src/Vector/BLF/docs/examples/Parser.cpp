@@ -151,8 +151,6 @@ void show(Vector::BLF::LogContainer * logContainer)
     std::cout << "objectSize: 0x" << std::hex << logContainer->objectSize << std::endl;
     std::cout << "objectType: " << std::dec << static_cast<int>(logContainer->objectType) << std::endl;
 
-    std::cout << "objectFlags: 0x" << std::hex << logContainer->objectFlags << std::endl;
-    std::cout << "objectVersion: 0x" << std::hex << logContainer->objectVersion << std::endl;
     std::cout << "uncompressedFileSize: " << std::dec << logContainer->uncompressedFileSize << std::endl;
     std::cout << std::endl;
 }

@@ -27,12 +27,11 @@ namespace BLF {
 
 LogContainer::LogContainer() :
     ObjectHeaderBase(),
-    objectFlags(ObjectHeader::ObjectFlags::TimeOneNans),
-    reserved(),
-    objectVersion(),
-    uncompressedFileSize(),
+    reserved1(0),
+    uncompressedFileSize(0),
+    reserved2(0),
     compressedFile(),
-    compressedFileSize()
+    compressedFileSize(0)
 {
     headerVersion = 1;
     objectType = ObjectType::LOG_CONTAINER;
@@ -41,10 +40,9 @@ LogContainer::LogContainer() :
 void LogContainer::read(AbstractFile & is)
 {
     ObjectHeaderBase::read(is);
-    is.read(reinterpret_cast<char *>(&objectFlags), sizeof(objectFlags));
-    is.read(reinterpret_cast<char *>(&reserved), sizeof(reserved));
-    is.read(reinterpret_cast<char *>(&objectVersion), sizeof(objectVersion));
+    is.read(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
     is.read(reinterpret_cast<char *>(&uncompressedFileSize), sizeof(uncompressedFileSize));
+    is.read(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
     compressedFileSize = objectSize - internalHeaderSize();
     compressedFile.resize(compressedFileSize);
     is.read(reinterpret_cast<char *>(compressedFile.data()), compressedFileSize);
@@ -53,13 +51,12 @@ void LogContainer::read(AbstractFile & is)
 void LogContainer::write(AbstractFile & os)
 {
     /* pre processing */
-    compressedFileSize = static_cast<ULONGLONG>(compressedFile.size());
+    compressedFileSize = static_cast<DWORD>(compressedFile.size());
 
     ObjectHeaderBase::write(os);
-    os.write(reinterpret_cast<char *>(&objectFlags), sizeof(objectFlags));
-    os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
-    os.write(reinterpret_cast<char *>(&objectVersion), sizeof(objectVersion));
+    os.write(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
     os.write(reinterpret_cast<char *>(&uncompressedFileSize), sizeof(uncompressedFileSize));
+    os.write(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
     os.write(reinterpret_cast<char *>(compressedFile.data()), compressedFileSize);
 }
 
@@ -67,17 +64,16 @@ DWORD LogContainer::calculateObjectSize() const
 {
     return
         internalHeaderSize() +
-        static_cast<DWORD>(compressedFileSize);
+        static_cast<DWORD>(compressedFile.size());
 }
 
 WORD LogContainer::internalHeaderSize() const
 {
     return
         ObjectHeaderBase::calculateHeaderSize() +
-        sizeof(objectFlags) +
-        sizeof(reserved) +
-        sizeof(objectVersion) +
-        sizeof(uncompressedFileSize);
+        sizeof(reserved1) +
+        sizeof(uncompressedFileSize) +
+        sizeof(reserved2);
 }
 
 }
