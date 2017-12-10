@@ -74,7 +74,7 @@ public:
 
     /**
      * internalHeaderSize returns the size of all headers.
-     * @note Not to be mixed with headerSize, which is only takes ObjectHeaderBase headers into account.
+     * @note Not to be mixed with headerSize, which only takes ObjectHeaderBase headers into account.
      * @return Size of all headers.
      */
     WORD internalHeaderSize() const;
