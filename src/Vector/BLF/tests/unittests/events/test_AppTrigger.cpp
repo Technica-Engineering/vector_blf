@@ -28,12 +28,23 @@ BOOST_AUTO_TEST_CASE(AppTrigger)
 
     /* ObjectHeader */
     BOOST_CHECK(obj->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
-    BOOST_CHECK_EQUAL(obj->clientIndex, 0x2222);
+    BOOST_CHECK_EQUAL(obj->clientIndex, 0x1111);
     BOOST_CHECK_EQUAL(obj->objectVersion, 0);
-    BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x3333333333333333);
+    BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
     /* AppTrigger */
-    // @todo AppTrigger
+    BOOST_CHECK_EQUAL(obj->preTriggerTime, 0x1111111111111111);
+    BOOST_CHECK_EQUAL(obj->postTriggerTime, 0x2222222222222222);
+    BOOST_CHECK_EQUAL(obj->channel, 0x3333);
+    BOOST_CHECK(obj->flags == Vector::BLF::AppTrigger::Flags::SingleTrigger);
+    BOOST_CHECK_EQUAL(obj->appSpecific2, 0x44444444);
+
+    delete obj;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::APP_TRIGGER);
 
     delete obj;
 
