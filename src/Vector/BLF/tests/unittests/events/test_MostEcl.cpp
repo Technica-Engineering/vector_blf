@@ -14,33 +14,33 @@ BOOST_AUTO_TEST_CASE(MostEcl)
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events/test_MostEcl.blf");
     BOOST_REQUIRE(file.is_open());
 
-    Vector::BLF::ObjectHeaderBase * ohb;
-    Vector::BLF::MostEcl * mostEcl;
-
-    ohb = file.read();
+    Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_ECL);
-    mostEcl = static_cast<Vector::BLF::MostEcl *>(ohb);
-    /* ObjectHeaderBase */
-    BOOST_CHECK(mostEcl->signature == Vector::BLF::ObjectSignature);
-    BOOST_CHECK(mostEcl->headerSize == mostEcl->calculateHeaderSize());
-    BOOST_CHECK(mostEcl->headerVersion == 1);
-    BOOST_CHECK(mostEcl->objectSize == mostEcl->calculateObjectSize());
-    BOOST_CHECK(mostEcl->objectType == Vector::BLF::ObjectType::MOST_ECL);
-    /* ObjectHeader2 */
-    BOOST_CHECK(mostEcl->objectFlags == Vector::BLF::ObjectHeader2::ObjectFlags::TimeOneNans);
-    BOOST_CHECK(mostEcl->timeStampStatus == 0);
-    // reserved
-    BOOST_CHECK(mostEcl->objectVersion == 0);
-    BOOST_CHECK(mostEcl->objectTimeStamp == 9068000); // ns
-    BOOST_CHECK(mostEcl->originalTimeStamp == 0);
-    /* MostEcl */
-    BOOST_CHECK(mostEcl->channel == 1);
-    BOOST_CHECK(mostEcl->mode == 0); // discrete
-    BOOST_CHECK(mostEcl->eclState == 1); // line high
-    // reserved
-    delete ohb;
+    Vector::BLF::MostEcl * obj = static_cast<Vector::BLF::MostEcl *>(ohb);
 
-    BOOST_CHECK(file.eof());
+    /* ObjectHeaderBase */
+    BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);
+    BOOST_CHECK_EQUAL(obj->headerSize, obj->calculateHeaderSize());
+    BOOST_CHECK_EQUAL(obj->headerVersion, 1);
+    BOOST_CHECK_EQUAL(obj->objectSize, obj->calculateObjectSize());
+    BOOST_CHECK(obj->objectType == Vector::BLF::ObjectType::MOST_ECL);
+
+    /* ObjectHeader2 */
+    BOOST_CHECK(obj->objectFlags == Vector::BLF::ObjectHeader2::ObjectFlags::TimeOneNans);
+    BOOST_CHECK_EQUAL(obj->timeStampStatus, 0);
+    // reserved
+    BOOST_CHECK_EQUAL(obj->objectVersion, 0);
+    BOOST_CHECK_EQUAL(obj->objectTimeStamp, 9068000); // ns
+    BOOST_CHECK_EQUAL(obj->originalTimeStamp, 0);
+
+    /* MostEcl */
+    BOOST_CHECK_EQUAL(obj->channel, 1);
+    BOOST_CHECK_EQUAL(obj->mode, 0); // discrete
+    BOOST_CHECK_EQUAL(obj->eclState, 1); // line high
+    // reserved
+
+    delete obj;
+
     file.close();
 }

@@ -136,6 +136,25 @@
 #include "EthernetRxError.h" // ETHERNET_RX_ERROR = 102
 #include "EthernetStatus.h" // ETHERNET_STATUS = 103
 #include "CanFdErrorFrame64.h" // CAN_FD_ERROR_64 = 104
+#include "LinShortOrSlowResponse2.h" // LIN_SHORT_OR_SLOW_RESPONSE2 = 105
+#include "AfdxStatus.h" // AFDX_STATUS = 106
+#include "AfdxBusStatistic.h" // AFDX_BUS_STATISTIC = 107
+// reserved_4 = 108
+#include "AfdxErrorEvent.h" // AFDX_ERROR_EVENT = 109
+#include "A429Error.h" // A429_ERROR = 110
+#include "A429Status.h" // A429_STATUS = 111
+#include "A429BusStatistic.h" // A429_BUS_STATISTIC = 112
+#include "A429Message.h" // A429_MESSAGE = 113
+#include "EthernetStatistic.h" // ETHERNET_STATISTIC = 114
+// reserved_5 = 115
+// reserved_6 = 116
+// reserved_7 = 117
+#include "TestStructure.h" // TEST_STRUCTURE = 118
+#include "DiagRequestInterpretation.h" // DIAG_REQUEST_INTERPRETATION = 119
+#include "EthernetFrameEx.h" // ETHERNET_FRAME_EX = 120
+#include "EthernetFrameForwarded.h" // ETHERNET_FRAME_FORWARDED = 121
+#include "EthernetErrorEx.h" // ETHERNET_ERROR_EX = 122
+#include "EthernetErrorForwarded.h" // ETHERNET_ERROR_FORWARDED = 123
 
 #include "vector_blf_export.h"
 

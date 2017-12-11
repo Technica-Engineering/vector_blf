@@ -14,42 +14,42 @@ BOOST_AUTO_TEST_CASE(AfdxStatistic)
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events/test_AfdxStatistic.blf");
     BOOST_REQUIRE(file.is_open());
 
-    Vector::BLF::ObjectHeaderBase * ohb;
-    Vector::BLF::AfdxStatistic * afdxStatistic;
-
-    ohb = file.read();
+    Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_STATISTIC);
-    afdxStatistic = static_cast<Vector::BLF::AfdxStatistic *>(ohb);
-    /* ObjectHeaderBase */
-    BOOST_CHECK(afdxStatistic->signature == Vector::BLF::ObjectSignature);
-    BOOST_CHECK(afdxStatistic->headerSize == afdxStatistic->calculateHeaderSize());
-    BOOST_CHECK(afdxStatistic->headerVersion == 1);
-    BOOST_CHECK(afdxStatistic->objectSize == afdxStatistic->calculateObjectSize());
-    BOOST_CHECK(afdxStatistic->objectType == Vector::BLF::ObjectType::AFDX_STATISTIC);
-    /* ObjectHeader */
-    BOOST_CHECK(afdxStatistic->objectFlags == Vector::BLF::ObjectHeader::TimeOneNans);
-    // reserved
-    BOOST_CHECK(afdxStatistic->objectVersion == 0);
-    BOOST_CHECK(afdxStatistic->objectTimeStamp == 1000763955); // ns
-    /* AfdxStatistic */
-    BOOST_CHECK(afdxStatistic->channel == 1);
-    BOOST_CHECK(afdxStatistic->flags == 0xb);
-    BOOST_CHECK(afdxStatistic->rxPacketCount == 3);
-    BOOST_CHECK(afdxStatistic->rxByteCount == 417);
-    BOOST_CHECK(afdxStatistic->txPacketCount == 0);
-    BOOST_CHECK(afdxStatistic->txByteCount == 0);
-    BOOST_CHECK(afdxStatistic->collisionCount == 0);
-    BOOST_CHECK(afdxStatistic->errorCount == 0);
-    BOOST_CHECK(afdxStatistic->statDroppedRedundantPacketCount == 0);
-    BOOST_CHECK(afdxStatistic->statRedundantErrorPacketCount == 0);
-    BOOST_CHECK(afdxStatistic->statIntegrityErrorPacketCount == 0);
-    BOOST_CHECK(afdxStatistic->statAvrgPeriodMsec == 0);
-    BOOST_CHECK(afdxStatistic->statAvrgJitterMysec == 0);
-    BOOST_CHECK(afdxStatistic->vlid == 0);
-    BOOST_CHECK(afdxStatistic->statDuration == 0);
-    delete ohb;
+    Vector::BLF::AfdxStatistic * obj = static_cast<Vector::BLF::AfdxStatistic *>(ohb);
 
-    BOOST_CHECK(file.eof());
+    /* ObjectHeaderBase */
+    BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);
+    BOOST_CHECK_EQUAL(obj->headerSize, obj->calculateHeaderSize());
+    BOOST_CHECK_EQUAL(obj->headerVersion, 1);
+    BOOST_CHECK_EQUAL(obj->objectSize, obj->calculateObjectSize());
+    BOOST_CHECK(obj->objectType == Vector::BLF::ObjectType::AFDX_STATISTIC);
+
+    /* ObjectHeader */
+    BOOST_CHECK(obj->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
+    BOOST_CHECK_EQUAL(obj->clientIndex, 0);
+    BOOST_CHECK_EQUAL(obj->objectVersion, 0);
+    BOOST_CHECK_EQUAL(obj->objectTimeStamp, 1000763955);
+
+    /* AfdxStatistic */
+    BOOST_CHECK_EQUAL(obj->channel, 1);
+    BOOST_CHECK_EQUAL(obj->flags, 0xb);
+    BOOST_CHECK_EQUAL(obj->rxPacketCount, 3);
+    BOOST_CHECK_EQUAL(obj->rxByteCount, 417);
+    BOOST_CHECK_EQUAL(obj->txPacketCount, 0);
+    BOOST_CHECK_EQUAL(obj->txByteCount, 0);
+    BOOST_CHECK_EQUAL(obj->collisionCount, 0);
+    BOOST_CHECK_EQUAL(obj->errorCount, 0);
+    BOOST_CHECK_EQUAL(obj->statDroppedRedundantPacketCount, 0);
+    BOOST_CHECK_EQUAL(obj->statRedundantErrorPacketCount, 0);
+    BOOST_CHECK_EQUAL(obj->statIntegrityErrorPacketCount, 0);
+    BOOST_CHECK_EQUAL(obj->statAvrgPeriodMsec, 0);
+    BOOST_CHECK_EQUAL(obj->statAvrgJitterMysec, 0);
+    BOOST_CHECK_EQUAL(obj->vlid, 0);
+    BOOST_CHECK_EQUAL(obj->statDuration, 0);
+
+    delete obj;
+
     file.close();
 }

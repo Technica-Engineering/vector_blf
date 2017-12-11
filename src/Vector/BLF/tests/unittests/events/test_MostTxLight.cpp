@@ -14,17 +14,25 @@ BOOST_AUTO_TEST_CASE(MostTxLight)
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events/test_MostTxLight.blf");
     BOOST_REQUIRE(file.is_open());
 
-    Vector::BLF::ObjectHeaderBase * ohb;
-    Vector::BLF::MostTxLight * mostTxLight;
-
-    ohb = file.read();
+    Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_TXLIGHT);
-    mostTxLight = static_cast<Vector::BLF::MostTxLight *>(ohb);
-    BOOST_CHECK(mostTxLight->channel == 1);
-    BOOST_CHECK(mostTxLight->state == 1); // enable
-    delete ohb;
+    Vector::BLF::MostTxLight * obj = static_cast<Vector::BLF::MostTxLight *>(ohb);
 
-    BOOST_CHECK(file.eof());
+    /* ObjectHeaderBase */
+    BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);
+    BOOST_CHECK_EQUAL(obj->headerSize, obj->calculateHeaderSize());
+    BOOST_CHECK_EQUAL(obj->headerVersion, 1);
+    BOOST_CHECK_EQUAL(obj->objectSize, obj->calculateObjectSize());
+    BOOST_CHECK(obj->objectType == Vector::BLF::ObjectType::REALTIMECLOCK);
+
+    /* ObjectHeader2 */
+    // @todo ObjectHeader2
+
+    /* MostTxLight */
+    // @todo MostTxLight
+
+    delete obj;
+
     file.close();
 }

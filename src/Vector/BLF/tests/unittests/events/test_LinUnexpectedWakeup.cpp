@@ -14,35 +14,36 @@ BOOST_AUTO_TEST_CASE(LinUnexpectedWakeup)
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events/test_LinUnexpectedWakeup.blf");
     BOOST_REQUIRE(file.is_open());
 
-    Vector::BLF::ObjectHeaderBase * ohb;
-    Vector::BLF::LinUnexpectedWakeup * linUnexpectedWakeup;
-
-    ohb = file.read();
+    Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_UNEXPECTED_WAKEUP);
-    linUnexpectedWakeup = static_cast<Vector::BLF::LinUnexpectedWakeup *>(ohb);
-    /* ObjectHeaderBase */
-    BOOST_CHECK(linUnexpectedWakeup->signature == Vector::BLF::ObjectSignature);
-    BOOST_CHECK(linUnexpectedWakeup->headerSize == linUnexpectedWakeup->calculateHeaderSize());
-    BOOST_CHECK(linUnexpectedWakeup->headerVersion == 1);
-    BOOST_CHECK(linUnexpectedWakeup->objectSize == linUnexpectedWakeup->calculateObjectSize());
-    BOOST_CHECK(linUnexpectedWakeup->objectType == Vector::BLF::ObjectType::LIN_UNEXPECTED_WAKEUP);
-    /* ObjectHeader */
-    BOOST_CHECK(linUnexpectedWakeup->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
-    // reserved
-    BOOST_CHECK(linUnexpectedWakeup->objectVersion == 0);
-    BOOST_CHECK(linUnexpectedWakeup->objectTimeStamp == 892363000); // ns
-    /* LinBusEvent */
-    BOOST_CHECK(linUnexpectedWakeup->sof == 891843000); // ns
-    BOOST_CHECK(linUnexpectedWakeup->eventBaudrate == 19230);
-    BOOST_CHECK(linUnexpectedWakeup->channel == 1);
-    // reserved
-    /* LinUnexpectedWakeup */
-    BOOST_CHECK(linUnexpectedWakeup->width == 260000); // us
-    BOOST_CHECK(linUnexpectedWakeup->signal == 0);
-    // reserved
-    delete ohb;
+    Vector::BLF::LinUnexpectedWakeup * obj = static_cast<Vector::BLF::LinUnexpectedWakeup *>(ohb);
 
-    BOOST_CHECK(file.eof());
+    /* ObjectHeaderBase */
+    BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);
+    BOOST_CHECK_EQUAL(obj->headerSize, obj->calculateHeaderSize());
+    BOOST_CHECK_EQUAL(obj->headerVersion, 1);
+    BOOST_CHECK_EQUAL(obj->objectSize, obj->calculateObjectSize());
+    BOOST_CHECK(obj->objectType == Vector::BLF::ObjectType::LIN_UNEXPECTED_WAKEUP);
+
+    /* ObjectHeader */
+    BOOST_CHECK(obj->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
+    BOOST_CHECK_EQUAL(obj->clientIndex, 0);
+    BOOST_CHECK_EQUAL(obj->objectVersion, 0);
+    BOOST_CHECK_EQUAL(obj->objectTimeStamp, 892363000); // ns
+
+    /* LinBusEvent */
+    BOOST_CHECK_EQUAL(obj->sof, 891843000); // ns
+    BOOST_CHECK_EQUAL(obj->eventBaudrate, 19230);
+    BOOST_CHECK_EQUAL(obj->channel, 1);
+    // reserved
+
+    /* LinUnexpectedWakeup */
+    BOOST_CHECK_EQUAL(obj->width, 260000); // us
+    BOOST_CHECK_EQUAL(obj->signal, 0);
+    // reserved
+
+    delete obj;
+
     file.close();
 }

@@ -14,39 +14,41 @@ BOOST_AUTO_TEST_CASE(LinSyncError2)
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events/test_LinSyncError2.blf");
     BOOST_REQUIRE(file.is_open());
 
-    Vector::BLF::ObjectHeaderBase * ohb;
-    Vector::BLF::LinSyncError2 * linSyncError2;
-
-    ohb = file.read();
+    Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_SYN_ERROR2);
-    linSyncError2 = static_cast<Vector::BLF::LinSyncError2 *>(ohb);
-    /* ObjectHeaderBase */
-    BOOST_CHECK(linSyncError2->signature == Vector::BLF::ObjectSignature);
-    BOOST_CHECK(linSyncError2->headerSize == linSyncError2->calculateHeaderSize());
-    BOOST_CHECK(linSyncError2->headerVersion == 1);
-    BOOST_CHECK(linSyncError2->objectSize == linSyncError2->calculateObjectSize());
-    BOOST_CHECK(linSyncError2->objectType == Vector::BLF::ObjectType::LIN_SYN_ERROR2);
-    /* ObjectHeader */
-    BOOST_CHECK(linSyncError2->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
-    // reserved
-    BOOST_CHECK(linSyncError2->objectVersion == 0);
-    BOOST_CHECK(linSyncError2->objectTimeStamp == 2022336000); // ns
-    /* LinBusEvent */
-    BOOST_CHECK(linSyncError2->sof == 2021077000); // ns
-    BOOST_CHECK(linSyncError2->eventBaudrate == 19230);
-    BOOST_CHECK(linSyncError2->channel == 2);
-    // reserved
-    /* LinSynchFieldEvent */
-    BOOST_CHECK(linSyncError2->synchBreakLength == 937125);
-    BOOST_CHECK(linSyncError2->synchDelLength == 113312);
-    /* LinSyncError2 */
-    BOOST_CHECK(linSyncError2->timeDiff[0] == 208);
-    BOOST_CHECK(linSyncError2->timeDiff[1] == 0);
-    BOOST_CHECK(linSyncError2->timeDiff[2] == 0);
-    BOOST_CHECK(linSyncError2->timeDiff[3] == 0);
-    delete ohb;
+    Vector::BLF::LinSyncError2 * obj = static_cast<Vector::BLF::LinSyncError2 *>(ohb);
 
-    BOOST_CHECK(file.eof());
+    /* ObjectHeaderBase */
+    BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);
+    BOOST_CHECK_EQUAL(obj->headerSize, obj->calculateHeaderSize());
+    BOOST_CHECK_EQUAL(obj->headerVersion, 1);
+    BOOST_CHECK_EQUAL(obj->objectSize, obj->calculateObjectSize());
+    BOOST_CHECK(obj->objectType == Vector::BLF::ObjectType::LIN_SYN_ERROR2);
+
+    /* ObjectHeader */
+    BOOST_CHECK(obj->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
+    BOOST_CHECK_EQUAL(obj->clientIndex, 0);
+    BOOST_CHECK_EQUAL(obj->objectVersion, 0);
+    BOOST_CHECK_EQUAL(obj->objectTimeStamp, 2022336000); // ns
+
+    /* LinBusEvent */
+    BOOST_CHECK_EQUAL(obj->sof, 2021077000); // ns
+    BOOST_CHECK_EQUAL(obj->eventBaudrate, 19230);
+    BOOST_CHECK_EQUAL(obj->channel, 2);
+    // reserved
+
+    /* LinSynchFieldEvent */
+    BOOST_CHECK_EQUAL(obj->synchBreakLength, 937125);
+    BOOST_CHECK_EQUAL(obj->synchDelLength, 113312);
+
+    /* LinSyncError2 */
+    BOOST_CHECK_EQUAL(obj->timeDiff[0], 208);
+    BOOST_CHECK_EQUAL(obj->timeDiff[1], 0);
+    BOOST_CHECK_EQUAL(obj->timeDiff[2], 0);
+    BOOST_CHECK_EQUAL(obj->timeDiff[3], 0);
+
+    delete obj;
+
     file.close();
 }

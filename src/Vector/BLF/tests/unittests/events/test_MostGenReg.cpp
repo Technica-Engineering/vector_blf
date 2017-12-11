@@ -14,36 +14,36 @@ BOOST_AUTO_TEST_CASE(MostGenReg)
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events/test_MostGenReg.blf");
     BOOST_REQUIRE(file.is_open());
 
-    Vector::BLF::ObjectHeaderBase * ohb;
-    Vector::BLF::MostGenReg * mostGenReg;
-
-    ohb = file.read();
+    Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_GENREG);
-    mostGenReg = static_cast<Vector::BLF::MostGenReg *>(ohb);
-    /* ObjectHeaderBase */
-    BOOST_CHECK(mostGenReg->signature == Vector::BLF::ObjectSignature);
-    BOOST_CHECK(mostGenReg->headerSize == mostGenReg->calculateHeaderSize());
-    BOOST_CHECK(mostGenReg->headerVersion == 1); // Vector bug: This should be 2 for ObjectHeader2
-    BOOST_CHECK(mostGenReg->objectSize == mostGenReg->calculateObjectSize());
-    BOOST_CHECK(mostGenReg->objectType == Vector::BLF::ObjectType::MOST_GENREG);
-    /* ObjectHeader2 */
-    BOOST_CHECK(mostGenReg->objectFlags == Vector::BLF::ObjectHeader2::ObjectFlags::TimeOneNans);
-    BOOST_CHECK(mostGenReg->timeStampStatus == 0);
-    // reserved
-    BOOST_CHECK(mostGenReg->objectVersion == 0);
-    BOOST_CHECK(mostGenReg->objectTimeStamp == 1471300000); // ns
-    BOOST_CHECK(mostGenReg->originalTimeStamp == 0);
-    /* MostGenReg */
-    BOOST_CHECK(mostGenReg->channel == 1);
-    BOOST_CHECK(mostGenReg->subType == 1);
-    // reserved
-    BOOST_CHECK(mostGenReg->handle == 0);
-    BOOST_CHECK(mostGenReg->regId == 0x8A);
-    // reserved
-    BOOST_CHECK(mostGenReg->regValue == 0x0172);
-    delete ohb;
+    Vector::BLF::MostGenReg * obj = static_cast<Vector::BLF::MostGenReg *>(ohb);
 
-    BOOST_CHECK(file.eof());
+    /* ObjectHeaderBase */
+    BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);
+    BOOST_CHECK_EQUAL(obj->headerSize, obj->calculateHeaderSize());
+    BOOST_CHECK_EQUAL(obj->headerVersion, 1); // Vector bug: This should be 2 for ObjectHeader2
+    BOOST_CHECK_EQUAL(obj->objectSize, obj->calculateObjectSize());
+    BOOST_CHECK(obj->objectType == Vector::BLF::ObjectType::MOST_GENREG);
+
+    /* ObjectHeader2 */
+    BOOST_CHECK(obj->objectFlags == Vector::BLF::ObjectHeader2::ObjectFlags::TimeOneNans);
+    BOOST_CHECK_EQUAL(obj->timeStampStatus, 0);
+    // reserved
+    BOOST_CHECK_EQUAL(obj->objectVersion, 0);
+    BOOST_CHECK_EQUAL(obj->objectTimeStamp, 1471300000); // ns
+    BOOST_CHECK_EQUAL(obj->originalTimeStamp, 0);
+
+    /* MostGenReg */
+    BOOST_CHECK_EQUAL(obj->channel, 1);
+    BOOST_CHECK_EQUAL(obj->subType, 1);
+    // reserved
+    BOOST_CHECK_EQUAL(obj->handle, 0);
+    BOOST_CHECK_EQUAL(obj->regId, 0x8A);
+    // reserved
+    BOOST_CHECK_EQUAL(obj->regValue, 0x0172);
+
+    delete obj;
+
     file.close();
 }

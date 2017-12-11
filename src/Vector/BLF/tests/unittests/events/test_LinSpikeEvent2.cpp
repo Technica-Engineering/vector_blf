@@ -14,34 +14,35 @@ BOOST_AUTO_TEST_CASE(LinSpikeEvent2)
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events/test_LinSpikeEvent2.blf");
     BOOST_REQUIRE(file.is_open());
 
-    Vector::BLF::ObjectHeaderBase * ohb;
-    Vector::BLF::LinSpikeEvent2 * linSpikeEvent2;
-
-    ohb = file.read();
+    Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_SPIKE_EVENT2);
-    linSpikeEvent2 = static_cast<Vector::BLF::LinSpikeEvent2 *>(ohb);
-    /* ObjectHeaderBase */
-    BOOST_CHECK(linSpikeEvent2->signature == Vector::BLF::ObjectSignature);
-    BOOST_CHECK(linSpikeEvent2->headerSize == linSpikeEvent2->calculateHeaderSize());
-    BOOST_CHECK(linSpikeEvent2->headerVersion == 1);
-    BOOST_CHECK(linSpikeEvent2->objectSize == linSpikeEvent2->calculateObjectSize());
-    BOOST_CHECK(linSpikeEvent2->objectType == Vector::BLF::ObjectType::LIN_SPIKE_EVENT2);
-    /* ObjectHeader */
-    BOOST_CHECK(linSpikeEvent2->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
-    // reserved
-    BOOST_CHECK(linSpikeEvent2->objectVersion == 0);
-    BOOST_CHECK(linSpikeEvent2->objectTimeStamp == 5990958000); // ns
-    /* LinBusEvent */
-    BOOST_CHECK(linSpikeEvent2->sof == 5990902000); // ns
-    BOOST_CHECK(linSpikeEvent2->eventBaudrate == 9615);
-    BOOST_CHECK(linSpikeEvent2->channel == 2);
-    /* LinSpikeEvent2 */
-    BOOST_CHECK(linSpikeEvent2->width == 56);
-    BOOST_CHECK(linSpikeEvent2->internal == 0); // real event
-    // reserved
-    delete ohb;
+    Vector::BLF::LinSpikeEvent2 * obj = static_cast<Vector::BLF::LinSpikeEvent2 *>(ohb);
 
-    BOOST_CHECK(file.eof());
+    /* ObjectHeaderBase */
+    BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);
+    BOOST_CHECK_EQUAL(obj->headerSize, obj->calculateHeaderSize());
+    BOOST_CHECK_EQUAL(obj->headerVersion, 1);
+    BOOST_CHECK_EQUAL(obj->objectSize, obj->calculateObjectSize());
+    BOOST_CHECK(obj->objectType == Vector::BLF::ObjectType::LIN_SPIKE_EVENT2);
+
+    /* ObjectHeader */
+    BOOST_CHECK(obj->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
+    // reserved
+    BOOST_CHECK_EQUAL(obj->objectVersion, 0);
+    BOOST_CHECK_EQUAL(obj->objectTimeStamp, 5990958000); // ns
+
+    /* LinBusEvent */
+    BOOST_CHECK_EQUAL(obj->sof, 5990902000); // ns
+    BOOST_CHECK_EQUAL(obj->eventBaudrate, 9615);
+    BOOST_CHECK_EQUAL(obj->channel, 2);
+
+    /* LinSpikeEvent2 */
+    BOOST_CHECK_EQUAL(obj->width, 56);
+    BOOST_CHECK_EQUAL(obj->internal, 0); // real event
+    // reserved
+
+    delete obj;
+
     file.close();
 }

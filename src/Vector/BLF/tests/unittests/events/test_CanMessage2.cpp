@@ -14,16 +14,28 @@ BOOST_AUTO_TEST_CASE(CanMessage2)
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events/test_CanMessage2.blf");
     BOOST_REQUIRE(file.is_open());
 
-    Vector::BLF::ObjectHeaderBase * ohb;
-    Vector::BLF::CanMessage2 * canMessage2;
-
-    ohb = file.read();
+    Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::CAN_MESSAGE2);
-    canMessage2 = static_cast<Vector::BLF::CanMessage2 *>(ohb);
-    // @todo test implementation
-    delete ohb;
+    Vector::BLF::CanMessage2 * obj = static_cast<Vector::BLF::CanMessage2 *>(ohb);
 
-    BOOST_CHECK(file.eof());
+    /* ObjectHeaderBase */
+    BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);
+    BOOST_CHECK_EQUAL(obj->headerSize, obj->calculateHeaderSize());
+    BOOST_CHECK_EQUAL(obj->headerVersion, 1);
+    BOOST_CHECK_EQUAL(obj->objectSize, obj->calculateObjectSize());
+    BOOST_CHECK(obj->objectType == Vector::BLF::ObjectType::CAN_MESSAGE2);
+
+    /* ObjectHeader */
+    BOOST_CHECK(obj->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
+    BOOST_CHECK_EQUAL(obj->clientIndex, 0x2222);
+    BOOST_CHECK_EQUAL(obj->objectVersion, 0);
+    BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x3333333333333333);
+
+    /* CanMessage2 */
+    // @todo CanMessage2
+
+    delete obj;
+
     file.close();
 }

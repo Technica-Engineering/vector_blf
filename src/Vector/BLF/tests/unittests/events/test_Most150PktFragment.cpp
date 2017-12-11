@@ -14,50 +14,50 @@ BOOST_AUTO_TEST_CASE(Most150PktFragment)
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events/test_Most150PktFragment.blf");
     BOOST_REQUIRE(file.is_open());
 
-    Vector::BLF::ObjectHeaderBase * ohb;
-    Vector::BLF::Most150PktFragment * most150PktFragment;
-
-    ohb = file.read();
+    Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_150_PKT_FRAGMENT);
-    most150PktFragment = static_cast<Vector::BLF::Most150PktFragment *>(ohb);
-    /* ObjectHeaderBase */
-    BOOST_CHECK(most150PktFragment->signature == Vector::BLF::ObjectSignature);
-    BOOST_CHECK(most150PktFragment->headerSize == most150PktFragment->calculateHeaderSize());
-    BOOST_CHECK(most150PktFragment->headerVersion == 1); // Vector bug: This should be 2 for ObjectHeader2
-    BOOST_CHECK(most150PktFragment->objectSize == most150PktFragment->calculateObjectSize());
-    BOOST_CHECK(most150PktFragment->objectType == Vector::BLF::ObjectType::MOST_150_PKT_FRAGMENT);
-    /* ObjectHeader2 */
-    BOOST_CHECK(most150PktFragment->objectFlags == Vector::BLF::ObjectHeader2::ObjectFlags::TimeOneNans);
-    BOOST_CHECK(most150PktFragment->timeStampStatus == 0);
-    // reserved
-    BOOST_CHECK(most150PktFragment->objectVersion == 0);
-    BOOST_CHECK(most150PktFragment->objectTimeStamp == 5708800000); // ns
-    BOOST_CHECK(most150PktFragment->originalTimeStamp == 0);
-    /* Most150PktFragment */
-    BOOST_CHECK(most150PktFragment->channel == 1);
-    // reserved
-    BOOST_CHECK(most150PktFragment->ackNack == 0x11); // NoResp | NAck
-    BOOST_CHECK(most150PktFragment->validMask == 0x01020304);
-    BOOST_CHECK(most150PktFragment->sourceAdr == 0x0172);
-    BOOST_CHECK(most150PktFragment->destAdr == 0x03C8);
-    BOOST_CHECK(most150PktFragment->pAck == 0x22);
-    BOOST_CHECK(most150PktFragment->cAck == 0x44);
-    BOOST_CHECK(most150PktFragment->priority == 1);
-    BOOST_CHECK(most150PktFragment->pIndex == 0x33);
-    BOOST_CHECK(most150PktFragment->crc == 0xAABB);
-    BOOST_CHECK(most150PktFragment->dataLen == 6);
-    BOOST_CHECK(most150PktFragment->dataLenAnnounced == 0x0210);
-    BOOST_CHECK(most150PktFragment->firstDataLen == 6);
-    // reserved
-    BOOST_CHECK(most150PktFragment->firstData[0] == 0x01);
-    BOOST_CHECK(most150PktFragment->firstData[1] == 0x02);
-    BOOST_CHECK(most150PktFragment->firstData[2] == 0x03);
-    BOOST_CHECK(most150PktFragment->firstData[3] == 0x04);
-    BOOST_CHECK(most150PktFragment->firstData[4] == 0x05);
-    BOOST_CHECK(most150PktFragment->firstData[5] == 0x06);
-    delete ohb;
+    Vector::BLF::Most150PktFragment * obj = static_cast<Vector::BLF::Most150PktFragment *>(ohb);
 
-    BOOST_CHECK(file.eof());
+    /* ObjectHeaderBase */
+    BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);
+    BOOST_CHECK_EQUAL(obj->headerSize, obj->calculateHeaderSize());
+    BOOST_CHECK_EQUAL(obj->headerVersion, 1); // Vector bug: This should be 2 for ObjectHeader2
+    BOOST_CHECK_EQUAL(obj->objectSize, obj->calculateObjectSize());
+    BOOST_CHECK(obj->objectType == Vector::BLF::ObjectType::MOST_150_PKT_FRAGMENT);
+
+    /* ObjectHeader2 */
+    BOOST_CHECK(obj->objectFlags == Vector::BLF::ObjectHeader2::ObjectFlags::TimeOneNans);
+    BOOST_CHECK_EQUAL(obj->timeStampStatus, 0);
+    // reserved
+    BOOST_CHECK_EQUAL(obj->objectVersion, 0);
+    BOOST_CHECK_EQUAL(obj->objectTimeStamp, 5708800000); // ns
+    BOOST_CHECK_EQUAL(obj->originalTimeStamp, 0);
+
+    /* Most150PktFragment */
+    BOOST_CHECK_EQUAL(obj->channel, 1);
+    // reserved
+    BOOST_CHECK_EQUAL(obj->ackNack, 0x11); // NoResp | NAck
+    BOOST_CHECK_EQUAL(obj->validMask, 0x01020304);
+    BOOST_CHECK_EQUAL(obj->sourceAdr, 0x0172);
+    BOOST_CHECK_EQUAL(obj->destAdr, 0x03C8);
+    BOOST_CHECK_EQUAL(obj->pAck, 0x22);
+    BOOST_CHECK_EQUAL(obj->cAck, 0x44);
+    BOOST_CHECK_EQUAL(obj->priority, 1);
+    BOOST_CHECK_EQUAL(obj->pIndex, 0x33);
+    BOOST_CHECK_EQUAL(obj->crc, 0xAABB);
+    BOOST_CHECK_EQUAL(obj->dataLen, 6);
+    BOOST_CHECK_EQUAL(obj->dataLenAnnounced, 0x0210);
+    BOOST_CHECK_EQUAL(obj->firstDataLen, 6);
+    // reserved
+    BOOST_CHECK_EQUAL(obj->firstData[0], 0x01);
+    BOOST_CHECK_EQUAL(obj->firstData[1], 0x02);
+    BOOST_CHECK_EQUAL(obj->firstData[2], 0x03);
+    BOOST_CHECK_EQUAL(obj->firstData[3], 0x04);
+    BOOST_CHECK_EQUAL(obj->firstData[4], 0x05);
+    BOOST_CHECK_EQUAL(obj->firstData[5], 0x06);
+
+    delete obj;
+
     file.close();
 }

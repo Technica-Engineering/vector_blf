@@ -14,30 +14,30 @@ BOOST_AUTO_TEST_CASE(MostLightLock)
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events/test_MostLightLock.blf");
     BOOST_REQUIRE(file.is_open());
 
-    Vector::BLF::ObjectHeaderBase * ohb;
-    Vector::BLF::MostLightLock * mostLightLock;
-
-    ohb = file.read();
+    Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_LIGHTLOCK);
-    mostLightLock = static_cast<Vector::BLF::MostLightLock *>(ohb);
-    /* ObjectHeaderBase */
-    BOOST_CHECK(mostLightLock->signature == Vector::BLF::ObjectSignature);
-    BOOST_CHECK(mostLightLock->headerSize == mostLightLock->calculateHeaderSize());
-    BOOST_CHECK(mostLightLock->headerVersion == 1);
-    BOOST_CHECK(mostLightLock->objectSize == mostLightLock->calculateObjectSize());
-    BOOST_CHECK(mostLightLock->objectType == Vector::BLF::ObjectType::MOST_LIGHTLOCK);
-    /* ObjectHeader */
-    BOOST_CHECK(mostLightLock->objectFlags == Vector::BLF::ObjectHeader::TimeOneNans);
-    // reserved
-    BOOST_CHECK(mostLightLock->objectVersion == 0);
-    BOOST_CHECK(mostLightLock->objectTimeStamp == 8638000); // ns
-    /* MostLightLock */
-    BOOST_CHECK(mostLightLock->channel == 1);
-    BOOST_CHECK(mostLightLock->state == 1); // Signal On + Lock
-    // reserved
-    delete ohb;
+    Vector::BLF::MostLightLock * obj = static_cast<Vector::BLF::MostLightLock *>(ohb);
 
-    BOOST_CHECK(file.eof());
+    /* ObjectHeaderBase */
+    BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);
+    BOOST_CHECK_EQUAL(obj->headerSize, obj->calculateHeaderSize());
+    BOOST_CHECK_EQUAL(obj->headerVersion, 1);
+    BOOST_CHECK_EQUAL(obj->objectSize, obj->calculateObjectSize());
+    BOOST_CHECK(obj->objectType == Vector::BLF::ObjectType::MOST_LIGHTLOCK);
+
+    /* ObjectHeader */
+    BOOST_CHECK(obj->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
+    BOOST_CHECK_EQUAL(obj->clientIndex, 0);
+    BOOST_CHECK_EQUAL(obj->objectVersion, 0);
+    BOOST_CHECK_EQUAL(obj->objectTimeStamp, 8638000); // ns
+
+    /* MostLightLock */
+    BOOST_CHECK_EQUAL(obj->channel, 1);
+    BOOST_CHECK_EQUAL(obj->state, 1); // Signal On + Lock
+    // reserved
+
+    delete obj;
+
     file.close();
 }

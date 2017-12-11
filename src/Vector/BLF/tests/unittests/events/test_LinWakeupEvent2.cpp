@@ -14,36 +14,37 @@ BOOST_AUTO_TEST_CASE(LinWakeupEvent2)
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events/test_LinWakeupEvent2.blf");
     BOOST_REQUIRE(file.is_open());
 
-    Vector::BLF::ObjectHeaderBase * ohb;
-    Vector::BLF::LinWakeupEvent2 * linWakeupEvent2;
-
-    ohb = file.read();
+    Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_WAKEUP2);
-    linWakeupEvent2 = static_cast<Vector::BLF::LinWakeupEvent2 *>(ohb);
-    /* ObjectHeaderBase */
-    BOOST_CHECK(linWakeupEvent2->signature == Vector::BLF::ObjectSignature);
-    BOOST_CHECK(linWakeupEvent2->headerSize == linWakeupEvent2->calculateHeaderSize());
-    BOOST_CHECK(linWakeupEvent2->headerVersion == 1);
-    BOOST_CHECK(linWakeupEvent2->objectSize == linWakeupEvent2->calculateObjectSize());
-    BOOST_CHECK(linWakeupEvent2->objectType == Vector::BLF::ObjectType::LIN_WAKEUP2);
-    /* ObjectHeader */
-    BOOST_CHECK(linWakeupEvent2->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
-    // reserved
-    BOOST_CHECK(linWakeupEvent2->objectVersion == 0);
-    BOOST_CHECK(linWakeupEvent2->objectTimeStamp == 2318672000); // ns
-    /* LinBusEvent */
-    BOOST_CHECK(linWakeupEvent2->sof == 2317671000); // ns
-    BOOST_CHECK(linWakeupEvent2->eventBaudrate == 19230);
-    BOOST_CHECK(linWakeupEvent2->channel == 1);
-    // reserved
-    /* LinWakeupEvent2 */
-    BOOST_CHECK(linWakeupEvent2->lengthInfo == 0); // OK
-    BOOST_CHECK(linWakeupEvent2->signal == 0);
-    BOOST_CHECK(linWakeupEvent2->external == 0);
-    // reserved
-    delete ohb;
+    Vector::BLF::LinWakeupEvent2 * obj = static_cast<Vector::BLF::LinWakeupEvent2 *>(ohb);
 
-    BOOST_CHECK(file.eof());
+    /* ObjectHeaderBase */
+    BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);
+    BOOST_CHECK_EQUAL(obj->headerSize, obj->calculateHeaderSize());
+    BOOST_CHECK_EQUAL(obj->headerVersion, 1);
+    BOOST_CHECK_EQUAL(obj->objectSize, obj->calculateObjectSize());
+    BOOST_CHECK(obj->objectType == Vector::BLF::ObjectType::LIN_WAKEUP2);
+
+    /* ObjectHeader */
+    BOOST_CHECK(obj->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
+    BOOST_CHECK_EQUAL(obj->clientIndex, 0);
+    BOOST_CHECK_EQUAL(obj->objectVersion, 0);
+    BOOST_CHECK_EQUAL(obj->objectTimeStamp, 2318672000); // ns
+
+    /* LinBusEvent */
+    BOOST_CHECK_EQUAL(obj->sof, 2317671000); // ns
+    BOOST_CHECK_EQUAL(obj->eventBaudrate, 19230);
+    BOOST_CHECK_EQUAL(obj->channel, 1);
+    // reserved
+
+    /* LinWakeupEvent2 */
+    BOOST_CHECK_EQUAL(obj->lengthInfo, 0); // OK
+    BOOST_CHECK_EQUAL(obj->signal, 0);
+    BOOST_CHECK_EQUAL(obj->external, 0);
+    // reserved
+
+    delete obj;
+
     file.close();
 }
