@@ -28,12 +28,20 @@ BOOST_AUTO_TEST_CASE(RealtimeClock)
 
     /* ObjectHeader */
     BOOST_CHECK(obj->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
-    BOOST_CHECK_EQUAL(obj->clientIndex, 0x2222);
+    BOOST_CHECK_EQUAL(obj->clientIndex, 0x1111);
     BOOST_CHECK_EQUAL(obj->objectVersion, 0);
-    BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x3333333333333333);
+    BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
     /* RealtimeClock */
-    // @todo RealtimeClock
+    BOOST_CHECK_EQUAL(obj->time, 0x1111111111111111);
+    BOOST_CHECK_EQUAL(obj->loggingOffset, 0x2222222222222222);
+
+    delete obj;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::REALTIMECLOCK);
 
     delete obj;
 
