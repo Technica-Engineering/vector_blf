@@ -21,7 +21,7 @@
 
 #include <cstring>
 
-#include "GlobalMarker.h"
+#include <Vector/BLF/GlobalMarker.h>
 
 namespace Vector {
 namespace BLF {

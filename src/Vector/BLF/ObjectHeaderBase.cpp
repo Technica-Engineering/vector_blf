@@ -19,9 +19,9 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "AbstractFile.h"
-#include "Exceptions.h"
-#include "ObjectHeaderBase.h"
+#include <Vector/BLF/AbstractFile.h>
+#include <Vector/BLF/Exceptions.h>
+#include <Vector/BLF/ObjectHeaderBase.h>
 
 namespace Vector {
 namespace BLF {

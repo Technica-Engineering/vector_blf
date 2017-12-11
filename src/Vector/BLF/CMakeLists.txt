@@ -6,8 +6,9 @@ add_library(${PROJECT_NAME} SHARED "")
 
 # search paths
 include_directories(
-    ${ZLIB_INCLUDE_DIRS}
-    ${CMAKE_CURRENT_BINARY_DIR})
+    ${CMAKE_SOURCE_DIR}/src
+    ${CMAKE_BINARY_DIR}/src
+    ${ZLIB_INCLUDE_DIRS})
 
 # sources/headers
 target_sources(${PROJECT_NAME}

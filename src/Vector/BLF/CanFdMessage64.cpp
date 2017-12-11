@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "CanFdMessage64.h"
+#include <Vector/BLF/CanFdMessage64.h>
 
 namespace Vector {
 namespace BLF {

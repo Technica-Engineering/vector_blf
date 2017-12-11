@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "LinChecksumInfo.h"
+#include <Vector/BLF/LinChecksumInfo.h>
 
 namespace Vector {
 namespace BLF {

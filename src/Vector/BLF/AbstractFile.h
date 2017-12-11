@@ -21,11 +21,11 @@
 
 #pragma once
 
-#include "platform.h"
+#include <Vector/BLF/platform.h>
 
 #include <iostream>
 
-#include "vector_blf_export.h"
+#include <Vector/BLF/vector_blf_export.h>
 
 namespace Vector {
 namespace BLF {

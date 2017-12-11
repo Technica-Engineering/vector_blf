@@ -21,9 +21,9 @@
 
 #include <string>
 
-#include "AbstractFile.h"
-#include "Exceptions.h"
-#include "FileStatistics.h"
+#include <Vector/BLF/AbstractFile.h>
+#include <Vector/BLF/Exceptions.h>
+#include <Vector/BLF/FileStatistics.h>
 
 namespace Vector {
 namespace BLF {

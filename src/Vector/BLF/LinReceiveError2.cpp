@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "LinReceiveError2.h"
+#include <Vector/BLF/LinReceiveError2.h>
 
 namespace Vector {
 namespace BLF {

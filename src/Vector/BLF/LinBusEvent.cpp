@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "LinBusEvent.h"
+#include <Vector/BLF/LinBusEvent.h>
 
 namespace Vector {
 namespace BLF {

@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "EthernetStatistic.h"
+#include <Vector/BLF/EthernetStatistic.h>
 
 namespace Vector {
 namespace BLF {

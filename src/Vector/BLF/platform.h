@@ -25,7 +25,7 @@
 
 #pragma once
 
-#include "config.h"
+#include <Vector/BLF/config.h>
 
 /* GCC */
 #ifdef __GNUC__

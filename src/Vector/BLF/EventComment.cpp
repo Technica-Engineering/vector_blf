@@ -21,7 +21,7 @@
 
 #include <cstring>
 
-#include "EventComment.h"
+#include <Vector/BLF/EventComment.h>
 
 namespace Vector {
 namespace BLF {

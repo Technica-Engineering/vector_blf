@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "LinShortOrSlowResponse2.h"
+#include <Vector/BLF/LinShortOrSlowResponse2.h>
 
 namespace Vector {
 namespace BLF {

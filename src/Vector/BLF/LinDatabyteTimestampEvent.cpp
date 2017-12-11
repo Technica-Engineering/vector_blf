@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "LinDatabyteTimestampEvent.h"
+#include <Vector/BLF/LinDatabyteTimestampEvent.h>
 
 namespace Vector {
 namespace BLF {

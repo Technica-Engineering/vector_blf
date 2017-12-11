@@ -5,7 +5,7 @@
 #include <boost/test/unit_test.hpp>
 #include <boost/filesystem.hpp>
 
-#include "Vector/BLF.h"
+#include <Vector/BLF.h>
 
 /* ETHERNET_RX_ERROR = 102 */
 BOOST_AUTO_TEST_CASE(EthernetRxError)

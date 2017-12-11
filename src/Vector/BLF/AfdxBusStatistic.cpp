@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "AfdxBusStatistic.h"
+#include <Vector/BLF/AfdxBusStatistic.h>
 
 namespace Vector {
 namespace BLF {

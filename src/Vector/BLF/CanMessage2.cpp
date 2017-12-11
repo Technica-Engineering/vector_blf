@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "CanMessage2.h"
+#include <Vector/BLF/CanMessage2.h>
 
 namespace Vector {
 namespace BLF {

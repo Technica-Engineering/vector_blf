@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "MostLightLock.h"
+#include <Vector/BLF/MostLightLock.h>
 
 namespace Vector {
 namespace BLF {

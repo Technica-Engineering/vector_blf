@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "CanDriverError.h"
+#include <Vector/BLF/CanDriverError.h>
 
 namespace Vector {
 namespace BLF {

@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "LinDlcInfo.h"
+#include <Vector/BLF/LinDlcInfo.h>
 
 namespace Vector {
 namespace BLF {

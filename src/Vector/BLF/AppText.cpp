@@ -21,7 +21,7 @@
 
 #include <cstring>
 
-#include "AppText.h"
+#include <Vector/BLF/AppText.h>
 
 namespace Vector {
 namespace BLF {

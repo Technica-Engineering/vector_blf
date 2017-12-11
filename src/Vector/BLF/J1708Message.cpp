@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "J1708Message.h"
+#include <Vector/BLF/J1708Message.h>
 
 namespace Vector {
 namespace BLF {

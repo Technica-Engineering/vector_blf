@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "LinStatisticEvent.h"
+#include <Vector/BLF/LinStatisticEvent.h>
 
 namespace Vector {
 namespace BLF {

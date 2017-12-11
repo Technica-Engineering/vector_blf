@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "DiagRequestInterpretation.h"
+#include <Vector/BLF/DiagRequestInterpretation.h>
 
 namespace Vector {
 namespace BLF {

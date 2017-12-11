@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "MostNetState.h"
+#include <Vector/BLF/MostNetState.h>
 
 namespace Vector {
 namespace BLF {

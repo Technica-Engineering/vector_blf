@@ -5,7 +5,7 @@
 #include <boost/test/unit_test.hpp>
 #include <boost/filesystem.hpp>
 
-#include "Vector/BLF.h"
+#include <Vector/BLF.h>
 
 /* J1708_MESSAGE = 55 */
 /* J1708_VIRTUAL_MSG = 56 */

@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "SerialEvent.h"
+#include <Vector/BLF/SerialEvent.h>
 
 namespace Vector {
 namespace BLF {

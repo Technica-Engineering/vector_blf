@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "FlexRaySync.h"
+#include <Vector/BLF/FlexRaySync.h>
 
 namespace Vector {
 namespace BLF {

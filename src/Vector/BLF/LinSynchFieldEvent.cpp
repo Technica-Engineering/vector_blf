@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "LinSynchFieldEvent.h"
+#include <Vector/BLF/LinSynchFieldEvent.h>
 
 namespace Vector {
 namespace BLF {

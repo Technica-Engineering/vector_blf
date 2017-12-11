@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "MostTrigger.h"
+#include <Vector/BLF/MostTrigger.h>
 
 namespace Vector {
 namespace BLF {

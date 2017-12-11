@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "A429Message.h"
+#include <Vector/BLF/A429Message.h>
 
 namespace Vector {
 namespace BLF {

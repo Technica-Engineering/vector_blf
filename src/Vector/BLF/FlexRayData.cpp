@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "FlexRayData.h"
+#include <Vector/BLF/FlexRayData.h>
 
 namespace Vector {
 namespace BLF {

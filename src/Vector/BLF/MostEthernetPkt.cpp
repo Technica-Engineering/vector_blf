@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "MostEthernetPkt.h"
+#include <Vector/BLF/MostEthernetPkt.h>
 
 namespace Vector {
 namespace BLF {

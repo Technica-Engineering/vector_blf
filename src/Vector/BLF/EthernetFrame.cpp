@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "EthernetFrame.h"
+#include <Vector/BLF/EthernetFrame.h>
 
 namespace Vector {
 namespace BLF {

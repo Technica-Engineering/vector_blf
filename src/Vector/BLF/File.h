@@ -21,142 +21,142 @@
 
 #pragma once
 
-#include "platform.h"
+#include <Vector/BLF/platform.h>
 
 #include <fstream>
 
-#include "CompressedFile.h"
-#include "FileStatistics.h"
-#include "ObjectHeaderBase.h"
-#include "UncompressedFile.h"
-#include "VectorTypes.h"
+#include <Vector/BLF/CompressedFile.h>
+#include <Vector/BLF/FileStatistics.h>
+#include <Vector/BLF/ObjectHeaderBase.h>
+#include <Vector/BLF/UncompressedFile.h>
+#include <Vector/BLF/VectorTypes.h>
 
 // UNKNOWN = 0
-#include "CanMessage.h" // CAN_MESSAGE = 1
-#include "CanErrorFrame.h" // CAN_ERROR = 2
-#include "CanOverloadFrame.h" // CAN_OVERLOAD = 3
-#include "CanDriverStatistic.h" // CAN_STATISTIC = 4
-#include "AppTrigger.h" // APP_TRIGGER = 5
-#include "EnvironmentVariable.h" // ENV_INTEGER = 6
-#include "EnvironmentVariable.h" // ENV_DOUBLE = 7
-#include "EnvironmentVariable.h" // ENV_STRING = 8
-#include "EnvironmentVariable.h" // ENV_DATA = 9
-#include "LogContainer.h" // LOG_CONTAINER = 10
-#include "LinMessage.h" // LIN_MESSAGE = 11
-#include "LinCrcError.h" // LIN_CRC_ERROR = 12
-#include "LinDlcInfo.h" // LIN_DLC_INFO = 13
-#include "LinReceiveError.h" // LIN_RCV_ERROR =  14
-#include "LinSendError.h" // LIN_SND_ERROR = 15
-#include "LinSlaveTimeout.h" // LIN_SLV_TIMEOUT = 16
-#include "LinSchedulerModeChange.h" // LIN_SCHED_MODCH = 17
-#include "LinSyncError.h" // LIN_SYN_ERROR = 18
-#include "LinBaudrateEvent.h" // LIN_BAUDRATE = 19
-#include "LinSleepModeEvent.h" // LIN_SLEEP = 20
-#include "LinWakeupEvent.h" // LIN_WAKEUP = 21
-#include "MostSpy.h" // MOST_SPY = 22
-#include "MostCtrl.h" // MOST_CTRL = 23
-#include "MostLightLock.h" // MOST_LIGHTLOCK = 24
-#include "MostStatistic.h" // MOST_STATISTIC = 25
+#include <Vector/BLF/CanMessage.h> // CAN_MESSAGE = 1
+#include <Vector/BLF/CanErrorFrame.h> // CAN_ERROR = 2
+#include <Vector/BLF/CanOverloadFrame.h> // CAN_OVERLOAD = 3
+#include <Vector/BLF/CanDriverStatistic.h> // CAN_STATISTIC = 4
+#include <Vector/BLF/AppTrigger.h> // APP_TRIGGER = 5
+#include <Vector/BLF/EnvironmentVariable.h> // ENV_INTEGER = 6
+#include <Vector/BLF/EnvironmentVariable.h> // ENV_DOUBLE = 7
+#include <Vector/BLF/EnvironmentVariable.h> // ENV_STRING = 8
+#include <Vector/BLF/EnvironmentVariable.h> // ENV_DATA = 9
+#include <Vector/BLF/LogContainer.h> // LOG_CONTAINER = 10
+#include <Vector/BLF/LinMessage.h> // LIN_MESSAGE = 11
+#include <Vector/BLF/LinCrcError.h> // LIN_CRC_ERROR = 12
+#include <Vector/BLF/LinDlcInfo.h> // LIN_DLC_INFO = 13
+#include <Vector/BLF/LinReceiveError.h> // LIN_RCV_ERROR =  14
+#include <Vector/BLF/LinSendError.h> // LIN_SND_ERROR = 15
+#include <Vector/BLF/LinSlaveTimeout.h> // LIN_SLV_TIMEOUT = 16
+#include <Vector/BLF/LinSchedulerModeChange.h> // LIN_SCHED_MODCH = 17
+#include <Vector/BLF/LinSyncError.h> // LIN_SYN_ERROR = 18
+#include <Vector/BLF/LinBaudrateEvent.h> // LIN_BAUDRATE = 19
+#include <Vector/BLF/LinSleepModeEvent.h> // LIN_SLEEP = 20
+#include <Vector/BLF/LinWakeupEvent.h> // LIN_WAKEUP = 21
+#include <Vector/BLF/MostSpy.h> // MOST_SPY = 22
+#include <Vector/BLF/MostCtrl.h> // MOST_CTRL = 23
+#include <Vector/BLF/MostLightLock.h> // MOST_LIGHTLOCK = 24
+#include <Vector/BLF/MostStatistic.h> // MOST_STATISTIC = 25
 // reserved_1 = 26
 // reserved_2 = 27
 // reserved_3 = 28
-#include "FlexRayData.h" // FLEXRAY_DATA = 29
-#include "FlexRaySync.h" // FLEXRAY_SYNC = 30
-#include "CanDriverError.h" // CAN_DRIVER_ERROR = 31
-#include "MostPkt.h" // MOST_PKT  = 32
-#include "MostPkt2.h" // MOST_PKT2 = 33
-#include "MostHwMode.h" // MOST_HWMODE = 34
-#include "MostReg.h" // MOST_REG = 35
-#include "MostGenReg.h" // MOST_GENREG = 36
-#include "MostNetState.h" // MOST_NETSTATE = 37
-#include "MostDataLost.h" // MOST_DATALOST = 38
-#include "MostTrigger.h" // MOST_TRIGGER = 39
-#include "FlexRayV6StartCycleEvent.h" // FLEXRAY_CYCLE = 40
-#include "FlexRayV6Message.h" // FLEXRAY_MESSAGE = 41
-#include "LinChecksumInfo.h" // LIN_CHECKSUM_INFO = 42
-#include "LinSpikeEvent.h" // LIN_SPIKE_EVENT = 43
-#include "CanDriverHwSync.h" // CAN_DRIVER_SYNC = 44
-#include "FlexRayStatusEvent.h" // FLEXRAY_STATUS = 45
-#include "GpsEvent.h" // GPS_EVENT = 46
-#include "FlexRayVFrError.h" // FR_ERROR = 47
-#include "FlexRayVFrStatus.h" // FR_STATUS = 48
-#include "FlexRayVFrStartCycle.h" // FR_STARTCYCLE = 49
-#include "FlexRayVFrReceiveMsg.h" // FR_RCVMESSAGE = 50
-#include "RealtimeClock.h" // REALTIMECLOCK = 51
+#include <Vector/BLF/FlexRayData.h> // FLEXRAY_DATA = 29
+#include <Vector/BLF/FlexRaySync.h> // FLEXRAY_SYNC = 30
+#include <Vector/BLF/CanDriverError.h> // CAN_DRIVER_ERROR = 31
+#include <Vector/BLF/MostPkt.h> // MOST_PKT  = 32
+#include <Vector/BLF/MostPkt2.h> // MOST_PKT2 = 33
+#include <Vector/BLF/MostHwMode.h> // MOST_HWMODE = 34
+#include <Vector/BLF/MostReg.h> // MOST_REG = 35
+#include <Vector/BLF/MostGenReg.h> // MOST_GENREG = 36
+#include <Vector/BLF/MostNetState.h> // MOST_NETSTATE = 37
+#include <Vector/BLF/MostDataLost.h> // MOST_DATALOST = 38
+#include <Vector/BLF/MostTrigger.h> // MOST_TRIGGER = 39
+#include <Vector/BLF/FlexRayV6StartCycleEvent.h> // FLEXRAY_CYCLE = 40
+#include <Vector/BLF/FlexRayV6Message.h> // FLEXRAY_MESSAGE = 41
+#include <Vector/BLF/LinChecksumInfo.h> // LIN_CHECKSUM_INFO = 42
+#include <Vector/BLF/LinSpikeEvent.h> // LIN_SPIKE_EVENT = 43
+#include <Vector/BLF/CanDriverHwSync.h> // CAN_DRIVER_SYNC = 44
+#include <Vector/BLF/FlexRayStatusEvent.h> // FLEXRAY_STATUS = 45
+#include <Vector/BLF/GpsEvent.h> // GPS_EVENT = 46
+#include <Vector/BLF/FlexRayVFrError.h> // FR_ERROR = 47
+#include <Vector/BLF/FlexRayVFrStatus.h> // FR_STATUS = 48
+#include <Vector/BLF/FlexRayVFrStartCycle.h> // FR_STARTCYCLE = 49
+#include <Vector/BLF/FlexRayVFrReceiveMsg.h> // FR_RCVMESSAGE = 50
+#include <Vector/BLF/RealtimeClock.h> // REALTIMECLOCK = 51
 // AVAILABLE2 = 52
 // AVAILABLE3 = 53
-#include "LinStatisticEvent.h" // LIN_STATISTIC = 54
-#include "J1708Message.h" // J1708_MESSAGE = 55
-#include "J1708Message.h" // J1708_VIRTUAL_MSG = 56
-#include "LinMessage2.h" // LIN_MESSAGE2 = 57
-#include "LinSendError2.h" // LIN_SND_ERROR2 = 58
-#include "LinSyncError2.h" // LIN_SYN_ERROR2 = 59
-#include "LinCrcError2.h" // LIN_CRC_ERROR2 = 60
-#include "LinReceiveError2.h" // LIN_RCV_ERROR2 = 61
-#include "LinWakeupEvent2.h" // LIN_WAKEUP2 = 62
-#include "LinSpikeEvent2.h" // LIN_SPIKE_EVENT2 = 63
-#include "LinLongDomSignalEvent.h" // LIN_LONG_DOM_SIG = 64
-#include "AppText.h" // APP_TEXT = 65
-#include "FlexRayVFrReceiveMsgEx.h" // FR_RCVMESSAGE_EX = 66
-#include "MostStatisticEx.h" // MOST_STATISTICEX = 67
-#include "MostTxLight.h" // MOST_TXLIGHT = 68
-#include "MostAllocTab.h" // MOST_ALLOCTAB = 69
-#include "MostStress.h" // MOST_STRESS = 70
-#include "EthernetFrame.h" // ETHERNET_FRAME = 71
-#include "SystemVariable.h" // SYS_VARIABLE = 72
-#include "CanErrorFrameExt.h" // CAN_ERROR_EXT = 73
-#include "CanDriverErrorExt.h" // CAN_DRIVER_ERROR_EXT = 74
-#include "LinLongDomSignalEvent2.h" // LIN_LONG_DOM_SIG2 = 75
-#include "Most150Message.h" // MOST_150_MESSAGE = 76
-#include "Most150Pkt.h" // MOST_150_PKT = 77
-#include "MostEthernetPkt.h" // MOST_ETHERNET_PKT = 78
-#include "Most150MessageFragment.h" // MOST_150_MESSAGE_FRAGMENT = 79
-#include "Most150PktFragment.h" // MOST_150_PKT_FRAGMENT = 80
-#include "MostEthernetPktFragment.h" // MOST_ETHERNET_PKT_FRAGMENT = 81
-#include "MostSystemEvent.h" // MOST_SYSTEM_EVENT = 82
-#include "Most150AllocTab.h" // MOST_150_ALLOCTAB = 83
-#include "Most50Message.h" // MOST_50_MESSAGE = 84
-#include "Most50Pkt.h" // MOST_50_PKT = 85
-#include "CanMessage2.h" // CAN_MESSAGE2 = 86
-#include "LinUnexpectedWakeup.h" // LIN_UNEXPECTED_WAKEUP = 87
-#include "LinShortOrSlowResponse.h" // LIN_SHORT_OR_SLOW_RESPONSE = 88
-#include "LinDisturbanceEvent.h" // LIN_DISTURBANCE_EVENT = 89
-#include "SerialEvent.h" // SERIAL_EVENT = 90
-#include "DriverOverrun.h" // OVERRUN_ERROR = 91
-#include "EventComment.h" // EVENT_COMMENT = 92
-#include "WlanFrame.h" // WLAN_FRAME = 93
-#include "WlanStatistic.h" // WLAN_STATISTIC = 94
-#include "MostEcl.h" // MOST_ECL = 95
-#include "GlobalMarker.h" // GLOBAL_MARKER = 96
-#include "AfdxFrame.h" // AFDX_FRAME = 97
-#include "AfdxStatistic.h" // AFDX_STATISTIC = 98
-#include "KLineStatusEvent.h" // KLINE_STATUSEVENT = 99
-#include "CanFdMessage.h" // CAN_FD_MESSAGE = 100
-#include "CanFdMessage64.h" // CAN_FD_MESSAGE_64 = 101
-#include "EthernetRxError.h" // ETHERNET_RX_ERROR = 102
-#include "EthernetStatus.h" // ETHERNET_STATUS = 103
-#include "CanFdErrorFrame64.h" // CAN_FD_ERROR_64 = 104
-#include "LinShortOrSlowResponse2.h" // LIN_SHORT_OR_SLOW_RESPONSE2 = 105
-#include "AfdxStatus.h" // AFDX_STATUS = 106
-#include "AfdxBusStatistic.h" // AFDX_BUS_STATISTIC = 107
+#include <Vector/BLF/LinStatisticEvent.h> // LIN_STATISTIC = 54
+#include <Vector/BLF/J1708Message.h> // J1708_MESSAGE = 55
+#include <Vector/BLF/J1708Message.h> // J1708_VIRTUAL_MSG = 56
+#include <Vector/BLF/LinMessage2.h> // LIN_MESSAGE2 = 57
+#include <Vector/BLF/LinSendError2.h> // LIN_SND_ERROR2 = 58
+#include <Vector/BLF/LinSyncError2.h> // LIN_SYN_ERROR2 = 59
+#include <Vector/BLF/LinCrcError2.h> // LIN_CRC_ERROR2 = 60
+#include <Vector/BLF/LinReceiveError2.h> // LIN_RCV_ERROR2 = 61
+#include <Vector/BLF/LinWakeupEvent2.h> // LIN_WAKEUP2 = 62
+#include <Vector/BLF/LinSpikeEvent2.h> // LIN_SPIKE_EVENT2 = 63
+#include <Vector/BLF/LinLongDomSignalEvent.h> // LIN_LONG_DOM_SIG = 64
+#include <Vector/BLF/AppText.h> // APP_TEXT = 65
+#include <Vector/BLF/FlexRayVFrReceiveMsgEx.h> // FR_RCVMESSAGE_EX = 66
+#include <Vector/BLF/MostStatisticEx.h> // MOST_STATISTICEX = 67
+#include <Vector/BLF/MostTxLight.h> // MOST_TXLIGHT = 68
+#include <Vector/BLF/MostAllocTab.h> // MOST_ALLOCTAB = 69
+#include <Vector/BLF/MostStress.h> // MOST_STRESS = 70
+#include <Vector/BLF/EthernetFrame.h> // ETHERNET_FRAME = 71
+#include <Vector/BLF/SystemVariable.h> // SYS_VARIABLE = 72
+#include <Vector/BLF/CanErrorFrameExt.h> // CAN_ERROR_EXT = 73
+#include <Vector/BLF/CanDriverErrorExt.h> // CAN_DRIVER_ERROR_EXT = 74
+#include <Vector/BLF/LinLongDomSignalEvent2.h> // LIN_LONG_DOM_SIG2 = 75
+#include <Vector/BLF/Most150Message.h> // MOST_150_MESSAGE = 76
+#include <Vector/BLF/Most150Pkt.h> // MOST_150_PKT = 77
+#include <Vector/BLF/MostEthernetPkt.h> // MOST_ETHERNET_PKT = 78
+#include <Vector/BLF/Most150MessageFragment.h> // MOST_150_MESSAGE_FRAGMENT = 79
+#include <Vector/BLF/Most150PktFragment.h> // MOST_150_PKT_FRAGMENT = 80
+#include <Vector/BLF/MostEthernetPktFragment.h> // MOST_ETHERNET_PKT_FRAGMENT = 81
+#include <Vector/BLF/MostSystemEvent.h> // MOST_SYSTEM_EVENT = 82
+#include <Vector/BLF/Most150AllocTab.h> // MOST_150_ALLOCTAB = 83
+#include <Vector/BLF/Most50Message.h> // MOST_50_MESSAGE = 84
+#include <Vector/BLF/Most50Pkt.h> // MOST_50_PKT = 85
+#include <Vector/BLF/CanMessage2.h> // CAN_MESSAGE2 = 86
+#include <Vector/BLF/LinUnexpectedWakeup.h> // LIN_UNEXPECTED_WAKEUP = 87
+#include <Vector/BLF/LinShortOrSlowResponse.h> // LIN_SHORT_OR_SLOW_RESPONSE = 88
+#include <Vector/BLF/LinDisturbanceEvent.h> // LIN_DISTURBANCE_EVENT = 89
+#include <Vector/BLF/SerialEvent.h> // SERIAL_EVENT = 90
+#include <Vector/BLF/DriverOverrun.h> // OVERRUN_ERROR = 91
+#include <Vector/BLF/EventComment.h> // EVENT_COMMENT = 92
+#include <Vector/BLF/WlanFrame.h> // WLAN_FRAME = 93
+#include <Vector/BLF/WlanStatistic.h> // WLAN_STATISTIC = 94
+#include <Vector/BLF/MostEcl.h> // MOST_ECL = 95
+#include <Vector/BLF/GlobalMarker.h> // GLOBAL_MARKER = 96
+#include <Vector/BLF/AfdxFrame.h> // AFDX_FRAME = 97
+#include <Vector/BLF/AfdxStatistic.h> // AFDX_STATISTIC = 98
+#include <Vector/BLF/KLineStatusEvent.h> // KLINE_STATUSEVENT = 99
+#include <Vector/BLF/CanFdMessage.h> // CAN_FD_MESSAGE = 100
+#include <Vector/BLF/CanFdMessage64.h> // CAN_FD_MESSAGE_64 = 101
+#include <Vector/BLF/EthernetRxError.h> // ETHERNET_RX_ERROR = 102
+#include <Vector/BLF/EthernetStatus.h> // ETHERNET_STATUS = 103
+#include <Vector/BLF/CanFdErrorFrame64.h> // CAN_FD_ERROR_64 = 104
+#include <Vector/BLF/LinShortOrSlowResponse2.h> // LIN_SHORT_OR_SLOW_RESPONSE2 = 105
+#include <Vector/BLF/AfdxStatus.h> // AFDX_STATUS = 106
+#include <Vector/BLF/AfdxBusStatistic.h> // AFDX_BUS_STATISTIC = 107
 // reserved_4 = 108
-#include "AfdxErrorEvent.h" // AFDX_ERROR_EVENT = 109
-#include "A429Error.h" // A429_ERROR = 110
-#include "A429Status.h" // A429_STATUS = 111
-#include "A429BusStatistic.h" // A429_BUS_STATISTIC = 112
-#include "A429Message.h" // A429_MESSAGE = 113
-#include "EthernetStatistic.h" // ETHERNET_STATISTIC = 114
+#include <Vector/BLF/AfdxErrorEvent.h> // AFDX_ERROR_EVENT = 109
+#include <Vector/BLF/A429Error.h> // A429_ERROR = 110
+#include <Vector/BLF/A429Status.h> // A429_STATUS = 111
+#include <Vector/BLF/A429BusStatistic.h> // A429_BUS_STATISTIC = 112
+#include <Vector/BLF/A429Message.h> // A429_MESSAGE = 113
+#include <Vector/BLF/EthernetStatistic.h> // ETHERNET_STATISTIC = 114
 // reserved_5 = 115
 // reserved_6 = 116
 // reserved_7 = 117
-#include "TestStructure.h" // TEST_STRUCTURE = 118
-#include "DiagRequestInterpretation.h" // DIAG_REQUEST_INTERPRETATION = 119
-#include "EthernetFrameEx.h" // ETHERNET_FRAME_EX = 120
-#include "EthernetFrameForwarded.h" // ETHERNET_FRAME_FORWARDED = 121
-#include "EthernetErrorEx.h" // ETHERNET_ERROR_EX = 122
-#include "EthernetErrorForwarded.h" // ETHERNET_ERROR_FORWARDED = 123
+#include <Vector/BLF/TestStructure.h> // TEST_STRUCTURE = 118
+#include <Vector/BLF/DiagRequestInterpretation.h> // DIAG_REQUEST_INTERPRETATION = 119
+#include <Vector/BLF/EthernetFrameEx.h> // ETHERNET_FRAME_EX = 120
+#include <Vector/BLF/EthernetFrameForwarded.h> // ETHERNET_FRAME_FORWARDED = 121
+#include <Vector/BLF/EthernetErrorEx.h> // ETHERNET_ERROR_EX = 122
+#include <Vector/BLF/EthernetErrorForwarded.h> // ETHERNET_ERROR_FORWARDED = 123
 
-#include "vector_blf_export.h"
+#include <Vector/BLF/vector_blf_export.h>
 
 namespace Vector {
 namespace BLF {

@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "LinSendError.h"
+#include <Vector/BLF/LinSendError.h>
 
 namespace Vector {
 namespace BLF {

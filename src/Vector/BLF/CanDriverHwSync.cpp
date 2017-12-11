@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "CanDriverHwSync.h"
+#include <Vector/BLF/CanDriverHwSync.h>
 
 namespace Vector {
 namespace BLF {

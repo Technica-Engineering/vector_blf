@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "AppTrigger.h"
+#include <Vector/BLF/AppTrigger.h>
 
 namespace Vector {
 namespace BLF {

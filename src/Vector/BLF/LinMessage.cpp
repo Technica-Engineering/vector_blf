@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "LinMessage.h"
+#include <Vector/BLF/LinMessage.h>
 
 namespace Vector {
 namespace BLF {

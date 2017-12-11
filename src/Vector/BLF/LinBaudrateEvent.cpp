@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "LinBaudrateEvent.h"
+#include <Vector/BLF/LinBaudrateEvent.h>
 
 namespace Vector {
 namespace BLF {

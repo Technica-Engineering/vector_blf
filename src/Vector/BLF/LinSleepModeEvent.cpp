@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "LinSleepModeEvent.h"
+#include <Vector/BLF/LinSleepModeEvent.h>
 
 namespace Vector {
 namespace BLF {

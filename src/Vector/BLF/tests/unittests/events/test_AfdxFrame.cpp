@@ -5,7 +5,7 @@
 #include <boost/test/unit_test.hpp>
 #include <boost/filesystem.hpp>
 
-#include "Vector/BLF.h"
+#include <Vector/BLF.h>
 
 /* AFDX_FRAME = 97 */
 BOOST_AUTO_TEST_CASE(AfdxFrame)

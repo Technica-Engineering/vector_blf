@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "MostAllocTab.h"
+#include <Vector/BLF/MostAllocTab.h>
 
 namespace Vector {
 namespace BLF {

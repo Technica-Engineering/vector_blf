@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "FlexRayVFrReceiveMsg.h"
+#include <Vector/BLF/FlexRayVFrReceiveMsg.h>
 
 namespace Vector {
 namespace BLF {

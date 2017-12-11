@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "RealtimeClock.h"
+#include <Vector/BLF/RealtimeClock.h>
 
 namespace Vector {
 namespace BLF {

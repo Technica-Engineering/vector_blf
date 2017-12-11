@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "LinCrcError2.h"
+#include <Vector/BLF/LinCrcError2.h>
 
 namespace Vector {
 namespace BLF {

@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "FlexRayV6StartCycleEvent.h"
+#include <Vector/BLF/FlexRayV6StartCycleEvent.h>
 
 namespace Vector {
 namespace BLF {

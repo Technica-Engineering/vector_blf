@@ -5,7 +5,7 @@
 #include <boost/test/unit_test.hpp>
 #include <boost/filesystem.hpp>
 
-#include "Vector/BLF.h"
+#include <Vector/BLF.h>
 
 /* LIN_SLV_TIMEOUT = 16 */
 BOOST_AUTO_TEST_CASE(LinSlaveTimeout)

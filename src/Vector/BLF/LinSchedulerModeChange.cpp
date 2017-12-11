@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "LinSchedulerModeChange.h"
+#include <Vector/BLF/LinSchedulerModeChange.h>
 
 namespace Vector {
 namespace BLF {

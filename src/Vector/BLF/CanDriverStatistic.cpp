@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "CanDriverStatistic.h"
+#include <Vector/BLF/CanDriverStatistic.h>
 
 namespace Vector {
 namespace BLF {

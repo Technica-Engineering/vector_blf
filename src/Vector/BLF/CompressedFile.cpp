@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "CompressedFile.h"
+#include <Vector/BLF/CompressedFile.h>
 
 namespace Vector {
 namespace BLF {

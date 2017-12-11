@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "ObjectHeader.h"
+#include <Vector/BLF/ObjectHeader.h>
 
 namespace Vector {
 namespace BLF {

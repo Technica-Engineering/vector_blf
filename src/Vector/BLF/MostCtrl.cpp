@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "MostCtrl.h"
+#include <Vector/BLF/MostCtrl.h>
 
 namespace Vector {
 namespace BLF {

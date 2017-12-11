@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "EthernetStatus.h"
+#include <Vector/BLF/EthernetStatus.h>
 
 namespace Vector {
 namespace BLF {

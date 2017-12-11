@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "MostDataLost.h"
+#include <Vector/BLF/MostDataLost.h>
 
 namespace Vector {
 namespace BLF {

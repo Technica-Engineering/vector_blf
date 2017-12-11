@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "LinSlaveTimeout.h"
+#include <Vector/BLF/LinSlaveTimeout.h>
 
 namespace Vector {
 namespace BLF {

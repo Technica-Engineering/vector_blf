@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "MostSystemEvent.h"
+#include <Vector/BLF/MostSystemEvent.h>
 
 namespace Vector {
 namespace BLF {

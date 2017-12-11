@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "LinDisturbanceEvent.h"
+#include <Vector/BLF/LinDisturbanceEvent.h>
 
 namespace Vector {
 namespace BLF {

@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "FlexRayStatusEvent.h"
+#include <Vector/BLF/FlexRayStatusEvent.h>
 
 namespace Vector {
 namespace BLF {

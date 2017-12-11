@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "WlanStatistic.h"
+#include <Vector/BLF/WlanStatistic.h>
 
 namespace Vector {
 namespace BLF {

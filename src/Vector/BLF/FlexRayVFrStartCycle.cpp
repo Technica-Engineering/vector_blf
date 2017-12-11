@@ -19,9 +19,9 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "AbstractFile.h"
+#include <Vector/BLF/AbstractFile.h>
 
-#include "FlexRayVFrStartCycle.h"
+#include <Vector/BLF/FlexRayVFrStartCycle.h>
 
 namespace Vector {
 namespace BLF {

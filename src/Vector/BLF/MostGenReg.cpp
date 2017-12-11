@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "MostGenReg.h"
+#include <Vector/BLF/MostGenReg.h>
 
 namespace Vector {
 namespace BLF {

@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "MostTxLight.h"
+#include <Vector/BLF/MostTxLight.h>
 
 namespace Vector {
 namespace BLF {

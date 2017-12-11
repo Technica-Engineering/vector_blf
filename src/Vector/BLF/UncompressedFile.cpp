@@ -21,7 +21,7 @@
 
 #include <cstring>
 
-#include "UncompressedFile.h"
+#include <Vector/BLF/UncompressedFile.h>
 
 namespace Vector {
 namespace BLF {

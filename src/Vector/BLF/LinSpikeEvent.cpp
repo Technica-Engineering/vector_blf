@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "LinSpikeEvent.h"
+#include <Vector/BLF/LinSpikeEvent.h>
 
 namespace Vector {
 namespace BLF {

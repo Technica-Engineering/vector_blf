@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "WlanFrame.h"
+#include <Vector/BLF/WlanFrame.h>
 
 namespace Vector {
 namespace BLF {

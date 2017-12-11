@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "MostSpy.h"
+#include <Vector/BLF/MostSpy.h>
 
 namespace Vector {
 namespace BLF {

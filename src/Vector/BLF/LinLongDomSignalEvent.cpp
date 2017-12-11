@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "LinLongDomSignalEvent.h"
+#include <Vector/BLF/LinLongDomSignalEvent.h>
 
 namespace Vector {
 namespace BLF {

@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "AfdxErrorEvent.h"
+#include <Vector/BLF/AfdxErrorEvent.h>
 
 namespace Vector {
 namespace BLF {

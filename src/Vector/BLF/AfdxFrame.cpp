@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "AfdxFrame.h"
+#include <Vector/BLF/AfdxFrame.h>
 
 namespace Vector {
 namespace BLF {

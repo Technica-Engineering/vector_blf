@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "Most150MessageFragment.h"
+#include <Vector/BLF/Most150MessageFragment.h>
 
 namespace Vector {
 namespace BLF {

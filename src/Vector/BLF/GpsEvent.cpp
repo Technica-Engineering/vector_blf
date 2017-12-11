@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "GpsEvent.h"
+#include <Vector/BLF/GpsEvent.h>
 
 namespace Vector {
 namespace BLF {

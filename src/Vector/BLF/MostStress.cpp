@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "MostStress.h"
+#include <Vector/BLF/MostStress.h>
 
 namespace Vector {
 namespace BLF {

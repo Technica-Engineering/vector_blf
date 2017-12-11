@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "FlexRayV6Message.h"
+#include <Vector/BLF/FlexRayV6Message.h>
 
 namespace Vector {
 namespace BLF {

@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "TestStructure.h"
+#include <Vector/BLF/TestStructure.h>
 
 namespace Vector {
 namespace BLF {

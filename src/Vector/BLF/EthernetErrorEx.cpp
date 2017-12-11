@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "EthernetErrorEx.h"
+#include <Vector/BLF/EthernetErrorEx.h>
 
 namespace Vector {
 namespace BLF {

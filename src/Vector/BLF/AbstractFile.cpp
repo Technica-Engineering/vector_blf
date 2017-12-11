@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "AbstractFile.h"
+#include <Vector/BLF/AbstractFile.h>
 
 namespace Vector {
 namespace BLF {

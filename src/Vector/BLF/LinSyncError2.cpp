@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "LinSyncError2.h"
+#include <Vector/BLF/LinSyncError2.h>
 
 namespace Vector {
 namespace BLF {

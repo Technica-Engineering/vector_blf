@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "MostHwMode.h"
+#include <Vector/BLF/MostHwMode.h>
 
 namespace Vector {
 namespace BLF {

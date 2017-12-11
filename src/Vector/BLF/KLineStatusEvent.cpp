@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "KLineStatusEvent.h"
+#include <Vector/BLF/KLineStatusEvent.h>
 
 namespace Vector {
 namespace BLF {

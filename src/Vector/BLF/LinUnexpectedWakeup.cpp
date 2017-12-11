@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "LinUnexpectedWakeup.h"
+#include <Vector/BLF/LinUnexpectedWakeup.h>
 
 namespace Vector {
 namespace BLF {

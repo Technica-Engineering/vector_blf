@@ -5,7 +5,7 @@
 #include <boost/test/unit_test.hpp>
 #include <boost/filesystem.hpp>
 
-#include "Vector/BLF.h"
+#include <Vector/BLF.h>
 
 /* CAN_FD_MESSAGE_64 = 101 */
 BOOST_AUTO_TEST_CASE(CanFdMessage64)

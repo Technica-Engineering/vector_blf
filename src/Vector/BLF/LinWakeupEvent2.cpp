@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "LinWakeupEvent2.h"
+#include <Vector/BLF/LinWakeupEvent2.h>
 
 namespace Vector {
 namespace BLF {

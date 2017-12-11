@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "FlexRayVFrError.h"
+#include <Vector/BLF/FlexRayVFrError.h>
 
 namespace Vector {
 namespace BLF {

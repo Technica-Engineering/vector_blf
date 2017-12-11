@@ -21,7 +21,7 @@
 
 #pragma once
 
-#include "platform.h"
+#include <Vector/BLF/platform.h>
 
 #include <cstdint>
 

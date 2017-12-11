@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "CanErrorFrame.h"
+#include <Vector/BLF/CanErrorFrame.h>
 
 namespace Vector {
 namespace BLF {

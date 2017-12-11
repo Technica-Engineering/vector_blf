@@ -19,7 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include "MostPkt2.h"
+#include <Vector/BLF/MostPkt2.h>
 
 namespace Vector {
 namespace BLF {
