@@ -32,8 +32,26 @@ BOOST_AUTO_TEST_CASE(CanDriverErrorExt)
     BOOST_CHECK_EQUAL(obj->objectVersion, 0);
     BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
-    /* CanDriverErrorExt */
-    // @todo CanDriverErrorExt
+    /* CanMessage */
+    BOOST_CHECK_EQUAL(obj->channel,0x1111);
+    BOOST_CHECK_EQUAL(obj->txErrors, 0x22);
+    BOOST_CHECK_EQUAL(obj->rxErrors, 0x33);
+    BOOST_CHECK_EQUAL(obj->errorCode, 0x44444444);
+    BOOST_CHECK_EQUAL(obj->flags, 0x55555555);
+    BOOST_CHECK_EQUAL(obj->state, 0x66);
+    BOOST_CHECK_EQUAL(obj->reserved1, 0x77);
+    BOOST_CHECK_EQUAL(obj->reserved2, 0x8888);
+    BOOST_CHECK_EQUAL(obj->reserved3[0], 0x99999999);
+    BOOST_CHECK_EQUAL(obj->reserved3[1], 0xAAAAAAAA);
+    BOOST_CHECK_EQUAL(obj->reserved3[2], 0xBBBBBBBB);
+    BOOST_CHECK_EQUAL(obj->reserved3[3], 0xCCCCCCCC);
+
+    delete obj;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::CAN_DRIVER_ERROR_EXT);
 
     delete obj;
 

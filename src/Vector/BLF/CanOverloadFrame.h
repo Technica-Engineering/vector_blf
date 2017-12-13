@@ -54,7 +54,10 @@ public:
     WORD channel;
 
     /** reserved */
-    WORD reserved;
+    WORD reserved1;
+
+    /** reserved */
+    DWORD reserved2;
 };
 
 }

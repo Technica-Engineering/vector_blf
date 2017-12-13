@@ -50,7 +50,7 @@ void CanDriverErrorExt::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&state), sizeof(state));
     is.read(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
     is.read(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
-    is.read(reinterpret_cast<char *>(reserved3.data()), static_cast<std::streamsize>(reserved3.size()));
+    is.read(reinterpret_cast<char *>(reserved3.data()), static_cast<std::streamsize>(reserved3.size() * sizeof(DWORD)));
 }
 
 void CanDriverErrorExt::write(AbstractFile & os)
@@ -64,7 +64,7 @@ void CanDriverErrorExt::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&state), sizeof(state));
     os.write(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
     os.write(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
-    os.write(reinterpret_cast<char *>(reserved3.data()), static_cast<std::streamsize>(reserved3.size()));
+    os.write(reinterpret_cast<char *>(reserved3.data()), static_cast<std::streamsize>(reserved3.size() * sizeof(DWORD)));
 }
 
 DWORD CanDriverErrorExt::calculateObjectSize() const
@@ -79,7 +79,7 @@ DWORD CanDriverErrorExt::calculateObjectSize() const
         sizeof(state) +
         sizeof(reserved1) +
         sizeof(reserved2) +
-        static_cast<DWORD>(reserved3.size());
+        static_cast<DWORD>(reserved3.size() * sizeof(DWORD));
 }
 
 }
