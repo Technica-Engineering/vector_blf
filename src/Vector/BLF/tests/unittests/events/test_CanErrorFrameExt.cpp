@@ -28,23 +28,37 @@ BOOST_AUTO_TEST_CASE(CanErrorFrameExt)
 
     /* ObjectHeader */
     BOOST_CHECK(obj->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
-    BOOST_CHECK_EQUAL(obj->clientIndex, 0);
+    BOOST_CHECK_EQUAL(obj->clientIndex, 0x1111);
     BOOST_CHECK_EQUAL(obj->objectVersion, 0);
-    BOOST_CHECK_EQUAL(obj->objectTimeStamp, 1592186000);
+    BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
-    /* CanErrorFrameExt */
-    BOOST_CHECK_EQUAL(obj->channel, 1);
-    BOOST_CHECK_EQUAL(obj->length, 6);
-    BOOST_CHECK_EQUAL(obj->flags, 1); // SJA 1000
-    BOOST_CHECK_EQUAL(obj->ecc, 0xa2);
-    BOOST_CHECK_EQUAL(obj->position, 0);
-    BOOST_CHECK_EQUAL(obj->dlc, 0);
-    // reserved
-    BOOST_CHECK_EQUAL(obj->frameLengthInNs, 0);
-    BOOST_CHECK_EQUAL(obj->id, 0xffffffff);
-    BOOST_CHECK_EQUAL(obj->flagsExt, 0x20a2);
-    // reserved
-    //BOOST_CHECK_EQUAL(canErrorFrameExt->data[0], 0);
+    /* CanMessage */
+    BOOST_CHECK_EQUAL(obj->channel, 0x1111);
+    BOOST_CHECK_EQUAL(obj->length, 0x2222);
+    BOOST_CHECK_EQUAL(obj->flags, 0x33333333);
+    BOOST_CHECK_EQUAL(obj->ecc, 0x44);
+    BOOST_CHECK_EQUAL(obj->position, 0x55);
+    BOOST_CHECK_EQUAL(obj->dlc, 0x66);
+    BOOST_CHECK_EQUAL(obj->reserved1, 0x77);
+    BOOST_CHECK_EQUAL(obj->frameLengthInNs, 0x88888888);
+    BOOST_CHECK_EQUAL(obj->id, 0x99999999);
+    BOOST_CHECK_EQUAL(obj->flagsExt, 0xAAAA);
+    BOOST_CHECK_EQUAL(obj->reserved2, 0xBBBB);
+    BOOST_CHECK_EQUAL(obj->data[0], 0xCC);
+    BOOST_CHECK_EQUAL(obj->data[1], 0xDD);
+    BOOST_CHECK_EQUAL(obj->data[2], 0xEE);
+    BOOST_CHECK_EQUAL(obj->data[3], 0xFF);
+    BOOST_CHECK_EQUAL(obj->data[4], 0x11);
+    BOOST_CHECK_EQUAL(obj->data[5], 0x22);
+    BOOST_CHECK_EQUAL(obj->data[6], 0x33);
+    BOOST_CHECK_EQUAL(obj->data[7], 0x44);
+
+    delete obj;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::CAN_ERROR_EXT);
 
     delete obj;
 

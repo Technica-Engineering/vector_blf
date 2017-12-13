@@ -32,8 +32,17 @@ BOOST_AUTO_TEST_CASE(DriverOverrun)
     BOOST_CHECK_EQUAL(obj->objectVersion, 0);
     BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
-    /* DriverOverrun */
-    // @todo DriverOverrun
+    /* CanErrorFrame */
+    BOOST_CHECK(obj->busType == Vector::BLF::DriverOverrun::BusType::Can);
+    BOOST_CHECK_EQUAL(obj->channel, 0x2222);
+    BOOST_CHECK_EQUAL(obj->reserved, 0x3333);
+
+    delete obj;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::OVERRUN_ERROR);
 
     delete obj;
 
