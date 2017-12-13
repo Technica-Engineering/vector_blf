@@ -34,9 +34,23 @@ BOOST_AUTO_TEST_CASE(J1708Message)
     BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
     /* J1708Message */
-    // @todo J1708Message
+    BOOST_CHECK_EQUAL(obj->channel, 0x1111);
+    BOOST_CHECK_EQUAL(obj->dir, 0x22);
+    BOOST_CHECK_EQUAL(obj->reserved1, 0);
+    BOOST_CHECK_EQUAL(obj->error, 0x3333);
+    BOOST_CHECK_EQUAL(obj->size, 0x44);
+    for (uint16_t i = 0; i < 255; i++) {
+        BOOST_CHECK_EQUAL(obj->data[i], static_cast<uint8_t>(i));
+    }
 
-    delete obj;
+    delete ohb;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::J1708_VIRTUAL_MSG);
+
+    delete ohb;
 
     file.close();
 }

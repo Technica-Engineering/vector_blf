@@ -72,7 +72,7 @@ public:
     DWORD port;
 
     /** reserved */
-    DWORD reserved;
+    ULONGLONG reserved;
 
     /**
      * @brief the actual data, but only dataLen BYTES are used!

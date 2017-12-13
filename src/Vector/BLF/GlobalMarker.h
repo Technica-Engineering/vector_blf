@@ -23,7 +23,6 @@
 
 #include <Vector/BLF/platform.h>
 
-#include <array>
 #include <string>
 
 #include <Vector/BLF/ObjectHeader.h>

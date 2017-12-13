@@ -21,6 +21,8 @@
 
 #include <Vector/BLF/J1708Message.h>
 
+#include <iostream>
+
 namespace Vector {
 namespace BLF {
 
@@ -34,10 +36,7 @@ J1708Message::J1708Message() :
     data(),
     reserved2()
 {
-    /* can be one of:
-     *   - objectType = ObjectType::J1708_MESSAGE;
-     *   - objectType = ObjectType::J1708_VIRTUAL_MSG;
-     */
+    objectType = ObjectType::J1708_MESSAGE; // or J1708_VIRTUAL_MSG
 }
 
 void J1708Message::read(AbstractFile & is)
@@ -49,7 +48,7 @@ void J1708Message::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&error), sizeof(error));
     is.read(reinterpret_cast<char *>(&size), sizeof(size));
     is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
-    is.read(reinterpret_cast<char *>(reserved2.data()), static_cast<std::streamsize>(reserved2.size()));
+    is.read(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
 }
 
 void J1708Message::write(AbstractFile & os)
@@ -61,7 +60,7 @@ void J1708Message::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&error), sizeof(error));
     os.write(reinterpret_cast<char *>(&size), sizeof(size));
     os.write(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
-    os.write(reinterpret_cast<char *>(reserved2.data()), static_cast<std::streamsize>(reserved2.size()));
+    os.write(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
 }
 
 DWORD J1708Message::calculateObjectSize() const
@@ -74,7 +73,7 @@ DWORD J1708Message::calculateObjectSize() const
         sizeof(error) +
         sizeof(size) +
         static_cast<DWORD>(data.size()) +
-        static_cast<DWORD>(reserved2.size());
+        sizeof(reserved2);
 }
 
 }

@@ -77,7 +77,7 @@ public:
     std::array<BYTE, 255> data;
 
     /** reserved */
-    std::array<BYTE, 2> reserved2;
+    WORD reserved2;
 };
 
 }
