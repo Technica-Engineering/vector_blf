@@ -33,9 +33,24 @@ BOOST_AUTO_TEST_CASE(DiagRequestInterpretation)
     BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
     /* DiagRequestInterpretation */
-    // @todo DiagRequestInterpretation
+    BOOST_CHECK_EQUAL(obj->diagDescriptionHandle, 0x11111111);
+    BOOST_CHECK_EQUAL(obj->diagVariantHandle, 0x22222222);
+    BOOST_CHECK_EQUAL(obj->diagServiceHandle, 0x33333333);
+    BOOST_CHECK_EQUAL(obj->ecuQualifierLength, 3);
+    BOOST_CHECK_EQUAL(obj->variantQualifierLength, 3);
+    BOOST_CHECK_EQUAL(obj->serviceQualifierLength, 3);
+    BOOST_CHECK_EQUAL(obj->ecuQualifier, "xyz");
+    BOOST_CHECK_EQUAL(obj->variantQualifier, "xyz");
+    BOOST_CHECK_EQUAL(obj->serviceQualifier, "xyz");
 
-    delete obj;
+    delete ohb;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::DIAG_REQUEST_INTERPRETATION);
+
+    delete ohb;
 
     file.close();
 }

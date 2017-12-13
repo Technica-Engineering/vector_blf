@@ -63,7 +63,7 @@ add_boost_test(CanErrorFrameExt test_CanErrorFrameExt events/test_CanErrorFrameE
 add_boost_test(CanMessage test_CanMessage events/test_CanMessage.cpp)
 add_boost_test(CanMessage2 test_CanMessage2 events/test_CanMessage2.cpp)
 add_boost_test(CanOverloadFrame test_CanOverloadFrame events/test_CanOverloadFrame.cpp)
-#add_boost_test(DiagRequestInterpretation test_DiagRequestInterpretation events/test_DiagRequestInterpretation.cpp)
+add_boost_test(DiagRequestInterpretation test_DiagRequestInterpretation events/test_DiagRequestInterpretation.cpp)
 add_boost_test(DriverOverrun test_DriverOverrun events/test_DriverOverrun.cpp)
 #add_boost_test(EnvironmentVariable test_EnvironmentVariable events/test_EnvironmentVariable.cpp)
 #add_boost_test(EthernetErrorEx test_EthernetErrorEx events/test_EthernetErrorEx.cpp)
