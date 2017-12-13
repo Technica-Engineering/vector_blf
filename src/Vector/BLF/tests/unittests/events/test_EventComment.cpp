@@ -28,14 +28,22 @@ BOOST_AUTO_TEST_CASE(EventComment)
 
     /* ObjectHeader */
     BOOST_CHECK(obj->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
-    BOOST_CHECK_EQUAL(obj->clientIndex, 0);
+    BOOST_CHECK_EQUAL(obj->clientIndex, 0x1111);
     BOOST_CHECK_EQUAL(obj->objectVersion, 0);
-    BOOST_CHECK_EQUAL(obj->objectTimeStamp, 1593770000); // ns
+    BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
     /* EventComment */
-    BOOST_CHECK_EQUAL(obj->commentedEventType, 105);
-    BOOST_CHECK_EQUAL(obj->textLength, 261);
-    BOOST_CHECK_EQUAL(obj->text, "testComment");
+    BOOST_CHECK_EQUAL(obj->commentedEventType, 0x11111111);
+    BOOST_CHECK_EQUAL(obj->textLength, 3);
+    BOOST_CHECK_EQUAL(obj->reserved, 0);
+    BOOST_CHECK_EQUAL(obj->text, "xyz");
+
+    delete obj;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::EVENT_COMMENT);
 
     delete obj;
 

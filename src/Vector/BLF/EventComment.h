@@ -23,7 +23,6 @@
 
 #include <Vector/BLF/platform.h>
 
-#include <array>
 #include <string>
 
 #include <Vector/BLF/AbstractFile.h>
@@ -66,7 +65,7 @@ public:
     /**
      * reserved
      */
-    std::array<BYTE, 8> reserved;
+    ULONGLONG reserved;
 
     /**
      * @brief text in MBCS

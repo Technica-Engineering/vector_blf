@@ -41,13 +41,15 @@ void EventComment::read(AbstractFile & is)
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&commentedEventType), sizeof(commentedEventType));
     is.read(reinterpret_cast<char *>(&textLength), sizeof(textLength));
-    is.read(reinterpret_cast<char *>(reserved.data()), static_cast<std::streamsize>(reserved.size()));
+    is.read(reinterpret_cast<char *>(&reserved), sizeof(reserved));
     text.resize(textLength);
     is.read(const_cast<char *>(text.data()), textLength);
 
     /* post processing */
     text.resize(strnlen(text.c_str(), textLength)); // Vector bug: the actual string can be shorter than size!
-    objectSize = calculateObjectSize();
+
+    /* skip padding */
+    is.seekg(objectSize % 4, std::ios_base::cur);
 }
 
 void EventComment::write(AbstractFile & os)
@@ -58,8 +60,11 @@ void EventComment::write(AbstractFile & os)
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&commentedEventType), sizeof(commentedEventType));
     os.write(reinterpret_cast<char *>(&textLength), sizeof(textLength));
-    os.write(reinterpret_cast<char *>(reserved.data()), static_cast<std::streamsize>(reserved.size()));
+    os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
     os.write(const_cast<char *>(text.data()), textLength);
+
+    /* skip padding */
+    os.seekp(objectSize % 4, std::ios_base::cur);
 }
 
 DWORD EventComment::calculateObjectSize() const
@@ -68,7 +73,7 @@ DWORD EventComment::calculateObjectSize() const
         ObjectHeader::calculateObjectSize() +
         sizeof(commentedEventType) +
         sizeof(textLength) +
-        static_cast<DWORD>(reserved.size()) +
+        sizeof(reserved) +
         textLength;
 }
 
