@@ -32,7 +32,7 @@ BOOST_AUTO_TEST_CASE(CanDriverStatistic)
     BOOST_CHECK_EQUAL(obj->objectVersion, 0);
     BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
-    /* CanMessage */
+    /* CanDriverStatistic */
     BOOST_CHECK_EQUAL(obj->channel, 0x1111);
     BOOST_CHECK_EQUAL(obj->busLoad, 0x2222);
     BOOST_CHECK_EQUAL(obj->standardDataFrames, 0x33333333);

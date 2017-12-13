@@ -32,7 +32,7 @@ BOOST_AUTO_TEST_CASE(DriverOverrun)
     BOOST_CHECK_EQUAL(obj->objectVersion, 0);
     BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
-    /* CanErrorFrame */
+    /* DriverOverrun */
     BOOST_CHECK(obj->busType == Vector::BLF::DriverOverrun::BusType::Can);
     BOOST_CHECK_EQUAL(obj->channel, 0x2222);
     BOOST_CHECK_EQUAL(obj->reserved, 0x3333);

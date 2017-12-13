@@ -32,7 +32,7 @@ BOOST_AUTO_TEST_CASE(CanOverloadFrame)
     BOOST_CHECK_EQUAL(obj->objectVersion, 0);
     BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
-    /* CanMessage */
+    /* CanOverloadFrame */
     BOOST_CHECK_EQUAL(obj->channel, 0x1111);
     BOOST_CHECK_EQUAL(obj->reserved1, 0x2222);
     BOOST_CHECK_EQUAL(obj->reserved2, 0x00000000);

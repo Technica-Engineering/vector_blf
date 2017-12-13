@@ -28,20 +28,28 @@ BOOST_AUTO_TEST_CASE(GpsEvent)
 
     /* ObjectHeader */
     BOOST_CHECK(obj->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
-    BOOST_CHECK_EQUAL(obj->clientIndex, 0);
+    BOOST_CHECK_EQUAL(obj->clientIndex, 0x1111);
     BOOST_CHECK_EQUAL(obj->objectVersion, 0);
-    BOOST_CHECK_EQUAL(obj->objectTimeStamp, 2097603000); // ns
+    BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
     /* GpsEvent */
-    BOOST_CHECK_EQUAL(obj->flags, 0);
-    BOOST_CHECK_EQUAL(obj->channel, 1);
-    BOOST_CHECK_EQUAL(obj->latitude, 48.825100);
-    BOOST_CHECK_EQUAL(obj->longitude, 9.091267);
-    BOOST_CHECK_EQUAL(obj->altitude, 325.399994);
-    BOOST_CHECK_EQUAL(obj->speed, 29.686400);
-    BOOST_CHECK_EQUAL(obj->course, 87.099998);
+    BOOST_CHECK_EQUAL(obj->flags, 0x11111111);
+    BOOST_CHECK_EQUAL(obj->channel, 0x2222);
+    BOOST_CHECK_EQUAL(obj->reserved, 0x3333);
+    BOOST_CHECK_EQUAL(obj->latitude, 4.0);
+    BOOST_CHECK_EQUAL(obj->longitude, 5.0);
+    BOOST_CHECK_EQUAL(obj->altitude, 6.0);
+    BOOST_CHECK_EQUAL(obj->speed, 7.0);
+    BOOST_CHECK_EQUAL(obj->course, 8.0);
 
-    delete obj;
+    delete ohb;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::GPS_EVENT);
+
+    delete ohb;
 
     file.close();
 }

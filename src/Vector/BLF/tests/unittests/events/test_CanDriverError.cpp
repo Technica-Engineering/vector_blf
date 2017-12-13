@@ -32,7 +32,7 @@ BOOST_AUTO_TEST_CASE(CanDriverError)
     BOOST_CHECK_EQUAL(obj->objectVersion, 0);
     BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
-    /* CanMessage */
+    /* CanDriverError */
     BOOST_CHECK_EQUAL(obj->channel, 0x1111);
     BOOST_CHECK_EQUAL(obj->txErrors, 0x22);
     BOOST_CHECK_EQUAL(obj->rxErrors, 0x33);
