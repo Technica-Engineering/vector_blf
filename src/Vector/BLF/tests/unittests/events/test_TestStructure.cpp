@@ -5,7 +5,19 @@
 #include <boost/test/unit_test.hpp>
 #include <boost/filesystem.hpp>
 
+#include <string>
+#include <locale>
+#include <codecvt>
+
 #include <Vector/BLF.h>
+
+std::string toUtf8String(std::u16string u16str)
+{
+    using convert_type = std::codecvt_utf8<char16_t>;
+    std::wstring_convert<convert_type, char16_t> converter;
+
+    return converter.to_bytes(u16str);
+}
 
 /* TEST_STRUCTURE = 118 */
 BOOST_AUTO_TEST_CASE(TestStructure)
@@ -33,7 +45,24 @@ BOOST_AUTO_TEST_CASE(TestStructure)
     BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
     /* TestStructure */
-    // @todo TestStructure
+    BOOST_CHECK_EQUAL(obj->executionObjectIdentify, 0x11111111);
+    BOOST_CHECK_EQUAL(obj->type, static_cast<uint16_t>(Vector::BLF::TestStructure::Type::TM_TESTMODULE));
+    BOOST_CHECK_EQUAL(obj->uniqueNo, 0x22222222);
+    BOOST_CHECK_EQUAL(obj->action, static_cast<uint16_t>(Vector::BLF::TestStructure::Action::BEGIN));
+    BOOST_CHECK_EQUAL(obj->result, static_cast<uint16_t>(Vector::BLF::TestStructure::Result::PASSED));
+    BOOST_CHECK_EQUAL(obj->executingObjectNameLength, 3);
+    BOOST_CHECK_EQUAL(obj->nameLength, 3);
+    BOOST_CHECK_EQUAL(obj->textLength, 3);
+    BOOST_CHECK_EQUAL(toUtf8String(obj->executingObjectName), "xyz");
+    BOOST_CHECK_EQUAL(toUtf8String(obj->name), "xyz");
+    BOOST_CHECK_EQUAL(toUtf8String(obj->text), "xyz");
+
+    delete obj;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::TEST_STRUCTURE);
 
     delete obj;
 

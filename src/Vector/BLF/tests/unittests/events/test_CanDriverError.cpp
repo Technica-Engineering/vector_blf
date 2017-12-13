@@ -28,15 +28,22 @@ BOOST_AUTO_TEST_CASE(CanDriverError)
 
     /* ObjectHeader */
     BOOST_CHECK(obj->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
-    BOOST_CHECK_EQUAL(obj->clientIndex, 0);
+    BOOST_CHECK_EQUAL(obj->clientIndex, 0x1111);
     BOOST_CHECK_EQUAL(obj->objectVersion, 0);
-    BOOST_CHECK_EQUAL(obj->objectTimeStamp, 15282297);
+    BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
-    /* CanDriverError */
-    BOOST_CHECK_EQUAL(obj->channel, 1);
-    BOOST_CHECK_EQUAL(obj->txErrors, 0);
-    BOOST_CHECK_EQUAL(obj->rxErrors, 0);
-    BOOST_CHECK_EQUAL(obj->errorCode, 0x68);
+    /* CanMessage */
+    BOOST_CHECK_EQUAL(obj->channel,0x1111);
+    BOOST_CHECK_EQUAL(obj->txErrors, 0x22);
+    BOOST_CHECK_EQUAL(obj->rxErrors, 0x33);
+    BOOST_CHECK_EQUAL(obj->errorCode, 0x44444444);
+
+    delete obj;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::CAN_DRIVER_ERROR);
 
     delete obj;
 

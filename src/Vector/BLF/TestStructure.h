@@ -69,10 +69,13 @@ public:
      */
     WORD type;
 
+    /** reserved */
+    WORD reserved;
+
     /**
      * unique number of structure element (in this test run, transitive, can be used to correlate begin/end events)
      */
-    WORD uniqueNo;
+    DWORD uniqueNo;
 
     /** enumeration for action */
     enum class Action : WORD {
@@ -124,17 +127,17 @@ public:
     /**
      * name of the executing test module or test configuration as shown in CANoe (wchar_t)
      */
-    std::wstring executingObjectName;
+    std::u16string executingObjectName;
 
     /**
      * name of structure element (can change between begin/end when using CAPL function TestCaseTitle or similar (wchar_t)
      */
-    std::wstring name;
+    std::u16string name;
 
     /**
      * full informational text for event as it appears in CANoe trace window
      */
-    std::wstring text;
+    std::u16string text;
 };
 
 }

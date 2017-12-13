@@ -28,6 +28,7 @@ TestStructure::TestStructure() :
     ObjectHeader(),
     executionObjectIdentify(),
     type(),
+    reserved(),
     uniqueNo(),
     action(),
     result(),
@@ -46,6 +47,7 @@ void TestStructure::read(AbstractFile & is)
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&executionObjectIdentify), sizeof(executionObjectIdentify));
     is.read(reinterpret_cast<char *>(&type), sizeof(type));
+    is.read(reinterpret_cast<char *>(&reserved), sizeof(reserved));
     is.read(reinterpret_cast<char *>(&uniqueNo), sizeof(uniqueNo));
     is.read(reinterpret_cast<char *>(&action), sizeof(action));
     is.read(reinterpret_cast<char *>(&result), sizeof(result));
@@ -53,11 +55,11 @@ void TestStructure::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&nameLength), sizeof(nameLength));
     is.read(reinterpret_cast<char *>(&textLength), sizeof(textLength));
     executingObjectName.resize(executingObjectNameLength);
-    is.read(const_cast<char *>(reinterpret_cast<const char *>(executingObjectName.data())), executingObjectNameLength);
+    is.read(const_cast<char *>(reinterpret_cast<const char *>(executingObjectName.data())), executingObjectNameLength * sizeof(char16_t));
     name.resize(nameLength);
-    is.read(const_cast<char *>(reinterpret_cast<const char *>(name.data())), nameLength);
+    is.read(const_cast<char *>(reinterpret_cast<const char *>(name.data())), nameLength * sizeof(char16_t));
     text.resize(textLength);
-    is.read(const_cast<char *>(reinterpret_cast<const char *>(text.data())), textLength);
+    is.read(const_cast<char *>(reinterpret_cast<const char *>(text.data())), textLength * sizeof(char16_t));
 }
 
 void TestStructure::write(AbstractFile & os)
@@ -70,15 +72,16 @@ void TestStructure::write(AbstractFile & os)
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&executionObjectIdentify), sizeof(executionObjectIdentify));
     os.write(reinterpret_cast<char *>(&type), sizeof(type));
+    os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
     os.write(reinterpret_cast<char *>(&uniqueNo), sizeof(uniqueNo));
     os.write(reinterpret_cast<char *>(&action), sizeof(action));
     os.write(reinterpret_cast<char *>(&result), sizeof(result));
     os.write(reinterpret_cast<char *>(&executingObjectNameLength), sizeof(executingObjectNameLength));
     os.write(reinterpret_cast<char *>(&nameLength), sizeof(nameLength));
     os.write(reinterpret_cast<char *>(&textLength), sizeof(textLength));
-    os.write(const_cast<char *>(reinterpret_cast<const char *>(executingObjectName.data())), executingObjectNameLength);
-    os.write(const_cast<char *>(reinterpret_cast<const char *>(name.data())), nameLength);
-    os.write(const_cast<char *>(reinterpret_cast<const char *>(text.data())), textLength);
+    os.write(const_cast<char *>(reinterpret_cast<const char *>(executingObjectName.data())), executingObjectNameLength * sizeof(char16_t));
+    os.write(const_cast<char *>(reinterpret_cast<const char *>(name.data())), nameLength * sizeof(char16_t));
+    os.write(const_cast<char *>(reinterpret_cast<const char *>(text.data())), textLength * sizeof(char16_t));
 }
 
 DWORD TestStructure::calculateObjectSize() const
@@ -87,15 +90,14 @@ DWORD TestStructure::calculateObjectSize() const
         ObjectHeader::calculateObjectSize() +
         sizeof(executionObjectIdentify) +
         sizeof(type) +
+        sizeof(reserved) +
         sizeof(uniqueNo) +
         sizeof(action) +
         sizeof(result) +
         sizeof(executingObjectNameLength) +
         sizeof(nameLength) +
         sizeof(textLength) +
-        executingObjectNameLength+
-        nameLength+
-        textLength;
+        (executingObjectNameLength + nameLength + textLength) * sizeof(char16_t);
 }
 
 }

@@ -45,6 +45,9 @@ void AppText::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
     text.resize(textLength);
     is.read(const_cast<char *>(text.data()), textLength);
+
+    /* skip padding */
+    is.seekg(objectSize % 4, std::ios_base::cur);
 }
 
 void AppText::write(AbstractFile & os)
@@ -58,6 +61,9 @@ void AppText::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&textLength), sizeof(textLength));
     os.write(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
     os.write(const_cast<char *>(text.data()), textLength);
+
+    /* skip padding */
+    os.seekp(objectSize % 4, std::ios_base::cur);
 }
 
 DWORD AppText::calculateObjectSize() const

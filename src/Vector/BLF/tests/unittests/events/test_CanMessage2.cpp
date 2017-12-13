@@ -33,7 +33,29 @@ BOOST_AUTO_TEST_CASE(CanMessage2)
     BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
     /* CanMessage2 */
-    // @todo CanMessage2
+    BOOST_CHECK_EQUAL(obj->channel,0x1111);
+    BOOST_CHECK_EQUAL(obj->flags, 0x22);
+    BOOST_CHECK_EQUAL(obj->dlc, 0x33);
+    BOOST_CHECK_EQUAL(obj->id, 0x44444444);
+    BOOST_CHECK_EQUAL(obj->data[0], 0x55);
+    BOOST_CHECK_EQUAL(obj->data[1], 0x66);
+    BOOST_CHECK_EQUAL(obj->data[2], 0x77);
+    BOOST_CHECK_EQUAL(obj->data[3], 0x88);
+    BOOST_CHECK_EQUAL(obj->data[4], 0x99);
+    BOOST_CHECK_EQUAL(obj->data[5], 0xAA);
+    BOOST_CHECK_EQUAL(obj->data[6], 0xBB);
+    BOOST_CHECK_EQUAL(obj->data[7], 0xCC);
+    BOOST_CHECK_EQUAL(obj->frameLength, 0xDDDDDDDD);
+    BOOST_CHECK_EQUAL(obj->bitCount, 0xEE);
+    BOOST_CHECK_EQUAL(obj->reserved1, 0xFF);
+    BOOST_CHECK_EQUAL(obj->reserved2, 0x1111);
+
+    delete obj;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::CAN_MESSAGE2);
 
     delete obj;
 
