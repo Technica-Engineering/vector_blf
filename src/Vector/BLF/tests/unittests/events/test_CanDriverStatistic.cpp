@@ -28,20 +28,26 @@ BOOST_AUTO_TEST_CASE(CanDriverStatistic)
 
     /* ObjectHeader */
     BOOST_CHECK(obj->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
-    BOOST_CHECK_EQUAL(obj->clientIndex, 0);
+    BOOST_CHECK_EQUAL(obj->clientIndex, 0x1111);
     BOOST_CHECK_EQUAL(obj->objectVersion, 0);
-    BOOST_CHECK_EQUAL(obj->objectTimeStamp, 1010000000); // ns
+    BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
-    /* CanDriverStatistic */
-    BOOST_CHECK_EQUAL(obj->channel, 1);
-    BOOST_CHECK_EQUAL(obj->busLoad, 0);
-    BOOST_CHECK_EQUAL(obj->standardDataFrames, 1000);
-    BOOST_CHECK_EQUAL(obj->extendedDataFrames, 0);
-    BOOST_CHECK_EQUAL(obj->standardRemoteFrames, 15);
-    BOOST_CHECK_EQUAL(obj->extendedRemoteFrames, 0);
-    BOOST_CHECK_EQUAL(obj->errorFrames, 0);
-    BOOST_CHECK_EQUAL(obj->overloadFrames, 0);
-    // reserved
+    /* CanMessage */
+    BOOST_CHECK_EQUAL(obj->channel, 0x1111);
+    BOOST_CHECK_EQUAL(obj->busLoad, 0x2222);
+    BOOST_CHECK_EQUAL(obj->standardDataFrames, 0x33333333);
+    BOOST_CHECK_EQUAL(obj->extendedDataFrames, 0x44444444);
+    BOOST_CHECK_EQUAL(obj->standardRemoteFrames, 0x55555555);
+    BOOST_CHECK_EQUAL(obj->extendedRemoteFrames, 0x66666666);
+    BOOST_CHECK_EQUAL(obj->errorFrames, 0x77777777);
+    BOOST_CHECK_EQUAL(obj->overloadFrames, 0x88888888);
+
+    delete obj;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::CAN_STATISTIC);
 
     delete obj;
 

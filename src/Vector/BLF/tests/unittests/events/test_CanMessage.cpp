@@ -33,7 +33,7 @@ BOOST_AUTO_TEST_CASE(CanMessage)
     BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
     /* CanMessage */
-    BOOST_CHECK_EQUAL(obj->channel,0x1111);
+    BOOST_CHECK_EQUAL(obj->channel, 0x1111);
     BOOST_CHECK_EQUAL(obj->flags, 0x22);
     BOOST_CHECK_EQUAL(obj->dlc, 0x33);
     BOOST_CHECK_EQUAL(obj->id, 0x44444444);
