@@ -445,42 +445,42 @@ ObjectHeaderBase * File::createObject(ObjectType type)
         break;
 
     case ObjectType::LIN_SHORT_OR_SLOW_RESPONSE2:
-        // @todo
+        obj = new LinShortOrSlowResponse2;
         break;
 
     case ObjectType::AFDX_STATUS:
-        // @todo
+        obj = new AfdxStatus;
         break;
 
     case ObjectType::AFDX_BUS_STATISTIC:
-        // @todo
+        obj = new AfdxBusStatistic;
         break;
 
     case ObjectType::reserved_4:
         break;
 
     case ObjectType::AFDX_ERROR_EVENT:
-        // @todo
+        obj = new AfdxErrorEvent;
         break;
 
     case ObjectType::A429_ERROR:
-        // @todo
+        obj = new A429Error;
         break;
 
     case ObjectType::A429_STATUS:
-        // @todo
+        obj = new A429Status;
         break;
 
     case ObjectType::A429_BUS_STATISTIC:
-        // @todo
+        obj = new A429BusStatistic;
         break;
 
     case ObjectType::A429_MESSAGE:
-        // @todo
+        obj = new A429Message;
         break;
 
     case ObjectType::ETHERNET_STATISTIC:
-        // @todo
+        obj = new EthernetStatistic;
         break;
 
     case ObjectType::reserved_5:
@@ -489,27 +489,27 @@ ObjectHeaderBase * File::createObject(ObjectType type)
         break;
 
     case ObjectType::TEST_STRUCTURE:
-        // @todo
+        obj = new TestStructure;
         break;
 
     case ObjectType::DIAG_REQUEST_INTERPRETATION:
-        // @todo
+        obj = new DiagRequestInterpretation;
         break;
 
     case ObjectType::ETHERNET_FRAME_EX:
-        // @todo
+        obj = new EthernetFrameEx;
         break;
 
     case ObjectType::ETHERNET_FRAME_FORWARDED:
-        // @todo
+        obj = new EthernetFrameForwarded;
         break;
 
     case ObjectType::ETHERNET_ERROR_EX:
-        // @todo
+        obj = new EthernetErrorEx;
         break;
 
     case ObjectType::ETHERNET_ERROR_FORWARDED:
-        // @todo
+        obj = new EthernetErrorForwarded;
         break;
     }
 
@@ -583,9 +583,6 @@ ObjectHeaderBase * File::readObjectFromCompressedFile()
     /* read object */
     obj->read(compressedFile);
 
-    /* skip padding */
-    compressedFile.seekg(ohb.objectSize % 4, std::ios_base::cur);
-
     return obj;
 }
 
@@ -594,7 +591,7 @@ ObjectHeaderBase * File::readObjectFromUncompressedFile()
     ObjectHeaderBase ohb;
 
     /* first read some more compressed data and inflate it */
-    while ((uncompressedFile.tellp() - uncompressedFile.tellg()) < ohb.calculateObjectSize()) {
+    while ((uncompressedFile.tellp() - uncompressedFile.tellg()) < ohb.calculateHeaderSize()) {
         inflate();
     }
 
@@ -602,7 +599,7 @@ ObjectHeaderBase * File::readObjectFromUncompressedFile()
     ohb.read(uncompressedFile);
     uncompressedFile.seekg(-ohb.calculateHeaderSize(), std::ios_base::cur);
 
-    /* ensure sufficient date is available */
+    /* ensure sufficient data is available */
     while ((uncompressedFile.tellp() - uncompressedFile.tellg()) < ohb.objectSize) {
         inflate();
     }
@@ -616,11 +613,8 @@ ObjectHeaderBase * File::readObjectFromUncompressedFile()
     /* read object */
     obj->read(uncompressedFile);
 
-    /* skip padding */
-    uncompressedFile.seekg(ohb.objectSize % 4, std::ios_base::cur);
-
     /* drop old data */
-    uncompressedFile.dropOldData(static_cast<std::streamsize>(defaultLogContainerSize), ohb.calculateObjectSize());
+    uncompressedFile.dropOldData(static_cast<std::streamsize>(defaultLogContainerSize), ohb.calculateHeaderSize());
 
     currentObjectCount++;
     return obj;
@@ -633,9 +627,20 @@ void File::inflate()
     if (obj == nullptr) {
         return;
     }
+
+    /* just copy object from compressed to uncompressed file */
     if (obj->objectType != ObjectType::LOG_CONTAINER) {
+        std::vector<char> buffer;
+        buffer.resize(obj->objectSize);
+        compressedFile.read(
+            buffer.data(),
+            static_cast<std::streamsize>(buffer.size()));
+        uncompressedFile.write(
+            buffer.data(),
+            static_cast<std::streamsize>(buffer.size()));
         return;
     }
+
     LogContainer * logContainer = reinterpret_cast<LogContainer *>(obj);
 
     /* statistics */
@@ -713,20 +718,12 @@ void File::deflate()
 
     /* write log container */
     logContainer.write(compressedFile);
-
-    /* skip padding */
-    char buffer[] = {0, 0, 0, 0};
-    compressedFile.write(buffer, logContainer.objectSize % 4);
 }
 
 void File::write(ObjectHeaderBase * objectHeaderBase)
 {
     /* write into uncompressedFile */
     objectHeaderBase->write(uncompressedFile);
-
-    /* skip padding */
-    char buffer[] = {0, 0, 0, 0};
-    uncompressedFile.write(buffer, objectHeaderBase->objectSize % 4);
 
     /* if data exceeds defined logContainerSize, compress and write it into compressedFile */
     ULONGLONG requestedSize = static_cast<ULONGLONG>(uncompressedFile.tellp() - uncompressedFile.tellg());

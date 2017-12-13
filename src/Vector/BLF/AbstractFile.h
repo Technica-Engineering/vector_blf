@@ -80,6 +80,21 @@ public:
      * @return Write position
      */
     virtual std::streampos tellp() = 0;
+
+    /**
+     * Set position in output sequence
+     *
+     * @param[in] pos Seek position
+     */
+    virtual void seekp(std::streampos pos) = 0;
+
+    /**
+     * Set position in output sequence
+     *
+     * @param[in] off Offset
+     * @param[in] way Direction
+     */
+    virtual void seekp(std::streamoff off, std::ios_base::seekdir way) = 0;
 };
 
 }

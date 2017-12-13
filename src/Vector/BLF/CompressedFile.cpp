@@ -21,37 +21,74 @@
 
 #include <Vector/BLF/CompressedFile.h>
 
+#include <cassert>
+
 namespace Vector {
 namespace BLF {
 
+CompressedFile::CompressedFile() :
+    file()
+{
+}
+
 void CompressedFile::read(char * s, std::streamsize n)
 {
-    std::fstream::read(s, n);
+    file.read(s, n);
 }
 
 std::streampos CompressedFile::tellg()
 {
-    return std::fstream::tellg();
+    return file.tellg();
 }
 
 void CompressedFile::seekg(std::streampos pos)
 {
-    std::fstream::seekg(pos);
+    file.seekg(pos);
 }
 
 void CompressedFile::seekg(std::streamoff off, std::ios_base::seekdir way)
 {
-    std::fstream::seekg(off, way);
+    file.seekg(off, way);
 }
 
 void CompressedFile::write(const char * s, std::streamsize n)
 {
-    std::fstream::write(s, n);
+    file.write(s, n);
 }
 
 std::streampos CompressedFile::tellp()
 {
-    return std::fstream::tellp();
+    return file.tellp();
+}
+
+void CompressedFile::seekp(std::streampos pos)
+{
+    file.seekp(pos);
+}
+
+void CompressedFile::seekp(std::streamoff off, std::ios_base::seekdir way)
+{
+    file.seekp(off, way);
+}
+
+void CompressedFile::open(const char * s, std::ios_base::openmode mode)
+{
+    file.open(s, mode);
+}
+
+bool CompressedFile::is_open() const
+{
+    return file.is_open();
+}
+
+void CompressedFile::close()
+{
+    file.close();
+}
+
+bool CompressedFile::eof() const
+{
+    return file.eof();
 }
 
 }

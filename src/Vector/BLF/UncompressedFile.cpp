@@ -19,9 +19,10 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include <cstring>
-
 #include <Vector/BLF/UncompressedFile.h>
+
+#include <cassert>
+#include <cstring>
 
 namespace Vector {
 namespace BLF {
@@ -58,35 +59,40 @@ void UncompressedFile::seekg(std::streampos pos)
 
 void UncompressedFile::seekg(std::streamoff off, std::ios_base::seekdir way)
 {
-    switch (way) {
-    default:
-    case std::ios_base::beg:
-        privateTellg = 0 + off;
-        break;
-    case std::ios_base::cur:
-        privateTellg = privateTellg + off;
-        break;
-    case std::ios_base::end:
-        privateTellg = privateTellp + off;
-        break;
-    }
+    assert(way == std::ios_base::cur);
+
+    privateTellg = privateTellg + off;
 }
 
 void UncompressedFile::write(const char * s, std::streamsize n)
 {
-    /** offset to write */
+    /* offset to write */
     std::streamoff offset = privateTellp - dataTell;
 
-    /** copy data */
+    /* copy data */
     data.insert(data.begin() + offset, s, s + n);
 
-    /** new put position */
+    /* new put position */
     privateTellp += n;
 }
 
 std::streampos UncompressedFile::tellp()
 {
     return privateTellp;
+}
+
+void UncompressedFile::seekp(std::streampos pos)
+{
+    assert(false);
+}
+
+void UncompressedFile::seekp(std::streamoff off, std::ios_base::seekdir way)
+{
+    assert(way == std::ios_base::cur);
+
+    /* write zero to skip */
+    static const char buffer[] = { 0, 0, 0, 0 };
+    write(buffer, off);
 }
 
 void UncompressedFile::dropOldData(std::streamsize dropSize, std::streamsize remainingSize)

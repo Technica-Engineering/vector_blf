@@ -23,7 +23,6 @@
 
 #include <Vector/BLF/platform.h>
 
-#include <iostream>
 #include <vector>
 
 #include <Vector/BLF/AbstractFile.h>
@@ -45,6 +44,8 @@ public:
     virtual void seekg(std::streamoff off, std::ios_base::seekdir way) override;
     virtual void write(const char * s, std::streamsize n) override;
     virtual std::streampos tellp() override;
+    virtual void seekp(std::streampos pos) override;
+    virtual void seekp(std::streamoff off, std::ios_base::seekdir way) override;
 
     /**
      * drop old data (only if dropSize is possible)
