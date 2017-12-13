@@ -24,7 +24,7 @@ BOOST_AUTO_TEST_CASE(CanDriverHwSync)
     BOOST_CHECK_EQUAL(obj->headerSize, obj->calculateHeaderSize());
     BOOST_CHECK_EQUAL(obj->headerVersion, 1);
     BOOST_CHECK_EQUAL(obj->objectSize, obj->calculateObjectSize());
-    BOOST_CHECK(obj->objectType == Vector::BLF::ObjectType::AFDX_ERROR_EVENT);
+    BOOST_CHECK(obj->objectType == Vector::BLF::ObjectType::CAN_DRIVER_SYNC);
 
     /* ObjectHeader */
     BOOST_CHECK(obj->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
@@ -32,8 +32,18 @@ BOOST_AUTO_TEST_CASE(CanDriverHwSync)
     BOOST_CHECK_EQUAL(obj->objectVersion, 0);
     BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
-    /* CanDriverHwSync */
-    // @todo CanDriverHwSync
+    /* CanMessage */
+    BOOST_CHECK_EQUAL(obj->channel,0x1111);
+    BOOST_CHECK_EQUAL(obj->flags, 0x22);
+    BOOST_CHECK_EQUAL(obj->reserved1, 0x33);
+    BOOST_CHECK_EQUAL(obj->reserved2, 0x00000000);
+
+    delete obj;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::CAN_DRIVER_SYNC);
 
     delete obj;
 

@@ -70,7 +70,10 @@ public:
     BYTE flags;
 
     /** reserved */
-    BYTE reserved;
+    BYTE reserved1;
+
+    /** reserved */
+    DWORD reserved2;
 };
 
 }
