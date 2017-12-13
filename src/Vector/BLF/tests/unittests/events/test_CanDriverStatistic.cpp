@@ -42,14 +42,14 @@ BOOST_AUTO_TEST_CASE(CanDriverStatistic)
     BOOST_CHECK_EQUAL(obj->errorFrames, 0x77777777);
     BOOST_CHECK_EQUAL(obj->overloadFrames, 0x88888888);
 
-    delete obj;
+    delete ohb;
 
     /* read next */
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::CAN_STATISTIC);
 
-    delete obj;
+    delete ohb;
 
     file.close();
 }

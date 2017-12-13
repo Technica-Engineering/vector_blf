@@ -36,14 +36,14 @@ BOOST_AUTO_TEST_CASE(RealtimeClock)
     BOOST_CHECK_EQUAL(obj->time, 0x1111111111111111);
     BOOST_CHECK_EQUAL(obj->loggingOffset, 0x2222222222222222);
 
-    delete obj;
+    delete ohb;
 
     /* read next */
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::REALTIMECLOCK);
 
-    delete obj;
+    delete ohb;
 
     file.close();
 }

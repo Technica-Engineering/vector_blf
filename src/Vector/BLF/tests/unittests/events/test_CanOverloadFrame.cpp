@@ -37,14 +37,14 @@ BOOST_AUTO_TEST_CASE(CanOverloadFrame)
     BOOST_CHECK_EQUAL(obj->reserved1, 0x2222);
     BOOST_CHECK_EQUAL(obj->reserved2, 0x00000000);
 
-    delete obj;
+    delete ohb;
 
     /* read next */
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::CAN_OVERLOAD);
 
-    delete obj;
+    delete ohb;
 
     file.close();
 }

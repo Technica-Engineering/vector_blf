@@ -50,14 +50,14 @@ BOOST_AUTO_TEST_CASE(CanMessage2)
     BOOST_CHECK_EQUAL(obj->reserved1, 0xFF);
     BOOST_CHECK_EQUAL(obj->reserved2, 0x1111);
 
-    delete obj;
+    delete ohb;
 
     /* read next */
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::CAN_MESSAGE2);
 
-    delete obj;
+    delete ohb;
 
     file.close();
 }

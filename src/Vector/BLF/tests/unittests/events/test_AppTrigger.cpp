@@ -39,14 +39,14 @@ BOOST_AUTO_TEST_CASE(AppTrigger)
     BOOST_CHECK(obj->flags == Vector::BLF::AppTrigger::Flags::SingleTrigger);
     BOOST_CHECK_EQUAL(obj->appSpecific2, 0x44444444);
 
-    delete obj;
+    delete ohb;
 
     /* read next */
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::APP_TRIGGER);
 
-    delete obj;
+    delete ohb;
 
     file.close();
 }

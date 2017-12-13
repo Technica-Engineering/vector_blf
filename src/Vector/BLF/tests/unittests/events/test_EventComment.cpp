@@ -38,14 +38,14 @@ BOOST_AUTO_TEST_CASE(EventComment)
     BOOST_CHECK_EQUAL(obj->reserved, 0);
     BOOST_CHECK_EQUAL(obj->text, "xyz");
 
-    delete obj;
+    delete ohb;
 
     /* read next */
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::EVENT_COMMENT);
 
-    delete obj;
+    delete ohb;
 
     file.close();
 }

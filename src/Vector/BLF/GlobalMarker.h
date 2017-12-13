@@ -65,13 +65,16 @@ public:
      */
     COLORREF backgroundColor;
 
-    /** reserved */
-    std::array<BYTE, 3> reserved1;
-
     /**
      * Defines whether a marker can be relocated
      */
     BYTE isRelocatable;
+
+    /** reserved */
+    BYTE reserved1;
+
+    /** reserved */
+    WORD reserved2;
 
     /**
      * @brief group name length in bytes
@@ -95,7 +98,10 @@ public:
     DWORD descriptionLength;
 
     /** reserved */
-    std::array<BYTE, 12> reserved2;
+    DWORD reserved3;
+
+    /** reserved */
+    ULONGLONG reserved4;
 
     /**
      * @brief group name

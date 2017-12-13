@@ -57,14 +57,14 @@ BOOST_AUTO_TEST_CASE(TestStructure)
     BOOST_CHECK_EQUAL(toUtf8String(obj->name), "xyz");
     BOOST_CHECK_EQUAL(toUtf8String(obj->text), "xyz");
 
-    delete obj;
+    delete ohb;
 
     /* read next */
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::TEST_STRUCTURE);
 
-    delete obj;
+    delete ohb;
 
     file.close();
 }

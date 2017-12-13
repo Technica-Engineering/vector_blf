@@ -46,14 +46,14 @@ BOOST_AUTO_TEST_CASE(CanDriverErrorExt)
     BOOST_CHECK_EQUAL(obj->reserved3[2], 0xBBBBBBBB);
     BOOST_CHECK_EQUAL(obj->reserved3[3], 0xCCCCCCCC);
 
-    delete obj;
+    delete ohb;
 
     /* read next */
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::CAN_DRIVER_ERROR_EXT);
 
-    delete obj;
+    delete ohb;
 
     file.close();
 }

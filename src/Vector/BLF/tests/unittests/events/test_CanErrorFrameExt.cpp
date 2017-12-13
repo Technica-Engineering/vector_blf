@@ -53,14 +53,14 @@ BOOST_AUTO_TEST_CASE(CanErrorFrameExt)
     BOOST_CHECK_EQUAL(obj->data[6], 0x33);
     BOOST_CHECK_EQUAL(obj->data[7], 0x44);
 
-    delete obj;
+    delete ohb;
 
     /* read next */
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::CAN_ERROR_EXT);
 
-    delete obj;
+    delete ohb;
 
     file.close();
 }

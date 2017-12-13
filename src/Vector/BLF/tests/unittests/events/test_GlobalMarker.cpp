@@ -28,24 +28,34 @@ BOOST_AUTO_TEST_CASE(GlobalMarker)
 
     /* ObjectHeader */
     BOOST_CHECK(obj->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
-    BOOST_CHECK_EQUAL(obj->clientIndex, 0);
+    BOOST_CHECK_EQUAL(obj->clientIndex, 0x1111);
     BOOST_CHECK_EQUAL(obj->objectVersion, 0);
-    BOOST_CHECK_EQUAL(obj->objectTimeStamp, 2200804000); // ns
+    BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
     /* GlobalMarker */
-    BOOST_CHECK_EQUAL(obj->commentedEventType, 0);
-    BOOST_CHECK_EQUAL(obj->foregroundColor, 0);
-    BOOST_CHECK_EQUAL(obj->backgroundColor, 16777215);
-    BOOST_CHECK_EQUAL(obj->isRelocatable, 1);
-    // reserved
-    BOOST_CHECK_EQUAL(obj->groupNameLength, 0x83);
-    BOOST_CHECK_EQUAL(obj->markerNameLength, 0x83);
-    BOOST_CHECK_EQUAL(obj->descriptionLength, 0x105);
-    BOOST_CHECK_EQUAL(obj->groupName, "Marker Group");
-    BOOST_CHECK_EQUAL(obj->markerName, "[1]");
-    BOOST_CHECK_EQUAL(obj->description, "description");
+    BOOST_CHECK_EQUAL(obj->commentedEventType, 0x11111111);
+    BOOST_CHECK_EQUAL(obj->foregroundColor, 0x22222222);
+    BOOST_CHECK_EQUAL(obj->backgroundColor, 0x33333333);
+    BOOST_CHECK_EQUAL(obj->isRelocatable, 0x44);
+    BOOST_CHECK_EQUAL(obj->reserved1, 0);
+    BOOST_CHECK_EQUAL(obj->reserved2, 0);
+    BOOST_CHECK_EQUAL(obj->groupNameLength, 3);
+    BOOST_CHECK_EQUAL(obj->markerNameLength, 3);
+    BOOST_CHECK_EQUAL(obj->descriptionLength, 3);
+    BOOST_CHECK_EQUAL(obj->reserved3, 0);
+    BOOST_CHECK_EQUAL(obj->reserved4, 0);
+    BOOST_CHECK_EQUAL(obj->groupName, "xyz");
+    BOOST_CHECK_EQUAL(obj->markerName, "xyz");
+    BOOST_CHECK_EQUAL(obj->description, "xyz");
 
-    delete obj;
+    delete ohb;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::GLOBAL_MARKER);
+
+    delete ohb;
 
     file.close();
 }

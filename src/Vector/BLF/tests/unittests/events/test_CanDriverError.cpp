@@ -38,14 +38,14 @@ BOOST_AUTO_TEST_CASE(CanDriverError)
     BOOST_CHECK_EQUAL(obj->rxErrors, 0x33);
     BOOST_CHECK_EQUAL(obj->errorCode, 0x44444444);
 
-    delete obj;
+    delete ohb;
 
     /* read next */
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::CAN_DRIVER_ERROR);
 
-    delete obj;
+    delete ohb;
 
     file.close();
 }
