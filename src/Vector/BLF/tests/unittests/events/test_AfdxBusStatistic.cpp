@@ -33,9 +33,33 @@ BOOST_AUTO_TEST_CASE(AfdxBusStatistic)
     BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
     /* AfdxBusStatistic */
-    // @todo AfdxBusStatistic
+    BOOST_CHECK_EQUAL(obj->channel, 0x1111);
+    BOOST_CHECK_EQUAL(obj->flags, 0x2222);
+    BOOST_CHECK_EQUAL(obj->statDuration, 0x33333333);
+    BOOST_CHECK_EQUAL(obj->statRxPacketCountHW, 0x44444444);
+    BOOST_CHECK_EQUAL(obj->statTxPacketCountHW, 0x55555555);
+    BOOST_CHECK_EQUAL(obj->statRxErrorCountHW, 0x66666666);
+    BOOST_CHECK_EQUAL(obj->statTxErrorCountHW, 0x77777777);
+    BOOST_CHECK_EQUAL(obj->statRxBytesHW, 0x88888888);
+    BOOST_CHECK_EQUAL(obj->statTxBytesHW, 0x99999999);
+    BOOST_CHECK_EQUAL(obj->statRxPacketCount, 0xAAAAAAAA);
+    BOOST_CHECK_EQUAL(obj->statTxPacketCount, 0xBBBBBBBB);
+    BOOST_CHECK_EQUAL(obj->statDroppedPacketCount, 0xCCCCCCCC);
+    BOOST_CHECK_EQUAL(obj->statInvalidPacketCount, 0xDDDDDDDD);
+    BOOST_CHECK_EQUAL(obj->statLostPacketCount, 0xEEEEEEEE);
+    BOOST_CHECK_EQUAL(obj->line, 0xFF);
+    BOOST_CHECK_EQUAL(obj->linkStatus, 0x11);
+    BOOST_CHECK_EQUAL(obj->linkSpeed, 0x2222);
+    BOOST_CHECK_EQUAL(obj->linkLost, 0x3333);
 
-    delete obj;
+    delete ohb;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::CAN_ERROR);
+
+    delete ohb;
 
     file.close();
 }

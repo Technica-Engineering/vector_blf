@@ -33,9 +33,40 @@ BOOST_AUTO_TEST_CASE(AfdxStatus)
     BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
     /* AfdxStatus */
-    // @todo AfdxStatus
+    BOOST_CHECK_EQUAL(obj->channel, 0x1111);
 
-    delete obj;
+    /* AfdxLineStatus for A */
+    BOOST_CHECK_EQUAL(obj->statusA.flags, 0x1111);
+    BOOST_CHECK_EQUAL(obj->statusA.linkStatus, 0x22);
+    BOOST_CHECK_EQUAL(obj->statusA.ethernetPhy, 0x33);
+    BOOST_CHECK_EQUAL(obj->statusA.duplex, 0x44);
+    BOOST_CHECK_EQUAL(obj->statusA.mdi, 0x55);
+    BOOST_CHECK_EQUAL(obj->statusA.connector, 0x66);
+    BOOST_CHECK_EQUAL(obj->statusA.clockMode, 0x77);
+    BOOST_CHECK_EQUAL(obj->statusA.pairs, 0x88);
+    BOOST_CHECK_EQUAL(obj->statusA.reserved, 0x99);
+    BOOST_CHECK_EQUAL(obj->statusA.bitrate, 0xAAAAAAAA);
+
+    /* AfdxLineStatus for B */
+    BOOST_CHECK_EQUAL(obj->statusB.flags, 0x1111);
+    BOOST_CHECK_EQUAL(obj->statusB.linkStatus, 0x22);
+    BOOST_CHECK_EQUAL(obj->statusB.ethernetPhy, 0x33);
+    BOOST_CHECK_EQUAL(obj->statusB.duplex, 0x44);
+    BOOST_CHECK_EQUAL(obj->statusB.mdi, 0x55);
+    BOOST_CHECK_EQUAL(obj->statusB.connector, 0x66);
+    BOOST_CHECK_EQUAL(obj->statusB.clockMode, 0x77);
+    BOOST_CHECK_EQUAL(obj->statusB.pairs, 0x88);
+    BOOST_CHECK_EQUAL(obj->statusB.reserved, 0x99);
+    BOOST_CHECK_EQUAL(obj->statusB.bitrate, 0xAAAAAAAA);
+
+    delete ohb;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::CAN_ERROR);
+
+    delete ohb;
 
     file.close();
 }

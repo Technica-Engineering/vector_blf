@@ -52,8 +52,14 @@ public:
     /** direction flag: 0=Rx, 1=Tx */
     BYTE dir;
 
+    /** reserved */
+    BYTE reserved1;
+
     /** parity */
     WORD parity;
+
+    /** reserved */
+    WORD reserved2;
 
     /** minimum gap */
     ULONG minGap;

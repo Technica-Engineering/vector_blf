@@ -57,14 +57,23 @@ public:
     /** direction flag: 0=Rx, 1=Tx */
     BYTE dir;
 
+    /** reserved */
+    BYTE reserved1;
+
     /** bitrate */
     ULONG bitrate;
 
     /** error reason */
-    ULONG errReason;
+    LONG errReason;
 
     /** error position */
-    USHORT errPosition;
+    WORD errPosition;
+
+    /** reserved */
+    WORD reserved2;
+
+    /** reserved */
+    DWORD reserved3;
 
     /** frame gap */
     ULONGLONG frameGap;
@@ -75,6 +84,9 @@ public:
     /** message control */
     WORD msgCtrl;
 
+    /** reserved */
+    WORD reserved4;
+
     /** cycle time */
     ULONG cycleTime;
 
@@ -83,6 +95,9 @@ public:
 
     /** bit length of last bit */
     ULONG bitLenOfLastBit;
+
+    /** reserved */
+    DWORD reserved5;
 };
 
 }

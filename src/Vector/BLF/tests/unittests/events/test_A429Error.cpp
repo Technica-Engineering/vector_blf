@@ -33,9 +33,27 @@ BOOST_AUTO_TEST_CASE(A429Error)
     BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
     /* A429Error */
-    // @todo A429Error
+    BOOST_CHECK_EQUAL(obj->channel, 0x1111);
+    BOOST_CHECK_EQUAL(obj->errorType, 0x2222);
+    BOOST_CHECK_EQUAL(obj->sourceIdentifier, 0x33333333);
+    BOOST_CHECK_EQUAL(obj->errReason, 0x44444444);
+    BOOST_CHECK_EQUAL(obj->errorText[0], 'x');
+    BOOST_CHECK_EQUAL(obj->errorText[1], 'y');
+    BOOST_CHECK_EQUAL(obj->errorText[2], 'z');
+    BOOST_CHECK_EQUAL(obj->errorText[3], 0);
+    BOOST_CHECK_EQUAL(obj->errorAttributes[0], 'x');
+    BOOST_CHECK_EQUAL(obj->errorAttributes[1], 'y');
+    BOOST_CHECK_EQUAL(obj->errorAttributes[2], 'z');
+    BOOST_CHECK_EQUAL(obj->errorAttributes[3], 0);
 
-    delete obj;
+    delete ohb;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::A429_ERROR);
+
+    delete ohb;
 
     file.close();
 }

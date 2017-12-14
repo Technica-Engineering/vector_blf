@@ -40,15 +40,15 @@ add_definitions(
     -DCMAKE_CURRENT_BINARY_DIR="${CMAKE_CURRENT_BINARY_DIR}")
 
 # test events
-#add_boost_test(A429BusStatistic test_A429BusStatistic events/test_A429BusStatistic.cpp)
-#add_boost_test(A429Error test_A429Error events/test_A429Error.cpp)
-#add_boost_test(A429Message test_A429Message events/test_A429Message.cpp)
-#add_boost_test(A429Status test_A429Status events/test_A429Status.cpp)
-#add_boost_test(AfdxBusStatistic test_AfdxBusStatistic events/test_AfdxBusStatistic.cpp)
-#add_boost_test(AfdxErrorEvent test_AfdxErrorEvent events/test_AfdxErrorEvent.cpp)
-#add_boost_test(AfdxFrame test_AfdxFrame events/test_AfdxFrame.cpp)
-#add_boost_test(AfdxStatistic test_AfdxStatistic events/test_AfdxStatistic.cpp)
-#add_boost_test(AfdxStatus test_AfdxStatus events/test_AfdxStatus.cpp)
+add_boost_test(A429BusStatistic test_A429BusStatistic events/test_A429BusStatistic.cpp)
+add_boost_test(A429Error test_A429Error events/test_A429Error.cpp)
+add_boost_test(A429Message test_A429Message events/test_A429Message.cpp)
+add_boost_test(A429Status test_A429Status events/test_A429Status.cpp)
+add_boost_test(AfdxBusStatistic test_AfdxBusStatistic events/test_AfdxBusStatistic.cpp)
+add_boost_test(AfdxErrorEvent test_AfdxErrorEvent events/test_AfdxErrorEvent.cpp)
+add_boost_test(AfdxFrame test_AfdxFrame events/test_AfdxFrame.cpp)
+add_boost_test(AfdxStatistic test_AfdxStatistic events/test_AfdxStatistic.cpp)
+add_boost_test(AfdxStatus test_AfdxStatus events/test_AfdxStatus.cpp)
 add_boost_test(AppText test_AppText events/test_AppText.cpp)
 add_boost_test(AppTrigger test_AppTrigger events/test_AppTrigger.cpp)
 add_boost_test(CanDriverError test_CanDriverError events/test_CanDriverError.cpp)
@@ -170,8 +170,8 @@ add_boost_test(TestStructure test_TestStructure events/test_TestStructure.cpp)
 #add_boost_test(VectorTypes test_VectorTypes events/test_VectorTypes.cpp)
 
 # overall tests
-#add_boost_test(AllEvents test_AllEvents test_AllEvents.cpp)
-#add_boost_test(AllLogfiles test_AllLogfiles test_AllLogfiles.cpp)
+add_boost_test(AllEvents test_AllEvents test_AllEvents.cpp)
+add_boost_test(AllLogfiles test_AllLogfiles test_AllLogfiles.cpp)
 
 # coverage
 if(OPTION_USE_GCOV_LCOV)

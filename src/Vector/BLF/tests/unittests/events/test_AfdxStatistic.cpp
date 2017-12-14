@@ -49,7 +49,14 @@ BOOST_AUTO_TEST_CASE(AfdxStatistic)
     BOOST_CHECK_EQUAL(obj->vlid, 0);
     BOOST_CHECK_EQUAL(obj->statDuration, 0);
 
-    delete obj;
+    delete ohb;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::CAN_ERROR);
+
+    delete ohb;
 
     file.close();
 }

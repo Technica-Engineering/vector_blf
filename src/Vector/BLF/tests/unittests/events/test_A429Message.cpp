@@ -33,9 +33,35 @@ BOOST_AUTO_TEST_CASE(A429Message)
     BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
     /* A429Message */
-    // @todo A429Message
+    BOOST_CHECK_EQUAL(obj->a429Data[0], 0x11);
+    BOOST_CHECK_EQUAL(obj->a429Data[1], 0x22);
+    BOOST_CHECK_EQUAL(obj->a429Data[2], 0x33);
+    BOOST_CHECK_EQUAL(obj->a429Data[3], 0x44);
+    BOOST_CHECK_EQUAL(obj->channel, 0x5555);
+    BOOST_CHECK_EQUAL(obj->dir, 0x66);
+    BOOST_CHECK_EQUAL(obj->reserved1, 0x77);
+    BOOST_CHECK_EQUAL(obj->bitrate, 0x88888888);
+    BOOST_CHECK_EQUAL(obj->errReason, 0x79999999); // signed
+    BOOST_CHECK_EQUAL(obj->errPosition, 0xAAAA);
+    BOOST_CHECK_EQUAL(obj->reserved2, 0x0000);
+    BOOST_CHECK_EQUAL(obj->reserved3, 0x00000000);
+    BOOST_CHECK_EQUAL(obj->frameGap, 0xBBBBBBBBBBBBBBBB);
+    BOOST_CHECK_EQUAL(obj->frameLength, 0xCCCCCCCC);
+    BOOST_CHECK_EQUAL(obj->msgCtrl, 0xDDDD);
+    BOOST_CHECK_EQUAL(obj->reserved4, 0x0000);
+    BOOST_CHECK_EQUAL(obj->cycleTime, 0xEEEEEEEE);
+    BOOST_CHECK_EQUAL(obj->error, 0xFFFFFFFF);
+    BOOST_CHECK_EQUAL(obj->bitLenOfLastBit, 0x11111111);
+    BOOST_CHECK_EQUAL(obj->reserved5, 0x00000000);
 
-    delete obj;
+    delete ohb;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::A429_MESSAGE);
+
+    delete ohb;
 
     file.close();
 }

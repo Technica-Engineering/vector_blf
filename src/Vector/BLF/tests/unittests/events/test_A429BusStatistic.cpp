@@ -16,7 +16,7 @@ BOOST_AUTO_TEST_CASE(A429BusStatistic)
 
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::APP_TEXT);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::A429_BUS_STATISTIC);
     Vector::BLF::A429BusStatistic * obj = static_cast<Vector::BLF::A429BusStatistic *>(ohb);
 
     /* ObjectHeaderBase */
@@ -33,9 +33,35 @@ BOOST_AUTO_TEST_CASE(A429BusStatistic)
     BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
     /* A429BusStatistic */
-    // @todo A429BusStatistic
+    BOOST_CHECK_EQUAL(obj->channel, 0x1111);
+    BOOST_CHECK_EQUAL(obj->dir, 0x22);
+    BOOST_CHECK_EQUAL(obj->reserved, 0);
+    BOOST_CHECK_EQUAL(obj->busload, 0x33333333);
+    BOOST_CHECK_EQUAL(obj->dataTotal, 0x44444444);
+    BOOST_CHECK_EQUAL(obj->errorTotal, 0x55555555);
+    BOOST_CHECK_EQUAL(obj->bitrate, 0x66666666);
+    BOOST_CHECK_EQUAL(obj->parityErrors, 0x7777);
+    BOOST_CHECK_EQUAL(obj->bitrateErrors, 0x8888);
+    BOOST_CHECK_EQUAL(obj->gapErrors, 0x9999);
+    BOOST_CHECK_EQUAL(obj->lineErrors, 0xAAAA);
+    BOOST_CHECK_EQUAL(obj->formatErrors, 0xBBBB);
+    BOOST_CHECK_EQUAL(obj->dutyFactorErrors, 0xCCCC);
+    BOOST_CHECK_EQUAL(obj->wordLenErrors, 0xDDDD);
+    BOOST_CHECK_EQUAL(obj->codingErrors, 0xEEEE);
+    BOOST_CHECK_EQUAL(obj->idleErrors, 0xFFFF);
+    BOOST_CHECK_EQUAL(obj->levelErrors, 0x1111);
+    for(uint16_t i = 0; i < 256; i++) {
+        BOOST_CHECK_EQUAL(obj->labelCount[i], i);
+    }
 
-    delete obj;
+    delete ohb;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::A429_BUS_STATISTIC);
+
+    delete ohb;
 
     file.close();
 }

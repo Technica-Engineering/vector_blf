@@ -28,6 +28,7 @@ A429BusStatistic::A429BusStatistic() :
     ObjectHeader(),
     channel(),
     dir(),
+    reserved(),
     busload(),
     dataTotal(),
     errorTotal(),
@@ -52,6 +53,7 @@ void A429BusStatistic::read(AbstractFile & is)
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
+    is.read(reinterpret_cast<char *>(&reserved), sizeof(reserved));
     is.read(reinterpret_cast<char *>(&busload), sizeof(busload));
     is.read(reinterpret_cast<char *>(&dataTotal), sizeof(dataTotal));
     is.read(reinterpret_cast<char *>(&errorTotal), sizeof(errorTotal));
@@ -66,7 +68,7 @@ void A429BusStatistic::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&codingErrors), sizeof(codingErrors));
     is.read(reinterpret_cast<char *>(&idleErrors), sizeof(idleErrors));
     is.read(reinterpret_cast<char *>(&levelErrors), sizeof(levelErrors));
-    is.read(reinterpret_cast<char *>(labelCount.data()), static_cast<std::streamsize>(labelCount.size()));
+    is.read(reinterpret_cast<char *>(labelCount.data()), static_cast<std::streamsize>(labelCount.size() * sizeof(USHORT)));
 }
 
 void A429BusStatistic::write(AbstractFile & os)
@@ -74,6 +76,7 @@ void A429BusStatistic::write(AbstractFile & os)
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
+    os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
     os.write(reinterpret_cast<char *>(&busload), sizeof(busload));
     os.write(reinterpret_cast<char *>(&dataTotal), sizeof(dataTotal));
     os.write(reinterpret_cast<char *>(&errorTotal), sizeof(errorTotal));
@@ -88,7 +91,7 @@ void A429BusStatistic::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&codingErrors), sizeof(codingErrors));
     os.write(reinterpret_cast<char *>(&idleErrors), sizeof(idleErrors));
     os.write(reinterpret_cast<char *>(&levelErrors), sizeof(levelErrors));
-    os.write(reinterpret_cast<char *>(labelCount.data()), static_cast<std::streamsize>(labelCount.size()));
+    os.write(reinterpret_cast<char *>(labelCount.data()), static_cast<std::streamsize>(labelCount.size() * sizeof(USHORT)));
 }
 
 DWORD A429BusStatistic::calculateObjectSize() const
@@ -97,6 +100,7 @@ DWORD A429BusStatistic::calculateObjectSize() const
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(dir) +
+        sizeof(reserved) +
         sizeof(busload) +
         sizeof(dataTotal) +
         sizeof(errorTotal) +
@@ -111,7 +115,7 @@ DWORD A429BusStatistic::calculateObjectSize() const
         sizeof(codingErrors) +
         sizeof(idleErrors) +
         sizeof(levelErrors) +
-        sizeof(labelCount);
+        static_cast<DWORD>(labelCount.size() * sizeof(USHORT));
 }
 
 }

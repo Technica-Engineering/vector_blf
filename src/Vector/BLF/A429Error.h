@@ -65,6 +65,9 @@ public:
 
     /** error attributes */
     std::array<char, 512> errorAttributes;
+
+    /** reserved */
+    DWORD reserved;
 };
 
 }

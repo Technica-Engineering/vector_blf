@@ -104,7 +104,14 @@ BOOST_AUTO_TEST_CASE(AfdxFrame)
     BOOST_CHECK_EQUAL(obj->payLoad[0x2c], 0x00);
     BOOST_CHECK_EQUAL(obj->payLoad[0x2d], 0x00);
 
-    delete obj;
+    delete ohb;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::CAN_ERROR);
+
+    delete ohb;
 
     file.close();
 }

@@ -39,8 +39,8 @@ BOOST_AUTO_TEST_CASE(J1708Message)
     BOOST_CHECK_EQUAL(obj->reserved1, 0);
     BOOST_CHECK_EQUAL(obj->error, 0x3333);
     BOOST_CHECK_EQUAL(obj->size, 0x44);
-    for (uint16_t i = 0; i < 255; i++) {
-        BOOST_CHECK_EQUAL(obj->data[i], static_cast<uint8_t>(i));
+    for (uint8_t i = 0; i < 255; i++) {
+        BOOST_CHECK_EQUAL(obj->data[i], i);
     }
 
     delete ohb;

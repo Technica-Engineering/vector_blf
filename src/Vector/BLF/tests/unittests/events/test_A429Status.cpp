@@ -33,9 +33,24 @@ BOOST_AUTO_TEST_CASE(A429Status)
     BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
     /* A429Status */
-    // @todo A429Status
+    BOOST_CHECK_EQUAL(obj->channel, 0x1111);
+    BOOST_CHECK_EQUAL(obj->dir, 0x22);
+    BOOST_CHECK_EQUAL(obj->reserved1, 0);
+    BOOST_CHECK_EQUAL(obj->parity, 0x3333);
+    BOOST_CHECK_EQUAL(obj->reserved2, 0);
+    BOOST_CHECK_EQUAL(obj->minGap, 0x44444444);
+    BOOST_CHECK_EQUAL(obj->bitrate, 0x55555555);
+    BOOST_CHECK_EQUAL(obj->minBitrate, 0x66666666);
+    BOOST_CHECK_EQUAL(obj->maxBitrate, 0x77777777);
 
-    delete obj;
+    delete ohb;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::A429_STATUS);
+
+    delete ohb;
 
     file.close();
 }
