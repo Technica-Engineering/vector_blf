@@ -244,7 +244,9 @@ public:
      */
     void write(ObjectHeaderBase * objectHeaderBase);
 
-    /** close file */
+    /**
+     * close file
+     */
     void close();
 
 private:

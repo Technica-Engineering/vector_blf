@@ -45,47 +45,47 @@ public:
     virtual DWORD calculateObjectSize() const override;
 
     /**
-     * unique ID identifying the used diagnostic description
+     * @brief unique ID identifying the used diagnostic description
      */
     DWORD diagDescriptionHandle;
 
     /**
-     * unique ID identifying the used diagnostic variant
+     * @brief unique ID identifying the used diagnostic variant
      */
     DWORD diagVariantHandle;
 
     /**
-     * unique ID identifying the used diagnostic service
+     * @brief unique ID identifying the used diagnostic service
      */
     DWORD diagServiceHandle;
 
     /**
-     * string length for ecuQualifier
+     * @brief string length for ecuQualifier
      */
     DWORD ecuQualifierLength;
 
     /**
-     * string length for variantQualifier
+     * @brief string length for variantQualifier
      */
     DWORD variantQualifierLength;
 
     /**
-     * string length for serviceQualifier
+     * @brief string length for serviceQualifier
      */
     DWORD serviceQualifierLength;
 
     /**
-     * qualifier of the ECU the request was sent to
+     * @brief qualifier of the ECU the request was sent to
      */
     std::string ecuQualifier;
 
     /**
-     * qualifier of the active diagnostic variant
+     * @brief qualifier of the active diagnostic variant
      */
     std::string variantQualifier;
 
     /**
-     * qualifier of the diagnostic service
+     * @brief qualifier of the diagnostic service
      */
     std::string serviceQualifier;
 };

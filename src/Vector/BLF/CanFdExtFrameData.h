@@ -47,7 +47,10 @@ public:
     /** @copydoc ObjectHeader::calculateObjectSize */
     virtual DWORD calculateObjectSize() const;
 
+    /** bit rate in arbitration phas */
     DWORD btrExtArb;
+
+    /** bit rate in data phase */
     DWORD btrExtData;
 };
 

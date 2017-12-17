@@ -47,10 +47,32 @@ public:
     virtual void seekp(std::streampos pos) override;
     virtual void seekp(std::streamoff off, std::ios_base::seekdir way) override;
 
-    virtual void open(const char * s, std::ios_base::openmode mode);
-    bool is_open() const;
+    /**
+     * open file
+     *
+     * @param filename file name
+     * @param openMode open in read or write mode
+     */
+    virtual void open(const char * filename, std::ios_base::openmode openMode);
+
+    /**
+     * is file open?
+     *
+     * @return true if file is open
+     */
+    virtual bool is_open() const;
+
+    /**
+     * close file
+     */
     virtual void close();
-    bool eof() const;
+
+    /**
+     * check for end-of-file
+     *
+     * @return true if end-of-file reached
+     */
+    virtual bool eof() const;
 
 private:
     std::fstream file;

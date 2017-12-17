@@ -44,18 +44,43 @@ public:
     virtual void write(AbstractFile & os) override;
     virtual DWORD calculateObjectSize() const override;
 
+    /** channel */
     WORD channel;
+
+    /** reserved */
     WORD reservedEthernetStatistic1;
+
+    /** reserved */
     DWORD reservedEthernetStatistic2;
+
+    /** receive ok */
     UINT64 rcvOk_HW;
+
+    /** transmit ok */
     UINT64 xmitOk_HW;
+
+    /** receive error */
     UINT64 rcvError_HW;
+
+    /** transmit error */
     UINT64 xmitError_HW;
+
+    /** receive bytes */
     UINT64 rcvBytes_HW;
+
+    /** transmit bytes */
     UINT64 xmitBytes_HW;
+
+    /** receive no buffer */
     UINT64 rcvNoBuffer_HW;
+
+    /** signal quality */
     SHORT sqi;
+
+    /** hardware channel */
     WORD hardwareChannel;
+
+    /** reserved */
     DWORD reservedEthernetStatistic3;
 };
 

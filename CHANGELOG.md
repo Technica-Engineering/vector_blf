@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.2.0] - 2017-12-17
+### Added
+- Object generator to create blf test samples under Windows.
+### Changed
+- Updated from binlog API version 3.9.6.0 to 4.5.2.2.
+### Fixed
+- Implemented test cases for all object types, and fixed them.
+
 ## [1.1.2] - 2017-10-27
 ### Changed
 - CXX_EXTENSIONS added and gcc pedantic flag for portability reasons

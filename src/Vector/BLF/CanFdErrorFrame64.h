@@ -179,6 +179,8 @@ public:
     DWORD crc;
 
     /**
+     * @brief error position as bit offset
+     *
      * Bit position of the error frame in the corrupted
      * message.
      */

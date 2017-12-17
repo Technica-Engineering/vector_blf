@@ -71,9 +71,9 @@ void CompressedFile::seekp(std::streamoff off, std::ios_base::seekdir way)
     file.seekp(off, way);
 }
 
-void CompressedFile::open(const char * s, std::ios_base::openmode mode)
+void CompressedFile::open(const char * filename, std::ios_base::openmode openMode)
 {
-    file.open(s, mode);
+    file.open(filename, openMode);
 }
 
 bool CompressedFile::is_open() const

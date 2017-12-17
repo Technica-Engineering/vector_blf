@@ -45,7 +45,7 @@ public:
     virtual DWORD calculateObjectSize() const override;
 
     /**
-     * unique ID identifying the executing test module or test configuration
+     * @brief unique ID identifying the executing test module or test configuration
      */
     DWORD executionObjectIdentify;
 
@@ -65,7 +65,7 @@ public:
     };
 
     /**
-     * type of structure element, see BL_TESTSTRUCT_TYPE_xxx
+     * @brief type of structure element, see BL_TESTSTRUCT_TYPE_xxx
      */
     WORD type;
 
@@ -73,7 +73,7 @@ public:
     WORD reservedTestStructure;
 
     /**
-     * unique number of structure element (in this test run, transitive, can be used to correlate begin/end events)
+     * @brief unique number of structure element (in this test run, transitive, can be used to correlate begin/end events)
      */
     DWORD uniqueNo;
 
@@ -90,7 +90,7 @@ public:
     };
 
     /**
-     * indicates begin/end of structure element, see BL_TESTSTRUCT_ACTION_xxx
+     * @brief indicates begin/end of structure element, see BL_TESTSTRUCT_ACTION_xxx
      */
     WORD action;
 
@@ -105,37 +105,37 @@ public:
     };
 
     /**
-     * overall result (verdict) for end of structure element events
+     * @brief overall result (verdict) for end of structure element events
      */
     WORD result;
 
     /**
-     * string length in wchar_t's for mExecutingObjectName
+     * @brief string length in wchar_t's for mExecutingObjectName
      */
     DWORD executingObjectNameLength;
 
     /**
-     * string length in wchar_t's for mName
+     * @brief string length in wchar_t's for mName
      */
     DWORD nameLength;
 
     /**
-     * string length in wchar_t's for mText
+     * @brief string length in wchar_t's for mText
      */
     DWORD textLength;
 
     /**
-     * name of the executing test module or test configuration as shown in CANoe (wchar_t)
+     * @brief name of the executing test module or test configuration as shown in CANoe (wchar_t)
      */
     std::u16string executingObjectName;
 
     /**
-     * name of structure element (can change between begin/end when using CAPL function TestCaseTitle or similar (wchar_t)
+     * @brief name of structure element (can change between begin/end when using CAPL function TestCaseTitle or similar (wchar_t)
      */
     std::u16string name;
 
     /**
-     * full informational text for event as it appears in CANoe trace window
+     * @brief full informational text for event as it appears in CANoe trace window
      */
     std::u16string text;
 };
