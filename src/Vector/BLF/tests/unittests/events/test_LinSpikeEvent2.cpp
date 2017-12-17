@@ -41,9 +41,8 @@ BOOST_AUTO_TEST_CASE(LinSpikeEvent2)
     /* LinSpikeEvent2 */
     BOOST_CHECK_EQUAL(obj->width, 0x11111111);
     BOOST_CHECK_EQUAL(obj->internal, 0x22);
-    BOOST_CHECK_EQUAL(obj->reservedLinSpikeEvent[0], 0x33);
-    BOOST_CHECK_EQUAL(obj->reservedLinSpikeEvent[1], 0x44);
-    BOOST_CHECK_EQUAL(obj->reservedLinSpikeEvent[2], 0x55);
+    BOOST_CHECK_EQUAL(obj->reservedLinSpikeEvent1, 0x33);
+    BOOST_CHECK_EQUAL(obj->reservedLinSpikeEvent2, 0x5544);
 
     delete ohb;
 

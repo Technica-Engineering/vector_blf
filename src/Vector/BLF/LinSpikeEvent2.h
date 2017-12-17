@@ -23,8 +23,6 @@
 
 #include <Vector/BLF/platform.h>
 
-#include <array>
-
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/LinBusEvent.h>
 #include <Vector/BLF/ObjectHeader.h>
@@ -66,7 +64,10 @@ public:
     BYTE internal;
 
     /** reserved */
-    std::array<BYTE, 3> reservedLinSpikeEvent;
+    BYTE reservedLinSpikeEvent1;
+
+    /** reserved */
+    WORD reservedLinSpikeEvent2;
 };
 
 }

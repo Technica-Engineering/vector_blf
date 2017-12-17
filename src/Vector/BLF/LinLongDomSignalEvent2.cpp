@@ -28,7 +28,9 @@ LinLongDomSignalEvent2::LinLongDomSignalEvent2() :
     ObjectHeader(),
     LinBusEvent(),
     type(),
-    reservedLinLongDomSignalEvent(),
+    reservedLinLongDomSignalEvent1(),
+    reservedLinLongDomSignalEvent2(),
+    reservedLinLongDomSignalEvent3(),
     length()
 {
     objectType = ObjectType::LIN_LONG_DOM_SIG2;
@@ -39,7 +41,9 @@ void LinLongDomSignalEvent2::read(AbstractFile & is)
     ObjectHeader::read(is);
     LinBusEvent::read(is);
     is.read(reinterpret_cast<char *>(&type), sizeof(type));
-    is.read(reinterpret_cast<char *>(reservedLinLongDomSignalEvent.data()), static_cast<std::streamsize>(reservedLinLongDomSignalEvent.size()));
+    is.read(reinterpret_cast<char *>(&reservedLinLongDomSignalEvent1), sizeof(reservedLinLongDomSignalEvent1));
+    is.read(reinterpret_cast<char *>(&reservedLinLongDomSignalEvent2), sizeof(reservedLinLongDomSignalEvent2));
+    is.read(reinterpret_cast<char *>(&reservedLinLongDomSignalEvent3), sizeof(reservedLinLongDomSignalEvent3));
     is.read(reinterpret_cast<char *>(&length), sizeof(length));
 }
 
@@ -48,7 +52,9 @@ void LinLongDomSignalEvent2::write(AbstractFile & os)
     ObjectHeader::write(os);
     LinBusEvent::write(os);
     os.write(reinterpret_cast<char *>(&type), sizeof(type));
-    os.write(reinterpret_cast<char *>(reservedLinLongDomSignalEvent.data()), static_cast<std::streamsize>(reservedLinLongDomSignalEvent.size()));
+    os.write(reinterpret_cast<char *>(&reservedLinLongDomSignalEvent1), sizeof(reservedLinLongDomSignalEvent1));
+    os.write(reinterpret_cast<char *>(&reservedLinLongDomSignalEvent2), sizeof(reservedLinLongDomSignalEvent2));
+    os.write(reinterpret_cast<char *>(&reservedLinLongDomSignalEvent3), sizeof(reservedLinLongDomSignalEvent3));
     os.write(reinterpret_cast<char *>(&length), sizeof(length));
 }
 
@@ -58,7 +64,9 @@ DWORD LinLongDomSignalEvent2::calculateObjectSize() const
         ObjectHeader::calculateObjectSize() +
         LinBusEvent::calculateObjectSize() +
         sizeof(type) +
-        static_cast<DWORD>(reservedLinLongDomSignalEvent.size()) +
+        sizeof(reservedLinLongDomSignalEvent1) +
+        sizeof(reservedLinLongDomSignalEvent2) +
+        sizeof(reservedLinLongDomSignalEvent3) +
         sizeof(length);
 }
 

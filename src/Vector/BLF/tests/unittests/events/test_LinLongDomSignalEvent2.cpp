@@ -40,13 +40,9 @@ BOOST_AUTO_TEST_CASE(LinLongDomSignalEvent2)
 
     /* LinLongDomSignalEvent2 */
     BOOST_CHECK_EQUAL(obj->type, 0x11);
-    BOOST_CHECK_EQUAL(obj->reservedLinLongDomSignalEvent[0], 0x22);
-    BOOST_CHECK_EQUAL(obj->reservedLinLongDomSignalEvent[1], 0x33);
-    BOOST_CHECK_EQUAL(obj->reservedLinLongDomSignalEvent[2], 0x44);
-    BOOST_CHECK_EQUAL(obj->reservedLinLongDomSignalEvent[3], 0x55);
-    BOOST_CHECK_EQUAL(obj->reservedLinLongDomSignalEvent[4], 0x66);
-    BOOST_CHECK_EQUAL(obj->reservedLinLongDomSignalEvent[5], 0x77);
-    BOOST_CHECK_EQUAL(obj->reservedLinLongDomSignalEvent[6], 0x88);
+    BOOST_CHECK_EQUAL(obj->reservedLinLongDomSignalEvent1, 0x22);
+    BOOST_CHECK_EQUAL(obj->reservedLinLongDomSignalEvent2, 0x4433);
+    BOOST_CHECK_EQUAL(obj->reservedLinLongDomSignalEvent3, 0x88776655);
     BOOST_CHECK_EQUAL(obj->length, 0xAAAAAAAAAAAAAAAA);
 
     delete ohb;

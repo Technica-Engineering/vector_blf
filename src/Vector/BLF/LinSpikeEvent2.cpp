@@ -29,7 +29,8 @@ LinSpikeEvent2::LinSpikeEvent2() :
     LinBusEvent(),
     width(),
     internal(),
-    reservedLinSpikeEvent()
+    reservedLinSpikeEvent1(),
+    reservedLinSpikeEvent2()
 {
     objectType = ObjectType::LIN_SPIKE_EVENT2;
 }
@@ -40,7 +41,8 @@ void LinSpikeEvent2::read(AbstractFile & is)
     LinBusEvent::read(is);
     is.read(reinterpret_cast<char *>(&width), sizeof(width));
     is.read(reinterpret_cast<char *>(&internal), sizeof(internal));
-    is.read(reinterpret_cast<char *>(reservedLinSpikeEvent.data()), static_cast<std::streamsize>(reservedLinSpikeEvent.size()));
+    is.read(reinterpret_cast<char *>(&reservedLinSpikeEvent1), sizeof(reservedLinSpikeEvent1));
+    is.read(reinterpret_cast<char *>(&reservedLinSpikeEvent2), sizeof(reservedLinSpikeEvent2));
 }
 
 void LinSpikeEvent2::write(AbstractFile & os)
@@ -49,7 +51,8 @@ void LinSpikeEvent2::write(AbstractFile & os)
     LinBusEvent::write(os);
     os.write(reinterpret_cast<char *>(&width), sizeof(width));
     os.write(reinterpret_cast<char *>(&internal), sizeof(internal));
-    os.write(reinterpret_cast<char *>(reservedLinSpikeEvent.data()), static_cast<std::streamsize>(reservedLinSpikeEvent.size()));
+    os.write(reinterpret_cast<char *>(&reservedLinSpikeEvent1), sizeof(reservedLinSpikeEvent1));
+    os.write(reinterpret_cast<char *>(&reservedLinSpikeEvent2), sizeof(reservedLinSpikeEvent2));
 }
 
 DWORD LinSpikeEvent2::calculateObjectSize() const
@@ -59,7 +62,8 @@ DWORD LinSpikeEvent2::calculateObjectSize() const
         LinBusEvent::calculateObjectSize() +
         sizeof(width) +
         sizeof(internal) +
-        static_cast<DWORD>(reservedLinSpikeEvent.size());
+        sizeof(reservedLinSpikeEvent1) +
+        sizeof(reservedLinSpikeEvent2);
 }
 
 }

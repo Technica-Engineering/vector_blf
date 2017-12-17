@@ -23,8 +23,6 @@
 
 #include <Vector/BLF/platform.h>
 
-#include <array>
-
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/LinBusEvent.h>
 #include <Vector/BLF/ObjectHeader.h>
@@ -61,7 +59,13 @@ public:
     BYTE type;
 
     /** reserved */
-    std::array<BYTE, 7> reservedLinLongDomSignalEvent;
+    BYTE reservedLinLongDomSignalEvent1;
+
+    /** reserved */
+    WORD reservedLinLongDomSignalEvent2;
+
+    /** reserved */
+    DWORD reservedLinLongDomSignalEvent3;
 
     /**
      * Current total signal length [in nanoseconds]
