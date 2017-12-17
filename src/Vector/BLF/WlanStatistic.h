@@ -95,6 +95,9 @@ public:
      * Number of errors since last statistic event.
      */
     ULONG errorCount;
+
+    /** reserved */
+    DWORD reservedWlanStatistic;
 };
 
 }

@@ -27,7 +27,7 @@ namespace BLF {
 LinBaudrateEvent::LinBaudrateEvent() :
     ObjectHeader(),
     channel(),
-    reserved(),
+    reservedLinBaudrateEvent(),
     baudrate()
 {
     objectType = ObjectType::LIN_BAUDRATE;
@@ -37,7 +37,7 @@ void LinBaudrateEvent::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    is.read(reinterpret_cast<char *>(&reservedLinBaudrateEvent), sizeof(reservedLinBaudrateEvent));
     is.read(reinterpret_cast<char *>(&baudrate), sizeof(baudrate));
 }
 
@@ -45,7 +45,7 @@ void LinBaudrateEvent::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    os.write(reinterpret_cast<char *>(&reservedLinBaudrateEvent), sizeof(reservedLinBaudrateEvent));
     os.write(reinterpret_cast<char *>(&baudrate), sizeof(baudrate));
 }
 
@@ -54,7 +54,7 @@ DWORD LinBaudrateEvent::calculateObjectSize() const
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
-        sizeof(reserved) +
+        sizeof(reservedLinBaudrateEvent) +
         sizeof(baudrate);
 }
 

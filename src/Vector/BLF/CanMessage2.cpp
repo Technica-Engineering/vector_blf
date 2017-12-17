@@ -33,8 +33,8 @@ CanMessage2::CanMessage2() :
     data(),
     frameLength(),
     bitCount(),
-    reserved1(),
-    reserved2()
+    reservedCanMessage1(),
+    reservedCanMessage2()
 {
     objectType = ObjectType::CAN_MESSAGE2;
 }
@@ -49,8 +49,8 @@ void CanMessage2::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
     is.read(reinterpret_cast<char *>(&frameLength), sizeof(frameLength));
     is.read(reinterpret_cast<char *>(&bitCount), sizeof(bitCount));
-    is.read(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
-    is.read(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    is.read(reinterpret_cast<char *>(&reservedCanMessage1), sizeof(reservedCanMessage1));
+    is.read(reinterpret_cast<char *>(&reservedCanMessage2), sizeof(reservedCanMessage2));
 }
 
 void CanMessage2::write(AbstractFile & os)
@@ -63,8 +63,8 @@ void CanMessage2::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
     os.write(reinterpret_cast<char *>(&frameLength), sizeof(frameLength));
     os.write(reinterpret_cast<char *>(&bitCount), sizeof(bitCount));
-    os.write(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
-    os.write(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    os.write(reinterpret_cast<char *>(&reservedCanMessage1), sizeof(reservedCanMessage1));
+    os.write(reinterpret_cast<char *>(&reservedCanMessage2), sizeof(reservedCanMessage2));
 }
 
 DWORD CanMessage2::calculateObjectSize() const
@@ -78,8 +78,8 @@ DWORD CanMessage2::calculateObjectSize() const
         static_cast<DWORD>(data.size()) +
         sizeof(frameLength) +
         sizeof(bitCount) +
-        sizeof(reserved1) +
-        sizeof(reserved2);
+        sizeof(reservedCanMessage1) +
+        sizeof(reservedCanMessage2);
 }
 
 }

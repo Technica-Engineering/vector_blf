@@ -70,10 +70,10 @@ public:
     BYTE flags;
 
     /** reserved */
-    BYTE reserved1;
+    BYTE reservedCanDriverHwSync1;
 
     /** reserved */
-    DWORD reserved2;
+    DWORD reservedCanDriverHwSync2;
 };
 
 }

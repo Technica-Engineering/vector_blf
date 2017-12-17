@@ -124,7 +124,10 @@ public:
     BYTE fsmState;
 
     /** reserved */
-    std::array<BYTE, 3> reserved;
+    BYTE reservedLinMessage1;
+
+    /** reserved */
+    WORD reservedLinMessage2;
 
     /* the following variables are only available in Version 2 and above */
 

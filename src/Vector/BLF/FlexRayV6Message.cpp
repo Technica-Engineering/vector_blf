@@ -31,7 +31,7 @@ FlexRayV6Message::FlexRayV6Message() :
     lowTime(),
     fpgaTick(),
     fpgaTickOverflow(),
-    clientIndex(),
+    clientIndexFlexRayV6Message(),
     clusterTime(),
     frameId(),
     headerCrc(),
@@ -39,8 +39,8 @@ FlexRayV6Message::FlexRayV6Message() :
     length(),
     cycle(),
     headerBitMask(),
-    reserved1(),
-    reserved2(),
+    reservedFlexRayV6Message1(),
+    reservedFlexRayV6Message2(),
     dataBytes()
 {
     objectType = ObjectType::FLEXRAY_MESSAGE;
@@ -54,7 +54,7 @@ void FlexRayV6Message::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&lowTime), sizeof(lowTime));
     is.read(reinterpret_cast<char *>(&fpgaTick), sizeof(fpgaTick));
     is.read(reinterpret_cast<char *>(&fpgaTickOverflow), sizeof(fpgaTickOverflow));
-    is.read(reinterpret_cast<char *>(&clientIndex), sizeof(clientIndex));
+    is.read(reinterpret_cast<char *>(&clientIndexFlexRayV6Message), sizeof(clientIndexFlexRayV6Message));
     is.read(reinterpret_cast<char *>(&clusterTime), sizeof(clusterTime));
     is.read(reinterpret_cast<char *>(&frameId), sizeof(frameId));
     is.read(reinterpret_cast<char *>(&headerCrc), sizeof(headerCrc));
@@ -62,8 +62,8 @@ void FlexRayV6Message::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&length), sizeof(length));
     is.read(reinterpret_cast<char *>(&cycle), sizeof(cycle));
     is.read(reinterpret_cast<char *>(&headerBitMask), sizeof(headerBitMask));
-    is.read(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
-    is.read(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    is.read(reinterpret_cast<char *>(&reservedFlexRayV6Message1), sizeof(reservedFlexRayV6Message1));
+    is.read(reinterpret_cast<char *>(&reservedFlexRayV6Message2), sizeof(reservedFlexRayV6Message2));
     is.read(reinterpret_cast<char *>(dataBytes.data()), static_cast<std::streamsize>(dataBytes.size()));
 }
 
@@ -75,7 +75,7 @@ void FlexRayV6Message::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&lowTime), sizeof(lowTime));
     os.write(reinterpret_cast<char *>(&fpgaTick), sizeof(fpgaTick));
     os.write(reinterpret_cast<char *>(&fpgaTickOverflow), sizeof(fpgaTickOverflow));
-    os.write(reinterpret_cast<char *>(&clientIndex), sizeof(clientIndex));
+    os.write(reinterpret_cast<char *>(&clientIndexFlexRayV6Message), sizeof(clientIndexFlexRayV6Message));
     os.write(reinterpret_cast<char *>(&clusterTime), sizeof(clusterTime));
     os.write(reinterpret_cast<char *>(&frameId), sizeof(frameId));
     os.write(reinterpret_cast<char *>(&headerCrc), sizeof(headerCrc));
@@ -83,8 +83,8 @@ void FlexRayV6Message::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&length), sizeof(length));
     os.write(reinterpret_cast<char *>(&cycle), sizeof(cycle));
     os.write(reinterpret_cast<char *>(&headerBitMask), sizeof(headerBitMask));
-    os.write(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
-    os.write(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    os.write(reinterpret_cast<char *>(&reservedFlexRayV6Message1), sizeof(reservedFlexRayV6Message1));
+    os.write(reinterpret_cast<char *>(&reservedFlexRayV6Message2), sizeof(reservedFlexRayV6Message2));
     os.write(reinterpret_cast<char *>(dataBytes.data()), static_cast<std::streamsize>(dataBytes.size()));
 }
 
@@ -97,7 +97,7 @@ DWORD FlexRayV6Message::calculateObjectSize() const
         sizeof(lowTime) +
         sizeof(fpgaTick) +
         sizeof(fpgaTickOverflow) +
-        sizeof(clientIndex) +
+        sizeof(clientIndexFlexRayV6Message) +
         sizeof(clusterTime) +
         sizeof(frameId) +
         sizeof(headerCrc) +
@@ -105,8 +105,8 @@ DWORD FlexRayV6Message::calculateObjectSize() const
         sizeof(length) +
         sizeof(cycle) +
         sizeof(headerBitMask) +
-        sizeof(reserved1) +
-        sizeof(reserved2) +
+        sizeof(reservedFlexRayV6Message1) +
+        sizeof(reservedFlexRayV6Message2) +
         static_cast<DWORD>(dataBytes.size());
 }
 

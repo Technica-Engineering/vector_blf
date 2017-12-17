@@ -50,7 +50,7 @@ BOOST_AUTO_TEST_CASE(AfdxErrorEvent)
     /* read next */
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::CAN_ERROR);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_ERROR_EVENT);
 
     delete ohb;
 

@@ -23,8 +23,6 @@
 
 #include <Vector/BLF/platform.h>
 
-#include <array>
-
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader2.h>
 #include <Vector/BLF/VectorTypes.h>
@@ -58,7 +56,7 @@ public:
     WORD channel;
 
     /** reserved */
-    WORD reserved1;
+    WORD reservedMostStatisticEx1;
 
     /**
      * Number of coding errors
@@ -71,7 +69,7 @@ public:
     DWORD frameCounter;
 
     /** reserved */
-    std::array<BYTE, 4> reserved2;
+    DWORD reservedMostStatisticEx2;
 };
 
 }

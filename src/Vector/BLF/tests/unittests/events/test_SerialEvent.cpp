@@ -47,7 +47,14 @@ BOOST_AUTO_TEST_CASE(SerialEvent)
     BOOST_CHECK_EQUAL(obj->compact.compactData[5], 0x78);
     BOOST_CHECK_EQUAL(obj->compact.compactData[6], 0x06);
 
-    delete obj;
+    delete ohb;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::SERIAL_EVENT);
+
+    delete ohb;
 
     file.close();
 }

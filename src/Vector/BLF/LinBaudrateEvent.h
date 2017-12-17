@@ -56,7 +56,7 @@ public:
     WORD channel;
 
     /** reserved */
-    WORD reserved;
+    WORD reservedLinBaudrateEvent;
 
     /**
      * Measured baud rate [in bits/sec]

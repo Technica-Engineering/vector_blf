@@ -35,7 +35,7 @@ BOOST_AUTO_TEST_CASE(A429BusStatistic)
     /* A429BusStatistic */
     BOOST_CHECK_EQUAL(obj->channel, 0x1111);
     BOOST_CHECK_EQUAL(obj->dir, 0x22);
-    BOOST_CHECK_EQUAL(obj->reserved, 0);
+    BOOST_CHECK_EQUAL(obj->reservedA429BusStatistic, 0);
     BOOST_CHECK_EQUAL(obj->busload, 0x33333333);
     BOOST_CHECK_EQUAL(obj->dataTotal, 0x44444444);
     BOOST_CHECK_EQUAL(obj->errorTotal, 0x55555555);

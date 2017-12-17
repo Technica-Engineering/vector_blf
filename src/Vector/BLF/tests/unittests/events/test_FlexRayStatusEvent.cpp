@@ -33,9 +33,26 @@ BOOST_AUTO_TEST_CASE(FlexRayStatusEvent)
     BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
     /* FlexRayStatusEvent */
-    // @todo FlexRayStatusEvent
+    BOOST_CHECK_EQUAL(obj->channel, 0x1111);
+    BOOST_CHECK_EQUAL(obj->version, 0x2222);
+    BOOST_CHECK_EQUAL(obj->statusType, 0x3333);
+    BOOST_CHECK_EQUAL(obj->infoMask1, 0x4444);
+    BOOST_CHECK_EQUAL(obj->infoMask2, 0x5555);
+    BOOST_CHECK_EQUAL(obj->infoMask3, 0x6666);
+    for (uint16_t i = 0; i < 16; i++) {
+        BOOST_CHECK_EQUAL(obj->reservedFlexRayStatusEvent[i], i);
+    }
+    BOOST_CHECK_EQUAL(obj->reservedFlexRayStatusEvent[16], 0);
+    BOOST_CHECK_EQUAL(obj->reservedFlexRayStatusEvent[17], 0);
 
-    delete obj;
+    delete ohb;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::FLEXRAY_STATUS);
+
+    delete ohb;
 
     file.close();
 }

@@ -72,7 +72,7 @@ public:
     WORD eclState;
 
     /** reserved */
-    WORD reserved;
+    WORD reservedMostEcl;
 };
 
 }

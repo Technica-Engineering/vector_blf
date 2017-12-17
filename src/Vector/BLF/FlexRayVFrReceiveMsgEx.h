@@ -24,7 +24,6 @@
 #include <Vector/BLF/platform.h>
 
 #include <array>
-#include <vector>
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
@@ -91,7 +90,7 @@ public:
      * Client index of send node. Must be set to 0 if file
      * is written from other applications.
      */
-    DWORD clientIndex;
+    DWORD clientIndexFlexRayVFrReceiveMsgEx;
 
     /**
      * @brief number of cluster
@@ -305,14 +304,23 @@ public:
     WORD blfLogMask;
 
     /** reserved */
-    std::array<BYTE, 26> reserved;
+    WORD reservedFlexRayVFrReceiveMsgEx1;
+
+    /** reserved */
+    std::array<DWORD, 6> reservedFlexRayVFrReceiveMsgEx2;
 
     /**
      * @brief array of databytes
      *
      * Payload
      */
-    std::vector<uint8_t> dataBytes;
+    std::array<BYTE, 254> dataBytes;
+
+    /** reserved */
+    WORD reservedFlexRayVFrReceiveMsgEx3;
+
+    /** reserved */
+    DWORD reservedFlexRayVFrReceiveMsgEx4;
 };
 
 }

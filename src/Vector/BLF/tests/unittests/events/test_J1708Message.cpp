@@ -36,12 +36,13 @@ BOOST_AUTO_TEST_CASE(J1708Message)
     /* J1708Message */
     BOOST_CHECK_EQUAL(obj->channel, 0x1111);
     BOOST_CHECK_EQUAL(obj->dir, 0x22);
-    BOOST_CHECK_EQUAL(obj->reserved1, 0);
+    BOOST_CHECK_EQUAL(obj->reservedJ1708Message1, 0);
     BOOST_CHECK_EQUAL(obj->error, 0x3333);
     BOOST_CHECK_EQUAL(obj->size, 0x44);
     for (uint8_t i = 0; i < 255; i++) {
         BOOST_CHECK_EQUAL(obj->data[i], i);
     }
+    BOOST_CHECK_EQUAL(obj->reservedJ1708Message2, 0);
 
     delete ohb;
 

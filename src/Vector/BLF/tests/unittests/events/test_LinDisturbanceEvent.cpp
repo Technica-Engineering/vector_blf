@@ -28,21 +28,28 @@ BOOST_AUTO_TEST_CASE(LinDisturbanceEvent)
 
     /* ObjectHeader */
     BOOST_CHECK(obj->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
-    BOOST_CHECK_EQUAL(obj->clientIndex, 0);
+    BOOST_CHECK_EQUAL(obj->clientIndex, 0x1111);
     BOOST_CHECK_EQUAL(obj->objectVersion, 0);
-    BOOST_CHECK_EQUAL(obj->objectTimeStamp, 1323661000); // ns
+    BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
     /* LinDisturbanceEvent */
-    BOOST_CHECK_EQUAL(obj->channel, 1);
-    BOOST_CHECK_EQUAL(obj->id, 0x2D);
-    BOOST_CHECK_EQUAL(obj->disturbingFrameId, 0xFF);
-    BOOST_CHECK_EQUAL(obj->disturbanceType, 0); // dominant disturbance
-    BOOST_CHECK_EQUAL(obj->byteIndex, 1);
-    BOOST_CHECK_EQUAL(obj->bitIndex, 6);
-    BOOST_CHECK_EQUAL(obj->bitOffsetInSixteenthBits, 0);
-    BOOST_CHECK_EQUAL(obj->disturbanceLengthInSixteenthBits, 16);
+    BOOST_CHECK_EQUAL(obj->channel, 0x1111);
+    BOOST_CHECK_EQUAL(obj->id, 0x22);
+    BOOST_CHECK_EQUAL(obj->disturbingFrameId, 0x33);
+    BOOST_CHECK_EQUAL(obj->disturbanceType, 0x44444444);
+    BOOST_CHECK_EQUAL(obj->byteIndex, 0x55555555);
+    BOOST_CHECK_EQUAL(obj->bitIndex, 0x66666666);
+    BOOST_CHECK_EQUAL(obj->bitOffsetInSixteenthBits, 0x77777777);
+    BOOST_CHECK_EQUAL(obj->disturbanceLengthInSixteenthBits, 0x88888888);
 
-    delete obj;
+    delete ohb;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_DISTURBANCE_EVENT);
+
+    delete ohb;
 
     file.close();
 }

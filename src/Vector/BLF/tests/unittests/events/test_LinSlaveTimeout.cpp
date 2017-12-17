@@ -28,17 +28,24 @@ BOOST_AUTO_TEST_CASE(LinSlaveTimeout)
 
     /* ObjectHeader */
     BOOST_CHECK(obj->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
-    // reserved
+    BOOST_CHECK_EQUAL(obj->clientIndex, 0x1111);
     BOOST_CHECK_EQUAL(obj->objectVersion, 0);
-    BOOST_CHECK_EQUAL(obj->objectTimeStamp, 1001200000); // ns
+    BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
     /* LinDlcInfo */
-    BOOST_CHECK_EQUAL(obj->channel, 1);
-    BOOST_CHECK_EQUAL(obj->slaveId, 0);
-    BOOST_CHECK_EQUAL(obj->stateId, 0);
-    BOOST_CHECK_EQUAL(obj->followStateId, 1);
+    BOOST_CHECK_EQUAL(obj->channel, 0x1111);
+    BOOST_CHECK_EQUAL(obj->slaveId, 0x22);
+    BOOST_CHECK_EQUAL(obj->stateId, 0x33);
+    BOOST_CHECK_EQUAL(obj->followStateId, 0x44444444);
 
-    delete obj;
+    delete ohb;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_SLV_TIMEOUT);
+
+    delete ohb;
 
     file.close();
 }

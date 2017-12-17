@@ -76,7 +76,7 @@ public:
     WORD mode;
 
     /** reserved */
-    WORD reserved;
+    WORD reservedMostStress;
 };
 
 }

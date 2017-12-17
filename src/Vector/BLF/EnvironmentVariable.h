@@ -23,7 +23,6 @@
 
 #include <Vector/BLF/platform.h>
 
-#include <array>
 #include <string>
 #include <vector>
 
@@ -67,7 +66,7 @@ public:
     DWORD dataLength;
 
     /** reserved */
-    std::array<BYTE, 8> reserved;
+    ULONGLONG reservedEnvironmentVariable;
 
     /**
      * @brief variable name in MBCS

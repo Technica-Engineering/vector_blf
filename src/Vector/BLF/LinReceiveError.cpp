@@ -36,7 +36,8 @@ LinReceiveError::LinReceiveError() :
     stateReason(),
     offendingByte(),
     shortError(),
-    timeoutDuringDlcDetection()
+    timeoutDuringDlcDetection(),
+    reservedLinReceiveError()
 {
     objectType = ObjectType::LIN_RCV_ERROR;
 }
@@ -55,6 +56,7 @@ void LinReceiveError::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&offendingByte), sizeof(offendingByte));
     is.read(reinterpret_cast<char *>(&shortError), sizeof(shortError));
     is.read(reinterpret_cast<char *>(&timeoutDuringDlcDetection), sizeof(timeoutDuringDlcDetection));
+    is.read(reinterpret_cast<char *>(&reservedLinReceiveError), sizeof(reservedLinReceiveError));
 }
 
 void LinReceiveError::write(AbstractFile & os)
@@ -71,6 +73,7 @@ void LinReceiveError::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&offendingByte), sizeof(offendingByte));
     os.write(reinterpret_cast<char *>(&shortError), sizeof(shortError));
     os.write(reinterpret_cast<char *>(&timeoutDuringDlcDetection), sizeof(timeoutDuringDlcDetection));
+    os.write(reinterpret_cast<char *>(&reservedLinReceiveError), sizeof(reservedLinReceiveError));
 }
 
 DWORD LinReceiveError::calculateObjectSize() const
@@ -87,7 +90,8 @@ DWORD LinReceiveError::calculateObjectSize() const
         sizeof(stateReason) +
         sizeof(offendingByte) +
         sizeof(shortError) +
-        sizeof(timeoutDuringDlcDetection);
+        sizeof(timeoutDuringDlcDetection) +
+        sizeof(reservedLinReceiveError);
 }
 
 }

@@ -33,9 +33,31 @@ BOOST_AUTO_TEST_CASE(LinShortOrSlowResponse2)
     BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
     /* LinShortOrSlowResponse2 */
-    // @todo LinShortOrSlowResponse2
+    BOOST_CHECK_EQUAL(obj->numberOfRespBytes, 0x11111111);
+    BOOST_CHECK_EQUAL(obj->respBytes[0], 0x22);
+    BOOST_CHECK_EQUAL(obj->respBytes[1], 0x33);
+    BOOST_CHECK_EQUAL(obj->respBytes[2], 0x44);
+    BOOST_CHECK_EQUAL(obj->respBytes[3], 0x55);
+    BOOST_CHECK_EQUAL(obj->respBytes[4], 0x66);
+    BOOST_CHECK_EQUAL(obj->respBytes[5], 0x77);
+    BOOST_CHECK_EQUAL(obj->respBytes[6], 0x88);
+    BOOST_CHECK_EQUAL(obj->respBytes[7], 0x99);
+    BOOST_CHECK_EQUAL(obj->respBytes[8], 0xAA);
+    BOOST_CHECK_EQUAL(obj->slowResponse, 0xBB);
+    BOOST_CHECK_EQUAL(obj->interruptedByBreak, 0xCC);
+    BOOST_CHECK_EQUAL(obj->reservedLinShortOrSlowResponse1, 0xDD);
+    BOOST_CHECK_EQUAL(obj->exactHeaderBaudrate, 14.0);
+    BOOST_CHECK_EQUAL(obj->earlyStopbitOffset, 15.0);
+    BOOST_CHECK_EQUAL(obj->reservedLinShortOrSlowResponse2, 0);
 
-    delete obj;
+    delete ohb;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_SHORT_OR_SLOW_RESPONSE2);
+
+    delete ohb;
 
     file.close();
 }

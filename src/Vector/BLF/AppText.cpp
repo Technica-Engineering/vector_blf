@@ -29,7 +29,7 @@ namespace BLF {
 AppText::AppText() :
     ObjectHeader(),
     source(),
-    reserved1(),
+    reservedAppText1(),
     textLength(),
     text()
 {
@@ -40,9 +40,9 @@ void AppText::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&source), sizeof(source));
-    is.read(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    is.read(reinterpret_cast<char *>(&reservedAppText1), sizeof(reservedAppText1));
     is.read(reinterpret_cast<char *>(&textLength), sizeof(textLength));
-    is.read(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    is.read(reinterpret_cast<char *>(&reservedAppText2), sizeof(reservedAppText2));
     text.resize(textLength);
     is.read(const_cast<char *>(text.data()), textLength);
 
@@ -57,9 +57,9 @@ void AppText::write(AbstractFile & os)
 
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&source), sizeof(source));
-    os.write(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    os.write(reinterpret_cast<char *>(&reservedAppText1), sizeof(reservedAppText1));
     os.write(reinterpret_cast<char *>(&textLength), sizeof(textLength));
-    os.write(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    os.write(reinterpret_cast<char *>(&reservedAppText2), sizeof(reservedAppText2));
     os.write(const_cast<char *>(text.data()), textLength);
 
     /* skip padding */
@@ -71,9 +71,9 @@ DWORD AppText::calculateObjectSize() const
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(source) +
-        sizeof(reserved1) +
+        sizeof(reservedAppText1) +
         sizeof(textLength) +
-        sizeof(reserved2) +
+        sizeof(reservedAppText2) +
         textLength;
 }
 

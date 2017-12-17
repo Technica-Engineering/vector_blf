@@ -30,14 +30,14 @@ FlexRayVFrStatus::FlexRayVFrStatus() :
     version(),
     channelMask(),
     cycle(),
-    reserved1(),
-    clientIndex(),
+    reservedFlexRayVFrStatus1(),
+    clientIndexFlexRayVFrStatus(),
     clusterNo(),
     wus(),
     ccSyncState(),
     tag(),
     data(),
-    reserved2()
+    reservedFlexRayVFrStatus2()
 {
     objectType = ObjectType::FR_STATUS;
 }
@@ -49,14 +49,14 @@ void FlexRayVFrStatus::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&version), sizeof(version));
     is.read(reinterpret_cast<char *>(&channelMask), sizeof(channelMask));
     is.read(reinterpret_cast<char *>(&cycle), sizeof(cycle));
-    is.read(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
-    is.read(reinterpret_cast<char *>(&clientIndex), sizeof(clientIndex));
+    is.read(reinterpret_cast<char *>(&reservedFlexRayVFrStatus1), sizeof(reservedFlexRayVFrStatus1));
+    is.read(reinterpret_cast<char *>(&clientIndexFlexRayVFrStatus), sizeof(clientIndexFlexRayVFrStatus));
     is.read(reinterpret_cast<char *>(&clusterNo), sizeof(clusterNo));
     is.read(reinterpret_cast<char *>(&wus), sizeof(wus));
     is.read(reinterpret_cast<char *>(&ccSyncState), sizeof(ccSyncState));
     is.read(reinterpret_cast<char *>(&tag), sizeof(tag));
-    is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
-    is.read(reinterpret_cast<char *>(reserved2.data()), static_cast<std::streamsize>(reserved2.size()));
+    is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size() * sizeof(DWORD)));
+    is.read(reinterpret_cast<char *>(reservedFlexRayVFrStatus2.data()), static_cast<std::streamsize>(reservedFlexRayVFrStatus2.size() * sizeof(WORD)));
 }
 
 void FlexRayVFrStatus::write(AbstractFile & os)
@@ -66,14 +66,14 @@ void FlexRayVFrStatus::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&version), sizeof(version));
     os.write(reinterpret_cast<char *>(&channelMask), sizeof(channelMask));
     os.write(reinterpret_cast<char *>(&cycle), sizeof(cycle));
-    os.write(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
-    os.write(reinterpret_cast<char *>(&clientIndex), sizeof(clientIndex));
+    os.write(reinterpret_cast<char *>(&reservedFlexRayVFrStatus1), sizeof(reservedFlexRayVFrStatus1));
+    os.write(reinterpret_cast<char *>(&clientIndexFlexRayVFrStatus), sizeof(clientIndexFlexRayVFrStatus));
     os.write(reinterpret_cast<char *>(&clusterNo), sizeof(clusterNo));
     os.write(reinterpret_cast<char *>(&wus), sizeof(wus));
     os.write(reinterpret_cast<char *>(&ccSyncState), sizeof(ccSyncState));
     os.write(reinterpret_cast<char *>(&tag), sizeof(tag));
-    os.write(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
-    os.write(reinterpret_cast<char *>(reserved2.data()), static_cast<std::streamsize>(reserved2.size()));
+    os.write(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size() * sizeof(DWORD)));
+    os.write(reinterpret_cast<char *>(reservedFlexRayVFrStatus2.data()), static_cast<std::streamsize>(reservedFlexRayVFrStatus2.size() * sizeof(WORD)));
 }
 
 DWORD FlexRayVFrStatus::calculateObjectSize() const
@@ -84,14 +84,14 @@ DWORD FlexRayVFrStatus::calculateObjectSize() const
         sizeof(version) +
         sizeof(channelMask) +
         sizeof(cycle) +
-        sizeof(reserved1) +
-        sizeof(clientIndex) +
+        sizeof(reservedFlexRayVFrStatus1) +
+        sizeof(clientIndexFlexRayVFrStatus) +
         sizeof(clusterNo) +
         sizeof(wus) +
         sizeof(ccSyncState) +
         sizeof(tag) +
         static_cast<DWORD>(data.size() * sizeof(DWORD)) +
-        static_cast<DWORD>(reserved2.size() * sizeof(WORD));
+        static_cast<DWORD>(reservedFlexRayVFrStatus2.size() * sizeof(WORD));
 }
 
 }

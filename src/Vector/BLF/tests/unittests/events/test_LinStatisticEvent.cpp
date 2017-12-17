@@ -28,19 +28,30 @@ BOOST_AUTO_TEST_CASE(LinStatisticEvent)
 
     /* ObjectHeader */
     BOOST_CHECK(obj->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
-    BOOST_CHECK_EQUAL(obj->clientIndex, 0);
+    BOOST_CHECK_EQUAL(obj->clientIndex, 0x1111);
     BOOST_CHECK_EQUAL(obj->objectVersion, 0);
-    BOOST_CHECK_EQUAL(obj->objectTimeStamp, 1999580000); // ns
+    BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
     /* LinStatisticEvent */
-    BOOST_CHECK_EQUAL(obj->channel, 1);
-    BOOST_CHECK_EQUAL(obj->busLoad, 0.903601);
-    BOOST_CHECK_EQUAL(obj->burstsOverrun, 0);
-    BOOST_CHECK_EQUAL(obj->framesSent, 0);
-    BOOST_CHECK_EQUAL(obj->framesReceived, 73);
-    BOOST_CHECK_EQUAL(obj->framesUnanswered, 0);
+    BOOST_CHECK_EQUAL(obj->channel, 0x1111);
+    BOOST_CHECK_EQUAL(obj->reservedLinStatisticEvent1, 0);
+    BOOST_CHECK_EQUAL(obj->reservedLinStatisticEvent2, 0);
+    BOOST_CHECK_EQUAL(obj->busLoad, 2.0);
+    BOOST_CHECK_EQUAL(obj->burstsTotal, 0x33333333);
+    BOOST_CHECK_EQUAL(obj->burstsOverrun, 0x44444444);
+    BOOST_CHECK_EQUAL(obj->framesSent, 0x55555555);
+    BOOST_CHECK_EQUAL(obj->framesReceived, 0x66666666);
+    BOOST_CHECK_EQUAL(obj->framesUnanswered, 0x77777777);
+    BOOST_CHECK_EQUAL(obj->reservedLinStatisticEvent3, 0);
 
-    delete obj;
+    delete ohb;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_STATISTIC);
+
+    delete ohb;
 
     file.close();
 }

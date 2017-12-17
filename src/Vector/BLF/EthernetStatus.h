@@ -95,7 +95,7 @@ public:
     /**
      * @brief Link Status
      */
-    LinkStatus linkStatus;
+    BYTE linkStatus;
 
     /** enumeration for ethernetPhy */
     enum class EthernetPhy : BYTE
@@ -113,7 +113,7 @@ public:
     /**
      * @brief Ethernet Phy
      */
-    EthernetPhy ethernetPhy;
+    BYTE ethernetPhy;
 
     /** enumeration for duplex */
     enum class Duplex : BYTE
@@ -131,7 +131,7 @@ public:
     /**
      * @brief Duplex
      */
-    Duplex duplex;
+    BYTE duplex;
 
     /** enumeration for mdi */
     enum class Mdi : BYTE
@@ -147,7 +147,7 @@ public:
     };
 
     /** MDI */
-    Mdi mdi;
+    BYTE mdi;
 
     /** enumeration for connector */
     enum class Connector : BYTE
@@ -163,7 +163,7 @@ public:
     };
 
     /** connector */
-    Connector connector;
+    BYTE connector;
 
     /** enumeration for clockMode */
     enum class ClockMode : BYTE
@@ -179,7 +179,7 @@ public:
     };
 
     /** clock mode */
-    ClockMode clockMode;
+    BYTE clockMode;
 
     /** enumeration for pairs */
     enum class Pairs : BYTE
@@ -198,7 +198,7 @@ public:
     };
 
     /** pairs */
-    Pairs pairs;
+    BYTE pairs;
 
     /** hardware channel */
     BYTE hardwareChannel;

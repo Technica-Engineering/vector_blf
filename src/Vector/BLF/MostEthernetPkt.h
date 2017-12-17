@@ -23,7 +23,6 @@
 
 #include <Vector/BLF/platform.h>
 
-#include <array>
 #include <vector>
 
 #include <Vector/BLF/AbstractFile.h>
@@ -67,7 +66,10 @@ public:
     BYTE dir;
 
     /** reserved */
-    std::array<BYTE, 5> reserved1;
+    BYTE reservedMostEthernetPkt1;
+
+    /** reserved */
+    DWORD reservedMostEthernetPkt2;
 
     /**
      * @brief 48 bit source address
@@ -169,7 +171,7 @@ public:
     BYTE ackNack;
 
     /** reserved */
-    BYTE reserved2;
+    BYTE reservedMostEthernetPkt3;
 
     /**
      * @brief Cyclic Redundancy Check
@@ -200,7 +202,7 @@ public:
     BYTE cAck;
 
     /** reserved */
-    WORD reserved3;
+    WORD reservedMostEthernetPkt4;
 
     /**
      * @brief length of variable data in bytes (1506 max)
@@ -210,7 +212,7 @@ public:
     DWORD pktDataLength;
 
     /** reserved */
-    std::array<BYTE, 8> reserved4;
+    ULONGLONG reservedMostEthernetPkt5;
 
     /**
      * @brief variable data

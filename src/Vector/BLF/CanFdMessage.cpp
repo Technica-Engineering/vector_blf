@@ -34,9 +34,10 @@ CanFdMessage::CanFdMessage() :
     arbBitCount(),
     canFdFlags(),
     validDataBytes(),
-    reserved1(),
-    reserved2(),
-    data()
+    reservedCanFdMessage1(),
+    reservedCanFdMessage2(),
+    data(),
+    reservedCanFdMessage3()
 {
     objectType = ObjectType::CAN_FD_MESSAGE;
 }
@@ -47,13 +48,15 @@ void CanFdMessage::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
     is.read(reinterpret_cast<char *>(&dlc), sizeof(dlc));
+    is.read(reinterpret_cast<char *>(&id), sizeof(id));
     is.read(reinterpret_cast<char *>(&frameLength), sizeof(frameLength));
     is.read(reinterpret_cast<char *>(&arbBitCount), sizeof(arbBitCount));
     is.read(reinterpret_cast<char *>(&canFdFlags), sizeof(canFdFlags));
     is.read(reinterpret_cast<char *>(&validDataBytes), sizeof(validDataBytes));
-    is.read(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
-    is.read(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    is.read(reinterpret_cast<char *>(&reservedCanFdMessage1), sizeof(reservedCanFdMessage1));
+    is.read(reinterpret_cast<char *>(&reservedCanFdMessage2), sizeof(reservedCanFdMessage2));
     is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
+    is.read(reinterpret_cast<char *>(&reservedCanFdMessage3), sizeof(reservedCanFdMessage3));
 }
 
 void CanFdMessage::write(AbstractFile & os)
@@ -62,13 +65,15 @@ void CanFdMessage::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&flags), sizeof(flags));
     os.write(reinterpret_cast<char *>(&dlc), sizeof(dlc));
+    os.write(reinterpret_cast<char *>(&id), sizeof(id));
     os.write(reinterpret_cast<char *>(&frameLength), sizeof(frameLength));
     os.write(reinterpret_cast<char *>(&arbBitCount), sizeof(arbBitCount));
     os.write(reinterpret_cast<char *>(&canFdFlags), sizeof(canFdFlags));
     os.write(reinterpret_cast<char *>(&validDataBytes), sizeof(validDataBytes));
-    os.write(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
-    os.write(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    os.write(reinterpret_cast<char *>(&reservedCanFdMessage1), sizeof(reservedCanFdMessage1));
+    os.write(reinterpret_cast<char *>(&reservedCanFdMessage2), sizeof(reservedCanFdMessage2));
     os.write(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
+    os.write(reinterpret_cast<char *>(&reservedCanFdMessage3), sizeof(reservedCanFdMessage3));
 }
 
 DWORD CanFdMessage::calculateObjectSize() const
@@ -83,9 +88,10 @@ DWORD CanFdMessage::calculateObjectSize() const
         sizeof(arbBitCount) +
         sizeof(canFdFlags) +
         sizeof(validDataBytes) +
-        sizeof(reserved1) +
-        sizeof(reserved2) +
-        static_cast<DWORD>(data.size());
+        sizeof(reservedCanFdMessage1) +
+        sizeof(reservedCanFdMessage2) +
+        static_cast<DWORD>(data.size()) +
+        sizeof(reservedCanFdMessage3);
 }
 
 }

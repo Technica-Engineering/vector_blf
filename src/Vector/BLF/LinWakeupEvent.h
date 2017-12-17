@@ -67,6 +67,9 @@ public:
      * set).
      */
     BYTE external;
+
+    /** reserved */
+    DWORD reservedLinWakeupEvent;
 };
 
 }

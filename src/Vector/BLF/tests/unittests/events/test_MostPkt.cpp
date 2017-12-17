@@ -33,9 +33,35 @@ BOOST_AUTO_TEST_CASE(MostPkt)
     BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
     /* MostPkt */
-    // @todo MostPkt
+    BOOST_CHECK_EQUAL(obj->channel, 0x1111);
+    BOOST_CHECK_EQUAL(obj->dir, 0x22);
+    BOOST_CHECK_EQUAL(obj->reservedMostPkt1, 0x33);
+    BOOST_CHECK_EQUAL(obj->sourceAdr, 0x44444444);
+    BOOST_CHECK_EQUAL(obj->destAdr, 0x55555555);
+    BOOST_CHECK_EQUAL(obj->arbitration, 0x66);
+    BOOST_CHECK_EQUAL(obj->timeRes, 0x77);
+    BOOST_CHECK_EQUAL(obj->quadsToFollow, 0x88);
+    BOOST_CHECK_EQUAL(obj->reservedMostPkt2, 0);
+    BOOST_CHECK_EQUAL(obj->crc, 0x9999);
+    BOOST_CHECK_EQUAL(obj->priority, 0xAA);
+    BOOST_CHECK_EQUAL(obj->transferType, 0xBB);
+    BOOST_CHECK_EQUAL(obj->state, 0xCC);
+    BOOST_CHECK_EQUAL(obj->reservedMostPkt3, 0);
+    BOOST_CHECK_EQUAL(obj->reservedMostPkt4, 0);
+    BOOST_CHECK_EQUAL(obj->pktDataLength, 3);
+    BOOST_CHECK_EQUAL(obj->reservedMostPkt5, 0);
+    BOOST_CHECK_EQUAL(obj->pktData[0], 4);
+    BOOST_CHECK_EQUAL(obj->pktData[1], 5);
+    BOOST_CHECK_EQUAL(obj->pktData[2], 6);
 
-    delete obj;
+    delete ohb;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_PKT);
+
+    delete ohb;
 
     file.close();
 }

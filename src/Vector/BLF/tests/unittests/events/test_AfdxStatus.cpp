@@ -44,7 +44,8 @@ BOOST_AUTO_TEST_CASE(AfdxStatus)
     BOOST_CHECK_EQUAL(obj->statusA.connector, 0x66);
     BOOST_CHECK_EQUAL(obj->statusA.clockMode, 0x77);
     BOOST_CHECK_EQUAL(obj->statusA.pairs, 0x88);
-    BOOST_CHECK_EQUAL(obj->statusA.reserved, 0x99);
+    BOOST_CHECK_EQUAL(obj->statusA.reservedAfdxLineStatus1, 0x99);
+    BOOST_CHECK_EQUAL(obj->statusA.reservedAfdxLineStatus2, 0);
     BOOST_CHECK_EQUAL(obj->statusA.bitrate, 0xAAAAAAAA);
 
     /* AfdxLineStatus for B */
@@ -56,7 +57,8 @@ BOOST_AUTO_TEST_CASE(AfdxStatus)
     BOOST_CHECK_EQUAL(obj->statusB.connector, 0x66);
     BOOST_CHECK_EQUAL(obj->statusB.clockMode, 0x77);
     BOOST_CHECK_EQUAL(obj->statusB.pairs, 0x88);
-    BOOST_CHECK_EQUAL(obj->statusB.reserved, 0x99);
+    BOOST_CHECK_EQUAL(obj->statusB.reservedAfdxLineStatus1, 0x99);
+    BOOST_CHECK_EQUAL(obj->statusB.reservedAfdxLineStatus2, 0);
     BOOST_CHECK_EQUAL(obj->statusB.bitrate, 0xAAAAAAAA);
 
     delete ohb;
@@ -64,7 +66,7 @@ BOOST_AUTO_TEST_CASE(AfdxStatus)
     /* read next */
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::CAN_ERROR);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_STATUS);
 
     delete ohb;
 

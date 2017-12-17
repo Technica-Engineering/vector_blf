@@ -27,7 +27,7 @@ namespace BLF {
 Most150MessageFragment::Most150MessageFragment() :
     ObjectHeader2(),
     channel(),
-    reserved1(),
+    reservedMost150MessageFragment1(),
     ackNack(),
     validMask(),
     sourceAdr(),
@@ -40,7 +40,7 @@ Most150MessageFragment::Most150MessageFragment() :
     dataLen(),
     dataLenAnnounced(),
     firstDataLen(),
-    reserved2(),
+    reservedMost150MessageFragment2(),
     firstData()
 {
     objectType = ObjectType::MOST_150_MESSAGE_FRAGMENT;
@@ -50,7 +50,7 @@ void Most150MessageFragment::read(AbstractFile & is)
 {
     ObjectHeader2::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    is.read(reinterpret_cast<char *>(&reservedMost150MessageFragment1), sizeof(reservedMost150MessageFragment1));
     is.read(reinterpret_cast<char *>(&ackNack), sizeof(ackNack));
     is.read(reinterpret_cast<char *>(&validMask), sizeof(validMask));
     is.read(reinterpret_cast<char *>(&sourceAdr), sizeof(sourceAdr));
@@ -63,9 +63,12 @@ void Most150MessageFragment::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&dataLen), sizeof(dataLen));
     is.read(reinterpret_cast<char *>(&dataLenAnnounced), sizeof(dataLenAnnounced));
     is.read(reinterpret_cast<char *>(&firstDataLen), sizeof(firstDataLen));
-    is.read(reinterpret_cast<char *>(reserved2.data()), static_cast<std::streamsize>(reserved2.size()));
+    is.read(reinterpret_cast<char *>(&reservedMost150MessageFragment2), sizeof(reservedMost150MessageFragment2));
     firstData.resize(firstDataLen);
     is.read(reinterpret_cast<char *>(firstData.data()), firstDataLen);
+
+    /* skip padding */
+    is.seekg(objectSize % 4, std::ios_base::cur);
 }
 
 void Most150MessageFragment::write(AbstractFile & os)
@@ -75,7 +78,7 @@ void Most150MessageFragment::write(AbstractFile & os)
 
     ObjectHeader2::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    os.write(reinterpret_cast<char *>(&reservedMost150MessageFragment1), sizeof(reservedMost150MessageFragment1));
     os.write(reinterpret_cast<char *>(&ackNack), sizeof(ackNack));
     os.write(reinterpret_cast<char *>(&validMask), sizeof(validMask));
     os.write(reinterpret_cast<char *>(&sourceAdr), sizeof(sourceAdr));
@@ -88,8 +91,11 @@ void Most150MessageFragment::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&dataLen), sizeof(dataLen));
     os.write(reinterpret_cast<char *>(&dataLenAnnounced), sizeof(dataLenAnnounced));
     os.write(reinterpret_cast<char *>(&firstDataLen), sizeof(firstDataLen));
-    os.write(reinterpret_cast<char *>(reserved2.data()), static_cast<std::streamsize>(reserved2.size()));
+    os.write(reinterpret_cast<char *>(&reservedMost150MessageFragment2), sizeof(reservedMost150MessageFragment2));
     os.write(reinterpret_cast<char *>(firstData.data()), firstDataLen);
+
+    /* skip padding */
+    os.seekp(objectSize % 4, std::ios_base::cur);
 }
 
 DWORD Most150MessageFragment::calculateObjectSize() const
@@ -97,7 +103,7 @@ DWORD Most150MessageFragment::calculateObjectSize() const
     return
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +
-        sizeof(reserved1) +
+        sizeof(reservedMost150MessageFragment1) +
         sizeof(ackNack) +
         sizeof(validMask) +
         sizeof(sourceAdr) +
@@ -110,7 +116,7 @@ DWORD Most150MessageFragment::calculateObjectSize() const
         sizeof(dataLen) +
         sizeof(dataLenAnnounced) +
         sizeof(firstDataLen) +
-        static_cast<DWORD>(reserved2.size()) +
+        sizeof(reservedMost150MessageFragment2) +
         firstDataLen;
 }
 

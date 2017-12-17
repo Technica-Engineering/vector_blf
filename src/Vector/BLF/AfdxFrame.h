@@ -112,7 +112,7 @@ public:
     BYTE ethChannel;
 
     /** reserved */
-    BYTE reserved1;
+    BYTE reservedAfdxFrame1;
 
     /**
      * Status- and error flags as:
@@ -131,7 +131,7 @@ public:
     WORD afdxFlags;
 
     /** reserved */
-    std::array<BYTE, 2> reserved2;
+    WORD reservedAfdxFrame2;
 
     /**
      * Time period since last received frame on this
@@ -148,7 +148,10 @@ public:
     WORD payLoadLength;
 
     /** reserved */
-    std::array<BYTE, 6> reserved3;
+    WORD reservedAfdxFrame3;
+
+    /** reserved */
+    DWORD reservedAfdxFrame4;
 
     /**
      * @brief Ethernet payload data

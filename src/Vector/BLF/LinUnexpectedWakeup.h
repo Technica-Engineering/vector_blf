@@ -23,8 +23,6 @@
 
 #include <Vector/BLF/platform.h>
 
-#include <array>
-
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/LinBusEvent.h>
 #include <Vector/BLF/ObjectHeader.h>
@@ -67,7 +65,13 @@ public:
     BYTE signal;
 
     /** reserved */
-    std::array<BYTE, 7> reserved;
+    BYTE reservedLinUnexpectedWakeup1;
+
+    /** reserved */
+    WORD reservedLinUnexpectedWakeup2;
+
+    /** reserved */
+    DWORD reservedLinUnexpectedWakeup3;
 };
 
 }

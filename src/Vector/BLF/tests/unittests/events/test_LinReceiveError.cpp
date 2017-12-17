@@ -33,9 +33,26 @@ BOOST_AUTO_TEST_CASE(LinReceiveError)
     BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
     /* LinReceiveError */
-    // @todo LinReceiveError
+    BOOST_CHECK_EQUAL(obj->channel, 0x1111);
+    BOOST_CHECK_EQUAL(obj->id, 0x22);
+    BOOST_CHECK_EQUAL(obj->dlc, 0x33);
+    BOOST_CHECK_EQUAL(obj->fsmId, 0x44);
+    BOOST_CHECK_EQUAL(obj->fsmState, 0x55);
+    BOOST_CHECK_EQUAL(obj->headerTime, 0x66);
+    BOOST_CHECK_EQUAL(obj->fullTime, 0x77);
+    BOOST_CHECK_EQUAL(obj->stateReason, 0x88);
+    BOOST_CHECK_EQUAL(obj->offendingByte, 0x99);
+    BOOST_CHECK_EQUAL(obj->shortError, 0xAA);
+    BOOST_CHECK_EQUAL(obj->timeoutDuringDlcDetection, 0xBB);
 
-    delete obj;
+    delete ohb;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_RCV_ERROR);
+
+    delete ohb;
 
     file.close();
 }

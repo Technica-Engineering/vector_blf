@@ -92,7 +92,7 @@ public:
      *
      * Client index of send node
      */
-    DWORD clientIndex;
+    DWORD clientIndexFlexRayV6Message;
 
     /**
      * @brief relatvie clustertime, from 0 to cyclelength
@@ -160,10 +160,10 @@ public:
     BYTE headerBitMask;
 
     /** reserved */
-    BYTE reserved1;
+    BYTE reservedFlexRayV6Message1;
 
     /** reserved */
-    WORD reserved2;
+    WORD reservedFlexRayV6Message2;
 
     /**
      * @brief array of databytes

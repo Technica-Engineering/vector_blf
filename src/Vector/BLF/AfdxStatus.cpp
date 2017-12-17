@@ -24,68 +24,13 @@
 namespace Vector {
 namespace BLF {
 
-AfdxLineStatus::AfdxLineStatus() :
-    flags(),
-    linkStatus(),
-    ethernetPhy(),
-    duplex(),
-    mdi(),
-    connector(),
-    clockMode(),
-    pairs(),
-    reserved(),
-    bitrate()
-{
-}
-
-void AfdxLineStatus::read(AbstractFile & is)
-{
-    is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
-    is.read(reinterpret_cast<char *>(&linkStatus), sizeof(linkStatus));
-    is.read(reinterpret_cast<char *>(&ethernetPhy), sizeof(ethernetPhy));
-    is.read(reinterpret_cast<char *>(&duplex), sizeof(duplex));
-    is.read(reinterpret_cast<char *>(&mdi), sizeof(mdi));
-    is.read(reinterpret_cast<char *>(&connector), sizeof(connector));
-    is.read(reinterpret_cast<char *>(&clockMode), sizeof(clockMode));
-    is.read(reinterpret_cast<char *>(&pairs), sizeof(pairs));
-    is.read(reinterpret_cast<char *>(&reserved), sizeof(reserved));
-    is.read(reinterpret_cast<char *>(&bitrate), sizeof(bitrate));
-}
-
-void AfdxLineStatus::write(AbstractFile & os)
-{
-    os.write(reinterpret_cast<char *>(&flags), sizeof(flags));
-    os.write(reinterpret_cast<char *>(&linkStatus), sizeof(linkStatus));
-    os.write(reinterpret_cast<char *>(&ethernetPhy), sizeof(ethernetPhy));
-    os.write(reinterpret_cast<char *>(&duplex), sizeof(duplex));
-    os.write(reinterpret_cast<char *>(&mdi), sizeof(mdi));
-    os.write(reinterpret_cast<char *>(&connector), sizeof(connector));
-    os.write(reinterpret_cast<char *>(&clockMode), sizeof(clockMode));
-    os.write(reinterpret_cast<char *>(&pairs), sizeof(pairs));
-    os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
-    os.write(reinterpret_cast<char *>(&bitrate), sizeof(bitrate));
-}
-
-DWORD AfdxLineStatus::calculateObjectSize() const
-{
-    return
-        sizeof(flags) +
-        sizeof(linkStatus) +
-        sizeof(ethernetPhy) +
-        sizeof(duplex) +
-        sizeof(mdi) +
-        sizeof(connector) +
-        sizeof(clockMode) +
-        sizeof(pairs) +
-        sizeof(reserved) +
-        sizeof(bitrate);
-}
-
 AfdxStatus::AfdxStatus() :
     ObjectHeader(),
     channel(),
+    reservedAfdxStatus1(),
     statusA(),
-    statusB()
+    statusB(),
+    reservedAfdxStatus2()
 {
     objectType = ObjectType::AFDX_STATUS;
 }
@@ -94,16 +39,20 @@ void AfdxStatus::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    is.read(reinterpret_cast<char *>(&reservedAfdxStatus1), sizeof(reservedAfdxStatus1));
     statusA.read(is);
     statusB.read(is);
+    is.read(reinterpret_cast<char *>(&reservedAfdxStatus2), sizeof(reservedAfdxStatus2));
 }
 
 void AfdxStatus::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    os.write(reinterpret_cast<char *>(&reservedAfdxStatus1), sizeof(reservedAfdxStatus1));
     statusA.write(os);
     statusB.write(os);
+    os.write(reinterpret_cast<char *>(&reservedAfdxStatus2), sizeof(reservedAfdxStatus2));
 }
 
 DWORD AfdxStatus::calculateObjectSize() const
@@ -111,8 +60,10 @@ DWORD AfdxStatus::calculateObjectSize() const
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
+        sizeof(reservedAfdxStatus1) +
         statusA.calculateObjectSize() +
-        statusB.calculateObjectSize();
+        statusB.calculateObjectSize() +
+        sizeof(reservedAfdxStatus2);
 }
 
 }

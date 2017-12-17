@@ -29,7 +29,7 @@ LinDlcInfo::LinDlcInfo() :
     channel(),
     id(),
     dlc(),
-    reserved()
+    reservedLinDlcInfo()
 {
     objectType = ObjectType::LIN_DLC_INFO;
 }
@@ -40,7 +40,7 @@ void LinDlcInfo::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&id), sizeof(id));
     is.read(reinterpret_cast<char *>(&dlc), sizeof(dlc));
-    is.read(reinterpret_cast<char *>(reserved.data()), static_cast<std::streamsize>(reserved.size()));
+    is.read(reinterpret_cast<char *>(&reservedLinDlcInfo), sizeof(reservedLinDlcInfo));
 }
 
 void LinDlcInfo::write(AbstractFile & os)
@@ -49,7 +49,7 @@ void LinDlcInfo::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&id), sizeof(id));
     os.write(reinterpret_cast<char *>(&dlc), sizeof(dlc));
-    os.write(reinterpret_cast<char *>(reserved.data()), static_cast<std::streamsize>(reserved.size()));
+    os.write(reinterpret_cast<char *>(&reservedLinDlcInfo), sizeof(reservedLinDlcInfo));
 }
 
 DWORD LinDlcInfo::calculateObjectSize() const
@@ -59,7 +59,7 @@ DWORD LinDlcInfo::calculateObjectSize() const
         sizeof(channel) +
         sizeof(id) +
         sizeof(dlc) +
-        static_cast<DWORD>(reserved.size());
+        sizeof(reservedLinDlcInfo);
 }
 
 }

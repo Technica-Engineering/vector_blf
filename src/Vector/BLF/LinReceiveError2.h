@@ -186,7 +186,7 @@ public:
     DWORD respBaudrate;
 
     /** reserved */
-    std::array<BYTE, 4> reserved;
+    DWORD reservedLinReceiveError;
 
     /* the following variables are only available in Version 3 and above */
 

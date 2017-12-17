@@ -33,9 +33,34 @@ BOOST_AUTO_TEST_CASE(LinCrcError)
     BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
     /* LinCrcError */
-    // @todo LinCrcError
+    BOOST_CHECK_EQUAL(obj->channel, 0x1111);
+    BOOST_CHECK_EQUAL(obj->id, 0x22);
+    BOOST_CHECK_EQUAL(obj->dlc, 0x33);
+    BOOST_CHECK_EQUAL(obj->data[0], 0x44);
+    BOOST_CHECK_EQUAL(obj->data[1], 0x55);
+    BOOST_CHECK_EQUAL(obj->data[2], 0x66);
+    BOOST_CHECK_EQUAL(obj->data[3], 0x77);
+    BOOST_CHECK_EQUAL(obj->data[4], 0x88);
+    BOOST_CHECK_EQUAL(obj->data[5], 0x99);
+    BOOST_CHECK_EQUAL(obj->data[6], 0xAA);
+    BOOST_CHECK_EQUAL(obj->data[7], 0xBB);
+    BOOST_CHECK_EQUAL(obj->fsmId, 0xCC);
+    BOOST_CHECK_EQUAL(obj->fsmState, 0xDD);
+    BOOST_CHECK_EQUAL(obj->headerTime, 0xEE);
+    BOOST_CHECK_EQUAL(obj->fullTime, 0xFF);
+    BOOST_CHECK_EQUAL(obj->crc, 0x1111);
+    BOOST_CHECK_EQUAL(obj->dir, 0x22);
+    BOOST_CHECK_EQUAL(obj->reservedLinCrcError1, 0x33);
+    BOOST_CHECK_EQUAL(obj->reservedLinCrcError2, 0);
 
-    delete obj;
+    delete ohb;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_CRC_ERROR);
+
+    delete ohb;
 
     file.close();
 }

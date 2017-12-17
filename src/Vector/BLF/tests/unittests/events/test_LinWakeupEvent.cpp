@@ -33,9 +33,18 @@ BOOST_AUTO_TEST_CASE(LinWakeupEvent)
     BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
     /* LinWakeupEvent */
-    // @todo LinWakeupEvent
+    BOOST_CHECK_EQUAL(obj->channel, 0x1111);
+    BOOST_CHECK_EQUAL(obj->signal, 0x22);
+    BOOST_CHECK_EQUAL(obj->external, 0x33);
 
-    delete obj;
+    delete ohb;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_WAKEUP);
+
+    delete ohb;
 
     file.close();
 }

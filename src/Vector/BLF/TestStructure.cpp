@@ -28,7 +28,7 @@ TestStructure::TestStructure() :
     ObjectHeader(),
     executionObjectIdentify(),
     type(),
-    reserved(),
+    reservedTestStructure(),
     uniqueNo(),
     action(),
     result(),
@@ -47,7 +47,7 @@ void TestStructure::read(AbstractFile & is)
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&executionObjectIdentify), sizeof(executionObjectIdentify));
     is.read(reinterpret_cast<char *>(&type), sizeof(type));
-    is.read(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    is.read(reinterpret_cast<char *>(&reservedTestStructure), sizeof(reservedTestStructure));
     is.read(reinterpret_cast<char *>(&uniqueNo), sizeof(uniqueNo));
     is.read(reinterpret_cast<char *>(&action), sizeof(action));
     is.read(reinterpret_cast<char *>(&result), sizeof(result));
@@ -72,7 +72,7 @@ void TestStructure::write(AbstractFile & os)
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&executionObjectIdentify), sizeof(executionObjectIdentify));
     os.write(reinterpret_cast<char *>(&type), sizeof(type));
-    os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    os.write(reinterpret_cast<char *>(&reservedTestStructure), sizeof(reservedTestStructure));
     os.write(reinterpret_cast<char *>(&uniqueNo), sizeof(uniqueNo));
     os.write(reinterpret_cast<char *>(&action), sizeof(action));
     os.write(reinterpret_cast<char *>(&result), sizeof(result));
@@ -90,7 +90,7 @@ DWORD TestStructure::calculateObjectSize() const
         ObjectHeader::calculateObjectSize() +
         sizeof(executionObjectIdentify) +
         sizeof(type) +
-        sizeof(reserved) +
+        sizeof(reservedTestStructure) +
         sizeof(uniqueNo) +
         sizeof(action) +
         sizeof(result) +

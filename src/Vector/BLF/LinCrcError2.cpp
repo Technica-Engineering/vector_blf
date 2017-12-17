@@ -33,9 +33,9 @@ LinCrcError2::LinCrcError2() :
     fsmId(),
     fsmState(),
     simulated(),
-    reserved1(),
+    reservedLinCrcError1(),
     respBaudrate(),
-    reserved2(),
+    reservedLinCrcError2(),
     exactHeaderBaudrate(),
     earlyStopbitOffset(),
     earlyStopbitOffsetResponse()
@@ -53,9 +53,9 @@ void LinCrcError2::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&fsmId), sizeof(fsmId));
     is.read(reinterpret_cast<char *>(&fsmState), sizeof(fsmState));
     is.read(reinterpret_cast<char *>(&simulated), sizeof(simulated));
-    is.read(reinterpret_cast<char *>(reserved1.data()), static_cast<std::streamsize>(reserved1.size()));
+    is.read(reinterpret_cast<char *>(&reservedLinCrcError1), sizeof(reservedLinCrcError1));
     is.read(reinterpret_cast<char *>(&respBaudrate), sizeof(respBaudrate));
-    is.read(reinterpret_cast<char *>(reserved2.data()), static_cast<std::streamsize>(reserved2.size()));
+    is.read(reinterpret_cast<char *>(&reservedLinCrcError2), sizeof(reservedLinCrcError2));
     is.read(reinterpret_cast<char *>(&exactHeaderBaudrate), sizeof(exactHeaderBaudrate));
     is.read(reinterpret_cast<char *>(&earlyStopbitOffset), sizeof(earlyStopbitOffset));
     is.read(reinterpret_cast<char *>(&earlyStopbitOffsetResponse), sizeof(earlyStopbitOffsetResponse));
@@ -71,9 +71,9 @@ void LinCrcError2::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&fsmId), sizeof(fsmId));
     os.write(reinterpret_cast<char *>(&fsmState), sizeof(fsmState));
     os.write(reinterpret_cast<char *>(&simulated), sizeof(simulated));
-    os.write(reinterpret_cast<char *>(reserved1.data()), static_cast<std::streamsize>(reserved1.size()));
+    os.write(reinterpret_cast<char *>(&reservedLinCrcError1), sizeof(reservedLinCrcError1));
     os.write(reinterpret_cast<char *>(&respBaudrate), sizeof(respBaudrate));
-    os.write(reinterpret_cast<char *>(reserved2.data()), static_cast<std::streamsize>(reserved2.size()));
+    os.write(reinterpret_cast<char *>(&reservedLinCrcError2), sizeof(reservedLinCrcError2));
     os.write(reinterpret_cast<char *>(&exactHeaderBaudrate), sizeof(exactHeaderBaudrate));
     os.write(reinterpret_cast<char *>(&earlyStopbitOffset), sizeof(earlyStopbitOffset));
     os.write(reinterpret_cast<char *>(&earlyStopbitOffsetResponse), sizeof(earlyStopbitOffsetResponse));
@@ -90,9 +90,9 @@ DWORD LinCrcError2::calculateObjectSize() const
         sizeof(fsmId) +
         sizeof(fsmState) +
         sizeof(simulated) +
-        static_cast<DWORD>(reserved1.size()) +
+        sizeof(reservedLinCrcError1) +
         sizeof(respBaudrate) +
-        static_cast<DWORD>(reserved2.size()) +
+        sizeof(reservedLinCrcError2) +
         sizeof(exactHeaderBaudrate) +
         sizeof(earlyStopbitOffset) +
         sizeof(earlyStopbitOffsetResponse);

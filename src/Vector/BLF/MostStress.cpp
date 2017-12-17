@@ -29,7 +29,7 @@ MostStress::MostStress() :
     channel(),
     state(),
     mode(),
-    reserved()
+    reservedMostStress()
 {
     objectType = ObjectType::MOST_STRESS;
 }
@@ -40,7 +40,7 @@ void MostStress::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&state), sizeof(state));
     is.read(reinterpret_cast<char *>(&mode), sizeof(mode));
-    is.read(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    is.read(reinterpret_cast<char *>(&reservedMostStress), sizeof(reservedMostStress));
 }
 
 void MostStress::write(AbstractFile & os)
@@ -49,7 +49,7 @@ void MostStress::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&state), sizeof(state));
     os.write(reinterpret_cast<char *>(&mode), sizeof(mode));
-    os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    os.write(reinterpret_cast<char *>(&reservedMostStress), sizeof(reservedMostStress));
 }
 
 DWORD MostStress::calculateObjectSize() const
@@ -59,7 +59,7 @@ DWORD MostStress::calculateObjectSize() const
         sizeof(channel) +
         sizeof(state) +
         sizeof(mode) +
-        sizeof(reserved);
+        sizeof(reservedMostStress);
 }
 
 }

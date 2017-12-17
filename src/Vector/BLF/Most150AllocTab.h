@@ -79,6 +79,9 @@ public:
      */
     WORD length;
 
+    /** reserved */
+    ULONGLONG reservedMost150AllocTab;
+
     /**
      * Allocation Table data
      *
@@ -107,7 +110,7 @@ public:
      * - WWWW: label width
      * - < channels >: list of 16-bit channel numbers (size = label width)
      */
-    std::vector<WORD> tableData;
+    std::vector<BYTE> tableData;
 };
 
 }

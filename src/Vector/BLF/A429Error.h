@@ -67,7 +67,7 @@ public:
     std::array<char, 512> errorAttributes;
 
     /** reserved */
-    DWORD reserved;
+    DWORD reservedA429Error;
 };
 
 }

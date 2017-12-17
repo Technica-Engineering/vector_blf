@@ -28,31 +28,39 @@ BOOST_AUTO_TEST_CASE(FlexRayVFrStartCycle)
 
     /* ObjectHeader */
     BOOST_CHECK(obj->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
-    BOOST_CHECK_EQUAL(obj->clientIndex, 0);
+    BOOST_CHECK_EQUAL(obj->clientIndex, 0x1111);
     BOOST_CHECK_EQUAL(obj->objectVersion, 0);
-    BOOST_CHECK_EQUAL(obj->objectTimeStamp, 41700000); // ns
+    BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
     /* FlexRayVFrStartCycle */
-    BOOST_CHECK_EQUAL(obj->channel, 0);
-    BOOST_CHECK_EQUAL(obj->version, 2);
-    BOOST_CHECK_EQUAL(obj->channelMask, 0); // reserved/invalid
-    BOOST_CHECK_EQUAL(obj->dir, 0); // Rx
-    BOOST_CHECK_EQUAL(obj->cycle, 0);
-    BOOST_CHECK_EQUAL(obj->clientIndex, 0);
-    BOOST_CHECK_EQUAL(obj->clusterNo, 0xffffffff);
-    BOOST_CHECK_EQUAL(obj->nmSize, 2);
-    BOOST_CHECK_EQUAL(obj->dataBytes[0], 0);
-    BOOST_CHECK_EQUAL(obj->dataBytes[1], 0);
-    // reserved
-    BOOST_CHECK_EQUAL(obj->tag, 0);
-    BOOST_CHECK_EQUAL(obj->data[0], 0);
-    BOOST_CHECK_EQUAL(obj->data[1], 0);
-    BOOST_CHECK_EQUAL(obj->data[2], 0);
-    BOOST_CHECK_EQUAL(obj->data[3], 0);
-    BOOST_CHECK_EQUAL(obj->data[4], 0);
-    // reserved
+    BOOST_CHECK_EQUAL(obj->channel, 0x1111);
+    BOOST_CHECK_EQUAL(obj->version, 0x2222);
+    BOOST_CHECK_EQUAL(obj->channelMask, 0x3333);
+    BOOST_CHECK_EQUAL(obj->dir, 0x44);
+    BOOST_CHECK_EQUAL(obj->cycle, 0x55);
+    BOOST_CHECK_EQUAL(obj->clientIndexFlexRayVFrStartCycle, 0x66666666);
+    BOOST_CHECK_EQUAL(obj->clusterNo, 0x77777777);
+    BOOST_CHECK_EQUAL(obj->nmSize, 0x8888);
+    for (uint16_t i = 0; i < 12; i++) {
+        BOOST_CHECK_EQUAL(obj->dataBytes[i], i);
+    }
+    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrStartCycle1, 0);
+    BOOST_CHECK_EQUAL(obj->tag, 0x99999999);
+    BOOST_CHECK_EQUAL(obj->data[0], 0xAAAAAAAA);
+    BOOST_CHECK_EQUAL(obj->data[1], 0xBBBBBBBB);
+    BOOST_CHECK_EQUAL(obj->data[2], 0xCCCCCCCC);
+    BOOST_CHECK_EQUAL(obj->data[3], 0xDDDDDDDD);
+    BOOST_CHECK_EQUAL(obj->data[4], 0xEEEEEEEE);
+    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrStartCycle2, 0xFFFF);
 
-    delete obj;
+    delete ohb;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::FR_STARTCYCLE);
+
+    delete ohb;
 
     file.close();
 }

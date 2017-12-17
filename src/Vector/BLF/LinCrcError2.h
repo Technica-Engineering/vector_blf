@@ -97,7 +97,7 @@ public:
     BYTE simulated;
 
     /** reserved */
-    std::array<BYTE, 2> reserved1;
+    WORD reservedLinCrcError1;
 
     /* the following variables are only available in Version 2 and above */
 
@@ -110,7 +110,7 @@ public:
     DWORD respBaudrate;
 
     /** reserved */
-    std::array<BYTE, 4> reserved2;
+    DWORD reservedLinCrcError2;
 
     /* the following variables are only available in Version 3 and above */
 

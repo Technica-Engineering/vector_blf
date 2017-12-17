@@ -23,7 +23,6 @@
 
 #include <Vector/BLF/platform.h>
 
-#include <array>
 #include <vector>
 
 #include <Vector/BLF/AbstractFile.h>
@@ -67,7 +66,7 @@ public:
     BYTE dir;
 
     /** reserved */
-    BYTE reserved1;
+    BYTE reservedMost150Pkt1;
 
     /**
      * @brief source address
@@ -169,7 +168,7 @@ public:
     BYTE ackNack;
 
     /** reserved */
-    BYTE reserved2;
+    BYTE reservedMost150Pkt2;
 
     /**
      * @brief Cyclic Redundancy Check
@@ -221,7 +220,7 @@ public:
     DWORD pktDataLength;
 
     /** reserved */
-    std::array<BYTE, 4> reserved3;
+    DWORD reservedMost150Pkt3;
 
     /**
      * @brief variable data

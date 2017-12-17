@@ -85,7 +85,7 @@ public:
     BYTE dir;
 
     /** reserved */
-    BYTE reserved1;
+    BYTE reservedFlexRayVFrReceiveMsg1;
 
     /**
      * @brief clientindex of send node
@@ -93,7 +93,7 @@ public:
      * Client index of send node. Must be set to 0 if file
      * is written from other applications.
      */
-    DWORD clientIndex;
+    DWORD clientIndexFlexRayVFrReceiveMsg;
 
     /**
      * @brief number of cluster
@@ -148,7 +148,7 @@ public:
     BYTE cycle;
 
     /** reserved */
-    BYTE reserved2;
+    BYTE reservedFlexRayVFrReceiveMsg2;
 
     /**
      * @brief type of cc
@@ -255,6 +255,12 @@ public:
      * Payload
      */
     std::array<BYTE, 254> dataBytes;
+
+    /** reserved */
+    WORD reservedFlexRayVFrReceiveMsg3;
+
+    /** reserved */
+    DWORD reservedFlexRayVFrReceiveMsg4;
 };
 
 }

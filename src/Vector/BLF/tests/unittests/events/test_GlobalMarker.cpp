@@ -37,13 +37,13 @@ BOOST_AUTO_TEST_CASE(GlobalMarker)
     BOOST_CHECK_EQUAL(obj->foregroundColor, 0x22222222);
     BOOST_CHECK_EQUAL(obj->backgroundColor, 0x33333333);
     BOOST_CHECK_EQUAL(obj->isRelocatable, 0x44);
-    BOOST_CHECK_EQUAL(obj->reserved1, 0);
-    BOOST_CHECK_EQUAL(obj->reserved2, 0);
+    BOOST_CHECK_EQUAL(obj->reservedGlobalMarker1, 0);
+    BOOST_CHECK_EQUAL(obj->reservedGlobalMarker2, 0);
     BOOST_CHECK_EQUAL(obj->groupNameLength, 3);
     BOOST_CHECK_EQUAL(obj->markerNameLength, 3);
     BOOST_CHECK_EQUAL(obj->descriptionLength, 3);
-    BOOST_CHECK_EQUAL(obj->reserved3, 0);
-    BOOST_CHECK_EQUAL(obj->reserved4, 0);
+    BOOST_CHECK_EQUAL(obj->reservedGlobalMarker3, 0);
+    BOOST_CHECK_EQUAL(obj->reservedGlobalMarker4, 0);
     BOOST_CHECK_EQUAL(obj->groupName, "xyz");
     BOOST_CHECK_EQUAL(obj->markerName, "xyz");
     BOOST_CHECK_EQUAL(obj->description, "xyz");

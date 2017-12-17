@@ -34,12 +34,13 @@ AfdxFrame::AfdxFrame() :
     tpid(),
     tci(),
     ethChannel(),
-    reserved1(),
+    reservedAfdxFrame1(),
     afdxFlags(),
-    reserved2(),
+    reservedAfdxFrame2(),
     bagUsec(),
     payLoadLength(),
-    reserved3(),
+    reservedAfdxFrame3(),
+    reservedAfdxFrame4(),
     payLoad()
 {
     objectType = ObjectType::AFDX_FRAME;
@@ -56,14 +57,18 @@ void AfdxFrame::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&tpid), sizeof(tpid));
     is.read(reinterpret_cast<char *>(&tci), sizeof(tci));
     is.read(reinterpret_cast<char *>(&ethChannel), sizeof(ethChannel));
-    is.read(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    is.read(reinterpret_cast<char *>(&reservedAfdxFrame1), sizeof(reservedAfdxFrame1));
     is.read(reinterpret_cast<char *>(&afdxFlags), sizeof(afdxFlags));
-    is.read(reinterpret_cast<char *>(reserved2.data()), static_cast<std::streamsize>(reserved2.size()));
+    is.read(reinterpret_cast<char *>(&reservedAfdxFrame2), sizeof(reservedAfdxFrame2));
     is.read(reinterpret_cast<char *>(&bagUsec), sizeof(bagUsec));
     is.read(reinterpret_cast<char *>(&payLoadLength), sizeof(payLoadLength));
-    is.read(reinterpret_cast<char *>(reserved3.data()), static_cast<std::streamsize>(reserved3.size()));
+    is.read(reinterpret_cast<char *>(&reservedAfdxFrame3), sizeof(reservedAfdxFrame3));
+    is.read(reinterpret_cast<char *>(&reservedAfdxFrame4), sizeof(reservedAfdxFrame4));
     payLoad.resize(payLoadLength);
     is.read(reinterpret_cast<char *>(payLoad.data()), payLoadLength);
+
+    /* skip padding */
+    is.seekg(objectSize % 4, std::ios_base::cur);
 }
 
 void AfdxFrame::write(AbstractFile & os)
@@ -80,13 +85,17 @@ void AfdxFrame::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&tpid), sizeof(tpid));
     os.write(reinterpret_cast<char *>(&tci), sizeof(tci));
     os.write(reinterpret_cast<char *>(&ethChannel), sizeof(ethChannel));
-    os.write(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    os.write(reinterpret_cast<char *>(&reservedAfdxFrame1), sizeof(reservedAfdxFrame1));
     os.write(reinterpret_cast<char *>(&afdxFlags), sizeof(afdxFlags));
-    os.write(reinterpret_cast<char *>(reserved2.data()), static_cast<std::streamsize>(reserved2.size()));
+    os.write(reinterpret_cast<char *>(&reservedAfdxFrame2), sizeof(reservedAfdxFrame2));
     os.write(reinterpret_cast<char *>(&bagUsec), sizeof(bagUsec));
     os.write(reinterpret_cast<char *>(&payLoadLength), sizeof(payLoadLength));
-    os.write(reinterpret_cast<char *>(reserved3.data()), static_cast<std::streamsize>(reserved3.size()));
+    os.write(reinterpret_cast<char *>(&reservedAfdxFrame3), sizeof(reservedAfdxFrame3));
+    os.write(reinterpret_cast<char *>(&reservedAfdxFrame4), sizeof(reservedAfdxFrame4));
     os.write(reinterpret_cast<char *>(payLoad.data()), payLoadLength);
+
+    /* skip padding */
+    os.seekp(objectSize % 4, std::ios_base::cur);
 }
 
 DWORD AfdxFrame::calculateObjectSize() const
@@ -101,12 +110,13 @@ DWORD AfdxFrame::calculateObjectSize() const
         sizeof(tpid) +
         sizeof(tci) +
         sizeof(ethChannel) +
-        sizeof(reserved1) +
+        sizeof(reservedAfdxFrame1) +
         sizeof(afdxFlags) +
-        static_cast<DWORD>(reserved2.size()) +
+        sizeof(reservedAfdxFrame2) +
         sizeof(bagUsec) +
         sizeof(payLoadLength) +
-        static_cast<DWORD>(reserved3.size()) +
+        sizeof(reservedAfdxFrame3) +
+        sizeof(reservedAfdxFrame4) +
         payLoadLength;
 }
 

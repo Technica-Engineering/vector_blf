@@ -111,7 +111,7 @@ public:
     WORD payLoadLength;
 
     /** reserved */
-    std::array<BYTE, 8> reserved;
+    ULONGLONG reservedEthernetFrame;
 
     /**
      * @brief Max 1500 data bytes per frame

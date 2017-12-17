@@ -33,9 +33,26 @@ BOOST_AUTO_TEST_CASE(WlanFrame)
     BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
     /* WlanFrame */
-    // @todo WlanFrame
+    BOOST_CHECK_EQUAL(obj->channel, 0x1111);
+    BOOST_CHECK_EQUAL(obj->flags, 0x2222);
+    BOOST_CHECK_EQUAL(obj->dir, 0x33);
+    BOOST_CHECK_EQUAL(obj->radioChannel, 0x44);
+    BOOST_CHECK_EQUAL(obj->signalStrength, 0x5555);
+    BOOST_CHECK_EQUAL(obj->signalQuality, 0x6666);
+    BOOST_CHECK_EQUAL(obj->frameLength, 3);
+    BOOST_CHECK_EQUAL(obj->reservedWlanFrame, 0);
+    BOOST_CHECK_EQUAL(obj->frameData[0], 7);
+    BOOST_CHECK_EQUAL(obj->frameData[1], 8);
+    BOOST_CHECK_EQUAL(obj->frameData[2], 9);
 
-    delete obj;
+    delete ohb;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::WLAN_FRAME);
+
+    delete ohb;
 
     file.close();
 }

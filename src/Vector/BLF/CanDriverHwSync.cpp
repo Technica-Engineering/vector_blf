@@ -28,8 +28,8 @@ CanDriverHwSync::CanDriverHwSync() :
     ObjectHeader(),
     channel(),
     flags(),
-    reserved1(),
-    reserved2()
+    reservedCanDriverHwSync1(),
+    reservedCanDriverHwSync2()
 {
     objectType = ObjectType::CAN_DRIVER_SYNC;
 }
@@ -39,8 +39,8 @@ void CanDriverHwSync::read(AbstractFile & is)
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
-    is.read(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
-    is.read(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    is.read(reinterpret_cast<char *>(&reservedCanDriverHwSync1), sizeof(reservedCanDriverHwSync1));
+    is.read(reinterpret_cast<char *>(&reservedCanDriverHwSync2), sizeof(reservedCanDriverHwSync2));
 }
 
 void CanDriverHwSync::write(AbstractFile & os)
@@ -48,8 +48,8 @@ void CanDriverHwSync::write(AbstractFile & os)
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&flags), sizeof(flags));
-    os.write(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
-    os.write(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    os.write(reinterpret_cast<char *>(&reservedCanDriverHwSync1), sizeof(reservedCanDriverHwSync1));
+    os.write(reinterpret_cast<char *>(&reservedCanDriverHwSync2), sizeof(reservedCanDriverHwSync2));
 }
 
 DWORD CanDriverHwSync::calculateObjectSize() const
@@ -58,8 +58,8 @@ DWORD CanDriverHwSync::calculateObjectSize() const
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(flags) +
-        sizeof(reserved1) +
-        sizeof(reserved2);
+        sizeof(reservedCanDriverHwSync1) +
+        sizeof(reservedCanDriverHwSync2);
 }
 
 }

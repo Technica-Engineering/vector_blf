@@ -43,7 +43,9 @@ AfdxBusStatistic::AfdxBusStatistic() :
     line(),
     linkStatus(),
     linkSpeed(),
-    linkLost()
+    linkLost(),
+    reservedAfdxBusStatistic1(),
+    reservedAfdxBusStatistic2()
 {
     objectType = ObjectType::A429_BUS_STATISTIC;
 }
@@ -69,6 +71,8 @@ void AfdxBusStatistic::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&linkStatus), sizeof(linkStatus));
     is.read(reinterpret_cast<char *>(&linkSpeed), sizeof(linkSpeed));
     is.read(reinterpret_cast<char *>(&linkLost), sizeof(linkLost));
+    is.read(reinterpret_cast<char *>(&reservedAfdxBusStatistic1), sizeof(reservedAfdxBusStatistic1));
+    is.read(reinterpret_cast<char *>(&reservedAfdxBusStatistic2), sizeof(reservedAfdxBusStatistic2));
 }
 
 void AfdxBusStatistic::write(AbstractFile & os)
@@ -92,6 +96,8 @@ void AfdxBusStatistic::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&linkStatus), sizeof(linkStatus));
     os.write(reinterpret_cast<char *>(&linkSpeed), sizeof(linkSpeed));
     os.write(reinterpret_cast<char *>(&linkLost), sizeof(linkLost));
+    os.write(reinterpret_cast<char *>(&reservedAfdxBusStatistic1), sizeof(reservedAfdxBusStatistic1));
+    os.write(reinterpret_cast<char *>(&reservedAfdxBusStatistic2), sizeof(reservedAfdxBusStatistic2));
 }
 
 DWORD AfdxBusStatistic::calculateObjectSize() const
@@ -115,7 +121,9 @@ DWORD AfdxBusStatistic::calculateObjectSize() const
         sizeof(line) +
         sizeof(linkStatus) +
         sizeof(linkSpeed) +
-        sizeof(linkLost);
+        sizeof(linkLost) +
+        sizeof(reservedAfdxBusStatistic1) +
+        sizeof(reservedAfdxBusStatistic2);
 }
 
 }

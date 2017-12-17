@@ -62,7 +62,7 @@ public:
     BYTE dir;
 
     /** reserved */
-    BYTE reserved1;
+    BYTE reservedMostSpy1;
 
     /**
      * Source address
@@ -80,7 +80,7 @@ public:
     std::array<BYTE, 17> msg;
 
     /** reserved */
-    BYTE reserved2;
+    BYTE reservedMostSpy2;
 
     /**
      * @brief Control message sub type
@@ -144,7 +144,7 @@ public:
     BYTE state;
 
     /** reserved */
-    BYTE reserved3;
+    BYTE reservedMostSpy3;
 
     /**
      * AckNack holds the transmit status of a control message (see Transmit Status Register of OS8104

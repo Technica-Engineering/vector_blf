@@ -23,8 +23,6 @@
 
 #include <Vector/BLF/platform.h>
 
-#include <array>
-
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader2.h>
 #include <Vector/BLF/VectorTypes.h>
@@ -65,7 +63,7 @@ public:
     WORD state;
 
     /** reserved */
-    std::array<BYTE, 4> reserved;
+    DWORD reservedMTL;
 };
 
 }

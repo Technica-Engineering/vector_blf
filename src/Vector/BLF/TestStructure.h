@@ -70,7 +70,7 @@ public:
     WORD type;
 
     /** reserved */
-    WORD reserved;
+    WORD reservedTestStructure;
 
     /**
      * unique number of structure element (in this test run, transitive, can be used to correlate begin/end events)

@@ -28,11 +28,11 @@ MostGenReg::MostGenReg() :
     ObjectHeader2(),
     channel(),
     subType(),
-    reserved1(),
+    reservedMostGenReg1(),
     handle(),
     regId(),
-    reserved2(),
-    reserved3(),
+    reservedMostGenReg2(),
+    reservedMostGenReg3(),
     regValue()
 {
     objectType = ObjectType::MOST_GENREG;
@@ -43,11 +43,11 @@ void MostGenReg::read(AbstractFile & is)
     ObjectHeader2::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&subType), sizeof(subType));
-    is.read(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    is.read(reinterpret_cast<char *>(&reservedMostGenReg1), sizeof(reservedMostGenReg1));
     is.read(reinterpret_cast<char *>(&handle), sizeof(handle));
     is.read(reinterpret_cast<char *>(&regId), sizeof(regId));
-    is.read(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
-    is.read(reinterpret_cast<char *>(&reserved3), sizeof(reserved3));
+    is.read(reinterpret_cast<char *>(&reservedMostGenReg2), sizeof(reservedMostGenReg2));
+    is.read(reinterpret_cast<char *>(&reservedMostGenReg3), sizeof(reservedMostGenReg3));
     is.read(reinterpret_cast<char *>(&regValue), sizeof(regValue));
 }
 
@@ -56,11 +56,11 @@ void MostGenReg::write(AbstractFile & os)
     ObjectHeader2::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&subType), sizeof(subType));
-    os.write(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    os.write(reinterpret_cast<char *>(&reservedMostGenReg1), sizeof(reservedMostGenReg1));
     os.write(reinterpret_cast<char *>(&handle), sizeof(handle));
     os.write(reinterpret_cast<char *>(&regId), sizeof(regId));
-    os.write(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
-    os.write(reinterpret_cast<char *>(&reserved3), sizeof(reserved3));
+    os.write(reinterpret_cast<char *>(&reservedMostGenReg2), sizeof(reservedMostGenReg2));
+    os.write(reinterpret_cast<char *>(&reservedMostGenReg3), sizeof(reservedMostGenReg3));
     os.write(reinterpret_cast<char *>(&regValue), sizeof(regValue));
 }
 
@@ -70,11 +70,11 @@ DWORD MostGenReg::calculateObjectSize() const
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +
         sizeof(subType) +
-        sizeof(reserved1) +
+        sizeof(reservedMostGenReg1) +
         sizeof(handle) +
         sizeof(regId) +
-        sizeof(reserved2) +
-        sizeof(reserved3) +
+        sizeof(reservedMostGenReg2) +
+        sizeof(reservedMostGenReg3) +
         sizeof(regValue);
 }
 

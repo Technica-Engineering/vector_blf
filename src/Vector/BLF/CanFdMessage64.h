@@ -40,7 +40,7 @@ namespace BLF {
  *
  * CAN FD data frame, or CAN data- or remote frame on a CAN FD channel.
  */
-class VECTOR_BLF_EXPORT CanFdMessage64 final : public ObjectHeader
+class VECTOR_BLF_EXPORT CanFdMessage64 final : public ObjectHeader, public CanFdExtFrameData
 {
 public:
     CanFdMessage64();
@@ -196,8 +196,6 @@ public:
      * dlc).
      */
     std::array<BYTE, 64> data;
-
-    CanFdExtFrameData extFrameData;
 };
 
 }

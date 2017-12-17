@@ -33,9 +33,21 @@ BOOST_AUTO_TEST_CASE(LinSyncError)
     BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
     /* LinSyncError */
-    // @todo LinSyncError
+    BOOST_CHECK_EQUAL(obj->channel, 0x1111);
+    BOOST_CHECK_EQUAL(obj->reservedLinSyncError1, 0x2222);
+    BOOST_CHECK_EQUAL(obj->timeDiff[0], 0x3333);
+    BOOST_CHECK_EQUAL(obj->timeDiff[1], 0x4444);
+    BOOST_CHECK_EQUAL(obj->timeDiff[2], 0x5555);
+    BOOST_CHECK_EQUAL(obj->timeDiff[3], 0x6666);
 
-    delete obj;
+    delete ohb;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_SYN_ERROR);
+
+    delete ohb;
 
     file.close();
 }

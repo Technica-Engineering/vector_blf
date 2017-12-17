@@ -84,7 +84,7 @@ void show(Vector::BLF::CanErrorFrame * obj)
 void show(Vector::BLF::CanOverloadFrame * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo CanOverloadFrame
 }
 
 // CAN_STATISTIC = 4
@@ -106,9 +106,8 @@ void show(Vector::BLF::CanDriverStatistic * obj)
 void show(Vector::BLF::AppTrigger * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo AppTrigger
 }
-
 
 // ENV_INTEGER = 6
 // ENV_DOUBLE = 7
@@ -129,11 +128,11 @@ void show(Vector::BLF::EnvironmentVariable * environmentVariable)
         break;
     case Vector::BLF::ObjectType::ENV_STRING:
         std::cout << " type=String";
-        // @todo
+        // @todo ENV_STRING
         break;
     case Vector::BLF::ObjectType::ENV_DATA:
         std::cout << " type=Data";
-        // @todo
+        // @todo ENV_DATA
         break;
     default:
         std::cout << " type=Unknown";
@@ -159,42 +158,42 @@ void show(Vector::BLF::LogContainer * logContainer)
 void show(Vector::BLF::LinMessage * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo LinMessage
 }
 
 // LIN_CRC_ERROR = 12
 void show(Vector::BLF::LinCrcError * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo LinCrcError
 }
 
 // LIN_DLC_INFO = 13
 void show(Vector::BLF::LinDlcInfo * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo LinDlcInfo
 }
 
 // LIN_RCV_ERROR =  14
 void show(Vector::BLF::LinReceiveError * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo LinReceiveError
 }
 
 // LIN_SND_ERROR = 15
 void show(Vector::BLF::LinSendError * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo LinSendError
 }
 
 // LIN_SLV_TIMEOUT = 16
 void show(Vector::BLF::LinSlaveTimeout * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo LinSlaveTimeout
 }
 
 // LIN_SCHED_MODCH = 17
@@ -211,14 +210,14 @@ void show(Vector::BLF::LinSchedulerModeChange * linSchedulerModeChange)
 void show(Vector::BLF::LinSyncError * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo LinSyncError
 }
 
 // LIN_BAUDRATE = 19
 void show(Vector::BLF::LinBaudrateEvent * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo LinBaudrateEvent
 }
 
 // LIN_SLEEP = 20
@@ -235,7 +234,7 @@ void show(Vector::BLF::LinSleepModeEvent * linSleepModeEvent)
 void show(Vector::BLF::LinWakeupEvent * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo LinWakeupEvent
 }
 
 // MOST_SPY = 22
@@ -312,14 +311,14 @@ void show(Vector::BLF::MostStatistic * mostStatistic)
 void show(Vector::BLF::FlexRayData * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo FlexRayData
 }
 
 // FLEXRAY_SYNC = 30
 void show(Vector::BLF::FlexRaySync * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo FlexRaySync
 }
 
 // CAN_DRIVER_ERROR = 31
@@ -466,42 +465,42 @@ void show(Vector::BLF::MostTrigger * mostTrigger)
 void show(Vector::BLF::FlexRayV6StartCycleEvent * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo FlexRayV6StartCycleEvent
 }
 
 // FLEXRAY_MESSAGE = 41
 void show(Vector::BLF::FlexRayV6Message * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo FlexRayV6Message
 }
 
 // LIN_CHECKSUM_INFO = 42
 void show(Vector::BLF::LinChecksumInfo * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo LinChecksumInfo
 }
 
 // LIN_SPIKE_EVENT = 43
 void show(Vector::BLF::LinSpikeEvent * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo LinSpikeEvent
 }
 
 // CAN_DRIVER_SYNC = 44
 void show(Vector::BLF::CanDriverHwSync * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo CanDriverHwSync
 }
 
 // FLEXRAY_STATUS = 45
 void show(Vector::BLF::FlexRayStatusEvent * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo FlexRayStatusEvent
 }
 
 // GPS_EVENT = 46
@@ -522,35 +521,35 @@ void show(Vector::BLF::GpsEvent * gpsEvent)
 void show(Vector::BLF::FlexRayVFrError * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo FlexRayVFrError
 }
 
 // FR_STATUS = 48
 void show(Vector::BLF::FlexRayVFrStatus * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo FlexRayVFrStatus
 }
 
 // FR_STARTCYCLE = 49
 void show(Vector::BLF::FlexRayVFrStartCycle * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo FlexRayVFrStartCycle
 }
 
 // FR_RCVMESSAGE = 50
 void show(Vector::BLF::FlexRayVFrReceiveMsg * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo FlexRayVFrReceiveMsg
 }
 
 // REALTIMECLOCK = 51
 void show(Vector::BLF::RealtimeClock * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo RealtimeClock
 }
 
 // AVAILABLE2 = 52
@@ -575,7 +574,7 @@ void show(Vector::BLF::LinStatisticEvent * linStatisticEvent)
 void show(Vector::BLF::J1708Message * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo J1708Message
 }
 
 // LIN_MESSAGE2 = 57
@@ -608,28 +607,28 @@ void show(Vector::BLF::LinMessage2 * linMessage2)
 void show(Vector::BLF::LinSendError2 * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo LinSendError2
 }
 
 // LIN_SYN_ERROR2 = 59
 void show(Vector::BLF::LinSyncError2 * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo LinSyncError2
 }
 
 // LIN_CRC_ERROR2 = 60
 void show(Vector::BLF::LinCrcError2 * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo LinCrcError2
 }
 
 // LIN_RCV_ERROR2 = 61
 void show(Vector::BLF::LinReceiveError2 * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo LinReceiveError2
 }
 
 // LIN_WAKEUP2 = 62
@@ -646,42 +645,42 @@ void show(Vector::BLF::LinWakeupEvent2 * linWakeupEvent2)
 void show(Vector::BLF::LinSpikeEvent2 * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo LinSpikeEvent2
 }
 
 // LIN_LONG_DOM_SIG = 64
 void show(Vector::BLF::LinLongDomSignalEvent * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo LinLongDomSignalEvent
 }
 
 // APP_TEXT = 65
 void show(Vector::BLF::AppText * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo AppText
 }
 
 // FR_RCVMESSAGE_EX = 66
 void show(Vector::BLF::FlexRayVFrReceiveMsgEx * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo FlexRayVFrReceiveMsgEx
 }
 
 // MOST_STATISTICEX = 67
 void show(Vector::BLF::MostStatisticEx * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo MostStatisticEx
 }
 
 // MOST_TXLIGHT = 68
 void show(Vector::BLF::MostTxLight * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo MostTxLight
 }
 
 // MOST_ALLOCTAB = 69
@@ -704,14 +703,14 @@ void show(Vector::BLF::MostAllocTab * mostAllocTab)
 void show(Vector::BLF::MostStress * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo MostStress
 }
 
 // ETHERNET_FRAME = 71
 void show(Vector::BLF::EthernetFrame * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo EthernetFrame
 }
 
 // SYS_VARIABLE = 72
@@ -730,23 +729,23 @@ void show(Vector::BLF::SystemVariable * systemVariable)
         break;
     case Vector::BLF::SystemVariable::Type::String:
         std::cout << " type=String";
-        // @todo
+        // @todo String
         break;
     case Vector::BLF::SystemVariable::Type::DoubleArray:
         std::cout << " type=DoubleArray";
-        // @todo
+        // @todo DoubleArray
         break;
     case Vector::BLF::SystemVariable::Type::LongArray:
         std::cout << " type=LongArray";
-        // @todo
+        // @todo LongArray
         break;
     case Vector::BLF::SystemVariable::Type::LongLong:
         std::cout << " type=LongLong";
-        // @todo
+        // @todo LongLong
         break;
     case Vector::BLF::SystemVariable::Type::ByteArray:
         std::cout << " type=ByteArray";
-        // @todo
+        // @todo ByteArray
         break;
     }
     std::cout << std::endl;
@@ -779,84 +778,84 @@ void show(Vector::BLF::CanErrorFrameExt * canErrorFrameExt)
 void show(Vector::BLF::CanDriverErrorExt * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo CanDriverErrorExt
 }
 
 // LIN_LONG_DOM_SIG2 = 75
 void show(Vector::BLF::LinLongDomSignalEvent2 * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo LinLongDomSignalEvent2
 }
 
 // MOST_150_MESSAGE = 76
 void show(Vector::BLF::Most150Message * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo Most150Message
 }
 
 // MOST_150_PKT = 77
 void show(Vector::BLF::Most150Pkt * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo Most150Pkt
 }
 
 // MOST_ETHERNET_PKT = 78
 void show(Vector::BLF::MostEthernetPkt * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo MostEthernetPkt
 }
 
 // MOST_150_MESSAGE_FRAGMENT = 79
 void show(Vector::BLF::Most150MessageFragment * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo Most150MessageFragment
 }
 
 // MOST_150_PKT_FRAGMENT = 80
 void show(Vector::BLF::Most150PktFragment * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo Most150PktFragment
 }
 
 // MOST_ETHERNET_PKT_FRAGMENT = 81
 void show(Vector::BLF::MostEthernetPktFragment * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo MostEthernetPktFragment
 }
 
 // MOST_SYSTEM_EVENT = 82
 void show(Vector::BLF::MostSystemEvent * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo MostSystemEvent
 }
 
 // MOST_150_ALLOCTAB = 83
 void show(Vector::BLF::Most150AllocTab * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo Most150AllocTab
 }
 
 // MOST_50_MESSAGE = 84
 void show(Vector::BLF::Most50Message * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo Most50Message
 }
 
 // MOST_50_PKT = 85
 void show(Vector::BLF::Most50Pkt * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo Most50Pkt
 }
 
 // CAN_MESSAGE2 = 86
@@ -885,35 +884,35 @@ void show(Vector::BLF::CanMessage2 * obj)
 void show(Vector::BLF::LinUnexpectedWakeup * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo LinUnexpectedWakeup
 }
 
 // LIN_SHORT_OR_SLOW_RESPONSE = 88
 void show(Vector::BLF::LinShortOrSlowResponse * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo LinShortOrSlowResponse
 }
 
 // LIN_DISTURBANCE_EVENT = 89
 void show(Vector::BLF::LinDisturbanceEvent * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo LinDisturbanceEvent
 }
 
 // SERIAL_EVENT = 90
 void show(Vector::BLF::SerialEvent * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo SerialEvent
 }
 
 // OVERRUN_ERROR = 91
 void show(Vector::BLF::DriverOverrun * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo DriverOverrun
 }
 
 // EVENT_COMMENT = 92
@@ -929,21 +928,21 @@ void show(Vector::BLF::EventComment * eventComment)
 void show(Vector::BLF::WlanFrame * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo WlanFrame
 }
 
 // WLAN_STATISTIC = 94
 void show(Vector::BLF::WlanStatistic * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo WlanStatistic
 }
 
 // MOST_ECL = 95
 void show(Vector::BLF::MostEcl * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo MostEcl
 }
 
 // GLOBAL_MARKER = 96
@@ -1022,42 +1021,153 @@ void show(Vector::BLF::AfdxStatistic * afdxStatistic)
 void show(Vector::BLF::KLineStatusEvent * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo KLineStatusEvent
 }
 
 // CAN_FD_MESSAGE = 100
 void show(Vector::BLF::CanFdMessage * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo CanFdMessage
 }
 
 // CAN_FD_MESSAGE_64 = 101
 void show(Vector::BLF::CanFdMessage64 * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo CanFdMessage64
 }
 
 // ETHERNET_RX_ERROR = 102
 void show(Vector::BLF::EthernetRxError * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo EthernetRxError
 }
 
 // ETHERNET_STATUS = 103
 void show(Vector::BLF::EthernetStatus * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo EthernetStatus
 }
 
 // CAN_FD_ERROR_64 = 104
 void show(Vector::BLF::CanFdErrorFrame64 * obj)
 {
     std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo
+    // @todo CanFdErrorFrame64
+}
+
+// LIN_SHORT_OR_SLOW_RESPONSE2 = 105
+void show(Vector::BLF::LinShortOrSlowResponse2 * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo LinShortOrSlowResponse2
+}
+
+// AFDX_STATUS = 106
+void show(Vector::BLF::AfdxStatus * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo AfdxStatus
+}
+
+// AFDX_BUS_STATISTIC = 107
+void show(Vector::BLF::AfdxBusStatistic * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo AfdxBusStatistic
+}
+
+// reserved_4 = 108
+
+// AFDX_ERROR_EVENT = 109
+void show(Vector::BLF::AfdxErrorEvent * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo AfdxErrorEvent
+}
+
+// A429_ERROR = 110
+void show(Vector::BLF::A429Error * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo A429Error
+}
+
+// A429_STATUS = 111
+void show(Vector::BLF::A429Status * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo A429Status
+}
+
+// A429_BUS_STATISTIC = 112
+void show(Vector::BLF::A429BusStatistic * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo A429BusStatistic
+}
+
+// A429_MESSAGE = 113
+void show(Vector::BLF::A429Message * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo A429Message
+}
+
+// ETHERNET_STATISTIC = 114
+void show(Vector::BLF::EthernetStatistic * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo EthernetStatistic
+}
+
+// reserved_5 = 115
+// reserved_6 = 116
+// reserved_7 = 117
+
+// TEST_STRUCTURE = 118
+void show(Vector::BLF::TestStructure * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo TestStructure
+}
+
+// DIAG_REQUEST_INTERPRETATION = 119
+void show(Vector::BLF::DiagRequestInterpretation * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo DiagRequestInterpretation
+}
+
+// ETHERNET_FRAME_EX = 120
+void show(Vector::BLF::EthernetFrameEx * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo EthernetFrameEx
+}
+
+// ETHERNET_FRAME_FORWARDED = 121
+void show(Vector::BLF::EthernetFrameForwarded * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo EthernetFrameForwarded
+}
+
+// ETHERNET_ERROR_EX = 122
+void show(Vector::BLF::EthernetErrorEx * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo EthernetErrorEx
+}
+
+// ETHERNET_ERROR_FORWARDED = 123
+void show(Vector::BLF::EthernetErrorForwarded * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo EthernetErrorForwarded
 }
 
 int main(int argc, char * argv[])
@@ -1508,15 +1618,15 @@ int main(int argc, char * argv[])
             break;
 
         case Vector::BLF::ObjectType::LIN_SHORT_OR_SLOW_RESPONSE2:
-            // @todo
+            show(reinterpret_cast<Vector::BLF::LinShortOrSlowResponse2 *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::AFDX_STATUS:
-            // @todo
+            show(reinterpret_cast<Vector::BLF::AfdxStatus *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::AFDX_BUS_STATISTIC:
-            // @todo
+            show(reinterpret_cast<Vector::BLF::AfdxBusStatistic *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::reserved_4:
@@ -1524,27 +1634,27 @@ int main(int argc, char * argv[])
             break;
 
         case Vector::BLF::ObjectType::AFDX_ERROR_EVENT:
-            // @todo
+            show(reinterpret_cast<Vector::BLF::AfdxErrorEvent *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::A429_ERROR:
-            // @todo
+            show(reinterpret_cast<Vector::BLF::A429Error *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::A429_STATUS:
-            // @todo
+            show(reinterpret_cast<Vector::BLF::A429Status *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::A429_BUS_STATISTIC:
-            // @todo
+            show(reinterpret_cast<Vector::BLF::A429BusStatistic *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::A429_MESSAGE:
-            // @todo
+            show(reinterpret_cast<Vector::BLF::A429Message *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::ETHERNET_STATISTIC:
-            // @todo
+            show(reinterpret_cast<Vector::BLF::EthernetStatistic *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::reserved_5:
@@ -1554,27 +1664,27 @@ int main(int argc, char * argv[])
             break;
 
         case Vector::BLF::ObjectType::TEST_STRUCTURE:
-            // @todo
+            show(reinterpret_cast<Vector::BLF::TestStructure *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::DIAG_REQUEST_INTERPRETATION:
-            // @todo
+            show(reinterpret_cast<Vector::BLF::DiagRequestInterpretation *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::ETHERNET_FRAME_EX:
-            // @todo
+            show(reinterpret_cast<Vector::BLF::EthernetFrameEx *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::ETHERNET_FRAME_FORWARDED:
-            // @todo
+            show(reinterpret_cast<Vector::BLF::EthernetFrameForwarded *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::ETHERNET_ERROR_EX:
-            // @todo
+            show(reinterpret_cast<Vector::BLF::EthernetErrorEx *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::ETHERNET_ERROR_FORWARDED:
-            // @todo
+            show(reinterpret_cast<Vector::BLF::EthernetErrorForwarded *>(ohb));
             break;
         }
 

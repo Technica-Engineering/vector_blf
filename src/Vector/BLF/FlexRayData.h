@@ -71,10 +71,10 @@ public:
     BYTE dir;
 
     /** reserved */
-    BYTE reserved1;
+    BYTE reservedFlexRayData1;
 
     /** reserved */
-    WORD reserved2;
+    WORD reservedFlexRayData2;
 
     /** data bytes */
     std::array<BYTE, 12> dataBytes;

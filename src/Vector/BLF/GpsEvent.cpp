@@ -28,7 +28,7 @@ GpsEvent::GpsEvent() :
     ObjectHeader(),
     flags(),
     channel(),
-    reserved(),
+    reservedGpsEvent(),
     latitude(),
     longitude(),
     altitude(),
@@ -43,7 +43,7 @@ void GpsEvent::read(AbstractFile & is)
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    is.read(reinterpret_cast<char *>(&reservedGpsEvent), sizeof(reservedGpsEvent));
     is.read(reinterpret_cast<char *>(&latitude), sizeof(latitude));
     is.read(reinterpret_cast<char *>(&longitude), sizeof(longitude));
     is.read(reinterpret_cast<char *>(&altitude), sizeof(altitude));
@@ -56,7 +56,7 @@ void GpsEvent::write(AbstractFile & os)
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&flags), sizeof(flags));
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    os.write(reinterpret_cast<char *>(&reservedGpsEvent), sizeof(reservedGpsEvent));
     os.write(reinterpret_cast<char *>(&latitude), sizeof(latitude));
     os.write(reinterpret_cast<char *>(&longitude), sizeof(longitude));
     os.write(reinterpret_cast<char *>(&altitude), sizeof(altitude));
@@ -70,7 +70,7 @@ DWORD GpsEvent::calculateObjectSize() const
         ObjectHeader::calculateObjectSize() +
         sizeof(flags) +
         sizeof(channel) +
-        sizeof(reserved) +
+        sizeof(reservedGpsEvent) +
         sizeof(latitude) +
         sizeof(longitude) +
         sizeof(altitude) +

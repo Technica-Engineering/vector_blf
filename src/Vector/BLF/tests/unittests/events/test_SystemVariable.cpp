@@ -44,7 +44,14 @@ BOOST_AUTO_TEST_CASE(SystemVariable)
     BOOST_CHECK_EQUAL(obj->data[2], 0x00);
     BOOST_CHECK_EQUAL(obj->data[3], 0x00);
 
-    delete obj;
+    delete ohb;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::SYS_VARIABLE);
+
+    delete ohb;
 
     file.close();
 }

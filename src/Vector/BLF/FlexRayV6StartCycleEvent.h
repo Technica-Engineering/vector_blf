@@ -93,7 +93,7 @@ public:
      * Client index of send node. Must be set to 0 if file
      * is written from other applications
      */
-    DWORD clientIndex;
+    DWORD clientIndexFlexRayV6StartCycleEvent;
 
     /**
      * @brief relative clustertime, from 0 to cyclelength
@@ -110,7 +110,7 @@ public:
     std::array<BYTE, 2> dataBytes;
 
     /** reserved */
-    std::array<BYTE, 2> reserved;
+    WORD reservedFlexRayV6StartCycleEvent;
 };
 
 }

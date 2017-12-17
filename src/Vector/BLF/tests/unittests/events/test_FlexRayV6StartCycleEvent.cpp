@@ -24,7 +24,7 @@ BOOST_AUTO_TEST_CASE(FlexRayV6StartCycleEvent)
     BOOST_CHECK_EQUAL(obj->headerSize, obj->calculateHeaderSize());
     BOOST_CHECK_EQUAL(obj->headerVersion, 1);
     BOOST_CHECK_EQUAL(obj->objectSize, obj->calculateObjectSize());
-    BOOST_CHECK(obj->objectType == Vector::BLF::ObjectType::AFDX_ERROR_EVENT);
+    BOOST_CHECK(obj->objectType == Vector::BLF::ObjectType::FLEXRAY_CYCLE);
 
     /* ObjectHeader */
     BOOST_CHECK(obj->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
@@ -33,9 +33,25 @@ BOOST_AUTO_TEST_CASE(FlexRayV6StartCycleEvent)
     BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
     /* FlexRayV6StartCycleEvent */
-    // @todo FlexRayV6StartCycleEvent
+    BOOST_CHECK_EQUAL(obj->channel, 0x1111);
+    BOOST_CHECK_EQUAL(obj->dir, 0x22);
+    BOOST_CHECK_EQUAL(obj->lowTime, 0x33);
+    BOOST_CHECK_EQUAL(obj->fpgaTick, 0x44444444);
+    BOOST_CHECK_EQUAL(obj->fpgaTickOverflow, 0x55555555);
+    BOOST_CHECK_EQUAL(obj->clientIndexFlexRayV6StartCycleEvent, 0x66666666);
+    BOOST_CHECK_EQUAL(obj->clusterTime, 0x77777777);
+    BOOST_CHECK_EQUAL(obj->dataBytes[0], 0x88);
+    BOOST_CHECK_EQUAL(obj->dataBytes[1], 0x99);
+    BOOST_CHECK_EQUAL(obj->reservedFlexRayV6StartCycleEvent, 0xAAAA);
 
-    delete obj;
+    delete ohb;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::FLEXRAY_CYCLE);
+
+    delete ohb;
 
     file.close();
 }

@@ -32,10 +32,25 @@ BOOST_AUTO_TEST_CASE(LinLongDomSignalEvent)
     BOOST_CHECK_EQUAL(obj->objectVersion, 0);
     BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
-    /* LinLongDomSignalEvent */
-    // @todo LinLongDomSignalEvent
+    /* LinBusEvent */
+    BOOST_CHECK_EQUAL(obj->sof, 0x1111111111111111);
+    BOOST_CHECK_EQUAL(obj->eventBaudrate, 0x22222222);
+    BOOST_CHECK_EQUAL(obj->channel, 0x3333);
+    BOOST_CHECK_EQUAL(obj->reservedLinBusEvent, 0x4444);
 
-    delete obj;
+    /* LinLongDomSignalEvent */
+    BOOST_CHECK_EQUAL(obj->type, 0x11);
+    BOOST_CHECK_EQUAL(obj->reservedLinLongDomSignalEvent1, 0x22);
+    BOOST_CHECK_EQUAL(obj->reservedLinLongDomSignalEvent2, 0x2222);
+
+    delete ohb;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_LONG_DOM_SIG);
+
+    delete ohb;
 
     file.close();
 }

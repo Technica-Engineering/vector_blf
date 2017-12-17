@@ -49,7 +49,7 @@ public:
     /**
      * @brief reserved
      */
-    ULONGLONG reserved1; // @todo often 0x02
+    ULONGLONG reservedLogContainer1; // @todo often 0x02
 
     /**
      * @brief uncompressed file size in bytes
@@ -57,7 +57,7 @@ public:
     DWORD uncompressedFileSize;
 
     /** reserved */
-    DWORD reserved2; // @todo often 0x0215, 0x9a, 0, 0x0c
+    DWORD reservedLogContainer2; // @todo often 0x0215, 0x9a, 0, 0x0c
 
     /** compressed file content */
     std::vector<uint8_t> compressedFile;

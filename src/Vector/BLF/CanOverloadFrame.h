@@ -54,10 +54,10 @@ public:
     WORD channel;
 
     /** reserved */
-    WORD reserved1;
+    WORD reservedCanOverloadFrame1;
 
     /** reserved */
-    DWORD reserved2;
+    DWORD reservedCanOverloadFrame2;
 };
 
 }

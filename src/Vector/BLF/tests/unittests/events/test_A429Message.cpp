@@ -39,20 +39,20 @@ BOOST_AUTO_TEST_CASE(A429Message)
     BOOST_CHECK_EQUAL(obj->a429Data[3], 0x44);
     BOOST_CHECK_EQUAL(obj->channel, 0x5555);
     BOOST_CHECK_EQUAL(obj->dir, 0x66);
-    BOOST_CHECK_EQUAL(obj->reserved1, 0x77);
+    BOOST_CHECK_EQUAL(obj->reservedA429Message1, 0x77);
     BOOST_CHECK_EQUAL(obj->bitrate, 0x88888888);
     BOOST_CHECK_EQUAL(obj->errReason, 0x79999999); // signed
     BOOST_CHECK_EQUAL(obj->errPosition, 0xAAAA);
-    BOOST_CHECK_EQUAL(obj->reserved2, 0x0000);
-    BOOST_CHECK_EQUAL(obj->reserved3, 0x00000000);
+    BOOST_CHECK_EQUAL(obj->reservedA429Message2, 0x0000);
+    BOOST_CHECK_EQUAL(obj->reservedA429Message3, 0x00000000);
     BOOST_CHECK_EQUAL(obj->frameGap, 0xBBBBBBBBBBBBBBBB);
     BOOST_CHECK_EQUAL(obj->frameLength, 0xCCCCCCCC);
     BOOST_CHECK_EQUAL(obj->msgCtrl, 0xDDDD);
-    BOOST_CHECK_EQUAL(obj->reserved4, 0x0000);
+    BOOST_CHECK_EQUAL(obj->reservedA429Message4, 0x0000);
     BOOST_CHECK_EQUAL(obj->cycleTime, 0xEEEEEEEE);
     BOOST_CHECK_EQUAL(obj->error, 0xFFFFFFFF);
     BOOST_CHECK_EQUAL(obj->bitLenOfLastBit, 0x11111111);
-    BOOST_CHECK_EQUAL(obj->reserved5, 0x00000000);
+    BOOST_CHECK_EQUAL(obj->reservedA429Message5, 0x00000000);
 
     delete ohb;
 

@@ -81,7 +81,7 @@ SerialEvent::SerialEvent() :
     flags(),
     port(),
     baudrate(),
-    reserved(),
+    reservedSerialEvent(),
     general(),
     singleByte(),
     compact()
@@ -99,7 +99,7 @@ void SerialEvent::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
     is.read(reinterpret_cast<char *>(&port), sizeof(port));
     is.read(reinterpret_cast<char *>(&baudrate), sizeof(baudrate));
-    is.read(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    is.read(reinterpret_cast<char *>(&reservedSerialEvent), sizeof(reservedSerialEvent));
 
     if ((flags & ((DWORD) Flags::SingleByte)) != 0) {
         is.read(reinterpret_cast<char *>(&singleByte.byte), sizeof(singleByte.byte));
@@ -124,7 +124,7 @@ void SerialEvent::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&flags), sizeof(flags));
     os.write(reinterpret_cast<char *>(&port), sizeof(port));
     os.write(reinterpret_cast<char *>(&baudrate), sizeof(baudrate));
-    os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    os.write(reinterpret_cast<char *>(&reservedSerialEvent), sizeof(reservedSerialEvent));
 
     if ((flags & ((DWORD) Flags::SingleByte)) != 0) {
         os.write(reinterpret_cast<char *>(&singleByte.byte), sizeof(singleByte.byte));
@@ -152,7 +152,7 @@ DWORD SerialEvent::calculateObjectSize() const
         sizeof(flags) +
         sizeof(port) +
         sizeof(baudrate) +
-        sizeof(reserved);
+        sizeof(reservedSerialEvent);
 
     if ((flags & ((DWORD) Flags::SingleByte)) != 0) {
         size += singleByte.calculateObjectSize();

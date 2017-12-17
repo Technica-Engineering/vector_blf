@@ -65,7 +65,7 @@ public:
     /**
      * reserved
      */
-    ULONGLONG reserved;
+    ULONGLONG reservedEventComment;
 
     /**
      * @brief text in MBCS

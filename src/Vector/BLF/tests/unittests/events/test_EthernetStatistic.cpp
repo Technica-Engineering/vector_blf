@@ -33,9 +33,25 @@ BOOST_AUTO_TEST_CASE(EthernetStatistic)
     BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
     /* EthernetStatistic */
-    // @todo EthernetStatistic
+    BOOST_CHECK_EQUAL(obj->channel, 0x1111);
+    BOOST_CHECK_EQUAL(obj->rcvOk_HW, 0x2222222222222222);
+    BOOST_CHECK_EQUAL(obj->xmitOk_HW, 0x3333333333333333);
+    BOOST_CHECK_EQUAL(obj->rcvError_HW, 0x4444444444444444);
+    BOOST_CHECK_EQUAL(obj->xmitError_HW, 0x5555555555555555);
+    BOOST_CHECK_EQUAL(obj->rcvBytes_HW, 0x6666666666666666);
+    BOOST_CHECK_EQUAL(obj->xmitBytes_HW, 0x7777777777777777);
+    BOOST_CHECK_EQUAL(obj->rcvNoBuffer_HW, 0x8888888888888888);
+    BOOST_CHECK_EQUAL(obj->sqi, 0x7999);
+    BOOST_CHECK_EQUAL(obj->hardwareChannel, 0xAAAA);
 
-    delete obj;
+    delete ohb;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::ETHERNET_STATISTIC);
+
+    delete ohb;
 
     file.close();
 }

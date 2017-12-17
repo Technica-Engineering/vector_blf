@@ -45,6 +45,8 @@ public:
     virtual DWORD calculateObjectSize() const override;
 
     WORD channel;
+    WORD reservedEthernetStatistic1;
+    DWORD reservedEthernetStatistic2;
     UINT64 rcvOk_HW;
     UINT64 xmitOk_HW;
     UINT64 rcvError_HW;
@@ -54,6 +56,7 @@ public:
     UINT64 rcvNoBuffer_HW;
     SHORT sqi;
     WORD hardwareChannel;
+    DWORD reservedEthernetStatistic3;
 };
 
 }

@@ -80,7 +80,7 @@ public:
     BYTE interruptedByBreak;
 
     /** reserved */
-    BYTE reserved;
+    BYTE reservedLinShortOrSlowResponse1;
 
     /**
      * @brief Exact baudrate of the header in bit/sec
@@ -98,6 +98,9 @@ public:
      * [in ns]
      */
     DWORD earlyStopbitOffset;
+
+    /** reserved */
+    DWORD reservedLinShortOrSlowResponse2;
 };
 
 }

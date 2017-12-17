@@ -124,15 +124,18 @@ public:
     BYTE validDataBytes;
 
     /** reserved */
-    BYTE reserved1;
+    BYTE reservedCanFdMessage1;
 
     /** reserved */
-    DWORD reserved2;
+    DWORD reservedCanFdMessage2;
 
     /**
      * @brief CAN FD data
      */
     std::array<BYTE, 64> data;
+
+    /** reserved */
+    DWORD reservedCanFdMessage3;
 };
 
 }

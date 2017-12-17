@@ -23,7 +23,6 @@
 
 #include <Vector/BLF/platform.h>
 
-#include <array>
 #include <vector>
 
 #include <Vector/BLF/AbstractFile.h>
@@ -57,7 +56,7 @@ public:
     WORD channel;
 
     /** reserved */
-    BYTE reserved1;
+    BYTE reservedMost150PktFragment1;
 
     /**
      * @brief acknowledge code
@@ -214,7 +213,7 @@ public:
     DWORD firstDataLen;
 
     /** reserved */
-    std::array<BYTE, 4> reserved2;
+    DWORD reservedMost150PktFragment2;
 
     /**
      * @brief variable data

@@ -27,7 +27,7 @@ namespace BLF {
 MostTrigger::MostTrigger() :
     ObjectHeader2(),
     channel(),
-    reserved(),
+    reservedMostTrigger(),
     mode(),
     hw(),
     previousTriggerValue(),
@@ -40,7 +40,7 @@ void MostTrigger::read(AbstractFile & is)
 {
     ObjectHeader2::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    is.read(reinterpret_cast<char *>(&reservedMostTrigger), sizeof(reservedMostTrigger));
     is.read(reinterpret_cast<char *>(&mode), sizeof(mode));
     is.read(reinterpret_cast<char *>(&hw), sizeof(hw));
     is.read(reinterpret_cast<char *>(&previousTriggerValue), sizeof(previousTriggerValue));
@@ -51,7 +51,7 @@ void MostTrigger::write(AbstractFile & os)
 {
     ObjectHeader2::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    os.write(reinterpret_cast<char *>(&reservedMostTrigger), sizeof(reservedMostTrigger));
     os.write(reinterpret_cast<char *>(&mode), sizeof(mode));
     os.write(reinterpret_cast<char *>(&hw), sizeof(hw));
     os.write(reinterpret_cast<char *>(&previousTriggerValue), sizeof(previousTriggerValue));
@@ -63,7 +63,7 @@ DWORD MostTrigger::calculateObjectSize() const
     return
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +
-        sizeof(reserved) +
+        sizeof(reservedMostTrigger) +
         sizeof(mode) +
         sizeof(hw) +
         sizeof(previousTriggerValue) +

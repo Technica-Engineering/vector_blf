@@ -39,12 +39,12 @@ BOOST_AUTO_TEST_CASE(CanDriverErrorExt)
     BOOST_CHECK_EQUAL(obj->errorCode, 0x44444444);
     BOOST_CHECK_EQUAL(obj->flags, 0x55555555);
     BOOST_CHECK_EQUAL(obj->state, 0x66);
-    BOOST_CHECK_EQUAL(obj->reserved1, 0x77);
-    BOOST_CHECK_EQUAL(obj->reserved2, 0x8888);
-    BOOST_CHECK_EQUAL(obj->reserved3[0], 0x99999999);
-    BOOST_CHECK_EQUAL(obj->reserved3[1], 0xAAAAAAAA);
-    BOOST_CHECK_EQUAL(obj->reserved3[2], 0xBBBBBBBB);
-    BOOST_CHECK_EQUAL(obj->reserved3[3], 0xCCCCCCCC);
+    BOOST_CHECK_EQUAL(obj->reservedCanDriverErrorExt1, 0x77);
+    BOOST_CHECK_EQUAL(obj->reservedCanDriverErrorExt2, 0x8888);
+    BOOST_CHECK_EQUAL(obj->reservedCanDriverErrorExt3[0], 0x99999999);
+    BOOST_CHECK_EQUAL(obj->reservedCanDriverErrorExt3[1], 0xAAAAAAAA);
+    BOOST_CHECK_EQUAL(obj->reservedCanDriverErrorExt3[2], 0xBBBBBBBB);
+    BOOST_CHECK_EQUAL(obj->reservedCanDriverErrorExt3[3], 0xCCCCCCCC);
 
     delete ohb;
 

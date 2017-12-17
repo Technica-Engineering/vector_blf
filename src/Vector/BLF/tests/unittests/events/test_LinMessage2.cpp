@@ -28,34 +28,71 @@ BOOST_AUTO_TEST_CASE(LinMessage2)
 
     /* ObjectHeader */
     BOOST_CHECK(obj->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
-    BOOST_CHECK_EQUAL(obj->clientIndex, 0);
-    BOOST_CHECK_EQUAL(obj->objectVersion, 1);
-    BOOST_CHECK_EQUAL(obj->objectTimeStamp, 73973000); // ns
+    BOOST_CHECK_EQUAL(obj->clientIndex, 0x1111);
+    BOOST_CHECK_EQUAL(obj->objectVersion, 3);
+    BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
+
+    /* LinBusEvent */
+    BOOST_CHECK_EQUAL(obj->sof, 0x1111111111111111);
+    BOOST_CHECK_EQUAL(obj->eventBaudrate, 0x22222222);
+    BOOST_CHECK_EQUAL(obj->channel, 0x3333);
+    BOOST_CHECK_EQUAL(obj->reservedLinBusEvent, 0x4444);
+
+    /* LinSynchFieldEvent */
+    BOOST_CHECK_EQUAL(obj->synchBreakLength, 0x1111111111111111);
+    BOOST_CHECK_EQUAL(obj->synchDelLength, 0x2222222222222222);
+
+    /* LinMessageDescriptor */
+    BOOST_CHECK_EQUAL(obj->supplierId, 0x1111);
+    BOOST_CHECK_EQUAL(obj->messageId, 0x2222);
+    BOOST_CHECK_EQUAL(obj->nad, 0x33);
+    BOOST_CHECK_EQUAL(obj->id, 0x44);
+    BOOST_CHECK_EQUAL(obj->dlc, 0x55);
+    BOOST_CHECK_EQUAL(obj->checksumModel, 0x66);
+
+    /* LinDatabyteTimestampEvent */
+    BOOST_CHECK_EQUAL(obj->databyteTimestamps[0], 0x1111111111111111);
+    BOOST_CHECK_EQUAL(obj->databyteTimestamps[1], 0x2222222222222222);
+    BOOST_CHECK_EQUAL(obj->databyteTimestamps[2], 0x3333333333333333);
+    BOOST_CHECK_EQUAL(obj->databyteTimestamps[3], 0x4444444444444444);
+    BOOST_CHECK_EQUAL(obj->databyteTimestamps[4], 0x5555555555555555);
+    BOOST_CHECK_EQUAL(obj->databyteTimestamps[5], 0x6666666666666666);
+    BOOST_CHECK_EQUAL(obj->databyteTimestamps[6], 0x7777777777777777);
+    BOOST_CHECK_EQUAL(obj->databyteTimestamps[7], 0x8888888888888888);
+    BOOST_CHECK_EQUAL(obj->databyteTimestamps[8], 0x9999999999999999);
 
     /* LinMessage2 */
-    BOOST_CHECK_EQUAL(obj->data[0], 0x00);
-    BOOST_CHECK_EQUAL(obj->data[1], 0xf0);
-    BOOST_CHECK_EQUAL(obj->data[2], 0xf0);
-    BOOST_CHECK_EQUAL(obj->data[3], 0xff);
-    BOOST_CHECK_EQUAL(obj->data[4], 0xff);
-    BOOST_CHECK_EQUAL(obj->data[5], 0xff);
-    BOOST_CHECK_EQUAL(obj->data[6], 0xff);
-    BOOST_CHECK_EQUAL(obj->data[7], 0xff);
-    BOOST_CHECK_EQUAL(obj->crc, 0x70);
-    BOOST_CHECK_EQUAL(obj->dir, 1); // Tx
-    BOOST_CHECK_EQUAL(obj->simulated, 1);
-    BOOST_CHECK_EQUAL(obj->isEtf, 0);
-    BOOST_CHECK_EQUAL(obj->etfAssocIndex, 0);
-    BOOST_CHECK_EQUAL(obj->etfAssocEtfId, 0xff);
-    BOOST_CHECK_EQUAL(obj->fsmId, 0xff);
-    BOOST_CHECK_EQUAL(obj->fsmState, 0xff);
-    // reserved
-    BOOST_CHECK_EQUAL(obj->respBaudrate, 19231);
-    BOOST_CHECK_EQUAL(obj->exactHeaderBaudrate, 19230.769231);
-    BOOST_CHECK_EQUAL(obj->earlyStopbitOffset, 26000);
-    BOOST_CHECK_EQUAL(obj->earlyStopbitOffsetResponse, 26000);
+    BOOST_CHECK_EQUAL(obj->data[0], 0x11);
+    BOOST_CHECK_EQUAL(obj->data[1], 0x22);
+    BOOST_CHECK_EQUAL(obj->data[2], 0x33);
+    BOOST_CHECK_EQUAL(obj->data[3], 0x44);
+    BOOST_CHECK_EQUAL(obj->data[4], 0x55);
+    BOOST_CHECK_EQUAL(obj->data[5], 0x66);
+    BOOST_CHECK_EQUAL(obj->data[6], 0x77);
+    BOOST_CHECK_EQUAL(obj->data[7], 0x88);
+    BOOST_CHECK_EQUAL(obj->crc, 0x9999);
+    BOOST_CHECK_EQUAL(obj->dir, 0xAA);
+    BOOST_CHECK_EQUAL(obj->simulated, 0xBB);
+    BOOST_CHECK_EQUAL(obj->isEtf, 0xCC);
+    BOOST_CHECK_EQUAL(obj->etfAssocIndex, 0xDD);
+    BOOST_CHECK_EQUAL(obj->etfAssocEtfId, 0xEE);
+    BOOST_CHECK_EQUAL(obj->fsmId, 0xFF);
+    BOOST_CHECK_EQUAL(obj->fsmState, 0x11);
+    BOOST_CHECK_EQUAL(obj->reservedLinMessage1, 0x22);
+    BOOST_CHECK_EQUAL(obj->reservedLinMessage2, 0x3333);
+    BOOST_CHECK_EQUAL(obj->respBaudrate, 0x44444444);
+    BOOST_CHECK_EQUAL(obj->exactHeaderBaudrate, 5.0);
+    BOOST_CHECK_EQUAL(obj->earlyStopbitOffset, 0x66666666);
+    BOOST_CHECK_EQUAL(obj->earlyStopbitOffsetResponse, 0x77777777);
 
-    delete obj;
+    delete ohb;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_MESSAGE2);
+
+    delete ohb;
 
     file.close();
 }

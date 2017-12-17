@@ -28,7 +28,9 @@ LinLongDomSignalEvent::LinLongDomSignalEvent() :
     ObjectHeader(),
     LinBusEvent(),
     type(),
-    reserved()
+    reservedLinLongDomSignalEvent1(),
+    reservedLinLongDomSignalEvent2(),
+    reservedLinLongDomSignalEvent3()
 {
     objectType = ObjectType::LIN_LONG_DOM_SIG;
 }
@@ -38,7 +40,9 @@ void LinLongDomSignalEvent::read(AbstractFile & is)
     ObjectHeader::read(is);
     LinBusEvent::read(is);
     is.read(reinterpret_cast<char *>(&type), sizeof(type));
-    is.read(reinterpret_cast<char *>(reserved.data()), static_cast<std::streamsize>(reserved.size()));
+    is.read(reinterpret_cast<char *>(&reservedLinLongDomSignalEvent1), sizeof(reservedLinLongDomSignalEvent1));
+    is.read(reinterpret_cast<char *>(&reservedLinLongDomSignalEvent2), sizeof(reservedLinLongDomSignalEvent2));
+    is.read(reinterpret_cast<char *>(&reservedLinLongDomSignalEvent3), sizeof(reservedLinLongDomSignalEvent3));
 }
 
 void LinLongDomSignalEvent::write(AbstractFile & os)
@@ -46,7 +50,9 @@ void LinLongDomSignalEvent::write(AbstractFile & os)
     ObjectHeader::write(os);
     LinBusEvent::write(os);
     os.write(reinterpret_cast<char *>(&type), sizeof(type));
-    os.write(reinterpret_cast<char *>(reserved.data()), static_cast<std::streamsize>(reserved.size()));
+    os.write(reinterpret_cast<char *>(&reservedLinLongDomSignalEvent1), sizeof(reservedLinLongDomSignalEvent1));
+    os.write(reinterpret_cast<char *>(&reservedLinLongDomSignalEvent2), sizeof(reservedLinLongDomSignalEvent2));
+    os.write(reinterpret_cast<char *>(&reservedLinLongDomSignalEvent3), sizeof(reservedLinLongDomSignalEvent3));
 }
 
 DWORD LinLongDomSignalEvent::calculateObjectSize() const
@@ -55,7 +61,9 @@ DWORD LinLongDomSignalEvent::calculateObjectSize() const
         ObjectHeader::calculateObjectSize() +
         LinBusEvent::calculateObjectSize() +
         sizeof(type) +
-        static_cast<DWORD>(reserved.size());
+        sizeof(reservedLinLongDomSignalEvent1) +
+        sizeof(reservedLinLongDomSignalEvent2) +
+        sizeof(reservedLinLongDomSignalEvent3);
 }
 
 }

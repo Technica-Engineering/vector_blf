@@ -24,7 +24,7 @@ BOOST_AUTO_TEST_CASE(FlexRaySync)
     BOOST_CHECK_EQUAL(obj->headerSize, obj->calculateHeaderSize());
     BOOST_CHECK_EQUAL(obj->headerVersion, 1);
     BOOST_CHECK_EQUAL(obj->objectSize, obj->calculateObjectSize());
-    BOOST_CHECK(obj->objectType == Vector::BLF::ObjectType::FLEXRAY_STATUS);
+    BOOST_CHECK(obj->objectType == Vector::BLF::ObjectType::FLEXRAY_SYNC);
 
     /* ObjectHeader */
     BOOST_CHECK(obj->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
@@ -33,9 +33,27 @@ BOOST_AUTO_TEST_CASE(FlexRaySync)
     BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
     /* FlexRaySync */
-    // @todo FlexRaySync
+    BOOST_CHECK_EQUAL(obj->channel, 0x1111);
+    BOOST_CHECK_EQUAL(obj->mux, 0x22);
+    BOOST_CHECK_EQUAL(obj->len, 0x33);
+    BOOST_CHECK_EQUAL(obj->messageId, 0x4444);
+    BOOST_CHECK_EQUAL(obj->crc, 0x5555);
+    BOOST_CHECK_EQUAL(obj->dir, 0x66);
+    BOOST_CHECK_EQUAL(obj->reservedFlexRaySync1, 0x77);
+    BOOST_CHECK_EQUAL(obj->reservedFlexRaySync2, 0x8888);
+    for (uint8_t i = 0; i < 11; i++) {
+        BOOST_CHECK_EQUAL(obj->dataBytes[i], i);
+    }
+    BOOST_CHECK_EQUAL(obj->cycle, 0x99);
 
-    delete obj;
+    delete ohb;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::FLEXRAY_SYNC);
+
+    delete ohb;
 
     file.close();
 }

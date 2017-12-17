@@ -33,9 +33,41 @@ BOOST_AUTO_TEST_CASE(CanFdErrorFrame64)
     BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
     /* CanFdErrorFrame64 */
-    // @todo CanFdErrorFrame64
+    BOOST_CHECK_EQUAL(obj->channel, 0x11);
+    BOOST_CHECK_EQUAL(obj->dlc, 0x22);
+    BOOST_CHECK_EQUAL(obj->validDataBytes, 0x33);
+    BOOST_CHECK_EQUAL(obj->ecc, 0x44);
+    BOOST_CHECK_EQUAL(obj->flags, 0x5555);
+    BOOST_CHECK_EQUAL(obj->errorCodeExt, 0x6666);
+    BOOST_CHECK_EQUAL(obj->extFlags, 0x7777);
+    BOOST_CHECK_EQUAL(obj->extDataOffset, 0x8C);
+    BOOST_CHECK_EQUAL(obj->reservedCanFdErrorFrame1, 0x99);
+    BOOST_CHECK_EQUAL(obj->id, 0xAAAAAAAA);
+    BOOST_CHECK_EQUAL(obj->frameLength, 0xBBBBBBBB);
+    BOOST_CHECK_EQUAL(obj->btrCfgArb, 0xCCCCCCCC);
+    BOOST_CHECK_EQUAL(obj->btrCfgData, 0xDDDDDDDD);
+    BOOST_CHECK_EQUAL(obj->timeOffsetBrsNs, 0xEEEEEEEE);
+    BOOST_CHECK_EQUAL(obj->timeOffsetCrcDelNs, 0xFFFFFFFF);
+    BOOST_CHECK_EQUAL(obj->crc, 0x11111111);
+    BOOST_CHECK_EQUAL(obj->errorPosition, 0x2222);
+    BOOST_CHECK_EQUAL(obj->reservedCanFdErrorFrame2, 0x3333);
+    for (uint8_t i = 0; i < 64; i++) {
+        BOOST_CHECK_EQUAL(obj->data[i], i);
+    }
 
-    delete obj;
+    /* CanFdExtFrameData */
+    BOOST_CHECK_EQUAL(obj->btrExtArb, 0x11111111);
+    BOOST_CHECK_EQUAL(obj->btrExtData, 0x22222222);
+
+
+    delete ohb;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::CAN_FD_ERROR_64);
+
+    delete ohb;
 
     file.close();
 }

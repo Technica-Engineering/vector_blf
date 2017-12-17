@@ -86,7 +86,7 @@ public:
      *
      * Direction flag
      */
-    Dir dir;
+    BYTE dir;
 
     /**
      * @brief channel number of the radio frequency
@@ -117,6 +117,9 @@ public:
      * Bytes.
      */
     WORD frameLength;
+
+    /** reserved */
+    DWORD reservedWlanFrame;
 
     /**
      * @brief WLAN frame data

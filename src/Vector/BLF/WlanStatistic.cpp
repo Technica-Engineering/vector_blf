@@ -33,7 +33,8 @@ WlanStatistic::WlanStatistic() :
     txPacketCount(),
     txByteCount(),
     collisionCount(),
-    errorCount()
+    errorCount(),
+    reservedWlanStatistic()
 {
     objectType = ObjectType::WLAN_STATISTIC;
 }
@@ -49,6 +50,7 @@ void WlanStatistic::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&txByteCount), sizeof(txByteCount));
     is.read(reinterpret_cast<char *>(&collisionCount), sizeof(collisionCount));
     is.read(reinterpret_cast<char *>(&errorCount), sizeof(errorCount));
+    is.read(reinterpret_cast<char *>(&reservedWlanStatistic), sizeof(reservedWlanStatistic));
 }
 
 void WlanStatistic::write(AbstractFile & os)
@@ -62,6 +64,7 @@ void WlanStatistic::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&txByteCount), sizeof(txByteCount));
     os.write(reinterpret_cast<char *>(&collisionCount), sizeof(collisionCount));
     os.write(reinterpret_cast<char *>(&errorCount), sizeof(errorCount));
+    os.write(reinterpret_cast<char *>(&reservedWlanStatistic), sizeof(reservedWlanStatistic));
 }
 
 DWORD WlanStatistic::calculateObjectSize() const
@@ -75,7 +78,8 @@ DWORD WlanStatistic::calculateObjectSize() const
         sizeof(txPacketCount) +
         sizeof(txByteCount) +
         sizeof(collisionCount) +
-        sizeof(errorCount);
+        sizeof(errorCount) +
+        sizeof(reservedWlanStatistic);
 }
 
 }

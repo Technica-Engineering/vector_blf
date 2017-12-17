@@ -35,7 +35,7 @@ EthernetFrameForwarded::EthernetFrameForwarded() :
     dir(),
     frameLength(),
     frameHandle(),
-    reserved(),
+    reservedEthernetFrameForwarded(),
     frameData()
 {
     objectType = ObjectType::ETHERNET_FRAME_FORWARDED;
@@ -53,7 +53,7 @@ void EthernetFrameForwarded::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
     is.read(reinterpret_cast<char *>(&frameLength), sizeof(frameLength));
     is.read(reinterpret_cast<char *>(&frameHandle), sizeof(frameHandle));
-    is.read(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    is.read(reinterpret_cast<char *>(&reservedEthernetFrameForwarded), sizeof(reservedEthernetFrameForwarded));
     frameData.resize(frameLength);
     is.read(reinterpret_cast<char *>(frameData.data()), frameLength);
 }
@@ -61,6 +61,7 @@ void EthernetFrameForwarded::read(AbstractFile & is)
 void EthernetFrameForwarded::write(AbstractFile & os)
 {
     /* pre processing */
+    structLength = calculateStructLength();
     frameLength = static_cast<WORD>(frameData.size());
 
     ObjectHeader::write(os);
@@ -73,7 +74,7 @@ void EthernetFrameForwarded::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
     os.write(reinterpret_cast<char *>(&frameLength), sizeof(frameLength));
     os.write(reinterpret_cast<char *>(&frameHandle), sizeof(frameHandle));
-    os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    os.write(reinterpret_cast<char *>(&reservedEthernetFrameForwarded), sizeof(reservedEthernetFrameForwarded));
     os.write(reinterpret_cast<char *>(frameData.data()), frameLength);
 }
 
@@ -90,8 +91,22 @@ DWORD EthernetFrameForwarded::calculateObjectSize() const
         sizeof(dir) +
         sizeof(frameLength) +
         sizeof(frameHandle) +
-        sizeof(reserved) +
+        sizeof(reservedEthernetFrameForwarded) +
         frameLength;
+}
+
+WORD EthernetFrameForwarded::calculateStructLength() const
+{
+    return
+        sizeof(flags) +
+        sizeof(channel) +
+        sizeof(hardwareChannel) +
+        sizeof(frameDuration) +
+        sizeof(frameChecksum) +
+        sizeof(dir) +
+        sizeof(frameLength) +
+        sizeof(frameHandle) +
+        sizeof(reservedEthernetFrameForwarded);
 }
 
 }

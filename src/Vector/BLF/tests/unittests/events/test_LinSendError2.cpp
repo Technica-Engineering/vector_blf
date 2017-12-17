@@ -28,39 +28,47 @@ BOOST_AUTO_TEST_CASE(LinSendError2)
 
     /* ObjectHeader */
     BOOST_CHECK(obj->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
-    BOOST_CHECK_EQUAL(obj->clientIndex, 0);
-    BOOST_CHECK_EQUAL(obj->objectVersion, 1);
-    BOOST_CHECK_EQUAL(obj->objectTimeStamp, 424674000); // ns
+    BOOST_CHECK_EQUAL(obj->clientIndex, 0x1111);
+    BOOST_CHECK_EQUAL(obj->objectVersion, 0);
+    BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
     /* LinBusEvent */
-    BOOST_CHECK_EQUAL(obj->sof, 416054000); // ns
-    BOOST_CHECK_EQUAL(obj->eventBaudrate, 19230);
-    BOOST_CHECK_EQUAL(obj->channel, 1);
-    // reserved
+    BOOST_CHECK_EQUAL(obj->sof, 0x1111111111111111);
+    BOOST_CHECK_EQUAL(obj->eventBaudrate, 0x22222222);
+    BOOST_CHECK_EQUAL(obj->channel, 0x3333);
+    BOOST_CHECK_EQUAL(obj->reservedLinBusEvent, 0x4444);
 
     /* LinSynchFieldEvent */
-    BOOST_CHECK_EQUAL(obj->synchBreakLength, 937187);
-    BOOST_CHECK_EQUAL(obj->synchDelLength, 113250);
+    BOOST_CHECK_EQUAL(obj->synchBreakLength, 0x1111111111111111);
+    BOOST_CHECK_EQUAL(obj->synchDelLength, 0x2222222222222222);
 
     /* LinMessageDescriptor */
-    BOOST_CHECK_EQUAL(obj->supplierId, 0);
-    BOOST_CHECK_EQUAL(obj->messageId, 0);
-    BOOST_CHECK_EQUAL(obj->nad, 0);
-    BOOST_CHECK_EQUAL(obj->id, 0x21); // 33
-    BOOST_CHECK_EQUAL(obj->dlc, 4);
-    BOOST_CHECK_EQUAL(obj->checksumModel, 1); // enhanced
+    BOOST_CHECK_EQUAL(obj->supplierId, 0x1111);
+    BOOST_CHECK_EQUAL(obj->messageId, 0x2222);
+    BOOST_CHECK_EQUAL(obj->nad, 0x33);
+    BOOST_CHECK_EQUAL(obj->id, 0x44);
+    BOOST_CHECK_EQUAL(obj->dlc, 0x55);
+    BOOST_CHECK_EQUAL(obj->checksumModel, 0x66);
 
     /* LinSendError2 */
-    BOOST_CHECK_EQUAL(obj->eoh, 418122000); // ns
-    BOOST_CHECK_EQUAL(obj->isEtf, 0);
-    BOOST_CHECK_EQUAL(obj->fsmId, 0xff);
-    BOOST_CHECK_EQUAL(obj->fsmState, 0);
-    // reserved
-    BOOST_CHECK_EQUAL(obj->exactHeaderBaudrate, 19230.769231);
-    BOOST_CHECK_EQUAL(obj->earlyStopbitOffset, 26000);
-    // reserved
+    BOOST_CHECK_EQUAL(obj->eoh, 0x1111111111111111);
+    BOOST_CHECK_EQUAL(obj->isEtf, 0x22);
+    BOOST_CHECK_EQUAL(obj->fsmId, 0x33);
+    BOOST_CHECK_EQUAL(obj->fsmState, 0x44);
+    BOOST_CHECK_EQUAL(obj->reservedLinSendError1, 0x55);
+    BOOST_CHECK_EQUAL(obj->reservedLinSendError2, 0x66666666);
+    BOOST_CHECK_EQUAL(obj->exactHeaderBaudrate, 7.0);
+    BOOST_CHECK_EQUAL(obj->earlyStopbitOffset, 0x88888888);
+    BOOST_CHECK_EQUAL(obj->reservedLinSendError3, 0);
 
-    delete obj;
+    delete ohb;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_SND_ERROR2);
+
+    delete ohb;
 
     file.close();
 }

@@ -28,7 +28,7 @@ MostReg::MostReg() :
     ObjectHeader2(),
     channel(),
     subType(),
-    reserved(),
+    reservedMostReg(),
     handle(),
     offset(),
     chip(),
@@ -43,7 +43,7 @@ void MostReg::read(AbstractFile & is)
     ObjectHeader2::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&subType), sizeof(subType));
-    is.read(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    is.read(reinterpret_cast<char *>(&reservedMostReg), sizeof(reservedMostReg));
     is.read(reinterpret_cast<char *>(&handle), sizeof(handle));
     is.read(reinterpret_cast<char *>(&offset), sizeof(offset));
     is.read(reinterpret_cast<char *>(&chip), sizeof(chip));
@@ -56,7 +56,7 @@ void MostReg::write(AbstractFile & os)
     ObjectHeader2::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&subType), sizeof(subType));
-    os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    os.write(reinterpret_cast<char *>(&reservedMostReg), sizeof(reservedMostReg));
     os.write(reinterpret_cast<char *>(&handle), sizeof(handle));
     os.write(reinterpret_cast<char *>(&offset), sizeof(offset));
     os.write(reinterpret_cast<char *>(&chip), sizeof(chip));
@@ -70,7 +70,7 @@ DWORD MostReg::calculateObjectSize() const
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +
         sizeof(subType) +
-        sizeof(reserved) +
+        sizeof(reservedMostReg) +
         sizeof(handle) +
         sizeof(offset) +
         sizeof(chip) +

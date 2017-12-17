@@ -32,11 +32,11 @@ CanErrorFrameExt::CanErrorFrameExt() :
     ecc(),
     position(),
     dlc(),
-    reserved1(),
+    reservedCanErrorFrameExt1(),
     frameLengthInNs(),
     id(),
     flagsExt(),
-    reserved2(),
+    reservedCanErrorFrameExt2(),
     data()
 {
     objectType = ObjectType::CAN_ERROR_EXT;
@@ -51,11 +51,11 @@ void CanErrorFrameExt::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&ecc), sizeof(ecc));
     is.read(reinterpret_cast<char *>(&position), sizeof(position));
     is.read(reinterpret_cast<char *>(&dlc), sizeof(dlc));
-    is.read(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    is.read(reinterpret_cast<char *>(&reservedCanErrorFrameExt1), sizeof(reservedCanErrorFrameExt1));
     is.read(reinterpret_cast<char *>(&frameLengthInNs), sizeof(frameLengthInNs));
     is.read(reinterpret_cast<char *>(&id), sizeof(id));
     is.read(reinterpret_cast<char *>(&flagsExt), sizeof(flagsExt));
-    is.read(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    is.read(reinterpret_cast<char *>(&reservedCanErrorFrameExt2), sizeof(reservedCanErrorFrameExt2));
     is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
 }
 
@@ -68,11 +68,11 @@ void CanErrorFrameExt::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&ecc), sizeof(ecc));
     os.write(reinterpret_cast<char *>(&position), sizeof(position));
     os.write(reinterpret_cast<char *>(&dlc), sizeof(dlc));
-    os.write(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    os.write(reinterpret_cast<char *>(&reservedCanErrorFrameExt1), sizeof(reservedCanErrorFrameExt1));
     os.write(reinterpret_cast<char *>(&frameLengthInNs), sizeof(frameLengthInNs));
     os.write(reinterpret_cast<char *>(&id), sizeof(id));
     os.write(reinterpret_cast<char *>(&flagsExt), sizeof(flagsExt));
-    os.write(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    os.write(reinterpret_cast<char *>(&reservedCanErrorFrameExt2), sizeof(reservedCanErrorFrameExt2));
     os.write(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
 }
 
@@ -86,11 +86,11 @@ DWORD CanErrorFrameExt::calculateObjectSize() const
         sizeof(ecc) +
         sizeof(position) +
         sizeof(dlc) +
-        sizeof(reserved1) +
+        sizeof(reservedCanErrorFrameExt1) +
         sizeof(frameLengthInNs) +
         sizeof(id) +
         sizeof(flagsExt) +
-        sizeof(reserved2) +
+        sizeof(reservedCanErrorFrameExt2) +
         static_cast<DWORD>(data.size());
 }
 

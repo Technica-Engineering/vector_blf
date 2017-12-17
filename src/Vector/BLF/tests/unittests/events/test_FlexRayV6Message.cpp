@@ -33,9 +33,33 @@ BOOST_AUTO_TEST_CASE(FlexRayV6Message)
     BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
     /* FlexRayV6Message */
-    // @todo FlexRayV6Message
+    BOOST_CHECK_EQUAL(obj->channel, 0x1111);
+    BOOST_CHECK_EQUAL(obj->dir, 0x22);
+    BOOST_CHECK_EQUAL(obj->lowTime, 0x33);
+    BOOST_CHECK_EQUAL(obj->fpgaTick, 0x44444444);
+    BOOST_CHECK_EQUAL(obj->fpgaTickOverflow, 0x55555555);
+    BOOST_CHECK_EQUAL(obj->clientIndexFlexRayV6Message, 0x66666666);
+    BOOST_CHECK_EQUAL(obj->clusterTime, 0x77777777);
+    BOOST_CHECK_EQUAL(obj->frameId, 0x8888);
+    BOOST_CHECK_EQUAL(obj->headerCrc, 0x9999);
+    BOOST_CHECK_EQUAL(obj->frameState, 0xAAAA);
+    BOOST_CHECK_EQUAL(obj->length, 0xBB);
+    BOOST_CHECK_EQUAL(obj->cycle, 0xCC);
+    BOOST_CHECK_EQUAL(obj->headerBitMask, 0xDD);
+    BOOST_CHECK_EQUAL(obj->reservedFlexRayV6Message1, 0xEE);
+    BOOST_CHECK_EQUAL(obj->reservedFlexRayV6Message2, 0xFFFF);
+    for (uint8_t i = 0; i < 64; i++) {
+        BOOST_CHECK_EQUAL(obj->dataBytes[i], i);
+    }
 
-    delete obj;
+    delete ohb;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::FLEXRAY_MESSAGE);
+
+    delete ohb;
 
     file.close();
 }

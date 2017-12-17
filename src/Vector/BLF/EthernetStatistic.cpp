@@ -27,6 +27,8 @@ namespace BLF {
 EthernetStatistic::EthernetStatistic() :
     ObjectHeader(),
     channel(),
+    reservedEthernetStatistic1(),
+    reservedEthernetStatistic2(),
     rcvOk_HW(),
     xmitOk_HW(),
     rcvError_HW(),
@@ -35,7 +37,8 @@ EthernetStatistic::EthernetStatistic() :
     xmitBytes_HW(),
     rcvNoBuffer_HW(),
     sqi(),
-    hardwareChannel()
+    hardwareChannel(),
+    reservedEthernetStatistic3()
 {
     objectType = ObjectType::ETHERNET_STATISTIC;
 }
@@ -44,6 +47,8 @@ void EthernetStatistic::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
+    is.read(reinterpret_cast<char *>(&reservedEthernetStatistic1), sizeof(reservedEthernetStatistic1));
+    is.read(reinterpret_cast<char *>(&reservedEthernetStatistic2), sizeof(reservedEthernetStatistic2));
     is.read(reinterpret_cast<char *>(&rcvOk_HW), sizeof(rcvOk_HW));
     is.read(reinterpret_cast<char *>(&xmitOk_HW), sizeof(xmitOk_HW));
     is.read(reinterpret_cast<char *>(&rcvError_HW), sizeof(rcvError_HW));
@@ -53,12 +58,15 @@ void EthernetStatistic::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&rcvNoBuffer_HW), sizeof(rcvNoBuffer_HW));
     is.read(reinterpret_cast<char *>(&sqi), sizeof(sqi));
     is.read(reinterpret_cast<char *>(&hardwareChannel), sizeof(hardwareChannel));
+    is.read(reinterpret_cast<char *>(&reservedEthernetStatistic3), sizeof(reservedEthernetStatistic3));
 }
 
 void EthernetStatistic::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
+    os.write(reinterpret_cast<char *>(&reservedEthernetStatistic1), sizeof(reservedEthernetStatistic1));
+    os.write(reinterpret_cast<char *>(&reservedEthernetStatistic2), sizeof(reservedEthernetStatistic2));
     os.write(reinterpret_cast<char *>(&rcvOk_HW), sizeof(rcvOk_HW));
     os.write(reinterpret_cast<char *>(&xmitOk_HW), sizeof(xmitOk_HW));
     os.write(reinterpret_cast<char *>(&rcvError_HW), sizeof(rcvError_HW));
@@ -68,6 +76,7 @@ void EthernetStatistic::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&rcvNoBuffer_HW), sizeof(rcvNoBuffer_HW));
     os.write(reinterpret_cast<char *>(&sqi), sizeof(sqi));
     os.write(reinterpret_cast<char *>(&hardwareChannel), sizeof(hardwareChannel));
+    os.write(reinterpret_cast<char *>(&reservedEthernetStatistic3), sizeof(reservedEthernetStatistic3));
 }
 
 DWORD EthernetStatistic::calculateObjectSize() const
@@ -75,6 +84,8 @@ DWORD EthernetStatistic::calculateObjectSize() const
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
+        sizeof(reservedEthernetStatistic1) +
+        sizeof(reservedEthernetStatistic2) +
         sizeof(rcvOk_HW) +
         sizeof(xmitOk_HW) +
         sizeof(rcvError_HW) +
@@ -83,7 +94,8 @@ DWORD EthernetStatistic::calculateObjectSize() const
         sizeof(xmitBytes_HW) +
         sizeof(rcvNoBuffer_HW) +
         sizeof(sqi) +
-        sizeof(hardwareChannel);
+        sizeof(hardwareChannel)+
+        sizeof(reservedEthernetStatistic3);
 }
 
 }

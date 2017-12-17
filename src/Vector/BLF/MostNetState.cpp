@@ -29,7 +29,7 @@ MostNetState::MostNetState() :
     channel(),
     stateNew(),
     stateOld(),
-    reserved()
+    reservedMostNetState()
 {
     objectType = ObjectType::MOST_NETSTATE;
 }
@@ -40,7 +40,7 @@ void MostNetState::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&stateNew), sizeof(stateNew));
     is.read(reinterpret_cast<char *>(&stateOld), sizeof(stateOld));
-    is.read(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    is.read(reinterpret_cast<char *>(&reservedMostNetState), sizeof(reservedMostNetState));
 }
 
 void MostNetState::write(AbstractFile & os)
@@ -49,7 +49,7 @@ void MostNetState::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&stateNew), sizeof(stateNew));
     os.write(reinterpret_cast<char *>(&stateOld), sizeof(stateOld));
-    os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    os.write(reinterpret_cast<char *>(&reservedMostNetState), sizeof(reservedMostNetState));
 }
 
 DWORD MostNetState::calculateObjectSize() const
@@ -59,7 +59,7 @@ DWORD MostNetState::calculateObjectSize() const
         sizeof(channel) +
         sizeof(stateNew) +
         sizeof(stateOld) +
-        sizeof(reserved);
+        sizeof(reservedMostNetState);
 }
 
 }

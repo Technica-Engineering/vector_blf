@@ -28,20 +28,19 @@ Most50Pkt::Most50Pkt() :
     ObjectHeader2(),
     channel(),
     dir(),
-    reserved1(),
+    reservedMost50Pkt1(),
     sourceAdr(),
     destAdr(),
     transferType(),
     state(),
     ackNack(),
-    reserved2(),
+    reservedMost50Pkt2(),
     crc(),
-    reserved3(),
-    reserved4(),
+    reservedMost50Pkt3(),
     priority(),
-    reserved5(),
+    reservedMost50Pkt4(),
     pktDataLength(),
-    reserved6(),
+    reservedMost50Pkt5(),
     pktData()
 {
     objectType = ObjectType::MOST_50_PKT;
@@ -52,22 +51,24 @@ void Most50Pkt::read(AbstractFile & is)
     ObjectHeader2::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
-    is.read(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    is.read(reinterpret_cast<char *>(&reservedMost50Pkt1), sizeof(reservedMost50Pkt1));
     is.read(reinterpret_cast<char *>(&sourceAdr), sizeof(sourceAdr));
     is.read(reinterpret_cast<char *>(&destAdr), sizeof(destAdr));
     is.read(reinterpret_cast<char *>(&transferType), sizeof(transferType));
     is.read(reinterpret_cast<char *>(&state), sizeof(state));
     is.read(reinterpret_cast<char *>(&ackNack), sizeof(ackNack));
-    is.read(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    is.read(reinterpret_cast<char *>(&reservedMost50Pkt2), sizeof(reservedMost50Pkt2));
     is.read(reinterpret_cast<char *>(&crc), sizeof(crc));
-    is.read(reinterpret_cast<char *>(&reserved3), sizeof(reserved3));
-    is.read(reinterpret_cast<char *>(&reserved4), sizeof(reserved4));
+    is.read(reinterpret_cast<char *>(&reservedMost50Pkt3), sizeof(reservedMost50Pkt3));
     is.read(reinterpret_cast<char *>(&priority), sizeof(priority));
-    is.read(reinterpret_cast<char *>(&reserved5), sizeof(reserved5));
+    is.read(reinterpret_cast<char *>(&reservedMost50Pkt4), sizeof(reservedMost50Pkt4));
     is.read(reinterpret_cast<char *>(&pktDataLength), sizeof(pktDataLength));
-    is.read(reinterpret_cast<char *>(reserved6.data()), static_cast<std::streamsize>(reserved6.size()));
+    is.read(reinterpret_cast<char *>(&reservedMost50Pkt5), sizeof(reservedMost50Pkt5));
     pktData.resize(pktDataLength);
     is.read(reinterpret_cast<char *>(pktData.data()), pktDataLength);
+
+    /* skip padding */
+    is.seekg(objectSize % 4, std::ios_base::cur);
 }
 
 void Most50Pkt::write(AbstractFile & os)
@@ -78,21 +79,23 @@ void Most50Pkt::write(AbstractFile & os)
     ObjectHeader2::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
-    os.write(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    os.write(reinterpret_cast<char *>(&reservedMost50Pkt1), sizeof(reservedMost50Pkt1));
     os.write(reinterpret_cast<char *>(&sourceAdr), sizeof(sourceAdr));
     os.write(reinterpret_cast<char *>(&destAdr), sizeof(destAdr));
     os.write(reinterpret_cast<char *>(&transferType), sizeof(transferType));
     os.write(reinterpret_cast<char *>(&state), sizeof(state));
     os.write(reinterpret_cast<char *>(&ackNack), sizeof(ackNack));
-    os.write(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    os.write(reinterpret_cast<char *>(&reservedMost50Pkt2), sizeof(reservedMost50Pkt2));
     os.write(reinterpret_cast<char *>(&crc), sizeof(crc));
-    os.write(reinterpret_cast<char *>(&reserved3), sizeof(reserved3));
-    os.write(reinterpret_cast<char *>(&reserved4), sizeof(reserved4));
+    os.write(reinterpret_cast<char *>(&reservedMost50Pkt3), sizeof(reservedMost50Pkt3));
     os.write(reinterpret_cast<char *>(&priority), sizeof(priority));
-    os.write(reinterpret_cast<char *>(&reserved5), sizeof(reserved5));
+    os.write(reinterpret_cast<char *>(&reservedMost50Pkt4), sizeof(reservedMost50Pkt4));
     os.write(reinterpret_cast<char *>(&pktDataLength), sizeof(pktDataLength));
-    os.write(reinterpret_cast<char *>(reserved6.data()), static_cast<std::streamsize>(reserved6.size()));
+    os.write(reinterpret_cast<char *>(&reservedMost50Pkt5), sizeof(reservedMost50Pkt5));
     os.write(reinterpret_cast<char *>(pktData.data()), pktDataLength);
+
+    /* skip padding */
+    os.seekp(objectSize % 4, std::ios_base::cur);
 }
 
 DWORD Most50Pkt::calculateObjectSize() const
@@ -101,20 +104,19 @@ DWORD Most50Pkt::calculateObjectSize() const
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +
         sizeof(dir) +
-        sizeof(reserved1) +
+        sizeof(reservedMost50Pkt1) +
         sizeof(sourceAdr) +
         sizeof(destAdr) +
         sizeof(transferType) +
         sizeof(state) +
         sizeof(ackNack) +
-        sizeof(reserved2) +
+        sizeof(reservedMost50Pkt2) +
         sizeof(crc) +
-        sizeof(reserved3) +
-        sizeof(reserved4) +
+        sizeof(reservedMost50Pkt3) +
         sizeof(priority) +
-        sizeof(reserved5) +
+        sizeof(reservedMost50Pkt4) +
         sizeof(pktDataLength) +
-        static_cast<DWORD>(reserved6.size()) +
+        sizeof(reservedMost50Pkt5) +
         pktDataLength;
 }
 

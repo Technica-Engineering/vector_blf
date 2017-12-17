@@ -148,7 +148,7 @@ public:
     SYSTEMTIME lastObjectTime;
 
     /** reserved */
-    std::array<DWORD, 18> reserved;
+    std::array<DWORD, 18> reservedFileStatistics;
 };
 
 }

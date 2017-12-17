@@ -72,7 +72,7 @@ public:
     BYTE subType;
 
     /** reserved */
-    BYTE reserved1;
+    BYTE reservedMostGenReg1;
 
     /**
      * @brief operation handle
@@ -107,10 +107,10 @@ public:
     WORD regId;
 
     /** reserved */
-    WORD reserved2;
+    WORD reservedMostGenReg2;
 
     /** reserved */
-    DWORD reserved3;
+    DWORD reservedMostGenReg3;
 
     /**
      * @brief register value

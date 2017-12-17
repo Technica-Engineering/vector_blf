@@ -28,7 +28,8 @@ LinWakeupEvent::LinWakeupEvent() :
     ObjectHeader(),
     channel(),
     signal(),
-    external()
+    external(),
+    reservedLinWakeupEvent()
 {
     objectType = ObjectType::LIN_WAKEUP;
 }
@@ -39,6 +40,7 @@ void LinWakeupEvent::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&signal), sizeof(signal));
     is.read(reinterpret_cast<char *>(&external), sizeof(external));
+    is.read(reinterpret_cast<char *>(&reservedLinWakeupEvent), sizeof(reservedLinWakeupEvent));
 }
 
 void LinWakeupEvent::write(AbstractFile & os)
@@ -47,6 +49,7 @@ void LinWakeupEvent::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&signal), sizeof(signal));
     os.write(reinterpret_cast<char *>(&external), sizeof(external));
+    os.write(reinterpret_cast<char *>(&reservedLinWakeupEvent), sizeof(reservedLinWakeupEvent));
 }
 
 DWORD LinWakeupEvent::calculateObjectSize() const
@@ -55,7 +58,8 @@ DWORD LinWakeupEvent::calculateObjectSize() const
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(signal) +
-        sizeof(external);
+        sizeof(external) +
+        sizeof(reservedLinWakeupEvent);
 }
 
 }

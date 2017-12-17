@@ -72,7 +72,7 @@ public:
     DWORD port;
 
     /** reserved */
-    ULONGLONG reserved;
+    ULONGLONG reservedKLineStatusEvent;
 
     /**
      * @brief the actual data, but only dataLen BYTES are used!

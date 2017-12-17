@@ -26,6 +26,7 @@ namespace BLF {
 
 CanFdMessage64::CanFdMessage64() :
     ObjectHeader(),
+    CanFdExtFrameData(),
     channel(),
     dlc(),
     validDataBytes(),
@@ -41,8 +42,7 @@ CanFdMessage64::CanFdMessage64() :
     dir(),
     extDataOffset(),
     crc(),
-    data(),
-    extFrameData()
+    data()
 {
     objectType = ObjectType::CAN_FD_MESSAGE_64;
 }
@@ -67,8 +67,7 @@ void CanFdMessage64::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&crc), sizeof(crc));
     is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
     if (extDataOffset != 0) {
-        is.read(reinterpret_cast<char *>(&extFrameData.btrExtArb), sizeof(extFrameData.btrExtArb));
-        is.read(reinterpret_cast<char *>(&extFrameData.btrExtData), sizeof(extFrameData.btrExtData));
+        CanFdExtFrameData::read(is);
     }
 }
 
@@ -92,8 +91,7 @@ void CanFdMessage64::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&crc), sizeof(crc));
     os.write(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
     if (extDataOffset != 0) {
-        os.write(reinterpret_cast<char *>(&extFrameData.btrExtArb), sizeof(extFrameData.btrExtArb));
-        os.write(reinterpret_cast<char *>(&extFrameData.btrExtData), sizeof(extFrameData.btrExtData));
+        CanFdExtFrameData::write(os);
     }
 }
 
@@ -118,9 +116,7 @@ DWORD CanFdMessage64::calculateObjectSize() const
         sizeof(crc) +
         static_cast<DWORD>(data.size());
     if (extDataOffset != 0) {
-        size +=
-            sizeof(extFrameData.btrExtArb) +
-            sizeof(extFrameData.btrExtData);
+        size += CanFdExtFrameData::calculateObjectSize();
     }
     return size;
 }

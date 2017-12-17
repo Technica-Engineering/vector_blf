@@ -24,6 +24,7 @@
 #include <Vector/BLF/platform.h>
 
 #include <Vector/BLF/AbstractFile.h>
+#include <Vector/BLF/AfdxLineStatus.h>
 #include <Vector/BLF/ObjectHeader.h>
 #include <Vector/BLF/VectorTypes.h>
 
@@ -31,92 +32,6 @@
 
 namespace Vector {
 namespace BLF {
-
-class VECTOR_BLF_EXPORT AfdxLineStatus final
-{
-public:
-    AfdxLineStatus();
-
-    virtual void read(AbstractFile & is);
-    virtual void write(AbstractFile & os);
-    virtual DWORD calculateObjectSize() const;
-
-    /**
-     * Flags
-     *   - Bit 0 - Link Status
-     *   - Bit 1 - Bitrate
-     *   - Bit 2 - Ethernet Phy
-     *   - Bit 3 - Duplex
-     */
-    WORD flags;
-
-    /**
-     * Link Status
-     *   - 0 - Unknown
-     *   - 1 - Link down
-     *   - 2 - Link up
-     *   - 3 - Negotiate
-     *   - 4 - Link error
-     */
-    BYTE linkStatus;
-
-    /**
-     * Eternet Phy
-     *   - 0 - Unknown
-     *   - 1 - IEEE 802.3
-     *   - 2 - BroadR-Reach
-     */
-    BYTE ethernetPhy;
-
-    /**
-     * Duplex
-     *   - 0 - Unknown
-     *   - 1 - Half Duplex
-     *   - 2 - Full Duplex
-     */
-    BYTE duplex;
-
-    /**
-     * MDI
-     *   - 0 - Unknown
-     *   - 1 - Direct
-     *   - 2 - Crossover
-     */
-    BYTE mdi;
-
-    /**
-     * Connector
-     *   - 0 - Unknown
-     *   - 1 - RJ45
-     *   - 2 - D-Sub
-     */
-    BYTE connector;
-
-    /**
-     * Clock Mode
-     *   - 0 - Unknown
-     *   - 1 - Master
-     *   - 2 - Slave
-     */
-    BYTE clockMode;
-
-    /**
-     * Pairs
-     *   - 0 - Unknown
-     *   - 1 - BR 1-pair
-     *   - 2 - BR 2-pair
-     *   - 3 - BR 4-pair
-     */
-    BYTE pairs;
-
-    /** reserved */
-    BYTE reserved;
-
-    /**
-     * Bitrate in [kbit/sec]
-     */
-    ULONG bitrate;
-};
 
 /**
  * @brief AFDX_STATUS
@@ -137,6 +52,9 @@ public:
      */
     WORD channel;
 
+    /** reserved */
+    WORD reservedAfdxStatus1;
+
     /**
      * @brief status of adapter lineA
      */
@@ -146,6 +64,9 @@ public:
      * @brief status of adapter lineB
      */
     AfdxLineStatus statusB;
+
+    /** reserved */
+    DWORD reservedAfdxStatus2;
 };
 
 }

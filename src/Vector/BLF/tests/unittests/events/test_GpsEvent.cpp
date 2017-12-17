@@ -35,7 +35,7 @@ BOOST_AUTO_TEST_CASE(GpsEvent)
     /* GpsEvent */
     BOOST_CHECK_EQUAL(obj->flags, 0x11111111);
     BOOST_CHECK_EQUAL(obj->channel, 0x2222);
-    BOOST_CHECK_EQUAL(obj->reserved, 0x3333);
+    BOOST_CHECK_EQUAL(obj->reservedGpsEvent, 0x3333);
     BOOST_CHECK_EQUAL(obj->latitude, 4.0);
     BOOST_CHECK_EQUAL(obj->longitude, 5.0);
     BOOST_CHECK_EQUAL(obj->altitude, 6.0);

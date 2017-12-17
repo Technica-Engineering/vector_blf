@@ -28,7 +28,7 @@ LinLongDomSignalEvent2::LinLongDomSignalEvent2() :
     ObjectHeader(),
     LinBusEvent(),
     type(),
-    reserved(),
+    reservedLinLongDomSignalEvent(),
     length()
 {
     objectType = ObjectType::LIN_LONG_DOM_SIG2;
@@ -39,7 +39,7 @@ void LinLongDomSignalEvent2::read(AbstractFile & is)
     ObjectHeader::read(is);
     LinBusEvent::read(is);
     is.read(reinterpret_cast<char *>(&type), sizeof(type));
-    is.read(reinterpret_cast<char *>(reserved.data()), static_cast<std::streamsize>(reserved.size()));
+    is.read(reinterpret_cast<char *>(reservedLinLongDomSignalEvent.data()), static_cast<std::streamsize>(reservedLinLongDomSignalEvent.size()));
     is.read(reinterpret_cast<char *>(&length), sizeof(length));
 }
 
@@ -48,7 +48,7 @@ void LinLongDomSignalEvent2::write(AbstractFile & os)
     ObjectHeader::write(os);
     LinBusEvent::write(os);
     os.write(reinterpret_cast<char *>(&type), sizeof(type));
-    os.write(reinterpret_cast<char *>(reserved.data()), static_cast<std::streamsize>(reserved.size()));
+    os.write(reinterpret_cast<char *>(reservedLinLongDomSignalEvent.data()), static_cast<std::streamsize>(reservedLinLongDomSignalEvent.size()));
     os.write(reinterpret_cast<char *>(&length), sizeof(length));
 }
 
@@ -58,7 +58,7 @@ DWORD LinLongDomSignalEvent2::calculateObjectSize() const
         ObjectHeader::calculateObjectSize() +
         LinBusEvent::calculateObjectSize() +
         sizeof(type) +
-        static_cast<DWORD>(reserved.size()) +
+        static_cast<DWORD>(reservedLinLongDomSignalEvent.size()) +
         sizeof(length);
 }
 

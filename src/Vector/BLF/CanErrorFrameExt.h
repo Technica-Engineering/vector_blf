@@ -120,7 +120,7 @@ public:
     BYTE dlc;
 
     /** reserved */
-    BYTE reserved1;
+    BYTE reservedCanErrorFrameExt1;
 
     /**
      * @brief frame length in ns
@@ -162,7 +162,7 @@ public:
     WORD flagsExt;
 
     /** reserved */
-    WORD reserved2;
+    WORD reservedCanErrorFrameExt2;
 
     /**
      * @brief Payload, only for CAN-Core

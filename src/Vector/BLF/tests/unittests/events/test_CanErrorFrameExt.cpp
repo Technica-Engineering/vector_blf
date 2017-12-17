@@ -39,11 +39,11 @@ BOOST_AUTO_TEST_CASE(CanErrorFrameExt)
     BOOST_CHECK_EQUAL(obj->ecc, 0x44);
     BOOST_CHECK_EQUAL(obj->position, 0x55);
     BOOST_CHECK_EQUAL(obj->dlc, 0x66);
-    BOOST_CHECK_EQUAL(obj->reserved1, 0x77);
+    BOOST_CHECK_EQUAL(obj->reservedCanErrorFrameExt1, 0x77);
     BOOST_CHECK_EQUAL(obj->frameLengthInNs, 0x88888888);
     BOOST_CHECK_EQUAL(obj->id, 0x99999999);
     BOOST_CHECK_EQUAL(obj->flagsExt, 0xAAAA);
-    BOOST_CHECK_EQUAL(obj->reserved2, 0xBBBB);
+    BOOST_CHECK_EQUAL(obj->reservedCanErrorFrameExt2, 0xBBBB);
     BOOST_CHECK_EQUAL(obj->data[0], 0xCC);
     BOOST_CHECK_EQUAL(obj->data[1], 0xDD);
     BOOST_CHECK_EQUAL(obj->data[2], 0xEE);

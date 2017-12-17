@@ -58,7 +58,7 @@ public:
     BYTE dir;
 
     /** reserved */
-    BYTE reserved1;
+    BYTE reservedA429Message1;
 
     /** bitrate */
     ULONG bitrate;
@@ -70,10 +70,10 @@ public:
     WORD errPosition;
 
     /** reserved */
-    WORD reserved2;
+    WORD reservedA429Message2;
 
     /** reserved */
-    DWORD reserved3;
+    DWORD reservedA429Message3;
 
     /** frame gap */
     ULONGLONG frameGap;
@@ -85,7 +85,7 @@ public:
     WORD msgCtrl;
 
     /** reserved */
-    WORD reserved4;
+    WORD reservedA429Message4;
 
     /** cycle time */
     ULONG cycleTime;
@@ -97,7 +97,7 @@ public:
     ULONG bitLenOfLastBit;
 
     /** reserved */
-    DWORD reserved5;
+    DWORD reservedA429Message5;
 };
 
 }

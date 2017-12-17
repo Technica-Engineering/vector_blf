@@ -27,9 +27,9 @@ namespace BLF {
 
 LogContainer::LogContainer() :
     ObjectHeaderBase(),
-    reserved1(0),
+    reservedLogContainer1(0),
     uncompressedFileSize(0),
-    reserved2(0),
+    reservedLogContainer2(0),
     compressedFile(),
     compressedFileSize(0)
 {
@@ -40,9 +40,9 @@ LogContainer::LogContainer() :
 void LogContainer::read(AbstractFile & is)
 {
     ObjectHeaderBase::read(is);
-    is.read(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    is.read(reinterpret_cast<char *>(&reservedLogContainer1), sizeof(reservedLogContainer1));
     is.read(reinterpret_cast<char *>(&uncompressedFileSize), sizeof(uncompressedFileSize));
-    is.read(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    is.read(reinterpret_cast<char *>(&reservedLogContainer2), sizeof(reservedLogContainer2));
     compressedFileSize = objectSize - internalHeaderSize();
     compressedFile.resize(compressedFileSize);
     is.read(reinterpret_cast<char *>(compressedFile.data()), compressedFileSize);
@@ -54,9 +54,9 @@ void LogContainer::write(AbstractFile & os)
     compressedFileSize = static_cast<DWORD>(compressedFile.size());
 
     ObjectHeaderBase::write(os);
-    os.write(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    os.write(reinterpret_cast<char *>(&reservedLogContainer1), sizeof(reservedLogContainer1));
     os.write(reinterpret_cast<char *>(&uncompressedFileSize), sizeof(uncompressedFileSize));
-    os.write(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    os.write(reinterpret_cast<char *>(&reservedLogContainer2), sizeof(reservedLogContainer2));
     os.write(reinterpret_cast<char *>(compressedFile.data()), compressedFileSize);
 }
 
@@ -71,9 +71,9 @@ WORD LogContainer::internalHeaderSize() const
 {
     return
         ObjectHeaderBase::calculateHeaderSize() +
-        sizeof(reserved1) +
+        sizeof(reservedLogContainer1) +
         sizeof(uncompressedFileSize) +
-        sizeof(reserved2);
+        sizeof(reservedLogContainer2);
 }
 
 }

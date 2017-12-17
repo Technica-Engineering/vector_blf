@@ -28,42 +28,35 @@ BOOST_AUTO_TEST_CASE(MostCtrl)
 
     /* ObjectHeader */
     BOOST_CHECK(obj->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
-    BOOST_CHECK_EQUAL(obj->clientIndex, 0);
+    BOOST_CHECK_EQUAL(obj->clientIndex, 0x1111);
     BOOST_CHECK_EQUAL(obj->objectVersion, 0);
-    BOOST_CHECK_EQUAL(obj->objectTimeStamp, 111757000); // ns
+    BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
     /* MostCtrl */
-    BOOST_CHECK_EQUAL(obj->channel, 1);
-    BOOST_CHECK_EQUAL(obj->dir, 1); // Tx
-    // reserved
-    BOOST_CHECK_EQUAL(obj->sourceAdr, 0x0100);
-    BOOST_CHECK_EQUAL(obj->destAdr, 0x0401);
-    BOOST_CHECK_EQUAL(obj->msg[ 0], 0x01);
-    BOOST_CHECK_EQUAL(obj->msg[ 1], 0x01);
-    BOOST_CHECK_EQUAL(obj->msg[ 2], 0x00);
-    BOOST_CHECK_EQUAL(obj->msg[ 3], 0x01);
-    BOOST_CHECK_EQUAL(obj->msg[ 4], 0x00);
-    BOOST_CHECK_EQUAL(obj->msg[ 5], 0x00);
-    BOOST_CHECK_EQUAL(obj->msg[ 6], 0x00);
-    BOOST_CHECK_EQUAL(obj->msg[ 7], 0x00);
-    BOOST_CHECK_EQUAL(obj->msg[ 8], 0x00);
-    BOOST_CHECK_EQUAL(obj->msg[ 9], 0x00);
-    BOOST_CHECK_EQUAL(obj->msg[10], 0x00);
-    BOOST_CHECK_EQUAL(obj->msg[11], 0x00);
-    BOOST_CHECK_EQUAL(obj->msg[12], 0x00);
-    BOOST_CHECK_EQUAL(obj->msg[13], 0x00);
-    BOOST_CHECK_EQUAL(obj->msg[14], 0x00);
-    BOOST_CHECK_EQUAL(obj->msg[15], 0x00);
-    BOOST_CHECK_EQUAL(obj->msg[16], 0x00);
-    // reserved
-    BOOST_CHECK_EQUAL(obj->rTyp, 0); // Normal
-    BOOST_CHECK_EQUAL(obj->rTypAdr, 0); // Device
-    BOOST_CHECK_EQUAL(obj->state, 0x50); // TxF|Ack
-    // reserved
-    BOOST_CHECK_EQUAL(obj->ackNack, 0x12); // NoResp|NAck
-    // reserved
+    BOOST_CHECK_EQUAL(obj->channel, 0x1111);
+    BOOST_CHECK_EQUAL(obj->dir, 0x22);
+    BOOST_CHECK_EQUAL(obj->reservedMostCtrl1, 0x33);
+    BOOST_CHECK_EQUAL(obj->sourceAdr, 0x44444444);
+    BOOST_CHECK_EQUAL(obj->destAdr, 0x55555555);
+    for (uint8_t i = 0; i < 17; i++) {
+        BOOST_CHECK_EQUAL(obj->msg[i], i);
+    }
+    BOOST_CHECK_EQUAL(obj->reservedMostCtrl2, 0x66);
+    BOOST_CHECK_EQUAL(obj->rTyp, 0x7777);
+    BOOST_CHECK_EQUAL(obj->rTypAdr, 0x88);
+    BOOST_CHECK_EQUAL(obj->state, 0x99);
+    BOOST_CHECK_EQUAL(obj->reservedMostCtrl3, 0xAA);
+    BOOST_CHECK_EQUAL(obj->ackNack, 0xBB);
+    BOOST_CHECK_EQUAL(obj->reservedMostCtrl4, 0);
 
-    delete obj;
+    delete ohb;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_CTRL);
+
+    delete ohb;
 
     file.close();
 }

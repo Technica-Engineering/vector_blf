@@ -30,7 +30,7 @@ MostSystemEvent::MostSystemEvent() :
     id(),
     value(),
     valueOld(),
-    reserved()
+    reservedMostSystemEvent()
 {
     objectType = ObjectType::MOST_SYSTEM_EVENT;
 }
@@ -42,7 +42,7 @@ void MostSystemEvent::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&id), sizeof(id));
     is.read(reinterpret_cast<char *>(&value), sizeof(value));
     is.read(reinterpret_cast<char *>(&valueOld), sizeof(valueOld));
-    is.read(reinterpret_cast<char *>(reserved.data()), static_cast<std::streamsize>(reserved.size()));
+    is.read(reinterpret_cast<char *>(&reservedMostSystemEvent), sizeof(reservedMostSystemEvent));
 }
 
 void MostSystemEvent::write(AbstractFile & os)
@@ -52,7 +52,7 @@ void MostSystemEvent::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&id), sizeof(id));
     os.write(reinterpret_cast<char *>(&value), sizeof(value));
     os.write(reinterpret_cast<char *>(&valueOld), sizeof(valueOld));
-    os.write(reinterpret_cast<char *>(reserved.data()), static_cast<std::streamsize>(reserved.size()));
+    os.write(reinterpret_cast<char *>(&reservedMostSystemEvent), sizeof(reservedMostSystemEvent));
 }
 
 DWORD MostSystemEvent::calculateObjectSize() const
@@ -63,7 +63,7 @@ DWORD MostSystemEvent::calculateObjectSize() const
         sizeof(id) +
         sizeof(value) +
         sizeof(valueOld) +
-        static_cast<DWORD>(reserved.size());
+        sizeof(reservedMostSystemEvent);
 }
 
 }

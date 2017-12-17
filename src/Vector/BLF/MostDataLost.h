@@ -55,7 +55,7 @@ public:
     WORD channel;
 
     /** reserved */
-    WORD reserved;
+    WORD reservedMostDataLost;
 
     /**
      * @brief info about data loss

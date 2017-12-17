@@ -79,7 +79,7 @@ public:
     WORD infoMask3;
 
     /** reserved */
-    std::array<WORD, 16> reserved;
+    std::array<WORD, 18> reservedFlexRayStatusEvent;
 };
 
 }

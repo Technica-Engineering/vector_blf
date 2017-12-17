@@ -27,14 +27,15 @@ namespace BLF {
 LinStatisticEvent::LinStatisticEvent() :
     ObjectHeader(),
     channel(),
-    reserved1(),
+    reservedLinStatisticEvent1(),
+    reservedLinStatisticEvent2(),
     busLoad(),
     burstsTotal(),
     burstsOverrun(),
     framesSent(),
     framesReceived(),
     framesUnanswered(),
-    reserved2()
+    reservedLinStatisticEvent3()
 {
     objectType = ObjectType::LIN_STATISTIC;
 }
@@ -43,28 +44,30 @@ void LinStatisticEvent::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(reserved1.data()), static_cast<std::streamsize>(reserved1.size()));
+    is.read(reinterpret_cast<char *>(&reservedLinStatisticEvent1), sizeof(reservedLinStatisticEvent1));
+    is.read(reinterpret_cast<char *>(&reservedLinStatisticEvent2), sizeof(reservedLinStatisticEvent2));
     is.read(reinterpret_cast<char *>(&busLoad), sizeof(busLoad));
     is.read(reinterpret_cast<char *>(&burstsTotal), sizeof(burstsTotal));
     is.read(reinterpret_cast<char *>(&burstsOverrun), sizeof(burstsOverrun));
     is.read(reinterpret_cast<char *>(&framesSent), sizeof(framesSent));
     is.read(reinterpret_cast<char *>(&framesReceived), sizeof(framesReceived));
     is.read(reinterpret_cast<char *>(&framesUnanswered), sizeof(framesUnanswered));
-    is.read(reinterpret_cast<char *>(reserved2.data()), static_cast<std::streamsize>(reserved2.size()));
+    is.read(reinterpret_cast<char *>(&reservedLinStatisticEvent3), sizeof(reservedLinStatisticEvent3));
 }
 
 void LinStatisticEvent::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(reserved1.data()), static_cast<std::streamsize>(reserved1.size()));
+    os.write(reinterpret_cast<char *>(&reservedLinStatisticEvent1), sizeof(reservedLinStatisticEvent1));
+    os.write(reinterpret_cast<char *>(&reservedLinStatisticEvent2), sizeof(reservedLinStatisticEvent2));
     os.write(reinterpret_cast<char *>(&busLoad), sizeof(busLoad));
     os.write(reinterpret_cast<char *>(&burstsTotal), sizeof(burstsTotal));
     os.write(reinterpret_cast<char *>(&burstsOverrun), sizeof(burstsOverrun));
     os.write(reinterpret_cast<char *>(&framesSent), sizeof(framesSent));
     os.write(reinterpret_cast<char *>(&framesReceived), sizeof(framesReceived));
     os.write(reinterpret_cast<char *>(&framesUnanswered), sizeof(framesUnanswered));
-    os.write(reinterpret_cast<char *>(reserved2.data()), static_cast<std::streamsize>(reserved2.size()));
+    os.write(reinterpret_cast<char *>(&reservedLinStatisticEvent3), sizeof(reservedLinStatisticEvent3));
 }
 
 DWORD LinStatisticEvent::calculateObjectSize() const
@@ -72,14 +75,15 @@ DWORD LinStatisticEvent::calculateObjectSize() const
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
-        static_cast<DWORD>(reserved1.size()) +
+        sizeof(reservedLinStatisticEvent1) +
+        sizeof(reservedLinStatisticEvent2) +
         sizeof(busLoad) +
         sizeof(burstsTotal) +
         sizeof(burstsOverrun) +
         sizeof(framesSent) +
         sizeof(framesReceived) +
         sizeof(framesUnanswered) +
-        static_cast<DWORD>(reserved2.size());
+        sizeof(reservedLinStatisticEvent3);
 }
 
 }

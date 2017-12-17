@@ -35,7 +35,7 @@ BOOST_AUTO_TEST_CASE(DriverOverrun)
     /* DriverOverrun */
     BOOST_CHECK(obj->busType == Vector::BLF::DriverOverrun::BusType::Can);
     BOOST_CHECK_EQUAL(obj->channel, 0x2222);
-    BOOST_CHECK_EQUAL(obj->reserved, 0x3333);
+    BOOST_CHECK_EQUAL(obj->reservedDriverOverrun, 0x3333);
 
     delete ohb;
 

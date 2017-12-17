@@ -27,8 +27,9 @@ namespace BLF {
 LinSyncError::LinSyncError() :
     ObjectHeader(),
     channel(),
-    reserved(),
-    timeDiff()
+    reservedLinSyncError1(),
+    timeDiff(),
+    reservedLinSyncError2()
 {
     objectType = ObjectType::LIN_SYN_ERROR;
 }
@@ -37,16 +38,18 @@ void LinSyncError::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    is.read(reinterpret_cast<char *>(&reservedLinSyncError1), sizeof(reservedLinSyncError1));
     is.read(reinterpret_cast<char *>(timeDiff.data()), static_cast<std::streamsize>(timeDiff.size() * sizeof(WORD)));
+    is.read(reinterpret_cast<char *>(&reservedLinSyncError2), sizeof(reservedLinSyncError2));
 }
 
 void LinSyncError::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    os.write(reinterpret_cast<char *>(&reservedLinSyncError1), sizeof(reservedLinSyncError1));
     os.write(reinterpret_cast<char *>(timeDiff.data()), static_cast<std::streamsize>(timeDiff.size() * sizeof(WORD)));
+    os.write(reinterpret_cast<char *>(&reservedLinSyncError2), sizeof(reservedLinSyncError2));
 }
 
 DWORD LinSyncError::calculateObjectSize() const
@@ -54,8 +57,9 @@ DWORD LinSyncError::calculateObjectSize() const
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
-        sizeof(reserved) +
-        static_cast<DWORD>(timeDiff.size() * sizeof(WORD));
+        sizeof(reservedLinSyncError1) +
+        static_cast<DWORD>(timeDiff.size() * sizeof(WORD)) +
+        sizeof(reservedLinSyncError2);
 }
 
 }

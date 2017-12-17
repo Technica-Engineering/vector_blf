@@ -35,9 +35,9 @@ BOOST_AUTO_TEST_CASE(A429Status)
     /* A429Status */
     BOOST_CHECK_EQUAL(obj->channel, 0x1111);
     BOOST_CHECK_EQUAL(obj->dir, 0x22);
-    BOOST_CHECK_EQUAL(obj->reserved1, 0);
+    BOOST_CHECK_EQUAL(obj->reservedA429Status1, 0);
     BOOST_CHECK_EQUAL(obj->parity, 0x3333);
-    BOOST_CHECK_EQUAL(obj->reserved2, 0);
+    BOOST_CHECK_EQUAL(obj->reservedA429Status2, 0);
     BOOST_CHECK_EQUAL(obj->minGap, 0x44444444);
     BOOST_CHECK_EQUAL(obj->bitrate, 0x55555555);
     BOOST_CHECK_EQUAL(obj->minBitrate, 0x66666666);

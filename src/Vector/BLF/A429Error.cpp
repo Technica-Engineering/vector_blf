@@ -32,7 +32,7 @@ A429Error::A429Error() :
     errReason(),
     errorText(),
     errorAttributes(),
-    reserved()
+    reservedA429Error()
 {
     objectType = ObjectType::A429_ERROR;
 }
@@ -46,7 +46,7 @@ void A429Error::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&errReason), sizeof(errReason));
     is.read(reinterpret_cast<char *>(errorText.data()), static_cast<std::streamsize>(errorText.size()));
     is.read(reinterpret_cast<char *>(errorAttributes.data()), static_cast<std::streamsize>(errorAttributes.size()));
-    is.read(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    is.read(reinterpret_cast<char *>(&reservedA429Error), sizeof(reservedA429Error));
 }
 
 void A429Error::write(AbstractFile & os)
@@ -58,7 +58,7 @@ void A429Error::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&errReason), sizeof(errReason));
     os.write(reinterpret_cast<char *>(errorText.data()), static_cast<std::streamsize>(errorText.size()));
     os.write(reinterpret_cast<char *>(errorAttributes.data()), static_cast<std::streamsize>(errorAttributes.size()));
-    os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    os.write(reinterpret_cast<char *>(&reservedA429Error), sizeof(reservedA429Error));
 }
 
 DWORD A429Error::calculateObjectSize() const
@@ -71,7 +71,7 @@ DWORD A429Error::calculateObjectSize() const
         sizeof(errReason) +
         static_cast<DWORD>(errorText.size()) +
         static_cast<DWORD>(errorAttributes.size()) +
-        sizeof(reserved);
+        sizeof(reservedA429Error);
 }
 
 }

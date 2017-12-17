@@ -165,6 +165,9 @@ public:
      *   - 1: True
      */
     BYTE timeoutDuringDlcDetection;
+
+    /** reserved */
+    DWORD reservedLinReceiveError;
 };
 
 }

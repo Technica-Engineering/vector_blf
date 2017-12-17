@@ -108,10 +108,10 @@ public:
     BYTE bitCount;
 
     /** reserved */
-    BYTE reserved1;
+    BYTE reservedCanMessage1;
 
     /** reserved */
-    WORD reserved2;
+    WORD reservedCanMessage2;
 };
 
 }

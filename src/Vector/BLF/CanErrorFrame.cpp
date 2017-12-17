@@ -28,7 +28,7 @@ CanErrorFrame::CanErrorFrame() :
     ObjectHeader(),
     channel(),
     length(),
-    reserved()
+    reservedCanErrorFrame()
 {
     objectType = ObjectType::CAN_ERROR;
 }
@@ -38,7 +38,7 @@ void CanErrorFrame::read(AbstractFile & is)
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&length), sizeof(length));
-    is.read(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    is.read(reinterpret_cast<char *>(&reservedCanErrorFrame), sizeof(reservedCanErrorFrame));
 }
 
 void CanErrorFrame::write(AbstractFile & os)
@@ -46,7 +46,7 @@ void CanErrorFrame::write(AbstractFile & os)
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&length), sizeof(length));
-    os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    os.write(reinterpret_cast<char *>(&reservedCanErrorFrame), sizeof(reservedCanErrorFrame));
 }
 
 DWORD CanErrorFrame::calculateObjectSize() const
@@ -55,7 +55,7 @@ DWORD CanErrorFrame::calculateObjectSize() const
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(length) +
-        sizeof(reserved);
+        sizeof(reservedCanErrorFrame);
 }
 
 }

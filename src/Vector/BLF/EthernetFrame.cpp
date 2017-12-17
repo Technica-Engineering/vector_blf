@@ -34,7 +34,7 @@ EthernetFrame::EthernetFrame() :
     tpid(),
     tci(),
     payLoadLength(),
-    reserved(),
+    reservedEthernetFrame(),
     payLoad()
 {
     objectType = ObjectType::ETHERNET_FRAME;
@@ -51,9 +51,12 @@ void EthernetFrame::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&tpid), sizeof(tpid));
     is.read(reinterpret_cast<char *>(&tci), sizeof(tci));
     is.read(reinterpret_cast<char *>(&payLoadLength), sizeof(payLoadLength));
-    is.read(reinterpret_cast<char *>(reserved.data()), static_cast<std::streamsize>(reserved.size()));
+    is.read(reinterpret_cast<char *>(&reservedEthernetFrame), sizeof(reservedEthernetFrame));
     payLoad.resize(payLoadLength);
     is.read(reinterpret_cast<char *>(payLoad.data()), payLoadLength);
+
+    /* skip padding */
+    is.seekg(objectSize % 4, std::ios_base::cur);
 }
 
 void EthernetFrame::write(AbstractFile & os)
@@ -70,8 +73,11 @@ void EthernetFrame::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&tpid), sizeof(tpid));
     os.write(reinterpret_cast<char *>(&tci), sizeof(tci));
     os.write(reinterpret_cast<char *>(&payLoadLength), sizeof(payLoadLength));
-    os.write(reinterpret_cast<char *>(reserved.data()), static_cast<std::streamsize>(reserved.size()));
+    os.write(reinterpret_cast<char *>(&reservedEthernetFrame), sizeof(reservedEthernetFrame));
     os.write(reinterpret_cast<char *>(payLoad.data()), payLoadLength);
+
+    /* skip padding */
+    os.seekp(objectSize % 4, std::ios_base::cur);
 }
 
 DWORD EthernetFrame::calculateObjectSize() const
@@ -86,7 +92,7 @@ DWORD EthernetFrame::calculateObjectSize() const
         sizeof(tpid) +
         sizeof(tci) +
         sizeof(payLoadLength) +
-        static_cast<DWORD>(reserved.size()) +
+        sizeof(reservedEthernetFrame) +
         payLoadLength;
 }
 

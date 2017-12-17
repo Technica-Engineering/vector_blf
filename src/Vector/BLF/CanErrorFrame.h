@@ -61,7 +61,7 @@ public:
     WORD length;
 
     /** reserved */
-    DWORD reserved;
+    DWORD reservedCanErrorFrame;
 };
 
 }

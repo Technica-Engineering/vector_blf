@@ -23,8 +23,6 @@
 
 #include <Vector/BLF/platform.h>
 
-#include <array>
-
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
 #include <Vector/BLF/VectorTypes.h>
@@ -74,7 +72,7 @@ public:
     WORD channel;
 
     /** reserved */
-    std::array<BYTE, 2> reserved;
+    WORD reservedLinBusEvent;
 };
 
 }

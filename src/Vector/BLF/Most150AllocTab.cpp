@@ -30,6 +30,7 @@ Most150AllocTab::Most150AllocTab() :
     eventModeFlags(),
     freeBytes(),
     length(),
+    reservedMost150AllocTab(),
     tableData()
 {
     objectType = ObjectType::MOST_150_ALLOCTAB;
@@ -42,8 +43,12 @@ void Most150AllocTab::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&eventModeFlags), sizeof(eventModeFlags));
     is.read(reinterpret_cast<char *>(&freeBytes), sizeof(freeBytes));
     is.read(reinterpret_cast<char *>(&length), sizeof(length));
+    is.read(reinterpret_cast<char *>(&reservedMost150AllocTab), sizeof(reservedMost150AllocTab));
     tableData.resize(length);
-    is.read(reinterpret_cast<char *>(tableData.data()), length * sizeof(WORD));
+    is.read(reinterpret_cast<char *>(tableData.data()), length);
+
+    /* skip padding */
+    is.seekg(objectSize % 4, std::ios_base::cur);
 }
 
 void Most150AllocTab::write(AbstractFile & os)
@@ -56,7 +61,11 @@ void Most150AllocTab::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&eventModeFlags), sizeof(eventModeFlags));
     os.write(reinterpret_cast<char *>(&freeBytes), sizeof(freeBytes));
     os.write(reinterpret_cast<char *>(&length), sizeof(length));
-    os.write(reinterpret_cast<char *>(tableData.data()), length * sizeof(WORD));
+    os.write(reinterpret_cast<char *>(&reservedMost150AllocTab), sizeof(reservedMost150AllocTab));
+    os.write(reinterpret_cast<char *>(tableData.data()), length);
+
+    /* skip padding */
+    os.seekp(objectSize % 4, std::ios_base::cur);
 }
 
 DWORD Most150AllocTab::calculateObjectSize() const
@@ -67,7 +76,8 @@ DWORD Most150AllocTab::calculateObjectSize() const
         sizeof(eventModeFlags) +
         sizeof(freeBytes) +
         sizeof(length) +
-        length * sizeof(WORD);
+        sizeof(reservedMost150AllocTab) +
+        length;
 }
 
 }

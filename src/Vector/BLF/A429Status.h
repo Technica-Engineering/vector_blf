@@ -53,13 +53,13 @@ public:
     BYTE dir;
 
     /** reserved */
-    BYTE reserved1;
+    BYTE reservedA429Status1;
 
     /** parity */
     WORD parity;
 
     /** reserved */
-    WORD reserved2;
+    WORD reservedA429Status2;
 
     /** minimum gap */
     ULONG minGap;

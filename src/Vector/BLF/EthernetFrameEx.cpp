@@ -35,7 +35,7 @@ EthernetFrameEx::EthernetFrameEx() :
     dir(),
     frameLength(),
     frameHandle(),
-    reserved(),
+    reservedEthernetFrameEx(),
     frameData()
 {
     objectType = ObjectType::ETHERNET_FRAME_EX;
@@ -53,7 +53,7 @@ void EthernetFrameEx::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
     is.read(reinterpret_cast<char *>(&frameLength), sizeof(frameLength));
     is.read(reinterpret_cast<char *>(&frameHandle), sizeof(frameHandle));
-    is.read(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    is.read(reinterpret_cast<char *>(&reservedEthernetFrameEx), sizeof(reservedEthernetFrameEx));
     frameData.resize(frameLength);
     is.read(reinterpret_cast<char *>(frameData.data()), frameLength);
 }
@@ -61,7 +61,7 @@ void EthernetFrameEx::read(AbstractFile & is)
 void EthernetFrameEx::write(AbstractFile & os)
 {
     /* pre processing */
-    // @todo mStructLength = sizeof(VBLEthernetFrameEx) - sizeof(VBLObjectHeader) - sizeof(mStructLength) - sizeof(mFrameData)
+    structLength = calculateStructLength();
     frameLength = static_cast<WORD>(frameData.size());
 
     ObjectHeader::write(os);
@@ -74,7 +74,7 @@ void EthernetFrameEx::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
     os.write(reinterpret_cast<char *>(&frameLength), sizeof(frameLength));
     os.write(reinterpret_cast<char *>(&frameHandle), sizeof(frameHandle));
-    os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    os.write(reinterpret_cast<char *>(&reservedEthernetFrameEx), sizeof(reservedEthernetFrameEx));
     os.write(reinterpret_cast<char *>(frameData.data()), frameLength);
 }
 
@@ -91,8 +91,22 @@ DWORD EthernetFrameEx::calculateObjectSize() const
         sizeof(dir) +
         sizeof(frameLength) +
         sizeof(frameHandle) +
-        sizeof(reserved) +
+        sizeof(reservedEthernetFrameEx) +
         frameLength;
+}
+
+WORD EthernetFrameEx::calculateStructLength() const
+{
+    return
+        sizeof(flags) +
+        sizeof(channel) +
+        sizeof(hardwareChannel) +
+        sizeof(frameDuration) +
+        sizeof(frameChecksum) +
+        sizeof(dir) +
+        sizeof(frameLength) +
+        sizeof(frameHandle) +
+        sizeof(reservedEthernetFrameEx);
 }
 
 }

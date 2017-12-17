@@ -141,6 +141,12 @@ public:
      * @brief counter of link-losses during this period
      */
     WORD linkLost;
+
+    /** reserved */
+    WORD reservedAfdxBusStatistic1;
+
+    /** reserved */
+    DWORD reservedAfdxBusStatistic2;
 };
 
 }

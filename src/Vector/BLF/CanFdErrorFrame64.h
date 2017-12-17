@@ -40,7 +40,7 @@ namespace BLF {
  *
  * CAN-FD error frame received or transmitted on a CAN-FD channel.
  */
-class VECTOR_BLF_EXPORT CanFdErrorFrame64 final : public ObjectHeader
+class VECTOR_BLF_EXPORT CanFdErrorFrame64 final : public ObjectHeader, public CanFdExtFrameData
 {
 public:
     CanFdErrorFrame64();
@@ -111,7 +111,10 @@ public:
      */
     WORD extFlags;
 
-    WORD extDataOffset;
+    BYTE extDataOffset;
+
+    /** resered */
+    BYTE reservedCanFdErrorFrame1;
 
     /**
      * @brief CAN ID
@@ -182,7 +185,7 @@ public:
     WORD errorPosition;
 
     /** reserved */
-    WORD reserved2;
+    WORD reservedCanFdErrorFrame2;
 
     /**
      * @brief CAN FD data
@@ -194,7 +197,8 @@ public:
      */
     std::array<BYTE, 64> data;
 
-    CanFdExtFrameData extFrameData;
+    /** reserved */
+    DWORD reservedCanFdErrorFrame3;
 };
 
 }

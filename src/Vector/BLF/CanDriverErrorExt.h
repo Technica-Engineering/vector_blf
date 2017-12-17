@@ -94,13 +94,13 @@ public:
     BYTE state;
 
     /** reserved */
-    BYTE reserved1;
+    BYTE reservedCanDriverErrorExt1;
 
     /** reserved */
-    WORD reserved2;
+    WORD reservedCanDriverErrorExt2;
 
     /** reserved */
-    std::array<DWORD, 4> reserved3;
+    std::array<DWORD, 4> reservedCanDriverErrorExt3;
 };
 
 }

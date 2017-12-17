@@ -32,8 +32,8 @@ FlexRaySync::FlexRaySync() :
     messageId(),
     crc(),
     dir(),
-    reserved1(),
-    reserved2(),
+    reservedFlexRaySync1(),
+    reservedFlexRaySync2(),
     dataBytes(),
     cycle()
 {
@@ -49,8 +49,8 @@ void FlexRaySync::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&messageId), sizeof(messageId));
     is.read(reinterpret_cast<char *>(&crc), sizeof(crc));
     is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
-    is.read(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
-    is.read(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    is.read(reinterpret_cast<char *>(&reservedFlexRaySync1), sizeof(reservedFlexRaySync1));
+    is.read(reinterpret_cast<char *>(&reservedFlexRaySync2), sizeof(reservedFlexRaySync2));
     is.read(reinterpret_cast<char *>(dataBytes.data()), static_cast<std::streamsize>(dataBytes.size()));
     is.read(reinterpret_cast<char *>(&cycle), sizeof(cycle));
 }
@@ -64,8 +64,8 @@ void FlexRaySync::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&messageId), sizeof(messageId));
     os.write(reinterpret_cast<char *>(&crc), sizeof(crc));
     os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
-    os.write(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
-    os.write(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    os.write(reinterpret_cast<char *>(&reservedFlexRaySync1), sizeof(reservedFlexRaySync1));
+    os.write(reinterpret_cast<char *>(&reservedFlexRaySync2), sizeof(reservedFlexRaySync2));
     os.write(reinterpret_cast<char *>(dataBytes.data()), static_cast<std::streamsize>(dataBytes.size()));
     os.write(reinterpret_cast<char *>(&cycle), sizeof(cycle));
 }
@@ -80,8 +80,8 @@ DWORD FlexRaySync::calculateObjectSize() const
         sizeof(messageId) +
         sizeof(crc) +
         sizeof(dir) +
-        sizeof(reserved1) +
-        sizeof(reserved2) +
+        sizeof(reservedFlexRaySync1) +
+        sizeof(reservedFlexRaySync2) +
         static_cast<DWORD>(dataBytes.size()) +
         sizeof(cycle);
 }

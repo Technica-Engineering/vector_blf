@@ -23,7 +23,6 @@
 
 #include <Vector/BLF/platform.h>
 
-#include <array>
 #include <vector>
 
 #include <Vector/BLF/AbstractFile.h>
@@ -48,6 +47,7 @@ public:
     virtual void read(AbstractFile & is) override;
     virtual void write(AbstractFile & os) override;
     virtual DWORD calculateObjectSize() const override;
+    virtual WORD calculateStructLength() const;
 
     /**
      * @brief Length of this structure
@@ -79,12 +79,12 @@ public:
     /**
      * @brief Direction flag
      */
-    Dir dir;
+    WORD dir;
 
     /**
      * @brief HW channel. 0 = invalid.
      */
-    DWORD hardwareChannel;
+    WORD hardwareChannel;
 
     /**
      * @brief Frame Check Sum
@@ -102,7 +102,7 @@ public:
     WORD frameDataLength;
 
     /** reserved */
-    std::array<BYTE, 2> reserved2;
+    WORD reservedEthernetRxError;
 
     /**
      * Error code

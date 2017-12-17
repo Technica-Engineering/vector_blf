@@ -33,9 +33,32 @@ BOOST_AUTO_TEST_CASE(FlexRayVFrStatus)
     BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
     /* FlexRayVFrStatus */
-    // @todo FlexRayVFrStatus
+    BOOST_CHECK_EQUAL(obj->channel, 0x1111);
+    BOOST_CHECK_EQUAL(obj->version, 0x2222);
+    BOOST_CHECK_EQUAL(obj->channelMask, 0x3333);
+    BOOST_CHECK_EQUAL(obj->cycle, 0x44);
+    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrStatus1, 0);
+    BOOST_CHECK_EQUAL(obj->clientIndexFlexRayVFrStatus, 0x55555555);
+    BOOST_CHECK_EQUAL(obj->clusterNo, 0x66666666);
+    BOOST_CHECK_EQUAL(obj->wus, 0x77777777);
+    BOOST_CHECK_EQUAL(obj->ccSyncState, 0x88888888);
+    BOOST_CHECK_EQUAL(obj->tag, 0x99999999);
+    BOOST_CHECK_EQUAL(obj->data[0], 0xAAAAAAAA);
+    BOOST_CHECK_EQUAL(obj->data[1], 0xBBBBBBBB);
+    for (uint16_t i = 0; i < 16; i++) {
+        BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrStatus2[i], i);
+    }
+    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrStatus2[16], 0);
+    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrStatus2[17], 0);
 
-    delete obj;
+    delete ohb;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::FR_STATUS);
+
+    delete ohb;
 
     file.close();
 }

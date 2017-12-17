@@ -28,7 +28,7 @@ MostAllocTab::MostAllocTab() :
     ObjectHeader2(),
     channel(),
     length(),
-    reserved(),
+    reservedMostAllocTab(),
     tableData()
 {
     objectType = ObjectType::MOST_ALLOCTAB;
@@ -39,9 +39,12 @@ void MostAllocTab::read(AbstractFile & is)
     ObjectHeader2::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&length), sizeof(length));
-    is.read(reinterpret_cast<char *>(reserved.data()), static_cast<std::streamsize>(reserved.size()));
+    is.read(reinterpret_cast<char *>(&reservedMostAllocTab), sizeof(reservedMostAllocTab));
     tableData.resize(length);
     is.read(reinterpret_cast<char *>(tableData.data()), length);
+
+    /* skip padding */
+    is.seekg(objectSize % 4, std::ios_base::cur);
 }
 
 void MostAllocTab::write(AbstractFile & os)
@@ -52,8 +55,11 @@ void MostAllocTab::write(AbstractFile & os)
     ObjectHeader2::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&length), sizeof(length));
-    os.write(reinterpret_cast<char *>(reserved.data()), static_cast<std::streamsize>(reserved.size()));
+    os.write(reinterpret_cast<char *>(&reservedMostAllocTab), sizeof(reservedMostAllocTab));
     os.write(reinterpret_cast<char *>(tableData.data()), length);
+
+    /* skip padding */
+    os.seekp(objectSize % 4, std::ios_base::cur);
 }
 
 DWORD MostAllocTab::calculateObjectSize() const
@@ -62,7 +68,7 @@ DWORD MostAllocTab::calculateObjectSize() const
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +
         sizeof(length) +
-        static_cast<DWORD>(reserved.size()) +
+        sizeof(reservedMostAllocTab) +
         length;
 }
 

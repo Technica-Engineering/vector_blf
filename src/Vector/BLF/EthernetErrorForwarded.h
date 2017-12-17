@@ -45,6 +45,7 @@ public:
     virtual void read(AbstractFile & is) override;
     virtual void write(AbstractFile & os) override;
     virtual DWORD calculateObjectSize() const override;
+    virtual WORD calculateStructLength() const;
 
     /**
      * @brief Length of this structure

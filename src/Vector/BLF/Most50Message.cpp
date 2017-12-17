@@ -28,20 +28,19 @@ Most50Message::Most50Message() :
     ObjectHeader2(),
     channel(),
     dir(),
-    reserved1(),
+    reservedMost50Message1(),
     sourceAdr(),
     destAdr(),
     transferType(),
     state(),
     ackNack(),
-    reserved2(),
+    reservedMost50Message2(),
     crc(),
-    reserved3(),
-    reserved4(),
+    reservedMost50Message3(),
     priority(),
-    reserved5(),
+    reservedMost50Message4(),
     msgLen(),
-    reserved6(),
+    reservedMost50Message5(),
     msg()
 {
     objectType = ObjectType::MOST_50_MESSAGE;
@@ -52,22 +51,24 @@ void Most50Message::read(AbstractFile & is)
     ObjectHeader2::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
-    is.read(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    is.read(reinterpret_cast<char *>(&reservedMost50Message1), sizeof(reservedMost50Message1));
     is.read(reinterpret_cast<char *>(&sourceAdr), sizeof(sourceAdr));
     is.read(reinterpret_cast<char *>(&destAdr), sizeof(destAdr));
     is.read(reinterpret_cast<char *>(&transferType), sizeof(transferType));
     is.read(reinterpret_cast<char *>(&state), sizeof(state));
     is.read(reinterpret_cast<char *>(&ackNack), sizeof(ackNack));
-    is.read(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    is.read(reinterpret_cast<char *>(&reservedMost50Message2), sizeof(reservedMost50Message2));
     is.read(reinterpret_cast<char *>(&crc), sizeof(crc));
-    is.read(reinterpret_cast<char *>(&reserved3), sizeof(reserved3));
-    is.read(reinterpret_cast<char *>(&reserved4), sizeof(reserved4));
+    is.read(reinterpret_cast<char *>(&reservedMost50Message3), sizeof(reservedMost50Message3));
     is.read(reinterpret_cast<char *>(&priority), sizeof(priority));
-    is.read(reinterpret_cast<char *>(&reserved5), sizeof(reserved5));
+    is.read(reinterpret_cast<char *>(&reservedMost50Message4), sizeof(reservedMost50Message4));
     is.read(reinterpret_cast<char *>(&msgLen), sizeof(msgLen));
-    is.read(reinterpret_cast<char *>(reserved6.data()), static_cast<std::streamsize>(reserved6.size()));
+    is.read(reinterpret_cast<char *>(&reservedMost50Message5), sizeof(reservedMost50Message5));
     msg.resize(msgLen);
     is.read(reinterpret_cast<char *>(msg.data()), msgLen);
+
+    /* skip padding */
+    is.seekg(objectSize % 4, std::ios_base::cur);
 }
 
 void Most50Message::write(AbstractFile & os)
@@ -78,21 +79,23 @@ void Most50Message::write(AbstractFile & os)
     ObjectHeader2::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
-    os.write(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    os.write(reinterpret_cast<char *>(&reservedMost50Message1), sizeof(reservedMost50Message1));
     os.write(reinterpret_cast<char *>(&sourceAdr), sizeof(sourceAdr));
     os.write(reinterpret_cast<char *>(&destAdr), sizeof(destAdr));
     os.write(reinterpret_cast<char *>(&transferType), sizeof(transferType));
     os.write(reinterpret_cast<char *>(&state), sizeof(state));
     os.write(reinterpret_cast<char *>(&ackNack), sizeof(ackNack));
-    os.write(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    os.write(reinterpret_cast<char *>(&reservedMost50Message2), sizeof(reservedMost50Message2));
     os.write(reinterpret_cast<char *>(&crc), sizeof(crc));
-    os.write(reinterpret_cast<char *>(&reserved3), sizeof(reserved3));
-    os.write(reinterpret_cast<char *>(&reserved4), sizeof(reserved4));
+    os.write(reinterpret_cast<char *>(&reservedMost50Message3), sizeof(reservedMost50Message3));
     os.write(reinterpret_cast<char *>(&priority), sizeof(priority));
-    os.write(reinterpret_cast<char *>(&reserved5), sizeof(reserved5));
+    os.write(reinterpret_cast<char *>(&reservedMost50Message4), sizeof(reservedMost50Message4));
     os.write(reinterpret_cast<char *>(&msgLen), sizeof(msgLen));
-    os.write(reinterpret_cast<char *>(reserved6.data()), static_cast<std::streamsize>(reserved6.size()));
+    os.write(reinterpret_cast<char *>(&reservedMost50Message5), sizeof(reservedMost50Message5));
     os.write(reinterpret_cast<char *>(msg.data()), msgLen);
+
+    /* skip padding */
+    os.seekp(objectSize % 4, std::ios_base::cur);
 }
 
 DWORD Most50Message::calculateObjectSize() const
@@ -101,20 +104,19 @@ DWORD Most50Message::calculateObjectSize() const
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +
         sizeof(dir) +
-        sizeof(reserved1) +
+        sizeof(reservedMost50Message1) +
         sizeof(sourceAdr) +
         sizeof(destAdr) +
         sizeof(transferType) +
         sizeof(state) +
         sizeof(ackNack) +
-        sizeof(reserved2) +
+        sizeof(reservedMost50Message2) +
         sizeof(crc) +
-        sizeof(reserved3) +
-        sizeof(reserved4) +
+        sizeof(reservedMost50Message3) +
         sizeof(priority) +
-        sizeof(reserved5) +
+        sizeof(reservedMost50Message4) +
         sizeof(msgLen) +
-        static_cast<DWORD>(reserved6.size()) +
+        sizeof(reservedMost50Message5) +
         msgLen;
 }
 

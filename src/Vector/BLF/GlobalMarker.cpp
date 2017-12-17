@@ -32,13 +32,13 @@ GlobalMarker::GlobalMarker() :
     foregroundColor(),
     backgroundColor(),
     isRelocatable(),
-    reserved1(),
-    reserved2(),
+    reservedGlobalMarker1(),
+    reservedGlobalMarker2(),
     groupNameLength(),
     markerNameLength(),
     descriptionLength(),
-    reserved3(),
-    reserved4(),
+    reservedGlobalMarker3(),
+    reservedGlobalMarker4(),
     groupName(),
     markerName(),
     description()
@@ -53,13 +53,13 @@ void GlobalMarker::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&foregroundColor), sizeof(foregroundColor));
     is.read(reinterpret_cast<char *>(&backgroundColor), sizeof(backgroundColor));
     is.read(reinterpret_cast<char *>(&isRelocatable), sizeof(isRelocatable));
-    is.read(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
-    is.read(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    is.read(reinterpret_cast<char *>(&reservedGlobalMarker1), sizeof(reservedGlobalMarker1));
+    is.read(reinterpret_cast<char *>(&reservedGlobalMarker2), sizeof(reservedGlobalMarker2));
     is.read(reinterpret_cast<char *>(&groupNameLength), sizeof(groupNameLength));
     is.read(reinterpret_cast<char *>(&markerNameLength), sizeof(markerNameLength));
     is.read(reinterpret_cast<char *>(&descriptionLength), sizeof(descriptionLength));
-    is.read(reinterpret_cast<char *>(&reserved3), sizeof(reserved3));
-    is.read(reinterpret_cast<char *>(&reserved4), sizeof(reserved4));
+    is.read(reinterpret_cast<char *>(&reservedGlobalMarker3), sizeof(reservedGlobalMarker3));
+    is.read(reinterpret_cast<char *>(&reservedGlobalMarker4), sizeof(reservedGlobalMarker4));
     groupName.resize(groupNameLength);
     is.read(const_cast<char *>(groupName.data()), groupNameLength);
     markerName.resize(markerNameLength);
@@ -67,34 +67,24 @@ void GlobalMarker::read(AbstractFile & is)
     description.resize(descriptionLength);
     is.read(const_cast<char *>(description.data()), descriptionLength);
 
-    /* post processing */
-    groupName.resize(strnlen(groupName.c_str(), groupNameLength)); // Vector bug: the actual string can be shorter than size!
-    markerName.resize(strnlen(markerName.c_str(), markerNameLength)); // Vector bug: the actual string can be shorter than size!
-    description.resize(strnlen(description.c_str(), descriptionLength)); // Vector bug: the actual string can be shorter than size!
-
     /* skip padding */
     is.seekg(objectSize % 4, std::ios_base::cur);
 }
 
 void GlobalMarker::write(AbstractFile & os)
 {
-    /* pre processing */
-    groupNameLength = static_cast<DWORD>(groupName.size());
-    markerNameLength = static_cast<DWORD>(markerName.size());
-    descriptionLength = static_cast<DWORD>(description.size());
-
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&commentedEventType), sizeof(commentedEventType));
     os.write(reinterpret_cast<char *>(&foregroundColor), sizeof(foregroundColor));
     os.write(reinterpret_cast<char *>(&backgroundColor), sizeof(backgroundColor));
     os.write(reinterpret_cast<char *>(&isRelocatable), sizeof(isRelocatable));
-    os.write(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
-    os.write(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    os.write(reinterpret_cast<char *>(&reservedGlobalMarker1), sizeof(reservedGlobalMarker1));
+    os.write(reinterpret_cast<char *>(&reservedGlobalMarker2), sizeof(reservedGlobalMarker2));
     os.write(reinterpret_cast<char *>(&groupNameLength), sizeof(groupNameLength));
     os.write(reinterpret_cast<char *>(&markerNameLength), sizeof(markerNameLength));
     os.write(reinterpret_cast<char *>(&descriptionLength), sizeof(descriptionLength));
-    os.write(reinterpret_cast<char *>(&reserved3), sizeof(reserved3));
-    os.write(reinterpret_cast<char *>(&reserved4), sizeof(reserved4));
+    os.write(reinterpret_cast<char *>(&reservedGlobalMarker3), sizeof(reservedGlobalMarker3));
+    os.write(reinterpret_cast<char *>(&reservedGlobalMarker4), sizeof(reservedGlobalMarker4));
     os.write(const_cast<char *>(groupName.data()), groupNameLength);
     os.write(const_cast<char *>(markerName.data()), markerNameLength);
     os.write(const_cast<char *>(description.data()), descriptionLength);
@@ -111,13 +101,13 @@ DWORD GlobalMarker::calculateObjectSize() const
         sizeof(foregroundColor) +
         sizeof(backgroundColor) +
         sizeof(isRelocatable) +
-        sizeof(reserved1) +
-        sizeof(reserved2) +
+        sizeof(reservedGlobalMarker1) +
+        sizeof(reservedGlobalMarker2) +
         sizeof(groupNameLength) +
         sizeof(markerNameLength) +
         sizeof(descriptionLength) +
-        sizeof(reserved3) +
-        sizeof(reserved4) +
+        sizeof(reservedGlobalMarker3) +
+        sizeof(reservedGlobalMarker4) +
         groupNameLength +
         markerNameLength +
         descriptionLength;

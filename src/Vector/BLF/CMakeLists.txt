@@ -21,6 +21,7 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/AfdxBusStatistic.h
         ${CMAKE_CURRENT_SOURCE_DIR}/AfdxErrorEvent.h
         ${CMAKE_CURRENT_SOURCE_DIR}/AfdxFrame.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/AfdxLineStatus.h
         ${CMAKE_CURRENT_SOURCE_DIR}/AfdxStatistic.h
         ${CMAKE_CURRENT_SOURCE_DIR}/AfdxStatus.h
         ${CMAKE_CURRENT_SOURCE_DIR}/AppText.h
@@ -148,6 +149,7 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/AfdxBusStatistic.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/AfdxErrorEvent.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/AfdxFrame.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/AfdxLineStatus.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/AfdxStatistic.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/AfdxStatus.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/AppText.cpp
@@ -159,6 +161,7 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/CanErrorFrame.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/CanErrorFrameExt.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/CanFdErrorFrame64.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CanFdExtFrameData.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/CanFdMessage64.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/CanFdMessage.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/CanMessage2.cpp

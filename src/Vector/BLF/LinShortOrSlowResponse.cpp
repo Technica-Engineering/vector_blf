@@ -31,7 +31,7 @@ LinShortOrSlowResponse::LinShortOrSlowResponse() :
     respBytes(),
     slowResponse(),
     interruptedByBreak(),
-    reserved()
+    reservedLinShortOrSlowResponse()
 {
     objectType = ObjectType::LIN_SHORT_OR_SLOW_RESPONSE;
 }
@@ -44,7 +44,7 @@ void LinShortOrSlowResponse::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(respBytes.data()), static_cast<std::streamsize>(respBytes.size()));
     is.read(reinterpret_cast<char *>(&slowResponse), sizeof(slowResponse));
     is.read(reinterpret_cast<char *>(&interruptedByBreak), sizeof(interruptedByBreak));
-    is.read(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    is.read(reinterpret_cast<char *>(&reservedLinShortOrSlowResponse), sizeof(reservedLinShortOrSlowResponse));
 }
 
 void LinShortOrSlowResponse::write(AbstractFile & os)
@@ -55,7 +55,7 @@ void LinShortOrSlowResponse::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(respBytes.data()), static_cast<std::streamsize>(respBytes.size()));
     os.write(reinterpret_cast<char *>(&slowResponse), sizeof(slowResponse));
     os.write(reinterpret_cast<char *>(&interruptedByBreak), sizeof(interruptedByBreak));
-    os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    os.write(reinterpret_cast<char *>(&reservedLinShortOrSlowResponse), sizeof(reservedLinShortOrSlowResponse));
 }
 
 DWORD LinShortOrSlowResponse::calculateObjectSize() const
@@ -67,7 +67,7 @@ DWORD LinShortOrSlowResponse::calculateObjectSize() const
         static_cast<DWORD>(respBytes.size()) +
         sizeof(slowResponse) +
         sizeof(interruptedByBreak) +
-        sizeof(reserved);
+        sizeof(reservedLinShortOrSlowResponse);
 }
 
 }

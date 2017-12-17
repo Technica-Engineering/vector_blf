@@ -61,7 +61,7 @@ public:
     BYTE type;
 
     /** reserved */
-    std::array<BYTE, 7> reserved;
+    std::array<BYTE, 7> reservedLinLongDomSignalEvent;
 
     /**
      * Current total signal length [in nanoseconds]

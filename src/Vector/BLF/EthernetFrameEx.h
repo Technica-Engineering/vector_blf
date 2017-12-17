@@ -45,6 +45,7 @@ public:
     virtual void read(AbstractFile & is) override;
     virtual void write(AbstractFile & os) override;
     virtual DWORD calculateObjectSize() const override;
+    virtual WORD calculateStructLength() const;
 
     /**
      * @brief Length of this structure, without sizeof(VBLObjectHeader), without mStructLength member and without mFrameData member
@@ -97,7 +98,7 @@ public:
     DWORD frameHandle;
 
     /** reserved */
-    DWORD reserved;
+    DWORD reservedEthernetFrameEx;
 
     /**
      * @brief Max 1612 data bytes per frame. Contains Ethernet header + Ethernet payload

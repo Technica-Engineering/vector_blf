@@ -30,7 +30,7 @@ FlexRayVFrReceiveMsgEx::FlexRayVFrReceiveMsgEx() :
     version(),
     channelMask(),
     dir(),
-    clientIndex(),
+    clientIndexFlexRayVFrReceiveMsgEx(),
     clusterNo(),
     frameId(),
     headerCrc1(),
@@ -47,8 +47,11 @@ FlexRayVFrReceiveMsgEx::FlexRayVFrReceiveMsgEx() :
     frameId1(),
     pduOffset(),
     blfLogMask(),
-    reserved(),
-    dataBytes()
+    reservedFlexRayVFrReceiveMsgEx1(),
+    reservedFlexRayVFrReceiveMsgEx2(),
+    dataBytes(),
+    reservedFlexRayVFrReceiveMsgEx3(),
+    reservedFlexRayVFrReceiveMsgEx4()
 {
     objectType = ObjectType::FR_RCVMESSAGE_EX;
 }
@@ -60,7 +63,7 @@ void FlexRayVFrReceiveMsgEx::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&version), sizeof(version));
     is.read(reinterpret_cast<char *>(&channelMask), sizeof(channelMask));
     is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
-    is.read(reinterpret_cast<char *>(&clientIndex), sizeof(clientIndex));
+    is.read(reinterpret_cast<char *>(&clientIndexFlexRayVFrReceiveMsgEx), sizeof(clientIndexFlexRayVFrReceiveMsgEx));
     is.read(reinterpret_cast<char *>(&clusterNo), sizeof(clusterNo));
     is.read(reinterpret_cast<char *>(&frameId), sizeof(frameId));
     is.read(reinterpret_cast<char *>(&headerCrc1), sizeof(headerCrc1));
@@ -77,22 +80,21 @@ void FlexRayVFrReceiveMsgEx::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&frameId1), sizeof(frameId1));
     is.read(reinterpret_cast<char *>(&pduOffset), sizeof(pduOffset));
     is.read(reinterpret_cast<char *>(&blfLogMask), sizeof(blfLogMask));
-    is.read(reinterpret_cast<char *>(reserved.data()), static_cast<std::streamsize>(reserved.size()));
-    dataBytes.resize(dataCount);
-    is.read(reinterpret_cast<char *>(dataBytes.data()), dataCount);
+    is.read(reinterpret_cast<char *>(&reservedFlexRayVFrReceiveMsgEx1), sizeof(reservedFlexRayVFrReceiveMsgEx1));
+    is.read(reinterpret_cast<char *>(reservedFlexRayVFrReceiveMsgEx2.data()), static_cast<std::streamsize>(reservedFlexRayVFrReceiveMsgEx2.size() * sizeof(DWORD)));
+    is.read(reinterpret_cast<char *>(dataBytes.data()), static_cast<std::streamsize>(dataBytes.size()));
+    is.read(reinterpret_cast<char *>(&reservedFlexRayVFrReceiveMsgEx3), sizeof(reservedFlexRayVFrReceiveMsgEx3));
+    is.read(reinterpret_cast<char *>(&reservedFlexRayVFrReceiveMsgEx4), sizeof(reservedFlexRayVFrReceiveMsgEx4));
 }
 
 void FlexRayVFrReceiveMsgEx::write(AbstractFile & os)
 {
-    /* pre processing */
-    dataCount = static_cast<WORD>(dataBytes.size());
-
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&version), sizeof(version));
     os.write(reinterpret_cast<char *>(&channelMask), sizeof(channelMask));
     os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
-    os.write(reinterpret_cast<char *>(&clientIndex), sizeof(clientIndex));
+    os.write(reinterpret_cast<char *>(&clientIndexFlexRayVFrReceiveMsgEx), sizeof(clientIndexFlexRayVFrReceiveMsgEx));
     os.write(reinterpret_cast<char *>(&clusterNo), sizeof(clusterNo));
     os.write(reinterpret_cast<char *>(&frameId), sizeof(frameId));
     os.write(reinterpret_cast<char *>(&headerCrc1), sizeof(headerCrc1));
@@ -109,8 +111,11 @@ void FlexRayVFrReceiveMsgEx::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&frameId1), sizeof(frameId1));
     os.write(reinterpret_cast<char *>(&pduOffset), sizeof(pduOffset));
     os.write(reinterpret_cast<char *>(&blfLogMask), sizeof(blfLogMask));
-    os.write(reinterpret_cast<char *>(reserved.data()), static_cast<std::streamsize>(reserved.size()));
-    os.write(reinterpret_cast<char *>(dataBytes.data()), dataCount);
+    os.write(reinterpret_cast<char *>(&reservedFlexRayVFrReceiveMsgEx1), sizeof(reservedFlexRayVFrReceiveMsgEx1));
+    os.write(reinterpret_cast<char *>(reservedFlexRayVFrReceiveMsgEx2.data()), static_cast<std::streamsize>(reservedFlexRayVFrReceiveMsgEx2.size() * sizeof(DWORD)));
+    os.write(reinterpret_cast<char *>(dataBytes.data()), static_cast<std::streamsize>(dataBytes.size()));
+    os.write(reinterpret_cast<char *>(&reservedFlexRayVFrReceiveMsgEx3), sizeof(reservedFlexRayVFrReceiveMsgEx3));
+    os.write(reinterpret_cast<char *>(&reservedFlexRayVFrReceiveMsgEx4), sizeof(reservedFlexRayVFrReceiveMsgEx4));
 }
 
 DWORD FlexRayVFrReceiveMsgEx::calculateObjectSize() const
@@ -121,7 +126,7 @@ DWORD FlexRayVFrReceiveMsgEx::calculateObjectSize() const
         sizeof(version) +
         sizeof(channelMask) +
         sizeof(dir) +
-        sizeof(clientIndex) +
+        sizeof(clientIndexFlexRayVFrReceiveMsgEx) +
         sizeof(clusterNo) +
         sizeof(frameId) +
         sizeof(headerCrc1) +
@@ -138,8 +143,11 @@ DWORD FlexRayVFrReceiveMsgEx::calculateObjectSize() const
         sizeof(frameId1) +
         sizeof(pduOffset) +
         sizeof(blfLogMask) +
-        static_cast<DWORD>(reserved.size()) +
-        dataCount;
+        sizeof(reservedFlexRayVFrReceiveMsgEx1) +
+        static_cast<DWORD>(reservedFlexRayVFrReceiveMsgEx2.size() * sizeof(DWORD)) +
+        static_cast<DWORD>(dataBytes.size()) +
+        sizeof(reservedFlexRayVFrReceiveMsgEx3) +
+        sizeof(reservedFlexRayVFrReceiveMsgEx4);
 }
 
 }

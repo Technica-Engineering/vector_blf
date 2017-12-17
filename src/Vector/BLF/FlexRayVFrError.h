@@ -81,7 +81,7 @@ public:
     BYTE cycle;
 
     /** reserved */
-    BYTE reserved1;
+    BYTE reservedFlexRayVFrError1;
 
     /**
      * @brief clientindex of send node
@@ -89,7 +89,7 @@ public:
      * Client index of send node. Must be set to 0 if file
      * is written from other applications
      */
-    DWORD clientIndex;
+    DWORD clientIndexFlexRayVFrError;
 
     /**
      * @brief number of cluster
@@ -224,7 +224,7 @@ public:
     std::array<DWORD, 4> data;
 
     /** reserved */
-    std::array<BYTE, 4> reserved2;
+    DWORD reservedFlexRayVFrError2;
 };
 
 }

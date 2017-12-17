@@ -29,7 +29,7 @@ MostEcl::MostEcl() :
     channel(),
     mode(),
     eclState(),
-    reserved()
+    reservedMostEcl()
 {
     objectType = ObjectType::MOST_ECL;
 }
@@ -40,7 +40,7 @@ void MostEcl::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&mode), sizeof(mode));
     is.read(reinterpret_cast<char *>(&eclState), sizeof(eclState));
-    is.read(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    is.read(reinterpret_cast<char *>(&reservedMostEcl), sizeof(reservedMostEcl));
 }
 
 void MostEcl::write(AbstractFile & os)
@@ -49,7 +49,7 @@ void MostEcl::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&mode), sizeof(mode));
     os.write(reinterpret_cast<char *>(&eclState), sizeof(eclState));
-    os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    os.write(reinterpret_cast<char *>(&reservedMostEcl), sizeof(reservedMostEcl));
 }
 
 DWORD MostEcl::calculateObjectSize() const
@@ -59,7 +59,7 @@ DWORD MostEcl::calculateObjectSize() const
         sizeof(channel) +
         sizeof(mode) +
         sizeof(eclState) +
-        sizeof(reserved);
+        sizeof(reservedMostEcl);
 }
 
 }

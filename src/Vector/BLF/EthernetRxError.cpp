@@ -32,7 +32,7 @@ EthernetRxError::EthernetRxError() :
     hardwareChannel(),
     fcs(),
     frameDataLength(),
-    reserved2(),
+    reservedEthernetRxError(),
     error(),
     frameData()
 {
@@ -48,15 +48,19 @@ void EthernetRxError::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&hardwareChannel), sizeof(hardwareChannel));
     is.read(reinterpret_cast<char *>(&fcs), sizeof(fcs));
     is.read(reinterpret_cast<char *>(&frameDataLength), sizeof(frameDataLength));
-    is.read(reinterpret_cast<char *>(reserved2.data()), static_cast<std::streamsize>(reserved2.size()));
+    is.read(reinterpret_cast<char *>(&reservedEthernetRxError), sizeof(reservedEthernetRxError));
     is.read(reinterpret_cast<char *>(&error), sizeof(error));
     frameData.resize(frameDataLength);
     is.read(reinterpret_cast<char *>(frameData.data()), frameDataLength);
+
+    /* skip padding */
+    is.seekg(objectSize % 4, std::ios_base::cur);
 }
 
 void EthernetRxError::write(AbstractFile & os)
 {
     /* pre processing */
+    structLength = calculateStructLength();
     frameDataLength = static_cast<WORD>(frameData.size());
 
     ObjectHeader::write(os);
@@ -66,9 +70,12 @@ void EthernetRxError::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&hardwareChannel), sizeof(hardwareChannel));
     os.write(reinterpret_cast<char *>(&fcs), sizeof(fcs));
     os.write(reinterpret_cast<char *>(&frameDataLength), sizeof(frameDataLength));
-    os.write(reinterpret_cast<char *>(reserved2.data()), static_cast<std::streamsize>(reserved2.size()));
+    os.write(reinterpret_cast<char *>(&reservedEthernetRxError), sizeof(reservedEthernetRxError));
     os.write(reinterpret_cast<char *>(&error), sizeof(error));
     os.write(reinterpret_cast<char *>(frameData.data()), frameDataLength);
+
+    /* skip padding */
+    os.seekp(objectSize % 4, std::ios_base::cur);
 }
 
 DWORD EthernetRxError::calculateObjectSize() const
@@ -81,9 +88,22 @@ DWORD EthernetRxError::calculateObjectSize() const
         sizeof(hardwareChannel) +
         sizeof(fcs) +
         sizeof(frameDataLength) +
-        static_cast<DWORD>(reserved2.size()) +
+        sizeof(reservedEthernetRxError) +
         sizeof(error) +
         frameDataLength;
+}
+
+WORD EthernetRxError::calculateStructLength() const
+{
+    return
+        sizeof(structLength) +
+        sizeof(channel) +
+        sizeof(dir) +
+        sizeof(hardwareChannel) +
+        sizeof(fcs) +
+        sizeof(frameDataLength) +
+        sizeof(reservedEthernetRxError) +
+        sizeof(error);
 }
 
 }

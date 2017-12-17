@@ -11,7 +11,7 @@
 BOOST_AUTO_TEST_CASE(AfdxBusStatistic)
 {
     Vector::BLF::File file;
-    file.open(CMAKE_CURRENT_SOURCE_DIR "/events/test_A429Status.blf");
+    file.open(CMAKE_CURRENT_SOURCE_DIR "/events/test_AfdxBusStatistic.blf");
     BOOST_REQUIRE(file.is_open());
 
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
@@ -57,7 +57,7 @@ BOOST_AUTO_TEST_CASE(AfdxBusStatistic)
     /* read next */
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::CAN_ERROR);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_BUS_STATISTIC);
 
     delete ohb;
 

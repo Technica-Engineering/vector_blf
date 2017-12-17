@@ -96,7 +96,7 @@ public:
     DWORD baudrate;
 
     /** reserved */
-    DWORD reserved;
+    DWORD reservedSerialEvent;
 
     /** general serial event */
     struct GeneralSerialEvent {

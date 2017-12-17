@@ -35,8 +35,8 @@ BOOST_AUTO_TEST_CASE(CanDriverHwSync)
     /* CanDriverHwSync */
     BOOST_CHECK_EQUAL(obj->channel, 0x1111);
     BOOST_CHECK_EQUAL(obj->flags, 0x22);
-    BOOST_CHECK_EQUAL(obj->reserved1, 0x33);
-    BOOST_CHECK_EQUAL(obj->reserved2, 0x00000000);
+    BOOST_CHECK_EQUAL(obj->reservedCanDriverHwSync1, 0x33);
+    BOOST_CHECK_EQUAL(obj->reservedCanDriverHwSync2, 0x00000000);
 
     delete ohb;
 

@@ -34,8 +34,8 @@ BOOST_AUTO_TEST_CASE(CanOverloadFrame)
 
     /* CanOverloadFrame */
     BOOST_CHECK_EQUAL(obj->channel, 0x1111);
-    BOOST_CHECK_EQUAL(obj->reserved1, 0x2222);
-    BOOST_CHECK_EQUAL(obj->reserved2, 0x00000000);
+    BOOST_CHECK_EQUAL(obj->reservedCanOverloadFrame1, 0x2222);
+    BOOST_CHECK_EQUAL(obj->reservedCanOverloadFrame2, 0x00000000);
 
     delete ohb;
 

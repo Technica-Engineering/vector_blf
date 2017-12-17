@@ -47,8 +47,8 @@ BOOST_AUTO_TEST_CASE(CanMessage2)
     BOOST_CHECK_EQUAL(obj->data[7], 0xCC);
     BOOST_CHECK_EQUAL(obj->frameLength, 0xDDDDDDDD);
     BOOST_CHECK_EQUAL(obj->bitCount, 0xEE);
-    BOOST_CHECK_EQUAL(obj->reserved1, 0xFF);
-    BOOST_CHECK_EQUAL(obj->reserved2, 0x1111);
+    BOOST_CHECK_EQUAL(obj->reservedCanMessage1, 0xFF);
+    BOOST_CHECK_EQUAL(obj->reservedCanMessage2, 0x1111);
 
     delete ohb;
 

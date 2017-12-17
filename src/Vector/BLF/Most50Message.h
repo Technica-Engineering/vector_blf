@@ -23,7 +23,6 @@
 
 #include <Vector/BLF/platform.h>
 
-#include <array>
 #include <vector>
 
 #include <Vector/BLF/AbstractFile.h>
@@ -67,7 +66,7 @@ public:
     BYTE dir;
 
     /** reserved */
-    BYTE reserved1;
+    BYTE reservedMost50Message1;
 
     /**
      * @brief source address
@@ -169,7 +168,7 @@ public:
     BYTE ackNack;
 
     /** reserved */
-    BYTE reserved2;
+    BYTE reservedMost50Message2;
 
     /**
      * @brief Cyclic Redundancy Check
@@ -179,10 +178,7 @@ public:
     DWORD crc;
 
     /** reserved */
-    BYTE reserved3;
-
-    /** reserved */
-    BYTE reserved4;
+    WORD reservedMost50Message3;
 
     /**
      * @brief priority of the message
@@ -192,7 +188,7 @@ public:
     BYTE priority;
 
     /** reserved */
-    BYTE reserved5;
+    BYTE reservedMost50Message4;
 
     /**
      * @brief length of variable data in bytes (17 max)
@@ -202,7 +198,7 @@ public:
     DWORD msgLen;
 
     /** reserved */
-    std::array<BYTE, 4> reserved6;
+    DWORD reservedMost50Message5;
 
     /**
      * @brief variable data

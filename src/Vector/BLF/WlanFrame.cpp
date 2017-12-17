@@ -33,6 +33,7 @@ WlanFrame::WlanFrame() :
     signalStrength(),
     signalQuality(),
     frameLength(),
+    reservedWlanFrame(),
     frameData()
 {
     objectType = ObjectType::WLAN_FRAME;
@@ -48,8 +49,12 @@ void WlanFrame::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&signalStrength), sizeof(signalStrength));
     is.read(reinterpret_cast<char *>(&signalQuality), sizeof(signalQuality));
     is.read(reinterpret_cast<char *>(&frameLength), sizeof(frameLength));
+    is.read(reinterpret_cast<char *>(&reservedWlanFrame), sizeof(reservedWlanFrame));
     frameData.resize(frameLength);
     is.read(reinterpret_cast<char *>(frameData.data()), frameLength);
+
+    /* skip padding */
+    is.seekg(objectSize % 4, std::ios_base::cur);
 }
 
 void WlanFrame::write(AbstractFile & os)
@@ -65,7 +70,11 @@ void WlanFrame::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&signalStrength), sizeof(signalStrength));
     os.write(reinterpret_cast<char *>(&signalQuality), sizeof(signalQuality));
     os.write(reinterpret_cast<char *>(&frameLength), sizeof(frameLength));
+    os.write(reinterpret_cast<char *>(&reservedWlanFrame), sizeof(reservedWlanFrame));
     os.write(reinterpret_cast<char *>(frameData.data()), frameLength);
+
+    /* skip padding */
+    os.seekp(objectSize % 4, std::ios_base::cur);
 }
 
 DWORD WlanFrame::calculateObjectSize() const
@@ -79,6 +88,7 @@ DWORD WlanFrame::calculateObjectSize() const
         sizeof(signalStrength) +
         sizeof(signalQuality) +
         sizeof(frameLength) +
+        sizeof(reservedWlanFrame) +
         frameLength;
 }
 

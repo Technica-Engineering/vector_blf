@@ -23,7 +23,6 @@
 
 #include <Vector/BLF/platform.h>
 
-#include <array>
 #include <vector>
 
 #include <Vector/BLF/AbstractFile.h>
@@ -66,7 +65,7 @@ public:
     BYTE dir;
 
     /** reserved */
-    BYTE reserved1;
+    BYTE reservedMostPkt1;
 
     /**
      * Source address
@@ -94,7 +93,7 @@ public:
     BYTE quadsToFollow;
 
     /** reserved */
-    BYTE reserved2;
+    BYTE reservedMostPkt2;
 
     /**
      * Cyclic Redundancy Check
@@ -128,7 +127,10 @@ public:
     BYTE state;
 
     /** reserved */
-    std::array<BYTE, 3> reserved3;
+    BYTE reservedMostPkt3;
+
+    /** reserved */
+    WORD reservedMostPkt4;
 
     /**
      * @brief length of variable data in bytes
@@ -138,7 +140,7 @@ public:
     DWORD pktDataLength;
 
     /** reserved */
-    std::array<BYTE, 4> reserved4;
+    DWORD reservedMostPkt5;
 
     /**
      * @brief variable data

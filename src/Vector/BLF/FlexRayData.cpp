@@ -32,8 +32,8 @@ FlexRayData::FlexRayData() :
     messageId(),
     crc(),
     dir(),
-    reserved1(),
-    reserved2(),
+    reservedFlexRayData1(),
+    reservedFlexRayData2(),
     dataBytes()
 {
     objectType = ObjectType::FLEXRAY_DATA;
@@ -48,8 +48,8 @@ void FlexRayData::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&messageId), sizeof(messageId));
     is.read(reinterpret_cast<char *>(&crc), sizeof(crc));
     is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
-    is.read(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
-    is.read(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    is.read(reinterpret_cast<char *>(&reservedFlexRayData1), sizeof(reservedFlexRayData1));
+    is.read(reinterpret_cast<char *>(&reservedFlexRayData2), sizeof(reservedFlexRayData2));
     is.read(reinterpret_cast<char *>(dataBytes.data()), static_cast<std::streamsize>(dataBytes.size()));
 }
 
@@ -62,8 +62,8 @@ void FlexRayData::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&messageId), sizeof(messageId));
     os.write(reinterpret_cast<char *>(&crc), sizeof(crc));
     os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
-    os.write(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
-    os.write(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    os.write(reinterpret_cast<char *>(&reservedFlexRayData1), sizeof(reservedFlexRayData1));
+    os.write(reinterpret_cast<char *>(&reservedFlexRayData2), sizeof(reservedFlexRayData2));
     os.write(reinterpret_cast<char *>(dataBytes.data()), static_cast<std::streamsize>(dataBytes.size()));
 }
 
@@ -77,8 +77,8 @@ DWORD FlexRayData::calculateObjectSize() const
         sizeof(messageId) +
         sizeof(crc) +
         sizeof(dir) +
-        sizeof(reserved1) +
-        sizeof(reserved2) +
+        sizeof(reservedFlexRayData1) +
+        sizeof(reservedFlexRayData2) +
         static_cast<DWORD>(dataBytes.size());
 }
 

@@ -109,7 +109,7 @@ public:
     DWORD overloadFrames;
 
     /** reserved */
-    DWORD reserved;
+    DWORD reservedCanDriverStatistic;
 };
 
 }

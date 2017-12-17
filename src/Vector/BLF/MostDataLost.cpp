@@ -27,7 +27,7 @@ namespace BLF {
 MostDataLost::MostDataLost() :
     ObjectHeader2(),
     channel(),
-    reserved(),
+    reservedMostDataLost(),
     info(),
     lostMsgsCtrl(),
     lostMsgsAsync(),
@@ -41,7 +41,7 @@ void MostDataLost::read(AbstractFile & is)
 {
     ObjectHeader2::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    is.read(reinterpret_cast<char *>(&reservedMostDataLost), sizeof(reservedMostDataLost));
     is.read(reinterpret_cast<char *>(&info), sizeof(info));
     is.read(reinterpret_cast<char *>(&lostMsgsCtrl), sizeof(lostMsgsCtrl));
     is.read(reinterpret_cast<char *>(&lostMsgsAsync), sizeof(lostMsgsAsync));
@@ -53,7 +53,7 @@ void MostDataLost::write(AbstractFile & os)
 {
     ObjectHeader2::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    os.write(reinterpret_cast<char *>(&reservedMostDataLost), sizeof(reservedMostDataLost));
     os.write(reinterpret_cast<char *>(&info), sizeof(info));
     os.write(reinterpret_cast<char *>(&lostMsgsCtrl), sizeof(lostMsgsCtrl));
     os.write(reinterpret_cast<char *>(&lostMsgsAsync), sizeof(lostMsgsAsync));
@@ -66,7 +66,7 @@ DWORD MostDataLost::calculateObjectSize() const
     return
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +
-        sizeof(reserved) +
+        sizeof(reservedMostDataLost) +
         sizeof(info) +
         sizeof(lostMsgsCtrl) +
         sizeof(lostMsgsAsync) +

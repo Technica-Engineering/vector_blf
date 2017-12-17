@@ -23,8 +23,6 @@
 
 #include <Vector/BLF/platform.h>
 
-#include <array>
-
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/LinMessageDescriptor.h>
 #include <Vector/BLF/ObjectHeader.h>
@@ -79,12 +77,12 @@ public:
     BYTE fsmState;
 
     /** reserved */
-    BYTE reserved1;
+    BYTE reservedLinSendError1;
 
     /* the following variables are only available in Version 2 and above */
 
     /** reserved */
-    std::array<BYTE, 4> reserved2;
+    DWORD reservedLinSendError2;
 
     /* the following variables are only available in Version 3 and above */
 
@@ -105,7 +103,7 @@ public:
     DWORD earlyStopbitOffset;
 
     /** reserved */
-    std::array<BYTE, 4> reserved3;
+    DWORD reservedLinSendError3;
 };
 
 }

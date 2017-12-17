@@ -55,7 +55,7 @@ public:
     BYTE dir;
 
     /** reserved */
-    BYTE reserved;
+    BYTE reservedA429BusStatistic;
 
     /** busload */
     ULONG busload;

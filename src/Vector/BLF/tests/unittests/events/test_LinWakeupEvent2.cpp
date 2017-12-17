@@ -28,23 +28,31 @@ BOOST_AUTO_TEST_CASE(LinWakeupEvent2)
 
     /* ObjectHeader */
     BOOST_CHECK(obj->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
-    BOOST_CHECK_EQUAL(obj->clientIndex, 0);
+    BOOST_CHECK_EQUAL(obj->clientIndex, 0x1111);
     BOOST_CHECK_EQUAL(obj->objectVersion, 0);
-    BOOST_CHECK_EQUAL(obj->objectTimeStamp, 2318672000); // ns
+    BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
     /* LinBusEvent */
-    BOOST_CHECK_EQUAL(obj->sof, 2317671000); // ns
-    BOOST_CHECK_EQUAL(obj->eventBaudrate, 19230);
-    BOOST_CHECK_EQUAL(obj->channel, 1);
-    // reserved
+    BOOST_CHECK_EQUAL(obj->sof, 0x1111111111111111);
+    BOOST_CHECK_EQUAL(obj->eventBaudrate, 0x22222222);
+    BOOST_CHECK_EQUAL(obj->channel, 0x3333);
+    BOOST_CHECK_EQUAL(obj->reservedLinBusEvent, 0x4444);
 
     /* LinWakeupEvent2 */
-    BOOST_CHECK_EQUAL(obj->lengthInfo, 0); // OK
-    BOOST_CHECK_EQUAL(obj->signal, 0);
-    BOOST_CHECK_EQUAL(obj->external, 0);
-    // reserved
+    BOOST_CHECK_EQUAL(obj->lengthInfo, 0x11);
+    BOOST_CHECK_EQUAL(obj->signal, 0x22);
+    BOOST_CHECK_EQUAL(obj->external, 0x33);
+    BOOST_CHECK_EQUAL(obj->reservedLinWakeupEvent1, 0x44);
+    BOOST_CHECK_EQUAL(obj->reservedLinWakeupEvent2, 0);
 
-    delete obj;
+    delete ohb;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_WAKEUP2);
+
+    delete ohb;
 
     file.close();
 }

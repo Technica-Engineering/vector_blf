@@ -36,7 +36,8 @@ LinCrcError::LinCrcError() :
     fullTime(),
     crc(),
     dir(),
-    reserved()
+    reservedLinCrcError1(),
+    reservedLinCrcError2()
 {
     objectType = ObjectType::LIN_CRC_ERROR;
 }
@@ -54,7 +55,8 @@ void LinCrcError::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&fullTime), sizeof(fullTime));
     is.read(reinterpret_cast<char *>(&crc), sizeof(crc));
     is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
-    is.read(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    is.read(reinterpret_cast<char *>(&reservedLinCrcError1), sizeof(reservedLinCrcError1));
+    is.read(reinterpret_cast<char *>(&reservedLinCrcError2), sizeof(reservedLinCrcError2));
 }
 
 void LinCrcError::write(AbstractFile & os)
@@ -70,7 +72,8 @@ void LinCrcError::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&fullTime), sizeof(fullTime));
     os.write(reinterpret_cast<char *>(&crc), sizeof(crc));
     os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
-    os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    os.write(reinterpret_cast<char *>(&reservedLinCrcError1), sizeof(reservedLinCrcError1));
+    os.write(reinterpret_cast<char *>(&reservedLinCrcError2), sizeof(reservedLinCrcError2));
 }
 
 DWORD LinCrcError::calculateObjectSize() const
@@ -87,7 +90,8 @@ DWORD LinCrcError::calculateObjectSize() const
         sizeof(fullTime) +
         sizeof(crc) +
         sizeof(dir) +
-        sizeof(reserved);
+        sizeof(reservedLinCrcError1) +
+        sizeof(reservedLinCrcError2);
 }
 
 }

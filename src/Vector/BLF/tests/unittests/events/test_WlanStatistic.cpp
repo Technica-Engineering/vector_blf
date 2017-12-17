@@ -33,9 +33,24 @@ BOOST_AUTO_TEST_CASE(WlanStatistic)
     BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
     /* WlanStatistic */
-    // @todo WlanStatistic
+    BOOST_CHECK_EQUAL(obj->channel, 0x1111);
+    BOOST_CHECK_EQUAL(obj->flags, 0x2222);
+    BOOST_CHECK_EQUAL(obj->rxPacketCount, 0x33333333);
+    BOOST_CHECK_EQUAL(obj->rxByteCount, 0x44444444);
+    BOOST_CHECK_EQUAL(obj->txPacketCount, 0x55555555);
+    BOOST_CHECK_EQUAL(obj->txByteCount, 0x66666666);
+    BOOST_CHECK_EQUAL(obj->collisionCount, 0x77777777);
+    BOOST_CHECK_EQUAL(obj->errorCount, 0x88888888);
+    BOOST_CHECK_EQUAL(obj->reservedWlanStatistic, 0);
 
-    delete obj;
+    delete ohb;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::WLAN_STATISTIC);
+
+    delete ohb;
 
     file.close();
 }

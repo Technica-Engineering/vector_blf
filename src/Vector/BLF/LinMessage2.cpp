@@ -36,7 +36,8 @@ LinMessage2::LinMessage2() :
     etfAssocEtfId(),
     fsmId(),
     fsmState(),
-    reserved(),
+    reservedLinMessage1(),
+    reservedLinMessage2(),
     respBaudrate(),
     exactHeaderBaudrate(),
     earlyStopbitOffset(),
@@ -59,7 +60,8 @@ void LinMessage2::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&etfAssocEtfId), sizeof(etfAssocEtfId));
     is.read(reinterpret_cast<char *>(&fsmId), sizeof(fsmId));
     is.read(reinterpret_cast<char *>(&fsmState), sizeof(fsmState));
-    is.read(reinterpret_cast<char *>(reserved.data()), static_cast<std::streamsize>(reserved.size()));
+    is.read(reinterpret_cast<char *>(&reservedLinMessage1), sizeof(reservedLinMessage1));
+    is.read(reinterpret_cast<char *>(&reservedLinMessage2), sizeof(reservedLinMessage2));
 
     /* the following variables are only available in Version 2 and above */
     /*if (objectVersion < 0)*/ // Vector bug: Shouldn't this be < 1?
@@ -90,7 +92,8 @@ void LinMessage2::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&etfAssocEtfId), sizeof(etfAssocEtfId));
     os.write(reinterpret_cast<char *>(&fsmId), sizeof(fsmId));
     os.write(reinterpret_cast<char *>(&fsmState), sizeof(fsmState));
-    os.write(reinterpret_cast<char *>(reserved.data()), static_cast<std::streamsize>(reserved.size()));
+    os.write(reinterpret_cast<char *>(&reservedLinMessage1), sizeof(reservedLinMessage1));
+    os.write(reinterpret_cast<char *>(&reservedLinMessage2), sizeof(reservedLinMessage2));
 
     /* the following variables are only available in Version 2 and above */
     /*if (objectVersion < 0)*/ // Vector bug: Shouldn't this be < 1?
@@ -122,7 +125,8 @@ DWORD LinMessage2::calculateObjectSize() const
         sizeof(etfAssocEtfId) +
         sizeof(fsmId) +
         sizeof(fsmState) +
-        static_cast<DWORD>(reserved.size());
+        sizeof(reservedLinMessage1) +
+        sizeof(reservedLinMessage2);
 
     /*if (objectVersion >= 0)*/ // Vector bug: Shouldn't this be >= 1?
     size += sizeof(respBaudrate);

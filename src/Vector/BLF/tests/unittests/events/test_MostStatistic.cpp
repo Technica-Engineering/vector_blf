@@ -28,18 +28,25 @@ BOOST_AUTO_TEST_CASE(MostStatistic)
 
     /* ObjectHeader */
     BOOST_CHECK(obj->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
-    BOOST_CHECK_EQUAL(obj->clientIndex, 0);
+    BOOST_CHECK_EQUAL(obj->clientIndex, 0x1111);
     BOOST_CHECK_EQUAL(obj->objectVersion, 0);
-    BOOST_CHECK_EQUAL(obj->objectTimeStamp, 2030000000); // ns
+    BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
     /* MostStatistic */
-    BOOST_CHECK_EQUAL(obj->channel, 1);
-    BOOST_CHECK_EQUAL(obj->pktCnt, 0);
-    BOOST_CHECK_EQUAL(obj->frmCnt, 0);
-    BOOST_CHECK_EQUAL(obj->lightCnt, 4);
-    BOOST_CHECK_EQUAL(obj->bufferLevel, 0);
+    BOOST_CHECK_EQUAL(obj->channel, 0x1111);
+    BOOST_CHECK_EQUAL(obj->pktCnt, 0x2222);
+    BOOST_CHECK_EQUAL(obj->frmCnt, 0x33333333);
+    BOOST_CHECK_EQUAL(obj->lightCnt, 0x44444444);
+    BOOST_CHECK_EQUAL(obj->bufferLevel, 0x55555555);
 
-    delete obj;
+    delete ohb;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_STATISTIC);
+
+    delete ohb;
 
     file.close();
 }

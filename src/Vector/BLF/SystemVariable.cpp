@@ -30,10 +30,10 @@ SystemVariable::SystemVariable() :
     ObjectHeader(),
     type(),
     representation(),
-    reserved1(),
+    reservedSystemVariable1(),
     nameLength(),
     dataLength(),
-    reserved2(),
+    reservedSystemVariable2(),
     name(),
     data()
 {
@@ -45,18 +45,14 @@ void SystemVariable::read(AbstractFile & is)
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&type), sizeof(type));
     is.read(reinterpret_cast<char *>(&representation), sizeof(representation));
-    is.read(reinterpret_cast<char *>(reserved1.data()), static_cast<std::streamsize>(reserved1.size() * sizeof(DWORD)));
+    is.read(reinterpret_cast<char *>(&reservedSystemVariable1), sizeof(reservedSystemVariable1));
     is.read(reinterpret_cast<char *>(&nameLength), sizeof(nameLength));
     is.read(reinterpret_cast<char *>(&dataLength), sizeof(dataLength));
-    is.read(reinterpret_cast<char *>(reserved2.data()), static_cast<std::streamsize>(reserved2.size()));
+    is.read(reinterpret_cast<char *>(&reservedSystemVariable2), sizeof(reservedSystemVariable2));
     name.resize(nameLength);
     is.read(const_cast<char *>(name.data()), nameLength);
     data.resize(dataLength);
     is.read(reinterpret_cast<char *>(data.data()), dataLength);
-
-    /* post processing */
-    name.resize(strnlen(name.c_str(), nameLength)); // Vector bug: the actual string can be shorter than size!
-    objectSize = calculateObjectSize();
 }
 
 void SystemVariable::write(AbstractFile & os)
@@ -68,10 +64,10 @@ void SystemVariable::write(AbstractFile & os)
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&type), sizeof(type));
     os.write(reinterpret_cast<char *>(&representation), sizeof(representation));
-    os.write(reinterpret_cast<char *>(reserved1.data()), static_cast<std::streamsize>(reserved1.size() * sizeof(DWORD)));
+    os.write(reinterpret_cast<char *>(&reservedSystemVariable1), sizeof(reservedSystemVariable1));
     os.write(reinterpret_cast<char *>(&nameLength), sizeof(nameLength));
     os.write(reinterpret_cast<char *>(&dataLength), sizeof(dataLength));
-    os.write(reinterpret_cast<char *>(reserved2.data()), static_cast<std::streamsize>(reserved2.size()));
+    os.write(reinterpret_cast<char *>(&reservedSystemVariable2), sizeof(reservedSystemVariable2));
     os.write(const_cast<char *>(name.data()), nameLength);
     os.write(reinterpret_cast<char *>(data.data()), dataLength);
 }
@@ -82,10 +78,10 @@ DWORD SystemVariable::calculateObjectSize() const
         ObjectHeader::calculateObjectSize() +
         sizeof(type) +
         sizeof(representation) +
-        static_cast<DWORD>(reserved1.size() * sizeof(DWORD)) +
+        sizeof(reservedSystemVariable1) +
         sizeof(nameLength) +
         sizeof(dataLength) +
-        static_cast<DWORD>(reserved2.size()) +
+        sizeof(reservedSystemVariable2) +
         nameLength +
         dataLength;
 }

@@ -23,8 +23,6 @@
 
 #include <Vector/BLF/platform.h>
 
-#include <array>
-
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
 #include <Vector/BLF/VectorTypes.h>
@@ -34,8 +32,21 @@
 namespace Vector {
 namespace BLF {
 
-struct CanFdExtFrameData
+class CanFdExtFrameData
 {
+public:
+    CanFdExtFrameData();
+    virtual ~CanFdExtFrameData();
+
+    /** @copydoc ObjectHeader::read */
+    virtual void read(AbstractFile & is);
+
+    /** @copydoc ObjectHeader::write */
+    virtual void write(AbstractFile & os);
+
+    /** @copydoc ObjectHeader::calculateObjectSize */
+    virtual DWORD calculateObjectSize() const;
+
     DWORD btrExtArb;
     DWORD btrExtData;
 };

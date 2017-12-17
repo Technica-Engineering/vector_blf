@@ -59,7 +59,7 @@ public:
     BYTE dir;
 
     /** reserved */
-    BYTE reserved1;
+    BYTE reservedJ1708Message1;
 
     /**
      * @brief error code
@@ -77,7 +77,7 @@ public:
     std::array<BYTE, 255> data;
 
     /** reserved */
-    WORD reserved2;
+    WORD reservedJ1708Message2;
 };
 
 }

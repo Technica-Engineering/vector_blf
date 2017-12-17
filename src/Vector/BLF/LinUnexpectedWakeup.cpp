@@ -29,7 +29,9 @@ LinUnexpectedWakeup::LinUnexpectedWakeup() :
     LinBusEvent(),
     width(),
     signal(),
-    reserved()
+    reservedLinUnexpectedWakeup1(),
+    reservedLinUnexpectedWakeup2(),
+    reservedLinUnexpectedWakeup3()
 {
     objectType = ObjectType::LIN_UNEXPECTED_WAKEUP;
 }
@@ -40,7 +42,9 @@ void LinUnexpectedWakeup::read(AbstractFile & is)
     LinBusEvent::read(is);
     is.read(reinterpret_cast<char *>(&width), sizeof(width));
     is.read(reinterpret_cast<char *>(&signal), sizeof(signal));
-    is.read(reinterpret_cast<char *>(reserved.data()), static_cast<std::streamsize>(reserved.size()));
+    is.read(reinterpret_cast<char *>(&reservedLinUnexpectedWakeup1), sizeof(reservedLinUnexpectedWakeup1));
+    is.read(reinterpret_cast<char *>(&reservedLinUnexpectedWakeup2), sizeof(reservedLinUnexpectedWakeup2));
+    is.read(reinterpret_cast<char *>(&reservedLinUnexpectedWakeup3), sizeof(reservedLinUnexpectedWakeup3));
 }
 
 void LinUnexpectedWakeup::write(AbstractFile & os)
@@ -49,7 +53,9 @@ void LinUnexpectedWakeup::write(AbstractFile & os)
     LinBusEvent::write(os);
     os.write(reinterpret_cast<char *>(&width), sizeof(width));
     os.write(reinterpret_cast<char *>(&signal), sizeof(signal));
-    os.write(reinterpret_cast<char *>(reserved.data()), static_cast<std::streamsize>(reserved.size()));
+    os.write(reinterpret_cast<char *>(&reservedLinUnexpectedWakeup1), sizeof(reservedLinUnexpectedWakeup1));
+    os.write(reinterpret_cast<char *>(&reservedLinUnexpectedWakeup2), sizeof(reservedLinUnexpectedWakeup2));
+    os.write(reinterpret_cast<char *>(&reservedLinUnexpectedWakeup3), sizeof(reservedLinUnexpectedWakeup3));
 }
 
 DWORD LinUnexpectedWakeup::calculateObjectSize() const
@@ -59,7 +65,9 @@ DWORD LinUnexpectedWakeup::calculateObjectSize() const
         LinBusEvent::calculateObjectSize() +
         sizeof(width) +
         sizeof(signal) +
-        static_cast<DWORD>(reserved.size());
+        sizeof(reservedLinUnexpectedWakeup1) +
+        sizeof(reservedLinUnexpectedWakeup2) +
+        sizeof(reservedLinUnexpectedWakeup3);
 }
 
 }

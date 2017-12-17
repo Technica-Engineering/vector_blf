@@ -28,9 +28,9 @@ A429Status::A429Status() :
     ObjectHeader(),
     channel(),
     dir(),
-    reserved1(),
+    reservedA429Status1(),
     parity(),
-    reserved2(),
+    reservedA429Status2(),
     minGap(),
     bitrate(),
     minBitrate(),
@@ -44,9 +44,9 @@ void A429Status::read(AbstractFile & is)
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
-    is.read(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    is.read(reinterpret_cast<char *>(&reservedA429Status1), sizeof(reservedA429Status1));
     is.read(reinterpret_cast<char *>(&parity), sizeof(parity));
-    is.read(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    is.read(reinterpret_cast<char *>(&reservedA429Status2), sizeof(reservedA429Status2));
     is.read(reinterpret_cast<char *>(&minGap), sizeof(minGap));
     is.read(reinterpret_cast<char *>(&bitrate), sizeof(bitrate));
     is.read(reinterpret_cast<char *>(&minBitrate), sizeof(minBitrate));
@@ -58,9 +58,9 @@ void A429Status::write(AbstractFile & os)
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
-    os.write(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
+    os.write(reinterpret_cast<char *>(&reservedA429Status1), sizeof(reservedA429Status1));
     os.write(reinterpret_cast<char *>(&parity), sizeof(parity));
-    os.write(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    os.write(reinterpret_cast<char *>(&reservedA429Status2), sizeof(reservedA429Status2));
     os.write(reinterpret_cast<char *>(&minGap), sizeof(minGap));
     os.write(reinterpret_cast<char *>(&bitrate), sizeof(bitrate));
     os.write(reinterpret_cast<char *>(&minBitrate), sizeof(minBitrate));
@@ -73,9 +73,9 @@ DWORD A429Status::calculateObjectSize() const
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(dir) +
-        sizeof(reserved1) +
+        sizeof(reservedA429Status1) +
         sizeof(parity) +
-        sizeof(reserved2) +
+        sizeof(reservedA429Status2) +
         sizeof(minGap) +
         sizeof(bitrate) +
         sizeof(minBitrate) +

@@ -23,8 +23,6 @@
 
 #include <Vector/BLF/platform.h>
 
-#include <array>
-
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
 #include <Vector/BLF/VectorTypes.h>
@@ -58,7 +56,10 @@ public:
     WORD channel;
 
     /** reserved */
-    std::array<BYTE, 6> reserved1;
+    WORD reservedLinStatisticEvent1;
+
+    /** reserved */
+    DWORD reservedLinStatisticEvent2;
 
     /**
      * @brief bus load
@@ -103,7 +104,7 @@ public:
     ULONG framesUnanswered;
 
     /** reserved */
-    std::array<BYTE, 4> reserved2;
+    DWORD reservedLinStatisticEvent3;
 };
 
 }

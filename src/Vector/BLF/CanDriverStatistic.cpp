@@ -34,7 +34,7 @@ CanDriverStatistic::CanDriverStatistic() :
     extendedRemoteFrames(),
     errorFrames(),
     overloadFrames(),
-    reserved()
+    reservedCanDriverStatistic()
 {
     objectType = ObjectType::CAN_STATISTIC;
 }
@@ -50,7 +50,7 @@ void CanDriverStatistic::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&extendedRemoteFrames), sizeof(extendedRemoteFrames));
     is.read(reinterpret_cast<char *>(&errorFrames), sizeof(errorFrames));
     is.read(reinterpret_cast<char *>(&overloadFrames), sizeof(overloadFrames));
-    is.read(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    is.read(reinterpret_cast<char *>(&reservedCanDriverStatistic), sizeof(reservedCanDriverStatistic));
 }
 
 void CanDriverStatistic::write(AbstractFile & os)
@@ -64,7 +64,7 @@ void CanDriverStatistic::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&extendedRemoteFrames), sizeof(extendedRemoteFrames));
     os.write(reinterpret_cast<char *>(&errorFrames), sizeof(errorFrames));
     os.write(reinterpret_cast<char *>(&overloadFrames), sizeof(overloadFrames));
-    os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    os.write(reinterpret_cast<char *>(&reservedCanDriverStatistic), sizeof(reservedCanDriverStatistic));
 }
 
 DWORD CanDriverStatistic::calculateObjectSize() const
@@ -79,7 +79,7 @@ DWORD CanDriverStatistic::calculateObjectSize() const
         sizeof(extendedRemoteFrames) +
         sizeof(errorFrames) +
         sizeof(overloadFrames) +
-        sizeof(reserved);
+        sizeof(reservedCanDriverStatistic);
 }
 
 }

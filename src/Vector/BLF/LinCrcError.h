@@ -115,7 +115,10 @@ public:
     BYTE dir;
 
     /** reserved */
-    BYTE reserved;
+    BYTE reservedLinCrcError1;
+
+    /** reserved */
+    DWORD reservedLinCrcError2;
 };
 
 }

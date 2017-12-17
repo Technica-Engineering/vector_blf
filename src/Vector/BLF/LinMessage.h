@@ -114,7 +114,10 @@ public:
     BYTE dir;
 
     /** reserved */
-    BYTE reserved;
+    BYTE reservedLinMessage1;
+
+    /** reserved */
+    DWORD reservedLinMessage2;
 };
 
 }

@@ -70,10 +70,10 @@ public:
     BYTE isRelocatable;
 
     /** reserved */
-    BYTE reserved1;
+    BYTE reservedGlobalMarker1;
 
     /** reserved */
-    WORD reserved2;
+    WORD reservedGlobalMarker2;
 
     /**
      * @brief group name length in bytes
@@ -97,10 +97,10 @@ public:
     DWORD descriptionLength;
 
     /** reserved */
-    DWORD reserved3;
+    DWORD reservedGlobalMarker3;
 
     /** reserved */
-    ULONGLONG reserved4;
+    ULONGLONG reservedGlobalMarker4;
 
     /**
      * @brief group name

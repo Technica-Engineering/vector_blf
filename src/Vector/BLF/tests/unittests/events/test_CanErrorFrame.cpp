@@ -35,7 +35,7 @@ BOOST_AUTO_TEST_CASE(CanErrorFrame)
     /* CanErrorFrame */
     BOOST_CHECK_EQUAL(obj->channel, 0x1111);
     BOOST_CHECK_EQUAL(obj->length, 0x2222);
-    BOOST_CHECK_EQUAL(obj->reserved, 0);
+    BOOST_CHECK_EQUAL(obj->reservedCanErrorFrame, 0);
 
     delete ohb;
 

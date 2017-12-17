@@ -22,26 +22,32 @@ BOOST_AUTO_TEST_CASE(MostStatisticEx)
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);
     BOOST_CHECK_EQUAL(obj->headerSize, obj->calculateHeaderSize());
-    BOOST_CHECK_EQUAL(obj->headerVersion, 1); // Vector bug: This should be 2 for ObjectHeader2
+    BOOST_CHECK_EQUAL(obj->headerVersion, 1);
     BOOST_CHECK_EQUAL(obj->objectSize, obj->calculateObjectSize());
     BOOST_CHECK(obj->objectType == Vector::BLF::ObjectType::MOST_STATISTICEX);
 
     /* ObjectHeader2 */
-    BOOST_CHECK(obj->objectFlags == Vector::BLF::ObjectHeader2::ObjectFlags::TimeOneNans);
-    BOOST_CHECK_EQUAL(obj->timeStampStatus, 0);
-    // reserved
+    BOOST_CHECK_EQUAL(obj->timeStampStatus, 0x22);
+    BOOST_CHECK_EQUAL(obj->reservedObjectHeader2, 0x33);
     BOOST_CHECK_EQUAL(obj->objectVersion, 0);
-    BOOST_CHECK_EQUAL(obj->objectTimeStamp, 2024742000); // ns
-    BOOST_CHECK_EQUAL(obj->originalTimeStamp, 0);
+    BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x4444444444444444);
+    BOOST_CHECK_EQUAL(obj->originalTimeStamp, 0x5555555555555555);
 
     /* MostStatisticEx */
-    BOOST_CHECK_EQUAL(obj->channel, 2);
-    // reserved
-    BOOST_CHECK_EQUAL(obj->codingErrors, 0x000006);
-    BOOST_CHECK_EQUAL(obj->frameCounter, 0x00A395);
-    // reserved
+    BOOST_CHECK_EQUAL(obj->channel, 0x1111);
+    BOOST_CHECK_EQUAL(obj->reservedMostStatisticEx1, 0x2222);
+    BOOST_CHECK_EQUAL(obj->codingErrors, 0x33333333);
+    BOOST_CHECK_EQUAL(obj->frameCounter, 0x44444444);
+    BOOST_CHECK_EQUAL(obj->reservedMostStatisticEx2, 0);
 
-    delete obj;
+    delete ohb;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_STATISTICEX);
+
+    delete ohb;
 
     file.close();
 }

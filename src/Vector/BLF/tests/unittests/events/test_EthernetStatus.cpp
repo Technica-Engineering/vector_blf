@@ -33,9 +33,26 @@ BOOST_AUTO_TEST_CASE(EthernetStatus)
     BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
     /* EthernetStatus */
-    // @todo EthernetStatus
+    BOOST_CHECK_EQUAL(obj->channel, 0x1111);
+    BOOST_CHECK_EQUAL(obj->flags, 0x2222);
+    BOOST_CHECK_EQUAL(obj->linkStatus, 0x33);
+    BOOST_CHECK_EQUAL(obj->ethernetPhy, 0x44);
+    BOOST_CHECK_EQUAL(obj->duplex, 0x55);
+    BOOST_CHECK_EQUAL(obj->mdi, 0x66);
+    BOOST_CHECK_EQUAL(obj->connector, 0x77);
+    BOOST_CHECK_EQUAL(obj->clockMode, 0x88);
+    BOOST_CHECK_EQUAL(obj->pairs, 0x99);
+    BOOST_CHECK_EQUAL(obj->hardwareChannel, 0xAA);
+    BOOST_CHECK_EQUAL(obj->bitrate, 0xBBBBBBBB);
 
-    delete obj;
+    delete ohb;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::ETHERNET_STATUS);
+
+    delete ohb;
 
     file.close();
 }

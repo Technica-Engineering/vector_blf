@@ -31,11 +31,11 @@ LinSendError2::LinSendError2() :
     isEtf(),
     fsmId(),
     fsmState(),
-    reserved1(),
-    reserved2(),
+    reservedLinSendError1(),
+    reservedLinSendError2(),
     exactHeaderBaudrate(),
     earlyStopbitOffset(),
-    reserved3()
+    reservedLinSendError3()
 {
     objectType = ObjectType::LIN_SND_ERROR2;
 }
@@ -48,11 +48,11 @@ void LinSendError2::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&isEtf), sizeof(isEtf));
     is.read(reinterpret_cast<char *>(&fsmId), sizeof(fsmId));
     is.read(reinterpret_cast<char *>(&fsmState), sizeof(fsmState));
-    is.read(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
-    is.read(reinterpret_cast<char *>(reserved2.data()), static_cast<std::streamsize>(reserved2.size()));
+    is.read(reinterpret_cast<char *>(&reservedLinSendError1), sizeof(reservedLinSendError1));
+    is.read(reinterpret_cast<char *>(&reservedLinSendError2), sizeof(reservedLinSendError2));
     is.read(reinterpret_cast<char *>(&exactHeaderBaudrate), sizeof(exactHeaderBaudrate));
     is.read(reinterpret_cast<char *>(&earlyStopbitOffset), sizeof(earlyStopbitOffset));
-    is.read(reinterpret_cast<char *>(reserved3.data()), static_cast<std::streamsize>(reserved3.size()));
+    is.read(reinterpret_cast<char *>(&reservedLinSendError3), sizeof(reservedLinSendError3));
 }
 
 void LinSendError2::write(AbstractFile & os)
@@ -63,11 +63,11 @@ void LinSendError2::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&isEtf), sizeof(isEtf));
     os.write(reinterpret_cast<char *>(&fsmId), sizeof(fsmId));
     os.write(reinterpret_cast<char *>(&fsmState), sizeof(fsmState));
-    os.write(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
-    os.write(reinterpret_cast<char *>(reserved2.data()), static_cast<std::streamsize>(reserved2.size()));
+    os.write(reinterpret_cast<char *>(&reservedLinSendError1), sizeof(reservedLinSendError1));
+    os.write(reinterpret_cast<char *>(&reservedLinSendError2), sizeof(reservedLinSendError2));
     os.write(reinterpret_cast<char *>(&exactHeaderBaudrate), sizeof(exactHeaderBaudrate));
     os.write(reinterpret_cast<char *>(&earlyStopbitOffset), sizeof(earlyStopbitOffset));
-    os.write(reinterpret_cast<char *>(reserved3.data()), static_cast<std::streamsize>(reserved3.size()));
+    os.write(reinterpret_cast<char *>(&reservedLinSendError3), sizeof(reservedLinSendError3));
 }
 
 DWORD LinSendError2::calculateObjectSize() const
@@ -79,11 +79,11 @@ DWORD LinSendError2::calculateObjectSize() const
         sizeof(isEtf) +
         sizeof(fsmId) +
         sizeof(fsmState) +
-        sizeof(reserved1) +
-        static_cast<DWORD>(reserved2.size()) +
+        sizeof(reservedLinSendError1) +
+        sizeof(reservedLinSendError2) +
         sizeof(exactHeaderBaudrate) +
         sizeof(earlyStopbitOffset) +
-        static_cast<DWORD>(reserved3.size());
+        sizeof(reservedLinSendError3);
 }
 
 }

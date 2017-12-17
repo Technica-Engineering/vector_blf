@@ -23,7 +23,6 @@
 
 #include <Vector/BLF/platform.h>
 
-#include <array>
 #include <vector>
 
 #include <Vector/BLF/AbstractFile.h>
@@ -57,7 +56,7 @@ public:
     WORD channel;
 
     /** reserved */
-    BYTE reserved1;
+    BYTE reservedMostEthernetPktFragment1;
 
     /**
      * @brief acknowledge code
@@ -153,7 +152,7 @@ public:
     BYTE cAck;
 
     /** reserved */
-    WORD reserved2;
+    WORD reservedMostEthernetPktFragment2;
 
     /**
      * @brief Cyclic Redundancy Check
@@ -203,7 +202,7 @@ public:
     DWORD firstDataLen;
 
     /** reserved */
-    std::array<BYTE, 4> reserved3;
+    DWORD reservedMostEthernetPktFragment3;
 
     /**
      * @brief variable data

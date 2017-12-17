@@ -28,7 +28,7 @@ A429BusStatistic::A429BusStatistic() :
     ObjectHeader(),
     channel(),
     dir(),
-    reserved(),
+    reservedA429BusStatistic(),
     busload(),
     dataTotal(),
     errorTotal(),
@@ -53,7 +53,7 @@ void A429BusStatistic::read(AbstractFile & is)
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
-    is.read(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    is.read(reinterpret_cast<char *>(&reservedA429BusStatistic), sizeof(reservedA429BusStatistic));
     is.read(reinterpret_cast<char *>(&busload), sizeof(busload));
     is.read(reinterpret_cast<char *>(&dataTotal), sizeof(dataTotal));
     is.read(reinterpret_cast<char *>(&errorTotal), sizeof(errorTotal));
@@ -76,7 +76,7 @@ void A429BusStatistic::write(AbstractFile & os)
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
-    os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    os.write(reinterpret_cast<char *>(&reservedA429BusStatistic), sizeof(reservedA429BusStatistic));
     os.write(reinterpret_cast<char *>(&busload), sizeof(busload));
     os.write(reinterpret_cast<char *>(&dataTotal), sizeof(dataTotal));
     os.write(reinterpret_cast<char *>(&errorTotal), sizeof(errorTotal));
@@ -100,7 +100,7 @@ DWORD A429BusStatistic::calculateObjectSize() const
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(dir) +
-        sizeof(reserved) +
+        sizeof(reservedA429BusStatistic) +
         sizeof(busload) +
         sizeof(dataTotal) +
         sizeof(errorTotal) +

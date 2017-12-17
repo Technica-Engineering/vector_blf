@@ -66,7 +66,7 @@ public:
     BYTE internal;
 
     /** reserved */
-    std::array<BYTE, 3> reserved;
+    std::array<BYTE, 3> reservedLinSpikeEvent;
 };
 
 }

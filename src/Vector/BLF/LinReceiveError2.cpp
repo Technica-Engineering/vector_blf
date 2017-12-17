@@ -37,7 +37,7 @@ LinReceiveError2::LinReceiveError2() :
     isEtf(),
     hasDatabytes(),
     respBaudrate(),
-    reserved(),
+    reservedLinReceiveError(),
     exactHeaderBaudrate(),
     earlyStopbitOffset(),
     earlyStopbitOffsetResponse()
@@ -59,7 +59,7 @@ void LinReceiveError2::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&isEtf), sizeof(isEtf));
     is.read(reinterpret_cast<char *>(&hasDatabytes), sizeof(hasDatabytes));
     is.read(reinterpret_cast<char *>(&respBaudrate), sizeof(respBaudrate));
-    is.read(reinterpret_cast<char *>(reserved.data()), static_cast<std::streamsize>(reserved.size()));
+    is.read(reinterpret_cast<char *>(&reservedLinReceiveError), sizeof(reservedLinReceiveError));
     is.read(reinterpret_cast<char *>(&exactHeaderBaudrate), sizeof(exactHeaderBaudrate));
     is.read(reinterpret_cast<char *>(&earlyStopbitOffset), sizeof(earlyStopbitOffset));
     is.read(reinterpret_cast<char *>(&earlyStopbitOffsetResponse), sizeof(earlyStopbitOffsetResponse));
@@ -79,7 +79,7 @@ void LinReceiveError2::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&isEtf), sizeof(isEtf));
     os.write(reinterpret_cast<char *>(&hasDatabytes), sizeof(hasDatabytes));
     os.write(reinterpret_cast<char *>(&respBaudrate), sizeof(respBaudrate));
-    os.write(reinterpret_cast<char *>(reserved.data()), static_cast<std::streamsize>(reserved.size()));
+    os.write(reinterpret_cast<char *>(&reservedLinReceiveError), sizeof(reservedLinReceiveError));
     os.write(reinterpret_cast<char *>(&exactHeaderBaudrate), sizeof(exactHeaderBaudrate));
     os.write(reinterpret_cast<char *>(&earlyStopbitOffset), sizeof(earlyStopbitOffset));
     os.write(reinterpret_cast<char *>(&earlyStopbitOffsetResponse), sizeof(earlyStopbitOffsetResponse));
@@ -100,7 +100,7 @@ DWORD LinReceiveError2::calculateObjectSize() const
         sizeof(isEtf) +
         sizeof(hasDatabytes) +
         sizeof(respBaudrate) +
-        static_cast<DWORD>(reserved.size()) +
+        sizeof(reservedLinReceiveError) +
         sizeof(exactHeaderBaudrate) +
         sizeof(earlyStopbitOffset) +
         sizeof(earlyStopbitOffsetResponse);

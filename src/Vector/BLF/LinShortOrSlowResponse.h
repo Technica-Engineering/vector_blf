@@ -83,7 +83,7 @@ public:
     BYTE interruptedByBreak;
 
     /** reserved */
-    BYTE reserved;
+    BYTE reservedLinShortOrSlowResponse;
 };
 
 }

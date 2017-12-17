@@ -28,21 +28,31 @@ BOOST_AUTO_TEST_CASE(LinSpikeEvent2)
 
     /* ObjectHeader */
     BOOST_CHECK(obj->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
-    // reserved
+    BOOST_CHECK_EQUAL(obj->clientIndex, 0x1111);
     BOOST_CHECK_EQUAL(obj->objectVersion, 0);
-    BOOST_CHECK_EQUAL(obj->objectTimeStamp, 5990958000); // ns
+    BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
     /* LinBusEvent */
-    BOOST_CHECK_EQUAL(obj->sof, 5990902000); // ns
-    BOOST_CHECK_EQUAL(obj->eventBaudrate, 9615);
-    BOOST_CHECK_EQUAL(obj->channel, 2);
+    BOOST_CHECK_EQUAL(obj->sof, 0x1111111111111111);
+    BOOST_CHECK_EQUAL(obj->eventBaudrate, 0x22222222);
+    BOOST_CHECK_EQUAL(obj->channel, 0x3333);
+    BOOST_CHECK_EQUAL(obj->reservedLinBusEvent, 0x4444);
 
     /* LinSpikeEvent2 */
-    BOOST_CHECK_EQUAL(obj->width, 56);
-    BOOST_CHECK_EQUAL(obj->internal, 0); // real event
-    // reserved
+    BOOST_CHECK_EQUAL(obj->width, 0x11111111);
+    BOOST_CHECK_EQUAL(obj->internal, 0x22);
+    BOOST_CHECK_EQUAL(obj->reservedLinSpikeEvent[0], 0x33);
+    BOOST_CHECK_EQUAL(obj->reservedLinSpikeEvent[1], 0x44);
+    BOOST_CHECK_EQUAL(obj->reservedLinSpikeEvent[2], 0x55);
 
-    delete obj;
+    delete ohb;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_SPIKE_EVENT2);
+
+    delete ohb;
 
     file.close();
 }

@@ -28,7 +28,7 @@ DriverOverrun::DriverOverrun() :
     ObjectHeader(),
     busType(),
     channel(),
-    reserved()
+    reservedDriverOverrun()
 {
     objectType = ObjectType::OVERRUN_ERROR;
 }
@@ -38,7 +38,7 @@ void DriverOverrun::read(AbstractFile & is)
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&busType), sizeof(busType));
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    is.read(reinterpret_cast<char *>(&reservedDriverOverrun), sizeof(reservedDriverOverrun));
 }
 
 void DriverOverrun::write(AbstractFile & os)
@@ -46,7 +46,7 @@ void DriverOverrun::write(AbstractFile & os)
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&busType), sizeof(busType));
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&reserved), sizeof(reserved));
+    os.write(reinterpret_cast<char *>(&reservedDriverOverrun), sizeof(reservedDriverOverrun));
 }
 
 DWORD DriverOverrun::calculateObjectSize() const
@@ -55,7 +55,7 @@ DWORD DriverOverrun::calculateObjectSize() const
         ObjectHeader::calculateObjectSize() +
         sizeof(busType) +
         sizeof(channel) +
-        sizeof(reserved);
+        sizeof(reservedDriverOverrun);
 }
 
 }

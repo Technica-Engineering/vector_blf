@@ -82,7 +82,7 @@ public:
     WORD stateOld;
 
     /** reserved */
-    WORD reserved;
+    WORD reservedMostNetState;
 };
 
 }

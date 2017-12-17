@@ -73,7 +73,7 @@ public:
     BYTE subType;
 
     /** reserved */
-    BYTE reserved;
+    BYTE reservedMostReg;
 
     /**
      * @brief operation handle

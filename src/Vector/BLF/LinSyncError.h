@@ -60,13 +60,16 @@ public:
     WORD channel;
 
     /** reserved */
-    WORD reserved;
+    WORD reservedLinSyncError1;
 
     /**
      * Time intervals [in us] detected between the
      * falling signal edges of the Sync field
      */
     std::array<WORD, 4> timeDiff;
+
+    /** reserved */
+    DWORD reservedLinSyncError2;
 };
 
 }

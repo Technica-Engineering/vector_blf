@@ -27,8 +27,8 @@ namespace BLF {
 CanOverloadFrame::CanOverloadFrame() :
     ObjectHeader(),
     channel(),
-    reserved1(),
-    reserved2()
+    reservedCanOverloadFrame1(),
+    reservedCanOverloadFrame2()
 {
     objectType = ObjectType::CAN_OVERLOAD;
 }
@@ -37,16 +37,16 @@ void CanOverloadFrame::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
-    is.read(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    is.read(reinterpret_cast<char *>(&reservedCanOverloadFrame1), sizeof(reservedCanOverloadFrame1));
+    is.read(reinterpret_cast<char *>(&reservedCanOverloadFrame2), sizeof(reservedCanOverloadFrame2));
 }
 
 void CanOverloadFrame::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&reserved1), sizeof(reserved1));
-    os.write(reinterpret_cast<char *>(&reserved2), sizeof(reserved2));
+    os.write(reinterpret_cast<char *>(&reservedCanOverloadFrame1), sizeof(reservedCanOverloadFrame1));
+    os.write(reinterpret_cast<char *>(&reservedCanOverloadFrame2), sizeof(reservedCanOverloadFrame2));
 }
 
 DWORD CanOverloadFrame::calculateObjectSize() const
@@ -54,8 +54,8 @@ DWORD CanOverloadFrame::calculateObjectSize() const
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
-        sizeof(reserved1) +
-        sizeof(reserved2);
+        sizeof(reservedCanOverloadFrame1) +
+        sizeof(reservedCanOverloadFrame2);
 }
 
 }

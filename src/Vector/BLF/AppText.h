@@ -107,7 +107,7 @@ public:
      *
      * Depends on source.
      */
-    DWORD reserved1;
+    DWORD reservedAppText1;
 
     /**
      * @brief text length in bytes
@@ -117,7 +117,7 @@ public:
     DWORD textLength;
 
     /** reserved */
-    DWORD reserved2;
+    DWORD reservedAppText2;
 
     /**
      * @brief text in MBCS

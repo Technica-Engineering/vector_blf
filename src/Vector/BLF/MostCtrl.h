@@ -64,7 +64,7 @@ public:
     BYTE dir;
 
     /** reserved */
-    BYTE reserved1;
+    BYTE reservedMostCtrl1;
 
     /**
      * Source address
@@ -82,7 +82,7 @@ public:
     std::array<BYTE, 17> msg;
 
     /** reserved */
-    BYTE reserved2;
+    BYTE reservedMostCtrl2;
 
     /**
      * @brief Control message sub type
@@ -146,7 +146,7 @@ public:
     BYTE state;
 
     /** reserved */
-    BYTE reserved3;
+    BYTE reservedMostCtrl3;
 
     /**
      * @brief acknowledge bits
@@ -188,7 +188,7 @@ public:
     BYTE ackNack;
 
     /** reserved */
-    std::array<BYTE, 4> reserved4;
+    DWORD reservedMostCtrl4;
 };
 
 }

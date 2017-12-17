@@ -96,7 +96,7 @@ public:
      *
      * Client index of send node
      */
-    DWORD clientIndex;
+    DWORD clientIndexFlexRayVFrStartCycle;
 
     /**
      * @brief number of cluster
@@ -120,7 +120,7 @@ public:
     std::array<BYTE, 12> dataBytes;
 
     /** reserved */
-    std::array<BYTE, 2> reserved1;
+    WORD reservedFlexRayVFrStartCycle1;
 
     /**
      * @brief type of cc
@@ -164,7 +164,7 @@ public:
     /**
      * Reserved
      */
-    std::array<BYTE, 8> reserved2;
+    ULONGLONG reservedFlexRayVFrStartCycle2;
 };
 
 }

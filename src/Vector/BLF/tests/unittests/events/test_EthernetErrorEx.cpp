@@ -33,9 +33,28 @@ BOOST_AUTO_TEST_CASE(EthernetErrorEx)
     BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
     /* EthernetErrorEx */
-    // @todo EthernetErrorEx
+    BOOST_CHECK_EQUAL(obj->structLength, obj->calculateStructLength());
+    BOOST_CHECK_EQUAL(obj->flags, 0x1111);
+    BOOST_CHECK_EQUAL(obj->channel, 0x2222);
+    BOOST_CHECK_EQUAL(obj->hardwareChannel, 0x3333);
+    BOOST_CHECK_EQUAL(obj->frameDuration, 0x4444444444444444);
+    BOOST_CHECK_EQUAL(obj->frameChecksum, 0x55555555);
+    BOOST_CHECK_EQUAL(obj->dir, 0x6666);
+    BOOST_CHECK_EQUAL(obj->frameLength, 3);
+    BOOST_CHECK_EQUAL(obj->frameHandle, 0x88888888);
+    BOOST_CHECK_EQUAL(obj->error, 0x99999999);
+    BOOST_CHECK_EQUAL(obj->frameData[0], 0xAA);
+    BOOST_CHECK_EQUAL(obj->frameData[1], 0xBB);
+    BOOST_CHECK_EQUAL(obj->frameData[2], 0xCC);
 
-    delete obj;
+    delete ohb;
+
+    /* read next */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::ETHERNET_ERROR_EX);
+
+    delete ohb;
 
     file.close();
 }

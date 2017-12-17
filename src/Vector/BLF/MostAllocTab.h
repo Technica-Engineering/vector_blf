@@ -23,7 +23,6 @@
 
 #include <Vector/BLF/platform.h>
 
-#include <array>
 #include <vector>
 
 #include <Vector/BLF/AbstractFile.h>
@@ -64,7 +63,7 @@ public:
     WORD length;
 
     /** reserved */
-    std::array<BYTE, 4> reserved;
+    DWORD reservedMostAllocTab;
 
     /**
      * Allocation Table

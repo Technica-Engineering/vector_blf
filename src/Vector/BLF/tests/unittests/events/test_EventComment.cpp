@@ -35,7 +35,7 @@ BOOST_AUTO_TEST_CASE(EventComment)
     /* EventComment */
     BOOST_CHECK_EQUAL(obj->commentedEventType, 0x11111111);
     BOOST_CHECK_EQUAL(obj->textLength, 3);
-    BOOST_CHECK_EQUAL(obj->reserved, 0);
+    BOOST_CHECK_EQUAL(obj->reservedEventComment, 0);
     BOOST_CHECK_EQUAL(obj->text, "xyz");
 
     delete ohb;
