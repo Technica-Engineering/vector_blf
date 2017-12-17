@@ -50,7 +50,7 @@ public:
     DWORD executionObjectIdentify;
 
     /** enumeration for type */
-    enum class Type : WORD {
+    enum Type : WORD {
         TM_TESTMODULE = 1,
         TM_TESTGROUP = 2,
         TM_TESTCASE = 3,
@@ -78,7 +78,7 @@ public:
     DWORD uniqueNo;
 
     /** enumeration for action */
-    enum class Action : WORD {
+    enum Action : WORD {
         BEGIN = 1,
         END = 2,
 
@@ -95,7 +95,7 @@ public:
     WORD action;
 
     /** enumeration for result */
-    enum class Result : WORD {
+    enum Result : WORD {
         UNDEFINED = 0,
         NONE = 1,
         PASSED = 2,

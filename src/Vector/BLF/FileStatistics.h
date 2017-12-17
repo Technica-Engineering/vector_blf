@@ -37,7 +37,7 @@ namespace BLF {
 const DWORD FileSignature = 0x47474F4C; /* LOGG */
 
 /** Application ID */
-enum class ApplicationId : BYTE
+enum ApplicationId : BYTE
 {
     /** Unknown */
     Unknown = 0,
@@ -106,7 +106,7 @@ public:
     DWORD statisticsSize;
 
     /** application ID (usually CANoe) */
-    ApplicationId applicationId;
+    BYTE applicationId;
 
     /** application major number (usually 0) */
     BYTE applicationMajor;

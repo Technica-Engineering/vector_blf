@@ -55,7 +55,7 @@ public:
     WORD channel;
 
     /** enumeration for flags */
-    enum class Flags : WORD
+    enum Flags : WORD
     {
         /** channel is configured */
         ChannelIsConfigured = 0x0001,

@@ -27,7 +27,7 @@ BOOST_AUTO_TEST_CASE(MostTrigger)
     BOOST_CHECK(obj->objectType == Vector::BLF::ObjectType::MOST_TRIGGER);
 
     /* ObjectHeader2 */
-    BOOST_CHECK(obj->objectFlags == Vector::BLF::ObjectHeader2::ObjectFlags::TimeOneNans);
+    BOOST_CHECK_EQUAL(obj->objectFlags, Vector::BLF::ObjectHeader2::ObjectFlags::TimeOneNans);
     BOOST_CHECK_EQUAL(obj->timeStampStatus, 0x22);
     BOOST_CHECK_EQUAL(obj->reservedObjectHeader2, 0x33);
     BOOST_CHECK_EQUAL(obj->objectVersion, 0);

@@ -45,7 +45,7 @@ public:
     virtual DWORD calculateObjectSize() const override;
 
     /** enumeration for busType */
-    enum class BusType : DWORD
+    enum BusType : DWORD
     {
         /** CAN */
         Can = 1,
@@ -75,7 +75,7 @@ public:
     /**
      * @brief bus type
      */
-    BusType busType;
+    DWORD busType;
 
     /**
      * @brief channel where overrun occured

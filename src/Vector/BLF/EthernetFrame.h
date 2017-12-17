@@ -67,7 +67,7 @@ public:
     std::array<BYTE, 6> destinationAddress;
 
     /** enumeration for dir */
-    enum class Dir : WORD
+    enum Dir : WORD
     {
         Rx = 0,
         Tx = 1,

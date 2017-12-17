@@ -72,7 +72,7 @@ public:
      *
      * Unit of object timestamp.
      */
-    ObjectFlags objectFlags;
+    DWORD objectFlags;
 
     /**
      * @brief client index of send node

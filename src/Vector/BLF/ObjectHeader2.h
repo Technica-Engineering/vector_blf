@@ -48,7 +48,7 @@ public:
     virtual DWORD calculateObjectSize() const override;
 
     /** enumeration for objectFlags */
-    enum class ObjectFlags : DWORD
+    enum ObjectFlags : DWORD
     {
         /**
          * @brief 10 micro second timestamp
@@ -73,7 +73,7 @@ public:
      *
      * Unit of object timestamp.
      */
-    ObjectFlags objectFlags;
+    DWORD objectFlags;
 
     /** enumeration for timeStampStatus */
     enum TimeStampStatus : BYTE {

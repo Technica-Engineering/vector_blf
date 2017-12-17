@@ -54,7 +54,7 @@ public:
     /**
      * enumeration for flags
      */
-    enum class Flags : BYTE
+    enum Flags : BYTE
     {
         /** transmit direction */
         TX = (1 << 0),
@@ -101,7 +101,7 @@ public:
     /**
      * enumeration for canFdFlags
      */
-    enum class CanFdFlags : BYTE
+    enum CanFdFlags : BYTE
     {
         /** extended data length */
         EDL = (1 << 0),

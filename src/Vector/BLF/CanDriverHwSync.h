@@ -54,7 +54,7 @@ public:
     WORD channel;
 
     /** enumeration for flags */
-    enum class Flags : BYTE
+    enum Flags : BYTE
     {
         /** sync was sent from this channel */
         Tx = 1,

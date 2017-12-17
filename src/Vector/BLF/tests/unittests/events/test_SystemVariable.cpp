@@ -27,13 +27,13 @@ BOOST_AUTO_TEST_CASE(SystemVariable)
     BOOST_CHECK(obj->objectType == Vector::BLF::ObjectType::SYS_VARIABLE);
 
     /* ObjectHeader */
-    BOOST_CHECK(obj->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
+    BOOST_CHECK_EQUAL(obj->objectFlags, Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
     BOOST_CHECK_EQUAL(obj->clientIndex, 0);
     BOOST_CHECK_EQUAL(obj->objectVersion, 0);
     BOOST_CHECK_EQUAL(obj->objectTimeStamp, 20400000000); // ns
 
     /* SystemVariable */
-    BOOST_CHECK(obj->type == Vector::BLF::SystemVariable::Type::Long);
+    BOOST_CHECK_EQUAL(obj->type, Vector::BLF::SystemVariable::Type::Long);
     // reserved
     BOOST_CHECK_EQUAL(obj->nameLength, 21);
     BOOST_CHECK_EQUAL(obj->dataLength, 4);

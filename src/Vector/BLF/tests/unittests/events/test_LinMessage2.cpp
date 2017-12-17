@@ -27,7 +27,7 @@ BOOST_AUTO_TEST_CASE(LinMessage2)
     BOOST_CHECK(obj->objectType == Vector::BLF::ObjectType::LIN_MESSAGE2);
 
     /* ObjectHeader */
-    BOOST_CHECK(obj->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
+    BOOST_CHECK_EQUAL(obj->objectFlags, Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
     BOOST_CHECK_EQUAL(obj->clientIndex, 0x1111);
     BOOST_CHECK_EQUAL(obj->objectVersion, 3);
     BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);

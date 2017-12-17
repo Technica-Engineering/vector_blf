@@ -56,7 +56,7 @@ public:
     WORD channel;
 
     /** enumeration for flags */
-    enum class Flags : WORD
+    enum Flags : WORD
     {
         /** Genuine MAC Header */
         GenuineMacHeader = 0x0001,
@@ -69,7 +69,7 @@ public:
     WORD flags;
 
     /** enumeration for dir */
-    enum class Dir : BYTE
+    enum Dir : BYTE
     {
         /** receive */
         Rx = 0,

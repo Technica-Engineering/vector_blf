@@ -27,7 +27,7 @@ BOOST_AUTO_TEST_CASE(SerialEvent)
     BOOST_CHECK(obj->objectType == Vector::BLF::ObjectType::SERIAL_EVENT);
 
     /* ObjectHeader */
-    BOOST_CHECK(obj->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
+    BOOST_CHECK_EQUAL(obj->objectFlags, Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
     BOOST_CHECK_EQUAL(obj->clientIndex, 0);
     BOOST_CHECK_EQUAL(obj->objectVersion, 0);
     BOOST_CHECK_EQUAL(obj->objectTimeStamp, 12315000000); // ns

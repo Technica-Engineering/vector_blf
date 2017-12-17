@@ -27,7 +27,7 @@ BOOST_AUTO_TEST_CASE(AfdxFrame)
     BOOST_CHECK(obj->objectType == Vector::BLF::ObjectType::AFDX_FRAME);
 
     /* ObjectHeader */
-    BOOST_CHECK(obj->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
+    BOOST_CHECK_EQUAL(obj->objectFlags, Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
     BOOST_CHECK_EQUAL(obj->clientIndex, 0x1111);
     BOOST_CHECK_EQUAL(obj->objectVersion, 0);
     BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
@@ -46,7 +46,7 @@ BOOST_AUTO_TEST_CASE(AfdxFrame)
     BOOST_CHECK_EQUAL(obj->destinationAddress[3], 0xBB);
     BOOST_CHECK_EQUAL(obj->destinationAddress[4], 0xCC);
     BOOST_CHECK_EQUAL(obj->destinationAddress[5], 0xDD);
-    BOOST_CHECK(obj->dir == Vector::BLF::AfdxFrame::Dir::Tx);
+    BOOST_CHECK_EQUAL(obj->dir, Vector::BLF::AfdxFrame::Dir::Tx);
     BOOST_CHECK_EQUAL(obj->type, 0xEEEE);
     BOOST_CHECK_EQUAL(obj->tpid, 0xFFFF);
     BOOST_CHECK_EQUAL(obj->tci, 0x1111);

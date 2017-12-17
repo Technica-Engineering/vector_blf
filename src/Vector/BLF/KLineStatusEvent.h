@@ -47,7 +47,7 @@ public:
     virtual DWORD calculateObjectSize() const override;
 
     /** enumeration for type */
-    enum class Type : WORD
+    enum Type : WORD
     {
         /** If set in type, direction is tester -> ECU */
         toEcu = 0x8000,

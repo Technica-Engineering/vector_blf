@@ -27,7 +27,7 @@ BOOST_AUTO_TEST_CASE(AppTrigger)
     BOOST_CHECK(obj->objectType == Vector::BLF::ObjectType::APP_TRIGGER);
 
     /* ObjectHeader */
-    BOOST_CHECK(obj->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
+    BOOST_CHECK_EQUAL(obj->objectFlags, Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
     BOOST_CHECK_EQUAL(obj->clientIndex, 0x1111);
     BOOST_CHECK_EQUAL(obj->objectVersion, 0);
     BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
@@ -36,7 +36,7 @@ BOOST_AUTO_TEST_CASE(AppTrigger)
     BOOST_CHECK_EQUAL(obj->preTriggerTime, 0x1111111111111111);
     BOOST_CHECK_EQUAL(obj->postTriggerTime, 0x2222222222222222);
     BOOST_CHECK_EQUAL(obj->channel, 0x3333);
-    BOOST_CHECK(obj->flags == Vector::BLF::AppTrigger::Flags::SingleTrigger);
+    BOOST_CHECK_EQUAL(obj->flags, Vector::BLF::AppTrigger::Flags::SingleTrigger);
     BOOST_CHECK_EQUAL(obj->appSpecific2, 0x44444444);
 
     delete ohb;

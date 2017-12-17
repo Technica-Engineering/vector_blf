@@ -27,13 +27,13 @@ BOOST_AUTO_TEST_CASE(AppText)
     BOOST_CHECK(obj->objectType == Vector::BLF::ObjectType::APP_TEXT);
 
     /* ObjectHeader */
-    BOOST_CHECK(obj->objectFlags == Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
+    BOOST_CHECK_EQUAL(obj->objectFlags, Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
     BOOST_CHECK_EQUAL(obj->clientIndex, 0x1111);
     BOOST_CHECK_EQUAL(obj->objectVersion, 0);
     BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x2222222222222222);
 
     /* AppText */
-    BOOST_CHECK(obj->source == Vector::BLF::AppText::Source::MetaData);
+    BOOST_CHECK_EQUAL(obj->source, Vector::BLF::AppText::Source::MetaData);
     BOOST_CHECK_EQUAL(obj->reservedAppText1, 0);
     BOOST_CHECK_EQUAL(obj->textLength, 3);
     BOOST_CHECK_EQUAL(obj->reservedAppText2, 0);

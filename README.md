@@ -72,6 +72,5 @@ The following files are products of installation and building:
 * There is currently no transition between little/big endian. Current support is only for little endian machines.
 * There should be setter/getter methods instead of direct member variable access. Also for bit settings.
 * All return pointers should be of type std::unique_ptr to make ownership clear
-* don't use enum class for data types, but use stdint instead.
 * Newest version of binlog.dll writes reseved_115 at end of file.
 * use std::chrono for all times

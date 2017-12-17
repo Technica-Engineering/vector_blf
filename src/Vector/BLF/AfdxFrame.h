@@ -67,7 +67,7 @@ public:
     std::array<BYTE, 6> destinationAddress;
 
     /** enumeration for dir */
-    enum class Dir : WORD
+    enum Dir : WORD
     {
         /** Receive */
         Rx = 0,
@@ -82,7 +82,7 @@ public:
     /**
      * @brief Direction flag
      */
-    Dir dir;
+    WORD dir;
 
     /**
      * EtherType which indicates protocol for
