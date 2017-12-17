@@ -27,6 +27,7 @@ namespace BLF {
 SerialEvent::GeneralSerialEvent::GeneralSerialEvent() :
     dataLength(),
     timeStampsLength(),
+    reservedGeneralSerialEvent(),
     data(),
     timeStamps()
 {
@@ -41,6 +42,7 @@ DWORD SerialEvent::GeneralSerialEvent::calculateObjectSize() const
     return
         sizeof(dataLength) +
         sizeof(timeStampsLength) +
+        sizeof(reservedGeneralSerialEvent) +
         dataLength +
         timeStampsLength;
 }
@@ -101,15 +103,16 @@ void SerialEvent::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&baudrate), sizeof(baudrate));
     is.read(reinterpret_cast<char *>(&reservedSerialEvent), sizeof(reservedSerialEvent));
 
-    if ((flags & ((DWORD) Flags::SingleByte)) != 0) {
+    if ((flags & Flags::SingleByte) != 0) {
         is.read(reinterpret_cast<char *>(&singleByte.byte), sizeof(singleByte.byte));
     } else {
-        if ((flags & ((DWORD) Flags::CompactByte)) != 0) {
+        if ((flags & Flags::CompactByte) != 0) {
             is.read(reinterpret_cast<char *>(&compact.compactLength), sizeof(compact.compactLength));
             is.read(reinterpret_cast<char *>(&compact.compactData), sizeof(compact.compactData));
         } else {
             is.read(reinterpret_cast<char *>(&general.dataLength), sizeof(general.dataLength));
             is.read(reinterpret_cast<char *>(&general.timeStampsLength), sizeof(general.timeStampsLength));
+            is.read(reinterpret_cast<char *>(&general.reservedGeneralSerialEvent), sizeof(general.reservedGeneralSerialEvent));
             general.data.resize(general.dataLength);
             is.read(reinterpret_cast<char *>(general.data.data()), general.dataLength);
             general.timeStamps.resize(general.timeStampsLength / sizeof(LONGLONG));
@@ -126,10 +129,10 @@ void SerialEvent::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&baudrate), sizeof(baudrate));
     os.write(reinterpret_cast<char *>(&reservedSerialEvent), sizeof(reservedSerialEvent));
 
-    if ((flags & ((DWORD) Flags::SingleByte)) != 0) {
+    if ((flags & Flags::SingleByte) != 0) {
         os.write(reinterpret_cast<char *>(&singleByte.byte), sizeof(singleByte.byte));
     } else {
-        if ((flags & ((DWORD) Flags::CompactByte)) != 0) {
+        if ((flags & Flags::CompactByte) != 0) {
             os.write(reinterpret_cast<char *>(&compact.compactLength), sizeof(compact.compactLength));
             os.write(reinterpret_cast<char *>(&compact.compactData), sizeof(compact.compactData));
         } else {
@@ -139,6 +142,7 @@ void SerialEvent::write(AbstractFile & os)
 
             os.write(reinterpret_cast<char *>(&general.dataLength), sizeof(general.dataLength));
             os.write(reinterpret_cast<char *>(&general.timeStampsLength), sizeof(general.timeStampsLength));
+            os.write(reinterpret_cast<char *>(&general.reservedGeneralSerialEvent), sizeof(general.reservedGeneralSerialEvent));
             os.write(reinterpret_cast<char *>(general.data.data()), general.dataLength);
             os.write(reinterpret_cast<char *>(general.timeStamps.data()), general.timeStampsLength);
         }
@@ -154,9 +158,9 @@ DWORD SerialEvent::calculateObjectSize() const
         sizeof(baudrate) +
         sizeof(reservedSerialEvent);
 
-    if ((flags & ((DWORD) Flags::SingleByte)) != 0) {
+    if ((flags & Flags::SingleByte) != 0) {
         size += singleByte.calculateObjectSize();
-    } else if ((flags & ((DWORD) Flags::CompactByte)) != 0) {
+    } else if ((flags & Flags::CompactByte) != 0) {
         size += compact.calculateObjectSize();
     } else {
         size += general.calculateObjectSize();

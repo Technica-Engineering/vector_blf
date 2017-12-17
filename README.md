@@ -74,3 +74,10 @@ The following files are products of installation and building:
 * All return pointers should be of type std::unique_ptr to make ownership clear
 * Newest version of binlog.dll writes reseved_115 at end of file.
 * use std::chrono for all times
+* Plausibility checks for length fields
+
+# Test sources
+* events_from_converter/*.blf have been converted from asc files using original converter under Windows.
+  binlog API version was 3.9.6.0.
+* events_from_binlog/*.blf have been generated using the binlog library under Windows.
+  binlog API version was 4.5.2.2.

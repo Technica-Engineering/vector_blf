@@ -52,6 +52,9 @@ void EnvironmentVariable::read(AbstractFile & is)
     is.read(const_cast<char *>(name.data()), nameLength);
     data.resize(dataLength);
     is.read(reinterpret_cast<char *>(data.data()), dataLength);
+
+    /* skip padding */
+    is.seekg(objectSize % 4, std::ios_base::cur);
 }
 
 void EnvironmentVariable::write(AbstractFile & os)
@@ -66,6 +69,9 @@ void EnvironmentVariable::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reservedEnvironmentVariable), sizeof(reservedEnvironmentVariable));
     os.write(const_cast<char *>(name.data()), nameLength);
     os.write(reinterpret_cast<char *>(data.data()), dataLength);
+
+    /* skip padding */
+    os.seekp(objectSize % 4, std::ios_base::cur);
 }
 
 DWORD EnvironmentVariable::calculateObjectSize() const

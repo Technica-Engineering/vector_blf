@@ -124,6 +124,9 @@ public:
          */
         DWORD timeStampsLength;
 
+        /** reserved */
+        ULONGLONG reservedGeneralSerialEvent;
+
         /**
          * @brief variable data
          *
