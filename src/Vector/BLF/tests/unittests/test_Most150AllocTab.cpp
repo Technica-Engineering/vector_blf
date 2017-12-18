@@ -87,14 +87,14 @@ BOOST_AUTO_TEST_CASE(Most150AllocTab_2)
     BOOST_CHECK_EQUAL(obj->eventModeFlags, 0);
     BOOST_CHECK_EQUAL(obj->freeBytes, 0x2e);
     BOOST_CHECK_EQUAL(obj->length, 8);
-    BOOST_CHECK_EQUAL(obj->tableData[0], 0xc618);
-    BOOST_CHECK_EQUAL(obj->tableData[1], 0x1937);
-    BOOST_CHECK_EQUAL(obj->tableData[2], 0x0f98);
-    BOOST_CHECK_EQUAL(obj->tableData[3], 0x0052);
-    BOOST_CHECK_EQUAL(obj->tableData[4], 0x010b);
-    BOOST_CHECK_EQUAL(obj->tableData[5], 0x0004);
-    BOOST_CHECK_EQUAL(obj->tableData[6], 0x4151);
-    BOOST_CHECK_EQUAL(obj->tableData[7], 0x0046);
+    BOOST_CHECK_EQUAL(obj->tableData[0], 0x000b);
+    BOOST_CHECK_EQUAL(obj->tableData[1], 0x0001);
+    BOOST_CHECK_EQUAL(obj->tableData[2], 0x0004);
+    BOOST_CHECK_EQUAL(obj->tableData[3], 0x0000);
+    BOOST_CHECK_EQUAL(obj->tableData[4], 0x0051);
+    BOOST_CHECK_EQUAL(obj->tableData[5], 0x0041);
+    BOOST_CHECK_EQUAL(obj->tableData[6], 0x0046);
+    BOOST_CHECK_EQUAL(obj->tableData[7], 0x0000);
 
     delete ohb;
 
@@ -123,14 +123,14 @@ BOOST_AUTO_TEST_CASE(Most150AllocTab_2)
     BOOST_CHECK_EQUAL(obj->eventModeFlags, 0);
     BOOST_CHECK_EQUAL(obj->freeBytes, 0x74);
     BOOST_CHECK_EQUAL(obj->length, 8);
-    BOOST_CHECK_EQUAL(obj->tableData[0], 0xc618);
-    BOOST_CHECK_EQUAL(obj->tableData[1], 0x1937);
-    BOOST_CHECK_EQUAL(obj->tableData[2], 0x346a);
-    BOOST_CHECK_EQUAL(obj->tableData[3], 0x6d0d);
-    BOOST_CHECK_EQUAL(obj->tableData[4], 0x010b);
-    BOOST_CHECK_EQUAL(obj->tableData[5], 0x0004);
-    BOOST_CHECK_EQUAL(obj->tableData[6], 0x8151);
-    BOOST_CHECK_EQUAL(obj->tableData[7], 0x0046);
+    BOOST_CHECK_EQUAL(obj->tableData[0], 0x000b);
+    BOOST_CHECK_EQUAL(obj->tableData[1], 0x0001);
+    BOOST_CHECK_EQUAL(obj->tableData[2], 0x0004);
+    BOOST_CHECK_EQUAL(obj->tableData[3], 0x0000);
+    BOOST_CHECK_EQUAL(obj->tableData[4], 0x0051);
+    BOOST_CHECK_EQUAL(obj->tableData[5], 0x0081);
+    BOOST_CHECK_EQUAL(obj->tableData[6], 0x0046);
+    BOOST_CHECK_EQUAL(obj->tableData[7], 0x0000);
 
     delete ohb;
 
