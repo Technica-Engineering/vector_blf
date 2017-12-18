@@ -28,57 +28,76 @@ namespace Vector {
 namespace BLF {
 
 UncompressedFile::UncompressedFile() :
-    privateTellg(0),
-    privateTellp(0),
-    dataTell(0),
-    data()
+    m_gcount(0),
+    m_tellg(0),
+    m_tellp(0),
+    m_dataBegin(0),
+    m_data()
 {
+}
+
+std::streamsize UncompressedFile::gcount() const
+{
+    return m_gcount;
 }
 
 void UncompressedFile::read(char * s, std::streamsize n)
 {
-    /** offset to read */
-    std::streamoff offset = privateTellg - dataTell;
+    /* offset to read */
+    std::streamoff offset = m_tellg - m_dataBegin;
 
-    /** copy data */
-    std::copy(data.data() + offset, data.data() + offset + n, s);
+    /* check if sufficient data is available */
+    if (m_tellg + n >= dataEnd()) {
+        n = dataEnd() - m_tellg;
+    }
 
-    /** new get position */
-    privateTellg += n;
+    /* copy data */
+    std::copy(m_data.begin() + offset, m_data.begin() + offset + n, s);
+
+    /* new get position */
+    m_tellg += n;
+
+    /* remember get count */
+    m_gcount = n;
 }
 
 std::streampos UncompressedFile::tellg()
 {
-    return privateTellg;
+    return m_tellg;
 }
 
 void UncompressedFile::seekg(std::streampos pos)
 {
-    privateTellg = pos;
+    m_tellg = pos;
 }
 
 void UncompressedFile::seekg(std::streamoff off, std::ios_base::seekdir way)
 {
     assert(way == std::ios_base::cur);
 
-    privateTellg = privateTellg + off;
+    m_tellg = m_tellg + off;
 }
 
 void UncompressedFile::write(const char * s, std::streamsize n)
 {
+    /* extend data block, if new data exceeds end of m_data */
+    if (m_tellp + n >= dataEnd()) {
+        m_data.resize(static_cast<size_t>(m_tellp + n - m_dataBegin));
+    }
+
     /* offset to write */
-    std::streamoff offset = privateTellp - dataTell;
+    std::streamoff offset = m_tellp - m_dataBegin;
 
     /* copy data */
-    data.insert(data.begin() + offset, s, s + n);
+    std::copy(s, s + n, m_data.begin() + offset);
 
     /* new put position */
-    privateTellp += n;
+    m_tellp += n;
 }
 
 std::streampos UncompressedFile::tellp()
 {
-    return privateTellp;
+    return m_tellp;
 }
 
 void UncompressedFile::seekp(std::streampos pos)
@@ -90,22 +109,25 @@ void UncompressedFile::seekp(std::streamoff off, std::ios_base::seekdir way)
 {
     assert(way == std::ios_base::cur);
 
-    /* write zero to skip */
-    static const char buffer[] = { 0, 0, 0, 0 };
-    write(buffer, off);
+    m_tellp += off;
 }
 
 void UncompressedFile::dropOldData(std::streamsize dropSize, std::streamsize remainingSize)
 {
-    /* calculate sizes */
-    std::streamsize oldDataSize = privateTellg - dataTell;
-    oldDataSize -= remainingSize;
+    /* check if drop should be done now */
+    if (m_dataBegin + dropSize + remainingSize >= m_tellg) {
+        /* don't drop yet */
+        return;
+    }
 
     /* drop data */
-    if (dropSize <= oldDataSize) {
-        data.erase(data.begin(), data.begin() + dropSize);
-        dataTell += dropSize;
-    }
+    m_data.erase(m_data.begin(), m_data.begin() + dropSize);
+    m_dataBegin += dropSize;
+}
+
+std::streampos UncompressedFile::dataEnd() const
+{
+    return m_dataBegin + static_cast<std::streampos>(m_data.size());
 }
 
 }

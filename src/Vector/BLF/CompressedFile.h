@@ -38,6 +38,7 @@ class VECTOR_BLF_EXPORT CompressedFile final : public AbstractFile
 public:
     CompressedFile();
 
+    virtual std::streamsize gcount() const override;
     virtual void read(char * s, std::streamsize n) override;
     virtual std::streampos tellg() override;
     virtual void seekg(std::streampos pos) override;

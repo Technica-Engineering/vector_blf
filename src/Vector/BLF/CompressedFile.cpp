@@ -31,6 +31,11 @@ CompressedFile::CompressedFile() :
 {
 }
 
+std::streamsize CompressedFile::gcount() const
+{
+    return file.gcount();
+}
+
 void CompressedFile::read(char * s, std::streamsize n)
 {
     file.read(s, n);

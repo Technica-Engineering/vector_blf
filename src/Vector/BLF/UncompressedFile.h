@@ -32,12 +32,23 @@
 namespace Vector {
 namespace BLF {
 
-/** UncompresesdFile (Input/output memory stream) */
+/**
+ * UncompresesdFile (Input/output memory stream)
+ *
+ * This class is like a virtual file buffer.
+ * m_data has a limited view on this virtual file with
+ * start position at m_dataBegin and end position dataEnd.
+ * In addition read is done at position m_tellg and
+ * write position is at m_tellp.
+ * Write or seek operations exceeding dataEnd(), extends the view.
+ * And explicit dropOldData cuts the begin, so reduced the view.
+ */
 class VECTOR_BLF_EXPORT UncompressedFile final : public AbstractFile
 {
 public:
     UncompressedFile();
 
+    virtual std::streamsize gcount() const override;
     virtual void read(char * s, std::streamsize n) override;
     virtual std::streampos tellg() override;
     virtual void seekg(std::streampos pos) override;
@@ -56,17 +67,23 @@ public:
     virtual void dropOldData(std::streamsize dropSize, std::streamsize remainingDataSize);
 
 private:
+    /** last read size */
+    std::streamsize m_gcount;
+
     /** get position */
-    std::streampos privateTellg;
+    std::streampos m_tellg;
 
     /** put position */
-    std::streampos privateTellp;
+    std::streampos m_tellp;
 
     /** data start position */
-    std::streampos dataTell;
+    std::streampos m_dataBegin;
 
     /** data */
-    std::vector<char> data;
+    std::vector<char> m_data;
+
+    /** data end position */
+    std::streampos dataEnd() const;
 };
 
 }

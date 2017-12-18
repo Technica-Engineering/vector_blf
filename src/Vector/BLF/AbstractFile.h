@@ -37,6 +37,13 @@ public:
     virtual ~AbstractFile();
 
     /**
+     * Get characters returned by last read operation
+     *
+     * @return Number of characters
+     */
+    virtual std::streamsize gcount() const = 0;
+
+    /**
      * Read block of data
      *
      * @param[out] s Pointer to data
