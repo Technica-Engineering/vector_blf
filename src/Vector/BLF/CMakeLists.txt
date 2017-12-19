@@ -39,6 +39,7 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/CanMessage2.h
         ${CMAKE_CURRENT_SOURCE_DIR}/CanMessage.h
         ${CMAKE_CURRENT_SOURCE_DIR}/CanOverloadFrame.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/CompactSerialEvent.h
         ${CMAKE_CURRENT_SOURCE_DIR}/CompressedFile.h
         ${CMAKE_CURRENT_SOURCE_DIR}/DiagRequestInterpretation.h
         ${CMAKE_CURRENT_SOURCE_DIR}/DriverOverrun.h
@@ -65,6 +66,7 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/FlexRayVFrReceiveMsg.h
         ${CMAKE_CURRENT_SOURCE_DIR}/FlexRayVFrStartCycle.h
         ${CMAKE_CURRENT_SOURCE_DIR}/FlexRayVFrStatus.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/GeneralSerialEvent.h
         ${CMAKE_CURRENT_SOURCE_DIR}/GlobalMarker.h
         ${CMAKE_CURRENT_SOURCE_DIR}/GpsEvent.h
         ${CMAKE_CURRENT_SOURCE_DIR}/J1708Message.h
@@ -134,6 +136,7 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/platform.h
         ${CMAKE_CURRENT_SOURCE_DIR}/RealtimeClock.h
         ${CMAKE_CURRENT_SOURCE_DIR}/SerialEvent.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/SingleByteSerialEvent.h
         ${CMAKE_CURRENT_SOURCE_DIR}/SystemVariable.h
         ${CMAKE_CURRENT_SOURCE_DIR}/TestStructure.h
         ${CMAKE_CURRENT_SOURCE_DIR}/UncompressedFile.h
@@ -167,6 +170,7 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/CanMessage2.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/CanMessage.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/CanOverloadFrame.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CompactSerialEvent.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/CompressedFile.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/DiagRequestInterpretation.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/DriverOverrun.cpp
@@ -192,6 +196,7 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/FlexRayVFrReceiveMsgEx.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/FlexRayVFrStartCycle.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/FlexRayVFrStatus.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/GeneralSerialEvent.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/GlobalMarker.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/GpsEvent.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/J1708Message.cpp
@@ -260,6 +265,7 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/ObjectHeader.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/RealtimeClock.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/SerialEvent.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/SingleByteSerialEvent.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/SystemVariable.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/TestStructure.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UncompressedFile.cpp

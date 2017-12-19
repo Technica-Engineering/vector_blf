@@ -39,6 +39,9 @@ std::streamsize CompressedFile::gcount() const
 void CompressedFile::read(char * s, std::streamsize n)
 {
     file.read(s, n);
+    if (gcount() < n) {
+        throw std::runtime_error("CompressedFile::read incomplete");
+    }
 }
 
 std::streampos CompressedFile::tellg()

@@ -27,7 +27,10 @@
 #include <vector>
 
 #include <Vector/BLF/AbstractFile.h>
+#include <Vector/BLF/CompactSerialEvent.h>
+#include <Vector/BLF/GeneralSerialEvent.h>
 #include <Vector/BLF/ObjectHeader.h>
+#include <Vector/BLF/SingleByteSerialEvent.h>
 #include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
@@ -99,89 +102,10 @@ public:
     DWORD reservedSerialEvent;
 
     /** general serial event */
-    struct GeneralSerialEvent {
-        GeneralSerialEvent();
-        virtual ~GeneralSerialEvent();
-
-        /**
-         * Calculates the objectSize
-         *
-         * @return object size
-         */
-        virtual DWORD calculateObjectSize() const;
-
-        /**
-         * @brief length of variable data in bytes
-         *
-         * length of variable data in bytes
-         */
-        DWORD dataLength;
-
-        /**
-         * @brief length of variable timestamps in bytes
-         *
-         * length of variable timestamps in bytes
-         */
-        DWORD timeStampsLength;
-
-        /** reserved */
-        ULONGLONG reservedGeneralSerialEvent;
-
-        /**
-         * @brief variable data
-         *
-         * variable data
-         */
-        std::vector<BYTE> data;
-
-        /**
-         * @brief variable timestamps (optional)
-         *
-         * variable timestamps (optional)
-         */
-        std::vector<LONGLONG> timeStamps;
-    };
-
-    /** general serial event */
     GeneralSerialEvent general;
 
     /** single byte serial event */
-    struct SingleByteSerialEvent {
-        SingleByteSerialEvent();
-        virtual ~SingleByteSerialEvent();
-
-        /**
-         * Calculates the objectSize
-         *
-         * @return object size
-         */
-        virtual DWORD calculateObjectSize() const;
-
-        /** single byte */
-        BYTE byte;
-    };
-
-    /** single byte serial event */
     SingleByteSerialEvent singleByte;
-
-    /** compact serial event */
-    struct CompactSerialEvent {
-        CompactSerialEvent();
-        virtual ~CompactSerialEvent();
-
-        /**
-         * Calculates the objectSize
-         *
-         * @return object size
-         */
-        virtual DWORD calculateObjectSize() const;
-
-        /** compact length */
-        BYTE compactLength;
-
-        /** compact data */
-        std::array<BYTE, 15> compactData;
-    };
 
     /** compact serial event */
     CompactSerialEvent compact;

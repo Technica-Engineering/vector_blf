@@ -24,60 +24,6 @@
 namespace Vector {
 namespace BLF {
 
-SerialEvent::GeneralSerialEvent::GeneralSerialEvent() :
-    dataLength(),
-    timeStampsLength(),
-    reservedGeneralSerialEvent(),
-    data(),
-    timeStamps()
-{
-}
-
-SerialEvent::GeneralSerialEvent::~GeneralSerialEvent()
-{
-}
-
-DWORD SerialEvent::GeneralSerialEvent::calculateObjectSize() const
-{
-    return
-        sizeof(dataLength) +
-        sizeof(timeStampsLength) +
-        sizeof(reservedGeneralSerialEvent) +
-        dataLength +
-        timeStampsLength;
-}
-
-SerialEvent::SingleByteSerialEvent::SingleByteSerialEvent() :
-    byte()
-{
-}
-
-SerialEvent::SingleByteSerialEvent::~SingleByteSerialEvent()
-{
-}
-
-DWORD SerialEvent::SingleByteSerialEvent::calculateObjectSize() const
-{
-    return sizeof(byte);
-}
-
-SerialEvent::CompactSerialEvent::CompactSerialEvent() :
-    compactLength(),
-    compactData()
-{
-}
-
-SerialEvent::CompactSerialEvent::~CompactSerialEvent()
-{
-}
-
-DWORD SerialEvent::CompactSerialEvent::calculateObjectSize() const
-{
-    return
-        sizeof(compactLength) +
-        static_cast<DWORD>(compactData.size());
-}
-
 SerialEvent::SerialEvent() :
     ObjectHeader(),
     flags(),
@@ -104,19 +50,12 @@ void SerialEvent::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&reservedSerialEvent), sizeof(reservedSerialEvent));
 
     if ((flags & Flags::SingleByte) != 0) {
-        is.read(reinterpret_cast<char *>(&singleByte.byte), sizeof(singleByte.byte));
+        singleByte.read(is);
     } else {
         if ((flags & Flags::CompactByte) != 0) {
-            is.read(reinterpret_cast<char *>(&compact.compactLength), sizeof(compact.compactLength));
-            is.read(reinterpret_cast<char *>(&compact.compactData), sizeof(compact.compactData));
+            compact.read(is);
         } else {
-            is.read(reinterpret_cast<char *>(&general.dataLength), sizeof(general.dataLength));
-            is.read(reinterpret_cast<char *>(&general.timeStampsLength), sizeof(general.timeStampsLength));
-            is.read(reinterpret_cast<char *>(&general.reservedGeneralSerialEvent), sizeof(general.reservedGeneralSerialEvent));
-            general.data.resize(general.dataLength);
-            is.read(reinterpret_cast<char *>(general.data.data()), general.dataLength);
-            general.timeStamps.resize(general.timeStampsLength / sizeof(LONGLONG));
-            is.read(reinterpret_cast<char *>(general.timeStamps.data()), general.timeStampsLength);
+            general.read(is);
         }
     }
 }
@@ -130,21 +69,12 @@ void SerialEvent::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reservedSerialEvent), sizeof(reservedSerialEvent));
 
     if ((flags & Flags::SingleByte) != 0) {
-        os.write(reinterpret_cast<char *>(&singleByte.byte), sizeof(singleByte.byte));
+        singleByte.write(os);
     } else {
         if ((flags & Flags::CompactByte) != 0) {
-            os.write(reinterpret_cast<char *>(&compact.compactLength), sizeof(compact.compactLength));
-            os.write(reinterpret_cast<char *>(&compact.compactData), sizeof(compact.compactData));
+            compact.write(os);
         } else {
-            /* pre processing */
-            general.dataLength = static_cast<DWORD>(general.data.size());
-            general.timeStampsLength = static_cast<DWORD>(general.timeStamps.size() * sizeof(LONGLONG));
-
-            os.write(reinterpret_cast<char *>(&general.dataLength), sizeof(general.dataLength));
-            os.write(reinterpret_cast<char *>(&general.timeStampsLength), sizeof(general.timeStampsLength));
-            os.write(reinterpret_cast<char *>(&general.reservedGeneralSerialEvent), sizeof(general.reservedGeneralSerialEvent));
-            os.write(reinterpret_cast<char *>(general.data.data()), general.dataLength);
-            os.write(reinterpret_cast<char *>(general.timeStamps.data()), general.timeStampsLength);
+            general.write(os);
         }
     }
 }
@@ -160,10 +90,12 @@ DWORD SerialEvent::calculateObjectSize() const
 
     if ((flags & Flags::SingleByte) != 0) {
         size += singleByte.calculateObjectSize();
-    } else if ((flags & Flags::CompactByte) != 0) {
-        size += compact.calculateObjectSize();
     } else {
-        size += general.calculateObjectSize();
+        if ((flags & Flags::CompactByte) != 0) {
+            size += compact.calculateObjectSize();
+        } else {
+            size += general.calculateObjectSize();
+        }
     }
 
     return size;
