@@ -45,6 +45,9 @@ void LogContainer::read(AbstractFile & is)
     compressedFileSize = objectSize - internalHeaderSize();
     compressedFile.resize(compressedFileSize);
     is.read(reinterpret_cast<char *>(compressedFile.data()), compressedFileSize);
+
+    /* skip padding */
+    is.seekg(objectSize % 4, std::ios_base::cur);
 }
 
 void LogContainer::write(AbstractFile & os)
@@ -57,6 +60,9 @@ void LogContainer::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&uncompressedFileSize), sizeof(uncompressedFileSize));
     os.write(reinterpret_cast<char *>(&reservedLogContainer2), sizeof(reservedLogContainer2));
     os.write(reinterpret_cast<char *>(compressedFile.data()), compressedFileSize);
+
+    /* skip padding */
+    os.seekp(objectSize % 4, std::ios_base::cur);
 }
 
 DWORD LogContainer::calculateObjectSize() const

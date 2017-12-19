@@ -25,6 +25,8 @@
 
 #include <zlib.h>
 
+#include <Vector/BLF/Exceptions.h>
+
 namespace Vector {
 namespace BLF {
 
@@ -567,7 +569,9 @@ bool File::eof()
     bool compressedFileEmpty =
         (static_cast<ULONGLONG>(compressedFile.tellg()) >= fileStatistics.fileSize) ||
         compressedFile.eof();
-    bool uncompressedFileEmpty = (uncompressedFile.tellp() <= uncompressedFile.tellg());
+    bool uncompressedFileEmpty =
+        (static_cast<ULONGLONG>(uncompressedFile.tellg()) >= fileStatistics.uncompressedFileSize) ||
+        (uncompressedFile.tellg() >= uncompressedFile.tellp());
     return compressedFileEmpty && uncompressedFileEmpty;
 }
 
@@ -618,7 +622,7 @@ ObjectHeaderBase * File::readObjectFromUncompressedFile()
     obj->read(uncompressedFile);
 
     /* drop old data */
-    uncompressedFile.dropOldData(static_cast<std::streamsize>(defaultLogContainerSize), ohb.calculateHeaderSize());
+    uncompressedFile.dropOldData(static_cast<std::streamsize>(defaultLogContainerSize));
 
     currentObjectCount++;
     return obj;
@@ -627,25 +631,14 @@ ObjectHeaderBase * File::readObjectFromUncompressedFile()
 void File::inflate()
 {
     /* read LogContainer */
-    ObjectHeaderBase * obj = readObjectFromCompressedFile();
-    if (obj == nullptr) {
+    ObjectHeaderBase * ohb = readObjectFromCompressedFile();
+    if (ohb == nullptr) {
         return;
     }
-
-    /* just copy object from compressed to uncompressed file */
-    if (obj->objectType != ObjectType::LOG_CONTAINER) {
-        std::vector<char> buffer;
-        buffer.resize(obj->objectSize);
-        compressedFile.read(
-            buffer.data(),
-            static_cast<std::streamsize>(buffer.size()));
-        uncompressedFile.write(
-            buffer.data(),
-            compressedFile.gcount());
-        return;
+    if (ohb->objectType != ObjectType::LOG_CONTAINER) {
+        throw Exception("File::inflate(): Object read for inflasion is not a log container.");
     }
-
-    LogContainer * logContainer = reinterpret_cast<LogContainer *>(obj);
+    LogContainer * logContainer = reinterpret_cast<LogContainer *>(ohb);
 
     /* statistics */
     currentUncompressedFileSize +=
@@ -659,21 +652,21 @@ void File::inflate()
 
     /* inflate */
     int retVal = uncompress(
-               reinterpret_cast<Byte *>(buffer.data()),
-               &bufferSize,
-               reinterpret_cast<Byte *>(logContainer->compressedFile.data()),
-               static_cast<uLong>(logContainer->compressedFileSize));
+           reinterpret_cast<Byte *>(buffer.data()),
+           &bufferSize,
+           reinterpret_cast<Byte *>(logContainer->compressedFile.data()),
+           static_cast<uLong>(logContainer->compressedFileSize));
     /* copy into uncompressedFile */
     if (retVal == Z_OK) {
         uncompressedFile.write(buffer.data(), static_cast<std::streamsize>(bufferSize));
     } else {
         uncompressedFile.write(
-                    reinterpret_cast<const char *>(logContainer->compressedFile.data()),
-                    static_cast<std::streamsize>(logContainer->compressedFileSize));
+            reinterpret_cast<const char *>(logContainer->compressedFile.data()),
+            static_cast<std::streamsize>(logContainer->compressedFileSize));
     }
 
     /* delete buffer */
-    delete obj;
+    delete ohb;
 }
 
 ObjectHeaderBase * File::read()
@@ -697,18 +690,19 @@ void File::deflate()
     uncompressedFile.read(bufferIn.data(), static_cast<std::streamsize>(bufferSizeIn));
 
     /* drop old data */
-    uncompressedFile.dropOldData(static_cast<std::streamsize>(bufferSizeIn), 0);
+    uncompressedFile.dropOldData(static_cast<std::streamsize>(bufferSizeIn));
 
     /* setup new log container and directly deflate/compress data */
     LogContainer logContainer;
     logContainer.uncompressedFileSize = static_cast<DWORD>(bufferSizeIn);
     uLong bufferSizeOut = compressBound(bufferSizeIn);
     logContainer.compressedFile.resize(bufferSizeOut);
-    compress2(reinterpret_cast<Byte *>(logContainer.compressedFile.data()),
-              &bufferSizeOut,
-              reinterpret_cast<Byte *>(bufferIn.data()),
-              bufferSizeIn,
-              compressionLevel);
+    compress2(
+        reinterpret_cast<Byte *>(logContainer.compressedFile.data()),
+        &bufferSizeOut,
+        reinterpret_cast<Byte *>(bufferIn.data()),
+        bufferSizeIn,
+        compressionLevel);
     logContainer.compressedFile.resize(bufferSizeOut);
     logContainer.compressedFileSize = static_cast<DWORD>(bufferSizeOut);
     logContainer.objectSize = logContainer.calculateObjectSize();

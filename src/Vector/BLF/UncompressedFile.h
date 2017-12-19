@@ -62,9 +62,8 @@ public:
      * drop old data (only if dropSize is possible)
      *
      * @param dropSize size of data to drop (used in write case)
-     * @param remainingDataSize size of data remaining to go back and read again (used in read case)
      */
-    virtual void dropOldData(std::streamsize dropSize, std::streamsize remainingDataSize);
+    virtual void dropOldData(std::streamsize dropSize);
 
 private:
     /** last read size */

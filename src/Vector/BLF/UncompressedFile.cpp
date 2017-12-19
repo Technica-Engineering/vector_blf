@@ -51,9 +51,7 @@ void UncompressedFile::read(char * s, std::streamsize n)
     /* check if sufficient data is available */
     if (m_tellg + n > dataEnd()) {
         n = dataEnd() - m_tellg;
-        if (gcount() < n) {
-            throw Exception("UncompressedFile::read(): Attempt to read beyond end of uncompressed file.");
-        }
+        throw Exception("UncompressedFile::read(): Attempt to read beyond end of uncompressed file.");
     }
 
     /* copy data */
@@ -118,10 +116,10 @@ void UncompressedFile::seekp(std::streamoff off, std::ios_base::seekdir way)
     m_tellp += off;
 }
 
-void UncompressedFile::dropOldData(std::streamsize dropSize, std::streamsize remainingSize)
+void UncompressedFile::dropOldData(std::streamsize dropSize)
 {
     /* check if drop should be done now */
-    if (m_dataBegin + dropSize + remainingSize >= m_tellg) {
+    if (m_dataBegin + dropSize >= m_tellg) {
         /* don't drop yet */
         return;
     }
