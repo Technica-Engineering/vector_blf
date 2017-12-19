@@ -47,8 +47,11 @@ void UncompressedFile::read(char * s, std::streamsize n)
     std::streamoff offset = m_tellg - m_dataBegin;
 
     /* check if sufficient data is available */
-    if (m_tellg + n >= dataEnd()) {
+    if (m_tellg + n > dataEnd()) {
         n = dataEnd() - m_tellg;
+        if (gcount() < n) {
+            throw std::runtime_error("UncompressedFile::read incomplete");
+        }
     }
 
     /* copy data */
@@ -81,7 +84,7 @@ void UncompressedFile::seekg(std::streamoff off, std::ios_base::seekdir way)
 void UncompressedFile::write(const char * s, std::streamsize n)
 {
     /* extend data block, if new data exceeds end of m_data */
-    if (m_tellp + n >= dataEnd()) {
+    if (m_tellp + n > dataEnd()) {
         m_data.resize(static_cast<size_t>(m_tellp + n - m_dataBegin));
     }
 

@@ -22,6 +22,7 @@
 #include <Vector/BLF/File.h>
 
 #include <cstring>
+
 #include <zlib.h>
 
 namespace Vector {
@@ -637,7 +638,7 @@ void File::inflate()
             static_cast<std::streamsize>(buffer.size()));
         uncompressedFile.write(
             buffer.data(),
-            static_cast<std::streamsize>(buffer.size()));
+            compressedFile.gcount());
         return;
     }
 
@@ -648,30 +649,28 @@ void File::inflate()
         logContainer->internalHeaderSize() +
         logContainer->uncompressedFileSize;
 
-    /* fill uncompressedFile */
-    bool uncompressed = (logContainer->compressedFileSize == logContainer->uncompressedFileSize);
-    if (uncompressed) {
+    /* create buffer */
+    uLong bufferSize = static_cast<uLong>(logContainer->uncompressedFileSize);
+    std::vector<char> buffer;
+    buffer.resize(bufferSize);
+
+    /* inflate */
+    int retVal = uncompress(
+               reinterpret_cast<Byte *>(buffer.data()),
+               &bufferSize,
+               reinterpret_cast<Byte *>(logContainer->compressedFile.data()),
+               static_cast<uLong>(logContainer->compressedFileSize));
+    /* copy into uncompressedFile */
+    if (retVal == Z_OK) {
+        uncompressedFile.write(buffer.data(), static_cast<std::streamsize>(bufferSize));
+    } else {
         uncompressedFile.write(
                     reinterpret_cast<const char *>(logContainer->compressedFile.data()),
                     static_cast<std::streamsize>(logContainer->compressedFileSize));
-    } else {
-        /* create buffer */
-        uLong bufferSize = static_cast<uLong>(logContainer->uncompressedFileSize);
-        std::vector<char> buffer;
-        buffer.resize(bufferSize);
-
-        /* inflate */
-        (void) uncompress(reinterpret_cast<Byte *>(buffer.data()),
-                   &bufferSize,
-                   reinterpret_cast<Byte *>(logContainer->compressedFile.data()),
-                   static_cast<uLong>(logContainer->compressedFileSize));
-
-        /* copy into uncompressedFile */
-        uncompressedFile.write(buffer.data(), static_cast<std::streamsize>(bufferSize));
     }
 
     /* delete buffer */
-    delete logContainer;
+    delete obj;
 }
 
 ObjectHeaderBase * File::read()
@@ -699,7 +698,7 @@ void File::deflate()
 
     /* setup new log container and directly deflate/compress data */
     LogContainer logContainer;
-    logContainer.uncompressedFileSize = bufferSizeIn;
+    logContainer.uncompressedFileSize = static_cast<DWORD>(bufferSizeIn);
     uLong bufferSizeOut = compressBound(bufferSizeIn);
     logContainer.compressedFile.resize(bufferSizeOut);
     compress2(reinterpret_cast<Byte *>(logContainer.compressedFile.data()),
@@ -708,7 +707,7 @@ void File::deflate()
               bufferSizeIn,
               compressionLevel);
     logContainer.compressedFile.resize(bufferSizeOut);
-    logContainer.compressedFileSize = bufferSizeOut;
+    logContainer.compressedFileSize = static_cast<DWORD>(bufferSizeOut);
     logContainer.objectSize = logContainer.calculateObjectSize();
 
     /* statistics */
