@@ -37,6 +37,8 @@ BOOST_AUTO_TEST_CASE(SerialEvent_1)
     BOOST_CHECK_EQUAL(obj->port, 0x22222222);
     BOOST_CHECK_EQUAL(obj->baudrate, 0x33333333);
     BOOST_CHECK_EQUAL(obj->reservedSerialEvent, 0x44444444);
+
+    /* GeneralSerialEvent */
     BOOST_CHECK_EQUAL(obj->general.dataLength, 3);
     BOOST_CHECK_EQUAL(obj->general.timeStampsLength, 3 * sizeof(Vector::BLF::LONGLONG));
     BOOST_CHECK_EQUAL(obj->general.data[0], 0x11);
@@ -53,7 +55,9 @@ BOOST_AUTO_TEST_CASE(SerialEvent_1)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::SERIAL_EVENT);
     obj = static_cast<Vector::BLF::SerialEvent *>(ohb);
+    BOOST_CHECK_EQUAL(obj->objectSize, obj->calculateObjectSize());
     BOOST_REQUIRE_EQUAL(obj->flags, Vector::BLF::SerialEvent::Flags::SingleByte);
+    /* SingleByteSerialEvent */
     BOOST_CHECK_EQUAL(obj->singleByte.byte, 0x11);
 
     delete ohb;
@@ -63,7 +67,9 @@ BOOST_AUTO_TEST_CASE(SerialEvent_1)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::SERIAL_EVENT);
     obj = static_cast<Vector::BLF::SerialEvent *>(ohb);
+    BOOST_CHECK_EQUAL(obj->objectSize, obj->calculateObjectSize());
     BOOST_REQUIRE_EQUAL(obj->flags, Vector::BLF::SerialEvent::Flags::CompactByte);
+    /* CompactSerialEvent */
     BOOST_CHECK_EQUAL(obj->compact.compactLength, 3);
     BOOST_CHECK_EQUAL(obj->compact.compactData[0], 0x11);
     BOOST_CHECK_EQUAL(obj->compact.compactData[1], 0x22);

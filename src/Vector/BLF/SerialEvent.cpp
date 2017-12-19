@@ -49,15 +49,18 @@ void SerialEvent::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&baudrate), sizeof(baudrate));
     is.read(reinterpret_cast<char *>(&reservedSerialEvent), sizeof(reservedSerialEvent));
 
-    if ((flags & Flags::SingleByte) != 0) {
+    if (flags & Flags::SingleByte) {
         singleByte.read(is);
     } else {
-        if ((flags & Flags::CompactByte) != 0) {
+        if (flags & Flags::CompactByte) {
             compact.read(is);
         } else {
             general.read(is);
         }
     }
+
+    /* skip padding */
+    is.seekg(objectSize % 4, std::ios_base::cur);
 }
 
 void SerialEvent::write(AbstractFile & os)
@@ -68,15 +71,18 @@ void SerialEvent::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&baudrate), sizeof(baudrate));
     os.write(reinterpret_cast<char *>(&reservedSerialEvent), sizeof(reservedSerialEvent));
 
-    if ((flags & Flags::SingleByte) != 0) {
+    if (flags & Flags::SingleByte) {
         singleByte.write(os);
     } else {
-        if ((flags & Flags::CompactByte) != 0) {
+        if (flags & Flags::CompactByte) {
             compact.write(os);
         } else {
             general.write(os);
         }
     }
+
+    /* skip padding */
+    os.seekp(objectSize % 4, std::ios_base::cur);
 }
 
 DWORD SerialEvent::calculateObjectSize() const
@@ -86,16 +92,11 @@ DWORD SerialEvent::calculateObjectSize() const
         sizeof(flags) +
         sizeof(port) +
         sizeof(baudrate) +
-        sizeof(reservedSerialEvent);
+        sizeof(reservedSerialEvent) +
+        16; // size of union of singleByte/compact/general
 
-    if ((flags & Flags::SingleByte) != 0) {
-        size += singleByte.calculateObjectSize();
-    } else {
-        if ((flags & Flags::CompactByte) != 0) {
-            size += compact.calculateObjectSize();
-        } else {
-            size += general.calculateObjectSize();
-        }
+    if (flags & ~(Flags::SingleByte | Flags::CompactByte)) {
+        size += general.dataLength + general.timeStampsLength;
     }
 
     return size;

@@ -37,11 +37,13 @@ SingleByteSerialEvent::~SingleByteSerialEvent()
 void SingleByteSerialEvent::read(AbstractFile & is)
 {
     is.read(reinterpret_cast<char *>(&byte), sizeof(byte));
+    is.seekg(15, std::ios_base::cur); // due to union
 }
 
 void SingleByteSerialEvent::write(AbstractFile & os)
 {
     os.write(reinterpret_cast<char *>(&byte), sizeof(byte));
+    os.seekp(15, std::ios_base::cur); // due to union
 }
 
 DWORD SingleByteSerialEvent::calculateObjectSize() const
