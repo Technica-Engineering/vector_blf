@@ -8,8 +8,6 @@
 #include <Vector/BLF.h>
 
 /* FR_RCVMESSAGE_EX = 66 */
-// @todo 6 bytes after structure ?! generator erroneous?
-#if 0
 BOOST_AUTO_TEST_CASE(FlexRayVFrReceiveMsgEx_1)
 {
     Vector::BLF::File file;
@@ -45,7 +43,7 @@ BOOST_AUTO_TEST_CASE(FlexRayVFrReceiveMsgEx_1)
     BOOST_CHECK_EQUAL(obj->headerCrc1, 0x8888);
     BOOST_CHECK_EQUAL(obj->headerCrc2, 0x9999);
     BOOST_CHECK_EQUAL(obj->byteCount, 0xAAAA);
-    BOOST_CHECK_EQUAL(obj->dataCount, 0xBBBB);
+    BOOST_CHECK_EQUAL(obj->dataCount, 254);
     BOOST_CHECK_EQUAL(obj->cycle, 0xCCCC);
     BOOST_CHECK_EQUAL(obj->tag, 0xDDDDDDDD);
     BOOST_CHECK_EQUAL(obj->data, 0xEEEEEEEE);
@@ -56,13 +54,19 @@ BOOST_AUTO_TEST_CASE(FlexRayVFrReceiveMsgEx_1)
     BOOST_CHECK_EQUAL(obj->frameId1, 0x4444);
     BOOST_CHECK_EQUAL(obj->pduOffset, 0x5555);
     BOOST_CHECK_EQUAL(obj->blfLogMask, 0x6666);
-    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx1, 0x7777);
-    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx2[0], 0x88888888);
-    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx2[1], 0x99999999);
-    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx2[2], 0xAAAAAAAA);
-    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx2[3], 0xBBBBBBBB);
-    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx2[4], 0xCCCCCCCC);
-    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx2[5], 0xDDDDDDDD);
+    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx[ 0], 0x7777);
+    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx[ 1], 0x8888);
+    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx[ 2], 0x8888);
+    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx[ 3], 0x9999);
+    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx[ 4], 0x9999);
+    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx[ 5], 0xAAAA);
+    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx[ 6], 0xAAAA);
+    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx[ 7], 0xBBBB);
+    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx[ 8], 0xBBBB);
+    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx[ 9], 0xCCCC);
+    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx[10], 0xCCCC);
+    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx[11], 0xDDDD);
+    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx[12], 0xDDDD);
     for (uint8_t i = 0; i < 254; i++) {
         BOOST_CHECK_EQUAL(obj->dataBytes[i], i);
     }
@@ -78,7 +82,6 @@ BOOST_AUTO_TEST_CASE(FlexRayVFrReceiveMsgEx_1)
 
     file.close();
 }
-#endif
 
 BOOST_AUTO_TEST_CASE(FlexRayVFrReceiveMsgEx_2)
 {
@@ -126,13 +129,19 @@ BOOST_AUTO_TEST_CASE(FlexRayVFrReceiveMsgEx_2)
     BOOST_CHECK_EQUAL(obj->frameId1, 0);
     BOOST_CHECK_EQUAL(obj->pduOffset, 0);
     BOOST_CHECK_EQUAL(obj->blfLogMask, 0);
-    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx1, 0);
-    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx2[0], 0);
-    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx2[1], 0);
-    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx2[2], 0);
-    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx2[3], 0);
-    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx2[4], 0);
-    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx2[5], 0);
+    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx[ 0], 0);
+    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx[ 1], 0);
+    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx[ 2], 0);
+    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx[ 3], 0);
+    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx[ 4], 0);
+    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx[ 5], 0);
+    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx[ 6], 0);
+    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx[ 7], 0);
+    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx[ 8], 0);
+    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx[ 9], 0);
+    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx[10], 0);
+    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx[11], 0);
+    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx[12], 0);
     BOOST_CHECK_EQUAL(obj->dataBytes[0], 0x15);
     BOOST_CHECK_EQUAL(obj->dataBytes[1], 0x57);
     BOOST_CHECK_EQUAL(obj->dataBytes[2], 0x16);
@@ -180,13 +189,19 @@ BOOST_AUTO_TEST_CASE(FlexRayVFrReceiveMsgEx_2)
     BOOST_CHECK_EQUAL(obj->frameId1, 0);
     BOOST_CHECK_EQUAL(obj->pduOffset, 0);
     BOOST_CHECK_EQUAL(obj->blfLogMask, 0);
-    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx1, 0);
-    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx2[0], 0);
-    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx2[1], 0);
-    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx2[2], 0);
-    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx2[3], 0);
-    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx2[4], 0);
-    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx2[5], 0);
+    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx[ 0], 0);
+    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx[ 1], 0);
+    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx[ 2], 0);
+    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx[ 3], 0);
+    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx[ 4], 0);
+    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx[ 5], 0);
+    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx[ 6], 0);
+    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx[ 7], 0);
+    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx[ 8], 0);
+    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx[ 9], 0);
+    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx[10], 0);
+    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx[11], 0);
+    BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx[12], 0);
     BOOST_CHECK_EQUAL(obj->dataBytes[0], 0x02);
     BOOST_CHECK_EQUAL(obj->dataBytes[1], 0x59);
     BOOST_CHECK_EQUAL(obj->dataBytes[2], 0x00);

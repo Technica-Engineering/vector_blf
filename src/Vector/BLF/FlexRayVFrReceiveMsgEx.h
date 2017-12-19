@@ -305,10 +305,7 @@ public:
     WORD blfLogMask;
 
     /** reserved */
-    WORD reservedFlexRayVFrReceiveMsgEx1;
-
-    /** reserved */
-    std::array<DWORD, 6> reservedFlexRayVFrReceiveMsgEx2;
+    std::array<WORD, 13> reservedFlexRayVFrReceiveMsgEx;
 
     /**
      * @brief array of databytes

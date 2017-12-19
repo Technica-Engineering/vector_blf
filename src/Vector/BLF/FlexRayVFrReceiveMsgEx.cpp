@@ -47,8 +47,7 @@ FlexRayVFrReceiveMsgEx::FlexRayVFrReceiveMsgEx() :
     frameId1(),
     pduOffset(),
     blfLogMask(),
-    reservedFlexRayVFrReceiveMsgEx1(),
-    reservedFlexRayVFrReceiveMsgEx2(),
+    reservedFlexRayVFrReceiveMsgEx(),
     dataBytes()
 {
     objectType = ObjectType::FR_RCVMESSAGE_EX;
@@ -78,16 +77,21 @@ void FlexRayVFrReceiveMsgEx::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&frameId1), sizeof(frameId1));
     is.read(reinterpret_cast<char *>(&pduOffset), sizeof(pduOffset));
     is.read(reinterpret_cast<char *>(&blfLogMask), sizeof(blfLogMask));
-    is.read(reinterpret_cast<char *>(&reservedFlexRayVFrReceiveMsgEx1), sizeof(reservedFlexRayVFrReceiveMsgEx1));
-    is.read(reinterpret_cast<char *>(reservedFlexRayVFrReceiveMsgEx2.data()), static_cast<std::streamsize>(reservedFlexRayVFrReceiveMsgEx2.size() * sizeof(DWORD)));
+    is.read(reinterpret_cast<char *>(reservedFlexRayVFrReceiveMsgEx.data()), static_cast<std::streamsize>(reservedFlexRayVFrReceiveMsgEx.size() * sizeof(WORD)));
     dataBytes.resize(dataCount);
     is.read(reinterpret_cast<char *>(dataBytes.data()), static_cast<std::streamsize>(dataCount));
+
+    /* skip padding */
+    uint8_t padding = (dataCount + 4) % 8;
+    if (padding != 0) {
+        is.seekg((8 - padding), std::ios_base::cur);
+    }
 }
 
 void FlexRayVFrReceiveMsgEx::write(AbstractFile & os)
 {
     /* pre processing */
-    dataCount = static_cast<DWORD>(dataBytes.size());
+    dataCount = static_cast<WORD>(dataBytes.size());
 
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
@@ -111,14 +115,19 @@ void FlexRayVFrReceiveMsgEx::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&frameId1), sizeof(frameId1));
     os.write(reinterpret_cast<char *>(&pduOffset), sizeof(pduOffset));
     os.write(reinterpret_cast<char *>(&blfLogMask), sizeof(blfLogMask));
-    os.write(reinterpret_cast<char *>(&reservedFlexRayVFrReceiveMsgEx1), sizeof(reservedFlexRayVFrReceiveMsgEx1));
-    os.write(reinterpret_cast<char *>(reservedFlexRayVFrReceiveMsgEx2.data()), static_cast<std::streamsize>(reservedFlexRayVFrReceiveMsgEx2.size() * sizeof(DWORD)));
+    os.write(reinterpret_cast<char *>(reservedFlexRayVFrReceiveMsgEx.data()), static_cast<std::streamsize>(reservedFlexRayVFrReceiveMsgEx.size() * sizeof(WORD)));
     os.write(reinterpret_cast<char *>(dataBytes.data()), static_cast<std::streamsize>(dataCount));
+
+    /* skip padding */
+    uint8_t padding = (dataCount + 4) % 8;
+    if (padding != 0) {
+        os.seekp((8 - padding), std::ios_base::cur);
+    }
 }
 
 DWORD FlexRayVFrReceiveMsgEx::calculateObjectSize() const
 {
-    return
+    DWORD size =
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(version) +
@@ -141,9 +150,15 @@ DWORD FlexRayVFrReceiveMsgEx::calculateObjectSize() const
         sizeof(frameId1) +
         sizeof(pduOffset) +
         sizeof(blfLogMask) +
-        sizeof(reservedFlexRayVFrReceiveMsgEx1) +
-        static_cast<DWORD>(reservedFlexRayVFrReceiveMsgEx2.size() * sizeof(DWORD)) +
+        static_cast<DWORD>(reservedFlexRayVFrReceiveMsgEx.size() * sizeof(WORD)) +
         dataCount;
+
+    /* skip padding */
+    if (size % 8 != 0) {
+        size += (8 - size % 8);
+    }
+
+    return size;
 }
 
 }

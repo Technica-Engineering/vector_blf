@@ -78,7 +78,8 @@ void UncompressedFile::seekg(std::streamoff off, std::ios_base::seekdir way)
 {
     assert(way == std::ios_base::cur);
 
-    m_tellg = m_tellg + off;
+    /* new get position */
+    m_tellg += off;
 }
 
 void UncompressedFile::write(const char * s, std::streamsize n)
