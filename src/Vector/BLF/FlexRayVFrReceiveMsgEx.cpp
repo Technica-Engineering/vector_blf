@@ -49,9 +49,7 @@ FlexRayVFrReceiveMsgEx::FlexRayVFrReceiveMsgEx() :
     blfLogMask(),
     reservedFlexRayVFrReceiveMsgEx1(),
     reservedFlexRayVFrReceiveMsgEx2(),
-    dataBytes(),
-    reservedFlexRayVFrReceiveMsgEx3(),
-    reservedFlexRayVFrReceiveMsgEx4()
+    dataBytes()
 {
     objectType = ObjectType::FR_RCVMESSAGE_EX;
 }
@@ -82,13 +80,15 @@ void FlexRayVFrReceiveMsgEx::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&blfLogMask), sizeof(blfLogMask));
     is.read(reinterpret_cast<char *>(&reservedFlexRayVFrReceiveMsgEx1), sizeof(reservedFlexRayVFrReceiveMsgEx1));
     is.read(reinterpret_cast<char *>(reservedFlexRayVFrReceiveMsgEx2.data()), static_cast<std::streamsize>(reservedFlexRayVFrReceiveMsgEx2.size() * sizeof(DWORD)));
-    is.read(reinterpret_cast<char *>(dataBytes.data()), static_cast<std::streamsize>(dataBytes.size()));
-    is.read(reinterpret_cast<char *>(&reservedFlexRayVFrReceiveMsgEx3), sizeof(reservedFlexRayVFrReceiveMsgEx3));
-    is.read(reinterpret_cast<char *>(&reservedFlexRayVFrReceiveMsgEx4), sizeof(reservedFlexRayVFrReceiveMsgEx4));
+    dataBytes.resize(dataCount);
+    is.read(reinterpret_cast<char *>(dataBytes.data()), static_cast<std::streamsize>(dataCount));
 }
 
 void FlexRayVFrReceiveMsgEx::write(AbstractFile & os)
 {
+    /* pre processing */
+    dataCount = static_cast<DWORD>(dataBytes.size());
+
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&version), sizeof(version));
@@ -113,9 +113,7 @@ void FlexRayVFrReceiveMsgEx::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&blfLogMask), sizeof(blfLogMask));
     os.write(reinterpret_cast<char *>(&reservedFlexRayVFrReceiveMsgEx1), sizeof(reservedFlexRayVFrReceiveMsgEx1));
     os.write(reinterpret_cast<char *>(reservedFlexRayVFrReceiveMsgEx2.data()), static_cast<std::streamsize>(reservedFlexRayVFrReceiveMsgEx2.size() * sizeof(DWORD)));
-    os.write(reinterpret_cast<char *>(dataBytes.data()), static_cast<std::streamsize>(dataBytes.size()));
-    os.write(reinterpret_cast<char *>(&reservedFlexRayVFrReceiveMsgEx3), sizeof(reservedFlexRayVFrReceiveMsgEx3));
-    os.write(reinterpret_cast<char *>(&reservedFlexRayVFrReceiveMsgEx4), sizeof(reservedFlexRayVFrReceiveMsgEx4));
+    os.write(reinterpret_cast<char *>(dataBytes.data()), static_cast<std::streamsize>(dataCount));
 }
 
 DWORD FlexRayVFrReceiveMsgEx::calculateObjectSize() const
@@ -145,9 +143,7 @@ DWORD FlexRayVFrReceiveMsgEx::calculateObjectSize() const
         sizeof(blfLogMask) +
         sizeof(reservedFlexRayVFrReceiveMsgEx1) +
         static_cast<DWORD>(reservedFlexRayVFrReceiveMsgEx2.size() * sizeof(DWORD)) +
-        static_cast<DWORD>(dataBytes.size()) +
-        sizeof(reservedFlexRayVFrReceiveMsgEx3) +
-        sizeof(reservedFlexRayVFrReceiveMsgEx4);
+        dataCount;
 }
 
 }

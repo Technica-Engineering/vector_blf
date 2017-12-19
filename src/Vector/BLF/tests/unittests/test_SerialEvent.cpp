@@ -38,7 +38,7 @@ BOOST_AUTO_TEST_CASE(SerialEvent_1)
     BOOST_CHECK_EQUAL(obj->baudrate, 0x33333333);
     BOOST_CHECK_EQUAL(obj->reservedSerialEvent, 0x44444444);
     BOOST_CHECK_EQUAL(obj->general.dataLength, 3);
-    BOOST_CHECK_EQUAL(obj->general.timeStampsLength, 3);
+    BOOST_CHECK_EQUAL(obj->general.timeStampsLength, 3 * sizeof(Vector::BLF::LONGLONG));
     BOOST_CHECK_EQUAL(obj->general.data[0], 0x11);
     BOOST_CHECK_EQUAL(obj->general.data[1], 0x22);
     BOOST_CHECK_EQUAL(obj->general.data[2], 0x33);
@@ -95,7 +95,7 @@ BOOST_AUTO_TEST_CASE(SerialEvent_2)
 
     /* ObjectHeader */
     BOOST_CHECK_EQUAL(obj->objectFlags, Vector::BLF::ObjectHeader::ObjectFlags::TimeOneNans);
-    // reserved
+    BOOST_CHECK_EQUAL(obj->clientIndex, 0);
     BOOST_CHECK_EQUAL(obj->objectVersion, 0);
     BOOST_CHECK_EQUAL(obj->objectTimeStamp, 12315000000); // ns
 
@@ -105,15 +105,25 @@ BOOST_AUTO_TEST_CASE(SerialEvent_2)
                       Vector::BLF::SerialEvent::Flags::CompactByte);
     BOOST_CHECK_EQUAL(obj->port, 2);
     BOOST_CHECK_EQUAL(obj->baudrate, 10400);
-    // reserved
+    BOOST_CHECK_EQUAL(obj->reservedSerialEvent, 0);
+
+    /* CompactSerialEvent */
     BOOST_CHECK_EQUAL(obj->compact.compactLength, 7);
-    BOOST_CHECK_EQUAL(obj->compact.compactData[0], 0x83);
-    BOOST_CHECK_EQUAL(obj->compact.compactData[1], 0x11);
-    BOOST_CHECK_EQUAL(obj->compact.compactData[2], 0x61);
-    BOOST_CHECK_EQUAL(obj->compact.compactData[3], 0x7F);
-    BOOST_CHECK_EQUAL(obj->compact.compactData[4], 0x1A);
-    BOOST_CHECK_EQUAL(obj->compact.compactData[5], 0x78);
-    BOOST_CHECK_EQUAL(obj->compact.compactData[6], 0x06);
+    BOOST_CHECK_EQUAL(obj->compact.compactData[ 0], 0x83);
+    BOOST_CHECK_EQUAL(obj->compact.compactData[ 1], 0x11);
+    BOOST_CHECK_EQUAL(obj->compact.compactData[ 2], 0x61);
+    BOOST_CHECK_EQUAL(obj->compact.compactData[ 3], 0x7F);
+    BOOST_CHECK_EQUAL(obj->compact.compactData[ 4], 0x1A);
+    BOOST_CHECK_EQUAL(obj->compact.compactData[ 5], 0x78);
+    BOOST_CHECK_EQUAL(obj->compact.compactData[ 6], 0x06);
+    BOOST_CHECK_EQUAL(obj->compact.compactData[ 7], 0xCA);
+    BOOST_CHECK_EQUAL(obj->compact.compactData[ 8], 0x04);
+    BOOST_CHECK_EQUAL(obj->compact.compactData[ 9], 0x03);
+    BOOST_CHECK_EQUAL(obj->compact.compactData[10], 0x00);
+    BOOST_CHECK_EQUAL(obj->compact.compactData[11], 0x2B);
+    BOOST_CHECK_EQUAL(obj->compact.compactData[12], 0x10);
+    BOOST_CHECK_EQUAL(obj->compact.compactData[13], 0x00);
+    BOOST_CHECK_EQUAL(obj->compact.compactData[14], 0x00);
 
     delete ohb;
 

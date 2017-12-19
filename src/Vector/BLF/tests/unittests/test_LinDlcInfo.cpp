@@ -36,7 +36,7 @@ BOOST_AUTO_TEST_CASE(LinDlcInfo_1)
     BOOST_CHECK_EQUAL(obj->channel, 0x1111);
     BOOST_CHECK_EQUAL(obj->id, 0x22);
     BOOST_CHECK_EQUAL(obj->dlc, 0x33);
-    // reserved
+    BOOST_CHECK_EQUAL(obj->reservedLinDlcInfo, 0);
 
     delete ohb;
 

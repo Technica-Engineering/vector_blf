@@ -24,6 +24,7 @@
 #include <Vector/BLF/platform.h>
 
 #include <array>
+#include <vector>
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
@@ -314,13 +315,7 @@ public:
      *
      * Payload
      */
-    std::array<BYTE, 254> dataBytes;
-
-    /** reserved */
-    WORD reservedFlexRayVFrReceiveMsgEx3;
-
-    /** reserved */
-    DWORD reservedFlexRayVFrReceiveMsgEx4;
+    std::vector<BYTE> dataBytes;
 };
 
 }
