@@ -143,9 +143,9 @@ ObjectHeaderBase * File::createObject(ObjectType type)
         obj = new MostStatistic();
         break;
 
-    case ObjectType::reserved_1:
-    case ObjectType::reserved_2:
-    case ObjectType::reserved_3:
+    case ObjectType::Reserved26:
+    case ObjectType::Reserved27:
+    case ObjectType::Reserved28:
         break;
 
     case ObjectType::FLEXRAY_DATA:
@@ -240,8 +240,8 @@ ObjectHeaderBase * File::createObject(ObjectType type)
         obj = new RealtimeClock();
         break;
 
-    case ObjectType::AVAILABLE2:
-    case ObjectType::AVAILABLE3:
+    case ObjectType::Reserved52:
+    case ObjectType::Reserved53:
         break;
 
     case ObjectType::LIN_STATISTIC:
@@ -457,7 +457,7 @@ ObjectHeaderBase * File::createObject(ObjectType type)
         obj = new AfdxBusStatistic;
         break;
 
-    case ObjectType::reserved_4:
+    case ObjectType::Reserved108:
         break;
 
     case ObjectType::AFDX_ERROR_EVENT:
@@ -484,9 +484,12 @@ ObjectHeaderBase * File::createObject(ObjectType type)
         obj = new EthernetStatistic;
         break;
 
-    case ObjectType::reserved_5:
-    case ObjectType::reserved_6:
-    case ObjectType::reserved_7:
+    case ObjectType::Unknown115:
+        obj = new Unknown115;
+        break;
+
+    case ObjectType::Reserved116:
+    case ObjectType::Reserved117:
         break;
 
     case ObjectType::TEST_STRUCTURE:

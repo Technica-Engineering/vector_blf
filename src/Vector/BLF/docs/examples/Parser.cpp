@@ -303,9 +303,9 @@ void show(Vector::BLF::MostStatistic * mostStatistic)
     std::cout << std::endl;
 }
 
-// reserved_1 = 26
-// reserved_2 = 27
-// reserved_3 = 28
+// Reserved26 = 26
+// Reserved27 = 27
+// Reserved28 = 28
 
 // FLEXRAY_DATA = 29
 void show(Vector::BLF::FlexRayData * obj)
@@ -552,8 +552,8 @@ void show(Vector::BLF::RealtimeClock * obj)
     // @todo RealtimeClock
 }
 
-// AVAILABLE2 = 52
-// AVAILABLE3 = 53
+// Reserved52 = 52
+// Reserved52 = 53
 
 // LIN_STATISTIC = 54
 void show(Vector::BLF::LinStatisticEvent * linStatisticEvent)
@@ -1080,7 +1080,7 @@ void show(Vector::BLF::AfdxBusStatistic * obj)
     // @todo AfdxBusStatistic
 }
 
-// reserved_4 = 108
+// Reserved108 = 108
 
 // AFDX_ERROR_EVENT = 109
 void show(Vector::BLF::AfdxErrorEvent * obj)
@@ -1124,9 +1124,15 @@ void show(Vector::BLF::EthernetStatistic * obj)
     // @todo EthernetStatistic
 }
 
-// reserved_5 = 115
-// reserved_6 = 116
-// reserved_7 = 117
+// Unknown115 = 115
+void show(Vector::BLF::Unknown115 * obj)
+{
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo TestStructure
+}
+
+// Reserved116 = 116
+// Reserved117 = 117
 
 // TEST_STRUCTURE = 118
 void show(Vector::BLF::TestStructure * obj)
@@ -1313,9 +1319,9 @@ int main(int argc, char * argv[])
             show(reinterpret_cast<Vector::BLF::MostStatistic *>(ohb));
             break;
 
-        case Vector::BLF::ObjectType::reserved_1:
-        case Vector::BLF::ObjectType::reserved_2:
-        case Vector::BLF::ObjectType::reserved_3:
+        case Vector::BLF::ObjectType::Reserved26:
+        case Vector::BLF::ObjectType::Reserved27:
+        case Vector::BLF::ObjectType::Reserved28:
             /* do nothing */
             break;
 
@@ -1411,8 +1417,8 @@ int main(int argc, char * argv[])
             show(reinterpret_cast<Vector::BLF::RealtimeClock *>(ohb));
             break;
 
-        case Vector::BLF::ObjectType::AVAILABLE2:
-        case Vector::BLF::ObjectType::AVAILABLE3:
+        case Vector::BLF::ObjectType::Reserved52:
+        case Vector::BLF::ObjectType::Reserved53:
             /* do nothing */
             break;
 
@@ -1629,7 +1635,7 @@ int main(int argc, char * argv[])
             show(reinterpret_cast<Vector::BLF::AfdxBusStatistic *>(ohb));
             break;
 
-        case Vector::BLF::ObjectType::reserved_4:
+        case Vector::BLF::ObjectType::Reserved108:
             /* do nothing */
             break;
 
@@ -1657,9 +1663,12 @@ int main(int argc, char * argv[])
             show(reinterpret_cast<Vector::BLF::EthernetStatistic *>(ohb));
             break;
 
-        case Vector::BLF::ObjectType::reserved_5:
-        case Vector::BLF::ObjectType::reserved_6:
-        case Vector::BLF::ObjectType::reserved_7:
+        case Vector::BLF::ObjectType::Unknown115:
+            show(reinterpret_cast<Vector::BLF::Unknown115 *>(ohb));
+            break;
+
+        case Vector::BLF::ObjectType::Reserved116:
+        case Vector::BLF::ObjectType::Reserved117:
             /* do nothing */
             break;
 

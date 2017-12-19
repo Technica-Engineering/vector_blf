@@ -140,6 +140,7 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/SystemVariable.h
         ${CMAKE_CURRENT_SOURCE_DIR}/TestStructure.h
         ${CMAKE_CURRENT_SOURCE_DIR}/UncompressedFile.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/Unknown115.h
         ${CMAKE_CURRENT_SOURCE_DIR}/VectorTypes.h
         ${CMAKE_CURRENT_SOURCE_DIR}/WlanFrame.h
         ${CMAKE_CURRENT_SOURCE_DIR}/WlanStatistic.h
@@ -269,6 +270,7 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/SystemVariable.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/TestStructure.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UncompressedFile.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Unknown115.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/WlanFrame.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/WlanStatistic.cpp)
 
