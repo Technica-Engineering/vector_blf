@@ -31,21 +31,12 @@ namespace Vector {
 namespace BLF {
 
 /**
- * This exception is thrown when a file is opened and the file signature doesn't match.
+ * Exception class for all possible exceptions the Vector BLF library throws.
  */
-class VECTOR_BLF_EXPORT FileSignatureMismatch : public std::runtime_error
+class VECTOR_BLF_EXPORT Exception : public std::runtime_error
 {
 public:
-    explicit FileSignatureMismatch() : std::runtime_error("File signature doesn't match.") { }
-};
-
-/**
- * This exception is thrown when an object is read and the object signature doesn't match.
- */
-class VECTOR_BLF_EXPORT ObjectSignatureMismatch : public std::runtime_error
-{
-public:
-    explicit ObjectSignatureMismatch() : std::runtime_error("Object signature doesn't match.") { }
+    explicit Exception(const char * arg) : std::runtime_error(arg) { }
 };
 
 }

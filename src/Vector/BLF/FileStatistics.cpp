@@ -19,11 +19,12 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
+#include <Vector/BLF/FileStatistics.h>
+
 #include <string>
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/Exceptions.h>
-#include <Vector/BLF/FileStatistics.h>
 
 namespace Vector {
 namespace BLF {
@@ -57,7 +58,7 @@ void FileStatistics::read(AbstractFile & is)
 {
     is.read(reinterpret_cast<char *>(&signature), sizeof(signature));
     if (signature != FileSignature) {
-        throw FileSignatureMismatch();
+        throw Exception("FileStatistics::read(): File signature doesn't match at this position.");
     }
     is.read(reinterpret_cast<char *>(&statisticsSize), sizeof(statisticsSize));
     if (statisticsSize != calculateStatisticsSize()) {

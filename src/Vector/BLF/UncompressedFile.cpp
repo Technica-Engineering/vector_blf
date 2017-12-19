@@ -24,6 +24,8 @@
 #include <cassert>
 #include <cstring>
 
+#include <Vector/BLF/Exceptions.h>
+
 namespace Vector {
 namespace BLF {
 
@@ -50,7 +52,7 @@ void UncompressedFile::read(char * s, std::streamsize n)
     if (m_tellg + n > dataEnd()) {
         n = dataEnd() - m_tellg;
         if (gcount() < n) {
-            throw std::runtime_error("UncompressedFile::read incomplete");
+            throw Exception("UncompressedFile::read(): Attempt to read beyond end of uncompressed file.");
         }
     }
 

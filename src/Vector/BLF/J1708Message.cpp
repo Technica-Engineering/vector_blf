@@ -21,8 +21,6 @@
 
 #include <Vector/BLF/J1708Message.h>
 
-#include <iostream>
-
 namespace Vector {
 namespace BLF {
 

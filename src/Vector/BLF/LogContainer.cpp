@@ -20,7 +20,6 @@
  */
 
 #include <Vector/BLF/LogContainer.h>
-#include <Vector/BLF/ObjectHeader.h>
 
 namespace Vector {
 namespace BLF {

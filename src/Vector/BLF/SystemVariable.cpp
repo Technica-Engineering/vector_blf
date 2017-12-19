@@ -19,8 +19,6 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include <cstring>
-
 #include <Vector/BLF/SystemVariable.h>
 
 namespace Vector {

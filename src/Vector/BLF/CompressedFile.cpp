@@ -23,6 +23,8 @@
 
 #include <cassert>
 
+#include <Vector/BLF/Exceptions.h>
+
 namespace Vector {
 namespace BLF {
 
@@ -40,7 +42,7 @@ void CompressedFile::read(char * s, std::streamsize n)
 {
     file.read(s, n);
     if (gcount() < n) {
-        throw std::runtime_error("CompressedFile::read incomplete");
+        throw Exception("CompressedFile::read(): Attempt to read beyond end of compressed file.");
     }
 }
 

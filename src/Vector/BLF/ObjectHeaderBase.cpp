@@ -19,9 +19,10 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
+#include <Vector/BLF/ObjectHeaderBase.h>
+
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/Exceptions.h>
-#include <Vector/BLF/ObjectHeaderBase.h>
 
 namespace Vector {
 namespace BLF {
@@ -43,7 +44,7 @@ void ObjectHeaderBase::read(AbstractFile & is)
 {
     is.read(reinterpret_cast<char *>(&signature), sizeof(signature));
     if (signature != ObjectSignature) {
-        throw ObjectSignatureMismatch();
+        throw Exception("ObjectHeaderBase::read(): Object signature doesn't match at this position.");
     }
     is.read(reinterpret_cast<char *>(&headerSize), sizeof(headerSize));
     is.read(reinterpret_cast<char *>(&headerVersion), sizeof(headerVersion));
