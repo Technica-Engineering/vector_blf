@@ -1,3 +1,4 @@
+#include <cstring>
 #include <iostream>
 #include <fstream>
 
@@ -658,8 +659,11 @@ void show(Vector::BLF::LinLongDomSignalEvent * obj)
 // APP_TEXT = 65
 void show(Vector::BLF::AppText * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo AppText
+    std::cout << "AppText:";
+    std::cout << " source=0x" << std::hex << obj->source;
+    obj->text.resize(strnlen(obj->text.c_str(), obj->text.size())); // Vector buf
+    std::cout << " text=" << obj->text;
+    std::cout << std::endl;
 }
 
 // FR_RCVMESSAGE_EX = 66
@@ -1127,8 +1131,14 @@ void show(Vector::BLF::EthernetStatistic * obj)
 // Unknown115 = 115
 void show(Vector::BLF::Unknown115 * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo TestStructure
+    std::cout << "Unknown115:";
+    std::cout << " 0x" << std::hex << obj->reservedUnknown1;
+    std::cout << " 0x" << std::hex << obj->reservedUnknown2;
+    std::cout << " 0x" << std::hex << obj->reservedUnknown3;
+    std::cout << " 0x" << std::hex << obj->reservedUnknown4;
+    std::cout << " 0x" << std::hex << obj->reservedUnknown5;
+    std::cout << " 0x" << std::hex << obj->reservedUnknown6;
+    std::cout << std::endl;
 }
 
 // Reserved116 = 116
