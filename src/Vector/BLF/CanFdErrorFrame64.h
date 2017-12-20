@@ -111,6 +111,7 @@ public:
      */
     WORD extFlags;
 
+    /** offset if extDataOffset is used */
     BYTE extDataOffset;
 
     /** resered */

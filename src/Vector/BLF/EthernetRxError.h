@@ -47,6 +47,12 @@ public:
     virtual void read(AbstractFile & is) override;
     virtual void write(AbstractFile & os) override;
     virtual DWORD calculateObjectSize() const override;
+
+    /**
+     * Calculates structLength.
+     *
+     * @return struct length
+     */
     virtual WORD calculateStructLength() const;
 
     /**

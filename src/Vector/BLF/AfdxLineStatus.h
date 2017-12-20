@@ -32,13 +32,19 @@
 namespace Vector {
 namespace BLF {
 
+/** line A/B information in AfdxStatus class */
 class VECTOR_BLF_EXPORT AfdxLineStatus final
 {
 public:
     AfdxLineStatus();
 
+    /** @copydoc ObjectHeader::read */
     virtual void read(AbstractFile & is);
+
+    /** @copydoc ObjectHeader::write */
     virtual void write(AbstractFile & os);
+
+    /** @copydoc ObjectHeader::calculateObjectSize */
     virtual DWORD calculateObjectSize() const;
 
     /**

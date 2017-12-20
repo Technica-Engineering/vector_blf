@@ -36,7 +36,15 @@ namespace BLF {
 class VECTOR_BLF_EXPORT Exception : public std::runtime_error
 {
 public:
-    explicit Exception(const char * arg) : std::runtime_error(arg) { }
+    /**
+     * Exception constructor
+     *
+     * @param[in] arg argument to fill what() return
+     */
+    explicit Exception(const char * arg) :
+        std::runtime_error(arg)
+    {
+    }
 };
 
 }

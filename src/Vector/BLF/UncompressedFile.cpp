@@ -21,8 +21,15 @@
 
 #include <Vector/BLF/UncompressedFile.h>
 
+#define DEBUG_WRITE_UNCOMPRESSED_FILE
+
 #include <cassert>
 #include <cstring>
+
+#ifdef DEBUG_WRITE_UNCOMPRESSED_FILE
+#include <fstream>
+#include <sstream>
+#endif
 
 #include <Vector/BLF/Exceptions.h>
 
@@ -50,7 +57,7 @@ void UncompressedFile::read(char * s, std::streamsize n)
 
     /* check if sufficient data is available */
     if (m_tellg + n > dataEnd()) {
-        n = dataEnd() - m_tellg;
+        // not used: n = dataEnd() - m_tellg;
         throw Exception("UncompressedFile::read(): Attempt to read beyond end of uncompressed file.");
     }
 
@@ -94,6 +101,15 @@ void UncompressedFile::write(const char * s, std::streamsize n)
 
     /* copy data */
     std::copy(s, s + n, m_data.begin() + offset);
+
+#ifdef DEBUG_WRITE_UNCOMPRESSED_FILE
+    std::ostringstream oss;
+    oss << "uncompressedFile_0x" << std::hex << m_tellp;
+    std::ofstream ofs;
+    ofs.open(oss.str());
+    ofs.write(s, n);
+    ofs.close();
+#endif
 
     /* new put position */
     m_tellp += n;

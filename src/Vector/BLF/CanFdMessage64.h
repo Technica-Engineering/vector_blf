@@ -181,6 +181,7 @@ public:
      */
     BYTE dir;
 
+    /** offset if extDataOffset is used */
     BYTE extDataOffset;
 
     /**

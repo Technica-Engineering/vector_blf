@@ -32,6 +32,7 @@
 namespace Vector {
 namespace BLF {
 
+/** optional information in CanFdMessage64 and CanFdErrorFrame64 classes */
 class CanFdExtFrameData
 {
 public:

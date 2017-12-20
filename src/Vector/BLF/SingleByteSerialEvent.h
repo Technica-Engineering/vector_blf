@@ -44,8 +44,13 @@ public:
     SingleByteSerialEvent();
     virtual ~SingleByteSerialEvent();
 
+    /** @copydoc ObjectHeader::read */
     virtual void read(AbstractFile & is);
+
+    /** @copydoc ObjectHeader::write */
     virtual void write(AbstractFile & os);
+
+    /** @copydoc ObjectHeader::calculateObjectSize */
     virtual DWORD calculateObjectSize() const;
 
     /** single byte */
