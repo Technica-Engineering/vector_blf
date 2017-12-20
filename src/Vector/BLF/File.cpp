@@ -652,10 +652,10 @@ void File::inflate()
 
     /* inflate */
     int retVal = uncompress(
-           reinterpret_cast<Byte *>(buffer.data()),
-           &bufferSize,
-           reinterpret_cast<Byte *>(logContainer->compressedFile.data()),
-           static_cast<uLong>(logContainer->compressedFileSize));
+                     reinterpret_cast<Byte *>(buffer.data()),
+                     &bufferSize,
+                     reinterpret_cast<Byte *>(logContainer->compressedFile.data()),
+                     static_cast<uLong>(logContainer->compressedFileSize));
     /* copy into uncompressedFile */
     if (retVal == Z_OK) {
         uncompressedFile.write(buffer.data(), static_cast<std::streamsize>(bufferSize));

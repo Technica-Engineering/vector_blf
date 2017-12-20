@@ -50,8 +50,7 @@ public:
     virtual DWORD calculateObjectSize() const override;
 
     /** enumeration for source */
-    enum Source : DWORD
-    {
+    enum Source : DWORD {
         /** measurement comment */
         MeasurementComment = 0x00000000,
 

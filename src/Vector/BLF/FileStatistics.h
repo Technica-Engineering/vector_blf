@@ -37,8 +37,7 @@ namespace BLF {
 const DWORD FileSignature = 0x47474F4C; /* LOGG */
 
 /** Application ID */
-enum ApplicationId : BYTE
-{
+enum ApplicationId : BYTE {
     /** Unknown */
     Unknown = 0,
 

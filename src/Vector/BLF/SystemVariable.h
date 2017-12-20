@@ -50,8 +50,7 @@ public:
     virtual DWORD calculateObjectSize() const override;
 
     /** enumeration for type */
-    enum Type : DWORD
-    {
+    enum Type : DWORD {
         /** DOUBLE */
         Double = 1,
 

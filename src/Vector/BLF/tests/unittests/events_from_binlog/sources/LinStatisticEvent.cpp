@@ -6,7 +6,7 @@
 
 #include "binlog.h"
 
-int main(int argc, char** argv)
+int main(int argc, char ** argv)
 {
     /* create file */
     LPCTSTR pFileName = _T("test_LinStatisticEvent.blf");

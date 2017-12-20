@@ -6,7 +6,7 @@
 
 #include "binlog.h"
 
-int main(int argc, char** argv)
+int main(int argc, char ** argv)
 {
     /* create file */
     LPCTSTR pFileName = _T("test_CanFdMessage64.blf");
@@ -44,7 +44,7 @@ int main(int argc, char** argv)
     obj.mDir = 0xDD;
     obj.mExtDataOffset = 0xEE;
     obj.mCRC = 0xFFFFFFFF;
-    for(BYTE i = 0; i < 64; i++) {
+    for (BYTE i = 0; i < 64; i++) {
         obj.mData[i] = i;
     }
 

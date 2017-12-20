@@ -42,8 +42,7 @@ public:
      * @param[in] arg argument to fill what() return
      */
     explicit Exception(const char * arg) :
-        std::runtime_error(arg)
-    {
+        std::runtime_error(arg) {
     }
 };
 

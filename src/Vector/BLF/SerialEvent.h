@@ -54,8 +54,7 @@ public:
     virtual DWORD calculateObjectSize() const override;
 
     /** enumeration for flags */
-    enum Flags : DWORD
-    {
+    enum Flags : DWORD {
         /** K-Line event */
         KLineEvent = 0x00000001,
 

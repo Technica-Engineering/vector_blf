@@ -52,7 +52,7 @@ using LPCSTR = const char *;
 
 /* handle */
 using HANDLE = void *;
-const HANDLE INVALID_HANDLE_VALUE = (HANDLE) -1;
+const HANDLE INVALID_HANDLE_VALUE = (HANDLE) - 1;
 
 /** system time */
 struct SYSTEMTIME {

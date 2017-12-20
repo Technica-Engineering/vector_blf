@@ -159,7 +159,7 @@ BOOST_AUTO_TEST_CASE(FlexRayVFrReceiveMsgEx_2)
 
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
-    BOOST_REQUIRE(ohb->objectType== Vector::BLF::ObjectType::FR_RCVMESSAGE_EX);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::FR_RCVMESSAGE_EX);
     obj = static_cast<Vector::BLF::FlexRayVFrReceiveMsgEx *>(ohb);
 
     /* ObjectHeaderBase */

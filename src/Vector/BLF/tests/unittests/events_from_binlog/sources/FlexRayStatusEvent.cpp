@@ -6,7 +6,7 @@
 
 #include "binlog.h"
 
-int main(int argc, char** argv)
+int main(int argc, char ** argv)
 {
     /* create file */
     LPCTSTR pFileName = _T("test_FlexRayStatusEvent.blf");
@@ -31,7 +31,7 @@ int main(int argc, char** argv)
     obj.mInfoMask1 = 0x4444;
     obj.mInfoMask2 = 0x5555;
     obj.mInfoMask3 = 0x6666;
-    for(WORD i = 0; i < 16; i++) {
+    for (WORD i = 0; i < 16; i++) {
         obj.mReserved[i] = i;
     }
 

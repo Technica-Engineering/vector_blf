@@ -69,8 +69,7 @@ public:
     WORD channel;
 
     /** enumeration for flags */
-    enum Flags : WORD
-    {
+    enum Flags : WORD {
         /** single trigger type */
         SingleTrigger = 0x0000,
 

@@ -94,7 +94,7 @@ DWORD EthernetStatistic::calculateObjectSize() const
         sizeof(xmitBytes_HW) +
         sizeof(rcvNoBuffer_HW) +
         sizeof(sqi) +
-        sizeof(hardwareChannel)+
+        sizeof(hardwareChannel) +
         sizeof(reservedEthernetStatistic3);
 }
 

@@ -45,8 +45,7 @@ public:
     virtual DWORD calculateObjectSize() const override;
 
     /** enumeration for busType */
-    enum BusType : DWORD
-    {
+    enum BusType : DWORD {
         /** CAN */
         Can = 1,
 

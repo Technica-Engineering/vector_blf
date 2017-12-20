@@ -7,7 +7,7 @@
 
 #include "binlog.h"
 
-int main(int argc, char** argv)
+int main(int argc, char ** argv)
 {
     /* create file */
     LPCTSTR pFileName = _T("test_CanFdErrorFrame64.blf");
@@ -48,7 +48,7 @@ int main(int argc, char** argv)
     obj.mCRC = 0x11111111;
     obj.mErrorPosition = 0x2222;
     obj.mReserved2 = 0x3333;
-    for(BYTE i = 0; i < 64; i++) {
+    for (BYTE i = 0; i < 64; i++) {
         obj.mData[i] = i;
     }
 

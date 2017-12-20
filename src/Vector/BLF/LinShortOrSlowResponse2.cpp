@@ -76,7 +76,7 @@ DWORD LinShortOrSlowResponse2::calculateObjectSize() const
         static_cast<DWORD>(respBytes.size()) +
         sizeof(slowResponse) +
         sizeof(interruptedByBreak) +
-        sizeof(reservedLinShortOrSlowResponse1)+
+        sizeof(reservedLinShortOrSlowResponse1) +
         sizeof(exactHeaderBaudrate) +
         sizeof(earlyStopbitOffset) +
         sizeof(reservedLinShortOrSlowResponse2);

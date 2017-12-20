@@ -52,8 +52,7 @@ public:
     WORD channel;
 
     /** enumeration for flags */
-    enum Flags : WORD
-    {
+    enum Flags : WORD {
         /** Link Status */
         LinkStatus = 0x0001,
 
@@ -74,8 +73,7 @@ public:
     WORD flags;
 
     /** enumeration for linkStatus */
-    enum LinkStatus : BYTE
-    {
+    enum LinkStatus : BYTE {
         /** Unknown */
         UnknownLinkStatus = 0,
 
@@ -98,8 +96,7 @@ public:
     BYTE linkStatus;
 
     /** enumeration for ethernetPhy */
-    enum EthernetPhy : BYTE
-    {
+    enum EthernetPhy : BYTE {
         /** Unknown */
         UnknownEthernetPhy = 0,
 
@@ -116,8 +113,7 @@ public:
     BYTE ethernetPhy;
 
     /** enumeration for duplex */
-    enum Duplex : BYTE
-    {
+    enum Duplex : BYTE {
         /** Unknown */
         UnknownDuplex = 0,
 
@@ -134,8 +130,7 @@ public:
     BYTE duplex;
 
     /** enumeration for mdi */
-    enum Mdi : BYTE
-    {
+    enum Mdi : BYTE {
         /** Unknown */
         UnknownMdi = 0,
 
@@ -150,8 +145,7 @@ public:
     BYTE mdi;
 
     /** enumeration for connector */
-    enum Connector : BYTE
-    {
+    enum Connector : BYTE {
         /** Unknown */
         UnknownConnector = 0,
 
@@ -166,8 +160,7 @@ public:
     BYTE connector;
 
     /** enumeration for clockMode */
-    enum ClockMode : BYTE
-    {
+    enum ClockMode : BYTE {
         /** Unknown */
         UnknownClockMode = 0,
 
@@ -182,8 +175,7 @@ public:
     BYTE clockMode;
 
     /** enumeration for pairs */
-    enum Pairs : BYTE
-    {
+    enum Pairs : BYTE {
         /** Unknown */
         UnknownPairs = 0,
 
