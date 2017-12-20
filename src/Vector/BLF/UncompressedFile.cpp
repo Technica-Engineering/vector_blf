@@ -21,7 +21,7 @@
 
 #include <Vector/BLF/UncompressedFile.h>
 
-#define DEBUG_WRITE_UNCOMPRESSED_FILE
+#undef DEBUG_WRITE_UNCOMPRESSED_FILE
 
 #include <cassert>
 #include <cstring>
