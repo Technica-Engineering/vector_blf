@@ -38,6 +38,7 @@ LinSendError2::LinSendError2() :
     reservedLinSendError3()
 {
     objectType = ObjectType::LIN_SND_ERROR2;
+    objectVersion = 1;
 }
 
 void LinSendError2::read(AbstractFile & is)

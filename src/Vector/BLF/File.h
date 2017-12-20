@@ -187,6 +187,9 @@ public:
     /** file statistics from file header. contains total counts/sizes */
     FileStatistics fileStatistics;
 
+    /** current file size */
+    ULONGLONG currentFileSize();
+
     /** current uncompressed file size */
     ULONGLONG currentUncompressedFileSize;
 

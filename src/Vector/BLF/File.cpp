@@ -522,6 +522,11 @@ ObjectHeaderBase * File::createObject(ObjectType type)
     return obj;
 }
 
+ULONGLONG File::currentFileSize()
+{
+    return static_cast<ULONGLONG>(compressedFile.tellp());
+}
+
 void File::open(const char * filename, OpenMode openMode)
 {
     this->openMode = openMode;

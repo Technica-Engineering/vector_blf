@@ -6,28 +6,33 @@
 
 void show(Vector::BLF::FileStatistics * obj)
 {
-    std::cout << "statisticsSize: "
+    std::cout << "FileStatistics:" << std::endl;
+    std::cout << "  statisticsSize: "
               << "0x" << std::hex << obj->statisticsSize << std::endl;
-    std::cout << "applicationId: "
+    std::cout << "  applicationId: "
               << std::dec << static_cast<uint16_t>(obj->applicationId) << std::endl;
-    std::cout << "applicationVersion: "
+    std::cout << "  applicationVersion: "
               << static_cast<uint16_t>(obj->applicationMajor) << "."
               << static_cast<uint16_t>(obj->applicationMinor) << "."
               << static_cast<uint16_t>(obj->applicationBuild) << std::endl;
-    std::cout << "apiVersion: "
+    std::cout << "  apiVersion: "
               << static_cast<uint16_t>(obj->apiMajor) << "."
               << static_cast<uint16_t>(obj->apiMinor) << "."
               << static_cast<uint16_t>(obj->apiBuild) << "."
               << static_cast<uint16_t>(obj->apiPatch) << std::endl;
-    std::cout << "fileSize: "
-              << obj->fileSize << std::endl;
-    std::cout << "uncompressedFileSize: " << obj->uncompressedFileSize <<
-              " (hex: 0x" << std::hex << obj->uncompressedFileSize << ")" << std::dec << std::endl;
-    std::cout << "objectCount: "
+    std::cout << "  fileSize: "
+              << std::dec << obj->fileSize
+              << " (0x" << std::hex << obj->fileSize << ")"
+              << std::endl;
+    std::cout << "  uncompressedFileSize: " << std::dec << obj->uncompressedFileSize
+              << " (0x" << std::hex << obj->uncompressedFileSize << ")"
+              << std::dec
+              << std::endl;
+    std::cout << "  objectCount: "
               << obj->objectCount << std::endl;
-    std::cout << "objectsRead: "
+    std::cout << "  objectsRead: "
               << obj->objectsRead << std::endl;
-    std::cout << "measurementStartTime: "
+    std::cout << "  measurementStartTime: "
               << obj->measurementStartTime.year << "-"
               << obj->measurementStartTime.month << "-"
               << obj->measurementStartTime.day << " "
@@ -37,7 +42,7 @@ void show(Vector::BLF::FileStatistics * obj)
               << obj->measurementStartTime.second << "."
               << obj->measurementStartTime.milliseconds
               << std::endl;
-    std::cout << "lastObjectTime: "
+    std::cout << "  lastObjectTime: "
               << obj->lastObjectTime.year << "-"
               << obj->lastObjectTime.month << "-"
               << obj->lastObjectTime.day << " "
@@ -1716,9 +1721,11 @@ int main(int argc, char * argv[])
         delete ohb;
     }
 
+    std::cout << std::endl;
     std::cout << "End of file." << std::endl;
-    std::cout << "objectCount: " << std::dec << file.currentObjectCount << std::endl;
+    std::cout << "fileSize: " << std::dec << file.currentFileSize() << std::endl;
     std::cout << "uncompressedFileSize: " << std::dec << file.currentUncompressedFileSize << std::endl;
+    std::cout << "objectCount: " << std::dec << file.currentObjectCount << std::endl;
 
     file.close();
 

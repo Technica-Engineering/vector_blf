@@ -43,6 +43,7 @@ LinReceiveError2::LinReceiveError2() :
     earlyStopbitOffsetResponse()
 {
     objectType = ObjectType::LIN_RCV_ERROR2;
+    objectVersion = 1;
 }
 
 void LinReceiveError2::read(AbstractFile & is)
