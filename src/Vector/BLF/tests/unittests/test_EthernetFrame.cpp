@@ -65,6 +65,14 @@ BOOST_AUTO_TEST_CASE(EthernetFrame_1)
 
     delete ohb;
 
+    /* read last */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::Unknown115);
+
+    delete ohb;
+
+    BOOST_CHECK(file.eof());
     file.close();
 }
 
@@ -161,5 +169,6 @@ BOOST_AUTO_TEST_CASE(EthernetFrame_2)
 
     delete ohb;
 
+    BOOST_CHECK(file.eof());
     file.close();
 }

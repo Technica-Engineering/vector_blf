@@ -15,14 +15,15 @@
 BOOST_AUTO_TEST_CASE(AllLogfiles)
 {
     /* input directory */
-    boost::filesystem::path indir(CMAKE_CURRENT_SOURCE_DIR "/data/");
+    boost::filesystem::path indir(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/");
 
     /* output directory */
-    boost::filesystem::path outdir(CMAKE_CURRENT_BINARY_DIR "/data/");
+    boost::filesystem::path outdir(CMAKE_CURRENT_BINARY_DIR "/events_from_binlog/");
     if (!exists(outdir)) {
         BOOST_REQUIRE(create_directory(outdir));
     }
 
+    /* loop over all blfs */
     for (boost::filesystem::directory_entry & x : boost::filesystem::directory_iterator(indir)) {
         //std::string eventFile = "CANSystem_A.blf";
         std::string eventFile = x.path().filename().string();
@@ -30,18 +31,18 @@ BOOST_AUTO_TEST_CASE(AllLogfiles)
 
         /* open input file */
         Vector::BLF::File filein;
-        boost::filesystem::path infile(CMAKE_CURRENT_SOURCE_DIR "/data/" + eventFile);
+        boost::filesystem::path infile(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/" + eventFile);
         filein.open(infile.string(), Vector::BLF::File::OpenMode::Read);
         BOOST_REQUIRE(filein.is_open());
 
         /* open output file */
         Vector::BLF::File fileout;
-        boost::filesystem::path outfile(CMAKE_CURRENT_BINARY_DIR "/data/" + eventFile);
+        boost::filesystem::path outfile(CMAKE_CURRENT_BINARY_DIR "/events_from_binlog/" + eventFile);
         fileout.open(outfile.string(), Vector::BLF::File::OpenMode::Write);
         BOOST_REQUIRE(fileout.is_open());
 
         /* check filein statistics */
-        BOOST_REQUIRE(filein.fileStatistics.signature == Vector::BLF::FileSignature);
+        BOOST_REQUIRE_EQUAL(filein.fileStatistics.signature, Vector::BLF::FileSignature);
 
         /* copy some filein to fileout statistics */
         fileout.fileStatistics.applicationId = filein.fileStatistics.applicationId;
@@ -54,17 +55,13 @@ BOOST_AUTO_TEST_CASE(AllLogfiles)
         fileout.fileStatistics.apiPatch = filein.fileStatistics.apiPatch;
         // all others should be set on close
 
-        while (!filein.eof()) {
+        //while (!filein.eof()) {
             Vector::BLF::ObjectHeaderBase * ohb;
             ohb = filein.read();
-            BOOST_CHECK((ohb != nullptr) || filein.eof());
-            if (ohb != nullptr) {
-                fileout.write(ohb);
-                delete ohb;
-            } else {
-                break;
-            }
-        }
+            BOOST_REQUIRE(ohb != nullptr);
+//            fileout.write(ohb);
+            delete ohb;
+        //}
 
         /* close files */
         filein.close();
