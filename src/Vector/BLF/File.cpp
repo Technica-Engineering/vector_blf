@@ -641,7 +641,7 @@ void File::inflate()
         return;
     }
     if (ohb->objectType != ObjectType::LOG_CONTAINER) {
-        throw Exception("File::inflate(): Object read for inflasion is not a log container.");
+        throw Exception("File::inflate(): Object read for inflation is not a log container.");
     }
     LogContainer * logContainer = reinterpret_cast<LogContainer *>(ohb);
 
@@ -701,24 +701,25 @@ void File::deflate()
     LogContainer logContainer;
     logContainer.uncompressedFileSize = static_cast<DWORD>(bufferSizeIn);
     uLong bufferSizeOut = compressBound(bufferSizeIn);
-    logContainer.compressedFile.resize(bufferSizeOut);
+    logContainer.compressedFile.resize(bufferSizeOut); // extend
     compress2(
         reinterpret_cast<Byte *>(logContainer.compressedFile.data()),
         &bufferSizeOut,
         reinterpret_cast<Byte *>(bufferIn.data()),
         bufferSizeIn,
         compressionLevel);
-    logContainer.compressedFile.resize(bufferSizeOut);
-    logContainer.compressedFileSize = static_cast<DWORD>(bufferSizeOut);
-    logContainer.objectSize = logContainer.calculateObjectSize();
+    if (bufferSizeOut > logContainer.compressedFile.size()) {
+        throw Exception("File::deflate(): Compressed data exceeds buffer size");
+    }
+    logContainer.compressedFile.resize(bufferSizeOut); // shrink
+
+    /* write log container */
+    logContainer.write(compressedFile);
 
     /* statistics */
     currentUncompressedFileSize +=
         logContainer.internalHeaderSize() +
         logContainer.uncompressedFileSize;
-
-    /* write log container */
-    logContainer.write(compressedFile);
 }
 
 void File::write(ObjectHeaderBase * objectHeaderBase)
@@ -727,8 +728,8 @@ void File::write(ObjectHeaderBase * objectHeaderBase)
     objectHeaderBase->write(uncompressedFile);
 
     /* if data exceeds defined logContainerSize, compress and write it into compressedFile */
-    ULONGLONG requestedSize = static_cast<ULONGLONG>(uncompressedFile.tellp() - uncompressedFile.tellg());
-    if (requestedSize >= defaultLogContainerSize) {
+    ULONGLONG logContainerSize = static_cast<ULONGLONG>(uncompressedFile.tellp() - uncompressedFile.tellg());
+    if (logContainerSize >= defaultLogContainerSize) {
         deflate();
     }
 
@@ -745,14 +746,16 @@ void File::close()
         }
 
         /* write statistics */
-        fileStatistics.fileSize = static_cast<ULONGLONG>(compressedFile.tellp());
+        compressedFile.seekp(0);
+        fileStatistics.fileSize = currentFileSize();
         fileStatistics.uncompressedFileSize = currentUncompressedFileSize;
         fileStatistics.objectCount = currentObjectCount;
         //fileStatistics.objectsRead = 0; // @todo what is objectsRead?
-        compressedFile.seekp(0);
         fileStatistics.write(compressedFile);
     }
 
+    /* close both files */
+    uncompressedFile.close();
     compressedFile.close();
 }
 

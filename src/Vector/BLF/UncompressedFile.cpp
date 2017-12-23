@@ -21,15 +21,8 @@
 
 #include <Vector/BLF/UncompressedFile.h>
 
-#undef DEBUG_WRITE_UNCOMPRESSED_FILE
-
 #include <cassert>
 #include <cstring>
-
-#ifdef DEBUG_WRITE_UNCOMPRESSED_FILE
-#include <fstream>
-#include <sstream>
-#endif
 
 #include <Vector/BLF/Exceptions.h>
 
@@ -52,14 +45,14 @@ std::streamsize UncompressedFile::gcount() const
 
 void UncompressedFile::read(char * s, std::streamsize n)
 {
-    /* offset to read */
-    std::streamoff offset = m_tellg - m_dataBegin;
-
     /* check if sufficient data is available */
-    if (m_tellg + n > dataEnd()) {
-        // not used: n = dataEnd() - m_tellg;
+    std::streampos newDataEnd = m_tellg + n;
+    if (newDataEnd > dataEnd()) {
         throw Exception("UncompressedFile::read(): Attempt to read beyond end of uncompressed file.");
     }
+
+    /* offset to read */
+    std::streamoff offset = m_tellg - m_dataBegin;
 
     /* copy data */
     std::copy(m_data.begin() + offset, m_data.begin() + offset + n, s);
@@ -76,11 +69,6 @@ std::streampos UncompressedFile::tellg()
     return m_tellg;
 }
 
-void UncompressedFile::seekg(std::streampos pos)
-{
-    m_tellg = pos;
-}
-
 void UncompressedFile::seekg(std::streamoff off, std::ios_base::seekdir way)
 {
     assert(way == std::ios_base::cur);
@@ -92,8 +80,9 @@ void UncompressedFile::seekg(std::streamoff off, std::ios_base::seekdir way)
 void UncompressedFile::write(const char * s, std::streamsize n)
 {
     /* extend data block, if new data exceeds end of m_data */
-    if (m_tellp + n > dataEnd()) {
-        m_data.resize(static_cast<size_t>(m_tellp + n - m_dataBegin));
+    std::streampos newDataEnd = m_tellp + n;
+    if (newDataEnd > dataEnd()) {
+        m_data.resize(static_cast<size_t>(newDataEnd - m_dataBegin));
     }
 
     /* offset to write */
@@ -101,15 +90,6 @@ void UncompressedFile::write(const char * s, std::streamsize n)
 
     /* copy data */
     std::copy(s, s + n, m_data.begin() + offset);
-
-#ifdef DEBUG_WRITE_UNCOMPRESSED_FILE
-    std::ostringstream oss;
-    oss << "uncompressedFile_0x" << std::hex << m_tellp;
-    std::ofstream ofs;
-    ofs.open(oss.str());
-    ofs.write(s, n);
-    ofs.close();
-#endif
 
     /* new put position */
     m_tellp += n;
@@ -120,16 +100,27 @@ std::streampos UncompressedFile::tellp()
     return m_tellp;
 }
 
-void UncompressedFile::seekp(std::streampos pos)
-{
-    assert(false);
-}
-
 void UncompressedFile::seekp(std::streamoff off, std::ios_base::seekdir way)
 {
     assert(way == std::ios_base::cur);
 
+    /* extend data block, if new data exceeds end of m_data */
+    std::streampos newDataEnd = m_tellp + off;
+    if (newDataEnd > dataEnd()) {
+        m_data.resize(static_cast<size_t>(newDataEnd - m_dataBegin));
+    }
+
     m_tellp += off;
+}
+
+void UncompressedFile::close()
+{
+    /* reset data buffer */
+    m_gcount = 0;
+    m_tellg = 0;
+    m_tellp = 0;
+    m_dataBegin = 0;
+    m_data.clear();
 }
 
 void UncompressedFile::dropOldData(std::streamsize dropSize)

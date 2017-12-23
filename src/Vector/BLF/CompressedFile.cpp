@@ -21,8 +21,6 @@
 
 #include <Vector/BLF/CompressedFile.h>
 
-#include <cassert>
-
 #include <Vector/BLF/Exceptions.h>
 
 namespace Vector {
@@ -41,7 +39,7 @@ std::streamsize CompressedFile::gcount() const
 void CompressedFile::read(char * s, std::streamsize n)
 {
     file.read(s, n);
-    if (gcount() < n) {
+    if (file.gcount() < n) {
         throw Exception("CompressedFile::read(): Attempt to read beyond end of compressed file.");
     }
 }
@@ -49,11 +47,6 @@ void CompressedFile::read(char * s, std::streamsize n)
 std::streampos CompressedFile::tellg()
 {
     return file.tellg();
-}
-
-void CompressedFile::seekg(std::streampos pos)
-{
-    file.seekg(pos);
 }
 
 void CompressedFile::seekg(std::streamoff off, std::ios_base::seekdir way)

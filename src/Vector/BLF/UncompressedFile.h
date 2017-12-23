@@ -51,12 +51,11 @@ public:
     virtual std::streamsize gcount() const override;
     virtual void read(char * s, std::streamsize n) override;
     virtual std::streampos tellg() override;
-    virtual void seekg(std::streampos pos) override;
     virtual void seekg(std::streamoff off, std::ios_base::seekdir way) override;
     virtual void write(const char * s, std::streamsize n) override;
     virtual std::streampos tellp() override;
-    virtual void seekp(std::streampos pos) override;
     virtual void seekp(std::streamoff off, std::ios_base::seekdir way) override;
+    virtual void close() override;
 
     /**
      * drop old data (only if dropSize is possible)
