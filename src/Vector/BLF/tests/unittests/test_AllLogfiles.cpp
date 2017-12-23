@@ -25,7 +25,9 @@ BOOST_AUTO_TEST_CASE(AllLogfiles)
 
     /* loop over all blfs */
     for (boost::filesystem::directory_entry & x : boost::filesystem::directory_iterator(indir)) {
-        //std::string eventFile = "CANSystem_A.blf";
+        if (!boost::filesystem::is_regular_file(x)) {
+            break;
+        }
         std::string eventFile = x.path().filename().string();
         std::cout << eventFile << std::endl;
 
@@ -37,6 +39,7 @@ BOOST_AUTO_TEST_CASE(AllLogfiles)
 
         /* open output file */
         Vector::BLF::File fileout;
+        fileout.compressionLevel = 0;
         boost::filesystem::path outfile(CMAKE_CURRENT_BINARY_DIR "/events_from_binlog/" + eventFile);
         fileout.open(outfile.string(), Vector::BLF::File::OpenMode::Write);
         BOOST_REQUIRE(fileout.is_open());
@@ -44,7 +47,7 @@ BOOST_AUTO_TEST_CASE(AllLogfiles)
         /* check filein statistics */
         BOOST_REQUIRE_EQUAL(filein.fileStatistics.signature, Vector::BLF::FileSignature);
 
-        /* copy some filein to fileout statistics */
+        /* copy non-generated filein statistics to fileout statistics */
         fileout.fileStatistics.applicationId = filein.fileStatistics.applicationId;
         fileout.fileStatistics.applicationMajor = filein.fileStatistics.applicationMajor;
         fileout.fileStatistics.applicationMinor = filein.fileStatistics.applicationMinor;
@@ -55,18 +58,19 @@ BOOST_AUTO_TEST_CASE(AllLogfiles)
         fileout.fileStatistics.apiPatch = filein.fileStatistics.apiPatch;
         // all others should be set on close
 
-        //while (!filein.eof()) {
+        while (!filein.eof()) {
             Vector::BLF::ObjectHeaderBase * ohb;
             ohb = filein.read();
             BOOST_REQUIRE(ohb != nullptr);
-//            fileout.write(ohb);
+            fileout.write(ohb);
             delete ohb;
-        //}
+        }
 
         /* close files */
         filein.close();
         fileout.close();
 
+        // @todo compare outfiles with infiles
 #if 0
         /* compare files */
         std::ifstream ifs1(infile.c_str());

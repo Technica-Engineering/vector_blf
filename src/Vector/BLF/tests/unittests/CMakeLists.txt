@@ -39,6 +39,10 @@ add_definitions(
     -DCMAKE_CURRENT_SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}"
     -DCMAKE_CURRENT_BINARY_DIR="${CMAKE_CURRENT_BINARY_DIR}")
 
+# overall tests
+#add_boost_test(AllEvents test_AllEvents test_AllEvents.cpp)
+add_boost_test(AllLogfiles test_AllLogfiles test_AllLogfiles.cpp)
+
 # single event tests
 add_boost_test(A429BusStatistic test_A429BusStatistic test_A429BusStatistic.cpp)
 add_boost_test(A429Error test_A429Error test_A429Error.cpp)
@@ -149,10 +153,6 @@ add_boost_test(SystemVariable test_SystemVariable test_SystemVariable.cpp)
 add_boost_test(TestStructure test_TestStructure test_TestStructure.cpp)
 add_boost_test(WlanFrame test_WlanFrame test_WlanFrame.cpp)
 add_boost_test(WlanStatistic test_WlanStatistic test_WlanStatistic.cpp)
-
-# overall tests
-#add_boost_test(AllEvents test_AllEvents test_AllEvents.cpp)
-#add_boost_test(AllLogfiles test_AllLogfiles test_AllLogfiles.cpp)
 
 # coverage
 if(OPTION_USE_GCOV_LCOV)
