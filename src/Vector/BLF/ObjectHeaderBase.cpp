@@ -29,7 +29,7 @@ namespace BLF {
 
 ObjectHeaderBase::ObjectHeaderBase() :
     signature(ObjectSignature),
-    headerSize(calculateHeaderSize()),
+    headerSize(),
     headerVersion(), // is set in ObjectHeader/ObjectHeader2
     objectSize(),
     objectType() // is set in each event class constructor
@@ -55,6 +55,7 @@ void ObjectHeaderBase::read(AbstractFile & is)
 void ObjectHeaderBase::write(AbstractFile & os)
 {
     /* pre processing */
+    headerSize = calculateHeaderSize();
     objectSize = calculateObjectSize();
 
     os.write(reinterpret_cast<char *>(&signature), sizeof(signature));

@@ -200,7 +200,7 @@ public:
     int compressionLevel;
 
     /** default log container size */
-    ULONGLONG defaultLogContainerSize;
+    DWORD defaultLogContainerSize;
 
     /**
      * open file

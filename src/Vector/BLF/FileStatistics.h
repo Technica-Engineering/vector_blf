@@ -146,8 +146,11 @@ public:
     /** last object time */
     SYSTEMTIME lastObjectTime;
 
+    /** another file size */
+    ULONGLONG reservedFileSize; // fileSize without final LogContainer+Unknown115
+
     /** reserved */
-    std::array<DWORD, 18> reservedFileStatistics;
+    std::array<DWORD, 16> reservedFileStatistics;
 };
 
 }

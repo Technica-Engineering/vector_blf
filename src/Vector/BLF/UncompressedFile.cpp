@@ -80,9 +80,9 @@ void UncompressedFile::seekg(std::streamoff off, std::ios_base::seekdir way)
 void UncompressedFile::write(const char * s, std::streamsize n)
 {
     /* extend data block, if new data exceeds end of m_data */
-    std::streampos newDataEnd = m_tellp + n;
-    if (newDataEnd > dataEnd()) {
-        m_data.resize(static_cast<size_t>(newDataEnd - m_dataBegin));
+    std::streampos newTellP = m_tellp + n;
+    if (newTellP > dataEnd()) {
+        m_data.resize(static_cast<size_t>(newTellP - m_dataBegin));
     }
 
     /* offset to write */
@@ -105,9 +105,9 @@ void UncompressedFile::seekp(std::streamoff off, std::ios_base::seekdir way)
     assert(way == std::ios_base::cur);
 
     /* extend data block, if new data exceeds end of m_data */
-    std::streampos newDataEnd = m_tellp + off;
-    if (newDataEnd > dataEnd()) {
-        m_data.resize(static_cast<size_t>(newDataEnd - m_dataBegin));
+    std::streampos newTellp = m_tellp + off;
+    if (newTellp > dataEnd()) {
+        m_data.resize(static_cast<size_t>(newTellp - m_dataBegin));
     }
 
     m_tellp += off;
@@ -126,7 +126,7 @@ void UncompressedFile::close()
 void UncompressedFile::dropOldData(std::streamsize dropSize)
 {
     /* check if drop should be done now */
-    if (m_dataBegin + dropSize >= m_tellg) {
+    if ((m_dataBegin + dropSize > m_tellg) || (m_dataBegin + dropSize > m_tellp)) {
         /* don't drop yet */
         return;
     }
@@ -138,7 +138,7 @@ void UncompressedFile::dropOldData(std::streamsize dropSize)
 
 std::streampos UncompressedFile::dataEnd() const
 {
-    return m_dataBegin + static_cast<std::streampos>(m_data.size());
+    return m_dataBegin + static_cast<std::streamoff>(m_data.size());
 }
 
 }

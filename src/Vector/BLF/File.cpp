@@ -682,36 +682,50 @@ ObjectHeaderBase * File::read()
 void File::deflate()
 {
     /* calculate size of data to compress */
-    uLong bufferSizeIn = static_cast<uLong>(uncompressedFile.tellp() - uncompressedFile.tellg());
-    if (bufferSizeIn > defaultLogContainerSize) {
-        bufferSizeIn = static_cast<uLong>(defaultLogContainerSize);
+    DWORD uncompressedFileSize = static_cast<DWORD>(uncompressedFile.tellp() - uncompressedFile.tellg());
+    if (uncompressedFileSize > defaultLogContainerSize) {
+        uncompressedFileSize = static_cast<DWORD>(defaultLogContainerSize);
     }
 
-    /* create buffer */
-    std::vector<char> bufferIn;
-    bufferIn.resize(bufferSizeIn);
-
-    /* copy data into buffer */
-    uncompressedFile.read(bufferIn.data(), static_cast<std::streamsize>(bufferSizeIn));
-
-    /* drop old data */
-    uncompressedFile.dropOldData(static_cast<std::streamsize>(bufferSizeIn));
-
-    /* setup new log container and directly deflate/compress data */
+    /* setup new log container */
     LogContainer logContainer;
-    logContainer.uncompressedFileSize = static_cast<DWORD>(bufferSizeIn);
-    uLong bufferSizeOut = compressBound(bufferSizeIn);
-    logContainer.compressedFile.resize(bufferSizeOut); // extend
-    compress2(
-        reinterpret_cast<Byte *>(logContainer.compressedFile.data()),
-        &bufferSizeOut,
-        reinterpret_cast<Byte *>(bufferIn.data()),
-        bufferSizeIn,
-        compressionLevel);
-    if (bufferSizeOut > logContainer.compressedFile.size()) {
-        throw Exception("File::deflate(): Compressed data exceeds buffer size");
+    logContainer.uncompressedFileSize = static_cast<DWORD>(uncompressedFileSize);
+    if (compressionLevel == Z_NO_COMPRESSION) {
+        logContainer.compressedFileSize = logContainer.uncompressedFileSize;
+        logContainer.compressedFile.resize(logContainer.compressedFileSize);
+
+        /* copy data into LogContainer */
+        uncompressedFile.read(
+                    reinterpret_cast<char *>(logContainer.compressedFile.data()),
+                    static_cast<std::streamsize>(uncompressedFileSize));
+        if (uncompressedFile.gcount() < static_cast<std::streamsize>(uncompressedFileSize)) {
+            throw Exception("File::deflate(): Unable to (completely) read block for compression");
+        }
+    } else {
+        /* create buffer */
+        std::vector<char> bufferIn;
+        bufferIn.resize(uncompressedFileSize);
+
+        /* copy data into buffer */
+        uncompressedFile.read(bufferIn.data(), static_cast<std::streamsize>(uncompressedFileSize));
+        if (uncompressedFile.gcount() < static_cast<std::streamsize>(uncompressedFileSize)) {
+            throw Exception("File::deflate(): Unable to (completely) read block for compression");
+        }
+
+        /* deflate/compress data */
+        uLong bufferSizeOut = compressBound(uncompressedFileSize);
+        logContainer.compressedFile.resize(bufferSizeOut); // extend
+        compress2(
+            reinterpret_cast<Byte *>(logContainer.compressedFile.data()),
+            &bufferSizeOut,
+            reinterpret_cast<Byte *>(bufferIn.data()),
+            uncompressedFileSize,
+            compressionLevel);
+        if (bufferSizeOut > logContainer.compressedFile.size()) {
+            throw Exception("File::deflate(): Compressed data exceeds buffer size");
+        }
+        logContainer.compressedFile.resize(bufferSizeOut); // shrink
     }
-    logContainer.compressedFile.resize(bufferSizeOut); // shrink
 
     /* write log container */
     logContainer.write(compressedFile);
@@ -720,6 +734,9 @@ void File::deflate()
     currentUncompressedFileSize +=
         logContainer.internalHeaderSize() +
         logContainer.uncompressedFileSize;
+
+    /* drop old data */
+    uncompressedFile.dropOldData(static_cast<std::streamsize>(uncompressedFileSize));
 }
 
 void File::write(ObjectHeaderBase * objectHeaderBase)
@@ -745,12 +762,22 @@ void File::close()
             deflate();
         }
 
-        /* write statistics */
-        compressedFile.seekp(0);
+        /* write final LogContainer+Unknown115 */
+        fileStatistics.reservedFileSize = currentFileSize();
+
+        /* write end of file message */
+        Unknown115 eofMessage;
+        eofMessage.write(uncompressedFile);
+        deflate();
+
+        /* set file statistics */
         fileStatistics.fileSize = currentFileSize();
         fileStatistics.uncompressedFileSize = currentUncompressedFileSize;
         fileStatistics.objectCount = currentObjectCount;
         //fileStatistics.objectsRead = 0; // @todo what is objectsRead?
+
+        /* write file statistics */
+        compressedFile.seekp(0);
         fileStatistics.write(compressedFile);
     }
 

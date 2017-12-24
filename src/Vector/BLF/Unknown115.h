@@ -24,7 +24,7 @@
 #include <Vector/BLF/platform.h>
 
 #include <Vector/BLF/AbstractFile.h>
-#include <Vector/BLF/ObjectHeader.h>
+#include <Vector/BLF/ObjectHeaderBase.h>
 #include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
@@ -37,32 +37,54 @@ namespace BLF {
  *
  * This always comes at the end of a file.
  */
-class VECTOR_BLF_EXPORT Unknown115 final : public ObjectHeader
+class VECTOR_BLF_EXPORT Unknown115 final : public ObjectHeaderBase
 {
 public:
     Unknown115();
 
     virtual void read(AbstractFile & is) override;
     virtual void write(AbstractFile & os) override;
+    virtual WORD calculateHeaderSize() const override;
     virtual DWORD calculateObjectSize() const override;
 
-    /** reserved */
-    DWORD reservedUnknown1;
+    /** @copydoc ObjectHeader::objectFlags */
+    DWORD objectFlags;
+
+    /** @copydoc ObjectHeader::clientIndex */
+    WORD clientIndex;
+
+    /** @copydoc ObjectHeader::objectVersion */
+    WORD objectVersion;
+
+    /** @copydoc ObjectHeader::objectTimeStamp */
+    ULONGLONG objectTimeStamp;
 
     /** reserved */
-    DWORD reservedUnknown2;
+    DWORD reservedUnknownObject1;
 
     /** reserved */
-    DWORD reservedUnknown3;
+    DWORD reservedUnknownObject2;
 
     /** reserved */
-    DWORD reservedUnknown4;
+    DWORD reservedUnknownObject3;
 
     /** reserved */
-    DWORD reservedUnknown5;
+    WORD reservedUnknownObject4;
 
     /** reserved */
-    DWORD reservedUnknown6;
+    WORD reservedUnknownObject5;
+
+    /** reserved */
+    WORD reservedUnknownObject6;
+
+    /** reserved */
+    WORD reservedUnknownObject7;
+
+    /** reserved */
+    WORD reservedUnknownObject8;
+
+    /** reserved */
+    WORD reservedUnknownObject9;
 };
 
 }

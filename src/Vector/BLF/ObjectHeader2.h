@@ -108,7 +108,7 @@ public:
     BYTE timeStampStatus;
 
     /** reserved */
-    BYTE reservedObjectHeader2;
+    BYTE reservedObjectHeader;
 
     /**
      * @brief object specific version
