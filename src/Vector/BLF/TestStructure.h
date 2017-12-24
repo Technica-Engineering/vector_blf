@@ -110,17 +110,17 @@ public:
     WORD result;
 
     /**
-     * @brief string length in wchar_t's for mExecutingObjectName
+     * @brief string length in wchar_t's for executingObjectName
      */
     DWORD executingObjectNameLength;
 
     /**
-     * @brief string length in wchar_t's for mName
+     * @brief string length in wchar_t's for name
      */
     DWORD nameLength;
 
     /**
-     * @brief string length in wchar_t's for mText
+     * @brief string length in wchar_t's for text
      */
     DWORD textLength;
 

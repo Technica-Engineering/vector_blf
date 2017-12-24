@@ -1,4 +1,5 @@
 #include <cstring>
+#include <ctime>
 #include <iostream>
 #include <fstream>
 
@@ -554,8 +555,9 @@ void show(Vector::BLF::FlexRayVFrReceiveMsg * obj)
 // REALTIMECLOCK = 51
 void show(Vector::BLF::RealtimeClock * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo RealtimeClock
+    std::cout << "RealtimeClock:";
+    std::cout << " time=" << obj->time << "+" << obj->loggingOffset;
+    std::cout << std::endl;
 }
 
 // Reserved52 = 52
@@ -1137,12 +1139,7 @@ void show(Vector::BLF::EthernetStatistic * obj)
 void show(Vector::BLF::Unknown115 * obj)
 {
     std::cout << "Unknown115:";
-    std::cout << " 0x" << std::hex << obj->reservedUnknown1;
-    std::cout << " 0x" << std::hex << obj->reservedUnknown2;
-    std::cout << " 0x" << std::hex << obj->reservedUnknown3;
-    std::cout << " 0x" << std::hex << obj->reservedUnknown4;
-    std::cout << " 0x" << std::hex << obj->reservedUnknown5;
-    std::cout << " 0x" << std::hex << obj->reservedUnknown6;
+    // @todo reserved fields
     std::cout << std::endl;
 }
 

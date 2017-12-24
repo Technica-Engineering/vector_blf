@@ -28,7 +28,7 @@ BOOST_AUTO_TEST_CASE(MostStress_1)
 
     /* ObjectHeader2 */
     BOOST_CHECK_EQUAL(obj->timeStampStatus, 0x22);
-    BOOST_CHECK_EQUAL(obj->reservedObjectHeader2, 0x33);
+    BOOST_CHECK_EQUAL(obj->reservedObjectHeader, 0x33);
     BOOST_CHECK_EQUAL(obj->objectVersion, 0);
     BOOST_CHECK_EQUAL(obj->objectTimeStamp, 0x4444444444444444);
     BOOST_CHECK_EQUAL(obj->originalTimeStamp, 0x5555555555555555);

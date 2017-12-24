@@ -26,21 +26,21 @@ BOOST_AUTO_TEST_CASE(AllLogfiles)
     /* loop over all blfs */
     for (boost::filesystem::directory_entry & x : boost::filesystem::directory_iterator(indir)) {
         if (!boost::filesystem::is_regular_file(x)) {
-            break;
+            continue;
         }
         std::string eventFile = x.path().filename().string();
         std::cout << eventFile << std::endl;
 
         /* open input file */
         Vector::BLF::File filein;
-        boost::filesystem::path infile(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/" + eventFile);
+        boost::filesystem::path infile(indir.string() + eventFile);
         filein.open(infile.string(), Vector::BLF::File::OpenMode::Read);
         BOOST_REQUIRE(filein.is_open());
 
         /* open output file */
         Vector::BLF::File fileout;
         fileout.compressionLevel = 0;
-        boost::filesystem::path outfile(CMAKE_CURRENT_BINARY_DIR "/events_from_binlog/" + eventFile);
+        boost::filesystem::path outfile(outdir.string() + eventFile);
         fileout.open(outfile.string(), Vector::BLF::File::OpenMode::Write);
         BOOST_REQUIRE(fileout.is_open());
 
@@ -62,7 +62,9 @@ BOOST_AUTO_TEST_CASE(AllLogfiles)
             Vector::BLF::ObjectHeaderBase * ohb;
             ohb = filein.read();
             BOOST_REQUIRE(ohb != nullptr);
-            fileout.write(ohb);
+            if (ohb->objectType != Vector::BLF::ObjectType::Unknown115) {
+                fileout.write(ohb);
+            }
             delete ohb;
         }
 
@@ -70,14 +72,24 @@ BOOST_AUTO_TEST_CASE(AllLogfiles)
         filein.close();
         fileout.close();
 
-        // @todo compare outfiles with infiles
-#if 0
         /* compare files */
-        std::ifstream ifs1(infile.c_str());
-        std::ifstream ifs2(outfile.c_str());
-        std::istream_iterator<char> b1(ifs1), e1;
-        std::istream_iterator<char> b2(ifs2), e2;
-        BOOST_CHECK_EQUAL_COLLECTIONS(b1, e1, b2, e2);
-#endif
+        // @todo Compare complete file as soon as fields in Unknown115 are understood.
+        std::ifstream ifs1;
+        std::ifstream ifs2;
+        ifs1.open(infile.c_str());
+        BOOST_REQUIRE(ifs1.is_open());
+        ifs2.open(outfile.c_str());
+        BOOST_REQUIRE(ifs2.is_open());
+        char c1 = static_cast<char>(ifs1.get());
+        char c2 = static_cast<char>(ifs2.get());
+        bool sameFile = true;
+        while (ifs1.good() && ifs2.good() && (static_cast<uint64_t>(ifs1.tellg()) <= fileout.fileStatistics.reservedFileSize)) {
+            sameFile &= (c1 == c2);
+            c1 = static_cast<char>(ifs1.get());
+            c2 = static_cast<char>(ifs2.get());
+        }
+        ifs1.close();
+        ifs2.close();
+        BOOST_CHECK(sameFile);
     }
 }
