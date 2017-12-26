@@ -202,6 +202,9 @@ public:
     /** default log container size */
     DWORD defaultLogContainerSize;
 
+    /** write Unknown115 message at file close */
+    bool writeUnknown115;
+
     /**
      * open file
      *

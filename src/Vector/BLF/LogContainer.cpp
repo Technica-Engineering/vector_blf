@@ -26,9 +26,11 @@ namespace BLF {
 
 LogContainer::LogContainer() :
     ObjectHeaderBase(),
+    unknownCompression(),
     reservedLogContainer1(0),
-    uncompressedFileSize(0),
     reservedLogContainer2(0),
+    uncompressedFileSize(0),
+    reservedLogContainer3(0),
     compressedFile(),
     compressedFileSize(0)
 {
@@ -39,9 +41,11 @@ LogContainer::LogContainer() :
 void LogContainer::read(AbstractFile & is)
 {
     ObjectHeaderBase::read(is);
+    is.read(reinterpret_cast<char *>(&unknownCompression), sizeof(unknownCompression));
     is.read(reinterpret_cast<char *>(&reservedLogContainer1), sizeof(reservedLogContainer1));
-    is.read(reinterpret_cast<char *>(&uncompressedFileSize), sizeof(uncompressedFileSize));
     is.read(reinterpret_cast<char *>(&reservedLogContainer2), sizeof(reservedLogContainer2));
+    is.read(reinterpret_cast<char *>(&uncompressedFileSize), sizeof(uncompressedFileSize));
+    is.read(reinterpret_cast<char *>(&reservedLogContainer3), sizeof(reservedLogContainer3));
     compressedFileSize = objectSize - internalHeaderSize();
     compressedFile.resize(compressedFileSize);
     is.read(reinterpret_cast<char *>(compressedFile.data()), compressedFileSize);
@@ -56,9 +60,11 @@ void LogContainer::write(AbstractFile & os)
     compressedFileSize = static_cast<DWORD>(compressedFile.size());
 
     ObjectHeaderBase::write(os);
+    os.write(reinterpret_cast<char *>(&unknownCompression), sizeof(unknownCompression));
     os.write(reinterpret_cast<char *>(&reservedLogContainer1), sizeof(reservedLogContainer1));
-    os.write(reinterpret_cast<char *>(&uncompressedFileSize), sizeof(uncompressedFileSize));
     os.write(reinterpret_cast<char *>(&reservedLogContainer2), sizeof(reservedLogContainer2));
+    os.write(reinterpret_cast<char *>(&uncompressedFileSize), sizeof(uncompressedFileSize));
+    os.write(reinterpret_cast<char *>(&reservedLogContainer3), sizeof(reservedLogContainer3));
     os.write(reinterpret_cast<char *>(compressedFile.data()), compressedFileSize);
 
     /* skip padding */
@@ -76,9 +82,11 @@ WORD LogContainer::internalHeaderSize() const
 {
     return
         ObjectHeaderBase::calculateHeaderSize() +
+        sizeof(unknownCompression) +
         sizeof(reservedLogContainer1) +
+        sizeof(reservedLogContainer2) +
         sizeof(uncompressedFileSize) +
-        sizeof(reservedLogContainer2);
+        sizeof(reservedLogContainer3);
 }
 
 }

@@ -47,9 +47,22 @@ public:
     virtual DWORD calculateObjectSize() const override;
 
     /**
+     * compression
+     *
+     *   - 0: no compression
+     *   - 2: zlib deflate
+     */
+    WORD unknownCompression;
+
+    /**
      * @brief reserved
      */
-    ULONGLONG reservedLogContainer1; // @todo often 0x02
+    WORD reservedLogContainer1;
+
+    /**
+     * @brief reserved
+     */
+    DWORD reservedLogContainer2;
 
     /**
      * @brief uncompressed file size in bytes
@@ -57,7 +70,7 @@ public:
     DWORD uncompressedFileSize;
 
     /** reserved */
-    DWORD reservedLogContainer2; // @todo often 0x0215, 0x9a, 0, 0x0c
+    DWORD reservedLogContainer3; // @todo often 0x0215, 0x9a, 0, 0x0c
 
     /** compressed file content */
     std::vector<uint8_t> compressedFile;

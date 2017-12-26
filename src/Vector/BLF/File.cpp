@@ -37,6 +37,7 @@ File::File() :
     currentObjectCount(0),
     compressionLevel(6),
     defaultLogContainerSize(0x20000),
+    writeUnknown115(true),
     compressedFile(),
     uncompressedFile()
 {
@@ -650,19 +651,23 @@ void File::inflate()
         logContainer->internalHeaderSize() +
         logContainer->uncompressedFileSize;
 
-    /* create buffer */
-    uLong bufferSize = static_cast<uLong>(logContainer->uncompressedFileSize);
-    std::vector<char> buffer;
-    buffer.resize(bufferSize);
+    if (logContainer->unknownCompression == 2) {
+        /* create buffer */
+        uLong bufferSize = static_cast<uLong>(logContainer->uncompressedFileSize);
+        std::vector<char> buffer;
+        buffer.resize(bufferSize);
 
-    /* inflate */
-    int retVal = uncompress(
-                     reinterpret_cast<Byte *>(buffer.data()),
-                     &bufferSize,
-                     reinterpret_cast<Byte *>(logContainer->compressedFile.data()),
-                     static_cast<uLong>(logContainer->compressedFileSize));
-    /* copy into uncompressedFile */
-    if (retVal == Z_OK) {
+        /* inflate */
+        int retVal = uncompress(
+             reinterpret_cast<Byte *>(buffer.data()),
+             &bufferSize,
+             reinterpret_cast<Byte *>(logContainer->compressedFile.data()),
+             static_cast<uLong>(logContainer->compressedFileSize));
+        if (retVal != Z_OK) {
+            throw Exception("File::inflate(): uncompress error");
+        }
+
+        /* copy into uncompressedFile */
         uncompressedFile.write(buffer.data(), static_cast<std::streamsize>(bufferSize));
     } else {
         uncompressedFile.write(
@@ -691,6 +696,7 @@ void File::deflate()
     LogContainer logContainer;
     logContainer.uncompressedFileSize = static_cast<DWORD>(uncompressedFileSize);
     if (compressionLevel == Z_NO_COMPRESSION) {
+        logContainer.unknownCompression = 0;
         logContainer.compressedFileSize = logContainer.uncompressedFileSize;
         logContainer.compressedFile.resize(logContainer.compressedFileSize);
 
@@ -702,6 +708,8 @@ void File::deflate()
             throw Exception("File::deflate(): Unable to (completely) read block for compression");
         }
     } else {
+        logContainer.unknownCompression = 2;
+
         /* create buffer */
         std::vector<char> bufferIn;
         bufferIn.resize(uncompressedFileSize);
@@ -715,12 +723,15 @@ void File::deflate()
         /* deflate/compress data */
         uLong bufferSizeOut = compressBound(uncompressedFileSize);
         logContainer.compressedFile.resize(bufferSizeOut); // extend
-        compress2(
+        int retVal = compress2(
             reinterpret_cast<Byte *>(logContainer.compressedFile.data()),
             &bufferSizeOut,
             reinterpret_cast<Byte *>(bufferIn.data()),
             uncompressedFileSize,
             compressionLevel);
+        if (retVal != Z_OK) {
+            throw Exception("File::inflate(): compress2 error");
+        }
         if (bufferSizeOut > logContainer.compressedFile.size()) {
             throw Exception("File::deflate(): Compressed data exceeds buffer size");
         }
@@ -763,12 +774,14 @@ void File::close()
         }
 
         /* write final LogContainer+Unknown115 */
-        fileStatistics.reservedFileSize = currentFileSize();
+        if (writeUnknown115) {
+            fileStatistics.reservedFileSize = currentFileSize();
 
-        /* write end of file message */
-        Unknown115 eofMessage;
-        eofMessage.write(uncompressedFile);
-        deflate();
+            /* write end of file message */
+            Unknown115 eofMessage;
+            eofMessage.write(uncompressedFile);
+            deflate();
+        }
 
         /* set file statistics */
         fileStatistics.fileSize = currentFileSize();
