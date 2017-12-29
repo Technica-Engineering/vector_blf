@@ -54,6 +54,8 @@ int main(int argc, char ** argv)
     }
 
     /* write object again */
+    // Vector bug: objectSize is set to 0x31 by BLWriteObject, so we need to set it back to 0x41.
+    obj.mHeader.mBase.mObjectSize = sizeof(VBLDiagRequestInterpretation) + obj.mEcuQualifierLength + obj.mVariantQualifierLength + obj.mServiceQualifierLength;
     if (!BLWriteObject(hFile, &obj.mHeader.mBase)) {
         return -1;
     }

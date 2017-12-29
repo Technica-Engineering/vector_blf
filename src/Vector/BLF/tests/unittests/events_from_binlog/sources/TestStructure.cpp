@@ -56,6 +56,8 @@ int main(int argc, char ** argv)
     }
 
     /* write object again */
+    // Vector bug: objectSize is set to 0x42 by BLWriteObject, so we need to set it back to 0x4E.
+    obj.mHeader.mBase.mObjectSize = sizeof(VBLTestStructure) + (obj.mExecutingObjectNameLength + obj.mNameLength + obj.mTextLength) * sizeof(wchar_t);
     if (!BLWriteObject(hFile, &obj.mHeader.mBase)) {
         return -1;
     }

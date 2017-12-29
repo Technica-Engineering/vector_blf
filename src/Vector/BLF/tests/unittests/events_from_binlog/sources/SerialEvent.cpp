@@ -45,6 +45,7 @@ int main(int argc, char ** argv)
     obj.mFlags = BL_SERIAL_TYPE_KLINE_EVENT;
     BYTE data[3] = { 0x11, 0x22, 0x33 };
     LONGLONG timeStamps[3] = { 0x4444, 0x5555, 0x6666 };
+    memset(&obj.mGeneral, 0, 16); // size of union of singleByte/compact/general
     obj.mGeneral.mDataLength = 3;
     obj.mGeneral.mTimeStampsLength = 3 * sizeof(LONGLONG);
     obj.mGeneral.mData = reinterpret_cast<unsigned char *>(data);
@@ -56,6 +57,7 @@ int main(int argc, char ** argv)
 
     /* write SingleByteSerialEvent object */
     obj.mFlags = BL_SERIAL_TYPE_SINGLE_BYTE;
+    memset(&obj.mSingleByte, 0, 16); // size of union of singleByte/compact/general
     obj.mSingleByte.mByte = 0x11;
     obj.mHeader.mBase.mObjectSize = sizeof(VBLSerialEvent);
     if (!BLWriteObject(hFile, &obj.mHeader.mBase)) {
@@ -64,6 +66,7 @@ int main(int argc, char ** argv)
 
     /* write CompactSerialEvent object */
     obj.mFlags = BL_SERIAL_TYPE_COMPACT_BYTES;
+    memset(&obj.mCompact, 0, 16); // size of union of singleByte/compact/general
     obj.mCompact.mCompactLength = 3;
     obj.mCompact.mCompactData[0] = 0x11;
     obj.mCompact.mCompactData[1] = 0x22;
