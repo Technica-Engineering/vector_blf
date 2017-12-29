@@ -46,7 +46,7 @@ FileStatistics::FileStatistics() :
     objectsRead(),
     measurementStartTime(),
     lastObjectTime(),
-    reservedFileSize(),
+    fileSizeWithoutUnknown115(),
     reservedFileStatistics()
 {
 }
@@ -79,7 +79,7 @@ void FileStatistics::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&objectsRead), sizeof(objectsRead));
     is.read(reinterpret_cast<char *>(&measurementStartTime), sizeof(measurementStartTime));
     is.read(reinterpret_cast<char *>(&lastObjectTime), sizeof(lastObjectTime));
-    is.read(reinterpret_cast<char *>(&reservedFileSize), sizeof(reservedFileSize));
+    is.read(reinterpret_cast<char *>(&fileSizeWithoutUnknown115), sizeof(fileSizeWithoutUnknown115));
     is.read(reinterpret_cast<char *>(reservedFileStatistics.data()), static_cast<std::streamsize>(reservedFileStatistics.size() * sizeof(DWORD)));
 }
 
@@ -101,7 +101,7 @@ void FileStatistics::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&objectsRead), sizeof(objectsRead));
     os.write(reinterpret_cast<char *>(&measurementStartTime), sizeof(measurementStartTime));
     os.write(reinterpret_cast<char *>(&lastObjectTime), sizeof(lastObjectTime));
-    os.write(reinterpret_cast<char *>(&reservedFileSize), sizeof(reservedFileSize));
+    os.write(reinterpret_cast<char *>(&fileSizeWithoutUnknown115), sizeof(fileSizeWithoutUnknown115));
     os.write(reinterpret_cast<char *>(reservedFileStatistics.data()), static_cast<std::streamsize>(reservedFileStatistics.size() * sizeof(DWORD)));
 }
 
@@ -124,7 +124,7 @@ DWORD FileStatistics::calculateStatisticsSize() const
         sizeof(objectsRead) +
         sizeof(measurementStartTime) +
         sizeof(lastObjectTime) +
-        sizeof(reservedFileSize) +
+        sizeof(fileSizeWithoutUnknown115) +
         static_cast<DWORD>(reservedFileStatistics.size() * sizeof(DWORD));
 }
 

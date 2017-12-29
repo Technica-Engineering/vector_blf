@@ -775,7 +775,7 @@ void File::close()
 
         /* write final LogContainer+Unknown115 */
         if (writeUnknown115) {
-            fileStatistics.reservedFileSize = currentFileSize();
+            fileStatistics.fileSizeWithoutUnknown115 = currentFileSize();
 
             /* write end of file message */
             Unknown115 eofMessage;
@@ -787,7 +787,7 @@ void File::close()
         fileStatistics.fileSize = currentFileSize();
         fileStatistics.uncompressedFileSize = currentUncompressedFileSize;
         fileStatistics.objectCount = currentObjectCount;
-        //fileStatistics.objectsRead = 0; // @todo what is objectsRead?
+        //fileStatistics.objectsRead = 0;
 
         /* write file statistics */
         compressedFile.seekp(0);

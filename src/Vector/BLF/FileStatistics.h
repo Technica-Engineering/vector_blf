@@ -128,7 +128,7 @@ public:
     /** BL API patch number (e.g. 0) */
     BYTE apiPatch;
 
-    /** file size in bytes */
+    /** (compressed) file size in bytes */
     ULONGLONG fileSize;
 
     /** uncompressed file size in bytes */
@@ -138,7 +138,7 @@ public:
     DWORD objectCount;
 
     /** number of objects read */
-    DWORD objectsRead;
+    DWORD objectsRead; // @todo what is objectsRead?
 
     /** measurement start time */
     SYSTEMTIME measurementStartTime;
@@ -146,8 +146,8 @@ public:
     /** last object time */
     SYSTEMTIME lastObjectTime;
 
-    /** another file size */
-    ULONGLONG reservedFileSize; // fileSize without final LogContainer+Unknown115
+    /** (compressed) file size without LogContainer+Unknown115 at end-of-file */
+    ULONGLONG fileSizeWithoutUnknown115;
 
     /** reserved */
     std::array<DWORD, 16> reservedFileStatistics;

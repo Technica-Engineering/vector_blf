@@ -60,31 +60,31 @@ public:
     ULONGLONG objectTimeStamp;
 
     /** reserved */
-    DWORD reservedUnknownObject1;
+    DWORD reservedUnknownObject1; // @todo what is this? 0x001E00C4, ...
 
     /** reserved */
-    DWORD reservedUnknownObject2;
+    DWORD reservedUnknownObject2; // @todo what is this? 0x00000000, ...
 
     /** reserved */
-    DWORD reservedUnknownObject3;
+    DWORD reservedUnknownObject3; // @todo what is this? 0x00D6, ...
 
     /** reserved */
-    WORD reservedUnknownObject4;
+    WORD reservedUnknownObject4; // @todo what is this? 0x0000, ...
 
     /** reserved */
-    WORD reservedUnknownObject5;
+    WORD reservedUnknownObject5; // @todo what is this? 0xF30C, ...
 
     /** reserved */
-    WORD reservedUnknownObject6;
+    WORD reservedUnknownObject6; // @todo what is this? 0x0008, ...
 
     /** reserved */
-    WORD reservedUnknownObject7;
+    WORD reservedUnknownObject7; // @todo what is this? 0x0008, ...
 
     /** reserved */
-    WORD reservedUnknownObject8;
+    WORD reservedUnknownObject8; // @todo what is this? 0x0018, ...
 
     /** reserved */
-    WORD reservedUnknownObject9;
+    WORD reservedUnknownObject9; // @todo what is this? 0x03E8, ...
 };
 
 }

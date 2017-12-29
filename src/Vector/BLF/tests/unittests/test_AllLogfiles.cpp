@@ -84,7 +84,7 @@ BOOST_AUTO_TEST_CASE(AllBinlogLogfiles)
         char c1 = static_cast<char>(ifs1.get());
         char c2 = static_cast<char>(ifs2.get());
         bool sameFile = true;
-        while (ifs1.good() && ifs2.good() && (static_cast<uint64_t>(ifs1.tellg()) <= fileout.fileStatistics.reservedFileSize)) {
+        while (ifs1.good() && ifs2.good() && (static_cast<uint64_t>(ifs1.tellg()) <= fileout.fileStatistics.fileSizeWithoutUnknown115)) {
             sameFile &= (c1 == c2);
             c1 = static_cast<char>(ifs1.get());
             c2 = static_cast<char>(ifs2.get());
@@ -167,7 +167,7 @@ BOOST_AUTO_TEST_CASE(AllConvertedLogfiles)
         char c1 = static_cast<char>(ifs1.get());
         char c2 = static_cast<char>(ifs2.get());
         bool sameFile = true;
-        while (ifs1.good() && ifs2.good() && (static_cast<uint64_t>(ifs1.tellg()) <= fileout.fileStatistics.reservedFileSize)) {
+        while (ifs1.good() && ifs2.good() && (static_cast<uint64_t>(ifs1.tellg()) <= fileout.fileStatistics.fileSizeWithoutUnknown115)) {
             sameFile &= (c1 == c2);
             c1 = static_cast<char>(ifs1.get());
             c2 = static_cast<char>(ifs2.get());

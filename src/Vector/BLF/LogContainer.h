@@ -70,7 +70,7 @@ public:
     DWORD uncompressedFileSize;
 
     /** reserved */
-    DWORD reservedLogContainer3; // @todo often 0x0215, 0x9a, 0, 0x0c
+    DWORD reservedLogContainer3; // @todo what is this? 0x0215, 0x9a, 0, 0x0c...
 
     /** compressed file content */
     std::vector<uint8_t> compressedFile;
