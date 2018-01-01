@@ -236,7 +236,7 @@ public:
     /**
      * write object to file
      *
-     * @param objectHeaderBase write object
+     * @param[in] objectHeaderBase write object
      */
     void write(ObjectHeaderBase * objectHeaderBase);
 
@@ -246,11 +246,24 @@ public:
     void close();
 
 private:
-    /** compressed file */
-    CompressedFile compressedFile;
 
-    /** uncompressed file */
+    /**
+     * @brief uncompressed file
+     *
+     * This file contains the data, contained in the (compressed) log containers.
+     * The readWriteThread transfers data from/to here into the readWriteQueue.
+     * The compressionThread transfers data from/to here into the uncompressedFile.
+     */
     UncompressedFile uncompressedFile;
+
+    /**
+     * @brief compressed file
+     *
+     * This file is actually the fstream, so the actual BLF data.
+     * It mainly contains the FileStatistics and several LogContainers carrying the different objects.
+     * The compressionThread transfers data from/to here into the compressedFile.
+     */
+    CompressedFile compressedFile;
 
     /**
      * create object of given type
@@ -258,7 +271,7 @@ private:
      * @param type object type
      * @return new object
      */
-    ObjectHeaderBase * createObject(ObjectType type);
+    static ObjectHeaderBase * createObject(ObjectType type);
 
     /**
      * read object from compressed file

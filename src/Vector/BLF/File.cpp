@@ -38,8 +38,8 @@ File::File() :
     compressionLevel(6),
     defaultLogContainerSize(0x20000),
     writeUnknown115(true),
-    compressedFile(),
-    uncompressedFile()
+    uncompressedFile(),
+    compressedFile()
 {
 }
 
