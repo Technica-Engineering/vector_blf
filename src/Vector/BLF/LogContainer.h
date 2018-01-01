@@ -47,12 +47,12 @@ public:
     virtual DWORD calculateObjectSize() const override;
 
     /**
-     * compression
+     * compression method
      *
      *   - 0: no compression
      *   - 2: zlib deflate
      */
-    WORD unknownCompression;
+    WORD compressionMethod;
 
     /**
      * @brief reserved

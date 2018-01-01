@@ -651,7 +651,7 @@ void File::inflate()
         logContainer->internalHeaderSize() +
         logContainer->uncompressedFileSize;
 
-    if (logContainer->unknownCompression == 2) {
+    if (logContainer->compressionMethod == 2) {
         /* create buffer */
         uLong bufferSize = static_cast<uLong>(logContainer->uncompressedFileSize);
         std::vector<char> buffer;
@@ -696,7 +696,7 @@ void File::deflate()
     LogContainer logContainer;
     logContainer.uncompressedFileSize = static_cast<DWORD>(uncompressedFileSize);
     if (compressionLevel == Z_NO_COMPRESSION) {
-        logContainer.unknownCompression = 0;
+        logContainer.compressionMethod = 0;
         logContainer.compressedFileSize = logContainer.uncompressedFileSize;
         logContainer.compressedFile.resize(logContainer.compressedFileSize);
 
@@ -708,7 +708,7 @@ void File::deflate()
             throw Exception("File::deflate(): Unable to (completely) read block for compression");
         }
     } else {
-        logContainer.unknownCompression = 2;
+        logContainer.compressionMethod = 2;
 
         /* create buffer */
         std::vector<char> bufferIn;
