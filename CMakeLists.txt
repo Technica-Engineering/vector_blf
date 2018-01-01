@@ -24,6 +24,8 @@ include(GNUInstallDirs)
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules")
 
 # dependencies
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
 find_package(ZLIB REQUIRED)
 if(OPTION_RUN_DOXYGEN)
     find_package(Doxygen REQUIRED)

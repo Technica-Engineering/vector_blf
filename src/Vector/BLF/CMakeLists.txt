@@ -301,6 +301,7 @@ if(CMAKE_COMPILER_IS_GNUCXX)
     endif()
 endif()
 target_link_libraries(${PROJECT_NAME}
+    Threads::Threads
     ${ZLIB_LIBRARIES})
 if(OPTION_USE_GCOV_LCOV)
     target_link_libraries(${PROJECT_NAME} gcov)
