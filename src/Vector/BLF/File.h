@@ -288,14 +288,14 @@ private:
     ObjectHeaderBase * readObjectFromUncompressedFile();
 
     /**
-     * inflate/uncompress date from compressed file into uncompressed file
+     * Inflate/uncompress date from compressedFile into uncompressedFile.
      */
-    void inflate();
+    static void compressedFile2UncompressedFile(File * file);
 
     /**
-     * deflate/compress data from uncompressed file into compressed file
+     * Deflate/compress data from uncompressedFile into compressedFile.
      */
-    void deflate();
+    static void uncompressedFile2CompressedFile(File * file);
 };
 
 }

@@ -47,6 +47,116 @@ File::~File()
 {
 }
 
+ULONGLONG File::currentFileSize()
+{
+    return static_cast<ULONGLONG>(compressedFile.tellp());
+}
+
+void File::open(const char * filename, std::ios_base::openmode mode)
+{
+    this->openMode = mode;
+
+    if (mode & std::ios_base::in) {
+        /* open file for reading */
+        compressedFile.open(filename, std::ios_base::in | std::ios_base::binary);
+        if (!is_open()) {
+            return;
+        }
+
+        /* read file statistics */
+        fileStatistics.read(compressedFile);
+    }
+
+    if (mode & std::ios_base::out) {
+        /* open file for writing */
+        compressedFile.open(filename, std::ios_base::out | std::ios_base::binary);
+        if (!is_open()) {
+            return;
+        }
+
+        /* write file statistics */
+        fileStatistics.write(compressedFile);
+    }
+
+    /* fileStatistics done */
+    currentUncompressedFileSize += fileStatistics.statisticsSize;
+}
+
+void File::open(const std::string & filename, std::ios_base::openmode mode)
+{
+    open(filename.c_str(), mode);
+}
+
+bool File::is_open() const
+{
+    return compressedFile.is_open();
+}
+
+bool File::eof()
+{
+    bool compressedFileEmpty =
+        (static_cast<ULONGLONG>(compressedFile.tellg()) >= fileStatistics.fileSize) ||
+        compressedFile.eof();
+    bool uncompressedFileEmpty =
+        (static_cast<ULONGLONG>(uncompressedFile.tellg()) >= fileStatistics.uncompressedFileSize) ||
+        (uncompressedFile.tellg() >= uncompressedFile.tellp());
+    return compressedFileEmpty && uncompressedFileEmpty;
+}
+
+ObjectHeaderBase * File::read()
+{
+    return readObjectFromUncompressedFile();
+}
+
+void File::write(ObjectHeaderBase * objectHeaderBase)
+{
+    /* write into uncompressedFile */
+    objectHeaderBase->write(uncompressedFile);
+
+    /* if data exceeds defined logContainerSize, compress and write it into compressedFile */
+    ULONGLONG logContainerSize = static_cast<ULONGLONG>(uncompressedFile.tellp() - uncompressedFile.tellg());
+    if (logContainerSize >= defaultLogContainerSize) {
+        uncompressedFile2CompressedFile(this);
+    }
+
+    /* statistics */
+    currentObjectCount++;
+}
+
+void File::close()
+{
+    if (openMode & std::ios_base::out) {
+        /* if data left, compress and write it */
+        if (uncompressedFile.tellp() > uncompressedFile.tellg()) {
+            uncompressedFile2CompressedFile(this);
+        }
+
+        /* write final LogContainer+Unknown115 */
+        if (writeUnknown115) {
+            fileStatistics.fileSizeWithoutUnknown115 = currentFileSize();
+
+            /* write end of file message */
+            Unknown115 eofMessage;
+            eofMessage.write(uncompressedFile);
+            uncompressedFile2CompressedFile(this);
+        }
+
+        /* set file statistics */
+        fileStatistics.fileSize = currentFileSize();
+        fileStatistics.uncompressedFileSize = currentUncompressedFileSize;
+        fileStatistics.objectCount = currentObjectCount;
+        //fileStatistics.objectsRead = 0;
+
+        /* write file statistics */
+        compressedFile.seekp(0);
+        fileStatistics.write(compressedFile);
+    }
+
+    /* close both files */
+    uncompressedFile.close();
+    compressedFile.close();
+}
+
 ObjectHeaderBase * File::createObject(ObjectType type)
 {
     ObjectHeaderBase * obj = nullptr;
@@ -523,62 +633,6 @@ ObjectHeaderBase * File::createObject(ObjectType type)
     return obj;
 }
 
-ULONGLONG File::currentFileSize()
-{
-    return static_cast<ULONGLONG>(compressedFile.tellp());
-}
-
-void File::open(const char * filename, std::ios_base::openmode mode)
-{
-    this->openMode = mode;
-
-    if (mode & std::ios_base::in) {
-        /* open file for reading */
-        compressedFile.open(filename, std::ios_base::in | std::ios_base::binary);
-        if (!is_open()) {
-            return;
-        }
-
-        /* read file statistics */
-        fileStatistics.read(compressedFile);
-    }
-
-    if (mode & std::ios_base::out) {
-        /* open file for writing */
-        compressedFile.open(filename, std::ios_base::out | std::ios_base::binary);
-        if (!is_open()) {
-            return;
-        }
-
-        /* write file statistics */
-        fileStatistics.write(compressedFile);
-    }
-
-    /* fileStatistics done */
-    currentUncompressedFileSize += fileStatistics.statisticsSize;
-}
-
-void File::open(const std::string & filename, std::ios_base::openmode mode)
-{
-    open(filename.c_str(), mode);
-}
-
-bool File::is_open() const
-{
-    return compressedFile.is_open();
-}
-
-bool File::eof()
-{
-    bool compressedFileEmpty =
-        (static_cast<ULONGLONG>(compressedFile.tellg()) >= fileStatistics.fileSize) ||
-        compressedFile.eof();
-    bool uncompressedFileEmpty =
-        (static_cast<ULONGLONG>(uncompressedFile.tellg()) >= fileStatistics.uncompressedFileSize) ||
-        (uncompressedFile.tellg() >= uncompressedFile.tellp());
-    return compressedFileEmpty && uncompressedFileEmpty;
-}
-
 ObjectHeaderBase * File::readObjectFromCompressedFile()
 {
     /* identify type */
@@ -604,7 +658,7 @@ ObjectHeaderBase * File::readObjectFromUncompressedFile()
 
     /* first read some more compressed data and inflate it */
     while ((uncompressedFile.tellp() - uncompressedFile.tellg()) < ohb.calculateHeaderSize()) {
-        inflate();
+        compressedFile2UncompressedFile(this);
     }
 
     /* identify type */
@@ -613,7 +667,7 @@ ObjectHeaderBase * File::readObjectFromUncompressedFile()
 
     /* ensure sufficient data is available */
     while ((uncompressedFile.tellp() - uncompressedFile.tellg()) < ohb.objectSize) {
-        inflate();
+        compressedFile2UncompressedFile(this);
     }
 
     /* create object */
@@ -632,20 +686,20 @@ ObjectHeaderBase * File::readObjectFromUncompressedFile()
     return obj;
 }
 
-void File::inflate()
+void File::compressedFile2UncompressedFile(File * file)
 {
     /* read LogContainer */
-    ObjectHeaderBase * ohb = readObjectFromCompressedFile();
+    ObjectHeaderBase * ohb = file->readObjectFromCompressedFile();
     if (ohb == nullptr) {
         return;
     }
     if (ohb->objectType != ObjectType::LOG_CONTAINER) {
-        throw Exception("File::inflate(): Object read for inflation is not a log container.");
+        throw Exception("File::compressedFile2UncompressedFile(): Object read for inflation is not a log container.");
     }
     LogContainer * logContainer = reinterpret_cast<LogContainer *>(ohb);
 
     /* statistics */
-    currentUncompressedFileSize +=
+    file->currentUncompressedFileSize +=
         logContainer->internalHeaderSize() +
         logContainer->uncompressedFileSize;
 
@@ -662,13 +716,13 @@ void File::inflate()
              reinterpret_cast<Byte *>(logContainer->compressedFile.data()),
              static_cast<uLong>(logContainer->compressedFileSize));
         if (retVal != Z_OK) {
-            throw Exception("File::inflate(): uncompress error");
+            throw Exception("File::compressedFile2UncompressedFile(): uncompress error");
         }
 
         /* copy into uncompressedFile */
-        uncompressedFile.write(buffer.data(), static_cast<std::streamsize>(bufferSize));
+        file->uncompressedFile.write(buffer.data(), static_cast<std::streamsize>(bufferSize));
     } else {
-        uncompressedFile.write(
+        file->uncompressedFile.write(
             reinterpret_cast<const char *>(logContainer->compressedFile.data()),
             static_cast<std::streamsize>(logContainer->compressedFileSize));
     }
@@ -677,33 +731,28 @@ void File::inflate()
     delete ohb;
 }
 
-ObjectHeaderBase * File::read()
-{
-    return readObjectFromUncompressedFile();
-}
-
-void File::deflate()
+void File::uncompressedFile2CompressedFile(File * file)
 {
     /* calculate size of data to compress */
-    DWORD uncompressedFileSize = static_cast<DWORD>(uncompressedFile.tellp() - uncompressedFile.tellg());
-    if (uncompressedFileSize > defaultLogContainerSize) {
-        uncompressedFileSize = static_cast<DWORD>(defaultLogContainerSize);
+    DWORD uncompressedFileSize = static_cast<DWORD>(file->uncompressedFile.tellp() - file->uncompressedFile.tellg());
+    if (uncompressedFileSize > file->defaultLogContainerSize) {
+        uncompressedFileSize = static_cast<DWORD>(file->defaultLogContainerSize);
     }
 
     /* setup new log container */
     LogContainer logContainer;
     logContainer.uncompressedFileSize = static_cast<DWORD>(uncompressedFileSize);
-    if (compressionLevel == Z_NO_COMPRESSION) {
+    if (file->compressionLevel == Z_NO_COMPRESSION) {
         logContainer.compressionMethod = 0;
         logContainer.compressedFileSize = logContainer.uncompressedFileSize;
         logContainer.compressedFile.resize(logContainer.compressedFileSize);
 
         /* copy data into LogContainer */
-        uncompressedFile.read(
+        file->uncompressedFile.read(
                     reinterpret_cast<char *>(logContainer.compressedFile.data()),
                     static_cast<std::streamsize>(uncompressedFileSize));
-        if (uncompressedFile.gcount() < static_cast<std::streamsize>(uncompressedFileSize)) {
-            throw Exception("File::deflate(): Unable to (completely) read block for compression");
+        if (file->uncompressedFile.gcount() < static_cast<std::streamsize>(uncompressedFileSize)) {
+            throw Exception("File::uncompressedFile2CompressedFile(): Unable to (completely) read block for compression");
         }
     } else {
         logContainer.compressionMethod = 2;
@@ -713,9 +762,9 @@ void File::deflate()
         bufferIn.resize(uncompressedFileSize);
 
         /* copy data into buffer */
-        uncompressedFile.read(bufferIn.data(), static_cast<std::streamsize>(uncompressedFileSize));
-        if (uncompressedFile.gcount() < static_cast<std::streamsize>(uncompressedFileSize)) {
-            throw Exception("File::deflate(): Unable to (completely) read block for compression");
+        file->uncompressedFile.read(bufferIn.data(), static_cast<std::streamsize>(uncompressedFileSize));
+        if (file->uncompressedFile.gcount() < static_cast<std::streamsize>(uncompressedFileSize)) {
+            throw Exception("File::uncompressedFile2CompressedFile(): Unable to (completely) read block for compression");
         }
 
         /* deflate/compress data */
@@ -726,75 +775,26 @@ void File::deflate()
             &bufferSizeOut,
             reinterpret_cast<Byte *>(bufferIn.data()),
             uncompressedFileSize,
-            compressionLevel);
+            file->compressionLevel);
         if (retVal != Z_OK) {
-            throw Exception("File::inflate(): compress2 error");
+            throw Exception("File::uncompressedFile2CompressedFile(): compress2 error");
         }
         if (bufferSizeOut > logContainer.compressedFile.size()) {
-            throw Exception("File::deflate(): Compressed data exceeds buffer size");
+            throw Exception("File::uncompressedFile2CompressedFile(): Compressed data exceeds buffer size");
         }
         logContainer.compressedFile.resize(bufferSizeOut); // shrink
     }
 
     /* write log container */
-    logContainer.write(compressedFile);
+    logContainer.write(file->compressedFile);
 
     /* statistics */
-    currentUncompressedFileSize +=
+    file->currentUncompressedFileSize +=
         logContainer.internalHeaderSize() +
         logContainer.uncompressedFileSize;
 
     /* drop old data */
-    uncompressedFile.dropOldData(static_cast<std::streamsize>(uncompressedFileSize));
-}
-
-void File::write(ObjectHeaderBase * objectHeaderBase)
-{
-    /* write into uncompressedFile */
-    objectHeaderBase->write(uncompressedFile);
-
-    /* if data exceeds defined logContainerSize, compress and write it into compressedFile */
-    ULONGLONG logContainerSize = static_cast<ULONGLONG>(uncompressedFile.tellp() - uncompressedFile.tellg());
-    if (logContainerSize >= defaultLogContainerSize) {
-        deflate();
-    }
-
-    /* statistics */
-    currentObjectCount++;
-}
-
-void File::close()
-{
-    if (openMode & std::ios_base::out) {
-        /* if data left, compress and write it */
-        if (uncompressedFile.tellp() > uncompressedFile.tellg()) {
-            deflate();
-        }
-
-        /* write final LogContainer+Unknown115 */
-        if (writeUnknown115) {
-            fileStatistics.fileSizeWithoutUnknown115 = currentFileSize();
-
-            /* write end of file message */
-            Unknown115 eofMessage;
-            eofMessage.write(uncompressedFile);
-            deflate();
-        }
-
-        /* set file statistics */
-        fileStatistics.fileSize = currentFileSize();
-        fileStatistics.uncompressedFileSize = currentUncompressedFileSize;
-        fileStatistics.objectCount = currentObjectCount;
-        //fileStatistics.objectsRead = 0;
-
-        /* write file statistics */
-        compressedFile.seekp(0);
-        fileStatistics.write(compressedFile);
-    }
-
-    /* close both files */
-    uncompressedFile.close();
-    compressedFile.close();
+    file->uncompressedFile.dropOldData(static_cast<std::streamsize>(uncompressedFileSize));
 }
 
 }
