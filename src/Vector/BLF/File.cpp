@@ -21,6 +21,7 @@
 
 #include <Vector/BLF/File.h>
 
+#include <cassert>
 #include <cstring>
 
 #include <zlib.h>
@@ -38,6 +39,7 @@ File::File() :
     compressionLevel(6),
     defaultLogContainerSize(0x20000),
     writeUnknown115(true),
+    readWriteQueue(),
     uncompressedFile(),
     compressedFile()
 {
@@ -65,6 +67,9 @@ void File::open(const char * filename, std::ios_base::openmode mode)
 
         /* read file statistics */
         fileStatistics.read(compressedFile);
+
+        /* trigger thread */
+        compressedFile2UncompressedFile(this);
     }
 
     if (mode & std::ios_base::out) {
@@ -105,22 +110,24 @@ bool File::eof()
 
 ObjectHeaderBase * File::read()
 {
-    return readObjectFromUncompressedFile();
+    /* trigger thread */
+    uncompressedFile2ReadWrite(this);
+
+    /* read object from readWriteQueue */
+    ObjectHeaderBase * ohb;
+    ohb = readWriteQueue.front();
+    readWriteQueue.pop_front();
+
+    return ohb;
 }
 
 void File::write(ObjectHeaderBase * objectHeaderBase)
 {
-    /* write into uncompressedFile */
-    objectHeaderBase->write(uncompressedFile);
+    /* write object to readWriteQueue */
+    readWriteQueue.push_back(objectHeaderBase);
 
-    /* if data exceeds defined logContainerSize, compress and write it into compressedFile */
-    ULONGLONG logContainerSize = static_cast<ULONGLONG>(uncompressedFile.tellp() - uncompressedFile.tellg());
-    if (logContainerSize >= defaultLogContainerSize) {
-        uncompressedFile2CompressedFile(this);
-    }
-
-    /* statistics */
-    currentObjectCount++;
+    /* trigger thread */
+    readWrite2UncompressedFile(this);
 }
 
 void File::close()
@@ -128,6 +135,7 @@ void File::close()
     if (openMode & std::ios_base::out) {
         /* if data left, compress and write it */
         if (uncompressedFile.tellp() > uncompressedFile.tellg()) {
+            /* trigger thread */
             uncompressedFile2CompressedFile(this);
         }
 
@@ -138,6 +146,8 @@ void File::close()
             /* write end of file message */
             Unknown115 eofMessage;
             eofMessage.write(uncompressedFile);
+
+            /* trigger thread */
             uncompressedFile2CompressedFile(this);
         }
 
@@ -633,79 +643,37 @@ ObjectHeaderBase * File::createObject(ObjectType type)
     return obj;
 }
 
-ObjectHeaderBase * File::readObjectFromCompressedFile()
-{
-    /* identify type */
-    ObjectHeaderBase ohb;
-    ohb.read(compressedFile);
-    compressedFile.seekg(-ohb.calculateHeaderSize(), std::ios_base::cur);
-
-    /* create object */
-    ObjectHeaderBase * obj = createObject(ohb.objectType);
-    if (obj == nullptr) {
-        return nullptr;
-    }
-
-    /* read object */
-    obj->read(compressedFile);
-
-    return obj;
-}
-
-ObjectHeaderBase * File::readObjectFromUncompressedFile()
-{
-    ObjectHeaderBase ohb;
-
-    /* first read some more compressed data and inflate it */
-    while ((uncompressedFile.tellp() - uncompressedFile.tellg()) < ohb.calculateHeaderSize()) {
-        compressedFile2UncompressedFile(this);
-    }
-
-    /* identify type */
-    ohb.read(uncompressedFile);
-    uncompressedFile.seekg(-ohb.calculateHeaderSize(), std::ios_base::cur);
-
-    /* ensure sufficient data is available */
-    while ((uncompressedFile.tellp() - uncompressedFile.tellg()) < ohb.objectSize) {
-        compressedFile2UncompressedFile(this);
-    }
-
-    /* create object */
-    ObjectHeaderBase * obj = createObject(ohb.objectType);
-    if (obj == nullptr) {
-        return nullptr;
-    }
-
-    /* read object */
-    obj->read(uncompressedFile);
-
-    /* drop old data */
-    uncompressedFile.dropOldData(static_cast<std::streamsize>(defaultLogContainerSize));
-
-    currentObjectCount++;
-    return obj;
-}
-
 void File::compressedFile2UncompressedFile(File * file)
 {
-    /* read LogContainer */
-    ObjectHeaderBase * ohb = file->readObjectFromCompressedFile();
-    if (ohb == nullptr) {
+    /* condition */
+    if (file->compressedFile.eof()) {
         return;
     }
-    if (ohb->objectType != ObjectType::LOG_CONTAINER) {
+    DWORD uncompressedFileSize = static_cast<DWORD>(file->uncompressedFile.tellp() - file->uncompressedFile.tellg());
+    if (uncompressedFileSize >= file->defaultLogContainerSize) {
+        return;
+    }
+
+    /* identify type */
+    ObjectHeaderBase ohb;
+    ohb.read(file->compressedFile);
+    file->compressedFile.seekg(-ohb.calculateHeaderSize(), std::ios_base::cur);
+    if (ohb.objectType != ObjectType::LOG_CONTAINER) {
         throw Exception("File::compressedFile2UncompressedFile(): Object read for inflation is not a log container.");
     }
-    LogContainer * logContainer = reinterpret_cast<LogContainer *>(ohb);
+
+    /* read LogContaier */
+    LogContainer logContainer;
+    logContainer.read(file->compressedFile);
 
     /* statistics */
     file->currentUncompressedFileSize +=
-        logContainer->internalHeaderSize() +
-        logContainer->uncompressedFileSize;
+        logContainer.internalHeaderSize() +
+        logContainer.uncompressedFileSize;
 
-    if (logContainer->compressionMethod == 2) {
+    if (logContainer.compressionMethod == 2) {
         /* create buffer */
-        uLong bufferSize = static_cast<uLong>(logContainer->uncompressedFileSize);
+        uLong bufferSize = static_cast<uLong>(logContainer.uncompressedFileSize);
         std::vector<char> buffer;
         buffer.resize(bufferSize);
 
@@ -713,8 +681,8 @@ void File::compressedFile2UncompressedFile(File * file)
         int retVal = uncompress(
              reinterpret_cast<Byte *>(buffer.data()),
              &bufferSize,
-             reinterpret_cast<Byte *>(logContainer->compressedFile.data()),
-             static_cast<uLong>(logContainer->compressedFileSize));
+             reinterpret_cast<Byte *>(logContainer.compressedFile.data()),
+             static_cast<uLong>(logContainer.compressedFileSize));
         if (retVal != Z_OK) {
             throw Exception("File::compressedFile2UncompressedFile(): uncompress error");
         }
@@ -723,18 +691,21 @@ void File::compressedFile2UncompressedFile(File * file)
         file->uncompressedFile.write(buffer.data(), static_cast<std::streamsize>(bufferSize));
     } else {
         file->uncompressedFile.write(
-            reinterpret_cast<const char *>(logContainer->compressedFile.data()),
-            static_cast<std::streamsize>(logContainer->compressedFileSize));
+            reinterpret_cast<const char *>(logContainer.compressedFile.data()),
+            static_cast<std::streamsize>(logContainer.compressedFileSize));
     }
 
-    /* delete buffer */
-    delete ohb;
+    /* trigger thread */
+    //uncompressedFile2ReadWrite();
 }
 
 void File::uncompressedFile2CompressedFile(File * file)
 {
-    /* calculate size of data to compress */
+    /* condition */
     DWORD uncompressedFileSize = static_cast<DWORD>(file->uncompressedFile.tellp() - file->uncompressedFile.tellg());
+    // @todo compress only when defaultLogContainerSize reached or file is about to close */
+
+    /* calculate size of data to compress */
     if (uncompressedFileSize > file->defaultLogContainerSize) {
         uncompressedFileSize = static_cast<DWORD>(file->defaultLogContainerSize);
     }
@@ -795,6 +766,71 @@ void File::uncompressedFile2CompressedFile(File * file)
 
     /* drop old data */
     file->uncompressedFile.dropOldData(static_cast<std::streamsize>(uncompressedFileSize));
+}
+
+void File::uncompressedFile2ReadWrite(File * file)
+{
+    /* condition */
+    if (file->readWriteQueue.size() >= 10) {
+        return;
+    }
+
+    ObjectHeaderBase ohb;
+
+    /* first read some more compressed data and inflate it */
+    while ((file->uncompressedFile.tellp() - file->uncompressedFile.tellg()) < ohb.calculateHeaderSize()) {
+        /* trigger thread */
+        compressedFile2UncompressedFile(file);
+    }
+
+    /* identify type */
+    ohb.read(file->uncompressedFile);
+    file->uncompressedFile.seekg(-ohb.calculateHeaderSize(), std::ios_base::cur);
+
+    /* ensure sufficient data is available */
+    while ((file->uncompressedFile.tellp() - file->uncompressedFile.tellg()) < ohb.objectSize) {
+        /* trigger thread */
+        compressedFile2UncompressedFile(file);
+    }
+
+    /* create object */
+    ObjectHeaderBase * obj = createObject(ohb.objectType);
+    assert(obj != nullptr);
+
+    /* read object */
+    obj->read(file->uncompressedFile);
+
+    /* drop old data */
+    file->uncompressedFile.dropOldData(static_cast<std::streamsize>(file->defaultLogContainerSize));
+
+    file->currentObjectCount++;
+    file->readWriteQueue.push_back(obj);
+}
+
+void File::readWrite2UncompressedFile(File * file)
+{
+    /* condition */
+    if (file->readWriteQueue.empty()) {
+        return;
+    }
+
+    /* get from readWriteQueue */
+    ObjectHeaderBase * ohb;
+    ohb = file->readWriteQueue.front();
+    file->readWriteQueue.pop_front();
+
+    /* write into uncompressedFile */
+    ohb->write(file->uncompressedFile);
+
+    /* if data exceeds defined logContainerSize, compress and write it into compressedFile */
+    ULONGLONG logContainerSize = static_cast<ULONGLONG>(file->uncompressedFile.tellp() - file->uncompressedFile.tellg());
+    if (logContainerSize >= file->defaultLogContainerSize) {
+        /* trigger thread */
+        uncompressedFile2CompressedFile(file);
+    }
+
+    /* statistics */
+    file->currentObjectCount++;
 }
 
 }

@@ -24,6 +24,7 @@
 #include <Vector/BLF/platform.h>
 
 #include <fstream>
+#include <list>
 
 #include <Vector/BLF/CompressedFile.h>
 #include <Vector/BLF/FileStatistics.h>
@@ -246,6 +247,17 @@ public:
     void close();
 
 private:
+    /**
+     * @brief read/write queue
+     *
+     * When the write method is called the object is enqueued here, so that it returns quickly to the calling
+     * application. The readWriteThread gets the objects out of the queue and puts them into the compressedFile.
+     *
+     * When the read method is called the object is taken out of the queue, so that it returns quickly to the calling
+     * application. If there are no objects in the queue, the methods waits for the readWriteThread to finish.
+     * The readWriteThread reads objects from the compressedfile and puts them into the queue.
+     */
+    std::list<ObjectHeaderBase *> readWriteQueue;
 
     /**
      * @brief uncompressed file
@@ -274,28 +286,24 @@ private:
     static ObjectHeaderBase * createObject(ObjectType type);
 
     /**
-     * read object from compressed file
-     *
-     * @return object from compressed file or nullptr
-     */
-    ObjectHeaderBase * readObjectFromCompressedFile();
-
-    /**
-     * read object from uncompressed file
-     *
-     * @return object from uncompressed file or nullptr
-     */
-    ObjectHeaderBase * readObjectFromUncompressedFile();
-
-    /**
-     * Inflate/uncompress date from compressedFile into uncompressedFile.
+     * Read/inflate/uncompress date from compressedFile into uncompressedFile.
      */
     static void compressedFile2UncompressedFile(File * file);
 
     /**
-     * Deflate/compress data from uncompressedFile into compressedFile.
+     * Write/deflate/compress data from uncompressedFile into compressedFile.
      */
     static void uncompressedFile2CompressedFile(File * file);
+
+    /**
+     * Read/transfer data from uncompressedFile into readWriteQueue.
+     */
+    static void uncompressedFile2ReadWrite(File * file);
+
+    /**
+     * Write/transfer data from readWriteQueue into uncompressedFile.
+     */
+    static void readWrite2UncompressedFile(File * file);
 };
 
 }
