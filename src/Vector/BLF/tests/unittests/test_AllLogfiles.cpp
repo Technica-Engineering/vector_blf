@@ -34,14 +34,14 @@ BOOST_AUTO_TEST_CASE(AllBinlogLogfiles)
         /* open input file */
         Vector::BLF::File filein;
         boost::filesystem::path infile(indir.string() + eventFile);
-        filein.open(infile.string(), Vector::BLF::File::OpenMode::Read);
+        filein.open(infile.string(), std::ios_base::in);
         BOOST_REQUIRE(filein.is_open());
 
         /* open output file */
         Vector::BLF::File fileout;
         fileout.compressionLevel = 0;
         boost::filesystem::path outfile(outdir.string() + eventFile);
-        fileout.open(outfile.string(), Vector::BLF::File::OpenMode::Write);
+        fileout.open(outfile.string(), std::ios_base::out);
         BOOST_REQUIRE(fileout.is_open());
 
         /* check filein statistics */
@@ -117,14 +117,14 @@ BOOST_AUTO_TEST_CASE(AllConvertedLogfiles)
         /* open input file */
         Vector::BLF::File filein;
         boost::filesystem::path infile(indir.string() + eventFile);
-        filein.open(infile.string(), Vector::BLF::File::OpenMode::Read);
+        filein.open(infile.string(), std::ios_base::in);
         BOOST_REQUIRE(filein.is_open());
 
         /* open output file */
         Vector::BLF::File fileout;
         fileout.writeUnknown115 = false;
         boost::filesystem::path outfile(outdir.string() + eventFile);
-        fileout.open(outfile.string(), Vector::BLF::File::OpenMode::Write);
+        fileout.open(outfile.string(), std::ios_base::out);
         BOOST_REQUIRE(fileout.is_open());
 
         /* check filein statistics */

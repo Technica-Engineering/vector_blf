@@ -172,17 +172,8 @@ public:
     File();
     virtual ~File();
 
-    /** enumeration for openMode */
-    enum class OpenMode {
-        /** Read */
-        Read = 0,
-
-        /** Write */
-        Write = 1
-    };
-
     /** open mode */
-    OpenMode openMode;
+    std::ios_base::openmode openMode;
 
     /** file statistics from file header. contains total counts/sizes */
     FileStatistics fileStatistics;
@@ -208,18 +199,18 @@ public:
     /**
      * open file
      *
-     * @param filename file name
-     * @param openMode open in read or write mode
+     * @param[in] filename file name
+     * @param[in] mode open mode, either in (read) or out (write)
      */
-    void open(const char * filename, OpenMode openMode = OpenMode::Read);
+    void open(const char * filename, std::ios_base::openmode mode = std::ios_base::in);
 
     /**
      * open file
      *
-     * @param filename file name
-     * @param openMode open in read or write mode
+     * @param[in] filename file name
+     * @param[in] mode open mode, either in (read) or out (write)
      */
-    void open(const std::string & filename, OpenMode openMode = OpenMode::Read);
+    void open(const std::string & filename, std::ios_base::openmode mode = std::ios_base::in);
 
     /**
      * is file open?

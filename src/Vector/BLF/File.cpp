@@ -31,7 +31,7 @@ namespace Vector {
 namespace BLF {
 
 File::File() :
-    openMode(OpenMode::Read),
+    openMode(),
     fileStatistics(),
     currentUncompressedFileSize(0),
     currentObjectCount(0),
@@ -528,12 +528,11 @@ ULONGLONG File::currentFileSize()
     return static_cast<ULONGLONG>(compressedFile.tellp());
 }
 
-void File::open(const char * filename, OpenMode openMode)
+void File::open(const char * filename, std::ios_base::openmode mode)
 {
-    this->openMode = openMode;
+    this->openMode = mode;
 
-    switch (this->openMode) {
-    case OpenMode::Read:
+    if (mode & std::ios_base::in) {
         /* open file for reading */
         compressedFile.open(filename, std::ios_base::in | std::ios_base::binary);
         if (!is_open()) {
@@ -542,9 +541,9 @@ void File::open(const char * filename, OpenMode openMode)
 
         /* read file statistics */
         fileStatistics.read(compressedFile);
-        break;
+    }
 
-    case OpenMode::Write:
+    if (mode & std::ios_base::out) {
         /* open file for writing */
         compressedFile.open(filename, std::ios_base::out | std::ios_base::binary);
         if (!is_open()) {
@@ -553,16 +552,15 @@ void File::open(const char * filename, OpenMode openMode)
 
         /* write file statistics */
         fileStatistics.write(compressedFile);
-        break;
     }
 
     /* fileStatistics done */
     currentUncompressedFileSize += fileStatistics.statisticsSize;
 }
 
-void File::open(const std::string & filename, OpenMode openMode)
+void File::open(const std::string & filename, std::ios_base::openmode mode)
 {
-    open(filename.c_str(), openMode);
+    open(filename.c_str(), mode);
 }
 
 bool File::is_open() const
@@ -767,7 +765,7 @@ void File::write(ObjectHeaderBase * objectHeaderBase)
 
 void File::close()
 {
-    if (openMode == OpenMode::Write) {
+    if (openMode & std::ios_base::out) {
         /* if data left, compress and write it */
         if (uncompressedFile.tellp() > uncompressedFile.tellg()) {
             deflate();
