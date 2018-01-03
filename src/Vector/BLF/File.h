@@ -25,6 +25,7 @@
 
 #include <fstream>
 #include <list>
+#include <mutex>
 
 #include <Vector/BLF/CompressedFile.h>
 #include <Vector/BLF/FileStatistics.h>
@@ -259,6 +260,8 @@ private:
      */
     std::list<ObjectHeaderBase *> readWriteQueue;
 
+    std::mutex readWriteQueueMutex;
+
     /**
      * @brief uncompressed file
      *
@@ -267,6 +270,8 @@ private:
      * The compressionThread transfers data from/to here into the uncompressedFile.
      */
     UncompressedFile uncompressedFile;
+
+    std::mutex uncompressedFileMutex;
 
     /**
      * @brief compressed file

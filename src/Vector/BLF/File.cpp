@@ -40,7 +40,9 @@ File::File() :
     defaultLogContainerSize(0x20000),
     writeUnknown115(true),
     readWriteQueue(),
+    readWriteQueueMutex(),
     uncompressedFile(),
+    uncompressedFileMutex(),
     compressedFile()
 {
 }
@@ -115,8 +117,10 @@ ObjectHeaderBase * File::read()
 
     /* read object from readWriteQueue */
     ObjectHeaderBase * ohb;
+    readWriteQueueMutex.lock();
     ohb = readWriteQueue.front();
     readWriteQueue.pop_front();
+    readWriteQueueMutex.unlock();
 
     return ohb;
 }
@@ -124,7 +128,9 @@ ObjectHeaderBase * File::read()
 void File::write(ObjectHeaderBase * objectHeaderBase)
 {
     /* write object to readWriteQueue */
+    readWriteQueueMutex.lock();
     readWriteQueue.push_back(objectHeaderBase);
+    readWriteQueueMutex.unlock();
 
     /* trigger thread */
     readWrite2UncompressedFile(this);
@@ -688,11 +694,15 @@ void File::compressedFile2UncompressedFile(File * file)
         }
 
         /* copy into uncompressedFile */
+        file->uncompressedFileMutex.lock();
         file->uncompressedFile.write(buffer.data(), static_cast<std::streamsize>(bufferSize));
+        file->uncompressedFileMutex.unlock();
     } else {
+        file->uncompressedFileMutex.lock();
         file->uncompressedFile.write(
             reinterpret_cast<const char *>(logContainer.compressedFile.data()),
             static_cast<std::streamsize>(logContainer.compressedFileSize));
+        file->uncompressedFileMutex.unlock();
     }
 
     /* trigger thread */
@@ -719,11 +729,15 @@ void File::uncompressedFile2CompressedFile(File * file)
         logContainer.compressedFile.resize(logContainer.compressedFileSize);
 
         /* copy data into LogContainer */
+        file->uncompressedFileMutex.lock();
         file->uncompressedFile.read(
                     reinterpret_cast<char *>(logContainer.compressedFile.data()),
                     static_cast<std::streamsize>(uncompressedFileSize));
         if (file->uncompressedFile.gcount() < static_cast<std::streamsize>(uncompressedFileSize)) {
+            file->uncompressedFileMutex.unlock();
             throw Exception("File::uncompressedFile2CompressedFile(): Unable to (completely) read block for compression");
+        } else {
+            file->uncompressedFileMutex.unlock();
         }
     } else {
         logContainer.compressionMethod = 2;
@@ -733,9 +747,13 @@ void File::uncompressedFile2CompressedFile(File * file)
         bufferIn.resize(uncompressedFileSize);
 
         /* copy data into buffer */
+        file->uncompressedFileMutex.lock();
         file->uncompressedFile.read(bufferIn.data(), static_cast<std::streamsize>(uncompressedFileSize));
         if (file->uncompressedFile.gcount() < static_cast<std::streamsize>(uncompressedFileSize)) {
+            file->uncompressedFileMutex.unlock();
             throw Exception("File::uncompressedFile2CompressedFile(): Unable to (completely) read block for compression");
+        } else {
+            file->uncompressedFileMutex.unlock();
         }
 
         /* deflate/compress data */
@@ -765,7 +783,9 @@ void File::uncompressedFile2CompressedFile(File * file)
         logContainer.uncompressedFileSize;
 
     /* drop old data */
+    file->uncompressedFileMutex.lock();
     file->uncompressedFile.dropOldData(static_cast<std::streamsize>(uncompressedFileSize));
+    file->uncompressedFileMutex.unlock();
 }
 
 void File::uncompressedFile2ReadWrite(File * file)
@@ -784,6 +804,7 @@ void File::uncompressedFile2ReadWrite(File * file)
     }
 
     /* identify type */
+    file->uncompressedFileMutex.lock();
     ohb.read(file->uncompressedFile);
     file->uncompressedFile.seekg(-ohb.calculateHeaderSize(), std::ios_base::cur);
 
@@ -802,9 +823,12 @@ void File::uncompressedFile2ReadWrite(File * file)
 
     /* drop old data */
     file->uncompressedFile.dropOldData(static_cast<std::streamsize>(file->defaultLogContainerSize));
+    file->uncompressedFileMutex.unlock();
 
     file->currentObjectCount++;
+    file->readWriteQueueMutex.lock();
     file->readWriteQueue.push_back(obj);
+    file->readWriteQueueMutex.unlock();
 }
 
 void File::readWrite2UncompressedFile(File * file)
@@ -816,11 +840,15 @@ void File::readWrite2UncompressedFile(File * file)
 
     /* get from readWriteQueue */
     ObjectHeaderBase * ohb;
+    file->readWriteQueueMutex.lock();
     ohb = file->readWriteQueue.front();
     file->readWriteQueue.pop_front();
+    file->readWriteQueueMutex.unlock();
 
     /* write into uncompressedFile */
+    file->uncompressedFileMutex.lock();
     ohb->write(file->uncompressedFile);
+    file->uncompressedFileMutex.unlock();
 
     /* if data exceeds defined logContainerSize, compress and write it into compressedFile */
     ULONGLONG logContainerSize = static_cast<ULONGLONG>(file->uncompressedFile.tellp() - file->uncompressedFile.tellg());
