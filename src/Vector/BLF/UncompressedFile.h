@@ -23,6 +23,8 @@
 
 #include <Vector/BLF/platform.h>
 
+#include <condition_variable>
+#include <mutex>
 #include <vector>
 
 #include <Vector/BLF/AbstractFile.h>
@@ -42,46 +44,73 @@ namespace BLF {
  * write position is at m_tellp.
  * Write or seek operations exceeding dataEnd(), extends the view.
  * And explicit dropOldData cuts the begin, so reduced the view.
+ *
+ * This class is thread-safe.
  */
 class VECTOR_BLF_EXPORT UncompressedFile final : public AbstractFile
 {
 public:
     UncompressedFile();
 
+    virtual void close() override;
     virtual std::streamsize gcount() const override;
     virtual void read(char * s, std::streamsize n) override;
     virtual std::streampos tellg() override;
-    virtual void seekg(std::streamoff off, std::ios_base::seekdir way) override;
+    virtual void seekg(std::streamoff off, const std::ios_base::seekdir way  = std::ios_base::cur) override;
     virtual void write(const char * s, std::streamsize n) override;
     virtual std::streampos tellp() override;
-    virtual void seekp(std::streamoff off, std::ios_base::seekdir way) override;
-    virtual void close() override;
+    virtual void seekp(std::streamoff off, const std::ios_base::seekdir way  = std::ios_base::cur) override;
+    virtual bool eof() const override;
+
+    /**
+     * Set file size resp. end-of-file position.
+     */
+    virtual void setFileSize(std::streamsize fileSize);
+
+    /**
+     * Return size of data left to read.
+     *
+     * @return size
+     */
+    virtual std::streamsize size() const;
 
     /**
      * drop old data (only if dropSize is possible)
      *
-     * @param dropSize size of data to drop (used in write case)
+     * @param[in] dropSize size of data to drop (used in write case)
      */
     virtual void dropOldData(std::streamsize dropSize);
 
 private:
-    /** last read size */
-    std::streamsize m_gcount;
-
-    /** get position */
-    std::streampos m_tellg;
-
-    /** put position */
-    std::streampos m_tellp;
+    /** data */
+    std::vector<char> m_data;
 
     /** data start position */
     std::streampos m_dataBegin;
 
-    /** data */
-    std::vector<char> m_data;
+    /** get position */
+    std::streampos m_tellg;
 
-    /** data end position */
-    std::streampos dataEnd() const;
+    /** tellg was changed (after read or seekg) */
+    std::condition_variable m_tellgChanged;
+
+    /** put position */
+    std::streampos m_tellp;
+
+    /** tellp was changed (after write or seekp) */
+    std::condition_variable m_tellpChanged;
+
+    /** last read size */
+    std::streamsize m_gcount;
+
+    /** file size */
+    std::streamsize m_fileSize;
+
+    /** error state */
+    std::ios_base::iostate m_rdstate;
+
+    /** mutex */
+    mutable std::mutex m_mutex;
 };
 
 }

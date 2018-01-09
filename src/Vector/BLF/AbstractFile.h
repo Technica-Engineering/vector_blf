@@ -30,21 +30,30 @@
 namespace Vector {
 namespace BLF {
 
-/** Generic interface to access CompressedFile and UncompressedFile in the same way */
+/**
+ * Generic interface to access CompressedFile and UncompressedFile in the same way.
+ */
 class VECTOR_BLF_EXPORT AbstractFile
 {
 public:
     virtual ~AbstractFile();
 
     /**
-     * Get characters returned by last read operation
+     * Close file.
+     */
+    virtual void close() = 0;
+
+    /**
+     * Get characters returned by last read operation.
      *
      * @return Number of characters
      */
     virtual std::streamsize gcount() const = 0;
 
     /**
-     * Read block of data
+     * Read block of data.
+     *
+     * This operation blocks until the data is available.
      *
      * @param[out] s Pointer to data
      * @param[in] n Requested size of data
@@ -52,22 +61,22 @@ public:
     virtual void read(char * s, std::streamsize n) = 0;
 
     /**
-     * Get position in input sequence
+     * Get position in input sequence.
      *
      * @return Read position
      */
     virtual std::streampos tellg() = 0;
 
     /**
-     * Set position in input sequence
+     * Set position in input sequence.
      *
      * @param[in] off Offset
      * @param[in] way Direction
      */
-    virtual void seekg(std::streamoff off, std::ios_base::seekdir way) = 0;
+    virtual void seekg(std::streamoff off, const std::ios_base::seekdir way = std::ios_base::cur) = 0;
 
     /**
-     * Write block of data
+     * Write block of data.
      *
      * @param[in] s Pointer to data
      * @param[in] n Size of data
@@ -75,24 +84,26 @@ public:
     virtual void write(const char * s, std::streamsize n) = 0;
 
     /**
-     * Get position in input sequence
+     * Get position in output sequence.
      *
      * @return Write position
      */
     virtual std::streampos tellp() = 0;
 
     /**
-     * Set position in output sequence
+     * Set position in output sequence.
      *
      * @param[in] off Offset
      * @param[in] way Direction
      */
-    virtual void seekp(std::streamoff off, std::ios_base::seekdir way) = 0;
+    virtual void seekp(std::streamoff off, const std::ios_base::seekdir way = std::ios_base::cur) = 0;
 
     /**
-     * close file
+     * Check whether eofbit is set.
+     *
+     * @return true if end-of-file reached
      */
-    virtual void close() = 0;
+    virtual bool eof() const = 0;
 };
 
 }
