@@ -23,13 +23,14 @@
 
 #include <Vector/BLF/platform.h>
 
+#include <condition_variable>
 #include <fstream>
-#include <list>
-#include <mutex>
+#include <thread>
 
 #include <Vector/BLF/CompressedFile.h>
 #include <Vector/BLF/FileStatistics.h>
 #include <Vector/BLF/ObjectHeaderBase.h>
+#include <Vector/BLF/ObjectQueue.h>
 #include <Vector/BLF/UncompressedFile.h>
 #include <Vector/BLF/VectorTypes.h>
 
@@ -204,7 +205,7 @@ public:
      * @param[in] filename file name
      * @param[in] mode open mode, either in (read) or out (write)
      */
-    void open(const char * filename, std::ios_base::openmode mode = std::ios_base::in);
+    virtual void open(const char * filename, std::ios_base::openmode mode = std::ios_base::in);
 
     /**
      * open file
@@ -212,40 +213,40 @@ public:
      * @param[in] filename file name
      * @param[in] mode open mode, either in (read) or out (write)
      */
-    void open(const std::string & filename, std::ios_base::openmode mode = std::ios_base::in);
+    virtual void open(const std::string & filename, std::ios_base::openmode mode = std::ios_base::in);
 
     /**
      * is file open?
      *
      * @return true if file is open
      */
-    bool is_open() const;
+    virtual bool is_open() const;
 
     /**
      * check for end-of-file
      *
      * @return true if end-of-file reached
      */
-    bool eof();
+    virtual bool eof();
 
     /**
      * read object from file
      *
      * @return read object or nullptr
      */
-    ObjectHeaderBase * read();
+    virtual ObjectHeaderBase * read();
 
     /**
      * write object to file
      *
      * @param[in] objectHeaderBase write object
      */
-    void write(ObjectHeaderBase * objectHeaderBase);
+    virtual void write(ObjectHeaderBase * ohb);
 
     /**
      * close file
      */
-    void close();
+    virtual void close();
 
 private:
     /**
@@ -258,9 +259,17 @@ private:
      * application. If there are no objects in the queue, the methods waits for the readWriteThread to finish.
      * The readWriteThread reads objects from the compressedfile and puts them into the queue.
      */
-    std::list<ObjectHeaderBase *> readWriteQueue;
+    ObjectQueue m_readWriteQueue;
 
-    std::mutex readWriteQueueMutex;
+    /**
+     * mutex for readWriteQueue access
+     */
+    std::mutex m_readWriteQueueMutex;
+
+    /**
+     * readWriteQueue has changed
+     */
+    std::condition_variable m_readWriteQueueChanged;
 
     /**
      * @brief uncompressed file
@@ -269,9 +278,17 @@ private:
      * The readWriteThread transfers data from/to here into the readWriteQueue.
      * The compressionThread transfers data from/to here into the uncompressedFile.
      */
-    UncompressedFile uncompressedFile;
+    UncompressedFile m_uncompressedFile;
 
-    std::mutex uncompressedFileMutex;
+    /**
+     * mutex for uncompressedFile access
+     */
+    std::mutex m_uncompressedFileMutex;
+
+    /**
+     * uncompressedFile has changed
+     */
+    std::condition_variable m_uncompressedFileChanged;
 
     /**
      * @brief compressed file
@@ -280,7 +297,27 @@ private:
      * It mainly contains the FileStatistics and several LogContainers carrying the different objects.
      * The compressionThread transfers data from/to here into the compressedFile.
      */
-    CompressedFile compressedFile;
+    CompressedFile m_compressedFile;
+
+    /**
+     * thread between readWriteQueue and uncompressedFile
+     */
+    std::thread m_uncompressedFileThread;
+
+    /**
+     * thread still running
+     */
+    bool m_uncompressedFileThreadRunning;
+
+    /**
+     * thread between uncompressedFile and compressedFile
+     */
+    std::thread m_compressedFileThread;
+
+    /**
+     * thread still running
+     */
+    bool m_compressedFileThreadRunning;
 
     /**
      * create object of given type
@@ -291,24 +328,44 @@ private:
     static ObjectHeaderBase * createObject(ObjectType type);
 
     /**
-     * Read/inflate/uncompress date from compressedFile into uncompressedFile.
+     * Read data from uncompressedFile into readWriteQueue.
      */
-    static void compressedFile2UncompressedFile(File * file);
+    void uncompressedFile2ReadWriteQueue();
+
+    /**
+     * Write data from readWriteQueue into uncompressedFile.
+     */
+    void readWriteQueue2UncompressedFile();
+
+    /**
+     * Read/inflate/uncompress data from compressedFile into uncompressedFile.
+     */
+    void compressedFile2UncompressedFile();
 
     /**
      * Write/deflate/compress data from uncompressedFile into compressedFile.
      */
-    static void uncompressedFile2CompressedFile(File * file);
+    void uncompressedFile2CompressedFile();
 
     /**
-     * Read/transfer data from uncompressedFile into readWriteQueue.
+     * transfer data from uncompressedFile to readWriteQueue
      */
-    static void uncompressedFile2ReadWrite(File * file);
+    static void thread1ReadMethod(File * file);
 
     /**
-     * Write/transfer data from readWriteQueue into uncompressedFile.
+     * transfer data from readWriteQueue to uncompressedfile
      */
-    static void readWrite2UncompressedFile(File * file);
+    static void thread1WriteMethod(File * file);
+
+    /**
+     * transfer data from compressedFile to uncompressedFile
+     */
+    static void thread2ReadMethod(File * file);
+
+    /**
+     * transfer data from uncompressedfile to compressedFile
+     */
+    static void thread2WriteMethod(File * file);
 };
 
 }

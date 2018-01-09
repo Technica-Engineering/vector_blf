@@ -23,6 +23,7 @@
 
 #include <cassert>
 #include <cstring>
+#include <iostream>
 
 #include <zlib.h>
 
@@ -39,54 +40,69 @@ File::File() :
     compressionLevel(6),
     defaultLogContainerSize(0x20000),
     writeUnknown115(true),
-    readWriteQueue(),
-    readWriteQueueMutex(),
-    uncompressedFile(),
-    uncompressedFileMutex(),
-    compressedFile()
+    m_readWriteQueue(),
+    m_readWriteQueueMutex(),
+    m_readWriteQueueChanged(),
+    m_uncompressedFile(),
+    m_uncompressedFileMutex(),
+    m_uncompressedFileChanged(),
+    m_compressedFile(),
+    m_uncompressedFileThread(),
+    m_uncompressedFileThreadRunning(),
+    m_compressedFileThread(),
+    m_compressedFileThreadRunning()
 {
 }
 
 File::~File()
 {
+    close();
 }
 
 ULONGLONG File::currentFileSize()
 {
-    return static_cast<ULONGLONG>(compressedFile.tellp());
+    return static_cast<ULONGLONG>(m_compressedFile.tellp());
 }
 
 void File::open(const char * filename, std::ios_base::openmode mode)
 {
-    this->openMode = mode;
+    openMode = mode;
 
     if (mode & std::ios_base::in) {
         /* open file for reading */
-        compressedFile.open(filename, std::ios_base::in | std::ios_base::binary);
+        m_compressedFile.open(filename, std::ios_base::in | std::ios_base::binary);
         if (!is_open()) {
             return;
         }
 
         /* read file statistics */
-        fileStatistics.read(compressedFile);
+        fileStatistics.read(m_compressedFile);
 
-        /* trigger thread */
-        compressedFile2UncompressedFile(this);
+        /* fileStatistics done */
+        currentUncompressedFileSize += fileStatistics.statisticsSize;
+
+        /* create read threads */
+        m_uncompressedFileThread = std::thread(thread1ReadMethod, this);
+        m_compressedFileThread = std::thread(thread2ReadMethod, this);
     }
 
     if (mode & std::ios_base::out) {
         /* open file for writing */
-        compressedFile.open(filename, std::ios_base::out | std::ios_base::binary);
+        m_compressedFile.open(filename, std::ios_base::out | std::ios_base::binary);
         if (!is_open()) {
             return;
         }
 
         /* write file statistics */
-        fileStatistics.write(compressedFile);
-    }
+        fileStatistics.write(m_compressedFile);
 
-    /* fileStatistics done */
-    currentUncompressedFileSize += fileStatistics.statisticsSize;
+        /* fileStatistics done */
+        currentUncompressedFileSize += fileStatistics.statisticsSize;
+
+        /* create write threads */
+        m_uncompressedFileThread = std::thread(thread1WriteMethod, this);
+        m_compressedFileThread = std::thread(thread2WriteMethod, this);
+    }
 }
 
 void File::open(const std::string & filename, std::ios_base::openmode mode)
@@ -96,53 +112,93 @@ void File::open(const std::string & filename, std::ios_base::openmode mode)
 
 bool File::is_open() const
 {
-    return compressedFile.is_open();
+    return m_compressedFile.is_open();
 }
 
 bool File::eof()
 {
-    bool compressedFileEmpty =
-        (static_cast<ULONGLONG>(compressedFile.tellg()) >= fileStatistics.fileSize) ||
-        compressedFile.eof();
-    bool uncompressedFileEmpty =
-        (static_cast<ULONGLONG>(uncompressedFile.tellg()) >= fileStatistics.uncompressedFileSize) ||
-        (uncompressedFile.tellg() >= uncompressedFile.tellp());
-    return compressedFileEmpty && uncompressedFileEmpty;
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_readWriteQueueMutex);
+
+    return m_readWriteQueue.eof();
 }
 
 ObjectHeaderBase * File::read()
 {
-    /* trigger thread */
-    uncompressedFile2ReadWrite(this);
+    ObjectHeaderBase * ohb = nullptr;
+    {
+        /* mutex lock */
+        std::lock_guard<std::mutex> lock(m_readWriteQueueMutex);
 
-    /* read object from readWriteQueue */
-    ObjectHeaderBase * ohb;
-    readWriteQueueMutex.lock();
-    ohb = readWriteQueue.front();
-    readWriteQueue.pop_front();
-    readWriteQueueMutex.unlock();
+        /* read from readWriteQueue (blocks when waiting for new data) */
+        std::cout << "File::read(): wait" << std::endl;
+        ohb = m_readWriteQueue.front();
+        m_readWriteQueue.pop();
+        if (m_readWriteQueue.eof()) {
+            std::cout << "File::read(): eof" << std::endl;
+        }
+    }
+
+    /* notify thread */
+    m_readWriteQueueChanged.notify_all();
 
     return ohb;
 }
 
-void File::write(ObjectHeaderBase * objectHeaderBase)
+void File::write(ObjectHeaderBase * ohb)
 {
-    /* write object to readWriteQueue */
-    readWriteQueueMutex.lock();
-    readWriteQueue.push_back(objectHeaderBase);
-    readWriteQueueMutex.unlock();
+    {
+        /* mutex lock */
+        std::unique_lock<std::mutex> lock(m_readWriteQueueMutex);
 
-    /* trigger thread */
-    readWrite2UncompressedFile(this);
+        /* wait until readWrite has space free */
+        m_readWriteQueueChanged.wait(lock, [this]{
+            return (m_readWriteQueue.size() < 100);
+        });
+
+        /* push to queue */
+        m_readWriteQueue.push(ohb);
+    }
+
+    /* notify thread */
+    m_readWriteQueueChanged.notify_all();
 }
 
 void File::close()
 {
+    /* check if file is open */
+    if (!is_open()) {
+        return;
+    }
+
+    if (openMode & std::ios_base::in) {
+        /* finalize compression thread */
+        m_compressedFileThreadRunning = false;
+        m_uncompressedFileChanged.notify_all();
+        m_compressedFileThread.join();
+
+        /* finalize read/write thread */
+        m_uncompressedFileThreadRunning = false;
+        m_readWriteQueueChanged.notify_all();
+        m_uncompressedFileThread.join();
+
+        /* close files */
+        m_compressedFile.close();
+        m_uncompressedFile.close();
+        m_readWriteQueue.close();
+    }
+
     if (openMode & std::ios_base::out) {
+        // @todo check this
         /* if data left, compress and write it */
-        if (uncompressedFile.tellp() > uncompressedFile.tellg()) {
-            /* trigger thread */
-            uncompressedFile2CompressedFile(this);
+        if (m_uncompressedFile.tellp() > m_uncompressedFile.tellg()) {
+            /* finalize read/write thread */
+            m_uncompressedFileThreadRunning = false;
+            m_uncompressedFileThread.join();
+
+            /* finalize compression thread */
+            m_compressedFileThreadRunning = false;
+            m_compressedFileThread.join();
         }
 
         /* write final LogContainer+Unknown115 */
@@ -151,10 +207,10 @@ void File::close()
 
             /* write end of file message */
             Unknown115 eofMessage;
-            eofMessage.write(uncompressedFile);
+            eofMessage.write(m_uncompressedFile);
 
             /* trigger thread */
-            uncompressedFile2CompressedFile(this);
+            uncompressedFile2CompressedFile();
         }
 
         /* set file statistics */
@@ -164,13 +220,9 @@ void File::close()
         //fileStatistics.objectsRead = 0;
 
         /* write file statistics */
-        compressedFile.seekp(0);
-        fileStatistics.write(compressedFile);
+        m_compressedFile.seekp(0);
+        fileStatistics.write(m_compressedFile);
     }
-
-    /* close both files */
-    uncompressedFile.close();
-    compressedFile.close();
 }
 
 ObjectHeaderBase * File::createObject(ObjectType type)
@@ -649,35 +701,121 @@ ObjectHeaderBase * File::createObject(ObjectType type)
     return obj;
 }
 
-void File::compressedFile2UncompressedFile(File * file)
+void File::uncompressedFile2ReadWriteQueue()
 {
-    /* condition */
-    if (file->compressedFile.eof()) {
-        return;
-    }
-    DWORD uncompressedFileSize = static_cast<DWORD>(file->uncompressedFile.tellp() - file->uncompressedFile.tellg());
-    if (uncompressedFileSize >= file->defaultLogContainerSize) {
-        return;
+    /* check end-of-file */
+    if (m_uncompressedFile.eof()) {
+        throw Exception("File::uncompressedFile2readWriteQueue(): eof");
     }
 
     /* identify type */
     ObjectHeaderBase ohb;
-    ohb.read(file->compressedFile);
-    file->compressedFile.seekg(-ohb.calculateHeaderSize(), std::ios_base::cur);
+    std::cout << "File::uncompressedFile2readWriteQueue(): read head" << std::endl;
+    ohb.read(m_uncompressedFile);
+    if (m_uncompressedFile.eof()) {
+        /* push end-of-file */
+        std::cout << "File::uncompressedFile2readWriteQueue(): push eof" << std::endl;
+        m_readWriteQueue.push(nullptr); // eof marker
+        m_readWriteQueueChanged.notify_all();
+        return;
+    }
+    m_uncompressedFile.seekg(-ohb.calculateHeaderSize(), std::ios_base::cur);
+
+    /* read object */
+    ObjectHeaderBase * obj = createObject(ohb.objectType);
+    std::cout << "File::uncompressedFile2readWriteQueue(): read full" << std::endl;
+    obj->read(m_uncompressedFile);
+    if (m_uncompressedFile.eof()) {
+        delete obj;
+
+        /* push end-of-file */
+        std::cout << "File::uncompressedFile2readWriteQueue(): push eof" << std::endl;
+        m_readWriteQueue.push(nullptr); // eof marker
+        m_readWriteQueueChanged.notify_all();
+        return;
+    }
+
+    /* push data into readWriteQueue */
+    m_readWriteQueue.push(obj);
+    m_readWriteQueueChanged.notify_all();
+
+    /* statistics */
+    currentObjectCount++;
+
+    /* drop old data */
+    m_uncompressedFile.dropOldData(static_cast<std::streamsize>(defaultLogContainerSize));
+}
+
+void File::readWriteQueue2UncompressedFile()
+{
+    /* get from readWriteQueue */
+    ObjectHeaderBase * ohb = m_readWriteQueue.front();
+    m_readWriteQueue.pop();
+
+    /* process data */
+    if (ohb == nullptr) {
+        m_uncompressedFile.setFileSize(m_uncompressedFile.tellp()); // set eof
+    } else {
+        /* write into uncompressedFile */
+        ohb->write(m_uncompressedFile);
+        delete ohb;
+
+        /* statistics */
+        currentObjectCount++;
+    }
+}
+
+void File::compressedFile2UncompressedFile()
+{
+    /* check for end-of-file */
+    if (m_compressedFile.eof()) {
+        throw Exception("File::compressedFile2UncompressedFile(): eof");
+    }
+
+    /* identify type */
+    ObjectHeaderBase ohb;
+    ohb.read(m_compressedFile);
+    if (m_compressedFile.eof()) {
+        std::cout << "File::compressedFile2UncompressedFile(): eof when reading header" << std::endl;
+        m_uncompressedFile.setFileSize(m_uncompressedFile.tellp()); // set eof
+        m_uncompressedFileChanged.notify_all();
+        return;
+    }
+    m_compressedFile.seekg(-ohb.calculateHeaderSize(), std::ios_base::cur);
     if (ohb.objectType != ObjectType::LOG_CONTAINER) {
         throw Exception("File::compressedFile2UncompressedFile(): Object read for inflation is not a log container.");
     }
 
     /* read LogContaier */
     LogContainer logContainer;
-    logContainer.read(file->compressedFile);
+    logContainer.read(m_compressedFile);
+    if (m_compressedFile.eof()) {
+        std::cout << "File::compressedFile2UncompressedFile(): eof when reading LogContainer" << std::endl;
+        m_uncompressedFile.setFileSize(m_uncompressedFile.tellp()); // set eof
+        m_uncompressedFileChanged.notify_all();
+        return;
+    }
 
     /* statistics */
-    file->currentUncompressedFileSize +=
+    currentUncompressedFileSize +=
         logContainer.internalHeaderSize() +
         logContainer.uncompressedFileSize;
 
-    if (logContainer.compressionMethod == 2) {
+    std::cout << "File::compressedFile2UncompressedFile(): uncompress" << std::endl;
+
+    /* no compression */
+    switch(logContainer.compressionMethod) {
+    case 0: /* no compression */
+    {
+        m_uncompressedFile.write(
+            reinterpret_cast<const char *>(logContainer.compressedFile.data()),
+            static_cast<std::streamsize>(logContainer.compressedFileSize));
+        m_uncompressedFileChanged.notify_all();
+    }
+        break;
+
+    case 2: /* zlib compress */
+    {
         /* create buffer */
         uLong bufferSize = static_cast<uLong>(logContainer.uncompressedFileSize);
         std::vector<char> buffer;
@@ -694,50 +832,43 @@ void File::compressedFile2UncompressedFile(File * file)
         }
 
         /* copy into uncompressedFile */
-        file->uncompressedFileMutex.lock();
-        file->uncompressedFile.write(buffer.data(), static_cast<std::streamsize>(bufferSize));
-        file->uncompressedFileMutex.unlock();
-    } else {
-        file->uncompressedFileMutex.lock();
-        file->uncompressedFile.write(
-            reinterpret_cast<const char *>(logContainer.compressedFile.data()),
-            static_cast<std::streamsize>(logContainer.compressedFileSize));
-        file->uncompressedFileMutex.unlock();
+        m_uncompressedFile.write(buffer.data(), static_cast<std::streamsize>(bufferSize));
+        m_uncompressedFileChanged.notify_all();
     }
+        break;
 
-    /* trigger thread */
-    //uncompressedFile2ReadWrite();
+    default:
+        throw Exception("File::compressedFile2UncompressedFile(): unknown compression");
+    }
 }
 
-void File::uncompressedFile2CompressedFile(File * file)
+void File::uncompressedFile2CompressedFile()
 {
-    /* condition */
-    DWORD uncompressedFileSize = static_cast<DWORD>(file->uncompressedFile.tellp() - file->uncompressedFile.tellg());
-    // @todo compress only when defaultLogContainerSize reached or file is about to close */
+    /* check how much data is available for compression */
+    DWORD uncompressedFileSize = static_cast<DWORD>(m_uncompressedFile.tellp() - m_uncompressedFile.tellg());
+    if (uncompressedFileSize == 0) {
+        return;
+    }
 
     /* calculate size of data to compress */
-    if (uncompressedFileSize > file->defaultLogContainerSize) {
-        uncompressedFileSize = static_cast<DWORD>(file->defaultLogContainerSize);
+    if (uncompressedFileSize > defaultLogContainerSize) {
+        uncompressedFileSize = static_cast<DWORD>(defaultLogContainerSize);
     }
 
     /* setup new log container */
     LogContainer logContainer;
     logContainer.uncompressedFileSize = static_cast<DWORD>(uncompressedFileSize);
-    if (file->compressionLevel == Z_NO_COMPRESSION) {
+    if (compressionLevel == Z_NO_COMPRESSION) {
         logContainer.compressionMethod = 0;
         logContainer.compressedFileSize = logContainer.uncompressedFileSize;
         logContainer.compressedFile.resize(logContainer.compressedFileSize);
 
         /* copy data into LogContainer */
-        file->uncompressedFileMutex.lock();
-        file->uncompressedFile.read(
+        m_uncompressedFile.read(
                     reinterpret_cast<char *>(logContainer.compressedFile.data()),
                     static_cast<std::streamsize>(uncompressedFileSize));
-        if (file->uncompressedFile.gcount() < static_cast<std::streamsize>(uncompressedFileSize)) {
-            file->uncompressedFileMutex.unlock();
+        if (m_uncompressedFile.gcount() < static_cast<std::streamsize>(uncompressedFileSize)) {
             throw Exception("File::uncompressedFile2CompressedFile(): Unable to (completely) read block for compression");
-        } else {
-            file->uncompressedFileMutex.unlock();
         }
     } else {
         logContainer.compressionMethod = 2;
@@ -747,13 +878,9 @@ void File::uncompressedFile2CompressedFile(File * file)
         bufferIn.resize(uncompressedFileSize);
 
         /* copy data into buffer */
-        file->uncompressedFileMutex.lock();
-        file->uncompressedFile.read(bufferIn.data(), static_cast<std::streamsize>(uncompressedFileSize));
-        if (file->uncompressedFile.gcount() < static_cast<std::streamsize>(uncompressedFileSize)) {
-            file->uncompressedFileMutex.unlock();
+        m_uncompressedFile.read(bufferIn.data(), static_cast<std::streamsize>(uncompressedFileSize));
+        if (m_uncompressedFile.gcount() < static_cast<std::streamsize>(uncompressedFileSize)) {
             throw Exception("File::uncompressedFile2CompressedFile(): Unable to (completely) read block for compression");
-        } else {
-            file->uncompressedFileMutex.unlock();
         }
 
         /* deflate/compress data */
@@ -764,7 +891,7 @@ void File::uncompressedFile2CompressedFile(File * file)
             &bufferSizeOut,
             reinterpret_cast<Byte *>(bufferIn.data()),
             uncompressedFileSize,
-            file->compressionLevel);
+            compressionLevel);
         if (retVal != Z_OK) {
             throw Exception("File::uncompressedFile2CompressedFile(): compress2 error");
         }
@@ -775,90 +902,118 @@ void File::uncompressedFile2CompressedFile(File * file)
     }
 
     /* write log container */
-    logContainer.write(file->compressedFile);
+    logContainer.write(m_compressedFile);
 
     /* statistics */
-    file->currentUncompressedFileSize +=
+    currentUncompressedFileSize +=
         logContainer.internalHeaderSize() +
         logContainer.uncompressedFileSize;
 
     /* drop old data */
-    file->uncompressedFileMutex.lock();
-    file->uncompressedFile.dropOldData(static_cast<std::streamsize>(uncompressedFileSize));
-    file->uncompressedFileMutex.unlock();
+    m_uncompressedFile.dropOldData(static_cast<std::streamsize>(uncompressedFileSize));
 }
 
-void File::uncompressedFile2ReadWrite(File * file)
+void File::thread1ReadMethod(File * file)
 {
-    /* condition */
-    if (file->readWriteQueue.size() >= 10) {
-        return;
+    file->m_uncompressedFileThreadRunning = true;
+
+    std::cout << "File::thread1ReadMethod(): started" << std::endl;
+    while(file->m_uncompressedFileThreadRunning) {
+        /* wait until readWriteQueue has space free */
+        std::cout << "File::thread1ReadMethod(): wait for readWriteQueue to empty" << std::endl;
+        std::mutex mutex;
+        std::unique_lock<std::mutex> lock(mutex);
+        file->m_readWriteQueueChanged.wait(lock, [file]{
+            return (file->m_readWriteQueue.size() < 10) || file->m_uncompressedFile.eof();
+        });
+
+        /* check for eof */
+        if (file->m_uncompressedFile.eof()) {
+            file->m_uncompressedFileThreadRunning = false;
+            file->m_readWriteQueue.push(nullptr); // eof
+            file->m_readWriteQueueChanged.notify_all();
+            break;
+        }
+
+        /* process */
+        std::cout << "File::thread1ReadMethod(): loop" << std::endl;
+        file->uncompressedFile2ReadWriteQueue();
     }
-
-    ObjectHeaderBase ohb;
-
-    /* first read some more compressed data and inflate it */
-    while ((file->uncompressedFile.tellp() - file->uncompressedFile.tellg()) < ohb.calculateHeaderSize()) {
-        /* trigger thread */
-        compressedFile2UncompressedFile(file);
-    }
-
-    /* identify type */
-    file->uncompressedFileMutex.lock();
-    ohb.read(file->uncompressedFile);
-    file->uncompressedFile.seekg(-ohb.calculateHeaderSize(), std::ios_base::cur);
-
-    /* ensure sufficient data is available */
-    while ((file->uncompressedFile.tellp() - file->uncompressedFile.tellg()) < ohb.objectSize) {
-        /* trigger thread */
-        compressedFile2UncompressedFile(file);
-    }
-
-    /* create object */
-    ObjectHeaderBase * obj = createObject(ohb.objectType);
-    assert(obj != nullptr);
-
-    /* read object */
-    obj->read(file->uncompressedFile);
-
-    /* drop old data */
-    file->uncompressedFile.dropOldData(static_cast<std::streamsize>(file->defaultLogContainerSize));
-    file->uncompressedFileMutex.unlock();
-
-    file->currentObjectCount++;
-    file->readWriteQueueMutex.lock();
-    file->readWriteQueue.push_back(obj);
-    file->readWriteQueueMutex.unlock();
+    std::cout << "File::thread1ReadMethod(): stopped" << std::endl;
 }
 
-void File::readWrite2UncompressedFile(File * file)
+void File::thread1WriteMethod(File * file)
 {
-    /* condition */
-    if (file->readWriteQueue.empty()) {
-        return;
+    std::mutex mutex;
+    std::unique_lock<std::mutex> lock(mutex);
+    file->m_uncompressedFileThreadRunning = true;
+
+    std::cout << "File::thread1WriteMethod(): started" << std::endl;
+    while(file->m_uncompressedFileThreadRunning) {
+        {
+            /* wait until readWriteQueue is filled */
+            while (file->m_readWriteQueue.empty()) {
+                file->m_readWriteQueueChanged.wait(lock);
+            }
+            std::cout << "File::thread1WriteMethod(): loop" << std::endl;
+
+            /* process */
+            file->readWriteQueue2UncompressedFile();
+        }
+
+        /* notify */
+        file->m_uncompressedFileChanged.notify_all();
     }
+    std::cout << "File::thread1WriteMethod(): stopped" << std::endl;
+}
 
-    /* get from readWriteQueue */
-    ObjectHeaderBase * ohb;
-    file->readWriteQueueMutex.lock();
-    ohb = file->readWriteQueue.front();
-    file->readWriteQueue.pop_front();
-    file->readWriteQueueMutex.unlock();
+void File::thread2ReadMethod(File * file)
+{
+    file->m_compressedFileThreadRunning = true;
 
-    /* write into uncompressedFile */
-    file->uncompressedFileMutex.lock();
-    ohb->write(file->uncompressedFile);
-    file->uncompressedFileMutex.unlock();
+    std::cout << "File::thread2ReadMethod(): started" << std::endl;
+    while(file->m_compressedFileThreadRunning) {
+        /* wait until uncompressedFile has space free */
+        std::mutex mutex;
+        std::unique_lock<std::mutex> lock(mutex);
+        file->m_uncompressedFileChanged.wait(lock, [file]{
+            return (file->m_uncompressedFile.size() < 0x20000) || file->m_compressedFile.eof();
+        });
 
-    /* if data exceeds defined logContainerSize, compress and write it into compressedFile */
-    ULONGLONG logContainerSize = static_cast<ULONGLONG>(file->uncompressedFile.tellp() - file->uncompressedFile.tellg());
-    if (logContainerSize >= file->defaultLogContainerSize) {
-        /* trigger thread */
-        uncompressedFile2CompressedFile(file);
+        /* check for eof */
+        if (file->m_compressedFile.eof()) {
+            file->m_compressedFileThreadRunning = false;
+            file->m_uncompressedFile.setFileSize(file->m_uncompressedFile.tellp());
+            file->m_uncompressedFileChanged.notify_all();
+            break;
+        }
+
+        /* process */
+        std::cout << "File::thread2ReadMethod(): loop" << std::endl;
+        file->compressedFile2UncompressedFile();
     }
+    std::cout << "File::thread2ReadMethod(): stopped" << std::endl;
+}
 
-    /* statistics */
-    file->currentObjectCount++;
+void File::thread2WriteMethod(File * file)
+{
+    file->m_compressedFileThreadRunning = true;
+
+    std::cout << "File::thread2WriteMethod(): started" << std::endl;
+    while(file->m_compressedFileThreadRunning) {
+        /* wait until uncompressedFile has sufficient size for a new logContainer */
+        std::mutex mutex;
+        std::unique_lock<std::mutex> lock(mutex);
+        while(file->m_uncompressedFile.size() < file->defaultLogContainerSize) {
+            file->m_uncompressedFileChanged.wait(lock);
+        }
+        std::cout << "File::thread2WriteMethod(): loop" << std::endl;
+
+        /* process */
+        file->uncompressedFile2CompressedFile();
+        file->m_uncompressedFileChanged.notify_all();
+    }
+    std::cout << "File::thread2WriteMethod(): stopped" << std::endl;
 }
 
 }
