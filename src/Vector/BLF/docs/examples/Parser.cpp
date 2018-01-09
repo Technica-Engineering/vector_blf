@@ -1138,9 +1138,8 @@ void show(Vector::BLF::EthernetStatistic * obj)
 // Unknown115 = 115
 void show(Vector::BLF::Unknown115 * obj)
 {
-    std::cout << "Unknown115:";
-    // @todo reserved fields
-    std::cout << std::endl;
+    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
+    // @todo Unknown115
 }
 
 // Reserved116 = 116
