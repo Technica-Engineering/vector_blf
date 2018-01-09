@@ -21,77 +21,72 @@
 
 #include <Vector/BLF/CompressedFile.h>
 
-#include <Vector/BLF/Exceptions.h>
-
 namespace Vector {
 namespace BLF {
 
 CompressedFile::CompressedFile() :
-    file()
+    m_file()
 {
-}
-
-std::streamsize CompressedFile::gcount() const
-{
-    return file.gcount();
-}
-
-void CompressedFile::read(char * s, std::streamsize n)
-{
-    file.read(s, n);
-    if (file.gcount() < n) {
-        throw Exception("CompressedFile::read(): Attempt to read beyond end of compressed file.");
-    }
-}
-
-std::streampos CompressedFile::tellg()
-{
-    return file.tellg();
-}
-
-void CompressedFile::seekg(std::streamoff off, std::ios_base::seekdir way)
-{
-    file.seekg(off, way);
-}
-
-void CompressedFile::write(const char * s, std::streamsize n)
-{
-    file.write(s, n);
-}
-
-std::streampos CompressedFile::tellp()
-{
-    return file.tellp();
-}
-
-void CompressedFile::seekp(std::streampos pos)
-{
-    file.seekp(pos);
-}
-
-void CompressedFile::seekp(std::streamoff off, std::ios_base::seekdir way)
-{
-    file.seekp(off, way);
-}
-
-void CompressedFile::open(const char * filename, std::ios_base::openmode openMode)
-{
-    file.open(filename, openMode);
-}
-
-bool CompressedFile::is_open() const
-{
-    return file.is_open();
 }
 
 void CompressedFile::close()
 {
-    file.close();
+    m_file.close();
+}
+
+std::streamsize CompressedFile::gcount() const
+{
+    return m_file.gcount();
+}
+
+void CompressedFile::read(char * s, std::streamsize n)
+{
+    m_file.read(s, n);
+}
+
+std::streampos CompressedFile::tellg()
+{
+    return m_file.tellg();
+}
+
+void CompressedFile::seekg(std::streamoff off, const std::ios_base::seekdir way)
+{
+    m_file.seekg(off, way);
+}
+
+void CompressedFile::write(const char * s, std::streamsize n)
+{
+    m_file.write(s, n);
+}
+
+std::streampos CompressedFile::tellp()
+{
+    return m_file.tellp();
+}
+
+void CompressedFile::seekp(std::streampos pos)
+{
+    m_file.seekp(pos);
+}
+
+void CompressedFile::seekp(std::streamoff off, const std::ios_base::seekdir way)
+{
+    m_file.seekp(off, way);
+}
+
+void CompressedFile::open(const char * filename, std::ios_base::openmode openMode)
+{
+    m_file.open(filename, openMode);
+}
+
+bool CompressedFile::is_open() const
+{
+    return m_file.is_open();
 }
 
 bool CompressedFile::eof() const
 {
-    return file.eof();
+    return m_file.eof();
 }
 
 }

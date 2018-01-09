@@ -32,20 +32,23 @@
 namespace Vector {
 namespace BLF {
 
-/** CompressedFile (Input/output file stream) */
+/**
+ * CompressedFile (Input/output file stream)
+ */
 class VECTOR_BLF_EXPORT CompressedFile final : public AbstractFile
 {
 public:
     CompressedFile();
 
+    virtual void close() override;
     virtual std::streamsize gcount() const override;
     virtual void read(char * s, std::streamsize n) override;
     virtual std::streampos tellg() override;
-    virtual void seekg(std::streamoff off, std::ios_base::seekdir way) override;
+    virtual void seekg(std::streamoff off, const std::ios_base::seekdir way = std::ios_base::cur) override;
     virtual void write(const char * s, std::streamsize n) override;
     virtual std::streampos tellp() override;
-    virtual void seekp(std::streamoff off, std::ios_base::seekdir way) override;
-    virtual void close() override;
+    virtual void seekp(std::streamoff off, std::ios_base::seekdir way = std::ios_base::cur) override;
+    virtual bool eof() const override;
 
     /**
      * Set position in output sequence
@@ -69,15 +72,11 @@ public:
      */
     virtual bool is_open() const;
 
-    /**
-     * check for end-of-file
-     *
-     * @return true if end-of-file reached
-     */
-    virtual bool eof() const;
-
 private:
-    std::fstream file;
+    /**
+     * file stream
+     */
+    std::fstream m_file;
 };
 
 }
