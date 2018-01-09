@@ -60,6 +60,10 @@ BOOST_AUTO_TEST_CASE(J1708Message)
 
     delete ohb;
 
+    /* read eof */
+    BOOST_REQUIRE(!file.eof());
+    ohb = file.read();
+    BOOST_REQUIRE(ohb == nullptr);
     BOOST_CHECK(file.eof());
     file.close();
 }
