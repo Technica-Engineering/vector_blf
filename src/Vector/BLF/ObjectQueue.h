@@ -37,7 +37,7 @@ namespace BLF {
 /**
  * Thread-safe queue for ObjectHeaderBase
  */
-class ObjectQueue {
+class VECTOR_BLF_EXPORT ObjectQueue {
 public:
     explicit ObjectQueue();
     virtual ~ObjectQueue();

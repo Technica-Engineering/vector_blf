@@ -23,6 +23,7 @@
 
 #include <cassert>
 #include <cstring>
+#include <iostream>
 
 #include <Vector/BLF/Exceptions.h>
 
@@ -77,17 +78,17 @@ void UncompressedFile::read(char * s, std::streamsize n)
         std::unique_lock<std::mutex> lock(m_mutex);
 
         /* wait until there is sufficient data */
-        std::cout << "UncompressedFile::read(): wait for sufficient data" << std::endl;
+        // std::cout << "UncompressedFile::read(): wait for sufficient data" << std::endl;
         m_tellpChanged.wait(lock, [this, n]{
-            std::cout << "UncompressedFile: m_tellg=0x" << std::hex << m_tellg << std::endl;
-            std::cout << "UncompressedFile: m_tellp=0x" << std::hex << m_tellp << std::endl;
-            std::cout << "UncompressedFile: m_fileSize=0x" << std::hex << m_fileSize << std::endl;
+            // std::cout << "UncompressedFile: m_tellg=0x" << std::hex << m_tellg << std::endl;
+            // std::cout << "UncompressedFile: m_tellp=0x" << std::hex << m_tellp << std::endl;
+            // std::cout << "UncompressedFile: m_fileSize=0x" << std::hex << m_fileSize << std::endl;
             return (m_tellg + n <= m_tellp) || (m_tellg + n > m_fileSize);
         });
 
         /* handle read behind eof */
         if (m_tellg + n > m_fileSize) {
-            std::cout << "UncompressedFile::read(): read behind eof" << std::endl;
+            // std::cout << "UncompressedFile::read(): read behind eof" << std::endl;
             m_rdstate = std::ios_base::eofbit;
             n = m_fileSize - m_tellg;
         } else {
@@ -96,7 +97,7 @@ void UncompressedFile::read(char * s, std::streamsize n)
 
         /* copy data */
         if (n > 0) {
-            std::cout << "UncompressedFile::read(): copy data" << std::endl;
+            // std::cout << "UncompressedFile::read(): copy data" << std::endl;
             /* offset to read */
             std::streamoff offset = m_tellg - m_dataBegin;
 
@@ -194,6 +195,7 @@ bool UncompressedFile::eof() const
 
 void UncompressedFile::setFileSize(std::streamsize fileSize)
 {
+    // std::cout << "UncompressedFile::setFileSize(0x" << std::hex << fileSize << ")" << std::endl;
     {
         /* mutex lock */
         std::lock_guard<std::mutex> lock(m_mutex);

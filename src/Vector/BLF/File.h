@@ -249,6 +249,8 @@ public:
     virtual void close();
 
 private:
+    /* read/write queue */
+
     /**
      * @brief read/write queue
      *
@@ -266,10 +268,7 @@ private:
      */
     std::mutex m_readWriteQueueMutex;
 
-    /**
-     * readWriteQueue has changed
-     */
-    std::condition_variable m_readWriteQueueChanged;
+    /* uncompressed file */
 
     /**
      * @brief uncompressed file
@@ -286,9 +285,21 @@ private:
     std::mutex m_uncompressedFileMutex;
 
     /**
-     * uncompressedFile has changed
+     * thread between readWriteQueue and uncompressedFile
      */
-    std::condition_variable m_uncompressedFileChanged;
+    std::thread m_uncompressedFileThread;
+
+    /**
+     * wakeup m_uncompressedThread after readWriteQueue was changed
+     */
+    std::condition_variable m_uncompressedFileThreadWakeup;
+
+    /**
+     * thread still running
+     */
+    bool m_uncompressedFileThreadRunning;
+
+    /* compressed file */
 
     /**
      * @brief compressed file
@@ -300,24 +311,21 @@ private:
     CompressedFile m_compressedFile;
 
     /**
-     * thread between readWriteQueue and uncompressedFile
-     */
-    std::thread m_uncompressedFileThread;
-
-    /**
-     * thread still running
-     */
-    bool m_uncompressedFileThreadRunning;
-
-    /**
      * thread between uncompressedFile and compressedFile
      */
     std::thread m_compressedFileThread;
 
     /**
+     * uncompressedFile has changed
+     */
+    std::condition_variable m_compressedFileThreadWakeup;
+
+    /**
      * thread still running
      */
     bool m_compressedFileThreadRunning;
+
+    /* internal functions */
 
     /**
      * create object of given type
@@ -350,22 +358,22 @@ private:
     /**
      * transfer data from uncompressedFile to readWriteQueue
      */
-    static void thread1ReadMethod(File * file);
+    static void uncompressedFileReadThread(File * file);
 
     /**
      * transfer data from readWriteQueue to uncompressedfile
      */
-    static void thread1WriteMethod(File * file);
+    static void uncompressedFileWriteThread(File * file);
 
     /**
      * transfer data from compressedFile to uncompressedFile
      */
-    static void thread2ReadMethod(File * file);
+    static void compressedFileReadThread(File * file);
 
     /**
      * transfer data from uncompressedfile to compressedFile
      */
-    static void thread2WriteMethod(File * file);
+    static void compressedFileWriteThread(File * file);
 };
 
 }

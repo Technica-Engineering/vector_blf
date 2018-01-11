@@ -73,7 +73,7 @@ size_t ObjectQueue::size() const
 
 void ObjectQueue::push(ObjectHeaderBase * obj)
 {
-    std::cout << "ObjectQueue::push()" << std::endl;
+    // std::cout << "ObjectQueue::push()" << std::endl;
 
     {
         /* mutex lock */
@@ -93,12 +93,12 @@ ObjectHeaderBase * ObjectQueue::front()
     std::unique_lock<std::mutex> lock(m_mutex);
 
     /* wait for data */
-    std::cout << "ObjectQueue::front(): wait" << std::endl;
+    // std::cout << "ObjectQueue::front(): wait" << std::endl;
     m_newDataPushed.wait(lock, [this]{
         return !m_queue.empty() || m_eof;
     });
 
-    std::cout << "ObjectQueue::front(): proceed" << std::endl;
+    // std::cout << "ObjectQueue::front(): proceed" << std::endl;
 
     /* get first entry */
     ObjectHeaderBase * ohb = nullptr;
@@ -120,13 +120,13 @@ void ObjectQueue::pop()
     std::unique_lock<std::mutex> lock(m_mutex);
 
     /* wait for data */
-    std::cout << "ObjectQueue::pop(): wait" << std::endl;
+    // std::cout << "ObjectQueue::pop(): wait" << std::endl;
     m_newDataPushed.wait(lock, [this]{
         return !m_queue.empty() || m_eof;
     });
 
     /* pop data */
-    std::cout << "ObjectQueue::pop(): proceed" << std::endl;
+    // std::cout << "ObjectQueue::pop(): proceed" << std::endl;
     if (!m_queue.empty()) {
         m_queue.pop();
     } else {

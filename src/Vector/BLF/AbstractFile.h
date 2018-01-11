@@ -23,7 +23,7 @@
 
 #include <Vector/BLF/platform.h>
 
-#include <iostream>
+#include <ios>
 
 #include <Vector/BLF/vector_blf_export.h>
 
