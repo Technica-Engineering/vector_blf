@@ -37,6 +37,20 @@ BOOST_AUTO_TEST_CASE(AllBinlogLogfiles)
         filein.open(infile.string(), std::ios_base::in);
         BOOST_REQUIRE(filein.is_open());
 
+        /* read all objects from input file */
+        Vector::BLF::ObjectQueue objectQueue;
+        objectQueue.open();
+        while (!filein.eof()) {
+            Vector::BLF::ObjectHeaderBase * ohb = filein.read();
+            if (ohb == nullptr) {
+                break;
+            }
+            if (ohb->objectType != Vector::BLF::ObjectType::Unknown115) {
+                objectQueue.write(ohb);
+            }
+        }
+        filein.close();
+
         /* open output file */
         Vector::BLF::File fileout;
         fileout.compressionLevel = 0;
@@ -59,22 +73,15 @@ BOOST_AUTO_TEST_CASE(AllBinlogLogfiles)
         fileout.fileStatistics.objectsRead = filein.fileStatistics.objectsRead;
         // all others should be set on close
 
-        while (!filein.eof()) {
-            Vector::BLF::ObjectHeaderBase * ohb;
-            ohb = filein.read();
-            BOOST_REQUIRE(ohb != nullptr);
-            if (ohb->objectType != Vector::BLF::ObjectType::Unknown115) {
-                fileout.write(ohb);
-            }
-            delete ohb;
+        /* write all objects into output file */
+        objectQueue.setTotalObjectCount(objectQueue.tellp());
+        while(!objectQueue.eof()) {
+            Vector::BLF::ObjectHeaderBase * ohb = objectQueue.read();
+            fileout.write(ohb);
         }
-
-        /* close files */
-        filein.close();
         fileout.close();
 
         /* compare files */
-        // @todo Compare complete file as soon as fields in Unknown115 are understood.
         std::ifstream ifs1;
         std::ifstream ifs2;
         ifs1.open(infile.c_str());
@@ -84,6 +91,7 @@ BOOST_AUTO_TEST_CASE(AllBinlogLogfiles)
         char c1 = static_cast<char>(ifs1.get());
         char c2 = static_cast<char>(ifs2.get());
         bool sameFile = true;
+        // @todo Compare complete file as soon as fields in Unknown115 are understood.
         while (ifs1.good() && ifs2.good() && (static_cast<uint64_t>(ifs1.tellg()) <= fileout.fileStatistics.fileSizeWithoutUnknown115)) {
             sameFile &= (c1 == c2);
             c1 = static_cast<char>(ifs1.get());
@@ -120,6 +128,20 @@ BOOST_AUTO_TEST_CASE(AllConvertedLogfiles)
         filein.open(infile.string(), std::ios_base::in);
         BOOST_REQUIRE(filein.is_open());
 
+        /* read all objects from input file */
+        Vector::BLF::ObjectQueue objectQueue;
+        objectQueue.open();
+        while (!filein.eof()) {
+            Vector::BLF::ObjectHeaderBase * ohb = filein.read();
+            if (ohb == nullptr) {
+                break;
+            }
+            if (ohb->objectType != Vector::BLF::ObjectType::Unknown115) {
+                objectQueue.write(ohb);
+            }
+        }
+        filein.close();
+
         /* open output file */
         Vector::BLF::File fileout;
         fileout.writeUnknown115 = false;
@@ -142,22 +164,15 @@ BOOST_AUTO_TEST_CASE(AllConvertedLogfiles)
         fileout.fileStatistics.objectsRead = filein.fileStatistics.objectsRead;
         // all others should be set on close
 
-        while (!filein.eof()) {
-            Vector::BLF::ObjectHeaderBase * ohb;
-            ohb = filein.read();
-            BOOST_REQUIRE(ohb != nullptr);
-            if (ohb->objectType != Vector::BLF::ObjectType::Unknown115) {
-                fileout.write(ohb);
-            }
-            delete ohb;
+        /* write all objects into output file */
+        objectQueue.setTotalObjectCount(objectQueue.tellp());
+        while(!objectQueue.eof()) {
+            Vector::BLF::ObjectHeaderBase * ohb = objectQueue.read();
+            fileout.write(ohb);
         }
-
-        /* close files */
-        filein.close();
         fileout.close();
 
         /* compare files */
-        // @todo Compare complete file as soon as fields in Unknown115 are understood.
         std::ifstream ifs1;
         std::ifstream ifs2;
         ifs1.open(infile.c_str());
@@ -167,6 +182,7 @@ BOOST_AUTO_TEST_CASE(AllConvertedLogfiles)
         char c1 = static_cast<char>(ifs1.get());
         char c2 = static_cast<char>(ifs2.get());
         bool sameFile = true;
+        // @todo Compare complete file as soon as fields in Unknown115 are understood.
         while (ifs1.good() && ifs2.good() && (static_cast<uint64_t>(ifs1.tellg()) <= fileout.fileStatistics.fileSizeWithoutUnknown115)) {
             sameFile &= (c1 == c2);
             c1 = static_cast<char>(ifs1.get());

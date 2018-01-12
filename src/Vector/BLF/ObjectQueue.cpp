@@ -21,6 +21,8 @@
 
 #include <Vector/BLF/ObjectQueue.h>
 
+#include <Vector/BLF/Exceptions.h>
+
 #include <iostream>
 
 namespace Vector {
@@ -28,110 +30,116 @@ namespace BLF {
 
 ObjectQueue::ObjectQueue() :
     m_queue(),
-    m_eof(false),
-    m_mutex(),
-    m_newDataPushed()
+    m_tellg(0),
+    m_tellgChanged(),
+    m_tellp(0),
+    m_tellpChanged(),
+    m_totalObjectCount(0),
+    m_rdstate(std::ios_base::goodbit),
+    m_mutex()
 {
 }
 
 ObjectQueue::~ObjectQueue()
 {
-    close();
+}
+
+void ObjectQueue::open()
+{
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    /* reset */
+    while(!m_queue.empty()) {
+        ObjectHeaderBase * ohb = m_queue.front();
+        m_queue.pop();
+        delete ohb;
+    }
+    m_tellg = 0;
+    m_tellp = 0;
+    m_totalObjectCount = 0xffffffff;
+    m_rdstate = std::ios_base::goodbit;
 }
 
 void ObjectQueue::close()
 {
     /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
+    std::unique_lock<std::mutex> lock(m_mutex);
 
-    /* free objects */
-    while(!m_queue.empty()) {
-        ObjectHeaderBase * item = m_queue.front();
-        m_queue.pop();
-        delete item;
+    /* wait till the queue is empty */
+    m_tellgChanged.wait(lock, [this]{
+       return m_queue.empty();
+    });
+}
+
+ObjectHeaderBase * ObjectQueue::read()
+{
+    ObjectHeaderBase * ohb = nullptr;
+    {
+        /* mutex lock */
+        std::unique_lock<std::mutex> lock(m_mutex);
+
+        /* wait for data */
+        // std::cout << "ObjectQueue::front(): wait" << std::endl;
+        m_tellpChanged.wait(lock, [this]{
+            return
+                !m_queue.empty() ||
+                (m_tellg >= m_totalObjectCount);
+        });
+        // std::cout << "ObjectQueue::front(): proceed" << std::endl;
+
+        /* get first entry */
+        if (m_queue.empty()) {
+            m_rdstate = std::ios_base::eofbit;
+        } else {
+            ohb = m_queue.front();
+            m_queue.pop();
+
+            /* set state */
+            m_rdstate = std::ios_base::goodbit;
+
+            /* increase get count */
+            m_tellg++;
+        }
     }
 
-    /* reset end-of-file marker */
-    m_eof = false;
+    /* notify */
+    m_tellgChanged.notify_all();
+
+    return ohb;
 }
 
-bool ObjectQueue::empty() const
+DWORD ObjectQueue::tellg() const
 {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
-    return m_queue.empty();
+    return m_tellg;
 }
 
-size_t ObjectQueue::size() const
+void ObjectQueue::write(ObjectHeaderBase * obj)
 {
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    return m_queue.size();
-}
-
-void ObjectQueue::push(ObjectHeaderBase * obj)
-{
-    // std::cout << "ObjectQueue::push()" << std::endl;
-
     {
         /* mutex lock */
         std::lock_guard<std::mutex> lock(m_mutex);
 
         /* push data */
         m_queue.push(obj);
+
+        /* increase put count */
+        m_tellp++;
     }
 
     /* notify */
-    m_newDataPushed.notify_all();
+    m_tellpChanged.notify_all();
 }
 
-ObjectHeaderBase * ObjectQueue::front()
+DWORD ObjectQueue::tellp() const
 {
     /* mutex lock */
-    std::unique_lock<std::mutex> lock(m_mutex);
+    std::lock_guard<std::mutex> lock(m_mutex);
 
-    /* wait for data */
-    // std::cout << "ObjectQueue::front(): wait" << std::endl;
-    m_newDataPushed.wait(lock, [this]{
-        return !m_queue.empty() || m_eof;
-    });
-
-    // std::cout << "ObjectQueue::front(): proceed" << std::endl;
-
-    /* get first entry */
-    ObjectHeaderBase * ohb = nullptr;
-    if (!m_queue.empty()) {
-        ohb = m_queue.front();
-
-        /* check for eof */
-        if (ohb == nullptr) {
-            m_queue.pop();
-            m_eof = true;
-        }
-    }
-    return ohb;
-}
-
-void ObjectQueue::pop()
-{
-    /* mutex lock */
-    std::unique_lock<std::mutex> lock(m_mutex);
-
-    /* wait for data */
-    // std::cout << "ObjectQueue::pop(): wait" << std::endl;
-    m_newDataPushed.wait(lock, [this]{
-        return !m_queue.empty() || m_eof;
-    });
-
-    /* pop data */
-    // std::cout << "ObjectQueue::pop(): proceed" << std::endl;
-    if (!m_queue.empty()) {
-        m_queue.pop();
-    } else {
-        m_eof = true;
-    }
+    return m_tellp;
 }
 
 bool ObjectQueue::eof() const
@@ -139,7 +147,29 @@ bool ObjectQueue::eof() const
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
-    return m_eof;
+    return (m_rdstate & std::ios_base::eofbit);
+}
+
+void ObjectQueue::setTotalObjectCount(DWORD totalObjectCount)
+{
+    {
+        /* mutex lock */
+        std::lock_guard<std::mutex> lock(m_mutex);
+
+        m_totalObjectCount = totalObjectCount;
+    }
+
+    /* notify */
+    m_tellpChanged.notify_all();
+}
+
+DWORD ObjectQueue::size() const
+{
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    /* size between put/write and get/read positions */
+    return (m_tellp - m_tellg);
 }
 
 }

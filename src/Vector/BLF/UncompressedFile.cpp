@@ -44,7 +44,7 @@ UncompressedFile::UncompressedFile() :
 {
 }
 
-void UncompressedFile::close()
+void UncompressedFile::open()
 {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
@@ -59,6 +59,17 @@ void UncompressedFile::close()
     m_rdstate = std::ios_base::goodbit;
 }
 
+void UncompressedFile::close()
+{
+    /* mutex lock */
+    std::unique_lock<std::mutex> lock(m_mutex);
+
+    /* wait till the queue is empty */
+    m_tellgChanged.wait(lock, [this]{
+       return m_tellg >= m_tellp;
+    });
+}
+
 std::streamsize UncompressedFile::gcount() const
 {
     /* mutex lock */
@@ -69,11 +80,6 @@ std::streamsize UncompressedFile::gcount() const
 
 void UncompressedFile::read(char * s, std::streamsize n)
 {
-    /* check for eof */
-    if (eof()) {
-        return;
-    }
-
     {
         std::unique_lock<std::mutex> lock(m_mutex);
 
@@ -83,14 +89,16 @@ void UncompressedFile::read(char * s, std::streamsize n)
             // std::cout << "UncompressedFile: m_tellg=0x" << std::hex << m_tellg << std::endl;
             // std::cout << "UncompressedFile: m_tellp=0x" << std::hex << m_tellp << std::endl;
             // std::cout << "UncompressedFile: m_fileSize=0x" << std::hex << m_fileSize << std::endl;
-            return (m_tellg + n <= m_tellp) || (m_tellg + n > m_fileSize);
+            return
+                (m_tellg + n <= m_tellp) ||
+                (m_tellg + n > m_fileSize);
         });
 
         /* handle read behind eof */
         if (m_tellg + n > m_fileSize) {
             // std::cout << "UncompressedFile::read(): read behind eof" << std::endl;
-            m_rdstate = std::ios_base::eofbit;
             n = m_fileSize - m_tellg;
+            m_rdstate = std::ios_base::eofbit;
         } else {
             m_rdstate = std::ios_base::goodbit;
         }
@@ -219,20 +227,18 @@ std::streamsize UncompressedFile::size() const
 
 void UncompressedFile::dropOldData(std::streamsize dropSize)
 {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
     /* check if drop should be done now */
-    if ((m_dataBegin + dropSize > m_tellg) || (m_dataBegin + dropSize > m_tellp)) {
+    if ((m_dataBegin + dropSize > m_tellg) || (m_dataBegin + dropSize > m_tellp) || (m_dataBegin + dropSize > m_fileSize)) {
         /* don't drop yet */
         return;
     }
 
-    {
-        /* mutex lock */
-        std::lock_guard<std::mutex> lock(m_mutex);
-
-        /* drop data */
-        m_data.erase(m_data.begin(), m_data.begin() + dropSize);
-        m_dataBegin += dropSize;
-    }
+    /* drop data */
+    m_data.erase(m_data.begin(), m_data.begin() + dropSize);
+    m_dataBegin += dropSize;
 }
 
 }

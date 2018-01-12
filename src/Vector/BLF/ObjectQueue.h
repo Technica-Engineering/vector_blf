@@ -43,63 +43,78 @@ public:
     virtual ~ObjectQueue();
 
     /**
-     * clear the queue
+     * open the queue
+     */
+    virtual void open();
+
+    /**
+     * close the queue, but let the queue empty before
      */
     virtual void close();
-
-    /**
-     * Check if queue is empty.
-     *
-     * @return true if empty
-     */
-    virtual bool empty() const;
-
-    /**
-     * Return number of objects in queue.
-     *
-     * @return number of objects
-     */
-    virtual size_t size() const;
-
-    /**
-     * Push an object to end of queue.
-     *
-     * nullptr can be pushed to indicate eof.
-     *
-     * @param[in] obj object
-     */
-    void push(ObjectHeaderBase * obj);
 
     /**
      * Get access to front of queue.
      *
      * @return object (or nullptr if empty)
      */
-    virtual ObjectHeaderBase * front();
+    virtual ObjectHeaderBase * read();
+
+    /** @copydoc AbstractFile::tellg */
+    virtual DWORD tellg() const;
 
     /**
-     * Pop the first object.
+     * Enqueue an object to end of queue.
+     *
+     * nullptr can be pushed to indicate eof.
+     *
+     * @param[in] obj object
      */
-    virtual void pop();
+    void write(ObjectHeaderBase * obj);
 
-    /**
-     * get end-of-file marker
-     */
+    /** @copydoc AbstractFile::tellp */
+    virtual DWORD tellp() const;
+
+    /** @copydoc AbstractFile::eof */
     virtual bool eof() const;
+
+    /**
+     * Set file size resp. end-of-file position.
+     *
+     * @param[in] totalObjectCount object count
+     */
+    virtual void setTotalObjectCount(DWORD totalObjectCount);
+
+    /**
+     * Return size of data left to read.
+     *
+     * @return size
+     */
+    virtual DWORD size() const;
 
 private:
     /** queue */
     std::queue<ObjectHeaderBase *> m_queue;
 
-    /** end-of-file */
-    bool m_eof;
+    /** read position */
+    DWORD m_tellg;
+
+    /** data was dequeued */
+    std::condition_variable m_tellgChanged;
+
+    /** write position */
+    DWORD m_tellp;
+
+    /** data was enqueued */
+    std::condition_variable m_tellpChanged;
+
+    /** eof position */
+    DWORD m_totalObjectCount;
+
+    /** error state */
+    std::ios_base::iostate m_rdstate;
 
     /** mutex */
     mutable std::mutex m_mutex;
-
-    /** new data arrived */
-    std::condition_variable m_newDataPushed;
-
 };
 
 }

@@ -63,7 +63,14 @@ public:
     virtual bool eof() const override;
 
     /**
+     * open, basically resets all variables.
+     */
+    virtual void open();
+
+    /**
      * Set file size resp. end-of-file position.
+     *
+     * @param[in] fileSize file size
      */
     virtual void setFileSize(std::streamsize fileSize);
 
