@@ -33,13 +33,13 @@ namespace Vector {
 namespace BLF {
 
 File::File() :
-    openMode(),
     fileStatistics(),
     currentUncompressedFileSize(0),
     currentObjectCount(0),
     compressionLevel(6),
     defaultLogContainerSize(0x20000),
     writeUnknown115(true),
+    m_openMode(),
     m_readWriteQueue(),
     m_readWriteQueueMutex(),
     m_uncompressedFile(),
@@ -71,7 +71,7 @@ void File::open(const char * filename, std::ios_base::openmode mode)
         throw Exception("File::open(): already open");
     }
 
-    openMode = mode;
+    m_openMode = mode;
 
     /* open queue */
     m_readWriteQueue.open();
@@ -192,7 +192,7 @@ void File::close()
     }
 
     /* read */
-    if (openMode & std::ios_base::in) {
+    if (m_openMode & std::ios_base::in) {
         // std::cout << "File::close(): for reading" << std::endl;
 
         /* finalize compressedFile thread */
@@ -218,7 +218,7 @@ void File::close()
     } else
 
     /* write */
-    if (openMode & std::ios_base::out) {
+    if (m_openMode & std::ios_base::out) {
         // std::cout << "File::close(): for writing" << std::endl;
         /* finalize uncompressedFile thread */
         m_readWriteQueue.setTotalObjectCount(m_readWriteQueue.tellp()); // eof

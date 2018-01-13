@@ -176,13 +176,6 @@ public:
     virtual ~File();
 
     /**
-     * Open mode
-     *
-     * @todo shift to private
-     */
-    std::ios_base::openmode openMode;
-
-    /**
      * File statistics from file header. contains total counts/sizes
      */
     FileStatistics fileStatistics;
@@ -271,6 +264,11 @@ public:
     virtual void close();
 
 private:
+    /**
+     * Open mode
+     */
+    std::ios_base::openmode m_openMode;
+
     /* read/write queue */
 
     /**
