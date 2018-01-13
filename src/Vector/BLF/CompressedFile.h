@@ -51,13 +51,6 @@ public:
     virtual bool eof() const override;
 
     /**
-     * Set position in output sequence
-     *
-     * @param[in] pos Seek position
-     */
-    virtual void seekp(std::streampos pos);
-
-    /**
      * open file
      *
      * @param filename file name

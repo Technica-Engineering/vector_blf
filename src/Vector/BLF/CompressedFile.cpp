@@ -64,11 +64,6 @@ std::streampos CompressedFile::tellp()
     return m_file.tellp();
 }
 
-void CompressedFile::seekp(std::streampos pos)
-{
-    m_file.seekp(pos);
-}
-
 void CompressedFile::seekp(std::streamoff off, const std::ios_base::seekdir way)
 {
     m_file.seekp(off, way);

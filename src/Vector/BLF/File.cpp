@@ -273,12 +273,13 @@ void File::close()
         // @todo fileStatistics.objectsRead = 0;
 
         /* write file statistics */
-        m_compressedFile.seekp(0);
+        m_compressedFile.seekp(0, std::ios_base::beg);
         fileStatistics.write(m_compressedFile);
         std::cout << "File::close(): done for writing" << std::endl;
     }
 
     /* close files */
+    m_readWriteQueue.close();
     m_uncompressedFile.close();
     m_compressedFile.close();
 
