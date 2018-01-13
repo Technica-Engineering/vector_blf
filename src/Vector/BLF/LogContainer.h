@@ -55,17 +55,17 @@ public:
     WORD compressionMethod;
 
     /**
-     * @brief reserved
+     * reserved
      */
     WORD reservedLogContainer1;
 
     /**
-     * @brief reserved
+     * reserved
      */
     DWORD reservedLogContainer2;
 
     /**
-     * @brief uncompressed file size in bytes
+     * uncompressed file size in bytes
      */
     DWORD uncompressedFileSize;
 

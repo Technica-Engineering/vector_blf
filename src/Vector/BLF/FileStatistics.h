@@ -33,10 +33,14 @@
 namespace Vector {
 namespace BLF {
 
-/** File signature */
+/**
+ * File signature
+ */
 const DWORD FileSignature = 0x47474F4C; /* LOGG */
 
-/** Application ID */
+/**
+ * Application ID
+ */
 enum ApplicationId : BYTE {
     /** Unknown */
     Unknown = 0,
@@ -67,8 +71,6 @@ enum ApplicationId : BYTE {
 };
 
 /**
- * @brief File statistics
- *
  * File statistics
  */
 class VECTOR_BLF_EXPORT FileStatistics

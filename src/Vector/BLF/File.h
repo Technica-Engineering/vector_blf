@@ -272,7 +272,7 @@ private:
     /* read/write queue */
 
     /**
-     * @brief read/write queue
+     * read/write queue
      *
      * When the write method is called the object is enqueued here, so that it returns quickly to the calling
      * application. The readWriteThread gets the objects out of the queue and puts them into the compressedFile.
@@ -291,7 +291,7 @@ private:
     /* uncompressed file */
 
     /**
-     * @brief uncompressed file
+     * uncompressed file
      *
      * This file contains the data, contained in the (compressed) log containers.
      * The readWriteThread transfers data from/to here into the readWriteQueue.
@@ -322,7 +322,7 @@ private:
     /* compressed file */
 
     /**
-     * @brief compressed file
+     * compressed file
      *
      * This file is actually the fstream, so the actual BLF data.
      * It mainly contains the FileStatistics and several LogContainers carrying the different objects.
