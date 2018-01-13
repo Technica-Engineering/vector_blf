@@ -40,7 +40,6 @@ add_definitions(
     -DCMAKE_CURRENT_BINARY_DIR="${CMAKE_CURRENT_BINARY_DIR}")
 
 # overall tests
-#add_boost_test(AllEvents test_AllEvents test_AllEvents.cpp)
 add_boost_test(AllLogfiles test_AllLogfiles test_AllLogfiles.cpp)
 
 # single event tests
