@@ -165,6 +165,11 @@ void UncompressedFile::write(const char * s, std::streamsize n)
 
         /* new put position */
         m_tellp += n;
+
+        /* if new position is behind eof, shift it */
+        if (m_tellp >= m_fileSize) {
+            m_fileSize = m_tellp;
+        }
     }
 
     /* notify */
@@ -179,30 +184,35 @@ std::streampos UncompressedFile::tellp()
     return m_tellp;
 }
 
-void UncompressedFile::seekp(std::streamoff off, const std::ios_base::seekdir /*way*/)
-{
-    {
-        /* mutex lock */
-        std::lock_guard<std::mutex> lock(m_mutex);
-
-        /* extend data block */
-        std::streampos newTellp = m_tellp + off;
-        m_data.resize(static_cast<size_t>(newTellp - m_dataBegin), 0);
-
-        /* new put position */
-        m_tellp += off;
-    }
-
-    /* notify */
-    m_tellpChanged.notify_all();
-}
-
 bool UncompressedFile::eof() const
 {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
     return (m_rdstate & std::ios_base::eofbit);
+}
+
+void UncompressedFile::skipp(std::streamsize s)
+{
+    {
+        /* mutex lock */
+        std::lock_guard<std::mutex> lock(m_mutex);
+
+        /* extend data block */
+        std::streampos newTellp = m_tellp + s;
+        m_data.resize(static_cast<size_t>(newTellp - m_dataBegin), 0);
+
+        /* new put position */
+        m_tellp += s;
+
+        /* if new position is behind eof, shift it */
+        if (m_tellp >= m_fileSize) {
+            m_fileSize = m_tellp;
+        }
+    }
+
+    /* notify */
+    m_tellpChanged.notify_all();
 }
 
 void UncompressedFile::setFileSize(std::streamsize fileSize)

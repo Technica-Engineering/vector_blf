@@ -82,7 +82,7 @@ void SerialEvent::write(AbstractFile & os)
     }
 
     /* skip padding */
-    os.seekp(objectSize % 4, std::ios_base::cur);
+    os.skipp(objectSize % 4);
 }
 
 DWORD SerialEvent::calculateObjectSize() const

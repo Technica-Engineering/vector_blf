@@ -95,7 +95,7 @@ void Most50Pkt::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(pktData.data()), pktDataLength);
 
     /* skip padding */
-    os.seekp(objectSize % 4, std::ios_base::cur);
+    os.skipp(objectSize % 4);
 }
 
 DWORD Most50Pkt::calculateObjectSize() const

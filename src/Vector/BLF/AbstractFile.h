@@ -91,19 +91,18 @@ public:
     virtual std::streampos tellp() = 0;
 
     /**
-     * Set position in output sequence.
-     *
-     * @param[in] off Offset
-     * @param[in] way Direction
-     */
-    virtual void seekp(std::streamoff off, const std::ios_base::seekdir way = std::ios_base::cur) = 0;
-
-    /**
      * Check whether eofbit is set.
      *
      * @return true if end-of-file reached
      */
     virtual bool eof() const = 0;
+
+    /**
+     * Write padding null bytes.
+     *
+     * @param s Number of padding bytes.
+     */
+    virtual void skipp(std::streamsize s) = 0;
 };
 
 }

@@ -98,7 +98,7 @@ void Most150Message::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(msg.data()), msgLen);
 
     /* skip padding */
-    os.seekp(objectSize % 4, std::ios_base::cur);
+    os.skipp(objectSize % 4);
 }
 
 DWORD Most150Message::calculateObjectSize() const

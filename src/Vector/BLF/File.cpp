@@ -948,8 +948,9 @@ void File::uncompressedFileReadThread(File * file)
 {
     // std::cout << "File::uncompressedFileReadThread(): started" << std::endl;
     while(file->m_uncompressedFileThreadRunning) {
+        // @todo wait until readWriteQueue has free space
+#if 0
         /* wait until readWriteQueue has space free */
-        // std::cout << "File::uncompressedFileReadThread(): wait for readWriteQueue to empty" << std::endl;
         std::mutex mutex;
         std::unique_lock<std::mutex> lock(mutex);
         file->m_uncompressedFileThreadWakeup.wait(lock, [file]{
@@ -957,6 +958,7 @@ void File::uncompressedFileReadThread(File * file)
                 !file->m_uncompressedFileThreadRunning ||
                 (file->m_readWriteQueue.size() < 10);
         });
+#endif
 
         /* process */
         // std::cout << "File::uncompressedFileReadThread(): loop" << std::endl;
@@ -976,6 +978,17 @@ void File::uncompressedFileWriteThread(File * file)
 {
     // std::cout << "File::uncompressedFileWriteThread(): started" << std::endl;
     while(file->m_uncompressedFileThreadRunning) {
+        // @todo wait until uncompressedFile has free space
+#if 0
+        std::mutex mutex;
+        std::unique_lock<std::mutex> lock(mutex);
+        file->m_uncompressedFileThreadWakeup.wait(lock, [file]{
+            return
+                !file->m_uncompressedFileThreadRunning ||
+                file->m_uncompressedFile.size() < 0x20000;
+        });
+#endif
+
         /* process */
         // std::cout << "File::uncompressedFileWriteThread(): loop" << std::endl;
         file->readWriteQueue2UncompressedFile();
@@ -993,8 +1006,8 @@ void File::compressedFileReadThread(File * file)
 {
     // std::cout << "File::compressedFileReadThread(): started" << std::endl;
     while(file->m_compressedFileThreadRunning) {
-        /* wait until uncompressedFile has space free */
-        // std::cout << "File::compressedFileReadThread(): wait until uncompressedFile has space free" << std::endl;
+        // @todo wait until uncompressedFile has free space
+#if 0
         std::mutex mutex;
         std::unique_lock<std::mutex> lock(mutex);
         file->m_compressedFileThreadWakeup.wait(lock, [file]{
@@ -1002,6 +1015,7 @@ void File::compressedFileReadThread(File * file)
                 !file->m_compressedFileThreadRunning ||
                 (file->m_uncompressedFile.size() < 0x20000);
         });
+#endif
 
         /* process */
         // std::cout << "File::compressedFileReadThread(): loop" << std::endl;
@@ -1020,6 +1034,15 @@ void File::compressedFileWriteThread(File * file)
 {
     // std::cout << "File::compressedFileWriteThread(): started" << std::endl;
     while(file->m_compressedFileThreadRunning) {
+        /* wait until compressedFile has enough data */
+        std::mutex mutex;
+        std::unique_lock<std::mutex> lock(mutex);
+        file->m_compressedFileThreadWakeup.wait(lock, [file]{
+            return
+                !file->m_compressedFileThreadRunning ||
+                (file->m_uncompressedFile.size() >= file->defaultLogContainerSize);
+        });
+
         /* process */
         // std::cout << "File::compressedFileWriteThread(): process" << std::endl;
         file->uncompressedFile2CompressedFile();

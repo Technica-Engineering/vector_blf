@@ -121,7 +121,7 @@ void FlexRayVFrReceiveMsgEx::write(AbstractFile & os)
     /* skip padding */
     uint8_t padding = (dataCount + 4) % 8;
     if (padding != 0) {
-        os.seekp((8 - padding), std::ios_base::cur);
+        os.skipp(8 - padding);
     }
 }
 

@@ -21,6 +21,8 @@
 
 #include <Vector/BLF/CompressedFile.h>
 
+#include <cassert>
+
 namespace Vector {
 namespace BLF {
 
@@ -64,9 +66,16 @@ std::streampos CompressedFile::tellp()
     return m_file.tellp();
 }
 
-void CompressedFile::seekp(std::streamoff off, const std::ios_base::seekdir way)
+bool CompressedFile::eof() const
 {
-    m_file.seekp(off, way);
+    return m_file.eof();
+}
+
+void CompressedFile::skipp(std::streamsize s)
+{
+    static const char null[16] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+    assert(s <= sizeof(null));
+    m_file.write(null, s);
 }
 
 void CompressedFile::open(const char * filename, std::ios_base::openmode openMode)
@@ -79,9 +88,9 @@ bool CompressedFile::is_open() const
     return m_file.is_open();
 }
 
-bool CompressedFile::eof() const
+void CompressedFile::seekp(std::streampos pos)
 {
-    return m_file.eof();
+    m_file.seekp(pos);
 }
 
 }

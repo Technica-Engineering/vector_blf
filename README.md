@@ -71,9 +71,11 @@ The following files are products of installation and building:
 * File Append
 * There is currently no transition between little/big endian. Current support is only for little endian machines.
 * There should be setter/getter methods instead of direct member variable access. Also for bit settings. Use std::chrono for all times
-* All return pointers should be of type std::unique_ptr to make ownership clear.
+* All pointers should be of type std::unique_ptr to make ownership clear.
 * Plausibility checks for length fields. Check all length and version fields of compliance with original files.
 * There are hints which strucure might get extended. Parser should be prepared for it.
+* UncompressedFile should work with an ObjectQueue<LogContainer>, instead of copying/resizing data into a std::vector<char>.
+# Propagate exceptions from threads to main library, to notify user application.
 
 # Test sources
 

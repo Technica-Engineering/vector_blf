@@ -59,8 +59,8 @@ public:
     virtual void seekg(std::streamoff off, const std::ios_base::seekdir way  = std::ios_base::cur) override;
     virtual void write(const char * s, std::streamsize n) override;
     virtual std::streampos tellp() override;
-    virtual void seekp(std::streamoff off, const std::ios_base::seekdir way  = std::ios_base::cur) override;
     virtual bool eof() const override;
+    virtual void skipp(std::streamsize s) override;
 
     /**
      * open, basically resets all variables.

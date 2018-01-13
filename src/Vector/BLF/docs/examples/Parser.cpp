@@ -1200,7 +1200,14 @@ int main(int argc, char * argv[])
     show(&file.fileStatistics);
 
     while (!file.eof()) {
-        Vector::BLF::ObjectHeaderBase * ohb = file.read();
+        Vector::BLF::ObjectHeaderBase * ohb = nullptr;
+
+        /* read and capture exceptions, e.g. unfinished files */
+        try {
+            ohb = file.read();
+        } catch (std::runtime_error(e)) {
+            std::cout << "Exception: " << e.what() << std::endl;
+        }
         if (ohb == nullptr) {
             break;
         }

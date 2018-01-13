@@ -49,13 +49,15 @@ static void copyObjects(Vector::BLF::File & filein, Vector::BLF::File & fileout)
     objectQueue.setTotalObjectCount(objectQueue.tellp());
     while(!objectQueue.eof()) {
         Vector::BLF::ObjectHeaderBase * ohb = objectQueue.read();
-        fileout.write(ohb);
+        if (ohb != nullptr) {
+            fileout.write(ohb);
+        }
     }
     fileout.close();
 }
 
 /** compare files */
-static void compareFiles(const char * infileName, const char * outfileName, uint64_t fileSizeWithoutUnknown115)
+static bool compareFiles(const char * infileName, const char * outfileName, uint64_t fileSizeWithoutUnknown115)
 {
     std::ifstream ifs1;
     std::ifstream ifs2;
@@ -73,14 +75,13 @@ static void compareFiles(const char * infileName, const char * outfileName, uint
             break;
         }
     }
-    BOOST_CHECK(sameFile);
     ifs1.close();
     BOOST_REQUIRE(!ifs1.is_open());
     ifs2.close();
     BOOST_REQUIRE(!ifs2.is_open());
+    return sameFile;
 }
 
-#if 0
 /** Test with uncompressedFiles with Unknown115 ending */
 BOOST_AUTO_TEST_CASE(AllBinlogLogfiles)
 {
@@ -99,7 +100,7 @@ BOOST_AUTO_TEST_CASE(AllBinlogLogfiles)
             continue;
         }
         std::string eventFile = x.path().filename().string();
-        std::cout << eventFile << std::endl;
+        std::cout << "--- " << eventFile << " ---" << std::endl;
 
         /* open input file */
         Vector::BLF::File filein;
@@ -121,12 +122,12 @@ BOOST_AUTO_TEST_CASE(AllBinlogLogfiles)
         copyObjects(filein, fileout);
 
         /* compare files */
-        compareFiles(infile.c_str(), outfile.c_str(), fileout.fileStatistics.fileSizeWithoutUnknown115);
+        BOOST_CHECK_MESSAGE(
+                compareFiles(infile.c_str(), outfile.c_str(), fileout.fileStatistics.fileSizeWithoutUnknown115),
+                eventFile + " is different");
     }
 }
-#endif
 
-#if 1
 /** Test with compressedFiles without Unknown115 ending */
 BOOST_AUTO_TEST_CASE(AllConvertedLogfiles)
 {
@@ -145,7 +146,6 @@ BOOST_AUTO_TEST_CASE(AllConvertedLogfiles)
             continue;
         }
         std::string eventFile = x.path().filename().string();
-        std::cout << eventFile << std::endl;
 
         /* open input file */
         Vector::BLF::File filein;
@@ -167,7 +167,8 @@ BOOST_AUTO_TEST_CASE(AllConvertedLogfiles)
         copyObjects(filein, fileout);
 
         /* compare files */
-        compareFiles(infile.c_str(), outfile.c_str(), fileout.fileStatistics.fileSizeWithoutUnknown115);
+        BOOST_CHECK_MESSAGE(
+                compareFiles(infile.c_str(), outfile.c_str(), fileout.fileStatistics.fileSizeWithoutUnknown115),
+                eventFile + " is different");
     }
 }
-#endif

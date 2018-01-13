@@ -90,7 +90,7 @@ void GlobalMarker::write(AbstractFile & os)
     os.write(const_cast<char *>(description.data()), descriptionLength);
 
     /* skip padding */
-    os.seekp(objectSize % 4, std::ios_base::cur);
+    os.skipp(objectSize % 4);
 }
 
 DWORD GlobalMarker::calculateObjectSize() const
