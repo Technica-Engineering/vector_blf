@@ -175,28 +175,50 @@ public:
     File();
     virtual ~File();
 
-    /** open mode */
+    /**
+     * Open mode
+     *
+     * @todo shift to private
+     */
     std::ios_base::openmode openMode;
 
-    /** file statistics from file header. contains total counts/sizes */
+    /**
+     * File statistics from file header. contains total counts/sizes
+     */
     FileStatistics fileStatistics;
 
-    /** current file size */
+    /**
+     * Current file size
+     */
     ULONGLONG currentFileSize();
 
-    /** current uncompressed file size */
+    /**
+     * Current uncompressed file size
+     *
+     * This includes the LogContainer headers, and the uncompressed content.
+     */
     ULONGLONG currentUncompressedFileSize;
 
-    /** current number of objects read */
+    /**
+     * Current number of objects read
+     *
+     * Unknown115 is not counted.
+     */
     DWORD currentObjectCount;
 
-    /** zlib compression level (0=no compression, 1=best speed, 9=best compression, -1=default compression */
+    /**
+     * zlib compression level (0=no compression, 1=best speed, 9=best compression, -1=default compression
+     */
     int compressionLevel;
 
-    /** default log container size */
+    /**
+     * Default log container size
+     */
     DWORD defaultLogContainerSize;
 
-    /** write Unknown115 message at file close */
+    /**
+     * Write Unknown115 message at file close
+     */
     bool writeUnknown115;
 
     /**

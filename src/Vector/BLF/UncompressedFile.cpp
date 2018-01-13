@@ -155,7 +155,7 @@ void UncompressedFile::write(const char * s, std::streamsize n)
 
         /* extend data block */
         std::streampos newTellp = m_tellp + n;
-        m_data.resize(static_cast<size_t>(newTellp - m_dataBegin));
+        m_data.resize(static_cast<size_t>(newTellp - m_dataBegin), 0);
 
         /* offset to write */
         std::streamoff offset = m_tellp - m_dataBegin;
@@ -184,6 +184,10 @@ void UncompressedFile::seekp(std::streamoff off, const std::ios_base::seekdir /*
     {
         /* mutex lock */
         std::lock_guard<std::mutex> lock(m_mutex);
+
+        /* extend data block */
+        std::streampos newTellp = m_tellp + off;
+        m_data.resize(static_cast<size_t>(newTellp - m_dataBegin), 0);
 
         /* new put position */
         m_tellp += off;
