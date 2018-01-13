@@ -60,7 +60,6 @@ public:
     virtual void write(const char * s, std::streamsize n) override;
     virtual std::streampos tellp() override;
     virtual bool eof() const override;
-    virtual void skipp(std::streamsize s) override;
 
     /**
      * open, basically resets all variables.
@@ -73,6 +72,11 @@ public:
      * @param[in] fileSize file size
      */
     virtual void setFileSize(std::streamsize fileSize);
+
+    /**
+     * next read will result in eof, as tellp is already >= fileSize.
+     */
+    virtual bool atEof() const;
 
     /**
      * Return size of data left to read.

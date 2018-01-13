@@ -102,7 +102,7 @@ public:
      *
      * @param s Number of padding bytes.
      */
-    virtual void skipp(std::streamsize s) = 0;
+    virtual void skipp(std::streamsize s) final;
 };
 
 }

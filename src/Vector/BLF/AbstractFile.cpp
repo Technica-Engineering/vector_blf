@@ -28,5 +28,11 @@ AbstractFile::~AbstractFile()
 {
 }
 
+void AbstractFile::skipp(std::streamsize s)
+{
+    static const char null[16] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+    write(null, s);
+}
+
 }
 }

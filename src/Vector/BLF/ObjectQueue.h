@@ -84,6 +84,9 @@ public:
      */
     virtual void setTotalObjectCount(DWORD totalObjectCount);
 
+    /** @copydoc UncompressedFile::eof */
+    virtual bool atEof() const;
+
     /**
      * Return size of data left to read.
      *

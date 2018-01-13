@@ -48,7 +48,6 @@ public:
     virtual void write(const char * s, std::streamsize n) override;
     virtual std::streampos tellp() override;
     virtual bool eof() const override;
-    virtual void skipp(std::streamsize s) override;
 
     /**
      * open file

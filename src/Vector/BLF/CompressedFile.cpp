@@ -21,8 +21,6 @@
 
 #include <Vector/BLF/CompressedFile.h>
 
-#include <cassert>
-
 namespace Vector {
 namespace BLF {
 
@@ -69,13 +67,6 @@ std::streampos CompressedFile::tellp()
 bool CompressedFile::eof() const
 {
     return m_file.eof();
-}
-
-void CompressedFile::skipp(std::streamsize s)
-{
-    static const char null[16] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-    assert(s <= sizeof(null));
-    m_file.write(null, s);
 }
 
 void CompressedFile::open(const char * filename, std::ios_base::openmode openMode)

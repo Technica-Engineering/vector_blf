@@ -76,6 +76,7 @@ The following files are products of installation and building:
 * There are hints which strucure might get extended. Parser should be prepared for it.
 * UncompressedFile should work with an ObjectQueue<LogContainer>, instead of copying/resizing data into a std::vector<char>.
 # Propagate exceptions from threads to main library, to notify user application.
+# no asserts, do everything with Exception() if necessary at all
 
 # Test sources
 

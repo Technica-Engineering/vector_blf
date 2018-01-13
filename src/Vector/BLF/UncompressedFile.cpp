@@ -21,9 +21,7 @@
 
 #include <Vector/BLF/UncompressedFile.h>
 
-#include <cassert>
 #include <cstring>
-#include <iostream>
 
 #include <Vector/BLF/Exceptions.h>
 
@@ -84,11 +82,7 @@ void UncompressedFile::read(char * s, std::streamsize n)
         std::unique_lock<std::mutex> lock(m_mutex);
 
         /* wait until there is sufficient data */
-        // std::cout << "UncompressedFile::read(): wait for sufficient data" << std::endl;
         m_tellpChanged.wait(lock, [this, n]{
-            // std::cout << "UncompressedFile: m_tellg=0x" << std::hex << m_tellg << std::endl;
-            // std::cout << "UncompressedFile: m_tellp=0x" << std::hex << m_tellp << std::endl;
-            // std::cout << "UncompressedFile: m_fileSize=0x" << std::hex << m_fileSize << std::endl;
             return
                 (m_tellg + n <= m_tellp) ||
                 (m_tellg + n > m_fileSize);
@@ -96,7 +90,6 @@ void UncompressedFile::read(char * s, std::streamsize n)
 
         /* handle read behind eof */
         if (m_tellg + n > m_fileSize) {
-            // std::cout << "UncompressedFile::read(): read behind eof" << std::endl;
             n = m_fileSize - m_tellg;
             m_rdstate = std::ios_base::eofbit;
         } else {
@@ -105,13 +98,11 @@ void UncompressedFile::read(char * s, std::streamsize n)
 
         /* copy data */
         if (n > 0) {
-            // std::cout << "UncompressedFile::read(): copy data" << std::endl;
             /* offset to read */
             std::streamoff offset = m_tellg - m_dataBegin;
 
             /* copy data */
             std::copy(m_data.begin() + offset, m_data.begin() + offset + n, s);
-
         }
 
         /* remember get count */
@@ -192,32 +183,8 @@ bool UncompressedFile::eof() const
     return (m_rdstate & std::ios_base::eofbit);
 }
 
-void UncompressedFile::skipp(std::streamsize s)
-{
-    {
-        /* mutex lock */
-        std::lock_guard<std::mutex> lock(m_mutex);
-
-        /* extend data block */
-        std::streampos newTellp = m_tellp + s;
-        m_data.resize(static_cast<size_t>(newTellp - m_dataBegin), 0);
-
-        /* new put position */
-        m_tellp += s;
-
-        /* if new position is behind eof, shift it */
-        if (m_tellp >= m_fileSize) {
-            m_fileSize = m_tellp;
-        }
-    }
-
-    /* notify */
-    m_tellpChanged.notify_all();
-}
-
 void UncompressedFile::setFileSize(std::streamsize fileSize)
 {
-    // std::cout << "UncompressedFile::setFileSize(0x" << std::hex << fileSize << ")" << std::endl;
     {
         /* mutex lock */
         std::lock_guard<std::mutex> lock(m_mutex);
@@ -228,6 +195,15 @@ void UncompressedFile::setFileSize(std::streamsize fileSize)
 
     /* notify */
     m_tellpChanged.notify_all();
+}
+
+bool UncompressedFile::atEof() const
+{
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    /* next is eof */
+    return (m_tellp >= m_fileSize);
 }
 
 std::streamsize UncompressedFile::size() const

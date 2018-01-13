@@ -23,8 +23,6 @@
 
 #include <Vector/BLF/Exceptions.h>
 
-#include <iostream>
-
 namespace Vector {
 namespace BLF {
 
@@ -80,13 +78,11 @@ ObjectHeaderBase * ObjectQueue::read()
         std::unique_lock<std::mutex> lock(m_mutex);
 
         /* wait for data */
-        // std::cout << "ObjectQueue::front(): wait" << std::endl;
         m_tellpChanged.wait(lock, [this]{
             return
                 !m_queue.empty() ||
                 (m_tellg >= m_totalObjectCount);
         });
-        // std::cout << "ObjectQueue::front(): proceed" << std::endl;
 
         /* get first entry */
         if (m_queue.empty()) {
@@ -128,6 +124,11 @@ void ObjectQueue::write(ObjectHeaderBase * obj)
 
         /* increase put count */
         m_tellp++;
+
+        /* shift eof */
+        if (m_tellp > m_totalObjectCount) {
+            m_totalObjectCount = m_tellp;
+        }
     }
 
     /* notify */
@@ -156,11 +157,21 @@ void ObjectQueue::setTotalObjectCount(DWORD totalObjectCount)
         /* mutex lock */
         std::lock_guard<std::mutex> lock(m_mutex);
 
+        /* set object count */
         m_totalObjectCount = totalObjectCount;
     }
 
     /* notify */
     m_tellpChanged.notify_all();
+}
+
+bool ObjectQueue::atEof() const
+{
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    /* next is eof */
+    return (m_tellp >= m_totalObjectCount);
 }
 
 DWORD ObjectQueue::size() const
