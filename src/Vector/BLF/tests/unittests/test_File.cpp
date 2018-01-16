@@ -28,3 +28,25 @@ BOOST_AUTO_TEST_CASE(OpenErrors)
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_CanMessage.blf", std::ios_base::in);
     BOOST_CHECK(file.is_open());
 }
+
+
+/** try to create objects that are not triggered anyway by other test cases */
+BOOST_AUTO_TEST_CASE(createUnknownObjects)
+{
+    /* doesn't exist */
+    BOOST_CHECK(Vector::BLF::File::createObject(Vector::BLF::ObjectType::UNKNOWN) == nullptr);
+    BOOST_CHECK(Vector::BLF::File::createObject(Vector::BLF::ObjectType::Reserved26) == nullptr);
+    BOOST_CHECK(Vector::BLF::File::createObject(Vector::BLF::ObjectType::Reserved27) == nullptr);
+    BOOST_CHECK(Vector::BLF::File::createObject(Vector::BLF::ObjectType::Reserved28) == nullptr);
+    BOOST_CHECK(Vector::BLF::File::createObject(Vector::BLF::ObjectType::Reserved52) == nullptr);
+    BOOST_CHECK(Vector::BLF::File::createObject(Vector::BLF::ObjectType::Reserved53) == nullptr);
+    BOOST_CHECK(Vector::BLF::File::createObject(Vector::BLF::ObjectType::Reserved108) == nullptr);
+    BOOST_CHECK(Vector::BLF::File::createObject(Vector::BLF::ObjectType::Reserved116) == nullptr);
+    BOOST_CHECK(Vector::BLF::File::createObject(Vector::BLF::ObjectType::Reserved117) == nullptr);
+
+    /* this should exist */
+    Vector::BLF::ObjectHeaderBase * ohb;
+    ohb = Vector::BLF::File::createObject(Vector::BLF::ObjectType::LOG_CONTAINER);
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_CHECK(ohb->objectType == Vector::BLF::ObjectType::LOG_CONTAINER);
+}

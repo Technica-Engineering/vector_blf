@@ -263,6 +263,14 @@ public:
      */
     virtual void close();
 
+    /**
+     * create object of given type
+     *
+     * @param type object type
+     * @return new object
+     */
+    static ObjectHeaderBase * createObject(ObjectType type);
+
 private:
     /**
      * Open mode
@@ -346,14 +354,6 @@ private:
     bool m_compressedFileThreadRunning;
 
     /* internal functions */
-
-    /**
-     * create object of given type
-     *
-     * @param type object type
-     * @return new object
-     */
-    static ObjectHeaderBase * createObject(ObjectType type);
 
     /**
      * Read data from uncompressedFile into readWriteQueue.

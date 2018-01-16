@@ -786,9 +786,6 @@ void File::readWriteQueue2UncompressedFile()
 
     /* write into uncompressedFile */
     ohb->write(m_uncompressedFile);
-//    std::cout << "File::readWriteQueue2UncompressedFile(): wrote object into uncompressedFile." <<
-//                 " type=0x" << std::hex << static_cast<uint16_t>(ohb->objectType) <<
-//                 " size=0x" << ohb->objectSize << std::endl;
 
     /* statistics */
     if (ohb->objectType != ObjectType::Unknown115) {
