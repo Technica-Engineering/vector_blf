@@ -42,7 +42,7 @@ add_definitions(
 # overall tests
 add_boost_test(AllLogfiles test_AllLogfiles test_AllLogfiles.cpp)
 
-# single event tests
+# single class tests
 add_boost_test(A429BusStatistic test_A429BusStatistic test_A429BusStatistic.cpp)
 add_boost_test(A429Error test_A429Error test_A429Error.cpp)
 add_boost_test(A429Message test_A429Message test_A429Message.cpp)
@@ -146,6 +146,7 @@ add_boost_test(MostStress test_MostStress test_MostStress.cpp)
 add_boost_test(MostSystemEvent test_MostSystemEvent test_MostSystemEvent.cpp)
 add_boost_test(MostTrigger test_MostTrigger test_MostTrigger.cpp)
 add_boost_test(MostTxLight test_MostTxLight test_MostTxLight.cpp)
+add_boost_test(ObjectQueue test_ObjectQueue test_ObjectQueue.cpp)
 add_boost_test(RealtimeClock test_RealtimeClock test_RealtimeClock.cpp)
 add_boost_test(SerialEvent test_SerialEvent test_SerialEvent.cpp)
 add_boost_test(SystemVariable test_SystemVariable test_SystemVariable.cpp)

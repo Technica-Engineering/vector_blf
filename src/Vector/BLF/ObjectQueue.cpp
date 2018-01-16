@@ -171,7 +171,7 @@ bool ObjectQueue::atEof() const
     std::lock_guard<std::mutex> lock(m_mutex);
 
     /* next is eof */
-    return (m_tellp >= m_totalObjectCount);
+    return (m_tellg >= m_totalObjectCount);
 }
 
 DWORD ObjectQueue::size() const
