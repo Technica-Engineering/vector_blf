@@ -73,7 +73,7 @@ void File::open(const char * filename, std::ios_base::openmode mode)
 {
     /* check */
     if (is_open()) {
-        throw Exception("File::open(): already open");
+        return;
     }
 
     m_openMode = mode;
