@@ -154,6 +154,7 @@ add_boost_test(RealtimeClock test_RealtimeClock test_RealtimeClock.cpp)
 add_boost_test(SerialEvent test_SerialEvent test_SerialEvent.cpp)
 add_boost_test(SystemVariable test_SystemVariable test_SystemVariable.cpp)
 add_boost_test(TestStructure test_TestStructure test_TestStructure.cpp)
+add_boost_test(UncompressedFile test_UncompressedFile test_UncompressedFile.cpp)
 add_boost_test(WlanFrame test_WlanFrame test_WlanFrame.cpp)
 add_boost_test(WlanStatistic test_WlanStatistic test_WlanStatistic.cpp)
 
