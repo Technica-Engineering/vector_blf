@@ -77,7 +77,6 @@ The following files are products of installation and building:
 * UncompressedFile should work with an ObjectQueue<LogContainer>, instead of copying/resizing data into a std::vector<char>.
 # Propagate exceptions from threads to main library, to notify user application, e.g. when reading unfinished files.
 # no asserts, do everything with Exception() if necessary at all.
-# Dedicated tests for ObjectQueue, UncompressedFile, and Compressedfile.
 # Check if the wait on full (ObjectQueue, UncompressedFile) can be shifted from File to these classes.
 
 # Test sources

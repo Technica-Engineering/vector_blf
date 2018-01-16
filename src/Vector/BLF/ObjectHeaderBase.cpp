@@ -59,9 +59,6 @@ void ObjectHeaderBase::write(AbstractFile & os)
     objectSize = calculateObjectSize();
 
     os.write(reinterpret_cast<char *>(&signature), sizeof(signature));
-    if (signature != ObjectSignature) {
-        return;
-    }
     os.write(reinterpret_cast<char *>(&headerSize), sizeof(headerSize));
     os.write(reinterpret_cast<char *>(&headerVersion), sizeof(headerVersion));
     os.write(reinterpret_cast<char *>(&objectSize), sizeof(objectSize));

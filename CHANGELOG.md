@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+### Changed
+- Multi-Threading support using two threads between three data structures.
+
 ## [1.2.1] - 2017-12-29
 ### Added
 - Preliminary support for object type 115. EOF message incl. FileStatistics.
