@@ -153,8 +153,7 @@ bool File::eof()
 ObjectHeaderBase * File::read()
 {
     /* read object */
-    ObjectHeaderBase * ohb = nullptr;
-    ohb = m_readWriteQueue.read();
+    ObjectHeaderBase * ohb = m_readWriteQueue.read();
 
     /* notify thread */
     m_uncompressedFileThreadWakeup.notify_all();

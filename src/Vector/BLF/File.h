@@ -254,7 +254,7 @@ public:
     /**
      * write object to file
      *
-     * @param[in] objectHeaderBase write object
+     * @param[in] ohb write object
      */
     virtual void write(ObjectHeaderBase * ohb);
 
