@@ -81,6 +81,7 @@ add_boost_test(EthernetStatistic test_EthernetStatistic test_EthernetStatistic.c
 add_boost_test(EthernetStatus test_EthernetStatus test_EthernetStatus.cpp)
 add_boost_test(EventComment test_EventComment test_EventComment.cpp)
 add_boost_test(Exceptions test_Exceptions test_Exceptions.cpp)
+add_boost_test(FileStatistics test_FileStatistics test_FileStatistics.cpp)
 add_boost_test(FlexRayData test_FlexRayData test_FlexRayData.cpp)
 add_boost_test(FlexRayStatusEvent test_FlexRayStatusEvent test_FlexRayStatusEvent.cpp)
 add_boost_test(FlexRaySync test_FlexRaySync test_FlexRaySync.cpp)

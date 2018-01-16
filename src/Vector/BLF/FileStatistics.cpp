@@ -62,9 +62,6 @@ void FileStatistics::read(AbstractFile & is)
         throw Exception("FileStatistics::read(): File signature doesn't match at this position.");
     }
     is.read(reinterpret_cast<char *>(&statisticsSize), sizeof(statisticsSize));
-    if (statisticsSize != calculateStatisticsSize()) {
-        return;
-    }
     is.read(reinterpret_cast<char *>(&applicationId), sizeof(applicationId));
     is.read(reinterpret_cast<char *>(&applicationMajor), sizeof(applicationMajor));
     is.read(reinterpret_cast<char *>(&applicationMinor), sizeof(applicationMinor));

@@ -8,7 +8,7 @@
 #include <Vector/BLF.h>
 
 /** check if it throws on wrong signature */
-BOOST_AUTO_TEST_CASE(SimpleTest)
+BOOST_AUTO_TEST_CASE(WrongSignature)
 {
     Vector::BLF::UncompressedFile file;
     Vector::BLF::ObjectHeaderBase ohb1, ohb2;
