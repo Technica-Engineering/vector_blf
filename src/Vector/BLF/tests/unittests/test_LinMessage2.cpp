@@ -165,3 +165,22 @@ BOOST_AUTO_TEST_CASE(LinMessage2_2)
     BOOST_CHECK(file.eof());
     file.close();
 }
+
+/** write and read a LinMessage with objectVersion0 */
+BOOST_AUTO_TEST_CASE(LinMessageVersion0)
+{
+    Vector::BLF::UncompressedFile file;
+    file.open();
+
+    /* write to file */
+    Vector::BLF::LinMessage2 linMessage1;
+    BOOST_CHECK_EQUAL(linMessage1.calculateObjectSize(), 0xB8);
+    linMessage1.objectVersion = 0;
+    BOOST_CHECK_EQUAL(linMessage1.calculateObjectSize(), 0xA8);
+    linMessage1.write(file);
+
+    /* read from file */
+    Vector::BLF::LinMessage2 linMessage2;
+    linMessage2.read(file);
+    BOOST_CHECK_EQUAL(linMessage2.objectVersion, 0);
+}
