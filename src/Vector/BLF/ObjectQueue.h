@@ -37,6 +37,7 @@ namespace BLF {
 /**
  * Thread-safe queue for ObjectHeaderBase
  */
+template <typename T>
 class VECTOR_BLF_EXPORT ObjectQueue {
 public:
     explicit ObjectQueue();
@@ -57,7 +58,7 @@ public:
      *
      * @return object (or nullptr if empty)
      */
-    virtual ObjectHeaderBase * read();
+    virtual T * read();
 
     /** @copydoc AbstractFile::tellg */
     virtual DWORD tellg() const;
@@ -69,7 +70,7 @@ public:
      *
      * @param[in] obj object
      */
-    void write(ObjectHeaderBase * obj);
+    void write(T * obj);
 
     /** @copydoc AbstractFile::tellp */
     virtual DWORD tellp() const;
@@ -96,7 +97,7 @@ public:
 
 private:
     /** queue */
-    std::queue<ObjectHeaderBase *> m_queue;
+    std::queue<T *> m_queue;
 
     /** read position */
     DWORD m_tellg;

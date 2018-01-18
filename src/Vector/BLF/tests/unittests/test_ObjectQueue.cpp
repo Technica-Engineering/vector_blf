@@ -10,7 +10,7 @@
 /** insert and remove some elements and check state of queue */
 BOOST_AUTO_TEST_CASE(SimpleTest)
 {
-    Vector::BLF::ObjectQueue objectQueue;
+    Vector::BLF::ObjectQueue<Vector::BLF::ObjectHeaderBase> objectQueue;
 
     /* open queue and empty checks */
     objectQueue.open();

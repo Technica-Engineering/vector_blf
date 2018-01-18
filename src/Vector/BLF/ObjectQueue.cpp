@@ -26,7 +26,8 @@
 namespace Vector {
 namespace BLF {
 
-ObjectQueue::ObjectQueue() :
+template<typename T>
+ObjectQueue<T>::ObjectQueue() :
     m_queue(),
     m_tellg(0),
     m_tellgChanged(),
@@ -38,18 +39,20 @@ ObjectQueue::ObjectQueue() :
 {
 }
 
-ObjectQueue::~ObjectQueue()
+template<typename T>
+ObjectQueue<T>::~ObjectQueue()
 {
 }
 
-void ObjectQueue::open()
+template<typename T>
+void ObjectQueue<T>::open()
 {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
     /* reset */
     while(!m_queue.empty()) {
-        ObjectHeaderBase * ohb = m_queue.front();
+        T * ohb = m_queue.front();
         m_queue.pop();
         delete ohb;
     }
@@ -59,7 +62,8 @@ void ObjectQueue::open()
     m_rdstate = std::ios_base::goodbit;
 }
 
-void ObjectQueue::close()
+template<typename T>
+void ObjectQueue<T>::close()
 {
     /* mutex lock */
     std::unique_lock<std::mutex> lock(m_mutex);
@@ -70,9 +74,10 @@ void ObjectQueue::close()
     });
 }
 
-ObjectHeaderBase * ObjectQueue::read()
+template<typename T>
+T * ObjectQueue<T>::read()
 {
-    ObjectHeaderBase * ohb = nullptr;
+    T * ohb = nullptr;
     {
         /* mutex lock */
         std::unique_lock<std::mutex> lock(m_mutex);
@@ -105,7 +110,8 @@ ObjectHeaderBase * ObjectQueue::read()
     return ohb;
 }
 
-DWORD ObjectQueue::tellg() const
+template<typename T>
+DWORD ObjectQueue<T>::tellg() const
 {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
@@ -113,7 +119,8 @@ DWORD ObjectQueue::tellg() const
     return m_tellg;
 }
 
-void ObjectQueue::write(ObjectHeaderBase * obj)
+template<typename T>
+void ObjectQueue<T>::write(T * obj)
 {
     {
         /* mutex lock */
@@ -135,7 +142,8 @@ void ObjectQueue::write(ObjectHeaderBase * obj)
     m_tellpChanged.notify_all();
 }
 
-DWORD ObjectQueue::tellp() const
+template<typename T>
+DWORD ObjectQueue<T>::tellp() const
 {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
@@ -143,7 +151,8 @@ DWORD ObjectQueue::tellp() const
     return m_tellp;
 }
 
-bool ObjectQueue::eof() const
+template<typename T>
+bool ObjectQueue<T>::eof() const
 {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
@@ -151,7 +160,8 @@ bool ObjectQueue::eof() const
     return (m_rdstate & std::ios_base::eofbit);
 }
 
-void ObjectQueue::setTotalObjectCount(DWORD totalObjectCount)
+template<typename T>
+void ObjectQueue<T>::setTotalObjectCount(DWORD totalObjectCount)
 {
     {
         /* mutex lock */
@@ -165,7 +175,8 @@ void ObjectQueue::setTotalObjectCount(DWORD totalObjectCount)
     m_tellpChanged.notify_all();
 }
 
-bool ObjectQueue::atEof() const
+template<typename T>
+bool ObjectQueue<T>::atEof() const
 {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
@@ -174,7 +185,8 @@ bool ObjectQueue::atEof() const
     return (m_tellg >= m_totalObjectCount);
 }
 
-DWORD ObjectQueue::size() const
+template<typename T>
+DWORD ObjectQueue<T>::size() const
 {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
@@ -182,6 +194,8 @@ DWORD ObjectQueue::size() const
     /* size between put/write and get/read positions */
     return (m_tellp - m_tellg);
 }
+
+template class VECTOR_BLF_EXPORT ObjectQueue<ObjectHeaderBase>;
 
 }
 }

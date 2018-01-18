@@ -289,7 +289,7 @@ private:
      * application. If there are no objects in the queue, the methods waits for the readWriteThread to finish.
      * The readWriteThread reads objects from the compressedfile and puts them into the queue.
      */
-    ObjectQueue m_readWriteQueue;
+    ObjectQueue<ObjectHeaderBase> m_readWriteQueue;
 
     /**
      * mutex for readWriteQueue access
