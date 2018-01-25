@@ -86,13 +86,30 @@ public:
     virtual std::streamsize size() const;
 
     /**
+     * Sets the maximum file size.
+     * Write operations block, if the size is reached.
+     *
+     * @param[in] maxFileSize maximum file size
+     */
+    virtual void setMaxFileSize(std::streamsize maxFileSize);
+
+    /**
      * drop old data (only if dropSize is possible)
      *
      * @param[in] dropSize size of data to drop (used in write case)
      */
     virtual void dropOldData(std::streamsize dropSize);
 
+    /** tellg was changed (after read or seekg) */
+    std::condition_variable tellgChanged;
+
+    /** tellp was changed (after write or seekp) */
+    std::condition_variable tellpChanged;
+
 private:
+    /** is file open? */
+    bool m_is_open;
+
     /** data */
     std::vector<char> m_data;
 
@@ -102,20 +119,17 @@ private:
     /** get position */
     std::streampos m_tellg;
 
-    /** tellg was changed (after read or seekg) */
-    std::condition_variable m_tellgChanged;
-
     /** put position */
     std::streampos m_tellp;
-
-    /** tellp was changed (after write or seekp) */
-    std::condition_variable m_tellpChanged;
 
     /** last read size */
     std::streamsize m_gcount;
 
     /** file size */
     std::streamsize m_fileSize;
+
+    /** max file size */
+    std::streamsize m_maxFileSize;
 
     /** error state */
     std::ios_base::iostate m_rdstate;

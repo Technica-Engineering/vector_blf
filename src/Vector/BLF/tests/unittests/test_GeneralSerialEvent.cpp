@@ -12,5 +12,5 @@ BOOST_AUTO_TEST_CASE(SimpleTest)
     Vector::BLF::GeneralSerialEvent obj;
     BOOST_CHECK_EQUAL(obj.calculateObjectSize(), 0x10);
     obj.data.resize(32);
-    BOOST_CHECK_EQUAL(obj.calculateObjectSize(), 0x30);
+    BOOST_CHECK_EQUAL(obj.calculateObjectSize(), 0x10);
 }

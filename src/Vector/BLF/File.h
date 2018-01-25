@@ -23,7 +23,6 @@
 
 #include <Vector/BLF/platform.h>
 
-#include <condition_variable>
 #include <fstream>
 #include <thread>
 
@@ -291,11 +290,6 @@ private:
      */
     ObjectQueue<ObjectHeaderBase> m_readWriteQueue;
 
-    /**
-     * mutex for readWriteQueue access
-     */
-    std::mutex m_readWriteQueueMutex;
-
     /* uncompressed file */
 
     /**
@@ -308,19 +302,9 @@ private:
     UncompressedFile m_uncompressedFile;
 
     /**
-     * mutex for uncompressedFile access
-     */
-    std::mutex m_uncompressedFileMutex;
-
-    /**
      * thread between readWriteQueue and uncompressedFile
      */
     std::thread m_uncompressedFileThread;
-
-    /**
-     * wakeup m_uncompressedThread after readWriteQueue was changed
-     */
-    std::condition_variable m_uncompressedFileThreadWakeup;
 
     /**
      * thread still running
@@ -342,11 +326,6 @@ private:
      * thread between uncompressedFile and compressedFile
      */
     std::thread m_compressedFileThread;
-
-    /**
-     * uncompressedFile has changed
-     */
-    std::condition_variable m_compressedFileThreadWakeup;
 
     /**
      * thread still running

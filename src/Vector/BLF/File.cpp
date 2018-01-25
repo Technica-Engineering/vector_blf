@@ -46,17 +46,15 @@ File::File() :
     writeUnknown115(true),
     m_openMode(),
     m_readWriteQueue(),
-    m_readWriteQueueMutex(),
     m_uncompressedFile(),
-    m_uncompressedFileMutex(),
     m_uncompressedFileThread(),
-    m_uncompressedFileThreadWakeup(),
     m_uncompressedFileThreadRunning(),
     m_compressedFile(),
     m_compressedFileThread(),
-    m_compressedFileThreadWakeup(),
     m_compressedFileThreadRunning()
 {
+    m_readWriteQueue.setMaxSize(10);
+    m_uncompressedFile.setMaxFileSize(0x20000);
 }
 
 File::~File()
@@ -141,9 +139,6 @@ bool File::is_open() const
 
 bool File::eof()
 {
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_readWriteQueueMutex);
-
     return
         m_readWriteQueue.eof() &&
         m_uncompressedFile.eof();
@@ -155,30 +150,13 @@ ObjectHeaderBase * File::read()
     /* read object */
     ObjectHeaderBase * ohb = m_readWriteQueue.read();
 
-    /* notify thread */
-    m_uncompressedFileThreadWakeup.notify_all();
-
     return ohb;
 }
 
 void File::write(ObjectHeaderBase * ohb)
 {
-    {
-        /* mutex lock */
-        std::unique_lock<std::mutex> lock(m_readWriteQueueMutex);
-
-        /* wait until readWrite has space free */
-        m_uncompressedFileThreadWakeup.wait(lock, [this]{
-            return m_readWriteQueue.size() < 10;
-        });
-
-    }
-
     /* push to queue */
     m_readWriteQueue.write(ohb);
-
-    /* notify thread */
-    m_uncompressedFileThreadWakeup.notify_all();
 }
 
 void File::close()
@@ -194,9 +172,9 @@ void File::close()
         if (m_compressedFileThread.joinable()) {
             /* abort operation */
             m_compressedFileThreadRunning = false;
-            m_compressedFileThreadWakeup.notify_all();
 
             /* wait for thread to finish */
+            m_compressedFile.close();
             m_compressedFileThread.join();
         }
 
@@ -204,9 +182,9 @@ void File::close()
         if (m_uncompressedFileThread.joinable()) {
             /* abort operation */
             m_uncompressedFileThreadRunning = false;
-            m_uncompressedFileThreadWakeup.notify_all();
 
             /* wait for thread to finish */
+            m_uncompressedFile.close();
             m_uncompressedFileThread.join();
         }
     } else
@@ -219,7 +197,6 @@ void File::close()
         m_readWriteQueue.close();
 
         /* finalize uncompression thread */
-        m_uncompressedFileThreadWakeup.notify_all();
         if (m_uncompressedFileThread.joinable()) {
             m_uncompressedFileThread.join();
         }
@@ -231,7 +208,6 @@ void File::close()
         }
 
         /* finalize compression thread */
-        m_compressedFileThreadWakeup.notify_all();
         if (m_compressedFileThread.joinable()) {
             m_compressedFileThread.join();
         }
@@ -939,16 +915,6 @@ void File::uncompressedFile2CompressedFile()
 void File::uncompressedFileReadThread(File * file)
 {
     while(file->m_uncompressedFileThreadRunning) {
-        /* wait until readWriteQueue has free space */
-        std::mutex mutex;
-        std::unique_lock<std::mutex> lock(mutex);
-        file->m_uncompressedFileThreadWakeup.wait(lock, [file]{
-            return
-                !file->m_uncompressedFileThreadRunning ||
-                file->m_uncompressedFile.atEof() ||
-                (file->m_readWriteQueue.size() < 10);
-        });
-
         /* process */
         file->uncompressedFile2ReadWriteQueue();
 
@@ -957,24 +923,12 @@ void File::uncompressedFileReadThread(File * file)
             file->m_readWriteQueue.setTotalObjectCount(file->m_readWriteQueue.tellp()); // eof
             file->m_uncompressedFileThreadRunning = false;
         }
-
-        /* notify about free space in uncompressedFile */
-        file->m_compressedFileThreadWakeup.notify_all();
     }
 }
 
 void File::uncompressedFileWriteThread(File * file)
 {
     while(file->m_uncompressedFileThreadRunning) {
-        /* wait until uncompressedFile has free space */
-        std::mutex mutex;
-        std::unique_lock<std::mutex> lock(mutex);
-        file->m_uncompressedFileThreadWakeup.wait(lock, [file]{
-            return
-                file->m_readWriteQueue.atEof() ||
-                file->m_uncompressedFile.size() < 0x20000;
-        });
-
         /* process */
         file->readWriteQueue2UncompressedFile();
 
@@ -983,25 +937,12 @@ void File::uncompressedFileWriteThread(File * file)
             file->m_uncompressedFile.setFileSize(file->m_uncompressedFile.tellp()); // eof
             file->m_uncompressedFileThreadRunning = false;
         }
-
-        /* notify about data in uncompressedFile */
-        file->m_compressedFileThreadWakeup.notify_all();
     }
 }
 
 void File::compressedFileReadThread(File * file)
 {
     while(file->m_compressedFileThreadRunning) {
-        /* wait until uncompressedFile has free space */
-        std::mutex mutex;
-        std::unique_lock<std::mutex> lock(mutex);
-        file->m_compressedFileThreadWakeup.wait(lock, [file]{
-            return
-                !file->m_compressedFileThreadRunning ||
-                file->m_compressedFile.eof() ||
-                (file->m_uncompressedFile.size() < 0x20000);
-        });
-
         /* process */
         file->compressedFile2UncompressedFile();
 
@@ -1010,24 +951,12 @@ void File::compressedFileReadThread(File * file)
             file->m_uncompressedFile.setFileSize(file->m_uncompressedFile.tellp()); // eof
             file->m_compressedFileThreadRunning = false;
         }
-
-        /* notify about data in uncompressedFile */
-        file->m_uncompressedFileThreadWakeup.notify_all();
     }
 }
 
 void File::compressedFileWriteThread(File * file)
 {
     while(file->m_compressedFileThreadRunning) {
-        /* wait until compressedFile has enough data */
-        std::mutex mutex;
-        std::unique_lock<std::mutex> lock(mutex);
-        file->m_compressedFileThreadWakeup.wait(lock, [file]{
-            return
-                file->m_uncompressedFile.atEof() ||
-                (file->m_uncompressedFile.size() >= file->defaultLogContainerSize);
-        });
-
         /* process */
         file->uncompressedFile2CompressedFile();
 
@@ -1036,9 +965,6 @@ void File::compressedFileWriteThread(File * file)
             // file->m_compressedFile.setFileSize(file->m_compressedFile.tellp()); // eof
             file->m_compressedFileThreadRunning = false;
         }
-
-        /* notify about free space in uncompressedFile */
-        file->m_uncompressedFileThreadWakeup.notify_all();
     }
 }
 

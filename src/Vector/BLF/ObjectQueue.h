@@ -95,21 +95,35 @@ public:
      */
     virtual DWORD size() const;
 
+    /**
+     * Sets the maximum queue size.
+     * Write operations block, if the size is reached.
+     *
+     * @param[in] maxSize maximum queue size
+     */
+    virtual void setMaxSize(DWORD maxSize);
+
+    /** data was dequeued */
+    std::condition_variable tellgChanged;
+
+    /** data was enqueued */
+    std::condition_variable tellpChanged;
+
 private:
+    /** is queue open? */
+    bool m_is_open;
+
     /** queue */
     std::queue<T *> m_queue;
 
     /** read position */
     DWORD m_tellg;
 
-    /** data was dequeued */
-    std::condition_variable m_tellgChanged;
-
     /** write position */
     DWORD m_tellp;
 
-    /** data was enqueued */
-    std::condition_variable m_tellpChanged;
+    /** max size */
+    DWORD m_maxSize;
 
     /** eof position */
     DWORD m_totalObjectCount;

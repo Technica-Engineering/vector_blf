@@ -29,14 +29,16 @@ namespace Vector {
 namespace BLF {
 
 UncompressedFile::UncompressedFile() :
+    tellgChanged(),
+    tellpChanged(),
+    m_is_open(false),
     m_data(),
     m_dataBegin(0),
     m_tellg(0),
-    m_tellgChanged(),
     m_tellp(0),
-    m_tellpChanged(),
     m_gcount(0),
     m_fileSize(0x7fffffffffffffff),
+    m_maxFileSize(0x7fffffffffffffff),
     m_rdstate(std::ios_base::goodbit),
     m_mutex()
 {
@@ -48,24 +50,28 @@ void UncompressedFile::open()
     std::lock_guard<std::mutex> lock(m_mutex);
 
     /* reset data buffer */
+    m_is_open = true;
     m_data.clear();
     m_dataBegin = 0;
     m_tellg = 0;
     m_tellp = 0;
     m_gcount = 0;
     m_fileSize = 0x7fffffffffffffff;
+    m_maxFileSize = 0x7fffffffffffffff;
     m_rdstate = std::ios_base::goodbit;
 }
 
 void UncompressedFile::close()
 {
     /* mutex lock */
-    std::unique_lock<std::mutex> lock(m_mutex);
+    std::lock_guard<std::mutex> lock(m_mutex);
 
-    /* wait till the queue is empty */
-    m_tellgChanged.wait(lock, [this]{
-       return m_tellg >= m_tellp;
-    });
+    /* stop */
+    m_is_open = false;
+
+    /* trigger blocked threads */
+    tellgChanged.notify_all();
+    tellpChanged.notify_all();
 }
 
 std::streamsize UncompressedFile::gcount() const
@@ -82,8 +88,9 @@ void UncompressedFile::read(char * s, std::streamsize n)
         std::unique_lock<std::mutex> lock(m_mutex);
 
         /* wait until there is sufficient data */
-        m_tellpChanged.wait(lock, [this, n]{
+        tellpChanged.wait(lock, [this, n]{
             return
+                !m_is_open ||
                 (m_tellg + n <= m_tellp) ||
                 (m_tellg + n > m_fileSize);
         });
@@ -113,7 +120,7 @@ void UncompressedFile::read(char * s, std::streamsize n)
     }
 
     /* notify */
-    m_tellgChanged.notify_all();
+    tellgChanged.notify_all();
 }
 
 std::streampos UncompressedFile::tellg()
@@ -135,36 +142,43 @@ void UncompressedFile::seekg(std::streamoff off, const std::ios_base::seekdir /*
     }
 
     /* notify */
-    m_tellgChanged.notify_all();
+    tellgChanged.notify_all();
 }
 
 void UncompressedFile::write(const char * s, std::streamsize n)
 {
-    {
-        /* mutex lock */
-        std::lock_guard<std::mutex> lock(m_mutex);
+    /* mutex lock */
+    std::unique_lock<std::mutex> lock(m_mutex);
 
-        /* extend data block */
-        std::streampos newTellp = m_tellp + n;
-        m_data.resize(static_cast<size_t>(newTellp - m_dataBegin), 0);
+    /* wait for free space */
+    tellgChanged.wait(lock, [this]{
+        return
+            !m_is_open ||
+            ((m_tellp - m_tellg) < m_maxFileSize);
+    });
 
-        /* offset to write */
-        std::streamoff offset = m_tellp - m_dataBegin;
+    /* extend data block */
+    std::streampos newTellp = m_tellp + n;
+    m_data.resize(static_cast<size_t>(newTellp - m_dataBegin), 0);
 
-        /* copy data */
-        std::copy(s, s + n, m_data.begin() + offset);
+    /* offset to write */
+    std::streamoff offset = m_tellp - m_dataBegin;
 
-        /* new put position */
-        m_tellp += n;
+    /* copy data */
+    std::copy(s, s + n, m_data.begin() + offset);
 
-        /* if new position is behind eof, shift it */
-        if (m_tellp >= m_fileSize) {
-            m_fileSize = m_tellp;
-        }
+    /* new put position */
+    m_tellp += n;
+
+    /* if new position is behind eof, shift it */
+    if (m_tellp >= m_fileSize) {
+        m_fileSize = m_tellp;
     }
 
+    lock.unlock();
+
     /* notify */
-    m_tellpChanged.notify_all();
+    tellpChanged.notify_all();
 }
 
 std::streampos UncompressedFile::tellp()
@@ -194,7 +208,7 @@ void UncompressedFile::setFileSize(std::streamsize fileSize)
     }
 
     /* notify */
-    m_tellpChanged.notify_all();
+    tellpChanged.notify_all();
 }
 
 bool UncompressedFile::atEof() const
@@ -213,6 +227,15 @@ std::streamsize UncompressedFile::size() const
 
     /* size between put/write and get/read positions */
     return (m_tellp - m_tellg);
+}
+
+void UncompressedFile::setMaxFileSize(std::streamsize maxFileSize)
+{
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    /* set max size */
+    m_maxFileSize = maxFileSize;
 }
 
 void UncompressedFile::dropOldData(std::streamsize dropSize)
