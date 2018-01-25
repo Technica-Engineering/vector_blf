@@ -18,6 +18,7 @@ option(OPTION_RUN_CPPCHECK "Run Cppcheck" OFF)
 option(OPTION_RUN_EXAMPLES "Run examples" OFF)
 option(OPTION_RUN_TESTS "Run tests" OFF)
 option(OPTION_USE_GCOV_LCOV "Use gcov and run lcov" OFF)
+option(OPTION_USE_GPROF "Use gprof" OFF)
 
 # directories
 include(GNUInstallDirs)
