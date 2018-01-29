@@ -77,7 +77,6 @@ The following files are products of installation and building:
 * UncompressedFile should work with an ObjectQueue<LogContainer>, instead of copying/resizing data into a std::vector<char>.
 # Propagate exceptions from threads to main library, to notify user application, e.g. when reading unfinished files.
 # Provide an Unknown object type to be able to read just a blob for all yet unknown object types
-# Move compression/decompression from File to LogContainer.
 
 # Test sources
 

@@ -21,6 +21,10 @@
 
 #include <Vector/BLF/LogContainer.h>
 
+#include <zlib.h>
+
+#include <Vector/BLF/Exceptions.h>
+
 namespace Vector {
 namespace BLF {
 
@@ -32,6 +36,7 @@ LogContainer::LogContainer() :
     uncompressedFileSize(0),
     reservedLogContainer3(0),
     compressedFile(),
+    uncompressedFile(),
     compressedFileSize(0)
 {
     headerVersion = 1;
@@ -87,6 +92,73 @@ WORD LogContainer::internalHeaderSize() const
         sizeof(reservedLogContainer2) +
         sizeof(uncompressedFileSize) +
         sizeof(reservedLogContainer3);
+}
+
+void LogContainer::uncompress()
+{
+    switch(compressionMethod) {
+    case 0: /* no compression */
+        uncompressedFile = compressedFile;
+        break;
+
+    case 2: /* zlib compress */
+    {
+        /* create buffer */
+        uLong size = static_cast<uLong>(uncompressedFileSize);
+        uncompressedFile.resize(size);
+
+        /* inflate */
+        int retVal = ::uncompress(
+             reinterpret_cast<Byte *>(uncompressedFile.data()),
+             &size,
+             reinterpret_cast<Byte *>(compressedFile.data()),
+             static_cast<uLong>(compressedFileSize));
+        if (size != uncompressedFileSize) {
+            throw Exception("LogContainer::uncompress(): unexpected uncompressedSize");
+        }
+        if (retVal != Z_OK) {
+            throw Exception("LogContainer::uncompress(): uncompress error");
+        }
+    }
+        break;
+
+    default:
+        throw Exception("LogContainer::uncompress(): unknown compression method");
+    }
+}
+
+void LogContainer::compress(WORD compressionMethod, int compressionLevel)
+{
+    this->compressionMethod = compressionMethod;
+
+    switch(compressionMethod) {
+    case 0: /* no compression */
+        compressedFile = uncompressedFile;
+        compressedFileSize = uncompressedFileSize;
+        break;
+
+    case 2: /* zlib compress */
+    {
+        /* deflate/compress data */
+        uLong compressedBufferSize = compressBound(uncompressedFileSize);
+        compressedFile.resize(compressedBufferSize); // extend
+        int retVal = ::compress2(
+            reinterpret_cast<Byte *>(compressedFile.data()),
+            &compressedBufferSize,
+            reinterpret_cast<Byte *>(uncompressedFile.data()),
+            uncompressedFileSize,
+            compressionLevel);
+        if (retVal != Z_OK) {
+            throw Exception("File::uncompressedFile2CompressedFile(): compress2 error");
+        }
+        compressedFileSize = static_cast<DWORD>(compressedBufferSize);
+        compressedFile.resize(compressedFileSize); // shrink
+    }
+        break;
+
+    default:
+        throw Exception("LogContainer::compress(): unknown compression method");
+    }
 }
 
 }

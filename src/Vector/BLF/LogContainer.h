@@ -75,6 +75,11 @@ public:
     /** compressed file content */
     std::vector<uint8_t> compressedFile;
 
+    /* following data is calculated */
+
+    /** uncompressed file content */
+    std::vector<uint8_t> uncompressedFile;
+
     /** compressed file size in bytes */
     DWORD compressedFileSize;
 
@@ -84,6 +89,19 @@ public:
      * @return Size of all headers.
      */
     WORD internalHeaderSize() const;
+
+    /**
+     * uncompress data
+     */
+    virtual void uncompress();
+
+    /**
+     * compress data
+     *
+     * @param[in] compressionMethod compression method
+     * @param[in] compressionLevel compression level (different for each method)
+     */
+    virtual void compress(WORD compressionMethod, int compressionLevel);
 };
 
 }

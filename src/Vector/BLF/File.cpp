@@ -21,16 +21,7 @@
 
 #include <Vector/BLF/File.h>
 
-/* writes into the current directory the contents of compressedFile in read and in write case */
-#undef DEBUG_WRITE_UNCOMPRESSED_FILE
-
 #include <cstring>
-#ifdef DEBUG_WRITE_UNCOMPRESSED_FILE
-#include <fstream>
-#include <sstream>
-#endif
-
-#include <zlib.h>
 
 #include <Vector/BLF/Exceptions.h>
 
@@ -800,50 +791,12 @@ void File::compressedFile2UncompressedFile()
         logContainer.uncompressedFileSize;
 
     /* uncompress */
-    switch(logContainer.compressionMethod) {
-    case 0: /* no compression */
-    {
-        m_uncompressedFile.write(
-            reinterpret_cast<const char *>(logContainer.compressedFile.data()),
-            static_cast<std::streamsize>(logContainer.compressedFileSize));
-    }
-        break;
+    logContainer.uncompress();
 
-    case 2: /* zlib compress */
-    {
-        /* create buffer */
-        uLong uncompressedBufferSize = static_cast<uLong>(logContainer.uncompressedFileSize);
-        std::vector<char> uncompressedBuffer;
-        uncompressedBuffer.resize(uncompressedBufferSize);
-
-        /* inflate */
-        int retVal = uncompress(
-             reinterpret_cast<Byte *>(uncompressedBuffer.data()),
-             &uncompressedBufferSize,
-             reinterpret_cast<Byte *>(logContainer.compressedFile.data()),
-             static_cast<uLong>(logContainer.compressedFileSize));
-        if (retVal != Z_OK) {
-            throw Exception("File::compressedFile2UncompressedFile(): uncompress error");
-        }
-
-        /* copy into uncompressedFile */
-#ifdef DEBUG_WRITE_UNCOMPRESSED_FILE
-        std::ostringstream oss;
-        oss << "read_uncompressedFile_0x" << std::hex << m_uncompressedFile.tellp();
-        std::ofstream ofs;
-        ofs.open(oss.str());
-#endif
-        m_uncompressedFile.write(uncompressedBuffer.data(), static_cast<std::streamsize>(uncompressedBufferSize));
-#ifdef DEBUG_WRITE_UNCOMPRESSED_FILE
-        ofs.write(uncompressedBuffer.data(), static_cast<std::streamsize>(uncompressedBufferSize));
-        ofs.close();
-#endif
-    }
-        break;
-
-    default:
-        throw Exception("File::compressedFile2UncompressedFile(): unknown compression");
-    }
+    /* copy into uncompressedFile */
+    m_uncompressedFile.write(
+        reinterpret_cast<char *>(logContainer.uncompressedFile.data()),
+        logContainer.uncompressedFileSize);
 }
 
 void File::uncompressedFile2CompressedFile()
@@ -851,55 +804,21 @@ void File::uncompressedFile2CompressedFile()
     /* setup new log container */
     LogContainer logContainer;
 
+    /* copy data into LogContainer */
+    logContainer.uncompressedFile.resize(defaultLogContainerSize);
+    m_uncompressedFile.read(
+        reinterpret_cast<char *>(logContainer.uncompressedFile.data()),
+        defaultLogContainerSize);
+    logContainer.uncompressedFileSize = static_cast<DWORD>(m_uncompressedFile.gcount());
+    logContainer.uncompressedFile.resize(logContainer.uncompressedFileSize);
+
     /* compress */
-    if (compressionLevel == Z_NO_COMPRESSION) {
+    if (compressionLevel == 0) {
         /* no compression */
-        logContainer.compressionMethod = 0;
-
-        /* copy data into LogContainer */
-        logContainer.compressedFile.resize(defaultLogContainerSize);
-        m_uncompressedFile.read(
-            reinterpret_cast<char *>(logContainer.compressedFile.data()),
-            defaultLogContainerSize);
-        logContainer.compressedFile.resize(static_cast<size_t>(m_uncompressedFile.gcount()));
-
-        /* set sizes */
-        logContainer.compressedFileSize = static_cast<DWORD>(logContainer.compressedFile.size());
-        logContainer.uncompressedFileSize = static_cast<DWORD>(logContainer.compressedFile.size());
+        logContainer.compress(0, 0);
     } else {
         /* zlib compression */
-        logContainer.compressionMethod = 2;
-
-        /* copy data into buffer */
-        std::vector<char> uncompressedBuffer;
-        uncompressedBuffer.resize(defaultLogContainerSize); // extend
-        m_uncompressedFile.read(uncompressedBuffer.data(), defaultLogContainerSize);
-        logContainer.uncompressedFileSize = static_cast<DWORD>(m_uncompressedFile.gcount());
-        uncompressedBuffer.resize(logContainer.uncompressedFileSize); // shrink
-
-#ifdef DEBUG_WRITE_UNCOMPRESSED_FILE
-        std::ostringstream oss;
-        oss << "write_uncompressedFile_0x" << std::hex << m_uncompressedFile.tellp();
-        std::ofstream ofs;
-        ofs.open(oss.str());
-        ofs.write(uncompressedBuffer.data(), static_cast<std::streamsize>(uncompressedBuffer.size()));
-        ofs.close();
-#endif
-
-        /* deflate/compress data */
-        uLong compressedBufferSize = compressBound(logContainer.uncompressedFileSize);
-        logContainer.compressedFile.resize(compressedBufferSize); // extend
-        int retVal = compress2(
-            reinterpret_cast<Byte *>(logContainer.compressedFile.data()),
-            &compressedBufferSize,
-            reinterpret_cast<Byte *>(uncompressedBuffer.data()),
-            logContainer.uncompressedFileSize,
-            compressionLevel);
-        if (retVal != Z_OK) {
-            throw Exception("File::uncompressedFile2CompressedFile(): compress2 error");
-        }
-        logContainer.compressedFileSize = static_cast<DWORD>(compressedBufferSize);
-        logContainer.compressedFile.resize(logContainer.compressedFileSize); // shrink
+        logContainer.compress(2, compressionLevel);
     }
 
     /* write log container */
