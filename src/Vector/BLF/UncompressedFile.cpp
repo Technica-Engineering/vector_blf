@@ -68,7 +68,6 @@ void UncompressedFile::open()
 
 void UncompressedFile::close()
 {
-
     {
         /* mutex lock */
         std::lock_guard<std::mutex> lock(m_mutex);
@@ -156,35 +155,35 @@ void UncompressedFile::seekg(std::streamoff off, const std::ios_base::seekdir /*
 
 void UncompressedFile::write(const char * s, std::streamsize n)
 {
-    /* mutex lock */
-    std::unique_lock<std::mutex> lock(m_mutex);
+    {
+        /* mutex lock */
+        std::unique_lock<std::mutex> lock(m_mutex);
 
-    /* wait for free space */
-    tellgChanged.wait(lock, [this]{
-        return
-            !m_is_open ||
-            ((m_tellp - m_tellg) < m_maxFileSize);
-    });
+        /* wait for free space */
+        tellgChanged.wait(lock, [this]{
+            return
+                !m_is_open ||
+                ((m_tellp - m_tellg) < m_maxFileSize);
+        });
 
-    /* extend data block */
-    std::streampos newTellp = m_tellp + n;
-    m_data.resize(static_cast<size_t>(newTellp - m_dataBegin), 0);
+        /* extend data block */
+        std::streampos newTellp = m_tellp + n;
+        m_data.resize(static_cast<size_t>(newTellp - m_dataBegin), 0);
 
-    /* offset to write */
-    std::streamoff offset = m_tellp - m_dataBegin;
+        /* offset to write */
+        std::streamoff offset = m_tellp - m_dataBegin;
 
-    /* copy data */
-    std::copy(s, s + n, m_data.begin() + offset);
+        /* copy data */
+        std::copy(s, s + n, m_data.begin() + offset);
 
-    /* new put position */
-    m_tellp += n;
+        /* new put position */
+        m_tellp += n;
 
-    /* if new position is behind eof, shift it */
-    if (m_tellp >= m_fileSize) {
-        m_fileSize = m_tellp;
+        /* if new position is behind eof, shift it */
+        if (m_tellp >= m_fileSize) {
+            m_fileSize = m_tellp;
+        }
     }
-
-    lock.unlock();
 
     /* notify */
     tellpChanged.notify_all();

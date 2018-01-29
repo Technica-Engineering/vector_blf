@@ -131,28 +131,28 @@ DWORD ObjectQueue<T>::tellg() const
 template<typename T>
 void ObjectQueue<T>::write(T * obj)
 {
-    /* mutex lock */
-    std::unique_lock<std::mutex> lock(m_mutex);
+    {
+        /* mutex lock */
+        std::unique_lock<std::mutex> lock(m_mutex);
 
-    /* wait for free space */
-    tellgChanged.wait(lock, [this]{
-        return
-            !m_is_open ||
-            static_cast<DWORD>(m_queue.size()) < m_maxSize;
-    });
+        /* wait for free space */
+        tellgChanged.wait(lock, [this]{
+            return
+                !m_is_open ||
+                static_cast<DWORD>(m_queue.size()) < m_maxSize;
+        });
 
-    /* push data */
-    m_queue.push(obj);
+        /* push data */
+        m_queue.push(obj);
 
-    /* increase put count */
-    m_tellp++;
+        /* increase put count */
+        m_tellp++;
 
-    /* shift eof */
-    if (m_tellp > m_totalObjectCount) {
-        m_totalObjectCount = m_tellp;
+        /* shift eof */
+        if (m_tellp > m_totalObjectCount) {
+            m_totalObjectCount = m_tellp;
+        }
     }
-
-    lock.unlock();
 
     /* notify */
     tellpChanged.notify_all();
