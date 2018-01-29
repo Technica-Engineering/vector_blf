@@ -163,24 +163,20 @@ void File::close()
     /* read */
     if (m_openMode & std::ios_base::in) {
         /* finalize compressedFile thread */
+        m_compressedFileThreadRunning = false;
+        m_compressedFile.close();
         if (m_compressedFileThread.joinable()) {
-            /* abort operation */
-            m_compressedFileThreadRunning = false;
-
-            /* wait for thread to finish */
-            m_compressedFile.close();
             m_compressedFileThread.join();
         }
 
         /* finalize uncompressedFile thread */
+        m_uncompressedFileThreadRunning = false;
+        m_uncompressedFile.close();
         if (m_uncompressedFileThread.joinable()) {
-            /* abort operation */
-            m_uncompressedFileThreadRunning = false;
-
-            /* wait for thread to finish */
-            m_uncompressedFile.close();
             m_uncompressedFileThread.join();
         }
+
+        m_readWriteQueue.close();
     } else
 
     /* write */
@@ -188,6 +184,7 @@ void File::close()
         m_readWriteQueue.setTotalObjectCount(m_readWriteQueue.tellp()); // eof
 
         /* wait till readWriteQueue is empty */
+        m_readWriteQueue.flush();
         m_readWriteQueue.close();
 
         /* finalize uncompression thread */
@@ -200,6 +197,10 @@ void File::close()
         if (m_uncompressedFileThreadRunning) {
             throw Exception("File::close(): uncompressedFileThread still running");
         }
+
+        /* wait till uncompressedFile is empty */
+        m_uncompressedFile.flush();
+        m_uncompressedFile.close();
 
         /* finalize compression thread */
         if (m_compressedFileThread.joinable()) {
@@ -232,10 +233,11 @@ void File::close()
         /* write file statistics */
         m_compressedFile.seekp(0);
         fileStatistics.write(m_compressedFile);
-    }
 
-    /* close file */
-    m_compressedFile.close();
+        /* close file */
+        m_compressedFile.flush();
+        m_compressedFile.close();
+    }
 }
 
 ObjectHeaderBase * File::createObject(ObjectType type)
@@ -724,8 +726,14 @@ void File::uncompressedFile2ReadWriteQueue()
     }
     m_uncompressedFile.seekg(-ohb.calculateHeaderSize(), std::ios_base::cur);
 
-    /* read object */
+    /* create object */
     ObjectHeaderBase * obj = createObject(ohb.objectType);
+    if (obj == nullptr) {
+        /* in case of unknown objectType */
+        return;
+    }
+
+    /* read object */
     obj->read(m_uncompressedFile);
     if (m_uncompressedFile.eof()) {
         delete obj;
