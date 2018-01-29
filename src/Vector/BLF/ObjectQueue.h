@@ -28,6 +28,7 @@
 #include <queue>
 
 #include <Vector/BLF/ObjectHeaderBase.h>
+#include <Vector/BLF/LogContainer.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -49,7 +50,7 @@ public:
     virtual void open();
 
     /**
-     * close the queue, but let the queue empty before
+     * close the queue
      */
     virtual void close();
 
@@ -74,6 +75,9 @@ public:
 
     /** @copydoc AbstractFile::tellp */
     virtual DWORD tellp() const;
+
+    /** @copydoc AbstractFile::flush */
+    virtual void flush();
 
     /** @copydoc AbstractFile::eof */
     virtual bool eof() const;
@@ -134,6 +138,9 @@ private:
     /** mutex */
     mutable std::mutex m_mutex;
 };
+
+template class VECTOR_BLF_EXPORT ObjectQueue<ObjectHeaderBase>;
+template class VECTOR_BLF_EXPORT ObjectQueue<LogContainer>;
 
 }
 }

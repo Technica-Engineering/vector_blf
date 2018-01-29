@@ -91,6 +91,11 @@ public:
     virtual std::streampos tellp() = 0;
 
     /**
+     * Flush output stream buffer
+     */
+    virtual void flush() = 0;
+
+    /**
      * Check whether eofbit is set.
      *
      * @return true if end-of-file reached

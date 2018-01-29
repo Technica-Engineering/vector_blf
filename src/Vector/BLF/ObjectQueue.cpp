@@ -45,6 +45,7 @@ ObjectQueue<T>::ObjectQueue() :
 template<typename T>
 ObjectQueue<T>::~ObjectQueue()
 {
+    close();
 }
 
 template<typename T>
@@ -167,6 +168,18 @@ DWORD ObjectQueue<T>::tellp() const
 }
 
 template<typename T>
+void ObjectQueue<T>::flush()
+{
+    /* mutex lock */
+    std::unique_lock<std::mutex> lock(m_mutex);
+
+    /* wait till queue is empty */
+    tellgChanged.wait(lock, [this]{
+        return m_queue.empty();
+    });
+}
+
+template<typename T>
 bool ObjectQueue<T>::eof() const
 {
     /* mutex lock */
@@ -219,9 +232,6 @@ void ObjectQueue<T>::setMaxSize(DWORD maxSize)
     /* set max size */
     m_maxSize = maxSize;
 }
-
-template class VECTOR_BLF_EXPORT ObjectQueue<ObjectHeaderBase>;
-template class VECTOR_BLF_EXPORT ObjectQueue<LogContainer>;
 
 }
 }

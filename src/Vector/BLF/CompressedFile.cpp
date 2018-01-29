@@ -29,6 +29,11 @@ CompressedFile::CompressedFile() :
 {
 }
 
+CompressedFile::~CompressedFile()
+{
+    close();
+}
+
 void CompressedFile::close()
 {
     m_file.close();
@@ -62,6 +67,11 @@ void CompressedFile::write(const char * s, std::streamsize n)
 std::streampos CompressedFile::tellp()
 {
     return m_file.tellp();
+}
+
+void CompressedFile::flush()
+{
+    m_file.flush();
 }
 
 bool CompressedFile::eof() const

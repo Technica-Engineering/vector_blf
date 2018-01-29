@@ -74,6 +74,12 @@ void File::open(const char * filename, std::ios_base::openmode mode)
         return;
     }
 
+    /* try to open file */
+    mode |= std::ios_base::binary;
+    m_compressedFile.open(filename, mode);
+    if (!m_compressedFile.is_open()) {
+        return;
+    }
     m_openMode = mode;
 
     /* open queue */
@@ -82,12 +88,6 @@ void File::open(const char * filename, std::ios_base::openmode mode)
 
     /* read */
     if (mode & std::ios_base::in) {
-        /* open file for reading */
-        m_compressedFile.open(filename, std::ios_base::in | std::ios_base::binary);
-        if (!m_compressedFile.is_open()) {
-            return;
-        }
-
         /* read file statistics */
         fileStatistics.read(m_compressedFile);
 
@@ -105,12 +105,6 @@ void File::open(const char * filename, std::ios_base::openmode mode)
 
     /* write */
     if (mode & std::ios_base::out) {
-        /* open file for writing */
-        m_compressedFile.open(filename, std::ios_base::out | std::ios_base::binary);
-        if (!m_compressedFile.is_open()) {
-            return;
-        }
-
         /* write file statistics */
         fileStatistics.write(m_compressedFile);
 

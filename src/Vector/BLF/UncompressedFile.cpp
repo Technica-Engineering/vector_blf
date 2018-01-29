@@ -44,6 +44,11 @@ UncompressedFile::UncompressedFile() :
 {
 }
 
+UncompressedFile::~UncompressedFile()
+{
+    close();
+}
+
 void UncompressedFile::open()
 {
     /* mutex lock */
@@ -63,11 +68,14 @@ void UncompressedFile::open()
 
 void UncompressedFile::close()
 {
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
 
-    /* stop */
-    m_is_open = false;
+    {
+        /* mutex lock */
+        std::lock_guard<std::mutex> lock(m_mutex);
+
+        /* stop */
+        m_is_open = false;
+    }
 
     /* trigger blocked threads */
     tellgChanged.notify_all();
@@ -85,6 +93,7 @@ std::streamsize UncompressedFile::gcount() const
 void UncompressedFile::read(char * s, std::streamsize n)
 {
     {
+        /* mutex lock */
         std::unique_lock<std::mutex> lock(m_mutex);
 
         /* wait until there is sufficient data */
@@ -187,6 +196,17 @@ std::streampos UncompressedFile::tellp()
     std::lock_guard<std::mutex> lock(m_mutex);
 
     return m_tellp;
+}
+
+void UncompressedFile::flush()
+{
+    /* mutex lock */
+    std::unique_lock<std::mutex> lock(m_mutex);
+
+    /* wait till file is empty */
+    tellgChanged.wait(lock, [this]{
+        return (m_tellg >= m_tellp);
+    });
 }
 
 bool UncompressedFile::eof() const

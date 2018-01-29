@@ -23,6 +23,7 @@
 
 #include <Vector/BLF/platform.h>
 
+#include <atomic>
 #include <fstream>
 #include <thread>
 
@@ -309,7 +310,7 @@ private:
     /**
      * thread still running
      */
-    bool m_uncompressedFileThreadRunning;
+    std::atomic_bool m_uncompressedFileThreadRunning;
 
     /* compressed file */
 
@@ -330,7 +331,7 @@ private:
     /**
      * thread still running
      */
-    bool m_compressedFileThreadRunning;
+    std::atomic_bool m_compressedFileThreadRunning;
 
     /* internal functions */
 
