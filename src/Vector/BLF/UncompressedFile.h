@@ -24,10 +24,11 @@
 #include <Vector/BLF/platform.h>
 
 #include <condition_variable>
+#include <list>
 #include <mutex>
-#include <vector>
 
 #include <Vector/BLF/AbstractFile.h>
+#include <Vector/BLF/LogContainer.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -69,6 +70,13 @@ public:
     virtual void open();
 
     /**
+     * write LogContainer
+     *
+     * @param[in] logContainer log container
+     */
+    virtual void write(LogContainer * logContainer);
+
+    /**
      * Set file size resp. end-of-file position.
      *
      * @param[in] fileSize file size
@@ -96,11 +104,9 @@ public:
     virtual void setMaxFileSize(std::streamsize maxFileSize);
 
     /**
-     * drop old data (only if dropSize is possible)
-     *
-     * @param[in] dropSize size of data to drop (used in write case)
+     * drop old log container, if tellg/tellp are beyond it
      */
-    virtual void dropOldData(std::streamsize dropSize);
+    virtual void dropOldData();
 
     /** tellg was changed (after read or seekg) */
     std::condition_variable tellgChanged;
@@ -113,10 +119,7 @@ private:
     bool m_is_open;
 
     /** data */
-    std::vector<char> m_data;
-
-    /** data start position */
-    std::streampos m_dataBegin;
+    std::list<LogContainer *> m_data;
 
     /** get position */
     std::streampos m_tellg;
@@ -138,6 +141,18 @@ private:
 
     /** mutex */
     mutable std::mutex m_mutex;
+
+    /**
+     * Returns the file container, which contains pos.
+     *
+     * Searches through the data vector to find the logContainer, which contains the position.
+     * If the position is behind the last logContainer, return nullptr to indicate a new
+     * LogContainer need to be appended.
+     *
+     * @param[in] pos position
+     * @return log container or nullptr
+     */
+    LogContainer * logContainerContaining(std::streampos pos);
 };
 
 }

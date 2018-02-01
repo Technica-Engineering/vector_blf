@@ -140,7 +140,6 @@ private:
 };
 
 template class VECTOR_BLF_EXPORT ObjectQueue<ObjectHeaderBase>;
-template class VECTOR_BLF_EXPORT ObjectQueue<LogContainer>;
 
 }
 }

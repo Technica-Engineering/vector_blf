@@ -37,7 +37,8 @@ LogContainer::LogContainer() :
     reservedLogContainer3(0),
     compressedFile(),
     uncompressedFile(),
-    compressedFileSize(0)
+    compressedFileSize(0),
+    filePosition(0)
 {
     headerVersion = 1;
     objectType = ObjectType::LOG_CONTAINER;

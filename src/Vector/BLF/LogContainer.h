@@ -83,9 +83,14 @@ public:
     /** compressed file size in bytes */
     DWORD compressedFileSize;
 
+    /** position of this LogContainer::uncompressedFile within UncompressedFile class */
+    std::streampos filePosition;
+
     /**
      * internalHeaderSize returns the size of all headers.
+     *
      * @note Not to be mixed with headerSize, which only takes ObjectHeaderBase headers into account.
+     *
      * @return Size of all headers.
      */
     WORD internalHeaderSize() const;

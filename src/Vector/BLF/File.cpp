@@ -740,7 +740,7 @@ void File::uncompressedFile2ReadWriteQueue()
     }
 
     /* drop old data */
-    m_uncompressedFile.dropOldData(static_cast<std::streamsize>(defaultLogContainerSize));
+    m_uncompressedFile.dropOldData();
 }
 
 void File::readWriteQueue2UncompressedFile()
@@ -779,24 +779,22 @@ void File::compressedFile2UncompressedFile()
     }
 
     /* read LogContaier */
-    LogContainer logContainer;
-    logContainer.read(m_compressedFile);
+    LogContainer * logContainer = new LogContainer;
+    logContainer->read(m_compressedFile);
     if (m_compressedFile.eof()) {
         return;
     }
 
     /* statistics */
     currentUncompressedFileSize +=
-        logContainer.internalHeaderSize() +
-        logContainer.uncompressedFileSize;
+        logContainer->internalHeaderSize() +
+        logContainer->uncompressedFileSize;
 
     /* uncompress */
-    logContainer.uncompress();
+    logContainer->uncompress();
 
     /* copy into uncompressedFile */
-    m_uncompressedFile.write(
-        reinterpret_cast<char *>(logContainer.uncompressedFile.data()),
-        logContainer.uncompressedFileSize);
+    m_uncompressedFile.write(logContainer);
 }
 
 void File::uncompressedFile2CompressedFile()

@@ -59,7 +59,7 @@ BOOST_AUTO_TEST_CASE(SimpleTest)
     BOOST_CHECK_EQUAL(uncompressedFile.size(), 0);
 
     /* drop old data */
-    uncompressedFile.dropOldData(4);
+    uncompressedFile.dropOldData();
 
     /* close file */
     uncompressedFile.close();
