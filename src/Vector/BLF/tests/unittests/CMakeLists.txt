@@ -1,11 +1,11 @@
 # combines: targets, sources/headers, compiler/linker settings, tests
-set(test_targets )
 function(add_boost_test test_name test_target)
     # targets
     add_executable(${test_target} "")
 
     # sources/headers
-    target_sources(${test_target} PRIVATE ${ARGN})
+    target_sources(${test_target}
+        PRIVATE ${ARGN})
 
     # compiler/linker settings
     target_link_libraries(${test_target}
@@ -14,17 +14,16 @@ function(add_boost_test test_name test_target)
             ${Boost_SYSTEM_LIBRARY}
             ${Boost_FILESYSTEM_LIBRARY}
             ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
-    if(OPTION_USE_GCOV_LCOV)
-        target_link_libraries(${test_target} PRIVATE gcov)
+    if(OPTION_USE_GCOV)
+        target_link_libraries(${test_target}
+            PRIVATE
+                gcov)
     endif()
 
     # tests
     add_test(
         NAME ${test_name}
         COMMAND ${test_target})
-
-    # add target to list of test targets
-    set(test_targets ${test_targets} ${test_target} PARENT_SCOPE)
 endfunction()
 
 # search paths
@@ -165,19 +164,22 @@ add_boost_test(WlanFrame test_WlanFrame test_WlanFrame.cpp)
 add_boost_test(WlanStatistic test_WlanStatistic test_WlanStatistic.cpp)
 
 # coverage
-if(OPTION_USE_GCOV_LCOV)
-    add_custom_target(lcov_capture ALL
+if(OPTION_USE_GCOV)
+    add_custom_target(gcov_clean
+        COMMAND find ${PROJECT_BINARY_DIR} -name '*.gcda' -delete
+        COMMAND find ${PROJECT_BINARY_DIR} -name '*.gcno' -delete)
+endif()
+if(OPTION_ADD_LCOV)
+    add_custom_target(lcov_capture
         COMMAND ${LCOV_EXECUTABLE}
             --capture
             --directory ${PROJECT_BINARY_DIR}
-            --output-file coverage.info || true
-        DEPENDS
-            ${test_targets})
+            --output-file coverage.info)
 
-    add_custom_target(lcov_genhtml ALL
+    add_custom_target(lcov_genhtml
         COMMAND ${LCOV_GENHTML_EXECUTABLE}
+            --output-directory lcov
             coverage.info
-            --output-directory lcov || true
         DEPENDS lcov_capture)
 
     install(

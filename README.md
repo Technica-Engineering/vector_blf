@@ -74,8 +74,8 @@ The following files are products of installation and building:
 * All pointers should be of type std::unique_ptr to make ownership clear.
 * Plausibility checks for length fields. Check all length and version fields of compliance with original files.
 * There are hints which strucure might get extended. Parser should be prepared for it.
-# Propagate exceptions from threads to main library, to notify user application, e.g. when reading unfinished files.
-# Provide an Unknown object type to be able to read just a blob for all yet unknown object types
+* Propagate exceptions from threads to main library, to notify user application, e.g. when reading unfinished files.
+* Provide an Unknown object type to be able to read just a blob for all yet unknown object types
 
 # Test sources
 
