@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(SimpleTest)
     BOOST_CHECK_EQUAL(objectQueue.size(), 0);
 
     /* add some objects */
-    objectQueue.write(new Vector::BLF::CanMessage);
-    objectQueue.write(new Vector::BLF::LinMessage);
-    objectQueue.write(new Vector::BLF::J1708Message);
+    objectQueue.write(std::unique_ptr<Vector::BLF::ObjectHeaderBase>(new Vector::BLF::CanMessage));
+    objectQueue.write(std::unique_ptr<Vector::BLF::ObjectHeaderBase>(new Vector::BLF::LinMessage));
+    objectQueue.write(std::unique_ptr<Vector::BLF::ObjectHeaderBase>(new Vector::BLF::J1708Message));
     BOOST_CHECK_EQUAL(objectQueue.tellg(), 0);
     BOOST_CHECK_EQUAL(objectQueue.tellp(), 3);
     BOOST_CHECK(!objectQueue.eof());
@@ -36,29 +36,26 @@ BOOST_AUTO_TEST_CASE(SimpleTest)
     BOOST_CHECK(!objectQueue.atEof());
 
     /* remove some objects */
-    Vector::BLF::ObjectHeaderBase * ohb;
+    std::unique_ptr<Vector::BLF::ObjectHeaderBase> ohb;
 
-    ohb = objectQueue.read();
+    ohb(std::move(objectQueue.read()));
     BOOST_CHECK(ohb->objectType == Vector::BLF::ObjectType::CAN_MESSAGE);
-    delete ohb;
 
     BOOST_CHECK_EQUAL(objectQueue.tellg(), 1);
     BOOST_CHECK_EQUAL(objectQueue.size(), 2);
     BOOST_CHECK(!objectQueue.eof());
     BOOST_CHECK(!objectQueue.atEof());
 
-    ohb = objectQueue.read();
+    ohb(std::move(objectQueue.read()));
     BOOST_CHECK(ohb->objectType == Vector::BLF::ObjectType::LIN_MESSAGE);
-    delete ohb;
 
     BOOST_CHECK_EQUAL(objectQueue.tellg(), 2);
     BOOST_CHECK_EQUAL(objectQueue.size(), 1);
     BOOST_CHECK(!objectQueue.eof());
     BOOST_CHECK(!objectQueue.atEof());
 
-    ohb = objectQueue.read();
+    ohb(std::move(objectQueue.read()));
     BOOST_CHECK(ohb->objectType == Vector::BLF::ObjectType::J1708_MESSAGE);
-    delete ohb;
 
     BOOST_CHECK_EQUAL(objectQueue.tellg(), 3);
     BOOST_CHECK_EQUAL(objectQueue.size(), 0);
@@ -66,8 +63,8 @@ BOOST_AUTO_TEST_CASE(SimpleTest)
     BOOST_CHECK(objectQueue.atEof()); // next read will result in eof
 
     /* remove one more to trigger eof */
-    ohb = objectQueue.read();
-    BOOST_CHECK(ohb == nullptr);
+    ohb(std::move(objectQueue.read()));
+    BOOST_CHECK(!ohb);
     BOOST_CHECK_EQUAL(objectQueue.tellg(), 3);
     BOOST_CHECK_EQUAL(objectQueue.size(), 0);
     BOOST_CHECK(objectQueue.eof());
@@ -77,9 +74,9 @@ BOOST_AUTO_TEST_CASE(SimpleTest)
     objectQueue.close();
 
     /* check clear on open */
-    objectQueue.write(new Vector::BLF::CanMessage);
-    objectQueue.write(new Vector::BLF::LinMessage);
-    objectQueue.write(new Vector::BLF::J1708Message);
+    objectQueue.write(std::unique_ptr<Vector::BLF::ObjectHeaderBase>(new Vector::BLF::CanMessage));
+    objectQueue.write(std::unique_ptr<Vector::BLF::ObjectHeaderBase>(new Vector::BLF::LinMessage));
+    objectQueue.write(std::unique_ptr<Vector::BLF::ObjectHeaderBase>(new Vector::BLF::J1708Message));
     BOOST_CHECK_EQUAL(objectQueue.size(), 3);
     objectQueue.open();
     BOOST_CHECK_EQUAL(objectQueue.size(), 0);

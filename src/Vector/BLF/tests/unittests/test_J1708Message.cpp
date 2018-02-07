@@ -15,7 +15,7 @@ BOOST_AUTO_TEST_CASE(J1708Message)
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_J1708Message.blf");
     BOOST_REQUIRE(file.is_open());
 
-    Vector::BLF::ObjectHeaderBase * ohb = file.read();
+    Vector::BLF::ObjectHeaderBase * ohb = file.read().get();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::J1708_MESSAGE);
     Vector::BLF::J1708Message * obj = static_cast<Vector::BLF::J1708Message *>(ohb);
@@ -47,14 +47,14 @@ BOOST_AUTO_TEST_CASE(J1708Message)
     delete ohb;
 
     /* read next */
-    ohb = file.read();
+    ohb = file.read().get();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::J1708_VIRTUAL_MSG);
 
     delete ohb;
 
     /* read last */
-    ohb = file.read();
+    ohb = file.read().get();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::Unknown115);
 
@@ -62,7 +62,7 @@ BOOST_AUTO_TEST_CASE(J1708Message)
 
     /* read eof */
     BOOST_REQUIRE(!file.eof());
-    ohb = file.read();
+    ohb = file.read().get();
     BOOST_REQUIRE(ohb == nullptr);
     BOOST_CHECK(file.eof());
     file.close();

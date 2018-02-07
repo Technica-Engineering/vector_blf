@@ -27,9 +27,6 @@ BOOST_AUTO_TEST_CASE(OpenErrors)
     /* open it again */
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_CanMessage.blf", std::ios_base::in);
     BOOST_CHECK(file.is_open());
-
-    /* sleep for one seconds for the threads to settle */
-    sleep(1); // @todo this is to prevent  threads from hard termination.
 }
 
 /** try to create objects that are not triggered anyway by other test cases */

@@ -25,6 +25,7 @@
 
 #include <atomic>
 #include <fstream>
+#include <memory>
 #include <thread>
 
 #include <Vector/BLF/CompressedFile.h>
@@ -249,14 +250,14 @@ public:
      *
      * @return read object or nullptr
      */
-    virtual ObjectHeaderBase * read();
+    virtual std::unique_ptr<ObjectHeaderBase> read();
 
     /**
      * write object to file
      *
      * @param[in] ohb write object
      */
-    virtual void write(ObjectHeaderBase * ohb);
+    virtual void write(std::unique_ptr<ObjectHeaderBase> ohb);
 
     /**
      * close file
@@ -269,7 +270,7 @@ public:
      * @param type object type
      * @return new object
      */
-    static ObjectHeaderBase * createObject(ObjectType type);
+    static std::unique_ptr<ObjectHeaderBase> createObject(ObjectType type);
 
 private:
     /**

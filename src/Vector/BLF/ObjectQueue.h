@@ -24,6 +24,7 @@
 #include <Vector/BLF/platform.h>
 
 #include <condition_variable>
+#include <memory>
 #include <mutex>
 #include <queue>
 
@@ -59,7 +60,7 @@ public:
      *
      * @return object (or nullptr if empty)
      */
-    virtual T * read();
+    virtual std::unique_ptr<T> read();
 
     /** @copydoc AbstractFile::tellg */
     virtual DWORD tellg() const;
@@ -71,7 +72,7 @@ public:
      *
      * @param[in] obj object
      */
-    void write(T * obj);
+    void write(std::unique_ptr<T> obj);
 
     /** @copydoc AbstractFile::tellp */
     virtual DWORD tellp() const;
@@ -118,7 +119,7 @@ private:
     bool m_is_open;
 
     /** queue */
-    std::queue<T *> m_queue;
+    std::queue<std::unique_ptr<T>> m_queue;
 
     /** read position */
     DWORD m_tellg;

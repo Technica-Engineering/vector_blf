@@ -14,7 +14,7 @@ BOOST_AUTO_TEST_CASE(LinReceiveError)
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_LinReceiveError.blf");
     BOOST_REQUIRE(file.is_open());
 
-    Vector::BLF::ObjectHeaderBase * ohb = file.read();
+    Vector::BLF::ObjectHeaderBase * ohb = file.read().get();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_RCV_ERROR);
     Vector::BLF::LinReceiveError * obj = static_cast<Vector::BLF::LinReceiveError *>(ohb);
@@ -48,14 +48,14 @@ BOOST_AUTO_TEST_CASE(LinReceiveError)
     delete ohb;
 
     /* read next */
-    ohb = file.read();
+    ohb = file.read().get();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_RCV_ERROR);
 
     delete ohb;
 
     /* read last */
-    ohb = file.read();
+    ohb = file.read().get();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::Unknown115);
 
@@ -63,7 +63,7 @@ BOOST_AUTO_TEST_CASE(LinReceiveError)
 
     /* read eof */
     BOOST_REQUIRE(!file.eof());
-    ohb = file.read();
+    ohb = file.read().get();
     BOOST_REQUIRE(ohb == nullptr);
     BOOST_CHECK(file.eof());
     file.close();

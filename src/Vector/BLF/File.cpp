@@ -130,18 +130,16 @@ bool File::eof()
         // @todo compressedFile.eof is not multi-thread safe, so don't use it here: m_compressedFile.eof();
 }
 
-ObjectHeaderBase * File::read()
+std::unique_ptr<ObjectHeaderBase> File::read()
 {
     /* read object */
-    ObjectHeaderBase * ohb = m_readWriteQueue.read();
-
-    return ohb;
+    return m_readWriteQueue.read();
 }
 
-void File::write(ObjectHeaderBase * ohb)
+void File::write(std::unique_ptr<ObjectHeaderBase> ohb)
 {
     /* push to queue */
-    m_readWriteQueue.write(ohb);
+    m_readWriteQueue.write(std::move(ohb));
 }
 
 void File::close()
@@ -209,8 +207,8 @@ void File::close()
             fileStatistics.fileSizeWithoutUnknown115 = currentFileSize();
 
             /* write end of file message */
-            Unknown115 * unknown115 = new Unknown115;
-            m_readWriteQueue.write(unknown115);
+            std::unique_ptr<Unknown115> unknown115(new Unknown115);
+            m_readWriteQueue.write(std::move(unknown115));
             readWriteQueue2UncompressedFile();
             uncompressedFile2CompressedFile();
         }
@@ -231,7 +229,7 @@ void File::close()
     }
 }
 
-ObjectHeaderBase * File::createObject(ObjectType type)
+std::unique_ptr<ObjectHeaderBase> File::createObject(ObjectType type)
 {
     ObjectHeaderBase * obj = nullptr;
 
@@ -704,7 +702,7 @@ ObjectHeaderBase * File::createObject(ObjectType type)
         break;
     }
 
-    return obj;
+    return std::unique_ptr<ObjectHeaderBase>(obj);
 }
 
 void File::uncompressedFile2ReadWriteQueue()
@@ -718,8 +716,8 @@ void File::uncompressedFile2ReadWriteQueue()
     m_uncompressedFile.seekg(-ohb.calculateHeaderSize(), std::ios_base::cur);
 
     /* create object */
-    ObjectHeaderBase * obj = createObject(ohb.objectType);
-    if (obj == nullptr) {
+    std::unique_ptr<ObjectHeaderBase> obj(std::move(createObject(ohb.objectType)));
+    if (!obj) {
         /* in case of unknown objectType */
         return;
     }
@@ -727,17 +725,16 @@ void File::uncompressedFile2ReadWriteQueue()
     /* read object */
     obj->read(m_uncompressedFile);
     if (m_uncompressedFile.eof()) {
-        delete obj;
         return;
     }
-
-    /* push data into readWriteQueue */
-    m_readWriteQueue.write(obj);
 
     /* statistics */
     if (obj->objectType != ObjectType::Unknown115) {
         currentObjectCount++;
     }
+
+    /* push data into readWriteQueue */
+    m_readWriteQueue.write(std::move(obj));
 
     /* drop old data */
     m_uncompressedFile.dropOldData();
@@ -746,23 +743,20 @@ void File::uncompressedFile2ReadWriteQueue()
 void File::readWriteQueue2UncompressedFile()
 {
     /* get from readWriteQueue */
-    ObjectHeaderBase * ohb = m_readWriteQueue.read();
+    std::unique_ptr<ObjectHeaderBase> ohb(std::move(m_readWriteQueue.read()));
 
     /* process data */
-    if (ohb == nullptr) {
+    if (!ohb) {
         return;
     }
-
-    /* write into uncompressedFile */
-    ohb->write(m_uncompressedFile);
 
     /* statistics */
     if (ohb->objectType != ObjectType::Unknown115) {
         currentObjectCount++;
     }
 
-    /* delete object */
-    delete ohb;
+    /* write into uncompressedFile */
+    ohb->write(m_uncompressedFile);
 }
 
 void File::compressedFile2UncompressedFile()

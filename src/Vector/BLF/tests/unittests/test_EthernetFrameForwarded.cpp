@@ -14,7 +14,7 @@ BOOST_AUTO_TEST_CASE(EthernetFrameForwarded)
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_EthernetFrameForwarded.blf");
     BOOST_REQUIRE(file.is_open());
 
-    Vector::BLF::ObjectHeaderBase * ohb = file.read();
+    Vector::BLF::ObjectHeaderBase * ohb = file.read().get();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::ETHERNET_FRAME_FORWARDED);
     Vector::BLF::EthernetFrameForwarded * obj = static_cast<Vector::BLF::EthernetFrameForwarded *>(ohb);
@@ -50,14 +50,14 @@ BOOST_AUTO_TEST_CASE(EthernetFrameForwarded)
     delete ohb;
 
     /* read next */
-    ohb = file.read();
+    ohb = file.read().get();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::ETHERNET_FRAME_FORWARDED);
 
     delete ohb;
 
     /* read last */
-    ohb = file.read();
+    ohb = file.read().get();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::Unknown115);
 
@@ -65,7 +65,7 @@ BOOST_AUTO_TEST_CASE(EthernetFrameForwarded)
 
     /* read eof */
     BOOST_REQUIRE(!file.eof());
-    ohb = file.read();
+    ohb = file.read().get();
     BOOST_REQUIRE(ohb == nullptr);
     BOOST_CHECK(file.eof());
     file.close();

@@ -1225,7 +1225,7 @@ int main(int argc, char * argv[])
 
         /* read and capture exceptions, e.g. unfinished files */
         try {
-            ohb = file.read();
+            ohb = file.read().get();
         } catch (std::runtime_error(e)) {
             std::cout << "Exception: " << e.what() << std::endl;
         }

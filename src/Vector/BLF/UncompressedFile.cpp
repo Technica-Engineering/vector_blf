@@ -77,6 +77,12 @@ void UncompressedFile::read(char * s, std::streamsize n)
         /* mutex lock */
         std::unique_lock<std::mutex> lock(m_mutex);
 
+        /* abort if stream is not good */
+        if (m_rdstate != std::ios_base::goodbit) {
+            m_gcount = 0;
+            return;
+        }
+
         /* wait until there is sufficient data */
         tellpChanged.wait(lock, [this, n]{
             return
@@ -100,7 +106,8 @@ void UncompressedFile::read(char * s, std::streamsize n)
         m_gcount = 0;
         while(n > 0) {
             /* offset to read */
-            std::streamoff offset = m_tellg - logContainer->filePosition;
+            std::streampos filePosition = logContainer->filePosition;
+            std::streamoff offset = m_tellg - filePosition;
 
             /* copy data */
             std::streamsize gcount = n;
@@ -154,6 +161,11 @@ void UncompressedFile::write(const char * s, std::streamsize n)
     {
         /* mutex lock */
         std::unique_lock<std::mutex> lock(m_mutex);
+
+        /* abort if stream is not good */
+        if (m_rdstate != std::ios_base::goodbit) {
+            return;
+        }
 
         /* wait for free space */
         tellgChanged.wait(lock, [this]{

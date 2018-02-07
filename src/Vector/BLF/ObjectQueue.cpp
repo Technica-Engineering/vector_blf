@@ -57,9 +57,8 @@ void ObjectQueue<T>::open()
     /* reset */
     m_is_open = true;
     while(!m_queue.empty()) {
-        T * ohb = m_queue.front();
+        std::unique_ptr<T> ohb(std::move(m_queue.front()));
         m_queue.pop();
-        delete ohb;
     }
     m_tellg = 0;
     m_tellp = 0;
@@ -83,9 +82,9 @@ void ObjectQueue<T>::close()
 }
 
 template<typename T>
-T * ObjectQueue<T>::read()
+std::unique_ptr<T> ObjectQueue<T>::read()
 {
-    T * ohb = nullptr;
+    std::unique_ptr<T> ohb;
     {
         /* mutex lock */
         std::unique_lock<std::mutex> lock(m_mutex);
@@ -102,7 +101,7 @@ T * ObjectQueue<T>::read()
         if (m_queue.empty()) {
             m_rdstate = std::ios_base::eofbit;
         } else {
-            ohb = m_queue.front();
+            ohb = std::move(m_queue.front());
             m_queue.pop();
 
             /* set state */
@@ -129,7 +128,7 @@ DWORD ObjectQueue<T>::tellg() const
 }
 
 template<typename T>
-void ObjectQueue<T>::write(T * obj)
+void ObjectQueue<T>::write(std::unique_ptr<T> obj)
 {
     {
         /* mutex lock */
