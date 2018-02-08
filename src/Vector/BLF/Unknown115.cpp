@@ -25,11 +25,7 @@ namespace Vector {
 namespace BLF {
 
 Unknown115::Unknown115() :
-    ObjectHeaderBase(),
-    objectFlags(),
-    clientIndex(),
-    objectVersion(),
-    objectTimeStamp(),
+    ObjectHeader(),
     reservedUnknownObject1(),
     reservedUnknownObject2(),
     reservedUnknownObject3(),
@@ -40,17 +36,12 @@ Unknown115::Unknown115() :
     reservedUnknownObject8(),
     reservedUnknownObject9()
 {
-    headerVersion = 1;
     objectType = ObjectType::Unknown115;
 }
 
 void Unknown115::read(AbstractFile & is)
 {
-    ObjectHeaderBase::read(is);
-    is.read(reinterpret_cast<char *>(&objectFlags), sizeof(objectFlags));
-    is.read(reinterpret_cast<char *>(&clientIndex), sizeof(clientIndex));
-    is.read(reinterpret_cast<char *>(&objectVersion), sizeof(objectVersion));
-    is.read(reinterpret_cast<char *>(&objectTimeStamp), sizeof(objectTimeStamp));
+    ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&reservedUnknownObject1), sizeof(reservedUnknownObject1));
     is.read(reinterpret_cast<char *>(&reservedUnknownObject2), sizeof(reservedUnknownObject2));
     is.read(reinterpret_cast<char *>(&reservedUnknownObject3), sizeof(reservedUnknownObject3));
@@ -64,11 +55,7 @@ void Unknown115::read(AbstractFile & is)
 
 void Unknown115::write(AbstractFile & os)
 {
-    ObjectHeaderBase::write(os);
-    os.write(reinterpret_cast<char *>(&objectFlags), sizeof(objectFlags));
-    os.write(reinterpret_cast<char *>(&clientIndex), sizeof(clientIndex));
-    os.write(reinterpret_cast<char *>(&objectVersion), sizeof(objectVersion));
-    os.write(reinterpret_cast<char *>(&objectTimeStamp), sizeof(objectTimeStamp));
+    ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&reservedUnknownObject1), sizeof(reservedUnknownObject1));
     os.write(reinterpret_cast<char *>(&reservedUnknownObject2), sizeof(reservedUnknownObject2));
     os.write(reinterpret_cast<char *>(&reservedUnknownObject3), sizeof(reservedUnknownObject3));
@@ -80,20 +67,10 @@ void Unknown115::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reservedUnknownObject9), sizeof(reservedUnknownObject9));
 }
 
-WORD Unknown115::calculateHeaderSize() const
-{
-    return
-        ObjectHeaderBase::calculateHeaderSize() +
-        sizeof(objectFlags) +
-        sizeof(clientIndex) +
-        sizeof(objectVersion) +
-        sizeof(objectTimeStamp);
-}
-
 DWORD Unknown115::calculateObjectSize() const
 {
     return
-        ObjectHeaderBase::calculateObjectSize() +
+        ObjectHeader::calculateObjectSize() +
         sizeof(reservedUnknownObject1) +
         sizeof(reservedUnknownObject2) +
         sizeof(reservedUnknownObject3) +

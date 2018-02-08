@@ -24,7 +24,7 @@
 #include <Vector/BLF/platform.h>
 
 #include <Vector/BLF/AbstractFile.h>
-#include <Vector/BLF/ObjectHeaderBase.h>
+#include <Vector/BLF/ObjectHeader.h>
 #include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
@@ -37,27 +37,14 @@ namespace BLF {
  *
  * This always comes at the end of a file.
  */
-class VECTOR_BLF_EXPORT Unknown115 final : public ObjectHeaderBase
+class VECTOR_BLF_EXPORT Unknown115 final : public ObjectHeader
 {
 public:
     Unknown115();
 
     virtual void read(AbstractFile & is) override;
     virtual void write(AbstractFile & os) override;
-    virtual WORD calculateHeaderSize() const override;
     virtual DWORD calculateObjectSize() const override;
-
-    /** @copydoc ObjectHeader::objectFlags */
-    DWORD objectFlags;
-
-    /** @copydoc ObjectHeader::clientIndex */
-    WORD clientIndex;
-
-    /** @copydoc ObjectHeader::objectVersion */
-    WORD objectVersion;
-
-    /** @copydoc ObjectHeader::objectTimeStamp */
-    ULONGLONG objectTimeStamp;
 
     /** reserved */
     DWORD reservedUnknownObject1; // @todo what is this? 0x001E00C4, ...
