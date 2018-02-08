@@ -93,12 +93,15 @@ void UncompressedFile::read(char * s, std::streamsize n)
             m_rdstate = std::ios_base::goodbit;
         }
 
-        /* find starting log container */
-        LogContainer * logContainer = logContainerContaining(m_tellg);
-
         /* read data */
         m_gcount = 0;
         while(n > 0) {
+            /* find starting log container */
+            LogContainer * logContainer = logContainerContaining(m_tellg);
+            if (logContainer == nullptr) {
+                break;
+            }
+
             /* offset to read */
             std::streamoff offset = m_tellg - logContainer->filePosition;
 
