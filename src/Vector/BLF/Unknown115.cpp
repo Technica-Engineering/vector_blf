@@ -31,10 +31,7 @@ Unknown115::Unknown115() :
     reservedUnknownObject3(),
     reservedUnknownObject4(),
     reservedUnknownObject5(),
-    reservedUnknownObject6(),
-    reservedUnknownObject7(),
-    reservedUnknownObject8(),
-    reservedUnknownObject9()
+    reservedUnknownObject6()
 {
     objectType = ObjectType::Unknown115;
 }
@@ -48,9 +45,6 @@ void Unknown115::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&reservedUnknownObject4), sizeof(reservedUnknownObject4));
     is.read(reinterpret_cast<char *>(&reservedUnknownObject5), sizeof(reservedUnknownObject5));
     is.read(reinterpret_cast<char *>(&reservedUnknownObject6), sizeof(reservedUnknownObject6));
-    is.read(reinterpret_cast<char *>(&reservedUnknownObject7), sizeof(reservedUnknownObject7));
-    is.read(reinterpret_cast<char *>(&reservedUnknownObject8), sizeof(reservedUnknownObject8));
-    is.read(reinterpret_cast<char *>(&reservedUnknownObject9), sizeof(reservedUnknownObject9));
 }
 
 void Unknown115::write(AbstractFile & os)
@@ -62,9 +56,6 @@ void Unknown115::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reservedUnknownObject4), sizeof(reservedUnknownObject4));
     os.write(reinterpret_cast<char *>(&reservedUnknownObject5), sizeof(reservedUnknownObject5));
     os.write(reinterpret_cast<char *>(&reservedUnknownObject6), sizeof(reservedUnknownObject6));
-    os.write(reinterpret_cast<char *>(&reservedUnknownObject7), sizeof(reservedUnknownObject7));
-    os.write(reinterpret_cast<char *>(&reservedUnknownObject8), sizeof(reservedUnknownObject8));
-    os.write(reinterpret_cast<char *>(&reservedUnknownObject9), sizeof(reservedUnknownObject9));
 }
 
 DWORD Unknown115::calculateObjectSize() const
@@ -76,10 +67,7 @@ DWORD Unknown115::calculateObjectSize() const
         sizeof(reservedUnknownObject3) +
         sizeof(reservedUnknownObject4) +
         sizeof(reservedUnknownObject5) +
-        sizeof(reservedUnknownObject6) +
-        sizeof(reservedUnknownObject7) +
-        sizeof(reservedUnknownObject8) +
-        sizeof(reservedUnknownObject9);
+        sizeof(reservedUnknownObject6);
 }
 
 }
