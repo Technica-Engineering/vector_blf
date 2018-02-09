@@ -63,7 +63,7 @@ public:
     WORD state;
 
     /** reserved */
-    DWORD reservedMTL;
+    DWORD reservedMostTxLight;
 };
 
 }

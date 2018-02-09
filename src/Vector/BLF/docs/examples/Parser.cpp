@@ -19,12 +19,46 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
+#include <codecvt>
 #include <cstring>
 #include <ctime>
+#include <iomanip>
 #include <iostream>
 #include <fstream>
+#include <locale>
 
 #include <Vector/BLF.h>
+
+#define min(a, b) ((a < b) ? a : b)
+#define max(a, b) ((a > b) ? a : b)
+
+void printData(uint8_t * data, size_t size)
+{
+    if ((data == nullptr) || (size == 0)) {
+        return;
+    }
+
+    std::cout << "[";
+    for (size_t i = 0; i < size; ++i) {
+        uint16_t value = data[i];
+        if (i > 0) {
+            std::cout << " ";
+        }
+        std::cout << std::setfill('0') << std::setw(2) << std::hex << static_cast<uint16_t>(value);
+    }
+    std::cout << "]";
+}
+
+void printString(char * data, size_t size)
+{
+    if ((data == nullptr) || (size == 0)) {
+        return;
+    }
+
+    for (size_t i = 0; i < size; ++i) {
+        std::cout << static_cast<char>(data[i]);
+    }
+}
 
 void show(Vector::BLF::FileStatistics * obj)
 {
@@ -34,45 +68,47 @@ void show(Vector::BLF::FileStatistics * obj)
     std::cout << "  applicationId: "
               << std::dec << static_cast<uint16_t>(obj->applicationId) << std::endl;
     std::cout << "  applicationVersion: "
-              << static_cast<uint16_t>(obj->applicationMajor) << "."
-              << static_cast<uint16_t>(obj->applicationMinor) << "."
-              << static_cast<uint16_t>(obj->applicationBuild) << std::endl;
+              << std::dec << static_cast<uint16_t>(obj->applicationMajor) << "."
+              << std::dec << static_cast<uint16_t>(obj->applicationMinor) << "."
+              << std::dec << static_cast<uint16_t>(obj->applicationBuild) << std::endl;
     std::cout << "  apiVersion: "
-              << static_cast<uint16_t>(obj->apiMajor) << "."
-              << static_cast<uint16_t>(obj->apiMinor) << "."
-              << static_cast<uint16_t>(obj->apiBuild) << "."
-              << static_cast<uint16_t>(obj->apiPatch) << std::endl;
+              << std::dec << static_cast<uint16_t>(obj->apiMajor) << "."
+              << std::dec << static_cast<uint16_t>(obj->apiMinor) << "."
+              << std::dec << static_cast<uint16_t>(obj->apiBuild) << "."
+              << std::dec << static_cast<uint16_t>(obj->apiPatch) << std::endl;
     std::cout << "  fileSize: "
               << std::dec << obj->fileSize
               << " (0x" << std::hex << obj->fileSize << ")"
               << std::endl;
     std::cout << "  uncompressedFileSize: " << std::dec << obj->uncompressedFileSize
               << " (0x" << std::hex << obj->uncompressedFileSize << ")"
-              << std::dec
               << std::endl;
     std::cout << "  objectCount: "
-              << obj->objectCount << std::endl;
+              << std::dec << obj->objectCount << std::endl;
     std::cout << "  objectsRead: "
-              << obj->objectsRead << std::endl;
+              << std::dec << obj->objectsRead << std::endl;
     std::cout << "  measurementStartTime: "
-              << obj->measurementStartTime.year << "-"
-              << obj->measurementStartTime.month << "-"
-              << obj->measurementStartTime.day << " "
-              << obj->measurementStartTime.dayOfWeek << " "
-              << obj->measurementStartTime.hour << ":"
-              << obj->measurementStartTime.minute << ":"
-              << obj->measurementStartTime.second << "."
-              << obj->measurementStartTime.milliseconds
+              << std::dec << obj->measurementStartTime.year << "-"
+              << std::dec << obj->measurementStartTime.month << "-"
+              << std::dec << obj->measurementStartTime.day << " "
+              << std::dec << obj->measurementStartTime.dayOfWeek << " "
+              << std::dec << obj->measurementStartTime.hour << ":"
+              << std::dec << obj->measurementStartTime.minute << ":"
+              << std::dec << obj->measurementStartTime.second << "."
+              << std::dec << obj->measurementStartTime.milliseconds
               << std::endl;
     std::cout << "  lastObjectTime: "
-              << obj->lastObjectTime.year << "-"
-              << obj->lastObjectTime.month << "-"
-              << obj->lastObjectTime.day << " "
-              << obj->lastObjectTime.dayOfWeek << " "
-              << obj->lastObjectTime.hour << ":"
-              << obj->lastObjectTime.minute << ":"
-              << obj->lastObjectTime.second << "."
-              << obj->lastObjectTime.milliseconds
+              << std::dec << obj->lastObjectTime.year << "-"
+              << std::dec << obj->lastObjectTime.month << "-"
+              << std::dec << obj->lastObjectTime.day << " "
+              << std::dec << obj->lastObjectTime.dayOfWeek << " "
+              << std::dec << obj->lastObjectTime.hour << ":"
+              << std::dec << obj->lastObjectTime.minute << ":"
+              << std::dec << obj->lastObjectTime.second << "."
+              << std::dec << obj->lastObjectTime.milliseconds
+              << std::endl;
+    std::cout << "  fileSizeWithoutUnknown115: "
+              << "0x" << std::hex << obj->fileSizeWithoutUnknown115
               << std::endl;
     std::cout << std::endl;
 }
@@ -83,19 +119,12 @@ void show(Vector::BLF::FileStatistics * obj)
 void show(Vector::BLF::CanMessage * obj)
 {
     std::cout << "CanMessage:"
-              << " ch=" << obj->channel
+              << " channel=" << obj->channel
               << " flags=" << static_cast<uint16_t>(obj->flags)
               << " dlc=" << static_cast<uint16_t>(obj->dlc)
               << " id=0x" << std::hex << obj->id
               << " data=";
-    for (uint8_t i = 0; (i < obj->dlc) && (i < 8); ++i) {
-        std::cout << std::hex;
-        if (obj->data[i] <= 0xf) {
-            std::cout << '0';
-        }
-        std::cout << static_cast<uint16_t>(obj->data[i]);
-        std::cout << " ";
-    }
+    printData(obj->data.data(), min(obj->data.size(), obj->dlc));
     std::cout << std::endl;
 }
 
@@ -103,64 +132,72 @@ void show(Vector::BLF::CanMessage * obj)
 void show(Vector::BLF::CanErrorFrame * obj)
 {
     std::cout << "CanErrorFrame:";
-    std::cout << " ch=" << std::dec << obj->channel;
-    std::cout << " len=" << std::dec << obj->length;
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " length=" << std::dec << obj->length;
     std::cout << std::endl;
 }
 
 // CAN_OVERLOAD = 3
 void show(Vector::BLF::CanOverloadFrame * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo CanOverloadFrame
+    std::cout << "CanOverloadFrame:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << std::endl;
 }
 
 // CAN_STATISTIC = 4
 void show(Vector::BLF::CanDriverStatistic * obj)
 {
     std::cout << "CanDriverStatistic:";
-    std::cout << " ch=" << std::dec << obj->channel;
+    std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " busLoad=" << std::dec << obj->busLoad;
-    std::cout << " stdDtFrm=" << std::dec << obj->standardDataFrames;
-    std::cout << " extDtFrm=" << std::dec << obj->extendedDataFrames;
-    std::cout << " stdRmtFrm=" << std::dec << obj->standardRemoteFrames;
-    std::cout << " extRmtFrm=" << std::dec << obj->extendedRemoteFrames;
-    std::cout << " errFrm=" << std::dec << obj->errorFrames;
-    std::cout << " ovrldFrm=" << std::dec << obj->overloadFrames;
+    std::cout << " standardDataFrames=" << std::dec << obj->standardDataFrames;
+    std::cout << " extendedDataFrames=" << std::dec << obj->extendedDataFrames;
+    std::cout << " standardRemoteFrames=" << std::dec << obj->standardRemoteFrames;
+    std::cout << " extendedRemoteFrames=" << std::dec << obj->extendedRemoteFrames;
+    std::cout << " errorFrames=" << std::dec << obj->errorFrames;
+    std::cout << " overloadFrames=" << std::dec << obj->overloadFrames;
     std::cout << std::endl;
 }
 
 // APP_TRIGGER = 5
 void show(Vector::BLF::AppTrigger * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo AppTrigger
+    std::cout << "AppTrigger:";
+    std::cout << " preTriggerTime=" << std::dec << obj->preTriggerTime;
+    std::cout << " postTriggerTime=" << std::dec << obj->postTriggerTime;
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " flags=0x" << std::hex << obj->flags;
+    std::cout << " appSpecific2=" << std::dec << obj->appSpecific2;
+    std::cout << std::endl;
 }
 
 // ENV_INTEGER = 6
 // ENV_DOUBLE = 7
 // ENV_STRING = 8
 // ENV_DATA = 9
-void show(Vector::BLF::EnvironmentVariable * environmentVariable)
+void show(Vector::BLF::EnvironmentVariable * obj)
 {
     std::cout << "EnvironmentVariable:";
-    std::cout << " name=" << environmentVariable->name;
-    switch (environmentVariable->objectType) {
+    std::cout << " name=" << obj->name;
+    switch (obj->objectType) {
     case Vector::BLF::ObjectType::ENV_INTEGER:
-        std::cout << " value=" << std::dec << static_cast<int>(*environmentVariable->data.data());
         std::cout << " type=Integer";
+        std::cout << " value=" << std::dec << static_cast<int>(*obj->data.data());
         break;
     case Vector::BLF::ObjectType::ENV_DOUBLE:
-        std::cout << " value=" << std::fixed << static_cast<double>(*environmentVariable->data.data());
         std::cout << " type=Double";
+        std::cout << " value=" << std::fixed << static_cast<double>(*obj->data.data());
         break;
     case Vector::BLF::ObjectType::ENV_STRING:
         std::cout << " type=String";
-        // @todo ENV_STRING
+        std::cout << " value=";
+        printString(reinterpret_cast<char *>(obj->data.data()), obj->dataLength);
         break;
     case Vector::BLF::ObjectType::ENV_DATA:
         std::cout << " type=Data";
-        // @todo ENV_DATA
+        std::cout << " value=";
+        printData(obj->data.data(), min(obj->data.size(), obj->dataLength));
         break;
     default:
         std::cout << " type=Unknown";
@@ -170,164 +207,207 @@ void show(Vector::BLF::EnvironmentVariable * environmentVariable)
 }
 
 // LOG_CONTAINER = 10
-void show(Vector::BLF::LogContainer * logContainer)
+void show(Vector::BLF::LogContainer * obj)
 {
-    std::cout << "signature: 0x" << std::hex << logContainer->signature << std::endl;
-    std::cout << "headerSize: 0x" << std::hex << logContainer->headerSize << std::endl;
-    std::cout << "headerVersion: 0x" << std::hex << logContainer->headerVersion << std::endl;
-    std::cout << "objectSize: 0x" << std::hex << logContainer->objectSize << std::endl;
-    std::cout << "objectType: " << std::dec << static_cast<int>(logContainer->objectType) << std::endl;
-
-    std::cout << "uncompressedFileSize: " << std::dec << logContainer->uncompressedFileSize << std::endl;
+    std::cout << "LogContainer:";
+    std::cout << " compressionMethod=" << std::dec << obj->compressionMethod;
+    std::cout << " uncompressedFileSize=" << std::dec << obj->uncompressedFileSize;
     std::cout << std::endl;
 }
 
 // LIN_MESSAGE = 11
 void show(Vector::BLF::LinMessage * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo LinMessage
+    std::cout << "LinMessage:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " id=" << std::dec << static_cast<uint16_t>(obj->id);
+    std::cout << " dlc=" << std::dec << static_cast<uint16_t>(obj->dlc);
+    std::cout << " data=";
+    printData(obj->data.data(), min(obj->data.size(), obj->dlc));
+    std::cout << " fsmId=" << std::dec << static_cast<uint16_t>(obj->fsmId);
+    std::cout << " fsmState=" << std::dec << static_cast<uint16_t>(obj->fsmState);
+    std::cout << " headerTime=" << std::dec << static_cast<uint16_t>(obj->headerTime);
+    std::cout << " fullTime=" << std::dec << static_cast<uint16_t>(obj->fullTime);
+    std::cout << " crc=0x" << std::hex << obj->crc;
+    std::cout << " dir=" << std::dec << static_cast<uint16_t>(obj->dir);
+    std::cout << std::endl;
 }
 
 // LIN_CRC_ERROR = 12
 void show(Vector::BLF::LinCrcError * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo LinCrcError
+    std::cout << "LinCrcError:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " id=" << std::dec << static_cast<uint16_t>(obj->id);
+    std::cout << " dlc=" << std::dec << static_cast<uint16_t>(obj->dlc);
+    std::cout << " data=";
+    printData(obj->data.data(), min(obj->data.size(), obj->dlc));
+    std::cout << " fsmId=" << std::dec << static_cast<uint16_t>(obj->fsmId);
+    std::cout << " fsmState=" << std::dec << static_cast<uint16_t>(obj->fsmState);
+    std::cout << " headerTime=" << std::dec << static_cast<uint16_t>(obj->headerTime);
+    std::cout << " fullTime=" << std::dec << static_cast<uint16_t>(obj->fullTime);
+    std::cout << " crc=0x" << std::hex << obj->crc;
+    std::cout << " dir=" << std::dec << static_cast<uint16_t>(obj->dir);
+    std::cout << std::endl;
 }
 
 // LIN_DLC_INFO = 13
 void show(Vector::BLF::LinDlcInfo * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo LinDlcInfo
+    std::cout << "LinDlcInfo:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " id=" << std::dec << static_cast<uint16_t>(obj->id);
+    std::cout << " dlc=" << std::dec << static_cast<uint16_t>(obj->dlc);
+    std::cout << std::endl;
 }
 
 // LIN_RCV_ERROR =  14
 void show(Vector::BLF::LinReceiveError * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo LinReceiveError
+    std::cout << "LinReceiveError:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " id=" << std::dec << static_cast<uint16_t>(obj->id);
+    std::cout << " dlc=" << std::dec << static_cast<uint16_t>(obj->dlc);
+    std::cout << " fsmId=" << std::dec << static_cast<uint16_t>(obj->fsmId);
+    std::cout << " fsmState=" << std::dec << static_cast<uint16_t>(obj->fsmState);
+    std::cout << " headerTime=" << std::dec << static_cast<uint16_t>(obj->headerTime);
+    std::cout << " fullTime=" << std::dec << static_cast<uint16_t>(obj->fullTime);
+    std::cout << " stateReason=" << std::dec << static_cast<uint16_t>(obj->stateReason);
+    std::cout << " offendingByte=" << std::dec << static_cast<uint16_t>(obj->offendingByte);
+    std::cout << " shortError=" << std::dec << static_cast<uint16_t>(obj->shortError);
+    std::cout << " timeoutDuringDlcDetection=" << std::dec << static_cast<uint16_t>(obj->timeoutDuringDlcDetection);
+    std::cout << std::endl;
 }
 
 // LIN_SND_ERROR = 15
 void show(Vector::BLF::LinSendError * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo LinSendError
+    std::cout << "LinSendError:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " id=" << std::dec << static_cast<uint16_t>(obj->id);
+    std::cout << " dlc=" << std::dec << static_cast<uint16_t>(obj->dlc);
+    std::cout << " fsmId=" << std::dec << static_cast<uint16_t>(obj->fsmId);
+    std::cout << " fsmState=" << std::dec << static_cast<uint16_t>(obj->fsmState);
+    std::cout << " headerTime=" << std::dec << static_cast<uint16_t>(obj->headerTime);
+    std::cout << " fullTime=" << std::dec << static_cast<uint16_t>(obj->fullTime);
+    std::cout << std::endl;
 }
 
 // LIN_SLV_TIMEOUT = 16
 void show(Vector::BLF::LinSlaveTimeout * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo LinSlaveTimeout
+    std::cout << "LinSlaveTimeout:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " slaveId=" << std::dec << static_cast<uint16_t>(obj->slaveId);
+    std::cout << " stateId=" << std::dec << static_cast<uint16_t>(obj->stateId);
+    std::cout << " followStateId=" << std::dec << obj->followStateId;
+    std::cout << std::endl;
 }
 
 // LIN_SCHED_MODCH = 17
-void show(Vector::BLF::LinSchedulerModeChange * linSchedulerModeChange)
+void show(Vector::BLF::LinSchedulerModeChange * obj)
 {
     std::cout << "LinSchedulerModeChange:";
-    std::cout << " ch=" << std::dec << linSchedulerModeChange->channel;
-    std::cout << " old=" << std::dec << static_cast<uint16_t>(linSchedulerModeChange->oldMode);
-    std::cout << " new=" << std::dec << static_cast<uint16_t>(linSchedulerModeChange->newMode);
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " oldMode=" << std::dec << static_cast<uint16_t>(obj->oldMode);
+    std::cout << " newMode=" << std::dec << static_cast<uint16_t>(obj->newMode);
     std::cout << std::endl;
 }
 
 // LIN_SYN_ERROR = 18
 void show(Vector::BLF::LinSyncError * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo LinSyncError
+    std::cout << "LinSyncError:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " timeDiff[0]=" << std::dec << obj->timeDiff[0];
+    std::cout << " timeDiff[1]=" << std::dec << obj->timeDiff[1];
+    std::cout << " timeDiff[2]=" << std::dec << obj->timeDiff[2];
+    std::cout << " timeDiff[3]=" << std::dec << obj->timeDiff[3];
+    std::cout << std::endl;
 }
 
 // LIN_BAUDRATE = 19
 void show(Vector::BLF::LinBaudrateEvent * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo LinBaudrateEvent
+    std::cout << "LinBaudrateEvent:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " baudrate=" << std::dec << obj->baudrate;
+    std::cout << std::endl;
 }
 
 // LIN_SLEEP = 20
-void show(Vector::BLF::LinSleepModeEvent * linSleepModeEvent)
+void show(Vector::BLF::LinSleepModeEvent * obj)
 {
     std::cout << "LinSleepModeEvent:";
-    std::cout << " ch=" << std::dec << linSleepModeEvent->channel;
-    std::cout << " rsn=" << std::dec << static_cast<uint16_t>(linSleepModeEvent->reason);
-    std::cout << " flags=0x" << std::hex << static_cast<uint16_t>(linSleepModeEvent->flags);
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " reason=" << std::dec << static_cast<uint16_t>(obj->reason);
+    std::cout << " flags=0x" << std::hex << static_cast<uint16_t>(obj->flags);
     std::cout << std::endl;
 }
 
 // LIN_WAKEUP = 21
 void show(Vector::BLF::LinWakeupEvent * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo LinWakeupEvent
+    std::cout << "LinWakeupEvent:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " signal=" << std::dec << static_cast<uint16_t>(obj->signal);
+    std::cout << " external=" << std::dec << static_cast<uint16_t>(obj->external);
+    std::cout << std::endl;
 }
 
 // MOST_SPY = 22
-void show(Vector::BLF::MostSpy * mostSpy)
+void show(Vector::BLF::MostSpy * obj)
 {
     std::cout << "MostSpy:";
-    std::cout << " ch=" << std::dec << mostSpy->channel;
-    std::cout << " dir=" << std::dec << static_cast<uint16_t>(mostSpy->dir);
-    std::cout << " sourceAdr=" << std::dec << mostSpy->sourceAdr;
-    std::cout << " destAdr=" << std::dec << mostSpy->destAdr;
-    std::cout << " msg=" << std::hex;
-    for (uint8_t i = 0; i < 17; ++i) {
-        if (mostSpy->msg[i] < 0x10) {
-            std::cout << "0";
-        }
-        std::cout << static_cast<uint16_t>(mostSpy->msg[i]);
-    }
-    std::cout << " rTyp=0x" << std::hex << mostSpy->rTyp;
-    std::cout << " rTypAdr=0x" << std::hex << static_cast<uint16_t>(mostSpy->rTypAdr);
-    std::cout << " state=0x" << std::hex << static_cast<uint16_t>(mostSpy->state);
-    std::cout << " ackNack=0x" << std::hex << static_cast<uint16_t>(mostSpy->ackNack);
-    std::cout << " crc=0x" << std::hex << mostSpy->crc;
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " dir=" << std::dec << static_cast<uint16_t>(obj->dir);
+    std::cout << " sourceAdr=" << std::dec << obj->sourceAdr;
+    std::cout << " destAdr=" << std::dec << obj->destAdr;
+    std::cout << " msg=";
+    printData(obj->msg.data(), obj->msg.size());
+    std::cout << " rTyp=0x" << std::hex << obj->rTyp;
+    std::cout << " rTypAdr=0x" << std::hex << static_cast<uint16_t>(obj->rTypAdr);
+    std::cout << " state=0x" << std::hex << static_cast<uint16_t>(obj->state);
+    std::cout << " ackNack=0x" << std::hex << static_cast<uint16_t>(obj->ackNack);
+    std::cout << " crc=0x" << std::hex << obj->crc;
     std::cout << std::endl;
 }
 
 // MOST_CTRL = 23
-void show(Vector::BLF::MostCtrl * mostCtrl)
+void show(Vector::BLF::MostCtrl * obj)
 {
     std::cout << "MostCtrl:";
-    std::cout << " ch=" << std::dec << mostCtrl->channel;
-    std::cout << " dir=" << std::dec << static_cast<uint16_t>(mostCtrl->dir);
-    std::cout << " sourceAdr=" << std::dec << mostCtrl->sourceAdr;
-    std::cout << " destAdr=" << std::dec << mostCtrl->destAdr;
-    std::cout << " msg=" << std::hex;
-    for (uint8_t i = 0; i < 17; ++i) {
-        if (mostCtrl->msg[i] < 0x10) {
-            std::cout << "0";
-        }
-        std::cout << static_cast<uint16_t>(mostCtrl->msg[i]);
-    }
-    std::cout << " rTyp=0x" << std::hex << mostCtrl->rTyp;
-    std::cout << " rTypAdr=0x" << std::hex << static_cast<uint16_t>(mostCtrl->rTypAdr);
-    std::cout << " state=0x" << std::hex << static_cast<uint16_t>(mostCtrl->state);
-    std::cout << " ackNack=0x" << std::hex << static_cast<uint16_t>(mostCtrl->ackNack);
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " dir=" << std::dec << static_cast<uint16_t>(obj->dir);
+    std::cout << " sourceAdr=" << std::dec << obj->sourceAdr;
+    std::cout << " destAdr=" << std::dec << obj->destAdr;
+    std::cout << " msg=";
+    printData(obj->msg.data(), obj->msg.size());
+    std::cout << " rTyp=0x" << std::hex << obj->rTyp;
+    std::cout << " rTypAdr=0x" << std::hex << static_cast<uint16_t>(obj->rTypAdr);
+    std::cout << " state=0x" << std::hex << static_cast<uint16_t>(obj->state);
+    std::cout << " ackNack=0x" << std::hex << static_cast<uint16_t>(obj->ackNack);
     std::cout << std::endl;
 }
 
 // MOST_LIGHTLOCK = 24
-void show(Vector::BLF::MostLightLock * mostLightLock)
+void show(Vector::BLF::MostLightLock * obj)
 {
     std::cout << "MostLightLock:";
-    std::cout << " ch=" << std::dec << mostLightLock->channel;
-    std::cout << " state=0x" << std::hex << mostLightLock->state;
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " state=0x" << std::hex << obj->state;
     std::cout << std::endl;
 }
 
 // MOST_STATISTIC = 25
-void show(Vector::BLF::MostStatistic * mostStatistic)
+void show(Vector::BLF::MostStatistic * obj)
 {
     std::cout << "MostStatistic:";
-    std::cout << " ch=" << std::dec << mostStatistic->channel;
-    std::cout << " pktCnt=" << std::dec << mostStatistic->pktCnt;
-    std::cout << " frmCnt=" << std::dec << mostStatistic->frmCnt;
-    std::cout << " lightCnt=" << std::dec << mostStatistic->lightCnt;
-    std::cout << " bufferLevel=" << std::dec << mostStatistic->bufferLevel;
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " pktCnt=" << std::dec << obj->pktCnt;
+    std::cout << " frmCnt=" << std::dec << obj->frmCnt;
+    std::cout << " lightCnt=" << std::dec << obj->lightCnt;
+    std::cout << " bufferLevel=" << std::dec << obj->bufferLevel;
     std::cout << std::endl;
 }
 
@@ -338,246 +418,342 @@ void show(Vector::BLF::MostStatistic * mostStatistic)
 // FLEXRAY_DATA = 29
 void show(Vector::BLF::FlexRayData * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo FlexRayData
+    std::cout << "FlexRayData:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " mux=" << std::dec << static_cast<uint16_t>(obj->mux);
+    std::cout << " len=" << std::dec << static_cast<uint16_t>(obj->len);
+    std::cout << " messageId=" << std::dec << obj->messageId;
+    std::cout << " crc=0x" << std::hex << obj->crc;
+    std::cout << " dir=" << std::dec << static_cast<uint16_t>(obj->dir);
+    std::cout << " dataBytes=";
+    printData(obj->dataBytes.data(), min(obj->dataBytes.size(), obj->len));
+    std::cout << std::endl;
 }
 
 // FLEXRAY_SYNC = 30
 void show(Vector::BLF::FlexRaySync * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo FlexRaySync
+    std::cout << "FlexRaySync:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " mux=" << std::dec << static_cast<uint16_t>(obj->mux);
+    std::cout << " len=" << std::dec << static_cast<uint16_t>(obj->len);
+    std::cout << " messageId=" << std::dec << obj->messageId;
+    std::cout << " crc=0x" << std::hex << obj->crc;
+    std::cout << " dataBytes=";
+    printData(obj->dataBytes.data(), min(obj->dataBytes.size(), obj->len));
+    std::cout << " cycle=" << std::dec << static_cast<uint16_t>(obj->dir);
+    std::cout << std::endl;
 }
 
 // CAN_DRIVER_ERROR = 31
-void show(Vector::BLF::CanDriverError * canDriverError)
+void show(Vector::BLF::CanDriverError * obj)
 {
     std::cout << "CanDriverError:";
-    std::cout << " ch=" << std::dec << canDriverError->channel;
-    std::cout << " txErr=" << std::dec << static_cast<uint16_t>(canDriverError->txErrors);
-    std::cout << " rxErr=" << std::dec << static_cast<uint16_t>(canDriverError->rxErrors);
-    std::cout << " errCode=" << std::dec << canDriverError->errorCode;
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " txErrors=" << std::dec << static_cast<uint16_t>(obj->txErrors);
+    std::cout << " rxErrors=" << std::dec << static_cast<uint16_t>(obj->rxErrors);
+    std::cout << " errorCode=0x" << std::hex << obj->errorCode;
     std::cout << std::endl;
 }
 
 // MOST_PKT = 32
-void show(Vector::BLF::MostPkt * mostPkt)
+void show(Vector::BLF::MostPkt * obj)
 {
     std::cout << "MostPkt:";
-    std::cout << " ch=" << std::dec << mostPkt->channel;
-    std::cout << " dir=" << std::dec << static_cast<uint16_t>(mostPkt->dir);
-    std::cout << " sa=" << std::dec << mostPkt->sourceAdr;
-    std::cout << " da=" << std::dec << mostPkt->destAdr;
-    std::cout << " arb=" << std::dec << static_cast<uint16_t>(mostPkt->arbitration);
-    std::cout << " tr=" << std::dec << static_cast<uint16_t>(mostPkt->timeRes);
-    std::cout << " qtf=" << std::dec << static_cast<uint16_t>(mostPkt->quadsToFollow);
-    std::cout << " crc=" << std::dec << mostPkt->crc;
-    std::cout << " prio=" << std::dec << static_cast<uint16_t>(mostPkt->priority);
-    std::cout << " tt=" << std::dec << static_cast<uint16_t>(mostPkt->transferType);
-    std::cout << " st=0x" << std::hex << static_cast<uint16_t>(mostPkt->state);
-    std::cout << " len=" << std::dec << mostPkt->pktDataLength;
-    std::cout << " data=" << std::hex;
-    for (uint16_t i = 0; i < mostPkt->pktDataLength; ++i) {
-        if (mostPkt->pktData[i] < 0x10) {
-            std::cout << "0";
-        }
-        std::cout << static_cast<uint16_t>(mostPkt->pktData[i]);
-    }
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " dir=" << std::dec << static_cast<uint16_t>(obj->dir);
+    std::cout << " sourceAdr=" << std::dec << obj->sourceAdr;
+    std::cout << " destAdr=" << std::dec << obj->destAdr;
+    std::cout << " arbitration=" << std::dec << static_cast<uint16_t>(obj->arbitration);
+    std::cout << " timeRes=" << std::dec << static_cast<uint16_t>(obj->timeRes);
+    std::cout << " quadsToFollow=" << std::dec << static_cast<uint16_t>(obj->quadsToFollow);
+    std::cout << " crc=0x" << std::hex << obj->crc;
+    std::cout << " priority=" << std::dec << static_cast<uint16_t>(obj->priority);
+    std::cout << " transferType=" << std::dec << static_cast<uint16_t>(obj->transferType);
+    std::cout << " state=0x" << std::hex << static_cast<uint16_t>(obj->state);
+    std::cout << " pktDataLength=" << std::dec << obj->pktDataLength;
+    std::cout << " pktData=";
+    printData(obj->pktData.data(), min(obj->pktData.size(), obj->pktDataLength));
     std::cout << std::endl;
 }
 
 // MOST_PKT2 = 33
-void show(Vector::BLF::MostPkt2 * mostPkt2)
+void show(Vector::BLF::MostPkt2 * obj)
 {
     std::cout << "MostPkt2:";
-    std::cout << " ch=" << std::dec << mostPkt2->channel;
-    std::cout << " dir=" << std::dec << static_cast<uint16_t>(mostPkt2->dir);
-    std::cout << " sa=" << std::dec << mostPkt2->sourceAdr;
-    std::cout << " da=" << std::dec << mostPkt2->destAdr;
-    std::cout << " arb=" << std::dec << static_cast<uint16_t>(mostPkt2->arbitration);
-    std::cout << " tr=" << std::dec << static_cast<uint16_t>(mostPkt2->timeRes);
-    std::cout << " qtf=" << std::dec << static_cast<uint16_t>(mostPkt2->quadsToFollow);
-    std::cout << " crc=" << std::dec << mostPkt2->crc;
-    std::cout << " prio=" << std::dec << static_cast<uint16_t>(mostPkt2->priority);
-    std::cout << " tt=" << std::dec << static_cast<uint16_t>(mostPkt2->transferType);
-    std::cout << " st=0x" << std::hex << static_cast<uint16_t>(mostPkt2->state);
-    std::cout << " len=" << std::dec << mostPkt2->pktDataLength;
-    std::cout << " data=" << std::hex;
-    for (uint16_t i = 0; i < mostPkt2->pktDataLength; ++i) {
-        if (mostPkt2->pktData[i] < 0x10) {
-            std::cout << "0";
-        }
-        std::cout << static_cast<uint16_t>(mostPkt2->pktData[i]);
-    }
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " dir=" << std::dec << static_cast<uint16_t>(obj->dir);
+    std::cout << " sourceAdr=" << std::dec << obj->sourceAdr;
+    std::cout << " destAdr=" << std::dec << obj->destAdr;
+    std::cout << " arbitration=" << std::dec << static_cast<uint16_t>(obj->arbitration);
+    std::cout << " timeRes=" << std::dec << static_cast<uint16_t>(obj->timeRes);
+    std::cout << " quadsToFollow=" << std::dec << static_cast<uint16_t>(obj->quadsToFollow);
+    std::cout << " crc=0x" << std::hex << obj->crc;
+    std::cout << " priority=" << std::dec << static_cast<uint16_t>(obj->priority);
+    std::cout << " transferType=" << std::dec << static_cast<uint16_t>(obj->transferType);
+    std::cout << " state=0x" << std::hex << static_cast<uint16_t>(obj->state);
+    std::cout << " pktDataLength=" << std::dec << obj->pktDataLength;
+    std::cout << " pktData=";
+    printData(obj->pktData.data(), min(obj->pktData.size(), obj->pktDataLength));
     std::cout << std::endl;
 }
 
 // MOST_HWMODE = 34
-void show(Vector::BLF::MostHwMode * mostHwMode)
+void show(Vector::BLF::MostHwMode * obj)
 {
     std::cout << "MostHwMode:";
-    std::cout << " ch=" << std::dec << mostHwMode->channel;
-    std::cout << " hwMode=0x" << std::hex << mostHwMode->hwMode;
-    std::cout << " hwModeMask=0x" << std::hex << mostHwMode->hwModeMask;
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " hwMode=0x" << std::hex << obj->hwMode;
+    std::cout << " hwModeMask=0x" << std::hex << obj->hwModeMask;
     std::cout << std::endl;
 }
 
 // MOST_REG = 35
-void show(Vector::BLF::MostReg * mostReg)
+void show(Vector::BLF::MostReg * obj)
 {
     std::cout << "MostReg:";
-    std::cout << " ch=" << std::dec << mostReg->channel;
-    std::cout << " subType=" << std::dec << static_cast<uint16_t>(mostReg->subType);
-    std::cout << " handle=" << std::dec << mostReg->handle;
-    std::cout << " offset=" << std::dec << mostReg->offset;
-    std::cout << " chip=" << std::dec << mostReg->chip;
-    std::cout << " regDataLen=" << std::dec << mostReg->regDataLen;
-    std::cout << " regData=0x" << std::hex;
-    for (uint16_t i = 0; i < mostReg->regDataLen; ++i) {
-        if (mostReg->regData[i] < 0x10) {
-            std::cout << "0";
-        }
-        std::cout << static_cast<uint16_t>(mostReg->regData[i]);
-    }
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " subType=" << std::dec << static_cast<uint16_t>(obj->subType);
+    std::cout << " handle=" << std::dec << obj->handle;
+    std::cout << " offset=" << std::dec << obj->offset;
+    std::cout << " chip=" << std::dec << obj->chip;
+    std::cout << " regDataLen=" << std::dec << obj->regDataLen;
+    std::cout << " regData=";
+    printData(obj->regData.data(), min(obj->regData.size(), obj->regDataLen));
     std::cout << std::endl;
 }
 
 // MOST_GENREG = 36
-void show(Vector::BLF::MostGenReg * mostGenReg)
+void show(Vector::BLF::MostGenReg * obj)
 {
     std::cout << "MostGenReg:";
-    std::cout << " ch=" << std::dec << mostGenReg->channel;
-    std::cout << " subType=" << std::dec << static_cast<uint16_t>(mostGenReg->subType);
-    std::cout << " handle=" << std::dec << mostGenReg->handle;
-    std::cout << " regId=0x" << std::hex << mostGenReg->regId;
-    std::cout << " regVal=0x" << std::hex << mostGenReg->regValue;
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " subType=" << std::dec << static_cast<uint16_t>(obj->subType);
+    std::cout << " handle=" << std::dec << obj->handle;
+    std::cout << " regId=0x" << std::hex << obj->regId;
+    std::cout << " regVal=0x" << std::hex << obj->regValue;
     std::cout << std::endl;
 }
 
 // MOST_NETSTATE = 37
-void show(Vector::BLF::MostNetState * mostNetState)
+void show(Vector::BLF::MostNetState * obj)
 {
     std::cout << "MostNetState:";
-    std::cout << " ch=" << std::dec << mostNetState->channel;
-    std::cout << " stNew=" << std::dec << mostNetState->stateNew;
-    std::cout << " stOld=" << std::dec << mostNetState->stateOld;
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " stateNew=" << std::dec << obj->stateNew;
+    std::cout << " stateOld=" << std::dec << obj->stateOld;
     std::cout << std::endl;
 }
 
 // MOST_DATALOST = 38
-void show(Vector::BLF::MostDataLost * mostDataLost)
+void show(Vector::BLF::MostDataLost * obj)
 {
     std::cout << "MostDataLost:";
-    std::cout << " ch=" << std::dec << mostDataLost->channel;
-    std::cout << " info=0x" << std::hex << mostDataLost->info;
-    std::cout << " lostMsgsCtrl=" << std::dec << mostDataLost->lostMsgsCtrl;
-    std::cout << " lostMsgsAsync=" << std::dec << mostDataLost->lostMsgsAsync;
-    std::cout << " lastGoodTimeStampNs=" << std::dec << mostDataLost->lastGoodTimeStampNs;
-    std::cout << " nextGoodTimeStampNs=" << std::dec << mostDataLost->nextGoodTimeStampNs;
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " info=0x" << std::hex << obj->info;
+    std::cout << " lostMsgsCtrl=" << std::dec << obj->lostMsgsCtrl;
+    std::cout << " lostMsgsAsync=" << std::dec << obj->lostMsgsAsync;
+    std::cout << " lastGoodTimeStampNs=" << std::dec << obj->lastGoodTimeStampNs;
+    std::cout << " nextGoodTimeStampNs=" << std::dec << obj->nextGoodTimeStampNs;
     std::cout << std::endl;
 }
 
 // MOST_TRIGGER = 39
-void show(Vector::BLF::MostTrigger * mostTrigger)
+void show(Vector::BLF::MostTrigger * obj)
 {
     std::cout << "MostTrigger:";
-    std::cout << " ch=" << std::dec << mostTrigger->channel;
-    std::cout << " mode=" << std::dec << mostTrigger->mode;
-    std::cout << " hw=" << std::dec << mostTrigger->hw;
-    std::cout << " previousTriggerValue=" << std::dec << mostTrigger->previousTriggerValue;
-    std::cout << " currentTriggerValue=" << std::dec << mostTrigger->currentTriggerValue;
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " mode=" << std::dec << obj->mode;
+    std::cout << " hw=" << std::dec << obj->hw;
+    std::cout << " previousTriggerValue=" << std::dec << obj->previousTriggerValue;
+    std::cout << " currentTriggerValue=" << std::dec << obj->currentTriggerValue;
     std::cout << std::endl;
 }
 
 // FLEXRAY_CYCLE = 40
 void show(Vector::BLF::FlexRayV6StartCycleEvent * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo FlexRayV6StartCycleEvent
+    std::cout << "FlexRayV6StartCycleEvent:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " dir=" << std::dec << static_cast<uint16_t>(obj->dir);
+    std::cout << " lowTime=" << std::dec << static_cast<uint16_t>(obj->lowTime);
+    std::cout << " fpgaTick=" << std::dec << obj->fpgaTick;
+    std::cout << " fpgaTickOverflow=" << std::dec << obj->fpgaTickOverflow;
+    std::cout << " clientIndex=" << std::dec << obj->clientIndexFlexRayV6StartCycleEvent;
+    std::cout << " clusterTime=" << std::dec << obj->clusterTime;
+    std::cout << " dataBytes=";
+    printData(obj->dataBytes.data(), obj->dataBytes.size());
+    std::cout << std::endl;
 }
 
 // FLEXRAY_MESSAGE = 41
 void show(Vector::BLF::FlexRayV6Message * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo FlexRayV6Message
+    std::cout << "FlexRayV6Message:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " dir=" << std::dec << static_cast<uint16_t>(obj->dir);
+    std::cout << " lowTime=" << std::dec << static_cast<uint16_t>(obj->lowTime);
+    std::cout << " fpgaTick=" << std::dec << obj->fpgaTick;
+    std::cout << " fpgaTickOverflow=" << std::dec << obj->fpgaTickOverflow;
+    std::cout << " clientIndex=" << std::dec << obj->clientIndexFlexRayV6Message;
+    std::cout << " clusterTime=" << std::dec << obj->clusterTime;
+    std::cout << " frameId=" << std::dec << obj->frameId;
+    std::cout << " headerCrc=0x" << std::hex << obj->headerCrc;
+    std::cout << " frameState=0x" << std::hex << obj->frameState;
+    std::cout << " length=" << std::dec << static_cast<uint16_t>(obj->length);
+    std::cout << " cycle=" << std::dec << static_cast<uint16_t>(obj->cycle);
+    std::cout << " headerBitMask=" << std::dec << static_cast<uint16_t>(obj->headerBitMask);
+    std::cout << " dataBytes=";
+    printData(obj->dataBytes.data(), obj->dataBytes.size());
+    std::cout << std::endl;
 }
 
 // LIN_CHECKSUM_INFO = 42
 void show(Vector::BLF::LinChecksumInfo * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo LinChecksumInfo
+    std::cout << "LinChecksumInfo:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " id=" << std::dec << static_cast<uint16_t>(obj->id);
+    std::cout << " checksumModel=" << std::dec << static_cast<uint16_t>(obj->checksumModel);
+    std::cout << std::endl;
 }
 
 // LIN_SPIKE_EVENT = 43
 void show(Vector::BLF::LinSpikeEvent * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo LinSpikeEvent
+    std::cout << "LinSpikeEvent:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " width=" << std::dec << obj->width;
+    std::cout << std::endl;
 }
 
 // CAN_DRIVER_SYNC = 44
 void show(Vector::BLF::CanDriverHwSync * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo CanDriverHwSync
+    std::cout << "CanDriverHwSync:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " flags=0x" << std::hex << static_cast<uint16_t>(obj->flags);
+    std::cout << std::endl;
 }
 
 // FLEXRAY_STATUS = 45
 void show(Vector::BLF::FlexRayStatusEvent * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo FlexRayStatusEvent
+    std::cout << "FlexRayStatusEvent:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " version=" << std::dec << obj->version;
+    std::cout << " statusType=" << std::dec << obj->statusType;
+    std::cout << " infoMask1=0x" << std::hex << obj->infoMask1;
+    std::cout << " infoMask2=0x" << std::hex << obj->infoMask2;
+    std::cout << " infoMask3=0x" << std::hex << obj->infoMask3;
+    std::cout << std::endl;
 }
 
 // GPS_EVENT = 46
-void show(Vector::BLF::GpsEvent * gpsEvent)
+void show(Vector::BLF::GpsEvent * obj)
 {
     std::cout << "GpsEvent:";
-    std::cout << " flags=0x" << std::hex << gpsEvent->flags;
-    std::cout << " ch=" << std::dec << gpsEvent->channel;
-    std::cout << " lon=" << std::fixed << gpsEvent->longitude;
-    std::cout << " lat=" << std::fixed << gpsEvent->latitude;
-    std::cout << " alt=" << std::fixed << gpsEvent->altitude;
-    std::cout << " spd=" << std::fixed << gpsEvent->speed;
-    std::cout << " crs=" << std::fixed << gpsEvent->course;
+    std::cout << " flags=0x" << std::hex << obj->flags;
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " latitude=" << std::fixed << obj->latitude;
+    std::cout << " longitude=" << std::fixed << obj->longitude;
+    std::cout << " altitude=" << std::fixed << obj->altitude;
+    std::cout << " speed=" << std::fixed << obj->speed;
+    std::cout << " course=" << std::fixed << obj->course;
     std::cout << std::endl;
 }
 
 // FR_ERROR = 47
 void show(Vector::BLF::FlexRayVFrError * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo FlexRayVFrError
+    std::cout << "FlexRayVFrError:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " version=" << std::dec << obj->version;
+    std::cout << " channelMask=0x" << std::hex << obj->channelMask;
+    std::cout << " cycle=" << std::dec << static_cast<uint16_t>(obj->cycle);
+    std::cout << " clientIndex=" << std::dec << obj->clientIndexFlexRayVFrError;
+    std::cout << " clusterNo=" << std::dec << obj->clusterNo;
+    std::cout << " tag=" << std::dec << obj->tag;
+    std::cout << " data[0]=0x" << std::setfill('0') << std::setw(8) << std::hex << obj->data[0];
+    std::cout << " data[1]=0x" << std::setfill('0') << std::setw(8) << std::hex << obj->data[1];
+    std::cout << " data[2]=0x" << std::setfill('0') << std::setw(8) << std::hex << obj->data[2];
+    std::cout << " data[3]=0x" << std::setfill('0') << std::setw(8) << std::hex << obj->data[3];
+    std::cout << std::endl;
 }
 
 // FR_STATUS = 48
 void show(Vector::BLF::FlexRayVFrStatus * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo FlexRayVFrStatus
+    std::cout << "FlexRayVFrStatus:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " version=" << std::dec << obj->version;
+    std::cout << " channelMask=0x" << std::hex << obj->channelMask;
+    std::cout << " cycle=" << std::dec << static_cast<uint16_t>(obj->cycle);
+    std::cout << " clientIndex=" << std::dec << obj->clientIndexFlexRayVFrStatus;
+    std::cout << " clusterNo=" << std::dec << obj->clusterNo;
+    std::cout << " wus=" << std::dec << obj->wus;
+    std::cout << " ccSyncState=" << std::dec << obj->ccSyncState;
+    std::cout << " tag=" << std::dec << obj->tag;
+    std::cout << " data[0]=0x" << std::setfill('0') << std::setw(8) << std::hex << obj->data[0];
+    std::cout << " data[1]=0x" << std::setfill('0') << std::setw(8) << std::hex << obj->data[1];
+    std::cout << " reserved[0]=0x" << std::setfill('0') << std::setw(4) << std::hex << obj->reservedFlexRayVFrStatus2[0];
+    std::cout << std::endl;
 }
 
 // FR_STARTCYCLE = 49
 void show(Vector::BLF::FlexRayVFrStartCycle * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo FlexRayVFrStartCycle
+    std::cout << "FlexRayVFrStartCycle:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " version=" << std::dec << obj->version;
+    std::cout << " channelMask=0x" << std::hex << obj->channelMask;
+    std::cout << " dir=" << std::dec << static_cast<uint16_t>(obj->dir);
+    std::cout << " cycle=" << std::dec << static_cast<uint16_t>(obj->cycle);
+    std::cout << " clientIndex=" << std::dec << obj->clientIndexFlexRayVFrStartCycle;
+    std::cout << " clusterNo=" << std::dec << obj->clusterNo;
+    std::cout << " nmSize=" << std::dec << obj->nmSize;
+    std::cout << " dataBytes=";
+    printData(obj->dataBytes.data(), min(obj->dataBytes.size(), obj->nmSize));
+    std::cout << " tag=" << std::dec << obj->tag;
+    std::cout << " data[0]=0x" << std::setfill('0') << std::setw(8) << std::hex << obj->data[0];
+    std::cout << " data[1]=0x" << std::setfill('0') << std::setw(8) << std::hex << obj->data[1];
+    std::cout << " data[2]=0x" << std::setfill('0') << std::setw(8) << std::hex << obj->data[2];
+    std::cout << " data[3]=0x" << std::setfill('0') << std::setw(8) << std::hex << obj->data[3];
+    std::cout << " data[4]=0x" << std::setfill('0') << std::setw(8) << std::hex << obj->data[4];
+    std::cout << std::endl;
 }
 
 // FR_RCVMESSAGE = 50
 void show(Vector::BLF::FlexRayVFrReceiveMsg * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo FlexRayVFrReceiveMsg
+    std::cout << "FlexRayVFrReceiveMsg:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " version=" << std::dec << obj->version;
+    std::cout << " channelMask=0x" << std::hex << obj->channelMask;
+    std::cout << " dir=" << std::dec << static_cast<uint16_t>(obj->dir);
+    std::cout << " clientIndex=" << std::dec << obj->clientIndexFlexRayVFrReceiveMsg;
+    std::cout << " clusterNo=" << std::dec << obj->clusterNo;
+    std::cout << " frameId=" << std::dec << obj->frameId;
+    std::cout << " headerCrc1=0x" << std::hex << obj->headerCrc1;
+    std::cout << " headerCrc2=0x" << std::hex << obj->headerCrc2;
+    std::cout << " byteCount=" << std::dec << obj->byteCount;
+    std::cout << " dataCount=" << std::dec << obj->dataCount;
+    std::cout << " cycle=" << std::dec << static_cast<uint16_t>(obj->cycle);
+    std::cout << " tag=" << std::dec << obj->tag;
+    std::cout << " data=0x" << std::hex << obj->data;
+    std::cout << " frameFlags=0x" << std::hex << obj->frameFlags;
+    std::cout << " appParameter=" << std::dec << obj->appParameter;
+    std::cout << " dataBytes=";
+    printData(obj->dataBytes.data(), min(obj->dataBytes.size(), obj->dataCount));
+    std::cout << std::endl;
 }
 
 // REALTIMECLOCK = 51
 void show(Vector::BLF::RealtimeClock * obj)
 {
     std::cout << "RealtimeClock:";
-    std::cout << " time=" << obj->time << "+" << obj->loggingOffset;
+    std::cout << " time=" << std::dec << obj->time;
+    std::cout << " loggingOffset=" << std::dec << obj->loggingOffset;
     std::cout << std::endl;
 }
 
@@ -585,16 +761,16 @@ void show(Vector::BLF::RealtimeClock * obj)
 // Reserved52 = 53
 
 // LIN_STATISTIC = 54
-void show(Vector::BLF::LinStatisticEvent * linStatisticEvent)
+void show(Vector::BLF::LinStatisticEvent * obj)
 {
     std::cout << "LinStatisticEvent:";
-    std::cout << " ch=" << std::dec << linStatisticEvent->channel;
-    std::cout << " busload=" << std::fixed << linStatisticEvent->busLoad;
-    std::cout << " burstsTotal=" << std::dec << linStatisticEvent->burstsTotal;
-    std::cout << " burstsOverrun=" << std::dec << linStatisticEvent->burstsOverrun;
-    std::cout << " framesSent=" << std::dec << linStatisticEvent->framesSent;
-    std::cout << " framesRecv=" << std::dec << linStatisticEvent->framesReceived;
-    std::cout << " framesUnansw=" << std::dec << linStatisticEvent->framesUnanswered;
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " busload=" << std::fixed << obj->busLoad;
+    std::cout << " burstsTotal=" << std::dec << obj->burstsTotal;
+    std::cout << " burstsOverrun=" << std::dec << obj->burstsOverrun;
+    std::cout << " framesSent=" << std::dec << obj->framesSent;
+    std::cout << " framesReceived=" << std::dec << obj->framesReceived;
+    std::cout << " framesUnanswered=" << std::dec << obj->framesUnanswered;
     std::cout << std::endl;
 }
 
@@ -602,86 +778,135 @@ void show(Vector::BLF::LinStatisticEvent * linStatisticEvent)
 // J1708_VIRTUAL_MSG = 56
 void show(Vector::BLF::J1708Message * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo J1708Message
+    switch(obj->objectType) {
+    case Vector::BLF::ObjectType::J1708_MESSAGE:
+        std::cout << "J1708Message:";
+        break;
+    case Vector::BLF::ObjectType::J1708_VIRTUAL_MSG:
+        std::cout << "J1708VirtualMessage:";
+        break;
+    default:
+        std::cout << "Unknown:";
+        break;
+    }
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " dir=" << std::dec << static_cast<uint16_t>(obj->dir);
+    std::cout << " error=" << std::dec << obj->error;
+    std::cout << " size=" << std::dec << static_cast<uint16_t>(obj->size);
+    std::cout << " data=";
+    printData(obj->data.data(), min(obj->data.size(), obj->size));
+    std::cout << std::endl;
 }
 
 // LIN_MESSAGE2 = 57
-void show(Vector::BLF::LinMessage2 * linMessage2)
+void show(Vector::BLF::LinMessage2 * obj)
 {
     std::cout << "LinMessage2:";
-    std::cout << " data=0x";
-    for (uint8_t i = 0; i < linMessage2->dlc; ++i) {
-        if (linMessage2->data[i] < 0x10) {
-            std::cout << "0";
-        }
-        std::cout << std::hex << static_cast<uint16_t>(linMessage2->data[i]);
-    }
-    std::cout << " crc=0x" << std::hex << linMessage2->crc;
-    std::cout << " dir=" << std::dec << static_cast<uint16_t>(linMessage2->dir);
-    std::cout << " sim=" << std::dec << static_cast<uint16_t>(linMessage2->simulated);
-    std::cout << " etf=" << std::dec << static_cast<uint16_t>(linMessage2->isEtf);
-    std::cout << " etfAI=" << std::dec << static_cast<uint16_t>(linMessage2->etfAssocIndex);
-    std::cout << " etfAEI=" << std::dec << static_cast<uint16_t>(linMessage2->etfAssocEtfId);
-    std::cout << " fsmId=" << std::dec << static_cast<uint16_t>(linMessage2->fsmId);
-    std::cout << " fsmState=" << std::dec << static_cast<uint16_t>(linMessage2->fsmState);
-    std::cout << " respBaudrate=" << std::dec << linMessage2->respBaudrate;
-    std::cout << " exactHeaderBaudrate=" << std::dec << linMessage2->exactHeaderBaudrate;
-    std::cout << " earlyStopbitOffset=" << std::dec << linMessage2->earlyStopbitOffset;
-    std::cout << " earlyStopbitOffsetResponse=" << std::dec << linMessage2->earlyStopbitOffsetResponse;
+    std::cout << " data=";
+    printData(obj->data.data(), obj->data.size());
+    std::cout << " crc=0x" << std::hex << obj->crc;
+    std::cout << " dir=" << std::dec << static_cast<uint16_t>(obj->dir);
+    std::cout << " simulated=" << std::dec << static_cast<uint16_t>(obj->simulated);
+    std::cout << " isEtf=" << std::dec << static_cast<uint16_t>(obj->isEtf);
+    std::cout << " etfAssocIndex=" << std::dec << static_cast<uint16_t>(obj->etfAssocIndex);
+    std::cout << " etfAssocEtfId=" << std::dec << static_cast<uint16_t>(obj->etfAssocEtfId);
+    std::cout << " fsmId=" << std::dec << static_cast<uint16_t>(obj->fsmId);
+    std::cout << " fsmState=" << std::dec << static_cast<uint16_t>(obj->fsmState);
+    std::cout << " respBaudrate=" << std::dec << obj->respBaudrate;
+    std::cout << " exactHeaderBaudrate=" << std::fixed << obj->exactHeaderBaudrate;
+    std::cout << " earlyStopbitOffset=" << std::dec << obj->earlyStopbitOffset;
+    std::cout << " earlyStopbitOffsetResponse=" << std::dec << obj->earlyStopbitOffsetResponse;
     std::cout << std::endl;
 }
 
 // LIN_SND_ERROR2 = 58
 void show(Vector::BLF::LinSendError2 * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo LinSendError2
+    std::cout << "LinSendError2:";
+    std::cout << " eoh=" << std::dec << obj->eoh;
+    std::cout << " isEtf=" << std::dec << static_cast<uint16_t>(obj->isEtf);
+    std::cout << " fsmId=" << std::dec << static_cast<uint16_t>(obj->fsmId);
+    std::cout << " fsmState=" << std::dec << static_cast<uint16_t>(obj->fsmState);
+    std::cout << " exactHeaderBaudrate=" << std::fixed << obj->exactHeaderBaudrate;
+    std::cout << " earlyStopbitOffset=" << std::dec << obj->earlyStopbitOffset;
+    std::cout << std::endl;
 }
 
 // LIN_SYN_ERROR2 = 59
 void show(Vector::BLF::LinSyncError2 * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo LinSyncError2
+    std::cout << "LinSendError2:";
+    std::cout << " timeDiff[0]=" << std::dec << obj->timeDiff[0];
+    std::cout << " timeDiff[1]=" << std::dec << obj->timeDiff[1];
+    std::cout << " timeDiff[2]=" << std::dec << obj->timeDiff[2];
+    std::cout << " timeDiff[3]=" << std::dec << obj->timeDiff[3];
+    std::cout << std::endl;
 }
 
 // LIN_CRC_ERROR2 = 60
 void show(Vector::BLF::LinCrcError2 * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo LinCrcError2
+    std::cout << "LinCrcError2:";
+    std::cout << " data=";
+    printData(obj->data.data(), obj->data.size());
+    std::cout << " crc=0x" << std::hex << obj->crc;
+    std::cout << " dir=" << std::dec << static_cast<uint16_t>(obj->dir);
+    std::cout << " fsmId=" << std::dec << static_cast<uint16_t>(obj->fsmId);
+    std::cout << " fsmState=" << std::dec << static_cast<uint16_t>(obj->fsmState);
+    std::cout << " simulated=" << std::dec << static_cast<uint16_t>(obj->simulated);
+    std::cout << " respBaudrate=" << std::dec << obj->respBaudrate;
+    std::cout << " exactHeaderBaudrate=" << std::fixed << obj->exactHeaderBaudrate;
+    std::cout << " earlyStopbitOffset=" << std::dec << obj->earlyStopbitOffset;
+    std::cout << " earlyStopbitOffsetResponse=" << std::dec << obj->earlyStopbitOffsetResponse;
+    std::cout << std::endl;
 }
 
 // LIN_RCV_ERROR2 = 61
 void show(Vector::BLF::LinReceiveError2 * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo LinReceiveError2
+    std::cout << "LinReceiveError2:";
+    std::cout << " data=";
+    printData(obj->data.data(), obj->data.size());
+    std::cout << " fsmId=" << std::dec << static_cast<uint16_t>(obj->fsmId);
+    std::cout << " fsmState=" << std::dec << static_cast<uint16_t>(obj->fsmState);
+    std::cout << " stateReason=" << std::dec << static_cast<uint16_t>(obj->stateReason);
+    std::cout << " offendingByte=" << std::dec << static_cast<uint16_t>(obj->offendingByte);
+    std::cout << " shortError=" << std::dec << static_cast<uint16_t>(obj->shortError);
+    std::cout << " timeoutDuringDlcDetection=" << std::dec << static_cast<uint16_t>(obj->timeoutDuringDlcDetection);
+    std::cout << " isEtf=" << std::dec << static_cast<uint16_t>(obj->isEtf);
+    std::cout << " hasDatabytes=" << std::dec << static_cast<uint16_t>(obj->hasDatabytes);
+    std::cout << " respBaudrate=" << std::dec << obj->respBaudrate;
+    std::cout << " exactHeaderBaudrate=" << std::fixed << obj->exactHeaderBaudrate;
+    std::cout << " earlyStopbitOffset=" << std::dec << obj->earlyStopbitOffset;
+    std::cout << " earlyStopbitOffsetResponse=" << std::dec << obj->earlyStopbitOffsetResponse;
+    std::cout << std::endl;
 }
 
 // LIN_WAKEUP2 = 62
-void show(Vector::BLF::LinWakeupEvent2 * linWakeupEvent2)
+void show(Vector::BLF::LinWakeupEvent2 * obj)
 {
     std::cout << "LinWakeupEvent2:";
-    std::cout << " len=" << std::dec << static_cast<uint16_t>(linWakeupEvent2->lengthInfo);
-    std::cout << " sig=" << std::dec << static_cast<uint16_t>(linWakeupEvent2->signal);
-    std::cout << " ext=" << std::dec << static_cast<uint16_t>(linWakeupEvent2->external);
+    std::cout << " lengthInfo=" << std::dec << static_cast<uint16_t>(obj->lengthInfo);
+    std::cout << " signal=" << std::dec << static_cast<uint16_t>(obj->signal);
+    std::cout << " external=" << std::dec << static_cast<uint16_t>(obj->external);
     std::cout << std::endl;
 }
 
 // LIN_SPIKE_EVENT2 = 63
 void show(Vector::BLF::LinSpikeEvent2 * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo LinSpikeEvent2
+    std::cout << "LinSpikeEvent2:";
+    std::cout << " width=" << std::dec << obj->width;
+    std::cout << " internal=" << std::dec << static_cast<uint16_t>(obj->internal);
+    std::cout << std::endl;
 }
 
 // LIN_LONG_DOM_SIG = 64
 void show(Vector::BLF::LinLongDomSignalEvent * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo LinLongDomSignalEvent
+    std::cout << "LinLongDomSignalEvent:";
+    std::cout << " type=" << std::dec << static_cast<uint16_t>(obj->type);
+    std::cout << std::endl;
 }
 
 // APP_TEXT = 65
@@ -689,7 +914,7 @@ void show(Vector::BLF::AppText * obj)
 {
     std::cout << "AppText:";
     std::cout << " source=0x" << std::hex << obj->source;
-    obj->text.resize(strnlen(obj->text.c_str(), obj->text.size())); // Vector buf
+    std::cout << " textLength=" << std::dec << obj->textLength;
     std::cout << " text=" << obj->text;
     std::cout << std::endl;
 }
@@ -697,419 +922,795 @@ void show(Vector::BLF::AppText * obj)
 // FR_RCVMESSAGE_EX = 66
 void show(Vector::BLF::FlexRayVFrReceiveMsgEx * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo FlexRayVFrReceiveMsgEx
+    std::cout << "FlexRayVFrReceiveMsgEx:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " version=" << std::dec << obj->version;
+    std::cout << " channelMask=0x" << std::hex << obj->channelMask;
+    std::cout << " dir=" << std::dec << static_cast<uint16_t>(obj->dir);
+    std::cout << " clientIndex=" << std::dec << obj->clientIndexFlexRayVFrReceiveMsgEx;
+    std::cout << " clusterNo=" << std::dec << obj->clusterNo;
+    std::cout << " frameId=" << std::dec << obj->frameId;
+    std::cout << " headerCrc1=0x" << std::hex << obj->headerCrc1;
+    std::cout << " headerCrc2=0x" << std::hex << obj->headerCrc2;
+    std::cout << " byteCount=" << std::dec << obj->byteCount;
+    std::cout << " dataCount=" << std::dec << obj->dataCount;
+    std::cout << " cycle=" << std::dec << static_cast<uint16_t>(obj->cycle);
+    std::cout << " tag=" << std::dec << obj->tag;
+    std::cout << " data=0x" << std::hex << obj->data;
+    std::cout << " frameFlags=0x" << std::hex << obj->frameFlags;
+    std::cout << " appParameter=" << std::dec << obj->appParameter;
+    std::cout << " frameCrc=0x" << std::hex << obj->frameCrc;
+    std::cout << " frameLengthNs=" << std::dec << obj->frameLengthNs;
+    std::cout << " frameId1=" << std::dec << obj->frameId1;
+    std::cout << " pduOffset=" << std::dec << obj->pduOffset;
+    std::cout << " blfLogMask=" << std::dec << obj->blfLogMask;
+    std::cout << " dataBytes=";
+    printData(obj->dataBytes.data(), min(obj->dataBytes.size(), obj->dataCount));
+    std::cout << std::endl;
 }
 
 // MOST_STATISTICEX = 67
 void show(Vector::BLF::MostStatisticEx * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo MostStatisticEx
+    std::cout << "MostStatisticEx:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " codingErrors=" << std::dec << obj->codingErrors;
+    std::cout << " frameCounter=" << std::dec << obj->frameCounter;
+    std::cout << std::endl;
 }
 
 // MOST_TXLIGHT = 68
 void show(Vector::BLF::MostTxLight * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo MostTxLight
+    std::cout << "MostTxLight:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " state=" << std::dec << obj->state;
+    std::cout << std::endl;
 }
 
 // MOST_ALLOCTAB = 69
-void show(Vector::BLF::MostAllocTab * mostAllocTab)
+void show(Vector::BLF::MostAllocTab * obj)
 {
     std::cout << "MostAllocTab:";
-    std::cout << " ch=" << std::dec << mostAllocTab->channel;
-    std::cout << " len=0x" << std::hex << mostAllocTab->length;
-    std::cout << " allocTab=0x" << std::hex;
-    for (uint16_t i = 0; i < mostAllocTab->length; ++i) {
-        if (mostAllocTab->tableData[i] < 0x10) {
-            std::cout << "0";
-        }
-        std::cout << static_cast<uint16_t>(mostAllocTab->tableData[i]);
-    }
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " length=0x" << std::hex << obj->length;
+    std::cout << " allocTab=";
+    printData(obj->tableData.data(), obj->tableData.size());
     std::cout << std::endl;
 }
 
 // MOST_STRESS = 70
 void show(Vector::BLF::MostStress * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo MostStress
+    std::cout << "MostStress:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " state=" << std::dec << obj->state;
+    std::cout << " mode=" << std::dec << obj->mode;
+    std::cout << std::endl;
 }
 
 // ETHERNET_FRAME = 71
 void show(Vector::BLF::EthernetFrame * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo EthernetFrame
+    std::cout << "EthernetFrame:";
+    std::cout << " sourceAddress=";
+    printData(obj->sourceAddress.data(), obj->sourceAddress.size());
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << "destinationAddress=";
+    printData(obj->destinationAddress.data(), obj->destinationAddress.size());
+    std::cout << " dir=" << std::dec << obj->dir;
+    std::cout << " type=" << std::dec << obj->type;
+    std::cout << " tpid=" << std::dec << obj->tpid;
+    std::cout << " tci=" << std::dec << obj->tci;
+    std::cout << " payLoadLength=" << std::dec << obj->payLoadLength;
+    std::cout << "payLoad=";
+    printData(obj->payLoad.data(), min(obj->payLoad.size(), obj->payLoadLength));
+    std::cout << std::endl;
 }
 
 // SYS_VARIABLE = 72
-void show(Vector::BLF::SystemVariable * systemVariable)
+void show(Vector::BLF::SystemVariable * obj)
 {
     std::cout << "SystemVariable:";
-    std::cout << " name=" << systemVariable->name;
-    switch (systemVariable->type) {
+    switch (obj->type) {
     case Vector::BLF::SystemVariable::Type::Double:
-        std::cout << " value=" << std::fixed << static_cast<double>(*systemVariable->data.data());
         std::cout << " type=Double";
+        std::cout << " representation=" << std::dec << obj->representation;
+        std::cout << " nameLength=" << std::dec << obj->nameLength;
+        std::cout << " dataLength=" << std::dec << obj->dataLength;
+        std::cout << " name=" << obj->name;
+        std::cout << " data=" << std::fixed << static_cast<double>(*obj->data.data());
         break;
     case Vector::BLF::SystemVariable::Type::Long:
-        std::cout << " value=" << std::dec << static_cast<long>(*systemVariable->data.data());
         std::cout << " type=Long";
+        std::cout << " representation=" << std::dec << obj->representation;
+        std::cout << " nameLength=" << std::dec << obj->nameLength;
+        std::cout << " dataLength=" << std::dec << obj->dataLength;
+        std::cout << " name=" << obj->name;
+        std::cout << " data=" << std::dec << static_cast<long>(*obj->data.data());
         break;
     case Vector::BLF::SystemVariable::Type::String:
         std::cout << " type=String";
-        // @todo String
+        std::cout << " representation=" << std::dec << obj->representation;
+        std::cout << " nameLength=" << std::dec << obj->nameLength;
+        std::cout << " dataLength=" << std::dec << obj->dataLength;
+        std::cout << " name=" << obj->name;
+        std::cout << " data=";
+        printString(reinterpret_cast<char *>(obj->data.data()), obj->data.size());
         break;
     case Vector::BLF::SystemVariable::Type::DoubleArray:
         std::cout << " type=DoubleArray";
-        // @todo DoubleArray
+        std::cout << " representation=" << std::dec << obj->representation;
+        std::cout << " nameLength=" << std::dec << obj->nameLength;
+        std::cout << " dataLength=" << std::dec << obj->dataLength;
+        std::cout << " name=" << obj->name;
+        std::cout << " data=[";
+        for(uint32_t i = 0; i < min(obj->data.size(), obj->dataLength) / sizeof(double); ++i) {
+            if (i > 0) {
+                std::cout << ",";
+            }
+            std::cout << std::fixed << static_cast<double>(obj->data[i*sizeof(double)]);
+        }
+        std::cout << "]";
         break;
     case Vector::BLF::SystemVariable::Type::LongArray:
         std::cout << " type=LongArray";
-        // @todo LongArray
+        std::cout << " representation=" << std::dec << obj->representation;
+        std::cout << " nameLength=" << std::dec << obj->nameLength;
+        std::cout << " dataLength=" << std::dec << obj->dataLength;
+        std::cout << " name=" << obj->name;
+        std::cout << " data=[";
+        for(uint32_t i = 0; i < min(obj->data.size(), obj->dataLength) / sizeof(int32_t); ++i) {
+            if (i > 0) {
+                std::cout << ",";
+            }
+            std::cout << std::dec << static_cast<int32_t>(obj->data[i*sizeof(int32_t)]);
+        }
+        std::cout << "]";
         break;
     case Vector::BLF::SystemVariable::Type::LongLong:
         std::cout << " type=LongLong";
-        // @todo LongLong
+        std::cout << " representation=" << std::dec << obj->representation;
+        std::cout << " nameLength=" << std::dec << obj->nameLength;
+        std::cout << " dataLength=" << std::dec << obj->dataLength;
+        std::cout << " name=" << obj->name;
+        std::cout << " data=" << std::dec << static_cast<uint64_t>(*obj->data.data());
         break;
     case Vector::BLF::SystemVariable::Type::ByteArray:
         std::cout << " type=ByteArray";
-        // @todo ByteArray
+        std::cout << " representation=" << std::dec << obj->representation;
+        std::cout << " nameLength=" << std::dec << obj->nameLength;
+        std::cout << " dataLength=" << std::dec << obj->dataLength;
+        std::cout << " name=" << obj->name;
+        std::cout << " data=[";
+        for(uint32_t i = 0; i < min(obj->data.size(), obj->dataLength); ++i) {
+            if (i > 0) {
+                std::cout << ",";
+            }
+            std::cout << std::dec << static_cast<uint16_t>(obj->data[i]);
+        }
+        std::cout << "]";
         break;
     }
     std::cout << std::endl;
 }
 
 // CAN_ERROR_EXT = 73
-void show(Vector::BLF::CanErrorFrameExt * canErrorFrameExt)
+void show(Vector::BLF::CanErrorFrameExt * obj)
 {
     std::cout << "CanErrorFrameExt:";
-    std::cout << " ch=" << std::dec << canErrorFrameExt->channel;
-    std::cout << " len=" << std::dec << canErrorFrameExt->length;
-    std::cout << " flags=0x" << std::hex << canErrorFrameExt->flags;
-    std::cout << " ecc=0x" << std::hex << static_cast<uint16_t>(canErrorFrameExt->ecc);
-    std::cout << " pos=" << std::dec << static_cast<uint16_t>(canErrorFrameExt->position);
-    std::cout << " dlc=" << std::dec << static_cast<uint16_t>(canErrorFrameExt->dlc);
-    std::cout << " ns=" << std::dec << canErrorFrameExt->frameLengthInNs;
-    std::cout << " id=0x" << std::hex << canErrorFrameExt->id;
-    std::cout << " flagsExt=0x" << std::hex << canErrorFrameExt->flagsExt;
-    std::cout << " msg=" << std::hex;
-    for (uint8_t i = 0; i < canErrorFrameExt->dlc; ++i) {
-        if (canErrorFrameExt->data[i] < 0x10) {
-            std::cout << "0";
-        }
-        std::cout << static_cast<uint16_t>(canErrorFrameExt->data[i]);
-    }
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " length=" << std::dec << obj->length;
+    std::cout << " flags=0x" << std::hex << obj->flags;
+    std::cout << " ecc=0x" << std::hex << static_cast<uint16_t>(obj->ecc);
+    std::cout << " position=" << std::dec << static_cast<uint16_t>(obj->position);
+    std::cout << " dlc=" << std::dec << static_cast<uint16_t>(obj->dlc);
+    std::cout << " frameLengthInNs=" << std::dec << obj->frameLengthInNs;
+    std::cout << " id=0x" << std::hex << obj->id;
+    std::cout << " flagsExt=0x" << std::hex << obj->flagsExt;
+    std::cout << " data=" << std::hex;
+    printData(obj->data.data(), min(obj->data.size(), obj->dlc));
     std::cout << std::endl;
 }
 
 // CAN_DRIVER_ERROR_EXT = 74
 void show(Vector::BLF::CanDriverErrorExt * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo CanDriverErrorExt
+    std::cout << "CanErrorFrameExt:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " txErrors=" << std::dec << static_cast<uint16_t>(obj->txErrors);
+    std::cout << " rxErrors=" << std::dec << static_cast<uint16_t>(obj->rxErrors);
+    std::cout << " errorCode=" << std::dec << obj->errorCode;
+    std::cout << " flags=0x" << std::hex << obj->flags;
+    std::cout << " state=" << std::dec << static_cast<uint16_t>(obj->state);
+    std::cout << std::endl;
 }
 
 // LIN_LONG_DOM_SIG2 = 75
 void show(Vector::BLF::LinLongDomSignalEvent2 * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo LinLongDomSignalEvent2
+    std::cout << "LinLongDomSignalEvent2:";
+    std::cout << " type=" << std::dec << static_cast<uint16_t>(obj->type);
+    std::cout << " length=" << std::dec << obj->length;
+    std::cout << std::endl;
 }
 
 // MOST_150_MESSAGE = 76
 void show(Vector::BLF::Most150Message * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo Most150Message
+    std::cout << "Most150Message:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " dir=" << std::dec << static_cast<uint16_t>(obj->dir);
+    std::cout << " sourceAdr=" << std::dec << obj->sourceAdr;
+    std::cout << " destAdr=" << std::dec << obj->destAdr;
+    std::cout << " transferType=" << std::dec << static_cast<uint16_t>(obj->transferType);
+    std::cout << " state=0x" << std::hex << static_cast<uint16_t>(obj->state);
+    std::cout << " ackNack=0x" << std::hex << static_cast<uint16_t>(obj->ackNack);
+    std::cout << " crc=0x" << std::hex << obj->crc;
+    std::cout << " pAck=" << std::dec << static_cast<uint16_t>(obj->pAck);
+    std::cout << " cAck=" << std::dec << static_cast<uint16_t>(obj->cAck);
+    std::cout << " priority=" << std::dec << static_cast<uint16_t>(obj->priority);
+    std::cout << " pIndex=" << std::dec << static_cast<uint16_t>(obj->pIndex);
+    std::cout << " msgLen=" << std::dec << obj->msgLen;
+    std::cout << " msg=";
+    printData(obj->msg.data(), min(obj->msg.size(), obj->msgLen));
+    std::cout << std::endl;
 }
 
 // MOST_150_PKT = 77
 void show(Vector::BLF::Most150Pkt * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo Most150Pkt
+    std::cout << "Most150Pkt:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " dir=" << std::dec << static_cast<uint16_t>(obj->dir);
+    std::cout << " sourceAdr=" << std::dec << obj->sourceAdr;
+    std::cout << " destAdr=" << std::dec << obj->destAdr;
+    std::cout << " transferType=" << std::dec << static_cast<uint16_t>(obj->transferType);
+    std::cout << " state=0x" << std::hex << static_cast<uint16_t>(obj->state);
+    std::cout << " ackNack=0x" << std::hex << static_cast<uint16_t>(obj->ackNack);
+    std::cout << " crc=0x" << std::hex << obj->crc;
+    std::cout << " pAck=" << std::dec << static_cast<uint16_t>(obj->pAck);
+    std::cout << " cAck=" << std::dec << static_cast<uint16_t>(obj->cAck);
+    std::cout << " priority=" << std::dec << static_cast<uint16_t>(obj->priority);
+    std::cout << " pIndex=" << std::dec << static_cast<uint16_t>(obj->pIndex);
+    std::cout << " pktDataLength=" << std::dec << obj->pktDataLength;
+    std::cout << " pktData=";
+    printData(obj->pktData.data(), min(obj->pktData.size(), obj->pktDataLength));
+    std::cout << std::endl;
 }
 
 // MOST_ETHERNET_PKT = 78
 void show(Vector::BLF::MostEthernetPkt * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo MostEthernetPkt
+    std::cout << "MostEthernetPkt:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " dir=" << std::dec << static_cast<uint16_t>(obj->dir);
+    std::cout << " sourceMacAdr=" << std::dec << obj->sourceMacAdr;
+    std::cout << " destMacAdr=" << std::dec << obj->destMacAdr;
+    std::cout << " transferType=" << std::dec << static_cast<uint16_t>(obj->transferType);
+    std::cout << " state=0x" << std::hex << static_cast<uint16_t>(obj->state);
+    std::cout << " ackNack=0x" << std::hex << static_cast<uint16_t>(obj->ackNack);
+    std::cout << " crc=0x" << std::hex << obj->crc;
+    std::cout << " pAck=" << std::dec << static_cast<uint16_t>(obj->pAck);
+    std::cout << " cAck=" << std::dec << static_cast<uint16_t>(obj->cAck);
+    std::cout << " pktDataLength=" << std::dec << obj->pktDataLength;
+    std::cout << " pktData=";
+    printData(obj->pktData.data(), min(obj->pktData.size(), obj->pktDataLength));
+    std::cout << std::endl;
 }
 
 // MOST_150_MESSAGE_FRAGMENT = 79
 void show(Vector::BLF::Most150MessageFragment * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo Most150MessageFragment
+    std::cout << "Most150MessageFragment:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " ackNack=0x" << std::hex << static_cast<uint16_t>(obj->ackNack);
+    std::cout << " validMask=0x" << std::hex << obj->validMask;
+    std::cout << " sourceAdr=" << std::dec << obj->sourceAdr;
+    std::cout << " destAdr=" << std::dec << obj->destAdr;
+    std::cout << " pAck=" << std::dec << static_cast<uint16_t>(obj->pAck);
+    std::cout << " cAck=" << std::dec << static_cast<uint16_t>(obj->cAck);
+    std::cout << " priority=" << std::dec << static_cast<uint16_t>(obj->priority);
+    std::cout << " pIndex=" << std::dec << static_cast<uint16_t>(obj->pIndex);
+    std::cout << " crc=0x" << std::hex << obj->crc;
+    std::cout << " dataLen=" << std::dec << obj->dataLen;
+    std::cout << " dataLenAnnounced=" << std::dec << obj->dataLenAnnounced;
+    std::cout << " firstDataLen=" << std::dec << obj->firstDataLen;
+    std::cout << " firstData=";
+    printData(obj->firstData.data(), min(obj->firstData.size(), obj->firstDataLen));
+    std::cout << std::endl;
 }
 
 // MOST_150_PKT_FRAGMENT = 80
 void show(Vector::BLF::Most150PktFragment * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo Most150PktFragment
+    std::cout << "Most150PktFragment:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " ackNack=0x" << std::hex << static_cast<uint16_t>(obj->ackNack);
+    std::cout << " validMask=0x" << std::hex << obj->validMask;
+    std::cout << " sourceAdr=" << std::dec << obj->sourceAdr;
+    std::cout << " destAdr=" << std::dec << obj->destAdr;
+    std::cout << " pAck=" << std::dec << static_cast<uint16_t>(obj->pAck);
+    std::cout << " cAck=" << std::dec << static_cast<uint16_t>(obj->cAck);
+    std::cout << " priority=" << std::dec << static_cast<uint16_t>(obj->priority);
+    std::cout << " pIndex=" << std::dec << static_cast<uint16_t>(obj->pIndex);
+    std::cout << " crc=0x" << std::hex << obj->crc;
+    std::cout << " dataLen=" << std::dec << obj->dataLen;
+    std::cout << " dataLenAnnounced=" << std::dec << obj->dataLenAnnounced;
+    std::cout << " firstDataLen=" << std::dec << obj->firstDataLen;
+    std::cout << " firstData=";
+    printData(obj->firstData.data(), min(obj->firstData.size(), obj->firstDataLen));
+    std::cout << std::endl;
 }
 
 // MOST_ETHERNET_PKT_FRAGMENT = 81
 void show(Vector::BLF::MostEthernetPktFragment * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo MostEthernetPktFragment
+    std::cout << "MostEthernetPktFragment:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " ackNack=0x" << std::hex << static_cast<uint16_t>(obj->ackNack);
+    std::cout << " validMask=0x" << std::hex << obj->validMask;
+    std::cout << " sourceMacAdr=" << std::dec << obj->sourceMacAdr;
+    std::cout << " destMacAdr=" << std::dec << obj->destMacAdr;
+    std::cout << " pAck=" << std::dec << static_cast<uint16_t>(obj->pAck);
+    std::cout << " cAck=" << std::dec << static_cast<uint16_t>(obj->cAck);
+    std::cout << " crc=0x" << std::hex << obj->crc;
+    std::cout << " dataLen=" << std::dec << obj->dataLen;
+    std::cout << " dataLenAnnounced=" << std::dec << obj->dataLenAnnounced;
+    std::cout << " firstDataLen=" << std::dec << obj->firstDataLen;
+    std::cout << " firstData=";
+    printData(obj->firstData.data(), min(obj->firstData.size(), obj->firstDataLen));
+    std::cout << std::endl;
 }
 
 // MOST_SYSTEM_EVENT = 82
 void show(Vector::BLF::MostSystemEvent * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo MostSystemEvent
+    std::cout << "MostSystemEvent:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " id=" << std::dec << obj->id;
+    std::cout << " value=" << std::dec << obj->value;
+    std::cout << " valueOld=" << std::dec << obj->valueOld;
+    std::cout << std::endl;
 }
 
 // MOST_150_ALLOCTAB = 83
 void show(Vector::BLF::Most150AllocTab * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo Most150AllocTab
+    std::cout << "Most150AllocTab:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " eventModeFlags=0x" << std::hex << obj->eventModeFlags;
+    std::cout << " freeBytes=" << std::dec << obj->freeBytes;
+    std::cout << " length=" << std::dec << obj->length;
+    std::cout << " tableData=";
+    printData(obj->tableData.data(), min(obj->tableData.size(), obj->length * 4));
+    std::cout << std::endl;
 }
 
 // MOST_50_MESSAGE = 84
 void show(Vector::BLF::Most50Message * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo Most50Message
+    std::cout << "Most50Message:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " dir=" << std::dec << static_cast<uint16_t>(obj->dir);
+    std::cout << " sourceAdr=" << std::dec << obj->sourceAdr;
+    std::cout << " destAdr=" << std::dec << obj->destAdr;
+    std::cout << " transferType=" << std::dec << static_cast<uint16_t>(obj->transferType);
+    std::cout << " state=0x" << std::hex << static_cast<uint16_t>(obj->state);
+    std::cout << " ackNack=0x" << std::hex << static_cast<uint16_t>(obj->ackNack);
+    std::cout << " crc=0x" << std::hex << obj->crc;
+    std::cout << " priority=" << std::dec << static_cast<uint16_t>(obj->priority);
+    std::cout << " msgLen=" << std::dec << obj->msgLen;
+    std::cout << " msg=";
+    printData(obj->msg.data(), min(obj->msg.size(), obj->msgLen));
+    std::cout << std::endl;
 }
 
 // MOST_50_PKT = 85
 void show(Vector::BLF::Most50Pkt * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo Most50Pkt
+    std::cout << "Most50Pkt:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " dir=" << std::dec << static_cast<uint16_t>(obj->dir);
+    std::cout << " sourceAdr=" << std::dec << obj->sourceAdr;
+    std::cout << " destAdr=" << std::dec << obj->destAdr;
+    std::cout << " transferType=" << std::dec << static_cast<uint16_t>(obj->transferType);
+    std::cout << " state=0x" << std::hex << static_cast<uint16_t>(obj->state);
+    std::cout << " ackNack=0x" << std::hex << static_cast<uint16_t>(obj->ackNack);
+    std::cout << " crc=0x" << std::hex << obj->crc;
+    std::cout << " priority=" << std::dec << static_cast<uint16_t>(obj->priority);
+    std::cout << " pktDataLength=" << std::dec << obj->pktDataLength;
+    std::cout << " pktData=";
+    printData(obj->pktData.data(), min(obj->pktData.size(), obj->pktDataLength));
+    std::cout << std::endl;
 }
 
 // CAN_MESSAGE2 = 86
 void show(Vector::BLF::CanMessage2 * obj)
 {
-    std::cout << "CanMessage2:"
-              << " ch=" << obj->channel
-              << " flags=" << static_cast<uint16_t>(obj->flags)
-              << " dlc=" << static_cast<uint16_t>(obj->dlc)
-              << " id=0x" << std::hex << obj->id
-              << " frameLength=" << std::dec << obj->frameLength << "ms"
-              << " bitCount=" << static_cast<uint16_t>(obj->bitCount)
-              << " data=";
-    for (uint8_t i = 0; (i < obj->dlc) && (i < 8); ++i) {
-        std::cout << std::hex;
-        if (obj->data[i] <= 0xf) {
-            std::cout << '0';
-        }
-        std::cout << static_cast<uint16_t>(obj->data[i]);
-        std::cout << " ";
-    }
+    std::cout << "CanMessage2:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " flags=0x" << std::hex << static_cast<uint16_t>(obj->flags);
+    std::cout << " dlc=" << std::dec << static_cast<uint16_t>(obj->dlc);
+    std::cout << " id=0x" << std::hex << obj->id;
+    std::cout << " data=";
+    printData(obj->data.data(), min(obj->data.size(), obj->dlc));
+    std::cout << " frameLength=" << std::dec << obj->frameLength;
+    std::cout << " bitCount=" << std::dec << static_cast<uint16_t>(obj->bitCount);
     std::cout << std::endl;
 }
 
 // LIN_UNEXPECTED_WAKEUP = 87
 void show(Vector::BLF::LinUnexpectedWakeup * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo LinUnexpectedWakeup
+    std::cout << "LinUnexpectedWakeup:";
+    std::cout << " width=" << std::dec << obj->width;
+    std::cout << " signal=" << std::dec << static_cast<uint16_t>(obj->signal);
+    std::cout << std::endl;
 }
 
 // LIN_SHORT_OR_SLOW_RESPONSE = 88
 void show(Vector::BLF::LinShortOrSlowResponse * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo LinShortOrSlowResponse
+    std::cout << "LinShortOrSlowResponse:";
+    std::cout << " numberOfRespBytes=" << std::dec << obj->numberOfRespBytes;
+    std::cout << " respBytes=";
+    printData(obj->respBytes.data(), min(obj->respBytes.size(), obj->numberOfRespBytes));
+    std::cout << " slowResponse=" << std::dec << static_cast<uint16_t>(obj->slowResponse);
+    std::cout << " interruptedByBreak=" << std::dec << static_cast<uint16_t>(obj->interruptedByBreak);
+    std::cout << std::endl;
 }
 
 // LIN_DISTURBANCE_EVENT = 89
 void show(Vector::BLF::LinDisturbanceEvent * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo LinDisturbanceEvent
+    std::cout << "LinDisturbanceEvent:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " id=" << std::dec << static_cast<uint16_t>(obj->id);
+    std::cout << " disturbingFrameId=" << std::dec << static_cast<uint16_t>(obj->disturbingFrameId);
+    std::cout << " disturbanceType=" << std::dec << obj->disturbanceType;
+    std::cout << " byteIndex=" << std::dec << obj->byteIndex;
+    std::cout << " bitIndex=" << std::dec << obj->bitIndex;
+    std::cout << " bitOffsetInSixteenthBits=" << std::dec << obj->bitOffsetInSixteenthBits;
+    std::cout << " disturbanceLengthInSixteenthBits=" << std::dec << obj->disturbanceLengthInSixteenthBits;
+    std::cout << std::endl;
 }
 
 // SERIAL_EVENT = 90
 void show(Vector::BLF::SerialEvent * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo SerialEvent
+    std::cout << "SerialEvent:";
+    std::cout << " flags=0x" << std::hex << obj->flags;
+    std::cout << " port=" << std::dec << obj->port;
+    std::cout << " baudrate=" << std::dec << obj->baudrate;
+    if (obj->flags & Vector::BLF::SerialEvent::Flags::SingleByte) {
+        /* SingleByteSerialEvent */
+        std::cout << " byte=" << std::dec << static_cast<uint16_t>(obj->singleByte.byte);
+    } else {
+        if (obj->flags & Vector::BLF::SerialEvent::Flags::CompactByte) {
+            /* CompactSerialEvent */
+            std::cout << " compactLength=" << std::dec << static_cast<uint16_t>(obj->compact.compactLength);
+            std::cout << " compactData=";
+            printData(obj->compact.compactData.data(), min(obj->compact.compactData.size(), obj->compact.compactLength));
+        } else {
+            /* GeneralSerialEvent */
+            std::cout << " dataLength=" << std::dec << obj->general.dataLength;
+            std::cout << " timeStampsLength=" << std::dec << obj->general.timeStampsLength;
+            std::cout << " data=";
+            printData(obj->general.data.data(), min(obj->general.data.size(), obj->general.dataLength));
+            std::cout << " timeStamps=";
+            for(uint32_t i = 0; i < min(obj->general.timeStamps.size(), obj->general.timeStampsLength / sizeof(uint64_t)); ++i) {
+                if (i > 0) {
+                    std::cout << ",";
+                }
+                std::cout << std::dec << obj->general.timeStamps[i];
+            }
+        }
+    }
+    std::cout << std::endl;
 }
 
 // OVERRUN_ERROR = 91
 void show(Vector::BLF::DriverOverrun * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo DriverOverrun
+    std::cout << "DriverOverrun:";
+    std::cout << " busType=" << std::dec << obj->busType;
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << std::endl;
 }
 
 // EVENT_COMMENT = 92
-void show(Vector::BLF::EventComment * eventComment)
+void show(Vector::BLF::EventComment * obj)
 {
     std::cout << "EventComment:";
-    std::cout << " type=" << std::dec << eventComment->commentedEventType;
-    std::cout << " text=" << eventComment->text;
+    std::cout << " commentedEventType=" << std::dec << obj->commentedEventType;
+    std::cout << " textLength=" << std::dec << obj->textLength;
+    std::cout << " text=" << obj->text;
     std::cout << std::endl;
 }
 
 // WLAN_FRAME = 93
 void show(Vector::BLF::WlanFrame * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo WlanFrame
+    std::cout << "WlanFrame:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " flags=0x" << std::hex << obj->flags;
+    std::cout << " dir=" << std::dec << static_cast<uint16_t>(obj->dir);
+    std::cout << " radioChannel=" << std::dec << static_cast<uint16_t>(obj->radioChannel);
+    std::cout << " signalStrength=" << std::dec << obj->signalStrength;
+    std::cout << " signalQuality=" << std::dec << obj->signalQuality;
+    std::cout << " frameLength=" << std::dec << obj->frameLength;
+    std::cout << " frameData=";
+    printData(obj->frameData.data(), min(obj->frameData.size(), obj->frameLength));
+    std::cout << std::endl;
 }
 
 // WLAN_STATISTIC = 94
 void show(Vector::BLF::WlanStatistic * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo WlanStatistic
+    std::cout << "WlanStatistic:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " flags=0x" << std::hex << obj->flags;
+    std::cout << " rxPacketCount=" << std::dec << obj->rxPacketCount;
+    std::cout << " rxByteCount=" << std::dec << obj->rxByteCount;
+    std::cout << " txPacketCount=" << std::dec << obj->txPacketCount;
+    std::cout << " txByteCount=" << std::dec << obj->txByteCount;
+    std::cout << " collisionCount=" << std::dec << obj->collisionCount;
+    std::cout << " errorCount=" << std::dec << obj->errorCount;
+    std::cout << std::endl;
 }
 
 // MOST_ECL = 95
 void show(Vector::BLF::MostEcl * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo MostEcl
+    std::cout << "MostEcl:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " mode=" << std::dec << obj->mode;
+    std::cout << " eclState=" << std::dec << obj->eclState;
+    std::cout << std::endl;
 }
 
 // GLOBAL_MARKER = 96
-void show(Vector::BLF::GlobalMarker * globalMarker)
+void show(Vector::BLF::GlobalMarker * obj)
 {
     std::cout << "GlobalMarker:";
-    std::cout << " type=" << std::dec << globalMarker->commentedEventType;
-    std::cout << " fgcol=0x" << std::hex << globalMarker->foregroundColor;
-    std::cout << " bgcol=0x" << std::hex << globalMarker->backgroundColor;
-    std::cout << " grpNam=" << globalMarker->groupName;
-    std::cout << " mrkNam=" << globalMarker->markerName;
-    std::cout << " descr=" << globalMarker->description;
+    std::cout << " commentedEventType=" << std::dec << obj->commentedEventType;
+    std::cout << " foregroundColor=0x" << std::hex << obj->foregroundColor;
+    std::cout << " backgroundColor=0x" << std::hex << obj->backgroundColor;
+    std::cout << " isRelocatable=" << std::dec << obj->isRelocatable;
+    std::cout << " groupNameLength=" << std::dec << obj->groupNameLength;
+    std::cout << " markerNameLength=" << std::dec << obj->markerNameLength;
+    std::cout << " descriptionLength=" << std::dec << obj->descriptionLength;
+    std::cout << " groupName=" << obj->groupName;
+    std::cout << " markerName=" << obj->markerName;
+    std::cout << " description=" << obj->description;
     std::cout << std::endl;
 }
 
 // AFDX_FRAME = 97
-void show(Vector::BLF::AfdxFrame * afdxFrame)
+void show(Vector::BLF::AfdxFrame * obj)
 {
     std::cout << "AfdxFrame:";
-    std::cout << " SA=";
-    for (uint32_t i = 0; i < 6; ++i) {
-        if (afdxFrame->sourceAddress[i] < 0x10) {
-            std::cout << "0";
-        }
-        std::cout << std::hex << static_cast<uint16_t>(afdxFrame->sourceAddress[i]);
-        if (i < 5) {
-            std::cout << ":";
-        }
-    }
-    std::cout << " ch=" << std::dec << afdxFrame->channel;
-    std::cout << " DA=";
-    for (uint32_t i = 0; i < 6; ++i) {
-        if (afdxFrame->destinationAddress[i] < 0x10) {
-            std::cout << "0";
-        }
-        std::cout << std::hex << static_cast<uint16_t>(afdxFrame->destinationAddress[i]);
-        if (i < 5) {
-            std::cout << ":";
-        }
-    }
-    std::cout << " dir=" << std::dec << static_cast<uint16_t>(afdxFrame->dir);
-    std::cout << " type=0x" << std::hex << afdxFrame->type;
-    std::cout << " tpid=" << std::dec << afdxFrame->tpid;
-    std::cout << " tci=" << std::dec << afdxFrame->tci;
-    std::cout << " ethChan=" << std::dec << static_cast<uint16_t>(afdxFrame->ethChannel);
-    std::cout << " flags=0x" << std::hex << afdxFrame->afdxFlags;
-    std::cout << " bagUsec=" << std::dec << afdxFrame->bagUsec;
-    std::cout << " len=0x" << std::hex << afdxFrame->payLoadLength;
-    // payLoad
+    std::cout << " sourceAddress=";
+    printData(obj->sourceAddress.data(), obj->sourceAddress.size());
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " destinationAddress=";
+    printData(obj->destinationAddress.data(), obj->destinationAddress.size());
+    std::cout << " dir=" << std::dec << obj->dir;
+    std::cout << " type=0x" << std::hex << obj->type;
+    std::cout << " tpid=" << std::dec << obj->tpid;
+    std::cout << " tci=" << std::dec << obj->tci;
+    std::cout << " ethChan=" << std::dec << static_cast<uint16_t>(obj->ethChannel);
+    std::cout << " flags=0x" << std::hex << obj->afdxFlags;
+    std::cout << " bagUsec=" << std::dec << obj->bagUsec;
+    std::cout << " len=0x" << std::hex << obj->payLoadLength;
+    printData(obj->payLoad.data(), min(obj->payLoad.size(), obj->payLoadLength));
     std::cout << std::endl;
 }
 
 // AFDX_STATISTIC = 98
-void show(Vector::BLF::AfdxStatistic * afdxStatistic)
+void show(Vector::BLF::AfdxStatistic * obj)
 {
     std::cout << "AfdxStatistic:";
-    std::cout << " ch=" << std::dec << afdxStatistic->channel;
-    std::cout << " flags=0x" << std::hex << static_cast<uint16_t>(afdxStatistic->flags);
-    std::cout << " rxPktCnt=" << std::dec << afdxStatistic->rxPacketCount;
-    std::cout << " rxBytCnt=" << std::dec << afdxStatistic->rxByteCount;
-    std::cout << " txPktCnt=" << std::dec << afdxStatistic->txPacketCount;
-    std::cout << " txBytCnt=" << std::dec << afdxStatistic->txByteCount;
-    std::cout << " colCnt=" << std::dec << afdxStatistic->collisionCount;
-    std::cout << " errCnt=" << std::dec << afdxStatistic->errorCount;
-    std::cout << " drpRdnPktCnt=" << std::dec << afdxStatistic->statDroppedRedundantPacketCount;
-    std::cout << " rdnErrPktCnt=" << std::dec << afdxStatistic->statRedundantErrorPacketCount;
-    std::cout << " intErrPktCnt=" << std::dec << afdxStatistic->statIntegrityErrorPacketCount;
-    std::cout << " avrfPerMsec=" << std::dec << afdxStatistic->statAvrgPeriodMsec;
-    std::cout << " avrfJitMsec=" << std::dec << afdxStatistic->statAvrgJitterMysec;
-    std::cout << " vlid=" << std::dec << afdxStatistic->vlid;
-    std::cout << " dur=" << std::dec << afdxStatistic->statDuration;
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " flags=0x" << std::hex << static_cast<uint16_t>(obj->flags);
+    std::cout << " rxPacketCount=" << std::dec << obj->rxPacketCount;
+    std::cout << " rxByteCount=" << std::dec << obj->rxByteCount;
+    std::cout << " txPacketCount=" << std::dec << obj->txPacketCount;
+    std::cout << " txByteCount=" << std::dec << obj->txByteCount;
+    std::cout << " collisionCount=" << std::dec << obj->collisionCount;
+    std::cout << " errorCount=" << std::dec << obj->errorCount;
+    std::cout << " statDroppedRedundantPacketCount=" << std::dec << obj->statDroppedRedundantPacketCount;
+    std::cout << " statRedundantErrorPacketCount=" << std::dec << obj->statRedundantErrorPacketCount;
+    std::cout << " statIntegrityErrorPacketCount=" << std::dec << obj->statIntegrityErrorPacketCount;
+    std::cout << " statAvrgPeriodMsec=" << std::dec << obj->statAvrgPeriodMsec;
+    std::cout << " statAvrgJitterMysec=" << std::dec << obj->statAvrgJitterMysec;
+    std::cout << " vlid=" << std::dec << obj->vlid;
+    std::cout << " statDuration=" << std::dec << obj->statDuration;
     std::cout << std::endl;
 }
 
 // KLINE_STATUSEVENT = 99
 void show(Vector::BLF::KLineStatusEvent * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo KLineStatusEvent
+    std::cout << "KLineStatusEvent:";
+    std::cout << " type=0x" << std::hex << obj->type;
+    std::cout << " dataLen=" << std::dec << obj->dataLen;
+    std::cout << " port=" << std::dec << obj->port;
+    std::cout << " data=[";
+    for(uint32_t i = 0; i < min(obj->data.size(), obj->dataLen / sizeof(uint64_t)); ++i) {
+        if (i > 0) {
+            std::cout << " ";
+        }
+        std::cout << std::hex << obj->data[i];
+    }
+    std::cout << "]";
+    std::cout << std::endl;
 }
 
 // CAN_FD_MESSAGE = 100
 void show(Vector::BLF::CanFdMessage * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo CanFdMessage
+    std::cout << "CanFdMessage:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " flags=0x" << std::hex << static_cast<uint16_t>(obj->flags);
+    std::cout << " dlc=" << std::dec << static_cast<uint16_t>(obj->dlc);
+    std::cout << " id=" << std::dec << obj->id;
+    std::cout << " frameLength=" << std::dec << obj->frameLength;
+    std::cout << " arbBitCount=" << std::dec << static_cast<uint16_t>(obj->arbBitCount);
+    std::cout << " canFdFlags=0x" << std::hex << static_cast<uint16_t>(obj->canFdFlags);
+    std::cout << " validDataBytes=" << std::dec << static_cast<uint16_t>(obj->validDataBytes);
+    std::cout << " data=";
+    printData(obj->data.data(), min(obj->data.size(), obj->validDataBytes));
+    std::cout << std::endl;
 }
 
 // CAN_FD_MESSAGE_64 = 101
 void show(Vector::BLF::CanFdMessage64 * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo CanFdMessage64
+    std::cout << "CanFdMessage64:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " dlc=" << std::dec << static_cast<uint16_t>(obj->dlc);
+    std::cout << " validDataBytes=" << std::dec << static_cast<uint16_t>(obj->validDataBytes);
+    std::cout << " txCount=" << std::dec << static_cast<uint16_t>(obj->txCount);
+    std::cout << " id=" << std::dec << obj->id;
+    std::cout << " frameLength=" << std::dec << obj->frameLength;
+    std::cout << " flags=0x" << std::hex << obj->flags;
+    std::cout << " btrCfgArb=" << std::dec << obj->btrCfgArb;
+    std::cout << " btrCfgData=" << std::dec << obj->btrCfgData;
+    std::cout << " timeOffsetBrsNs=" << std::dec << obj->timeOffsetBrsNs;
+    std::cout << " timeOffsetCrcDelNs=" << std::dec << obj->timeOffsetCrcDelNs;
+    std::cout << " bitCount=" << std::dec << obj->bitCount;
+    std::cout << " dir=" << std::dec << static_cast<uint16_t>(obj->dir);
+    std::cout << " extDataOffset=" << std::dec << static_cast<uint16_t>(obj->extDataOffset);
+    std::cout << " crc=0x" << std::dec << obj->crc;
+    std::cout << " data=";
+    printData(obj->data.data(), min(obj->data.size(), obj->validDataBytes));
+    std::cout << std::endl;
 }
 
 // ETHERNET_RX_ERROR = 102
 void show(Vector::BLF::EthernetRxError * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo EthernetRxError
+    std::cout << "EthernetRxError:";
+    std::cout << " structLength=" << std::dec << obj->structLength;
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " dir=" << std::dec << obj->dir;
+    std::cout << " hardwareChannel=" << std::dec << obj->hardwareChannel;
+    std::cout << " fcs=" << std::dec << obj->fcs;
+    std::cout << " frameDataLength=" << std::dec << obj->frameDataLength;
+    std::cout << " error=" << std::dec << obj->error;
+    std::cout << " frameData=";
+    printData(obj->frameData.data(), min(obj->frameData.size(), obj->frameDataLength));
+    std::cout << std::endl;
 }
 
 // ETHERNET_STATUS = 103
 void show(Vector::BLF::EthernetStatus * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo EthernetStatus
+    std::cout << "EthernetStatus:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " flags=0x" << std::hex << obj->flags;
+    std::cout << " linkStatus=" << std::dec << static_cast<uint16_t>(obj->linkStatus);
+    std::cout << " ethernetPhy=" << std::dec << static_cast<uint16_t>(obj->ethernetPhy);
+    std::cout << " duplex=" << std::dec << static_cast<uint16_t>(obj->duplex);
+    std::cout << " mdi=" << std::dec << static_cast<uint16_t>(obj->mdi);
+    std::cout << " connector=" << std::dec << static_cast<uint16_t>(obj->connector);
+    std::cout << " clockMode=" << std::dec << static_cast<uint16_t>(obj->clockMode);
+    std::cout << " pairs=" << std::dec << static_cast<uint16_t>(obj->pairs);
+    std::cout << " hardwareChannel=" << std::dec << static_cast<uint16_t>(obj->hardwareChannel);
+    std::cout << " bitrate=" << std::dec << obj->bitrate;
+    std::cout << std::endl;
 }
 
 // CAN_FD_ERROR_64 = 104
 void show(Vector::BLF::CanFdErrorFrame64 * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo CanFdErrorFrame64
+    std::cout << "CanFdErrorFrame64:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " dlc=" << std::dec << static_cast<uint16_t>(obj->dlc);
+    std::cout << " validDataBytes=" << std::dec << static_cast<uint16_t>(obj->validDataBytes);
+    std::cout << " ecc=" << std::dec << static_cast<uint16_t>(obj->ecc);
+    std::cout << " flags=0x" << std::hex << obj->flags;
+    std::cout << " errorCodeExt=0x" << std::hex << obj->errorCodeExt;
+    std::cout << " extFlags=0x" << std::hex << obj->extFlags;
+    std::cout << " extDataOffset=" << std::dec << static_cast<uint16_t>(obj->extDataOffset);
+    std::cout << " id=" << std::dec << obj->id;
+    std::cout << " frameLength=" << std::dec << obj->frameLength;
+    std::cout << " btrCfgArb=" << std::dec << obj->btrCfgArb;
+    std::cout << " btrCfgData=" << std::dec << obj->btrCfgData;
+    std::cout << " timeOffsetBrsNs=" << std::dec << obj->timeOffsetBrsNs;
+    std::cout << " timeOffsetCrcDelNs=" << std::dec << obj->timeOffsetCrcDelNs;
+    std::cout << " crc=0x" << std::hex << obj->crc;
+    std::cout << " errorPosition=" << std::dec << obj->errorPosition;
+    std::cout << " data=";
+    printData(obj->data.data(), min(obj->data.size(), obj->frameLength));
+    std::cout << std::endl;
 }
 
 // LIN_SHORT_OR_SLOW_RESPONSE2 = 105
 void show(Vector::BLF::LinShortOrSlowResponse2 * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo LinShortOrSlowResponse2
+    std::cout << "LinShortOrSlowResponse2:";
+    std::cout << " numberOfRespBytes=" << std::dec << obj->numberOfRespBytes;
+    std::cout << " respBytes=";
+    printData(obj->respBytes.data(), min(obj->respBytes.size(), obj->numberOfRespBytes));
+    std::cout << " slowResponse=" << std::dec << static_cast<uint16_t>(obj->slowResponse);
+    std::cout << " interruptedByBreak=" << std::dec << static_cast<uint16_t>(obj->interruptedByBreak);
+    std::cout << " exactHeaderBaudrate=" << std::fixed << obj->exactHeaderBaudrate;
+    std::cout << " earlyStopbitOffset=" << std::dec << obj->earlyStopbitOffset;
+    std::cout << std::endl;
 }
 
 // AFDX_STATUS = 106
 void show(Vector::BLF::AfdxStatus * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo AfdxStatus
+    std::cout << "AfdxStatus:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " statusA::flags=0x" << std::hex << obj->statusA.flags;
+    std::cout << " statusA::linkStatus=" << std::dec << static_cast<uint16_t>(obj->statusA.linkStatus);
+    std::cout << " statusA::ethernetPhy=" << std::dec << static_cast<uint16_t>(obj->statusA.ethernetPhy);
+    std::cout << " statusA::duplex=" << std::dec << static_cast<uint16_t>(obj->statusA.duplex);
+    std::cout << " statusA::mdi=" << std::dec << static_cast<uint16_t>(obj->statusA.mdi);
+    std::cout << " statusA::connector=" << std::dec << static_cast<uint16_t>(obj->statusA.connector);
+    std::cout << " statusA::clockMode=" << std::dec << static_cast<uint16_t>(obj->statusA.clockMode);
+    std::cout << " statusA::pairs=" << std::dec << static_cast<uint16_t>(obj->statusA.pairs);
+    std::cout << " statusA::bitrate=" << std::dec << obj->statusA.bitrate;
+    std::cout << " statusB::flags=0x" << std::hex << obj->statusB.flags;
+    std::cout << " statusB::linkStatus=" << std::dec << static_cast<uint16_t>(obj->statusB.linkStatus);
+    std::cout << " statusB::ethernetPhy=" << std::dec << static_cast<uint16_t>(obj->statusB.ethernetPhy);
+    std::cout << " statusB::duplex=" << std::dec << static_cast<uint16_t>(obj->statusB.duplex);
+    std::cout << " statusB::mdi=" << std::dec << static_cast<uint16_t>(obj->statusB.mdi);
+    std::cout << " statusB::connector=" << std::dec << static_cast<uint16_t>(obj->statusB.connector);
+    std::cout << " statusB::clockMode=" << std::dec << static_cast<uint16_t>(obj->statusB.clockMode);
+    std::cout << " statusB::pairs=" << std::dec << static_cast<uint16_t>(obj->statusB.pairs);
+    std::cout << " statusB::bitrate=" << std::dec << obj->statusB.bitrate;
+    std::cout << std::endl;
 }
 
 // AFDX_BUS_STATISTIC = 107
 void show(Vector::BLF::AfdxBusStatistic * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo AfdxBusStatistic
+    std::cout << "AfdxBusStatistic:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " flags=" << std::dec << obj->flags;
+    std::cout << " statDuration=" << std::dec << obj->statDuration;
+    std::cout << " statRxPacketCountHW=" << std::dec << obj->statRxPacketCountHW;
+    std::cout << " statTxPacketCountHW=" << std::dec << obj->statTxPacketCountHW;
+    std::cout << " statRxErrorCountHW=" << std::dec << obj->statRxErrorCountHW;
+    std::cout << " statTxErrorCountHW=" << std::dec << obj->statTxErrorCountHW;
+    std::cout << " statRxBytesHW=" << std::dec << obj->statRxBytesHW;
+    std::cout << " statTxBytesHW=" << std::dec << obj->statTxBytesHW;
+    std::cout << " statRxPacketCount=" << std::dec << obj->statRxPacketCount;
+    std::cout << " statTxPacketCount=" << std::dec << obj->statTxPacketCount;
+    std::cout << " statDroppedPacketCount=" << std::dec << obj->statDroppedPacketCount;
+    std::cout << " statInvalidPacketCount=" << std::dec << obj->statInvalidPacketCount;
+    std::cout << " statLostPacketCount=" << std::dec << obj->statLostPacketCount;
+    std::cout << " line=" << std::dec << static_cast<uint16_t>(obj->line);
+    std::cout << " linkStatus=" << std::dec << static_cast<uint16_t>(obj->linkStatus);
+    std::cout << " linkSpeed=" << std::dec << obj->linkSpeed;
+    std::cout << " linkLost=" << std::dec << obj->linkLost;
+    std::cout << std::endl;
 }
 
 // Reserved108 = 108
@@ -1117,50 +1718,124 @@ void show(Vector::BLF::AfdxBusStatistic * obj)
 // AFDX_ERROR_EVENT = 109
 void show(Vector::BLF::AfdxErrorEvent * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo AfdxErrorEvent
+    std::cout << "AfdxErrorEvent:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " errorLevel=" << std::dec << obj->errorLevel;
+    std::cout << " sourceIdentifier=" << std::dec << obj->sourceIdentifier;
+    std::cout << " errorText=";
+    printString(obj->errorText.data(), obj->errorText.size());
+    std::cout << " errorAttributes=";
+    printString(obj->errorAttributes.data(), obj->errorAttributes.size());
+    std::cout << std::endl;
 }
 
 // A429_ERROR = 110
 void show(Vector::BLF::A429Error * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo A429Error
+    std::cout << "A429Error:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " errorType=" << std::dec << obj->errorType;
+    std::cout << " sourceIdentifier=" << std::dec << obj->sourceIdentifier;
+    std::cout << " errReason=" << std::dec << obj->errReason;
+    std::cout << " errorText=";
+    printString(obj->errorText.data(), obj->errorText.size());
+    std::cout << " errorAttributes=";
+    printString(obj->errorAttributes.data(), obj->errorAttributes.size());
+    std::cout << std::endl;
 }
 
 // A429_STATUS = 111
 void show(Vector::BLF::A429Status * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo A429Status
+    std::cout << "A429Status:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " dir=" << std::dec << static_cast<uint16_t>(obj->dir);
+    std::cout << " parity=" << std::dec << obj->parity;
+    std::cout << " minGap=" << std::dec << obj->minGap;
+    std::cout << " bitrate=" << std::dec << obj->bitrate;
+    std::cout << " minBitrate=" << std::dec << obj->minBitrate;
+    std::cout << " maxBitrate=" << std::dec << obj->maxBitrate;
+    std::cout << std::endl;
 }
 
 // A429_BUS_STATISTIC = 112
 void show(Vector::BLF::A429BusStatistic * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo A429BusStatistic
+    std::cout << "A429BusStatistic:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " dir=" << std::dec << static_cast<uint16_t>(obj->dir);
+    std::cout << " busload=" << std::dec << obj->busload;
+    std::cout << " dataTotal=" << std::dec << obj->dataTotal;
+    std::cout << " errorTotal=" << std::dec << obj->errorTotal;
+    std::cout << " bitrate=" << std::dec << obj->bitrate;
+    std::cout << " parityErrors=" << std::dec << obj->parityErrors;
+    std::cout << " bitrateErrors=" << std::dec << obj->bitrateErrors;
+    std::cout << " gapErrors=" << std::dec << obj->gapErrors;
+    std::cout << " lineErrors=" << std::dec << obj->lineErrors;
+    std::cout << " formatErrors=" << std::dec << obj->formatErrors;
+    std::cout << " dutyFactorErrors=" << std::dec << obj->dutyFactorErrors;
+    std::cout << " wordLenErrors=" << std::dec << obj->wordLenErrors;
+    std::cout << " codingErrors=" << std::dec << obj->codingErrors;
+    std::cout << " idleErrors=" << std::dec << obj->idleErrors;
+    std::cout << " levelErrors=" << std::dec << obj->levelErrors;
+    std::cout << " labelCount=";
+    for(uint32_t i = 0; i < obj->labelCount.size(); ++i) {
+        if (i > 0) {
+            std::cout << ",";
+        }
+        std::cout << std::dec << obj->labelCount[i];
+    }
+    std::cout << std::endl;
 }
 
 // A429_MESSAGE = 113
 void show(Vector::BLF::A429Message * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo A429Message
+    std::cout << "A429Message:";
+    std::cout << " a429Data=";
+    printData(obj->a429Data.data(), obj->a429Data.size());
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " dir=" << std::dec << static_cast<uint16_t>(obj->dir);
+    std::cout << " bitrate=" << std::dec << obj->bitrate;
+    std::cout << " errReason=" << std::dec << obj->errReason;
+    std::cout << " errPosition=" << std::dec << obj->errPosition;
+    std::cout << " frameGap=" << std::dec << obj->frameGap;
+    std::cout << " frameLength=" << std::dec << obj->frameLength;
+    std::cout << " msgCtrl=" << std::dec << obj->msgCtrl;
+    std::cout << " cycleTime=" << std::dec << obj->cycleTime;
+    std::cout << " error=" << std::dec << obj->error;
+    std::cout << " bitLenOfLastBit=" << std::dec << obj->bitLenOfLastBit;
+    std::cout << std::endl;
 }
 
 // ETHERNET_STATISTIC = 114
 void show(Vector::BLF::EthernetStatistic * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo EthernetStatistic
+    std::cout << "EthernetStatistic:";
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " rcvOk_HW=" << std::dec << obj->rcvOk_HW;
+    std::cout << " xmitOk_HW=" << std::dec << obj->xmitOk_HW;
+    std::cout << " rcvError_HW=" << std::dec << obj->rcvError_HW;
+    std::cout << " xmitError_HW=" << std::dec << obj->xmitError_HW;
+    std::cout << " rcvBytes_HW=" << std::dec << obj->rcvBytes_HW;
+    std::cout << " xmitBytes_HW=" << std::dec << obj->xmitBytes_HW;
+    std::cout << " rcvNoBuffer_HW=" << std::dec << obj->rcvNoBuffer_HW;
+    std::cout << " sqi=" << std::dec << obj->sqi;
+    std::cout << " hardwareChannel=" << std::dec << obj->hardwareChannel;
+    std::cout << std::endl;
 }
 
 // Unknown115 = 115
 void show(Vector::BLF::Unknown115 * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo Unknown115
+    std::cout << "Unknown115:";
+    std::cout << " res[0]=0x" << std::setfill('0') << std::setw(8) << std::hex << obj->reservedUnknownObject1;
+    std::cout << " res[1]=0x" << std::setfill('0') << std::setw(8) << std::hex << obj->reservedUnknownObject2;
+    std::cout << " res[2]=0x" << std::setfill('0') << std::setw(8) << std::hex << obj->reservedUnknownObject3;
+    std::cout << " res[3]=0x" << std::setfill('0') << std::setw(8) << std::hex << obj->reservedUnknownObject4;
+    std::cout << " res[4]=0x" << std::setfill('0') << std::setw(8) << std::hex << obj->reservedUnknownObject5;
+    std::cout << " res[5]=0x" << std::setfill('0') << std::setw(8) << std::hex << obj->reservedUnknownObject6;
+    std::cout << std::endl;
 }
 
 // Reserved116 = 116
@@ -1169,43 +1844,109 @@ void show(Vector::BLF::Unknown115 * obj)
 // TEST_STRUCTURE = 118
 void show(Vector::BLF::TestStructure * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo TestStructure
+    std::wstring_convert<std::codecvt_utf8_utf16<char16_t>,char16_t> convert;
+    std::cout << "TestStructure:";
+    std::cout << " type=" << std::dec << obj->type;
+    std::cout << " uniqueNo=" << std::dec << obj->uniqueNo;
+    std::cout << " action=" << std::dec << obj->action;
+    std::cout << " result=" << std::dec << obj->result;
+    std::cout << " executingObjectNameLength=" << std::dec << obj->executingObjectNameLength;
+    std::cout << " nameLength=" << std::dec << obj->nameLength;
+    std::cout << " textLength=" << std::dec << obj->textLength;
+    std::cout << " executingObjectName=" << convert.to_bytes(obj->executingObjectName);
+    std::cout << " name=" << convert.to_bytes(obj->name);
+    std::cout << " text=" << convert.to_bytes(obj->text);
+    std::cout << std::endl;
 }
 
 // DIAG_REQUEST_INTERPRETATION = 119
 void show(Vector::BLF::DiagRequestInterpretation * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo DiagRequestInterpretation
+    std::cout << "DiagRequestInterpretation:";
+    std::cout << " diagDescriptionHandle=" << std::dec << obj->diagDescriptionHandle;
+    std::cout << " diagVariantHandle=" << std::dec << obj->diagVariantHandle;
+    std::cout << " diagServiceHandle=" << std::dec << obj->diagServiceHandle;
+    std::cout << " ecuQualifierLength=" << std::dec << obj->ecuQualifierLength;
+    std::cout << " variantQualifierLength=" << std::dec << obj->variantQualifierLength;
+    std::cout << " serviceQualifierLength=" << std::dec << obj->serviceQualifierLength;
+    std::cout << " ecuQualifier=" << obj->ecuQualifier;
+    std::cout << " variantQualifier=" << obj->variantQualifier;
+    std::cout << " serviceQualifier=" << obj->serviceQualifier;
+    std::cout << std::endl;
 }
 
 // ETHERNET_FRAME_EX = 120
 void show(Vector::BLF::EthernetFrameEx * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo EthernetFrameEx
+    std::cout << "EthernetFrameEx:";
+    std::cout << " structLength=" << std::dec << obj->structLength;
+    std::cout << " flags=0x" << std::hex << obj->flags;
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " hardwareChannel=" << std::dec << obj->hardwareChannel;
+    std::cout << " frameDuration=" << std::dec << obj->frameDuration;
+    std::cout << " frameChecksum=0x" << std::hex << obj->frameChecksum;
+    std::cout << " dir=" << std::dec << obj->dir;
+    std::cout << " frameLength=" << std::dec << obj->frameLength;
+    std::cout << " frameHandle=" << std::dec << obj->frameHandle;
+    std::cout << " frameData=";
+    printData(obj->frameData.data(), min(obj->frameData.size(), obj->frameLength));
+    std::cout << std::endl;
 }
 
 // ETHERNET_FRAME_FORWARDED = 121
 void show(Vector::BLF::EthernetFrameForwarded * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo EthernetFrameForwarded
+    std::cout << "EthernetFrameForwarded:";
+    std::cout << " structLength=" << std::dec << obj->structLength;
+    std::cout << " flags=0x" << std::hex << obj->flags;
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " hardwareChannel=" << std::dec << obj->hardwareChannel;
+    std::cout << " frameDuration=" << std::dec << obj->frameDuration;
+    std::cout << " frameChecksum=0x" << std::hex << obj->frameChecksum;
+    std::cout << " dir=" << std::dec << obj->dir;
+    std::cout << " frameLength=" << std::dec << obj->frameLength;
+    std::cout << " frameHandle=" << std::dec << obj->frameHandle;
+    std::cout << " frameData=";
+    printData(obj->frameData.data(), min(obj->frameData.size(), obj->frameLength));
+    std::cout << std::endl;
 }
 
 // ETHERNET_ERROR_EX = 122
 void show(Vector::BLF::EthernetErrorEx * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo EthernetErrorEx
+    std::cout << "EthernetErrorEx:";
+    std::cout << " structLength=" << std::dec << obj->structLength;
+    std::cout << " flags=0x" << std::hex << obj->flags;
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " hardwareChannel=" << std::dec << obj->hardwareChannel;
+    std::cout << " frameDuration=" << std::dec << obj->frameDuration;
+    std::cout << " frameChecksum=0x" << std::hex << obj->frameChecksum;
+    std::cout << " dir=" << std::dec << obj->dir;
+    std::cout << " frameLength=" << std::dec << obj->frameLength;
+    std::cout << " frameHandle=" << std::dec << obj->frameHandle;
+    std::cout << " error=" << std::dec << obj->error;
+    std::cout << " frameData=";
+    printData(obj->frameData.data(), min(obj->frameData.size(), obj->frameLength));
+    std::cout << std::endl;
 }
 
 // ETHERNET_ERROR_FORWARDED = 123
 void show(Vector::BLF::EthernetErrorForwarded * obj)
 {
-    std::cout << "No parser support for ObjectType " << std::dec << static_cast<uint16_t>(obj->objectType) << std::endl;
-    // @todo EthernetErrorForwarded
+    std::cout << "EthernetErrorForwarded:";
+    std::cout << " structLength=" << std::dec << obj->structLength;
+    std::cout << " flags=0x" << std::hex << obj->flags;
+    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " hardwareChannel=" << std::dec << obj->hardwareChannel;
+    std::cout << " frameDuration=" << std::dec << obj->frameDuration;
+    std::cout << " frameChecksum=0x" << std::hex << obj->frameChecksum;
+    std::cout << " dir=" << std::dec << obj->dir;
+    std::cout << " frameLength=" << std::dec << obj->frameLength;
+    std::cout << " frameHandle=" << std::dec << obj->frameHandle;
+    std::cout << " error=" << std::dec << obj->error;
+    std::cout << " frameData=";
+    printData(obj->frameData.data(), min(obj->frameData.size(), obj->frameLength));
+    std::cout << std::endl;
 }
 
 int main(int argc, char * argv[])
@@ -1217,10 +1958,18 @@ int main(int argc, char * argv[])
 
     Vector::BLF::File file;
     file.open(argv[1]);
+    if (!file.is_open()) {
+        std::cout << "Unable to open file" << std::endl;
+        return -1;
+    }
 
+    // @bug currentFileSize eventually goes to 18446744073709551615
+    std::cout << "fileSize: " << std::dec << file.currentFileSize() << std::endl;
     show(&file.fileStatistics);
+    std::cout << "fileSize: " << std::dec << file.currentFileSize() << std::endl;
 
     while (!file.eof()) {
+        std::cout << "fileSize: " << std::dec << file.currentFileSize() << std::endl;
         Vector::BLF::ObjectHeaderBase * ohb = nullptr;
 
         /* read and capture exceptions, e.g. unfinished files */

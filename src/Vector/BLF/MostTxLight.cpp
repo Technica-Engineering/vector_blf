@@ -28,7 +28,7 @@ MostTxLight::MostTxLight() :
     ObjectHeader2(),
     channel(),
     state(),
-    reservedMTL()
+    reservedMostTxLight()
 {
     objectType = ObjectType::MOST_TXLIGHT;
 }
@@ -38,7 +38,7 @@ void MostTxLight::read(AbstractFile & is)
     ObjectHeader2::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&state), sizeof(state));
-    is.read(reinterpret_cast<char *>(&reservedMTL), sizeof(reservedMTL));
+    is.read(reinterpret_cast<char *>(&reservedMostTxLight), sizeof(reservedMostTxLight));
 }
 
 void MostTxLight::write(AbstractFile & os)
@@ -46,7 +46,7 @@ void MostTxLight::write(AbstractFile & os)
     ObjectHeader2::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&state), sizeof(state));
-    os.write(reinterpret_cast<char *>(&reservedMTL), sizeof(reservedMTL));
+    os.write(reinterpret_cast<char *>(&reservedMostTxLight), sizeof(reservedMostTxLight));
 }
 
 DWORD MostTxLight::calculateObjectSize() const
@@ -55,7 +55,7 @@ DWORD MostTxLight::calculateObjectSize() const
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +
         sizeof(state) +
-        sizeof(reservedMTL);
+        sizeof(reservedMostTxLight);
 }
 
 }

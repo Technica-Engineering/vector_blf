@@ -37,7 +37,7 @@ BOOST_AUTO_TEST_CASE(MostTxLight_1)
     /* MostTxLight */
     BOOST_CHECK_EQUAL(obj->channel, 0x1111);
     BOOST_CHECK_EQUAL(obj->state, 0x2222);
-    BOOST_CHECK_EQUAL(obj->reservedMTL, 0);
+    BOOST_CHECK_EQUAL(obj->reservedMostTxLight, 0);
 
     delete ohb;
 
