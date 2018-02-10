@@ -219,7 +219,7 @@ void File::close()
         fileStatistics.fileSize = currentFileSize();
         fileStatistics.uncompressedFileSize = currentUncompressedFileSize;
         fileStatistics.objectCount = currentObjectCount;
-        // @todo fileStatistics.objectsRead = 0;
+        // @todo fileStatistics.objectsRead = ?
 
         /* write file statistics */
         m_compressedFile.seekp(0);
@@ -828,7 +828,7 @@ void File::uncompressedFile2CompressedFile()
         logContainer.uncompressedFileSize;
 
     /* drop old data */
-    // @todo m_uncompressedFile.dropOldData(static_cast<std::streamsize>(logContainer.uncompressedFileSize));
+    m_uncompressedFile.dropOldData();
 }
 
 void File::uncompressedFileReadThread(File * file)

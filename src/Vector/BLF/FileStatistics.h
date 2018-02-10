@@ -140,7 +140,7 @@ public:
     DWORD objectCount;
 
     /** number of objects read */
-    DWORD objectsRead; // @todo what is objectsRead?
+    DWORD objectsRead;
 
     /** measurement start time */
     SYSTEMTIME measurementStartTime;
