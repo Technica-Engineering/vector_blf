@@ -39,7 +39,8 @@ UncompressedFile::UncompressedFile() :
     m_fileSize(0x7fffffffffffffff),
     m_maxFileSize(0x7fffffffffffffff),
     m_rdstate(std::ios_base::goodbit),
-    m_mutex()
+    m_mutex(),
+    m_defaultLogContainerSize(0x20000)
 {
 }
 
@@ -174,8 +175,8 @@ void UncompressedFile::write(const char * s, std::streamsize n)
             if (logContainer == nullptr) {
                 /* append new log container */
                 logContainer = new LogContainer;
-                logContainer->uncompressedFileSize = 0x20000; // @todo default log container size
-                logContainer->uncompressedFile.resize(0x20000);
+                logContainer->uncompressedFileSize = m_defaultLogContainerSize;
+                logContainer->uncompressedFile.resize(m_defaultLogContainerSize);
                 if (m_data.back() != nullptr) {
                     logContainer->filePosition =
                         m_data.back()->filePosition +
@@ -332,6 +333,23 @@ void UncompressedFile::dropOldData()
 
     /* drop data */
     m_data.pop_front();
+}
+
+DWORD UncompressedFile::defaultLogContainerSize() const
+{
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    return m_defaultLogContainerSize;
+}
+
+void UncompressedFile::setDefaultLogContainerSize(DWORD defaultLogContainerSize)
+{
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    /* set default log container size */
+    m_defaultLogContainerSize = defaultLogContainerSize;
 }
 
 LogContainer * UncompressedFile::logContainerContaining(std::streampos pos)

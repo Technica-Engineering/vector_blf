@@ -108,6 +108,20 @@ public:
      */
     virtual void dropOldData();
 
+    /**
+     * Get default log container size.
+     *
+     * @return default log container size
+     */
+    virtual DWORD defaultLogContainerSize() const;
+
+    /**
+     * Set default log container size.
+     *
+     * @param[in] defaultLogContainerSize default log container size
+     */
+    virtual void setDefaultLogContainerSize(DWORD defaultLogContainerSize);
+
     /** tellg was changed (after read or seekg) */
     std::condition_variable tellgChanged;
 
@@ -141,6 +155,9 @@ private:
 
     /** mutex */
     mutable std::mutex m_mutex;
+
+    /** default log container size */
+    DWORD m_defaultLogContainerSize;
 
     /**
      * Returns the file container, which contains pos.

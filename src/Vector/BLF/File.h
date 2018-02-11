@@ -205,11 +205,6 @@ public:
     int compressionLevel;
 
     /**
-     * Default log container size
-     */
-    DWORD defaultLogContainerSize;
-
-    /**
      * Write Unknown115 message at file close
      */
     bool writeUnknown115;
@@ -262,6 +257,20 @@ public:
      * close file
      */
     virtual void close();
+
+    /**
+     * Get default log container size.
+     *
+     * @return default log container size
+     */
+    virtual DWORD defaultLogContainerSize() const;
+
+    /**
+     * Set default log container size.
+     *
+     * @param[in] defaultLogContainerSize default log container size
+     */
+    virtual void setDefaultLogContainerSize(DWORD defaultLogContainerSize);
 
     /**
      * create object of given type

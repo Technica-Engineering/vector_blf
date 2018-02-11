@@ -33,7 +33,6 @@ File::File() :
     currentUncompressedFileSize(0),
     currentObjectCount(0),
     compressionLevel(6),
-    defaultLogContainerSize(0x20000),
     writeUnknown115(true),
     m_openMode(),
     m_readWriteQueue(),
@@ -44,8 +43,9 @@ File::File() :
     m_compressedFileThread(),
     m_compressedFileThreadRunning()
 {
+    /* set performance/memory values */
     m_readWriteQueue.setMaxSize(10);
-    m_uncompressedFile.setMaxFileSize(0x20000);
+    m_uncompressedFile.setMaxFileSize(m_uncompressedFile.defaultLogContainerSize());
 }
 
 File::~File()
@@ -229,6 +229,16 @@ void File::close()
         m_compressedFile.flush();
         m_compressedFile.close();
     }
+}
+
+DWORD File::defaultLogContainerSize() const
+{
+    return m_uncompressedFile.defaultLogContainerSize();
+}
+
+void File::setDefaultLogContainerSize(DWORD defaultLogContainerSize)
+{
+    m_uncompressedFile.setDefaultLogContainerSize(defaultLogContainerSize);
 }
 
 ObjectHeaderBase * File::createObject(ObjectType type)
@@ -803,10 +813,10 @@ void File::uncompressedFile2CompressedFile()
     LogContainer logContainer;
 
     /* copy data into LogContainer */
-    logContainer.uncompressedFile.resize(defaultLogContainerSize);
+    logContainer.uncompressedFile.resize(m_uncompressedFile.defaultLogContainerSize());
     m_uncompressedFile.read(
         reinterpret_cast<char *>(logContainer.uncompressedFile.data()),
-        defaultLogContainerSize);
+        m_uncompressedFile.defaultLogContainerSize());
     logContainer.uncompressedFileSize = static_cast<DWORD>(m_uncompressedFile.gcount());
     logContainer.uncompressedFile.resize(logContainer.uncompressedFileSize);
 
