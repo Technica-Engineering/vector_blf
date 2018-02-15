@@ -49,6 +49,7 @@ void LinDisturbanceEvent::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&bitIndex), sizeof(bitIndex));
     is.read(reinterpret_cast<char *>(&bitOffsetInSixteenthBits), sizeof(bitOffsetInSixteenthBits));
     is.read(reinterpret_cast<char *>(&disturbanceLengthInSixteenthBits), sizeof(disturbanceLengthInSixteenthBits));
+    // @note might be extended in future versions
 }
 
 void LinDisturbanceEvent::write(AbstractFile & os)

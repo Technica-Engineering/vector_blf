@@ -61,6 +61,7 @@ void SerialEvent::read(AbstractFile & is)
 
     /* skip padding */
     is.seekg(objectSize % 4, std::ios_base::cur);
+    // @note might be extended in future versions
 }
 
 void SerialEvent::write(AbstractFile & os)

@@ -43,6 +43,7 @@ void LinSpikeEvent2::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&internal), sizeof(internal));
     is.read(reinterpret_cast<char *>(&reservedLinSpikeEvent1), sizeof(reservedLinSpikeEvent1));
     is.read(reinterpret_cast<char *>(&reservedLinSpikeEvent2), sizeof(reservedLinSpikeEvent2));
+    // @note might be extended in future versions
 }
 
 void LinSpikeEvent2::write(AbstractFile & os)

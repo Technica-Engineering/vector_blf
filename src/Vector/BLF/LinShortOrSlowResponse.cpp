@@ -45,6 +45,7 @@ void LinShortOrSlowResponse::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&slowResponse), sizeof(slowResponse));
     is.read(reinterpret_cast<char *>(&interruptedByBreak), sizeof(interruptedByBreak));
     is.read(reinterpret_cast<char *>(&reservedLinShortOrSlowResponse), sizeof(reservedLinShortOrSlowResponse));
+    // @note might be extended in future versions
 }
 
 void LinShortOrSlowResponse::write(AbstractFile & os)

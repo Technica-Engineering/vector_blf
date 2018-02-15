@@ -45,6 +45,7 @@ void LinWakeupEvent2::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&external), sizeof(external));
     is.read(reinterpret_cast<char *>(&reservedLinWakeupEvent1), sizeof(reservedLinWakeupEvent1));
     is.read(reinterpret_cast<char *>(&reservedLinWakeupEvent2), sizeof(reservedLinWakeupEvent2));
+    // @note might be extended in future versions
 }
 
 void LinWakeupEvent2::write(AbstractFile & os)

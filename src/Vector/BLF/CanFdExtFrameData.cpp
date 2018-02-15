@@ -38,6 +38,7 @@ void CanFdExtFrameData::read(AbstractFile & is)
 {
     is.read(reinterpret_cast<char *>(&btrExtArb), sizeof(btrExtArb));
     is.read(reinterpret_cast<char *>(&btrExtData), sizeof(btrExtData));
+    // @note might be extended in future versions
 }
 
 void CanFdExtFrameData::write(AbstractFile & os)

@@ -52,6 +52,7 @@ void AfdxLineStatus::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&reservedAfdxLineStatus1), sizeof(reservedAfdxLineStatus1));
     is.read(reinterpret_cast<char *>(&reservedAfdxLineStatus2), sizeof(reservedAfdxLineStatus2));
     is.read(reinterpret_cast<char *>(&bitrate), sizeof(bitrate));
+    // @note might be extended in future versions
 }
 
 void AfdxLineStatus::write(AbstractFile & os)

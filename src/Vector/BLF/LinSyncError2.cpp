@@ -37,6 +37,7 @@ void LinSyncError2::read(AbstractFile & is)
     ObjectHeader::read(is);
     LinSynchFieldEvent::read(is);
     is.read(reinterpret_cast<char *>(timeDiff.data()), static_cast<std::streamsize>(timeDiff.size() * sizeof(WORD)));
+    // @note might be extended in future versions
 }
 
 void LinSyncError2::write(AbstractFile & os)

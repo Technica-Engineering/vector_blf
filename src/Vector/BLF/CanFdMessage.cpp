@@ -57,6 +57,7 @@ void CanFdMessage::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&reservedCanFdMessage2), sizeof(reservedCanFdMessage2));
     is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
     is.read(reinterpret_cast<char *>(&reservedCanFdMessage3), sizeof(reservedCanFdMessage3));
+    // @note might be extended in future versions
 }
 
 void CanFdMessage::write(AbstractFile & os)

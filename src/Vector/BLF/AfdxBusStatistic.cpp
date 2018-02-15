@@ -73,6 +73,7 @@ void AfdxBusStatistic::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&linkLost), sizeof(linkLost));
     is.read(reinterpret_cast<char *>(&reservedAfdxBusStatistic1), sizeof(reservedAfdxBusStatistic1));
     is.read(reinterpret_cast<char *>(&reservedAfdxBusStatistic2), sizeof(reservedAfdxBusStatistic2));
+    // @note might be extended in future versions
 }
 
 void AfdxBusStatistic::write(AbstractFile & os)

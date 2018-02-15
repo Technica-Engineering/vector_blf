@@ -51,6 +51,7 @@ void WlanStatistic::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&collisionCount), sizeof(collisionCount));
     is.read(reinterpret_cast<char *>(&errorCount), sizeof(errorCount));
     is.read(reinterpret_cast<char *>(&reservedWlanStatistic), sizeof(reservedWlanStatistic));
+    // @note might be extended in future versions
 }
 
 void WlanStatistic::write(AbstractFile & os)

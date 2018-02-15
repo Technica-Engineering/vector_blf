@@ -43,6 +43,7 @@ void AfdxErrorEvent::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&sourceIdentifier), sizeof(sourceIdentifier));
     is.read(reinterpret_cast<char *>(errorText.data()), static_cast<std::streamsize>(errorText.size()));
     is.read(reinterpret_cast<char *>(errorAttributes.data()), static_cast<std::streamsize>(errorAttributes.size()));
+    // @note might be extended in future versions
 }
 
 void AfdxErrorEvent::write(AbstractFile & os)

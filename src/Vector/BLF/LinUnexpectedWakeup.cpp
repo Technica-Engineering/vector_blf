@@ -45,6 +45,7 @@ void LinUnexpectedWakeup::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&reservedLinUnexpectedWakeup1), sizeof(reservedLinUnexpectedWakeup1));
     is.read(reinterpret_cast<char *>(&reservedLinUnexpectedWakeup2), sizeof(reservedLinUnexpectedWakeup2));
     is.read(reinterpret_cast<char *>(&reservedLinUnexpectedWakeup3), sizeof(reservedLinUnexpectedWakeup3));
+    // @note might be extended in future versions
 }
 
 void LinUnexpectedWakeup::write(AbstractFile & os)

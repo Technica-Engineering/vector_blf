@@ -46,6 +46,7 @@ void GeneralSerialEvent::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(data.data()), dataLength);
     timeStamps.resize(timeStampsLength / sizeof(LONGLONG));
     is.read(reinterpret_cast<char *>(timeStamps.data()), timeStampsLength);
+    // @note might be extended in future versions
 }
 
 void GeneralSerialEvent::write(AbstractFile & os)

@@ -59,6 +59,7 @@ void LinCrcError2::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&exactHeaderBaudrate), sizeof(exactHeaderBaudrate));
     is.read(reinterpret_cast<char *>(&earlyStopbitOffset), sizeof(earlyStopbitOffset));
     is.read(reinterpret_cast<char *>(&earlyStopbitOffsetResponse), sizeof(earlyStopbitOffsetResponse));
+    // @note might be extended in future versions
 }
 
 void LinCrcError2::write(AbstractFile & os)

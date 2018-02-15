@@ -51,6 +51,7 @@ void CanMessage2::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&bitCount), sizeof(bitCount));
     is.read(reinterpret_cast<char *>(&reservedCanMessage1), sizeof(reservedCanMessage1));
     is.read(reinterpret_cast<char *>(&reservedCanMessage2), sizeof(reservedCanMessage2));
+    // @note might be extended in future versions
 }
 
 void CanMessage2::write(AbstractFile & os)

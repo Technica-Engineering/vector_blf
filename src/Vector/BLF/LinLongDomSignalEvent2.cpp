@@ -45,6 +45,7 @@ void LinLongDomSignalEvent2::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&reservedLinLongDomSignalEvent2), sizeof(reservedLinLongDomSignalEvent2));
     is.read(reinterpret_cast<char *>(&reservedLinLongDomSignalEvent3), sizeof(reservedLinLongDomSignalEvent3));
     is.read(reinterpret_cast<char *>(&length), sizeof(length));
+    // @note might be extended in future versions
 }
 
 void LinLongDomSignalEvent2::write(AbstractFile & os)

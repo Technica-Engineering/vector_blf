@@ -43,6 +43,7 @@ void KLineStatusEvent::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&port), sizeof(port));
     is.read(reinterpret_cast<char *>(&reservedKLineStatusEvent), sizeof(reservedKLineStatusEvent));
     is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size() * sizeof(UINT64)));
+    // @note might be extended in future versions
 }
 
 void KLineStatusEvent::write(AbstractFile & os)

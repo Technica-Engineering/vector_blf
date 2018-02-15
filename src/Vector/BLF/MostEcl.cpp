@@ -41,6 +41,7 @@ void MostEcl::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&mode), sizeof(mode));
     is.read(reinterpret_cast<char *>(&eclState), sizeof(eclState));
     is.read(reinterpret_cast<char *>(&reservedMostEcl), sizeof(reservedMostEcl));
+    // @note might be extended in future versions
 }
 
 void MostEcl::write(AbstractFile & os)

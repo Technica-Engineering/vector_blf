@@ -63,6 +63,7 @@ void AfdxStatistic::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&statAvrgJitterMysec), sizeof(statAvrgJitterMysec));
     is.read(reinterpret_cast<char *>(&vlid), sizeof(vlid));
     is.read(reinterpret_cast<char *>(&statDuration), sizeof(statDuration));
+    // @note might be extended in future versions
 }
 
 void AfdxStatistic::write(AbstractFile & os)
