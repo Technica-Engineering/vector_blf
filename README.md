@@ -75,6 +75,10 @@ The following files are products of installation and building:
 * Plausibility checks for length fields. Check all length and version fields of compliance with original files.
 * Propagate exceptions from threads to main library, to notify user application, e.g. when reading unfinished files.
 * Provide an Unknown object type to be able to read just a blob for all yet unknown object types
+* Rename constants in form of ABC_XYZ to AbcXyz to be conform with coding standard. Breaks compatibility.
+* Provide getter/setter for AppText::reservedAppText1
+* Provide getter/setter for EnvironmentVariable::objectType (ENV_INTEGER, ENV_DOUBLE, ENV_STRING, ENV_DATA)
+* Provide getter/setter for J1708Message::objectType (J1708_MESSAGE, J1708_VIRTUAL_MSG)
 
 # Test sources
 
