@@ -96,6 +96,13 @@ public:
     virtual void flush() = 0;
 
     /**
+     * Check whether state of stream is good.
+     *
+     * @return true if no error flags set
+     */
+    virtual bool good() const = 0;
+
+    /**
      * Check whether eofbit is set.
      *
      * @return true if end-of-file reached

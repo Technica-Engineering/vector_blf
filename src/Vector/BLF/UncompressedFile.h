@@ -62,6 +62,7 @@ public:
     virtual void write(const char * s, std::streamsize n) override;
     virtual std::streampos tellp() override;
     virtual void flush() override;
+    virtual bool good() const override;
     virtual bool eof() const override;
 
     /**

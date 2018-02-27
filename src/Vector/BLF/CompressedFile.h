@@ -34,6 +34,8 @@ namespace BLF {
 
 /**
  * CompressedFile (Input/output file stream)
+ *
+ * This class is not thread-safe.
  */
 class VECTOR_BLF_EXPORT CompressedFile final : public AbstractFile
 {
@@ -49,6 +51,7 @@ public:
     virtual void write(const char * s, std::streamsize n) override;
     virtual std::streampos tellp() override;
     virtual void flush() override;
+    virtual bool good() const override;
     virtual bool eof() const override;
 
     /**

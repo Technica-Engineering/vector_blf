@@ -233,7 +233,14 @@ public:
     virtual bool is_open() const;
 
     /**
-     * check for end-of-file
+     * Check whether state of stream is good.
+     *
+     * @return true if no error flags set
+     */
+    virtual bool good();
+
+    /**
+     * Check whether eofbit is set.
      *
      * @return true if end-of-file reached
      */

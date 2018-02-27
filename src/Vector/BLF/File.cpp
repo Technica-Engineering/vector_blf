@@ -122,12 +122,14 @@ bool File::is_open() const
     return m_compressedFile.is_open();
 }
 
+bool File::good()
+{
+    return m_readWriteQueue.good();
+}
+
 bool File::eof()
 {
-    return
-        m_readWriteQueue.eof() &&
-        m_uncompressedFile.eof();
-        // @todo compressedFile.eof is not multi-thread safe, so don't use it here: m_compressedFile.eof();
+    return m_readWriteQueue.eof();
 }
 
 ObjectHeaderBase * File::read()

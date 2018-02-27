@@ -233,6 +233,14 @@ void UncompressedFile::flush()
     });
 }
 
+bool UncompressedFile::good() const
+{
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    return (m_rdstate == std::ios_base::goodbit);
+}
+
 bool UncompressedFile::eof() const
 {
     /* mutex lock */

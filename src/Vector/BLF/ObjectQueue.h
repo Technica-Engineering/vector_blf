@@ -79,6 +79,9 @@ public:
     /** @copydoc AbstractFile::flush */
     virtual void flush();
 
+    /** @copydoc AbstractFile::good */
+    virtual bool good() const;
+
     /** @copydoc AbstractFile::eof */
     virtual bool eof() const;
 

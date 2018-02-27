@@ -74,6 +74,11 @@ void CompressedFile::flush()
     m_file.flush();
 }
 
+bool CompressedFile::good() const
+{
+    return m_file.good();
+}
+
 bool CompressedFile::eof() const
 {
     return m_file.eof();

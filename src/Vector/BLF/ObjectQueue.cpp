@@ -100,7 +100,7 @@ T * ObjectQueue<T>::read()
 
         /* get first entry */
         if (m_queue.empty()) {
-            m_rdstate = std::ios_base::eofbit;
+            m_rdstate = std::ios_base::eofbit | std::ios_base::failbit;
         } else {
             ohb = m_queue.front();
             m_queue.pop();
@@ -177,6 +177,15 @@ void ObjectQueue<T>::flush()
     tellgChanged.wait(lock, [this]{
         return m_queue.empty();
     });
+}
+
+template<typename T>
+bool ObjectQueue<T>::good() const
+{
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    return (m_rdstate == std::ios_base::goodbit);
 }
 
 template<typename T>
