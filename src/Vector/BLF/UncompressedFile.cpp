@@ -90,7 +90,7 @@ void UncompressedFile::read(char * s, std::streamsize n)
         /* handle read behind eof */
         if (m_tellg + n > m_fileSize) {
             n = m_fileSize - m_tellg;
-            m_rdstate = std::ios_base::eofbit;
+            m_rdstate = std::ios_base::eofbit | std::ios_base::failbit;
         } else {
             m_rdstate = std::ios_base::goodbit;
         }
