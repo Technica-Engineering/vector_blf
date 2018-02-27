@@ -289,15 +289,6 @@ void UncompressedFile::setFileSize(std::streamsize fileSize)
     tellpChanged.notify_all();
 }
 
-bool UncompressedFile::atEof() const
-{
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    /* next is eof */
-    return (m_tellp >= m_fileSize);
-}
-
 std::streamsize UncompressedFile::size() const
 {
     /* mutex lock */

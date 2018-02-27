@@ -84,11 +84,6 @@ public:
     virtual void setFileSize(std::streamsize fileSize);
 
     /**
-     * next read will result in eof, as tellp is already >= fileSize.
-     */
-    virtual bool atEof() const;
-
-    /**
      * Return size of data left to read.
      *
      * @return size

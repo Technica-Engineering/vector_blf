@@ -17,7 +17,6 @@ BOOST_AUTO_TEST_CASE(SimpleTest)
     BOOST_CHECK_EQUAL(uncompressedFile.tellg(), 0);
     BOOST_CHECK_EQUAL(uncompressedFile.tellp(), 0);
     BOOST_CHECK(!uncompressedFile.eof());
-    BOOST_CHECK(!uncompressedFile.atEof());
     BOOST_CHECK_EQUAL(uncompressedFile.size(), 0);
 
     /* open file */
@@ -35,7 +34,6 @@ BOOST_AUTO_TEST_CASE(SimpleTest)
     BOOST_CHECK_EQUAL(uncompressedFile.gcount(), 2);
     BOOST_CHECK_EQUAL(uncompressedFile.tellg(), 2);
     BOOST_CHECK(!uncompressedFile.eof());
-    BOOST_CHECK(!uncompressedFile.atEof());
     BOOST_CHECK_EQUAL(uncompressedFile.size(), 2);
 
     /* read more data */
@@ -49,13 +47,11 @@ BOOST_AUTO_TEST_CASE(SimpleTest)
 
     /* read beyond eof */
     uncompressedFile.setFileSize(4);
-    BOOST_CHECK(uncompressedFile.atEof());
     char s3[2] = { 0, 0 };
     uncompressedFile.read(s3, sizeof(s3));
     BOOST_CHECK_EQUAL(uncompressedFile.gcount(), 0);
     BOOST_CHECK_EQUAL(uncompressedFile.tellg(), 4);
     BOOST_CHECK(uncompressedFile.eof());
-    BOOST_CHECK(uncompressedFile.atEof());
     BOOST_CHECK_EQUAL(uncompressedFile.size(), 0);
 
     /* drop old data */
