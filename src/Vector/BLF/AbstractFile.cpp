@@ -21,6 +21,8 @@
 
 #include <Vector/BLF/AbstractFile.h>
 
+#include <vector>
+
 namespace Vector {
 namespace BLF {
 
@@ -30,8 +32,9 @@ AbstractFile::~AbstractFile()
 
 void AbstractFile::skipp(std::streamsize s)
 {
-    static const char null[16] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-    write(null, s);
+    std::vector<char> zero;
+    zero.resize(s);
+    write(zero.data(), s);
 }
 
 }
