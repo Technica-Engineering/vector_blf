@@ -849,56 +849,80 @@ void File::uncompressedFileReadThread(File * file)
 {
     while(file->m_uncompressedFileThreadRunning) {
         /* process */
-        file->uncompressedFile2ReadWriteQueue();
+        try {
+            file->uncompressedFile2ReadWriteQueue();
+        } catch (Vector::BLF::Exception & exp) {
+            file->m_uncompressedFileThreadRunning = false;
+        }
 
         /* check for eof */
-        if (file->m_uncompressedFile.eof()) {
-            file->m_readWriteQueue.setTotalObjectCount(file->m_readWriteQueue.tellp()); // eof
+        if (!file->m_uncompressedFile.good()) {
             file->m_uncompressedFileThreadRunning = false;
         }
     }
+
+    /* set end of file */
+    file->m_readWriteQueue.setTotalObjectCount(file->m_readWriteQueue.tellp());
 }
 
 void File::uncompressedFileWriteThread(File * file)
 {
     while(file->m_uncompressedFileThreadRunning) {
         /* process */
-        file->readWriteQueue2UncompressedFile();
+        try {
+            file->readWriteQueue2UncompressedFile();
+        } catch (Vector::BLF::Exception & exp) {
+            file->m_uncompressedFileThreadRunning = false;
+        }
 
         /* check for eof */
-        if (file->m_readWriteQueue.eof()) {
-            file->m_uncompressedFile.setFileSize(file->m_uncompressedFile.tellp()); // eof
+        if (!file->m_readWriteQueue.good()) {
             file->m_uncompressedFileThreadRunning = false;
         }
     }
+
+    /* set end of file */
+    file->m_uncompressedFile.setFileSize(file->m_uncompressedFile.tellp());
 }
 
 void File::compressedFileReadThread(File * file)
 {
     while(file->m_compressedFileThreadRunning) {
         /* process */
-        file->compressedFile2UncompressedFile();
+        try {
+            file->compressedFile2UncompressedFile();
+        } catch (Vector::BLF::Exception & exp) {
+            file->m_compressedFileThreadRunning = false;
+        }
 
         /* check for eof */
-        if (file->m_compressedFile.eof()) {
-            file->m_uncompressedFile.setFileSize(file->m_uncompressedFile.tellp()); // eof
+        if (!file->m_compressedFile.good()) {
             file->m_compressedFileThreadRunning = false;
         }
     }
+
+    /* set end of file */
+    file->m_uncompressedFile.setFileSize(file->m_uncompressedFile.tellp());
 }
 
 void File::compressedFileWriteThread(File * file)
 {
     while(file->m_compressedFileThreadRunning) {
         /* process */
-        file->uncompressedFile2CompressedFile();
+        try {
+            file->uncompressedFile2CompressedFile();
+        } catch (Vector::BLF::Exception & exp) {
+            file->m_compressedFileThreadRunning = false;
+        }
 
         /* check for eof */
-        if (file->m_uncompressedFile.eof()) {
-            // file->m_compressedFile.setFileSize(file->m_compressedFile.tellp()); // eof
+        if (!file->m_uncompressedFile.good()) {
             file->m_compressedFileThreadRunning = false;
         }
     }
+
+    /* set end of file */
+    // There is no CompressedFile::setFileSize that need to be set. std::fstream handles this already.
 }
 
 }
