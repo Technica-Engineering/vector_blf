@@ -166,8 +166,7 @@ add_boost_test(WlanStatistic test_WlanStatistic test_WlanStatistic.cpp)
 # coverage
 if(OPTION_USE_GCOV)
     add_custom_target(gcov_clean
-        COMMAND find ${PROJECT_BINARY_DIR} -name '*.gcda' -delete
-        COMMAND find ${PROJECT_BINARY_DIR} -name '*.gcno' -delete)
+        COMMAND find ${PROJECT_BINARY_DIR} -name '*.gcda' -delete)
 endif()
 if(OPTION_ADD_LCOV)
     add_custom_target(lcov_capture
