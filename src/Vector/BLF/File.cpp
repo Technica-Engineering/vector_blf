@@ -184,12 +184,12 @@ void File::close()
         if (m_uncompressedFileThread.joinable()) {
             m_uncompressedFileThread.join();
         }
-        if (m_readWriteQueue.size() > 0) {
-            throw Exception("File::close(): readWriteQueue not empty");
-        }
-        if (m_uncompressedFileThreadRunning) {
-            throw Exception("File::close(): uncompressedFileThread still running");
-        }
+//        if (m_readWriteQueue.size() > 0) {
+//            throw Exception("File::close(): readWriteQueue not empty");
+//        }
+//        if (m_uncompressedFileThreadRunning) {
+//            throw Exception("File::close(): uncompressedFileThread still running");
+//        }
 
         /* wait till uncompressedFile is empty */
         m_uncompressedFile.flush();
@@ -199,12 +199,12 @@ void File::close()
         if (m_compressedFileThread.joinable()) {
             m_compressedFileThread.join();
         }
-        if (m_uncompressedFile.size() > 0) {
-            throw Exception("File::close(): uncompressedFile not empty");
-        }
-        if (m_compressedFileThreadRunning) {
-            throw Exception("File::close(): compressedFileThread still running");
-        }
+//        if (m_uncompressedFile.size() > 0) {
+//            throw Exception("File::close(): uncompressedFile not empty");
+//        }
+//        if (m_compressedFileThreadRunning) {
+//            throw Exception("File::close(): compressedFileThread still running");
+//        }
 
         /* write final LogContainer+Unknown115 */
         if (writeUnknown115) {
