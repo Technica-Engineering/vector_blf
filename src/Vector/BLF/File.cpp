@@ -45,7 +45,7 @@ File::File() :
 {
     /* set performance/memory values */
     m_readWriteQueue.setMaxSize(10);
-    m_uncompressedFile.setMaxFileSize(m_uncompressedFile.defaultLogContainerSize());
+    m_uncompressedFile.setBufferSize(m_uncompressedFile.defaultLogContainerSize());
 }
 
 File::~File()

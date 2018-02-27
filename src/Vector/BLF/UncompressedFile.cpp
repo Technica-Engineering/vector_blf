@@ -37,7 +37,7 @@ UncompressedFile::UncompressedFile() :
     m_tellp(0),
     m_gcount(0),
     m_fileSize(0x7fffffffffffffff),
-    m_maxFileSize(0x7fffffffffffffff),
+    m_bufferSize(0x7fffffffffffffff),
     m_rdstate(std::ios_base::goodbit),
     m_mutex(),
     m_defaultLogContainerSize(0x20000)
@@ -163,7 +163,7 @@ void UncompressedFile::write(const char * s, std::streamsize n)
         tellgChanged.wait(lock, [this]{
             return
                 !m_is_open ||
-                ((m_tellp - m_tellg) < m_maxFileSize);
+                ((m_tellp - m_tellg) < m_bufferSize);
         });
 
         /* find starting log container */
@@ -261,7 +261,7 @@ void UncompressedFile::open()
     m_tellp = 0;
     m_gcount = 0;
     m_fileSize = 0x7fffffffffffffff;
-    m_maxFileSize = 0x7fffffffffffffff;
+    m_bufferSize = 0x7fffffffffffffff;
     m_rdstate = std::ios_base::goodbit;
 }
 
@@ -306,13 +306,13 @@ std::streamsize UncompressedFile::size() const
     return (m_tellp - m_tellg);
 }
 
-void UncompressedFile::setMaxFileSize(std::streamsize maxFileSize)
+void UncompressedFile::setBufferSize(std::streamsize bufferSize)
 {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
     /* set max size */
-    m_maxFileSize = maxFileSize;
+    m_bufferSize = bufferSize;
 }
 
 void UncompressedFile::dropOldData()

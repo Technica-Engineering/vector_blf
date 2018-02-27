@@ -36,15 +36,15 @@ namespace Vector {
 namespace BLF {
 
 /**
- * UncompresesdFile (Input/output memory stream)
+ * UncompressedFile (Input/output memory stream)
  *
- * This class is like a virtual file buffer.
- * m_data has a limited view on this virtual file with
- * start position at m_dataBegin and end position dataEnd.
- * In addition read is done at position m_tellg and
- * write position is at m_tellp.
- * Write or seek operations exceeding dataEnd(), extends the view.
- * And explicit dropOldData cuts the begin, so reduced the view.
+ * This class is like a virtual file buffer. It only sees
+ * the fragments that are contained in m_data and addresses
+ * by the underlying uncompressed LogContainers.
+ * Read is done at position m_tellg and write position is at m_tellp.
+ * Write or seek operations exceeding the end of the file, will
+ * automatically create new logContainers. An explicit dropOldData
+ * drops logContainers that have already been processed.
  *
  * This class is thread-safe.
  */
@@ -95,9 +95,9 @@ public:
      * Sets the maximum file size.
      * Write operations block, if the size is reached.
      *
-     * @param[in] maxFileSize maximum file size
+     * @param[in] bufferSize maximum file size
      */
-    virtual void setMaxFileSize(std::streamsize maxFileSize);
+    virtual void setBufferSize(std::streamsize bufferSize);
 
     /**
      * drop old log container, if tellg/tellp are beyond it
@@ -143,8 +143,8 @@ private:
     /** file size */
     std::streamsize m_fileSize;
 
-    /** max file size */
-    std::streamsize m_maxFileSize;
+    /** buffer size */
+    std::streamsize m_bufferSize;
 
     /** error state */
     std::ios_base::iostate m_rdstate;
