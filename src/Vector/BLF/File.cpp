@@ -724,7 +724,8 @@ void File::uncompressedFile2ReadWriteQueue()
     /* identify type */
     ObjectHeaderBase ohb;
     ohb.read(m_uncompressedFile);
-    if (m_uncompressedFile.eof()) {
+    if (!m_uncompressedFile.good()) {
+        // This is a normal eof, with all objects complete.
         return;
     }
     m_uncompressedFile.seekg(-ohb.calculateHeaderSize(), std::ios_base::cur);
@@ -733,14 +734,14 @@ void File::uncompressedFile2ReadWriteQueue()
     ObjectHeaderBase * obj = createObject(ohb.objectType);
     if (obj == nullptr) {
         /* in case of unknown objectType */
-        return;
+        throw Exception("File::uncompressedFile2ReadWriteQueue(): Unknown object.");
     }
 
     /* read object */
     obj->read(m_uncompressedFile);
-    if (m_uncompressedFile.eof()) {
+    if (!m_uncompressedFile.good()) {
         delete obj;
-        return;
+        throw Exception("File::uncompressedFile2ReadWriteQueue(): Read beyond end of file.");
     }
 
     /* push data into readWriteQueue */
@@ -762,6 +763,7 @@ void File::readWriteQueue2UncompressedFile()
 
     /* process data */
     if (ohb == nullptr) {
+        // Read intentionally returns, when the thread is aborted.
         return;
     }
 
@@ -782,19 +784,19 @@ void File::compressedFile2UncompressedFile()
     /* read header to identify type */
     ObjectHeaderBase ohb;
     ohb.read(m_compressedFile);
-    if (m_compressedFile.eof()) {
-        return;
+    if (!m_compressedFile.good()) {
+        throw Exception("File::compressedFile2UncompressedFile(): Read beyond end of file.");
     }
     m_compressedFile.seekg(-ohb.calculateHeaderSize(), std::ios_base::cur);
     if (ohb.objectType != ObjectType::LOG_CONTAINER) {
         throw Exception("File::compressedFile2UncompressedFile(): Object read for inflation is not a log container.");
     }
 
-    /* read LogContaier */
+    /* read LogContainer */
     LogContainer * logContainer = new LogContainer;
     logContainer->read(m_compressedFile);
-    if (m_compressedFile.eof()) {
-        return;
+    if (!m_compressedFile.good()) {
+        throw Exception("File::compressedFile2UncompressedFile(): Read beyond end of file.");
     }
 
     /* statistics */
