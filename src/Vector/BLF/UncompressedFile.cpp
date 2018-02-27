@@ -164,17 +164,17 @@ void UncompressedFile::write(const char * s, std::streamsize n)
                 ((m_tellp - m_tellg) < m_bufferSize);
         });
 
-        /* find starting log container */
-        LogContainer * logContainer = logContainerContaining(m_tellp);
-
         /* write data */
         while(n > 0) {
+            /* find starting log container */
+            LogContainer * logContainer = logContainerContaining(m_tellp);
+
             /* append new log container */
             if (logContainer == nullptr) {
                 /* append new log container */
                 logContainer = new LogContainer;
-                logContainer->uncompressedFileSize = m_defaultLogContainerSize;
                 logContainer->uncompressedFile.resize(m_defaultLogContainerSize);
+                logContainer->uncompressedFileSize = logContainer->uncompressedFile.size();
                 if (m_data.back() != nullptr) {
                     logContainer->filePosition =
                         m_data.back()->filePosition +
@@ -190,10 +190,13 @@ void UncompressedFile::write(const char * s, std::streamsize n)
             uint32_t pcount = std::min(n, logContainer->uncompressedFileSize - offset);
             std::copy(s, s + pcount, logContainer->uncompressedFile.begin() + offset);
 
-            /* advance put position */
+            /* new put position */
             m_tellp += pcount;
 
-            /* calculate remaining data to write */
+            /* advance */
+            s += pcount;
+
+            /* calculate remaining data to copy */
             n -= pcount;
         }
 
