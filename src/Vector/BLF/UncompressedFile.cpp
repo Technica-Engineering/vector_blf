@@ -21,6 +21,7 @@
 
 #include <Vector/BLF/UncompressedFile.h>
 
+#include <algorithm>
 #include <cstring>
 
 #include <Vector/BLF/Exceptions.h>
@@ -107,10 +108,7 @@ void UncompressedFile::read(char * s, std::streamsize n)
             std::streamoff offset = m_tellg - logContainer->filePosition;
 
             /* copy data */
-            std::streamsize gcount = n;
-            if (gcount > logContainer->uncompressedFileSize) {
-                gcount = logContainer->uncompressedFileSize;
-            }
+            std::streamsize gcount = std::min(n, logContainer->uncompressedFileSize - offset);
             std::copy(logContainer->uncompressedFile.begin() + offset, logContainer->uncompressedFile.begin() + offset + gcount, s);
 
             /* remember get count */
@@ -185,16 +183,11 @@ void UncompressedFile::write(const char * s, std::streamsize n)
                 m_data.push_back(logContainer);
             }
 
-            /* calculate max write size */
-            uint32_t pcount = n;
-            if (pcount > logContainer->uncompressedFileSize) {
-                pcount = logContainer->uncompressedFileSize;
-            }
-
             /* offset to write */
             std::streamoff offset = m_tellp - logContainer->filePosition;
 
             /* copy data */
+            uint32_t pcount = std::min(n, logContainer->uncompressedFileSize - offset);
             std::copy(s, s + pcount, logContainer->uncompressedFile.begin() + offset);
 
             /* advance put position */
