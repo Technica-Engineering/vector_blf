@@ -170,7 +170,7 @@ BOOST_AUTO_TEST_CASE(AllConvertedLogfiles)
         }
 
         /* compare files */
-        BOOST_REQUIRE_MESSAGE(
+        BOOST_CHECK_MESSAGE(
                 compareFiles(infile.c_str(), outfile.c_str(), fileout.fileStatistics.fileSizeWithoutUnknown115),
                 eventFile + " is different");
     }

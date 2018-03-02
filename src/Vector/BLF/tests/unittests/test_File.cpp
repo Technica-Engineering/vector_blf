@@ -49,3 +49,108 @@ BOOST_AUTO_TEST_CASE(createUnknownObjects)
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_CHECK(ohb->objectType == Vector::BLF::ObjectType::LOG_CONTAINER);
 }
+
+/** test getter/setter for defaultContainerSize */
+BOOST_AUTO_TEST_CASE(defaultContainerSize)
+{
+    Vector::BLF::File file;
+
+    BOOST_CHECK_EQUAL(file.defaultLogContainerSize(), 0x20000);
+    file.setDefaultLogContainerSize(0x30000);
+    BOOST_CHECK_EQUAL(file.defaultLogContainerSize(), 0x30000);
+}
+
+/** Test file with only two CanMessages, but no LogContainers. */
+BOOST_AUTO_TEST_CASE(fileWithoutLogContainers)
+{
+    Vector::BLF::File file;
+    file.open(CMAKE_CURRENT_SOURCE_DIR "/errors/FileWithoutLogContainers.blf", std::ios_base::in);
+    BOOST_REQUIRE(file.is_open());
+
+    Vector::BLF::ObjectHeaderBase * ohb;
+    ohb = file.read();
+    BOOST_CHECK(ohb == nullptr);
+    BOOST_CHECK(!file.good());
+    delete ohb;
+
+    file.close();
+}
+
+/** Test file without two CanMessages in a truncated compressed LogContainer (-8 Bytes). */
+BOOST_AUTO_TEST_CASE(fileWithTruncatedCompressedLogContainer)
+{
+    Vector::BLF::File file;
+    file.open(CMAKE_CURRENT_SOURCE_DIR "/errors/FileWithTruncatedCompressedLogContainer.blf", std::ios_base::in);
+    BOOST_REQUIRE(file.is_open());
+
+    Vector::BLF::ObjectHeaderBase * ohb;
+    ohb = file.read();
+    BOOST_CHECK(ohb == nullptr);
+    BOOST_CHECK(!file.good());
+    delete ohb;
+
+    file.close();
+}
+
+/** Test file with two CanMessages, in a truncated uncompressed LogContainer (-8 Bytes). */
+BOOST_AUTO_TEST_CASE(fileWithTruncatedUncompressedLogContainer)
+{
+    Vector::BLF::File file;
+    file.open(CMAKE_CURRENT_SOURCE_DIR "/errors/FileWithTruncatedUncompressedLogContainer.blf", std::ios_base::in);
+    BOOST_REQUIRE(file.is_open());
+
+    Vector::BLF::ObjectHeaderBase * ohb;
+    ohb = file.read();
+    BOOST_CHECK(ohb == nullptr);
+    BOOST_CHECK(!file.good());
+    delete ohb;
+
+    file.close();
+}
+
+/** Test file without two CanMessages, second is truncated (-8 Bytes). */
+BOOST_AUTO_TEST_CASE(fileWithTruncatedCanMessage)
+{
+    Vector::BLF::File file;
+    file.open(CMAKE_CURRENT_SOURCE_DIR "/errors/FileWithTruncatedCanMessage.blf", std::ios_base::in);
+    BOOST_REQUIRE(file.is_open());
+
+    Vector::BLF::ObjectHeaderBase * ohb;
+
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_CHECK(ohb->objectType == Vector::BLF::ObjectType::CAN_MESSAGE);
+    BOOST_CHECK(file.good());
+    delete ohb;
+
+    ohb = file.read();
+    BOOST_CHECK(ohb != nullptr);
+    BOOST_CHECK(ohb->objectType == Vector::BLF::ObjectType::CAN_MESSAGE);
+    BOOST_CHECK(!file.good());
+    delete ohb;
+
+    file.close();
+}
+
+/** Test file without three CanMessage, where second and third have objectType set to 0xA0. */
+BOOST_AUTO_TEST_CASE(fileWithUnknownObjectType)
+{
+    Vector::BLF::File file;
+    file.open(CMAKE_CURRENT_SOURCE_DIR "/errors/FileWithUnknownObjectType.blf", std::ios_base::in);
+    BOOST_REQUIRE(file.is_open());
+
+    Vector::BLF::ObjectHeaderBase * ohb;
+
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_CHECK(ohb->objectType == Vector::BLF::ObjectType::CAN_MESSAGE);
+    BOOST_CHECK(file.good());
+    delete ohb;
+
+    ohb = file.read();
+    BOOST_CHECK(ohb == nullptr);
+    BOOST_CHECK(!file.good());
+    delete ohb;
+
+    file.close();
+}
