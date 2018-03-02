@@ -53,11 +53,6 @@ File::~File()
     close();
 }
 
-ULONGLONG File::currentFileSize()
-{
-    return static_cast<ULONGLONG>(m_compressedFile.tellp());
-}
-
 void File::open(const char * filename, std::ios_base::openmode mode)
 {
     /* check */
@@ -208,7 +203,7 @@ void File::close()
 
         /* write final LogContainer+Unknown115 */
         if (writeUnknown115) {
-            fileStatistics.fileSizeWithoutUnknown115 = currentFileSize();
+            fileStatistics.fileSizeWithoutUnknown115 = static_cast<ULONGLONG>(m_compressedFile.tellp());
 
             /* write end of file message */
             Unknown115 * unknown115 = new Unknown115;
@@ -218,7 +213,7 @@ void File::close()
         }
 
         /* set file statistics */
-        fileStatistics.fileSize = currentFileSize();
+        fileStatistics.fileSize = static_cast<ULONGLONG>(m_compressedFile.tellp());
         fileStatistics.uncompressedFileSize = currentUncompressedFileSize;
         fileStatistics.objectCount = currentObjectCount;
         // @todo fileStatistics.objectsRead = ?

@@ -1963,13 +1963,9 @@ int main(int argc, char * argv[])
         return -1;
     }
 
-    // @bug currentFileSize eventually goes to 18446744073709551615
-    std::cout << "fileSize: " << std::dec << file.currentFileSize() << std::endl;
     show(&file.fileStatistics);
-    std::cout << "fileSize: " << std::dec << file.currentFileSize() << std::endl;
 
-    while (!file.eof()) {
-        std::cout << "fileSize: " << std::dec << file.currentFileSize() << std::endl;
+    while (file.good()) {
         Vector::BLF::ObjectHeaderBase * ohb = nullptr;
 
         /* read and capture exceptions, e.g. unfinished files */
@@ -2496,7 +2492,6 @@ int main(int argc, char * argv[])
 
     std::cout << std::endl;
     std::cout << "End of file." << std::endl;
-    std::cout << "fileSize: " << std::dec << file.currentFileSize() << std::endl;
     std::cout << "uncompressedFileSize: " << std::dec << file.currentUncompressedFileSize << std::endl;
     std::cout << "objectCount: " << std::dec << file.currentObjectCount << std::endl;
 

@@ -181,11 +181,6 @@ public:
     FileStatistics fileStatistics;
 
     /**
-     * Current file size
-     */
-    ULONGLONG currentFileSize();
-
-    /**
      * Current uncompressed file size
      *
      * This includes the LogContainer headers, and the uncompressed content.
