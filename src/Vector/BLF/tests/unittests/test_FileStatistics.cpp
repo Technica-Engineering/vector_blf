@@ -15,7 +15,6 @@ BOOST_AUTO_TEST_CASE(CorrectFileSignature)
     Vector::BLF::FileStatistics fileStatistics1;
     file.open();
     fileStatistics1.write(file);
-    BOOST_CHECK_EQUAL(file.size(), 0x90);
 
     /* read fileStatistics */
     Vector::BLF::FileStatistics fileStatistics2;
@@ -31,7 +30,6 @@ BOOST_AUTO_TEST_CASE(WrongFileSignature)
     file.open();
     fileStatistics1.signature--;
     fileStatistics1.write(file);
-    BOOST_CHECK_EQUAL(file.size(), 0x90);
 
     /* read fileStatistics */
     Vector::BLF::FileStatistics fileStatistics2;

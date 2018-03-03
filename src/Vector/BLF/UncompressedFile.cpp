@@ -293,15 +293,6 @@ void UncompressedFile::setFileSize(std::streamsize fileSize)
     tellpChanged.notify_all();
 }
 
-std::streamsize UncompressedFile::size() const
-{
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    /* size between put/write and get/read positions */
-    return (m_tellp - m_tellg);
-}
-
 void UncompressedFile::setBufferSize(std::streamsize bufferSize)
 {
     /* mutex lock */

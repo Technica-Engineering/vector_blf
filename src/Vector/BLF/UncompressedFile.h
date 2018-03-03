@@ -85,11 +85,8 @@ public:
     virtual void setFileSize(std::streamsize fileSize);
 
     /**
-     * Return size of data left to read.
      *
-     * @return size
      */
-    virtual std::streamsize size() const;
 
     /**
      * Sets the maximum file size.

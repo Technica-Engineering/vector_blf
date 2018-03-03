@@ -18,7 +18,6 @@ BOOST_AUTO_TEST_CASE(OpenWriteReadClose)
     BOOST_CHECK_EQUAL(uncompressedFile.tellp(), -1);
     BOOST_CHECK(uncompressedFile.good());
     BOOST_CHECK(!uncompressedFile.eof());
-    BOOST_CHECK_EQUAL(uncompressedFile.size(), 0);
 
     /* open file */
     uncompressedFile.open();
@@ -26,7 +25,6 @@ BOOST_AUTO_TEST_CASE(OpenWriteReadClose)
     /* write data */
     uncompressedFile.write("test", 4);
     BOOST_CHECK_EQUAL(uncompressedFile.tellp(), 4);
-    BOOST_CHECK_EQUAL(uncompressedFile.size(), 4);
 
     /* read data */
     char s1[3] = { 0, 0, 0 }; // including null termination
@@ -36,7 +34,6 @@ BOOST_AUTO_TEST_CASE(OpenWriteReadClose)
     BOOST_CHECK_EQUAL(uncompressedFile.tellg(), 2);
     BOOST_CHECK(uncompressedFile.good());
     BOOST_CHECK(!uncompressedFile.eof());
-    BOOST_CHECK_EQUAL(uncompressedFile.size(), 2);
 
     /* read more data */
     char s2[3] = { 0, 0, 0 }; // including null termination
@@ -46,7 +43,6 @@ BOOST_AUTO_TEST_CASE(OpenWriteReadClose)
     BOOST_CHECK_EQUAL(uncompressedFile.tellg(), 4);
     BOOST_CHECK(uncompressedFile.good());
     BOOST_CHECK(!uncompressedFile.eof());
-    BOOST_CHECK_EQUAL(uncompressedFile.size(), 0);
 
     /* read beyond eof */
     uncompressedFile.setFileSize(4);
@@ -56,7 +52,6 @@ BOOST_AUTO_TEST_CASE(OpenWriteReadClose)
     BOOST_CHECK_EQUAL(uncompressedFile.tellg(), 4);
     BOOST_CHECK(!uncompressedFile.good());
     BOOST_CHECK(uncompressedFile.eof());
-    BOOST_CHECK_EQUAL(uncompressedFile.size(), 0);
 
     /* drop old data */
     uncompressedFile.dropOldData();
