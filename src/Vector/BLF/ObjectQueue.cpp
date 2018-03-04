@@ -212,15 +212,7 @@ void ObjectQueue<T>::setTotalObjectCount(DWORD totalObjectCount)
     tellpChanged.notify_all();
 }
 
-template<typename T>
-bool ObjectQueue<T>::atEof() const
-{
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
 
-    /* next is eof */
-    return (m_tellg >= m_totalObjectCount);
-}
 
 template<typename T>
 DWORD ObjectQueue<T>::size() const

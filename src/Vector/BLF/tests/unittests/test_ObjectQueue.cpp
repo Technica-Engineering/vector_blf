@@ -17,7 +17,6 @@ BOOST_AUTO_TEST_CASE(SimpleTest)
     BOOST_CHECK_EQUAL(objectQueue.tellg(), 0);
     BOOST_CHECK_EQUAL(objectQueue.tellp(), 0);
     BOOST_CHECK(!objectQueue.eof());
-    BOOST_CHECK(!objectQueue.atEof());
     BOOST_CHECK_EQUAL(objectQueue.size(), 0);
 
     /* add some objects */
@@ -27,13 +26,11 @@ BOOST_AUTO_TEST_CASE(SimpleTest)
     BOOST_CHECK_EQUAL(objectQueue.tellg(), 0);
     BOOST_CHECK_EQUAL(objectQueue.tellp(), 3);
     BOOST_CHECK(!objectQueue.eof());
-    BOOST_CHECK(!objectQueue.atEof());
     BOOST_CHECK_EQUAL(objectQueue.size(), 3);
 
     /* check eof */
     objectQueue.setTotalObjectCount(3);
     BOOST_CHECK(!objectQueue.eof());
-    BOOST_CHECK(!objectQueue.atEof());
 
     /* remove some objects */
     Vector::BLF::ObjectHeaderBase * ohb;
@@ -45,7 +42,6 @@ BOOST_AUTO_TEST_CASE(SimpleTest)
     BOOST_CHECK_EQUAL(objectQueue.tellg(), 1);
     BOOST_CHECK_EQUAL(objectQueue.size(), 2);
     BOOST_CHECK(!objectQueue.eof());
-    BOOST_CHECK(!objectQueue.atEof());
 
     ohb = objectQueue.read();
     BOOST_CHECK(ohb->objectType == Vector::BLF::ObjectType::LIN_MESSAGE);
@@ -54,7 +50,6 @@ BOOST_AUTO_TEST_CASE(SimpleTest)
     BOOST_CHECK_EQUAL(objectQueue.tellg(), 2);
     BOOST_CHECK_EQUAL(objectQueue.size(), 1);
     BOOST_CHECK(!objectQueue.eof());
-    BOOST_CHECK(!objectQueue.atEof());
 
     ohb = objectQueue.read();
     BOOST_CHECK(ohb->objectType == Vector::BLF::ObjectType::J1708_MESSAGE);
@@ -63,7 +58,6 @@ BOOST_AUTO_TEST_CASE(SimpleTest)
     BOOST_CHECK_EQUAL(objectQueue.tellg(), 3);
     BOOST_CHECK_EQUAL(objectQueue.size(), 0);
     BOOST_CHECK(!objectQueue.eof());
-    BOOST_CHECK(objectQueue.atEof()); // next read will result in eof
 
     /* remove one more to trigger eof */
     ohb = objectQueue.read();
@@ -71,7 +65,6 @@ BOOST_AUTO_TEST_CASE(SimpleTest)
     BOOST_CHECK_EQUAL(objectQueue.tellg(), 3);
     BOOST_CHECK_EQUAL(objectQueue.size(), 0);
     BOOST_CHECK(objectQueue.eof());
-    BOOST_CHECK(objectQueue.atEof());
 
     /* close */
     objectQueue.close();
