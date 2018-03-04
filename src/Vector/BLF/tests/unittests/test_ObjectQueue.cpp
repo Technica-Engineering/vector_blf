@@ -16,7 +16,6 @@ BOOST_AUTO_TEST_CASE(SimpleTest)
     BOOST_CHECK_EQUAL(objectQueue.tellg(), 0);
     BOOST_CHECK_EQUAL(objectQueue.tellp(), 0);
     BOOST_CHECK(!objectQueue.eof());
-    BOOST_CHECK_EQUAL(objectQueue.size(), 0);
 
     /* add some objects */
     objectQueue.write(new Vector::BLF::CanMessage);
@@ -25,10 +24,9 @@ BOOST_AUTO_TEST_CASE(SimpleTest)
     BOOST_CHECK_EQUAL(objectQueue.tellg(), 0);
     BOOST_CHECK_EQUAL(objectQueue.tellp(), 3);
     BOOST_CHECK(!objectQueue.eof());
-    BOOST_CHECK_EQUAL(objectQueue.size(), 3);
 
     /* check eof */
-    objectQueue.setTotalObjectCount(3);
+    objectQueue.setFileSize(3);
     BOOST_CHECK(!objectQueue.eof());
 
     /* remove some objects */
@@ -39,7 +37,6 @@ BOOST_AUTO_TEST_CASE(SimpleTest)
     delete ohb;
 
     BOOST_CHECK_EQUAL(objectQueue.tellg(), 1);
-    BOOST_CHECK_EQUAL(objectQueue.size(), 2);
     BOOST_CHECK(!objectQueue.eof());
 
     ohb = objectQueue.read();
@@ -47,7 +44,6 @@ BOOST_AUTO_TEST_CASE(SimpleTest)
     delete ohb;
 
     BOOST_CHECK_EQUAL(objectQueue.tellg(), 2);
-    BOOST_CHECK_EQUAL(objectQueue.size(), 1);
     BOOST_CHECK(!objectQueue.eof());
 
     ohb = objectQueue.read();
@@ -55,14 +51,12 @@ BOOST_AUTO_TEST_CASE(SimpleTest)
     delete ohb;
 
     BOOST_CHECK_EQUAL(objectQueue.tellg(), 3);
-    BOOST_CHECK_EQUAL(objectQueue.size(), 0);
     BOOST_CHECK(!objectQueue.eof());
 
     /* remove one more to trigger eof */
     ohb = objectQueue.read();
     BOOST_CHECK(ohb == nullptr);
     BOOST_CHECK_EQUAL(objectQueue.tellg(), 3);
-    BOOST_CHECK_EQUAL(objectQueue.size(), 0);
     BOOST_CHECK(objectQueue.eof());
 
     /* close */
@@ -72,5 +66,4 @@ BOOST_AUTO_TEST_CASE(SimpleTest)
     objectQueue.write(new Vector::BLF::CanMessage);
     objectQueue.write(new Vector::BLF::LinMessage);
     objectQueue.write(new Vector::BLF::J1708Message);
-    BOOST_CHECK_EQUAL(objectQueue.size(), 3);
 }

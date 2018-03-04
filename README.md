@@ -79,6 +79,8 @@ The following files are products of installation and building:
 * Provide getter/setter for AppText::reservedAppText1
 * Provide getter/setter for EnvironmentVariable::objectType (ENV_INTEGER, ENV_DOUBLE, ENV_STRING, ENV_DATA)
 * Provide getter/setter for J1708Message::objectType (J1708_MESSAGE, J1708_VIRTUAL_MSG)
+* Replace CompressedFile with std::fstream. Replace UncompressedFile with std::iostream with custom std::streambuf. Drop AbstractFile and use std::iostream instead.
+* Make clear that File::write gives the ownership to File. The data should not be used afterwards.
 
 # Test sources
 

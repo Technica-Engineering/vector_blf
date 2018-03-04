@@ -44,7 +44,7 @@ File::File() :
     m_compressedFileThreadRunning()
 {
     /* set performance/memory values */
-    m_readWriteQueue.setMaxSize(10);
+    m_readWriteQueue.setBufferSize(10);
     m_uncompressedFile.setBufferSize(m_uncompressedFile.defaultLogContainerSize());
 }
 
@@ -167,7 +167,7 @@ void File::close()
     /* write */
     if (m_openMode & std::ios_base::out) {
         /* set eof */
-        m_readWriteQueue.setTotalObjectCount(m_readWriteQueue.tellp()); // set eof
+        m_readWriteQueue.setFileSize(m_readWriteQueue.tellp()); // set eof
 
         /* finalize uncompressedFileThread */
         if (m_uncompressedFileThread.joinable()) {
@@ -838,7 +838,7 @@ void File::uncompressedFileReadThread(File * file)
     }
 
     /* set end of file */
-    file->m_readWriteQueue.setTotalObjectCount(file->m_readWriteQueue.tellp());
+    file->m_readWriteQueue.setFileSize(file->m_readWriteQueue.tellp());
 }
 
 void File::uncompressedFileWriteThread(File * file)

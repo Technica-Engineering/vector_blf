@@ -35,8 +35,8 @@ ObjectQueue<T>::ObjectQueue() :
     m_queue(),
     m_tellg(0),
     m_tellp(0),
-    m_maxSize(0xffffffff),
-    m_totalObjectCount(0xffffffff),
+    m_bufferSize(0xffffffff),
+    m_fileSize(0xffffffff),
     m_rdstate(std::ios_base::goodbit),
     m_mutex()
 {
@@ -61,7 +61,7 @@ T * ObjectQueue<T>::read()
             return
                 m_abort ||
                 !m_queue.empty() ||
-                (m_tellg >= m_totalObjectCount);
+                (m_tellg >= m_fileSize);
         });
 
         /* get first entry */
@@ -105,7 +105,7 @@ void ObjectQueue<T>::write(T * obj)
         tellgChanged.wait(lock, [this]{
             return
                 m_abort ||
-                static_cast<DWORD>(m_queue.size()) < m_maxSize;
+                static_cast<DWORD>(m_queue.size()) < m_bufferSize;
         });
 
         /* push data */
@@ -115,8 +115,8 @@ void ObjectQueue<T>::write(T * obj)
         m_tellp++;
 
         /* shift eof */
-        if (m_tellp > m_totalObjectCount) {
-            m_totalObjectCount = m_tellp;
+        if (m_tellp > m_fileSize) {
+            m_fileSize = m_tellp;
         }
     }
 
@@ -180,14 +180,14 @@ void ObjectQueue<T>::abort()
 }
 
 template<typename T>
-void ObjectQueue<T>::setTotalObjectCount(DWORD totalObjectCount)
+void ObjectQueue<T>::setFileSize(DWORD fileSize)
 {
     {
         /* mutex lock */
         std::lock_guard<std::mutex> lock(m_mutex);
 
         /* set object count */
-        m_totalObjectCount = totalObjectCount;
+        m_fileSize = fileSize;
     }
 
     /* notify */
@@ -195,23 +195,13 @@ void ObjectQueue<T>::setTotalObjectCount(DWORD totalObjectCount)
 }
 
 template<typename T>
-DWORD ObjectQueue<T>::size() const
-{
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    /* size between put/write and get/read positions */
-    return static_cast<DWORD>(m_queue.size());
-}
-
-template<typename T>
-void ObjectQueue<T>::setMaxSize(DWORD maxSize)
+void ObjectQueue<T>::setBufferSize(DWORD bufferSize)
 {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
     /* set max size */
-    m_maxSize = maxSize;
+    m_bufferSize = bufferSize;
 }
 
 }

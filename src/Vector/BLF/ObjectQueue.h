@@ -75,32 +75,14 @@ public:
     /** @copydoc AbstractFile::eof */
     virtual bool eof() const;
 
-    /**
-     * Stop further operations. Return from waiting reads.
-     */
+    /** @copydoc UncompressedFile::abort */
     virtual void abort();
 
-    /**
-     * Set file size resp. end-of-file position.
-     *
-     * @param[in] totalObjectCount object count
-     */
-    virtual void setTotalObjectCount(DWORD totalObjectCount);
+    /** @copydoc UncompressedFile::setFileSize */
+    virtual void setFileSize(DWORD fileSize);
 
-    /**
-     * Return size of data left to read.
-     *
-     * @return size
-     */
-    virtual DWORD size() const;
-
-    /**
-     * Sets the maximum queue size.
-     * Write operations block, if the size is reached.
-     *
-     * @param[in] maxSize maximum queue size
-     */
-    virtual void setMaxSize(DWORD maxSize);
+    /** @copydoc UncompressedFile::setBufferSize */
+    virtual void setBufferSize(DWORD bufferSize);
 
     /** data was dequeued */
     std::condition_variable tellgChanged;
@@ -122,10 +104,10 @@ private:
     DWORD m_tellp;
 
     /** max size */
-    DWORD m_maxSize;
+    DWORD m_bufferSize;
 
     /** eof position */
-    DWORD m_totalObjectCount;
+    DWORD m_fileSize;
 
     /** error state */
     std::ios_base::iostate m_rdstate;

@@ -44,7 +44,7 @@ static void copyObjects(Vector::BLF::File & filein, Vector::BLF::File & fileout)
     filein.close();
 
     /* write all objects into output file */
-    objectQueue.setTotalObjectCount(objectQueue.tellp());
+    objectQueue.setFileSize(objectQueue.tellp());
     while(!objectQueue.eof()) {
         Vector::BLF::ObjectHeaderBase * ohb = objectQueue.read();
         if (ohb != nullptr) {
