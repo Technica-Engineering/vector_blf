@@ -12,7 +12,6 @@ BOOST_AUTO_TEST_CASE(WrongSignature)
 {
     /* open uncompressedFile */
     Vector::BLF::UncompressedFile file;
-    file.open();
 
     /* write bad data */
     Vector::BLF::ObjectHeaderBase ohb1;

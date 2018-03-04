@@ -39,11 +39,6 @@ public:
     virtual ~AbstractFile();
 
     /**
-     * Close file.
-     */
-    virtual void close() = 0;
-
-    /**
      * Get characters returned by last read operation.
      *
      * @return Number of characters
@@ -98,14 +93,14 @@ public:
     /**
      * Check whether state of stream is good.
      *
-     * @return true if no error flags set
+     * @return true if no error flags are set
      */
     virtual bool good() const = 0;
 
     /**
      * Check whether eofbit is set.
      *
-     * @return true if end-of-file reached
+     * @return true if eofbit is set
      */
     virtual bool eof() const = 0;
 

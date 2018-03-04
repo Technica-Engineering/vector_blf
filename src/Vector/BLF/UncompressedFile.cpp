@@ -32,7 +32,7 @@ namespace BLF {
 UncompressedFile::UncompressedFile() :
     tellgChanged(),
     tellpChanged(),
-    m_is_open(false),
+    m_abort(false),
     m_data(),
     m_tellg(0),
     m_tellp(0),
@@ -47,22 +47,7 @@ UncompressedFile::UncompressedFile() :
 
 UncompressedFile::~UncompressedFile()
 {
-    close();
-}
-
-void UncompressedFile::close()
-{
-    {
-        /* mutex lock */
-        std::lock_guard<std::mutex> lock(m_mutex);
-
-        /* stop */
-        m_is_open = false;
-    }
-
-    /* trigger blocked threads */
-    tellgChanged.notify_all();
-    tellpChanged.notify_all();
+    abort();
 }
 
 std::streamsize UncompressedFile::gcount() const
@@ -82,7 +67,7 @@ void UncompressedFile::read(char * s, std::streamsize n)
         /* wait until there is sufficient data */
         tellpChanged.wait(lock, [this, n]{
             return
-                !m_is_open ||
+                m_abort ||
                 (m_tellg + n <= m_tellp) ||
                 (m_tellg + n > m_fileSize);
         });
@@ -134,6 +119,10 @@ std::streampos UncompressedFile::tellg()
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
+    /* in case of failure return -1 */
+    if (m_rdstate & (std::ios_base::failbit | std::ios_base::badbit)) {
+        return -1;
+    }
     return m_tellg;
 }
 
@@ -144,7 +133,7 @@ void UncompressedFile::seekg(std::streamoff off, const std::ios_base::seekdir /*
         std::lock_guard<std::mutex> lock(m_mutex);
 
         /* new get position */
-        m_tellg += off;
+        m_tellg = std::min(m_tellg + off, static_cast<std::streampos>(m_fileSize));
     }
 
     /* notify */
@@ -160,7 +149,7 @@ void UncompressedFile::write(const char * s, std::streamsize n)
         /* wait for free space */
         tellgChanged.wait(lock, [this]{
             return
-                !m_is_open ||
+                m_abort ||
                 ((m_tellp - m_tellg) < m_bufferSize);
         });
 
@@ -215,6 +204,10 @@ std::streampos UncompressedFile::tellp()
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
+    /* in case of failure return -1 */
+    if (m_rdstate & (std::ios_base::failbit | std::ios_base::badbit)) {
+        return -1;
+    }
     return m_tellp;
 }
 
@@ -245,20 +238,19 @@ bool UncompressedFile::eof() const
     return (m_rdstate & std::ios_base::eofbit);
 }
 
-void UncompressedFile::open()
+void UncompressedFile::abort()
 {
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
+    {
+        /* mutex lock */
+        std::lock_guard<std::mutex> lock(m_mutex);
 
-    /* reset data buffer */
-    m_is_open = true;
-    m_data.clear();
-    m_tellg = 0;
-    m_tellp = 0;
-    m_gcount = 0;
-    m_fileSize = 0x7fffffffffffffff;
-    m_bufferSize = 0x7fffffffffffffff;
-    m_rdstate = std::ios_base::goodbit;
+        /* stop */
+        m_abort = true;
+    }
+
+    /* trigger blocked threads */
+    tellgChanged.notify_all();
+    tellpChanged.notify_all();
 }
 
 void UncompressedFile::write(LogContainer * logContainer)
@@ -277,6 +269,36 @@ void UncompressedFile::write(LogContainer * logContainer)
 
     /* notify */
     tellpChanged.notify_all();
+}
+
+void UncompressedFile::nextLogContainer()
+{
+    {
+        /* mutex lock */
+        std::lock_guard<std::mutex> lock(m_mutex);
+
+        /* find starting log container */
+        LogContainer * logContainer = logContainerContaining(m_tellp);
+        if (logContainer) {
+            /* offset to write */
+            std::streamoff offset = m_tellp - logContainer->filePosition;
+
+            /* resize logContainer, if it's not already a newly created one */
+            if (offset > 0) {
+                logContainer->uncompressedFile.resize(offset);
+                logContainer->uncompressedFileSize = offset;
+            }
+        }
+    }
+}
+
+std::streamsize UncompressedFile::fileSize()
+{
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    /* return file size */
+    return m_fileSize;
 }
 
 void UncompressedFile::setFileSize(std::streamsize fileSize)

@@ -68,10 +68,6 @@ void File::open(const char * filename, std::ios_base::openmode mode)
     }
     m_openMode = mode;
 
-    /* open queue */
-    m_readWriteQueue.open();
-    m_uncompressedFile.open();
-
     /* read */
     if (mode & std::ios_base::in) {
         /* read file statistics */
@@ -150,64 +146,52 @@ void File::close()
 
     /* read */
     if (m_openMode & std::ios_base::in) {
-        /* finalize compressedFile thread */
+        /* finalize compressedFileThread */
         m_compressedFileThreadRunning = false;
         m_compressedFile.close();
         if (m_compressedFileThread.joinable()) {
             m_compressedFileThread.join();
         }
 
-        /* finalize uncompressedFile thread */
+        /* finalize uncompressedFileThread */
         m_uncompressedFileThreadRunning = false;
-        m_uncompressedFile.close();
+        m_uncompressedFile.abort();
         if (m_uncompressedFileThread.joinable()) {
             m_uncompressedFileThread.join();
         }
 
-        m_readWriteQueue.close();
+        /* abort readWriteQueue */
+        m_readWriteQueue.abort();
     } else
 
     /* write */
     if (m_openMode & std::ios_base::out) {
-        m_readWriteQueue.setTotalObjectCount(m_readWriteQueue.tellp()); // eof
+        /* set eof */
+        m_readWriteQueue.setTotalObjectCount(m_readWriteQueue.tellp()); // set eof
 
-        /* wait till readWriteQueue is empty */
-        m_readWriteQueue.flush();
-        m_readWriteQueue.close();
-
-        /* finalize uncompression thread */
+        /* finalize uncompressedFileThread */
         if (m_uncompressedFileThread.joinable()) {
             m_uncompressedFileThread.join();
         }
-//        if (m_readWriteQueue.size() > 0) {
-//            throw Exception("File::close(): readWriteQueue not empty");
-//        }
-//        if (m_uncompressedFileThreadRunning) {
-//            throw Exception("File::close(): uncompressedFileThread still running");
-//        }
 
-        /* wait till uncompressedFile is empty */
-        m_uncompressedFile.flush();
-        m_uncompressedFile.close();
-
-        /* finalize compression thread */
+        /* finalize compressedFileThread */
         if (m_compressedFileThread.joinable()) {
             m_compressedFileThread.join();
         }
-//        if (m_uncompressedFile.size() > 0) {
-//            throw Exception("File::close(): uncompressedFile not empty");
-//        }
-//        if (m_compressedFileThreadRunning) {
-//            throw Exception("File::close(): compressedFileThread still running");
-//        }
 
         /* write final LogContainer+Unknown115 */
         if (writeUnknown115) {
+            /* create a new log container for it */
+            m_uncompressedFile.nextLogContainer();
+
+            /* set file size */
             fileStatistics.fileSizeWithoutUnknown115 = static_cast<ULONGLONG>(m_compressedFile.tellp());
 
             /* write end of file message */
             Unknown115 * unknown115 = new Unknown115;
             m_readWriteQueue.write(unknown115);
+
+            /* process once */
             readWriteQueue2UncompressedFile();
             uncompressedFile2CompressedFile();
         }
@@ -218,12 +202,9 @@ void File::close()
         fileStatistics.objectCount = currentObjectCount;
         // @todo fileStatistics.objectsRead = ?
 
-        /* write file statistics */
+        /* write fileStatistics and close compressedFile */
         m_compressedFile.seekp(0);
         fileStatistics.write(m_compressedFile);
-
-        /* close file */
-        m_compressedFile.flush();
         m_compressedFile.close();
     }
 }

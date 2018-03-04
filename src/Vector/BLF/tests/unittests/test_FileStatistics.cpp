@@ -13,7 +13,6 @@ BOOST_AUTO_TEST_CASE(CorrectFileSignature)
     /* open file and write in fileStatistics */
     Vector::BLF::UncompressedFile file;
     Vector::BLF::FileStatistics fileStatistics1;
-    file.open();
     fileStatistics1.write(file);
 
     /* read fileStatistics */
@@ -27,7 +26,6 @@ BOOST_AUTO_TEST_CASE(WrongFileSignature)
     /* open file and write in fileStatistics */
     Vector::BLF::UncompressedFile file;
     Vector::BLF::FileStatistics fileStatistics1;
-    file.open();
     fileStatistics1.signature--;
     fileStatistics1.write(file);
 

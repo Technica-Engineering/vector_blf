@@ -32,7 +32,6 @@ static void copyObjects(Vector::BLF::File & filein, Vector::BLF::File & fileout)
 {
     /* read all objects from input file */
     Vector::BLF::ObjectQueue<Vector::BLF::ObjectHeaderBase> objectQueue;
-    objectQueue.open();
     while (!filein.eof()) {
         Vector::BLF::ObjectHeaderBase * ohb = filein.read();
         if (ohb == nullptr) {

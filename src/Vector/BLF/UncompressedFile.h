@@ -54,7 +54,6 @@ public:
     UncompressedFile();
     ~UncompressedFile();
 
-    virtual void close() override;
     virtual std::streamsize gcount() const override;
     virtual void read(char * s, std::streamsize n) override;
     virtual std::streampos tellg() override;
@@ -66,9 +65,9 @@ public:
     virtual bool eof() const override;
 
     /**
-     * open, basically resets all variables.
+     * Stop further operations. Return from waiting reads.
      */
-    virtual void open();
+    virtual void abort();
 
     /**
      * write LogContainer
@@ -78,15 +77,23 @@ public:
     virtual void write(LogContainer * logContainer);
 
     /**
+     * Close the current logContainer.
+     */
+    virtual void nextLogContainer();
+
+    /**
+     * Return current file size resp. end-of-file position.
+     *
+     * @return file size
+     */
+    virtual std::streamsize fileSize();
+
+    /**
      * Set file size resp. end-of-file position.
      *
      * @param[in] fileSize file size
      */
     virtual void setFileSize(std::streamsize fileSize);
-
-    /**
-     *
-     */
 
     /**
      * Sets the maximum file size.
@@ -122,8 +129,8 @@ public:
     std::condition_variable tellpChanged;
 
 private:
-    /** is file open? */
-    bool m_is_open;
+    /** abort further operations */
+    bool m_abort;
 
     /** data */
     std::list<LogContainer *> m_data;

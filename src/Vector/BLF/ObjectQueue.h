@@ -45,16 +45,6 @@ public:
     virtual ~ObjectQueue();
 
     /**
-     * open the queue
-     */
-    virtual void open();
-
-    /**
-     * close the queue
-     */
-    virtual void close();
-
-    /**
      * Get access to front of queue.
      *
      * @return object (or nullptr if empty)
@@ -86,6 +76,11 @@ public:
     virtual bool eof() const;
 
     /**
+     * Stop further operations. Return from waiting reads.
+     */
+    virtual void abort();
+
+    /**
      * Set file size resp. end-of-file position.
      *
      * @param[in] totalObjectCount object count
@@ -114,8 +109,8 @@ public:
     std::condition_variable tellpChanged;
 
 private:
-    /** is queue open? */
-    bool m_is_open;
+    /** abort further operations */
+    bool m_abort;
 
     /** queue */
     std::queue<T *> m_queue;

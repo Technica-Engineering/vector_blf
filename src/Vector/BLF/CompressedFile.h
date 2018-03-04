@@ -43,7 +43,6 @@ public:
     CompressedFile();
     ~CompressedFile();
 
-    virtual void close() override;
     virtual std::streamsize gcount() const override;
     virtual void read(char * s, std::streamsize n) override;
     virtual std::streampos tellg() override;
@@ -68,6 +67,11 @@ public:
      * @return true if file is open
      */
     virtual bool is_open() const;
+
+    /**
+     * Close file.
+     */
+    virtual void close();
 
     /**
      * Set position in output sequence.

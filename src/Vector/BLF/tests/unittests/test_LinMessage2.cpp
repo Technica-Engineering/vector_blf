@@ -170,7 +170,6 @@ BOOST_AUTO_TEST_CASE(LinMessage2_2)
 BOOST_AUTO_TEST_CASE(LinMessageVersion0)
 {
     Vector::BLF::UncompressedFile file;
-    file.open();
 
     /* write to file */
     Vector::BLF::LinMessage2 linMessage1;

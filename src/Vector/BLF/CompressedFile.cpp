@@ -34,11 +34,6 @@ CompressedFile::~CompressedFile()
     close();
 }
 
-void CompressedFile::close()
-{
-    m_file.close();
-}
-
 std::streamsize CompressedFile::gcount() const
 {
     return m_file.gcount();
@@ -92,6 +87,11 @@ void CompressedFile::open(const char * filename, std::ios_base::openmode openMod
 bool CompressedFile::is_open() const
 {
     return m_file.is_open();
+}
+
+void CompressedFile::close()
+{
+    m_file.close();
 }
 
 void CompressedFile::seekp(std::streampos pos)

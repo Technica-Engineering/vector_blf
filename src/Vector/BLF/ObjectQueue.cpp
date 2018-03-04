@@ -31,7 +31,7 @@ template<typename T>
 ObjectQueue<T>::ObjectQueue() :
     tellgChanged(),
     tellpChanged(),
-    m_is_open(false),
+    m_abort(false),
     m_queue(),
     m_tellg(0),
     m_tellp(0),
@@ -45,41 +45,7 @@ ObjectQueue<T>::ObjectQueue() :
 template<typename T>
 ObjectQueue<T>::~ObjectQueue()
 {
-    close();
-}
-
-template<typename T>
-void ObjectQueue<T>::open()
-{
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    /* reset */
-    m_is_open = true;
-    while(!m_queue.empty()) {
-        T * ohb = m_queue.front();
-        m_queue.pop();
-        delete ohb;
-    }
-    m_tellg = 0;
-    m_tellp = 0;
-    m_maxSize = 0xffffffff;
-    m_totalObjectCount = 0xffffffff;
-    m_rdstate = std::ios_base::goodbit;
-}
-
-template<typename T>
-void ObjectQueue<T>::close()
-{
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    /* stop */
-    m_is_open = false;
-
-    /* trigger blocked threads */
-    tellgChanged.notify_all();
-    tellpChanged.notify_all();
+    abort();
 }
 
 template<typename T>
@@ -93,8 +59,8 @@ T * ObjectQueue<T>::read()
         /* wait for data */
         tellpChanged.wait(lock, [this]{
             return
+                m_abort ||
                 !m_queue.empty() ||
-                !m_is_open ||
                 (m_tellg >= m_totalObjectCount);
         });
 
@@ -138,7 +104,7 @@ void ObjectQueue<T>::write(T * obj)
         /* wait for free space */
         tellgChanged.wait(lock, [this]{
             return
-                !m_is_open ||
+                m_abort ||
                 static_cast<DWORD>(m_queue.size()) < m_maxSize;
         });
 
@@ -198,6 +164,22 @@ bool ObjectQueue<T>::eof() const
 }
 
 template<typename T>
+void ObjectQueue<T>::abort()
+{
+    {
+        /* mutex lock */
+        std::lock_guard<std::mutex> lock(m_mutex);
+
+        /* stop */
+        m_abort = true;
+    }
+
+    /* trigger blocked threads */
+    tellgChanged.notify_all();
+    tellpChanged.notify_all();
+}
+
+template<typename T>
 void ObjectQueue<T>::setTotalObjectCount(DWORD totalObjectCount)
 {
     {
@@ -211,8 +193,6 @@ void ObjectQueue<T>::setTotalObjectCount(DWORD totalObjectCount)
     /* notify */
     tellpChanged.notify_all();
 }
-
-
 
 template<typename T>
 DWORD ObjectQueue<T>::size() const

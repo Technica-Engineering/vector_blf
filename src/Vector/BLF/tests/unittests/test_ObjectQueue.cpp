@@ -13,7 +13,6 @@ BOOST_AUTO_TEST_CASE(SimpleTest)
     Vector::BLF::ObjectQueue<Vector::BLF::ObjectHeaderBase> objectQueue;
 
     /* open queue and empty checks */
-    objectQueue.open();
     BOOST_CHECK_EQUAL(objectQueue.tellg(), 0);
     BOOST_CHECK_EQUAL(objectQueue.tellp(), 0);
     BOOST_CHECK(!objectQueue.eof());
@@ -67,13 +66,11 @@ BOOST_AUTO_TEST_CASE(SimpleTest)
     BOOST_CHECK(objectQueue.eof());
 
     /* close */
-    objectQueue.close();
+    objectQueue.abort();
 
     /* check clear on open */
     objectQueue.write(new Vector::BLF::CanMessage);
     objectQueue.write(new Vector::BLF::LinMessage);
     objectQueue.write(new Vector::BLF::J1708Message);
     BOOST_CHECK_EQUAL(objectQueue.size(), 3);
-    objectQueue.open();
-    BOOST_CHECK_EQUAL(objectQueue.size(), 0);
 }

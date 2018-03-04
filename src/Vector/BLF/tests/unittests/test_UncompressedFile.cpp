@@ -5,6 +5,7 @@
 #include <boost/test/unit_test.hpp>
 #include <boost/filesystem.hpp>
 
+#include <sstream>
 #include <Vector/BLF.h>
 
 /** Open a file, read/write on it, close it again. */
@@ -14,13 +15,10 @@ BOOST_AUTO_TEST_CASE(OpenWriteReadClose)
 
     /* after initialization */
     BOOST_CHECK_EQUAL(uncompressedFile.gcount(), 0);
-    BOOST_CHECK_EQUAL(uncompressedFile.tellg(), -1);
-    BOOST_CHECK_EQUAL(uncompressedFile.tellp(), -1);
+    BOOST_CHECK_EQUAL(uncompressedFile.tellg(), 0);
+    BOOST_CHECK_EQUAL(uncompressedFile.tellp(), 0);
     BOOST_CHECK(uncompressedFile.good());
     BOOST_CHECK(!uncompressedFile.eof());
-
-    /* open file */
-    uncompressedFile.open();
 
     /* write data */
     uncompressedFile.write("test", 4);
@@ -49,15 +47,12 @@ BOOST_AUTO_TEST_CASE(OpenWriteReadClose)
     char s3[2] = { 0, 0 };
     uncompressedFile.read(s3, sizeof(s3));
     BOOST_CHECK_EQUAL(uncompressedFile.gcount(), 0);
-    BOOST_CHECK_EQUAL(uncompressedFile.tellg(), 4);
+    BOOST_CHECK_EQUAL(uncompressedFile.tellg(), -1);
     BOOST_CHECK(!uncompressedFile.good());
     BOOST_CHECK(uncompressedFile.eof());
 
     /* drop old data */
     uncompressedFile.dropOldData();
-
-    /* close file */
-    uncompressedFile.close();
 }
 
 /** test getter/setter for defaultContainerSize */
@@ -83,7 +78,6 @@ BOOST_AUTO_TEST_CASE(ReadMoreThanAvailable)
 
     /* setup uncompressedFile and set eof */
     Vector::BLF::UncompressedFile uncompressedFile;
-    uncompressedFile.open();
     uncompressedFile.write(logContainer);
     uncompressedFile.setFileSize(uncompressedFile.tellp());
     BOOST_CHECK_EQUAL(uncompressedFile.tellp(), 256);
@@ -92,7 +86,7 @@ BOOST_AUTO_TEST_CASE(ReadMoreThanAvailable)
     char data[512];
     BOOST_CHECK_EQUAL(uncompressedFile.tellg(), 0);
     uncompressedFile.read(data, sizeof(data));
-    BOOST_CHECK_EQUAL(uncompressedFile.tellg(), 256);
+    BOOST_CHECK_EQUAL(uncompressedFile.tellg(), -1);
     BOOST_CHECK_EQUAL(uncompressedFile.gcount(), 256);
 }
 
@@ -101,7 +95,6 @@ BOOST_AUTO_TEST_CASE(WriteMoreThanAvailable)
 {
     /* setup uncompressedFile and set eof */
     Vector::BLF::UncompressedFile uncompressedFile;
-    uncompressedFile.open();
     BOOST_CHECK_EQUAL(uncompressedFile.tellp(), 0);
 
     /* test read beyond eof */
@@ -123,7 +116,6 @@ BOOST_AUTO_TEST_CASE(SeekBeforeBeginOfFile)
 
     /* setup uncompressedFile and set eof */
     Vector::BLF::UncompressedFile uncompressedFile;
-    uncompressedFile.open();
     uncompressedFile.write(logContainer);
     BOOST_CHECK_EQUAL(uncompressedFile.tellp(), 256);
     uncompressedFile.setFileSize(uncompressedFile.tellp());
@@ -136,4 +128,116 @@ BOOST_AUTO_TEST_CASE(SeekBeforeBeginOfFile)
     char data[256];
     uncompressedFile.read(data, sizeof(data));
     BOOST_CHECK_EQUAL(uncompressedFile.gcount(), 0);
+}
+
+/**
+ * This checks that UncompressedFile reacts the same, compared to a normal stringstream.
+ * std::fstream resp. CompressedFile behaves different, as there is only one pointer for
+ * read/write operations.
+ */
+BOOST_AUTO_TEST_CASE(StdStringStream1)
+{
+    std::stringstream ss;
+    Vector::BLF::UncompressedFile uncompressedFile;
+    uncompressedFile.setFileSize(0);
+
+    /* checks after initialize */
+    BOOST_CHECK_EQUAL(uncompressedFile.fileSize(), 0);
+    BOOST_CHECK_EQUAL(ss.gcount(), uncompressedFile.gcount());
+    BOOST_CHECK_EQUAL(ss.tellg(), uncompressedFile.tellg());
+    BOOST_CHECK_EQUAL(ss.tellp(), uncompressedFile.tellp());
+    BOOST_CHECK_EQUAL(ss.good(), uncompressedFile.good());
+    BOOST_CHECK_EQUAL(ss.eof(), uncompressedFile.eof());
+
+    /* write some data */
+    char dummyData[256];
+    ss.write(dummyData, sizeof(dummyData));
+    uncompressedFile.write(dummyData, sizeof(dummyData));
+    BOOST_CHECK_EQUAL(uncompressedFile.fileSize(), 256);
+    BOOST_CHECK_EQUAL(ss.gcount(), uncompressedFile.gcount());
+    BOOST_CHECK_EQUAL(ss.tellg(), uncompressedFile.tellg());
+    BOOST_CHECK_EQUAL(ss.tellp(), uncompressedFile.tellp());
+    BOOST_CHECK_EQUAL(ss.good(), uncompressedFile.good());
+    BOOST_CHECK_EQUAL(ss.eof(), uncompressedFile.eof());
+
+    /* read some data */
+    ss.read(dummyData, 128);
+    uncompressedFile.read(dummyData, 128);
+    BOOST_CHECK_EQUAL(uncompressedFile.fileSize(), 256);
+    BOOST_CHECK_EQUAL(ss.gcount(), uncompressedFile.gcount());
+    BOOST_CHECK_EQUAL(ss.tellg(), uncompressedFile.tellg());
+    BOOST_CHECK_EQUAL(ss.tellp(), uncompressedFile.tellp());
+    BOOST_CHECK_EQUAL(ss.good(), uncompressedFile.good());
+    BOOST_CHECK_EQUAL(ss.eof(), uncompressedFile.eof());
+
+    /* seek beyond eof */
+    ss.seekg(256);
+    uncompressedFile.seekg(256);
+    BOOST_CHECK_EQUAL(uncompressedFile.fileSize(), 256);
+    BOOST_CHECK_EQUAL(ss.gcount(), uncompressedFile.gcount());
+    BOOST_CHECK_EQUAL(ss.tellg(), uncompressedFile.tellg());
+    BOOST_CHECK_EQUAL(ss.tellp(), uncompressedFile.tellp());
+    BOOST_CHECK_EQUAL(ss.good(), uncompressedFile.good());
+    BOOST_CHECK_EQUAL(ss.eof(), uncompressedFile.eof());
+
+    /* read some data behind eof */
+    ss.read(dummyData, 128);
+    uncompressedFile.read(dummyData, 128);
+    BOOST_CHECK_EQUAL(uncompressedFile.fileSize(), 256);
+    BOOST_CHECK_EQUAL(ss.gcount(), uncompressedFile.gcount());
+    BOOST_CHECK_EQUAL(ss.tellg(), uncompressedFile.tellg());
+    BOOST_CHECK_EQUAL(ss.tellp(), uncompressedFile.tellp());
+    BOOST_CHECK_EQUAL(ss.good(), uncompressedFile.good());
+    BOOST_CHECK_EQUAL(ss.eof(), uncompressedFile.eof());
+}
+
+/**
+ * This checks that UncompressedFile reacts the same, compared to a normal stringstream.
+ * std::fstream resp. CompressedFile behaves different, as there is only one pointer for
+ * read/write operations.
+ */
+BOOST_AUTO_TEST_CASE(StdStringStream2)
+{
+    std::stringstream ss;
+    Vector::BLF::UncompressedFile uncompressedFile;
+    uncompressedFile.setFileSize(0);
+
+    /* checks after initialize */
+    BOOST_CHECK_EQUAL(uncompressedFile.fileSize(), 0);
+    BOOST_CHECK_EQUAL(ss.gcount(), uncompressedFile.gcount());
+    BOOST_CHECK_EQUAL(ss.tellg(), uncompressedFile.tellg());
+    BOOST_CHECK_EQUAL(ss.tellp(), uncompressedFile.tellp());
+    BOOST_CHECK_EQUAL(ss.good(), uncompressedFile.good());
+    BOOST_CHECK_EQUAL(ss.eof(), uncompressedFile.eof());
+
+    /* write some data */
+    char dummyData[256];
+    ss.write(dummyData, sizeof(dummyData));
+    uncompressedFile.write(dummyData, sizeof(dummyData));
+    BOOST_CHECK_EQUAL(uncompressedFile.fileSize(), 256);
+    BOOST_CHECK_EQUAL(ss.gcount(), uncompressedFile.gcount());
+    BOOST_CHECK_EQUAL(ss.tellg(), uncompressedFile.tellg());
+    BOOST_CHECK_EQUAL(ss.tellp(), uncompressedFile.tellp());
+    BOOST_CHECK_EQUAL(ss.good(), uncompressedFile.good());
+    BOOST_CHECK_EQUAL(ss.eof(), uncompressedFile.eof());
+
+    /* read some data */
+    ss.read(dummyData, 128);
+    uncompressedFile.read(dummyData, 128);
+    BOOST_CHECK_EQUAL(uncompressedFile.fileSize(), 256);
+    BOOST_CHECK_EQUAL(ss.gcount(), uncompressedFile.gcount());
+    BOOST_CHECK_EQUAL(ss.tellg(), uncompressedFile.tellg());
+    BOOST_CHECK_EQUAL(ss.tellp(), uncompressedFile.tellp());
+    BOOST_CHECK_EQUAL(ss.good(), uncompressedFile.good());
+    BOOST_CHECK_EQUAL(ss.eof(), uncompressedFile.eof());
+
+    /* read beyond eof */
+    ss.read(dummyData, sizeof(dummyData));
+    uncompressedFile.read(dummyData, sizeof(dummyData));
+    BOOST_CHECK_EQUAL(uncompressedFile.fileSize(), 256);
+    BOOST_CHECK_EQUAL(ss.gcount(), uncompressedFile.gcount());
+    BOOST_CHECK_EQUAL(ss.tellg(), uncompressedFile.tellg());
+    BOOST_CHECK_EQUAL(ss.tellp(), uncompressedFile.tellp());
+    BOOST_CHECK_EQUAL(ss.good(), uncompressedFile.good());
+    BOOST_CHECK_EQUAL(ss.eof(), uncompressedFile.eof());
 }
