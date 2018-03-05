@@ -242,14 +242,24 @@ public:
     virtual bool eof();
 
     /**
-     * read object from file
+     * Read object from file.
+     *
+     * Ownership is taken over from the library to the user.
+     * The user has to take care to delete the object.
+     *
+     * @todo Use std::unique_ptr in future versions.
      *
      * @return read object or nullptr
      */
     virtual ObjectHeaderBase * read();
 
     /**
-     * write object to file
+     * Write object to file.
+     *
+     * Ownership is taken over from the user to the library.
+     * The object should not be further accessed any more.
+     *
+     * @todo Use std::unique_ptr in future versions.
      *
      * @param[in] ohb write object
      */

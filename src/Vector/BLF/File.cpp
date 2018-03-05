@@ -701,7 +701,7 @@ void File::uncompressedFile2ReadWriteQueue()
     ObjectHeaderBase ohb;
     ohb.read(m_uncompressedFile);
     if (!m_uncompressedFile.good()) {
-        // This is a normal eof, with all objects complete.
+        /* This is a normal eof. No objects ended abruptly. */
         return;
     }
     m_uncompressedFile.seekg(-ohb.calculateHeaderSize(), std::ios_base::cur);
