@@ -134,18 +134,6 @@ DWORD ObjectQueue<T>::tellp() const
 }
 
 template<typename T>
-void ObjectQueue<T>::flush()
-{
-    /* mutex lock */
-    std::unique_lock<std::mutex> lock(m_mutex);
-
-    /* wait till queue is empty */
-    tellgChanged.wait(lock, [this]{
-        return m_queue.empty();
-    });
-}
-
-template<typename T>
 bool ObjectQueue<T>::good() const
 {
     /* mutex lock */

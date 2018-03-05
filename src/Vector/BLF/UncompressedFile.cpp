@@ -211,17 +211,6 @@ std::streampos UncompressedFile::tellp()
     return m_tellp;
 }
 
-void UncompressedFile::flush()
-{
-    /* mutex lock */
-    std::unique_lock<std::mutex> lock(m_mutex);
-
-    /* wait till file is empty */
-    tellgChanged.wait(lock, [this]{
-        return (m_tellg >= m_tellp);
-    });
-}
-
 bool UncompressedFile::good() const
 {
     /* mutex lock */

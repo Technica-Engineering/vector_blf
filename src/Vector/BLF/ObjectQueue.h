@@ -66,9 +66,6 @@ public:
     /** @copydoc AbstractFile::tellp */
     virtual DWORD tellp() const;
 
-    /** @copydoc AbstractFile::flush */
-    virtual void flush();
-
     /** @copydoc AbstractFile::good */
     virtual bool good() const;
 

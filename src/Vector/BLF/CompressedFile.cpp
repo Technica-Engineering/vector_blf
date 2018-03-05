@@ -64,11 +64,6 @@ std::streampos CompressedFile::tellp()
     return m_file.tellp();
 }
 
-void CompressedFile::flush()
-{
-    m_file.flush();
-}
-
 bool CompressedFile::good() const
 {
     return m_file.good();

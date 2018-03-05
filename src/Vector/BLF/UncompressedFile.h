@@ -60,7 +60,6 @@ public:
     virtual void seekg(std::streamoff off, const std::ios_base::seekdir way  = std::ios_base::cur) override;
     virtual void write(const char * s, std::streamsize n) override;
     virtual std::streampos tellp() override;
-    virtual void flush() override;
     virtual bool good() const override;
     virtual bool eof() const override;
 

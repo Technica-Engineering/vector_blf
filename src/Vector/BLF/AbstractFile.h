@@ -86,11 +86,6 @@ public:
     virtual std::streampos tellp() = 0;
 
     /**
-     * Flush output stream buffer
-     */
-    virtual void flush() = 0;
-
-    /**
      * Check whether state of stream is good.
      *
      * @return true if no error flags are set
