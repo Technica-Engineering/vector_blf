@@ -845,11 +845,7 @@ void File::uncompressedFileWriteThread(File * file)
 {
     while(file->m_uncompressedFileThreadRunning) {
         /* process */
-        try {
-            file->readWriteQueue2UncompressedFile();
-        } catch (Vector::BLF::Exception & exp) {
-            file->m_uncompressedFileThreadRunning = false;
-        }
+        file->readWriteQueue2UncompressedFile();
 
         /* check for eof */
         if (!file->m_readWriteQueue.good()) {
@@ -885,11 +881,7 @@ void File::compressedFileWriteThread(File * file)
 {
     while(file->m_compressedFileThreadRunning) {
         /* process */
-        try {
-            file->uncompressedFile2CompressedFile();
-        } catch (Vector::BLF::Exception & exp) {
-            file->m_compressedFileThreadRunning = false;
-        }
+        file->uncompressedFile2CompressedFile();
 
         /* check for eof */
         if (!file->m_uncompressedFile.good()) {
