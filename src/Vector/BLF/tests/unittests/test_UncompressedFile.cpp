@@ -71,7 +71,7 @@ BOOST_AUTO_TEST_CASE(ReadMoreThanAvailable)
     /* setup logContainer */
     Vector::BLF::LogContainer * logContainer = new Vector::BLF::LogContainer;
     logContainer->uncompressedFile.resize(256);
-    for(uint16_t i = 0; i < 256; i++) {
+    for (uint16_t i = 0; i < 256; i++) {
         logContainer->uncompressedFile[i] = i;
     }
     logContainer->uncompressedFileSize = 256;
@@ -109,7 +109,7 @@ BOOST_AUTO_TEST_CASE(SeekBeforeBeginOfFile)
     /* setup logContainer */
     Vector::BLF::LogContainer * logContainer = new Vector::BLF::LogContainer;
     logContainer->uncompressedFile.resize(256);
-    for(uint16_t i = 0; i < 256; i++) {
+    for (uint16_t i = 0; i < 256; i++) {
         logContainer->uncompressedFile[i] = i;
     }
     logContainer->uncompressedFileSize = 256;

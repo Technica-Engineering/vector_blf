@@ -85,22 +85,22 @@ void File::open(const char * filename, std::ios_base::openmode mode)
         m_compressedFileThread = std::thread(compressedFileReadThread, this);
     } else
 
-    /* write */
-    if (mode & std::ios_base::out) {
-        /* write file statistics */
-        fileStatistics.write(m_compressedFile);
+        /* write */
+        if (mode & std::ios_base::out) {
+            /* write file statistics */
+            fileStatistics.write(m_compressedFile);
 
-        /* fileStatistics done */
-        currentUncompressedFileSize += fileStatistics.statisticsSize;
+            /* fileStatistics done */
+            currentUncompressedFileSize += fileStatistics.statisticsSize;
 
-        /* prepare threads */
-        m_uncompressedFileThreadRunning = true;
-        m_compressedFileThreadRunning = true;
+            /* prepare threads */
+            m_uncompressedFileThreadRunning = true;
+            m_compressedFileThreadRunning = true;
 
-        /* create write threads */
-        m_uncompressedFileThread = std::thread(uncompressedFileWriteThread, this);
-        m_compressedFileThread = std::thread(compressedFileWriteThread, this);
-    }
+            /* create write threads */
+            m_uncompressedFileThread = std::thread(uncompressedFileWriteThread, this);
+            m_compressedFileThread = std::thread(compressedFileWriteThread, this);
+        }
 }
 
 void File::open(const std::string & filename, std::ios_base::openmode mode)
@@ -162,7 +162,7 @@ void File::close()
 
         /* abort readWriteQueue */
         m_readWriteQueue.abort();
-    } else
+    }
 
     /* write */
     if (m_openMode & std::ios_base::out) {
@@ -823,7 +823,7 @@ void File::uncompressedFile2CompressedFile()
 
 void File::uncompressedFileReadThread(File * file)
 {
-    while(file->m_uncompressedFileThreadRunning) {
+    while (file->m_uncompressedFileThreadRunning) {
         /* process */
         try {
             file->uncompressedFile2ReadWriteQueue();
@@ -843,7 +843,7 @@ void File::uncompressedFileReadThread(File * file)
 
 void File::uncompressedFileWriteThread(File * file)
 {
-    while(file->m_uncompressedFileThreadRunning) {
+    while (file->m_uncompressedFileThreadRunning) {
         /* process */
         file->readWriteQueue2UncompressedFile();
 
@@ -859,7 +859,7 @@ void File::uncompressedFileWriteThread(File * file)
 
 void File::compressedFileReadThread(File * file)
 {
-    while(file->m_compressedFileThreadRunning) {
+    while (file->m_compressedFileThreadRunning) {
         /* process */
         try {
             file->compressedFile2UncompressedFile();
@@ -879,7 +879,7 @@ void File::compressedFileReadThread(File * file)
 
 void File::compressedFileWriteThread(File * file)
 {
-    while(file->m_compressedFileThreadRunning) {
+    while (file->m_compressedFileThreadRunning) {
         /* process */
         file->uncompressedFile2CompressedFile();
 

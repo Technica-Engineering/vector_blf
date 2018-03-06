@@ -65,11 +65,11 @@ void UncompressedFile::read(char * s, std::streamsize n)
         std::unique_lock<std::mutex> lock(m_mutex);
 
         /* wait until there is sufficient data */
-        tellpChanged.wait(lock, [this, n]{
+        tellpChanged.wait(lock, [this, n] {
             return
-                m_abort ||
-                (m_tellg + n <= m_tellp) ||
-                (m_tellg + n > m_fileSize);
+            m_abort ||
+            (m_tellg + n <= m_tellp) ||
+            (m_tellg + n > m_fileSize);
         });
 
         /* handle read behind eof */
@@ -82,7 +82,7 @@ void UncompressedFile::read(char * s, std::streamsize n)
 
         /* read data */
         m_gcount = 0;
-        while(n > 0) {
+        while (n > 0) {
             /* find starting log container */
             LogContainer * logContainer = logContainerContaining(m_tellg);
             if (logContainer == nullptr) {
@@ -147,14 +147,14 @@ void UncompressedFile::write(const char * s, std::streamsize n)
         std::unique_lock<std::mutex> lock(m_mutex);
 
         /* wait for free space */
-        tellgChanged.wait(lock, [this]{
+        tellgChanged.wait(lock, [this] {
             return
-                m_abort ||
-                ((m_tellp - m_tellg) < m_bufferSize);
+            m_abort ||
+            ((m_tellp - m_tellg) < m_bufferSize);
         });
 
         /* write data */
-        while(n > 0) {
+        while (n > 0) {
             /* find starting log container */
             LogContainer * logContainer = logContainerContaining(m_tellp);
 
@@ -352,10 +352,10 @@ void UncompressedFile::setDefaultLogContainerSize(DWORD defaultLogContainerSize)
 LogContainer * UncompressedFile::logContainerContaining(std::streampos pos)
 {
     /* loop over all logContainers */
-    for(LogContainer * logContainer: m_data) {
+    for (LogContainer * logContainer : m_data) {
         /* when file position is contained ... */
         if ((pos >= logContainer->filePosition) &&
-            (pos < (logContainer->filePosition + static_cast<std::streamsize>(logContainer->uncompressedFileSize)))) {
+                (pos < (logContainer->filePosition + static_cast<std::streamsize>(logContainer->uncompressedFileSize)))) {
 
             /* ... return log container */
             return logContainer;

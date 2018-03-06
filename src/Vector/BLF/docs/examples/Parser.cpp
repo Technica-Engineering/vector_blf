@@ -778,7 +778,7 @@ void show(Vector::BLF::LinStatisticEvent * obj)
 // J1708_VIRTUAL_MSG = 56
 void show(Vector::BLF::J1708Message * obj)
 {
-    switch(obj->objectType) {
+    switch (obj->objectType) {
     case Vector::BLF::ObjectType::J1708_MESSAGE:
         std::cout << "J1708Message:";
         break;
@@ -1045,11 +1045,11 @@ void show(Vector::BLF::SystemVariable * obj)
         std::cout << " dataLength=" << std::dec << obj->dataLength;
         std::cout << " name=" << obj->name;
         std::cout << " data=[";
-        for(uint32_t i = 0; i < min(obj->data.size(), obj->dataLength) / sizeof(double); ++i) {
+        for (uint32_t i = 0; i < min(obj->data.size(), obj->dataLength) / sizeof(double); ++i) {
             if (i > 0) {
                 std::cout << ",";
             }
-            std::cout << std::fixed << static_cast<double>(obj->data[i*sizeof(double)]);
+            std::cout << std::fixed << static_cast<double>(obj->data[i * sizeof(double)]);
         }
         std::cout << "]";
         break;
@@ -1060,11 +1060,11 @@ void show(Vector::BLF::SystemVariable * obj)
         std::cout << " dataLength=" << std::dec << obj->dataLength;
         std::cout << " name=" << obj->name;
         std::cout << " data=[";
-        for(uint32_t i = 0; i < min(obj->data.size(), obj->dataLength) / sizeof(int32_t); ++i) {
+        for (uint32_t i = 0; i < min(obj->data.size(), obj->dataLength) / sizeof(int32_t); ++i) {
             if (i > 0) {
                 std::cout << ",";
             }
-            std::cout << std::dec << static_cast<int32_t>(obj->data[i*sizeof(int32_t)]);
+            std::cout << std::dec << static_cast<int32_t>(obj->data[i * sizeof(int32_t)]);
         }
         std::cout << "]";
         break;
@@ -1083,7 +1083,7 @@ void show(Vector::BLF::SystemVariable * obj)
         std::cout << " dataLength=" << std::dec << obj->dataLength;
         std::cout << " name=" << obj->name;
         std::cout << " data=[";
-        for(uint32_t i = 0; i < min(obj->data.size(), obj->dataLength); ++i) {
+        for (uint32_t i = 0; i < min(obj->data.size(), obj->dataLength); ++i) {
             if (i > 0) {
                 std::cout << ",";
             }
@@ -1399,7 +1399,7 @@ void show(Vector::BLF::SerialEvent * obj)
             std::cout << " data=";
             printData(obj->general.data.data(), min(obj->general.data.size(), obj->general.dataLength));
             std::cout << " timeStamps=";
-            for(uint32_t i = 0; i < min(obj->general.timeStamps.size(), obj->general.timeStampsLength / sizeof(uint64_t)); ++i) {
+            for (uint32_t i = 0; i < min(obj->general.timeStamps.size(), obj->general.timeStampsLength / sizeof(uint64_t)); ++i) {
                 if (i > 0) {
                     std::cout << ",";
                 }
@@ -1538,7 +1538,7 @@ void show(Vector::BLF::KLineStatusEvent * obj)
     std::cout << " dataLen=" << std::dec << obj->dataLen;
     std::cout << " port=" << std::dec << obj->port;
     std::cout << " data=[";
-    for(uint32_t i = 0; i < min(obj->data.size(), obj->dataLen / sizeof(uint64_t)); ++i) {
+    for (uint32_t i = 0; i < min(obj->data.size(), obj->dataLen / sizeof(uint64_t)); ++i) {
         if (i > 0) {
             std::cout << " ";
         }
@@ -1779,7 +1779,7 @@ void show(Vector::BLF::A429BusStatistic * obj)
     std::cout << " idleErrors=" << std::dec << obj->idleErrors;
     std::cout << " levelErrors=" << std::dec << obj->levelErrors;
     std::cout << " labelCount=";
-    for(uint32_t i = 0; i < obj->labelCount.size(); ++i) {
+    for (uint32_t i = 0; i < obj->labelCount.size(); ++i) {
         if (i > 0) {
             std::cout << ",";
         }
@@ -1844,7 +1844,7 @@ void show(Vector::BLF::Unknown115 * obj)
 // TEST_STRUCTURE = 118
 void show(Vector::BLF::TestStructure * obj)
 {
-    std::wstring_convert<std::codecvt_utf8_utf16<char16_t>,char16_t> convert;
+    std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> convert;
     std::cout << "TestStructure:";
     std::cout << " type=" << std::dec << obj->type;
     std::cout << " uniqueNo=" << std::dec << obj->uniqueNo;

@@ -45,7 +45,7 @@ static void copyObjects(Vector::BLF::File & filein, Vector::BLF::File & fileout)
 
     /* write all objects into output file */
     objectQueue.setFileSize(objectQueue.tellp());
-    while(!objectQueue.eof()) {
+    while (!objectQueue.eof()) {
         Vector::BLF::ObjectHeaderBase * ohb = objectQueue.read();
         if (ohb != nullptr) {
             fileout.write(ohb);
@@ -65,7 +65,7 @@ static bool compareFiles(const char * infileName, const char * outfileName, uint
     BOOST_REQUIRE(ifs2.is_open());
     bool sameFile = true;
     while (ifs1.good() && ifs2.good() &&
-           ((fileSizeWithoutUnknown115 == 0) || (static_cast<uint64_t>(ifs1.tellg()) < fileSizeWithoutUnknown115))) {
+            ((fileSizeWithoutUnknown115 == 0) || (static_cast<uint64_t>(ifs1.tellg()) < fileSizeWithoutUnknown115))) {
         char c1 = static_cast<char>(ifs1.get());
         char c2 = static_cast<char>(ifs2.get());
         if (c1 != c2) {
@@ -120,8 +120,8 @@ BOOST_AUTO_TEST_CASE(AllBinlogLogfiles)
 
         /* compare files */
         BOOST_REQUIRE_MESSAGE(
-                compareFiles(infile.c_str(), outfile.c_str(), fileout.fileStatistics.fileSizeWithoutUnknown115),
-                eventFile + " is different");
+            compareFiles(infile.c_str(), outfile.c_str(), fileout.fileStatistics.fileSizeWithoutUnknown115),
+            eventFile + " is different");
     }
 }
 
@@ -170,7 +170,7 @@ BOOST_AUTO_TEST_CASE(AllConvertedLogfiles)
 
         /* compare files */
         BOOST_CHECK_MESSAGE(
-                compareFiles(infile.c_str(), outfile.c_str(), fileout.fileStatistics.fileSizeWithoutUnknown115),
-                eventFile + " is different");
+            compareFiles(infile.c_str(), outfile.c_str(), fileout.fileStatistics.fileSizeWithoutUnknown115),
+            eventFile + " is different");
     }
 }

@@ -57,11 +57,11 @@ T * ObjectQueue<T>::read()
         std::unique_lock<std::mutex> lock(m_mutex);
 
         /* wait for data */
-        tellpChanged.wait(lock, [this]{
+        tellpChanged.wait(lock, [this] {
             return
-                m_abort ||
-                !m_queue.empty() ||
-                (m_tellg >= m_fileSize);
+            m_abort ||
+            !m_queue.empty() ||
+            (m_tellg >= m_fileSize);
         });
 
         /* get first entry */
@@ -102,10 +102,10 @@ void ObjectQueue<T>::write(T * obj)
         std::unique_lock<std::mutex> lock(m_mutex);
 
         /* wait for free space */
-        tellgChanged.wait(lock, [this]{
+        tellgChanged.wait(lock, [this] {
             return
-                m_abort ||
-                static_cast<DWORD>(m_queue.size()) < m_bufferSize;
+            m_abort ||
+            static_cast<DWORD>(m_queue.size()) < m_bufferSize;
         });
 
         /* push data */
