@@ -26,20 +26,13 @@ Building under Windows contains the following steps:
 
 # Test
 
-Static tests are
+* Configure cmake option OPTION_BUILD_TESTS
+* Use ctest to run unit tests
 
-* Cppcheck (if OPTION_RUN_CPPCHECK is set)
-* CCCC (if OPTION_RUN_CCCC is set)
+Further options allow to activate coverage and reports:
 
-Dynamic tests are
-
-* Unit tests (if OPTION_RUN_TESTS is set)
-* Example runs (if OPTION_RUN_EXAMPLES is set)
-* Coverage (if OPTION_USE_LCOV_GCOV is set)
-
-The test execution can be triggered using
-
-    make test
+* OPTION_USE_GCOV to build with coverage flags
+* OPTION_ADD_LCOV to add lcov targets to generate HTML coverage report
 
 # Package
 
@@ -80,6 +73,7 @@ The following files are products of installation and building:
 * Provide getter/setter for EnvironmentVariable::objectType (ENV_INTEGER, ENV_DOUBLE, ENV_STRING, ENV_DATA)
 * Provide getter/setter for J1708Message::objectType (J1708_MESSAGE, J1708_VIRTUAL_MSG)
 * Replace CompressedFile with std::fstream. Replace UncompressedFile with std::iostream with custom std::streambuf. Drop AbstractFile and use std::iostream instead.
+* Jenkinsfile
 
 # Test sources
 

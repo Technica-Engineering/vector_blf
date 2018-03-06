@@ -2,11 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+## [2.0.0] - 2018-03-06
 ### Changed
 - Multi-Threading support using two threads between three data structures.
 - File::OpenMode replaced by standard std::ios_base::openmode.
-- LogContainer now contains uncompressedFile and compressedFile snippets.
+- LogContainer now contains uncompressedFile and compressedFile containers.
 - LogContainer now contains uncompress/compress methods.
 - UncompressedFile now based on std::list<LogContainer *> for performance.
 
