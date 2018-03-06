@@ -67,6 +67,7 @@ BOOST_AUTO_TEST_CASE(fileWithoutLogContainers)
     file.open(CMAKE_CURRENT_SOURCE_DIR "/errors/FileWithoutLogContainers.blf", std::ios_base::in);
     BOOST_REQUIRE(file.is_open());
 
+    /* No LogContainer */
     Vector::BLF::ObjectHeaderBase * ohb;
     ohb = file.read();
     BOOST_CHECK(ohb == nullptr);
@@ -83,6 +84,7 @@ BOOST_AUTO_TEST_CASE(fileWithTruncatedCompressedLogContainer)
     file.open(CMAKE_CURRENT_SOURCE_DIR "/errors/FileWithTruncatedCompressedLogContainer.blf", std::ios_base::in);
     BOOST_REQUIRE(file.is_open());
 
+    /* LogContainer is truncated */
     Vector::BLF::ObjectHeaderBase * ohb;
     ohb = file.read();
     BOOST_CHECK(ohb == nullptr);
@@ -99,6 +101,7 @@ BOOST_AUTO_TEST_CASE(fileWithTruncatedUncompressedLogContainer)
     file.open(CMAKE_CURRENT_SOURCE_DIR "/errors/FileWithTruncatedUncompressedLogContainer.blf", std::ios_base::in);
     BOOST_REQUIRE(file.is_open());
 
+    /* LogContainer is truncated */
     Vector::BLF::ObjectHeaderBase * ohb;
     ohb = file.read();
     BOOST_CHECK(ohb == nullptr);
@@ -117,22 +120,23 @@ BOOST_AUTO_TEST_CASE(fileWithTruncatedCanMessage)
 
     Vector::BLF::ObjectHeaderBase * ohb;
 
+    /* first CanMessage is ok */
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_CHECK(ohb->objectType == Vector::BLF::ObjectType::CAN_MESSAGE);
     BOOST_CHECK(file.good());
     delete ohb;
 
+    /* second CanMessage is truncated */
     ohb = file.read();
-    BOOST_CHECK(ohb != nullptr);
-    BOOST_CHECK(ohb->objectType == Vector::BLF::ObjectType::CAN_MESSAGE);
-    // @todo BOOST_CHECK(!file.good()); I expect that this has eofbit set, or ohb == nullptr!
+    BOOST_CHECK(ohb == nullptr);
+    BOOST_CHECK(!file.good());
     delete ohb;
 
     file.close();
 }
 
-/** Test file without three CanMessage, where second and third have objectType set to 0xA0. */
+/** Test file without two CanMessage, where second has objectType set to 0xA0. */
 BOOST_AUTO_TEST_CASE(fileWithUnknownObjectType)
 {
     Vector::BLF::File file;
@@ -141,15 +145,17 @@ BOOST_AUTO_TEST_CASE(fileWithUnknownObjectType)
 
     Vector::BLF::ObjectHeaderBase * ohb;
 
+    /* first CanMessage is ok */
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_CHECK(ohb->objectType == Vector::BLF::ObjectType::CAN_MESSAGE);
     BOOST_CHECK(file.good());
     delete ohb;
 
+    /* second CanMessage has objectType set to 0xA0 */
     ohb = file.read();
     BOOST_CHECK(ohb == nullptr);
-    // @todo BOOST_CHECK(!file.good()); I expect that this has eofbit set!
+    BOOST_CHECK(!file.good());
     delete ohb;
 
     file.close();
