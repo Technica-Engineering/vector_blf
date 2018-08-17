@@ -48,6 +48,7 @@ BOOST_AUTO_TEST_CASE(createUnknownObjects)
     ohb = Vector::BLF::File::createObject(Vector::BLF::ObjectType::LOG_CONTAINER);
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_CHECK(ohb->objectType == Vector::BLF::ObjectType::LOG_CONTAINER);
+    delete ohb;
 }
 
 /** test getter/setter for defaultContainerSize */

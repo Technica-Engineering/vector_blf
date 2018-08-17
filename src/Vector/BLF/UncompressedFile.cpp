@@ -84,8 +84,8 @@ void UncompressedFile::read(char * s, std::streamsize n)
         m_gcount = 0;
         while (n > 0) {
             /* find starting log container */
-            LogContainer * logContainer = logContainerContaining(m_tellg);
-            if (logContainer == nullptr) {
+            std::shared_ptr<LogContainer> logContainer = logContainerContaining(m_tellg);
+            if (!logContainer) {
                 break;
             }
 
@@ -156,12 +156,12 @@ void UncompressedFile::write(const char * s, std::streamsize n)
         /* write data */
         while (n > 0) {
             /* find starting log container */
-            LogContainer * logContainer = logContainerContaining(m_tellp);
+            std::shared_ptr<LogContainer> logContainer = logContainerContaining(m_tellp);
 
             /* append new log container */
-            if (logContainer == nullptr) {
+            if (!logContainer) {
                 /* append new log container */
-                logContainer = new LogContainer;
+                logContainer = std::make_shared<LogContainer>();
                 logContainer->uncompressedFile.resize(m_defaultLogContainerSize);
                 logContainer->uncompressedFileSize = logContainer->uncompressedFile.size();
                 if (m_data.back() != nullptr) {
@@ -242,7 +242,7 @@ void UncompressedFile::abort()
     tellpChanged.notify_all();
 }
 
-void UncompressedFile::write(LogContainer * logContainer)
+void UncompressedFile::write(std::shared_ptr<LogContainer> logContainer)
 {
     {
         /* mutex lock */
@@ -267,7 +267,7 @@ void UncompressedFile::nextLogContainer()
         std::lock_guard<std::mutex> lock(m_mutex);
 
         /* find starting log container */
-        LogContainer * logContainer = logContainerContaining(m_tellp);
+        std::shared_ptr<LogContainer> logContainer = logContainerContaining(m_tellp);
         if (logContainer) {
             /* offset to write */
             std::streamoff offset = m_tellp - logContainer->filePosition;
@@ -319,7 +319,7 @@ void UncompressedFile::dropOldData()
     std::lock_guard<std::mutex> lock(m_mutex);
 
     /* check if drop should be done now */
-    LogContainer * logContainer = m_data.front();
+    std::shared_ptr<LogContainer> logContainer = m_data.front();
     if (logContainer) {
         std::streampos position = logContainer->filePosition + static_cast<std::streamsize>(logContainer->uncompressedFileSize);
         if ((position > m_tellg) || (position > m_tellp) || (position > m_fileSize)) {
@@ -349,10 +349,10 @@ void UncompressedFile::setDefaultLogContainerSize(DWORD defaultLogContainerSize)
     m_defaultLogContainerSize = defaultLogContainerSize;
 }
 
-LogContainer * UncompressedFile::logContainerContaining(std::streampos pos)
+std::shared_ptr<LogContainer> UncompressedFile::logContainerContaining(std::streampos pos)
 {
     /* loop over all logContainers */
-    for (LogContainer * logContainer : m_data) {
+    for (std::shared_ptr<LogContainer> logContainer : m_data) {
         /* when file position is contained ... */
         if ((pos >= logContainer->filePosition) &&
                 (pos < (logContainer->filePosition + static_cast<std::streamsize>(logContainer->uncompressedFileSize)))) {

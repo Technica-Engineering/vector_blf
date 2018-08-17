@@ -25,6 +25,7 @@
 
 #include <condition_variable>
 #include <list>
+#include <memory>
 #include <mutex>
 
 #include <Vector/BLF/AbstractFile.h>
@@ -73,7 +74,7 @@ public:
      *
      * @param[in] logContainer log container
      */
-    virtual void write(LogContainer * logContainer);
+    virtual void write(std::shared_ptr<LogContainer> logContainer);
 
     /**
      * Close the current logContainer.
@@ -132,7 +133,7 @@ private:
     bool m_abort;
 
     /** data */
-    std::list<LogContainer *> m_data;
+    std::list<std::shared_ptr<LogContainer>> m_data;
 
     /** get position */
     std::streampos m_tellg;
@@ -168,7 +169,7 @@ private:
      * @param[in] pos position
      * @return log container or nullptr
      */
-    LogContainer * logContainerContaining(std::streampos pos);
+    std::shared_ptr<LogContainer> logContainerContaining(std::streampos pos);
 };
 
 }

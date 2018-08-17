@@ -769,7 +769,7 @@ void File::compressedFile2UncompressedFile()
     }
 
     /* read LogContainer */
-    LogContainer * logContainer = new LogContainer;
+    std::shared_ptr<LogContainer> logContainer(new LogContainer);
     logContainer->read(m_compressedFile);
     if (!m_compressedFile.good()) {
         throw Exception("File::compressedFile2UncompressedFile(): Read beyond end of file.");
