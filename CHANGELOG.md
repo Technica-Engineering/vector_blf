@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.0.1] - 2018-08-23
+### Fixed
+- Fixed memory leak with introduction of std::shared_ptr
+
 ## [2.0.0] - 2018-03-06
 ### Changed
 - Multi-Threading support using two threads between three data structures.
