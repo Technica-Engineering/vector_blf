@@ -23,7 +23,7 @@
 
 #include <Vector/BLF/platform.h>
 
-#include <array>
+#include <vector>
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/CanFdExtFrameData.h>
@@ -198,7 +198,7 @@ public:
      * dlc, e.g. when DLC is 12 data has length
      * 24)
      */
-    std::array<BYTE, 64> data;
+    std::vector<BYTE> data;
 
     /** reserved */
     DWORD reservedCanFdErrorFrame3;

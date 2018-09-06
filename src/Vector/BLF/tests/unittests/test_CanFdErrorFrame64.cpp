@@ -35,7 +35,7 @@ BOOST_AUTO_TEST_CASE(CanFdErrorFrame64)
     /* CanFdErrorFrame64 */
     BOOST_CHECK_EQUAL(obj->channel, 0x11);
     BOOST_CHECK_EQUAL(obj->dlc, 0x22);
-    BOOST_CHECK_EQUAL(obj->validDataBytes, 0x33);
+    BOOST_CHECK_EQUAL(obj->validDataBytes, 64);
     BOOST_CHECK_EQUAL(obj->ecc, 0x44);
     BOOST_CHECK_EQUAL(obj->flags, 0x5555);
     BOOST_CHECK_EQUAL(obj->errorCodeExt, 0x6666);

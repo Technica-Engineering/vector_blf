@@ -32,7 +32,7 @@ int main(int argc, char ** argv)
     obj.mFrameLength = 0x55555555;
     obj.mArbBitCount = 0x66;
     obj.mCANFDFlags = 0x77;
-    obj.mValidDataBytes = 0x88;
+    obj.mValidDataBytes = 64;
     obj.mReserved1 = 0x99;
     obj.mReserved2 = 0xAAAAAAAA;
     for (BYTE i = 0; i < 64; i++) {

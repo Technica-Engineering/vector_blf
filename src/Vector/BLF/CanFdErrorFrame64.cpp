@@ -72,6 +72,7 @@ void CanFdErrorFrame64::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&crc), sizeof(crc));
     is.read(reinterpret_cast<char *>(&errorPosition), sizeof(errorPosition));
     is.read(reinterpret_cast<char *>(&reservedCanFdErrorFrame2), sizeof(reservedCanFdErrorFrame2));
+    data.resize(validDataBytes);
     is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
     if (extDataOffset != 0) {
         CanFdExtFrameData::read(is);
@@ -81,6 +82,9 @@ void CanFdErrorFrame64::read(AbstractFile & is)
 
 void CanFdErrorFrame64::write(AbstractFile & os)
 {
+    /* pre processing */
+    validDataBytes = static_cast<WORD>(data.size());
+
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&dlc), sizeof(dlc));

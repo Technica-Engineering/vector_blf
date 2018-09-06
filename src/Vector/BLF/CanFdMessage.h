@@ -23,7 +23,7 @@
 
 #include <Vector/BLF/platform.h>
 
-#include <array>
+#include <vector>
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
@@ -130,7 +130,7 @@ public:
     /**
      * @brief CAN FD data
      */
-    std::array<BYTE, 64> data;
+    std::vector<BYTE> data;
 
     /** reserved */
     DWORD reservedCanFdMessage3;

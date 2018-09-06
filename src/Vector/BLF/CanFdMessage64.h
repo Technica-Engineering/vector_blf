@@ -23,7 +23,7 @@
 
 #include <Vector/BLF/platform.h>
 
-#include <array>
+#include <vector>
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/CanFdExtFrameData.h>
@@ -196,7 +196,7 @@ public:
      * than 64 bytes, according to the value of
      * dlc).
      */
-    std::array<BYTE, 64> data;
+    std::vector<uint8_t> data;
 };
 
 }

@@ -1569,7 +1569,7 @@ void show(Vector::BLF::CanFdMessage * obj)
 void show(Vector::BLF::CanFdMessage64 * obj)
 {
     std::cout << "CanFdMessage64:";
-    std::cout << " channel=" << std::dec << obj->channel;
+    std::cout << " channel=" << std::dec << static_cast<uint16_t>(obj->channel);
     std::cout << " dlc=" << std::dec << static_cast<uint16_t>(obj->dlc);
     std::cout << " validDataBytes=" << std::dec << static_cast<uint16_t>(obj->validDataBytes);
     std::cout << " txCount=" << std::dec << static_cast<uint16_t>(obj->txCount);
@@ -2479,6 +2479,9 @@ int main(int argc, char * argv[])
         case Vector::BLF::ObjectType::ETHERNET_ERROR_FORWARDED:
             show(reinterpret_cast<Vector::BLF::EthernetErrorForwarded *>(ohb));
             break;
+
+        default:
+            std::cout << "Unknown ObjectType" << std::endl;
         }
 
         /* check objectSize */

@@ -32,7 +32,7 @@ int main(int argc, char ** argv)
     /* VBLCANFDErrorFrame64 */
     obj.mChannel = 0x11;
     obj.mDLC = 0x22;
-    obj.mValidDataBytes = 0x33;
+    obj.mValidDataBytes = 64;
     obj.mECC = 0x44;
     obj.mFlags = 0x5555;
     obj.mErrorCodeExt = 0x6666;

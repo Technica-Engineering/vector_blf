@@ -40,7 +40,7 @@ BOOST_AUTO_TEST_CASE(CanFdMessage)
     BOOST_CHECK_EQUAL(obj->frameLength, 0x55555555);
     BOOST_CHECK_EQUAL(obj->arbBitCount, 0x66);
     BOOST_CHECK_EQUAL(obj->canFdFlags, 0x77);
-    BOOST_CHECK_EQUAL(obj->validDataBytes, 0x88);
+    BOOST_CHECK_EQUAL(obj->validDataBytes, 64);
     BOOST_CHECK_EQUAL(obj->reservedCanFdMessage1, 0x99);
     BOOST_CHECK_EQUAL(obj->reservedCanFdMessage2, 0xAAAAAAAA);
     for (uint8_t i = 0; i < 64; i++) {

@@ -31,7 +31,7 @@ int main(int argc, char ** argv)
     /* VBLCANFDMessage64 */
     obj.mChannel = 0x11;
     obj.mDLC = 0x22;
-    obj.mValidDataBytes = 0x33;
+    obj.mValidDataBytes = 64;
     obj.mTxCount = 0x44;
     obj.mID = 0x55555555;
     obj.mFrameLength = 0x66666666;

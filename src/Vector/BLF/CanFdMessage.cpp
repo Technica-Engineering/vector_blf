@@ -55,6 +55,7 @@ void CanFdMessage::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&validDataBytes), sizeof(validDataBytes));
     is.read(reinterpret_cast<char *>(&reservedCanFdMessage1), sizeof(reservedCanFdMessage1));
     is.read(reinterpret_cast<char *>(&reservedCanFdMessage2), sizeof(reservedCanFdMessage2));
+    data.resize(validDataBytes);
     is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
     is.read(reinterpret_cast<char *>(&reservedCanFdMessage3), sizeof(reservedCanFdMessage3));
     // @note might be extended in future versions
@@ -62,6 +63,9 @@ void CanFdMessage::read(AbstractFile & is)
 
 void CanFdMessage::write(AbstractFile & os)
 {
+    /* pre processing */
+    validDataBytes = static_cast<WORD>(data.size());
+
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&flags), sizeof(flags));
