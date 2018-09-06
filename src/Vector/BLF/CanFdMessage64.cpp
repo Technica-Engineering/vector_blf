@@ -65,6 +65,7 @@ void CanFdMessage64::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
     is.read(reinterpret_cast<char *>(&extDataOffset), sizeof(extDataOffset));
     is.read(reinterpret_cast<char *>(&crc), sizeof(crc));
+    data.resize(validDataBytes);
     is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
     if (extDataOffset != 0) {
         CanFdExtFrameData::read(is);
@@ -73,6 +74,9 @@ void CanFdMessage64::read(AbstractFile & is)
 
 void CanFdMessage64::write(AbstractFile & os)
 {
+    /* pre processing */
+    validDataBytes = static_cast<WORD>(data.size());
+
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&dlc), sizeof(dlc));
