@@ -33,36 +33,31 @@ namespace Vector {
 namespace BLF {
 
 /**
- * @brief UNKNOWN_115
- *
- * This always comes at the end of a file.
+ * @brief UNKNOWN_128
  */
-class VECTOR_BLF_EXPORT Unknown115 final : public ObjectHeader
+class VECTOR_BLF_EXPORT Unknown128 final : public ObjectHeader
 {
 public:
-    Unknown115();
+    Unknown128();
 
     virtual void read(AbstractFile & is) override;
     virtual void write(AbstractFile & os) override;
     virtual DWORD calculateObjectSize() const override;
 
     /** reserved */
-    DWORD reservedUnknownObject1; // @todo what is this? 0x001E00C4, ...
+    DWORD reservedUnknown128;
 
     /** reserved */
-    DWORD reservedUnknownObject2; // @todo what is this? 0x00000000, ...
+    DWORD nameLength;
 
     /** reserved */
-    DWORD reservedUnknownObject3; // @todo what is this? 0x000000D6, ...
+    DWORD dataLength;
 
     /** reserved */
-    DWORD reservedUnknownObject4; // @todo what is this? 0x0008F30C, ...
+    std::string name;
 
     /** reserved */
-    DWORD reservedUnknownObject5; // @todo what is this? 0x00180008, ...
-
-    /** reserved */
-    DWORD reservedUnknownObject6; // @todo what is this? 0x000003E8, ...
+    std::string data;
 };
 
 }

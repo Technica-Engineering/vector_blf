@@ -1949,6 +1949,23 @@ void show(Vector::BLF::EthernetErrorForwarded * obj)
     std::cout << std::endl;
 }
 
+// UNKNOWN_124 = 124
+// UNKNOWN_125 = 125
+// UNKNOWN_126 = 126
+// UNKNOWN_127 = 127
+// @todo UNKNOWN_124..127
+
+// UNKNOWN_128 = 128
+void show(Vector::BLF::Unknown128 * obj)
+{
+    std::cout << "Unknown128:";
+    std::cout << " nameLength=" << std::dec << obj->nameLength;
+    std::cout << " dataLength=" << std::dec << obj->dataLength;
+    std::cout << " name=" << obj->name;
+    std::cout << " data=" << obj->data;
+    std::cout << std::endl;
+}
+
 int main(int argc, char * argv[])
 {
     if (argc != 2) {
@@ -2478,6 +2495,17 @@ int main(int argc, char * argv[])
 
         case Vector::BLF::ObjectType::ETHERNET_ERROR_FORWARDED:
             show(reinterpret_cast<Vector::BLF::EthernetErrorForwarded *>(ohb));
+            break;
+
+        case Vector::BLF::ObjectType::Unknown124:
+        case Vector::BLF::ObjectType::Unknown125:
+        case Vector::BLF::ObjectType::Unknown126:
+        case Vector::BLF::ObjectType::Unknown127:
+            // @todo Unknown124..127
+            break;
+
+        case Vector::BLF::ObjectType::Unknown128:
+            show(reinterpret_cast<Vector::BLF::Unknown128 *>(ohb));
             break;
 
         default:

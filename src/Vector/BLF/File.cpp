@@ -690,6 +690,16 @@ ObjectHeaderBase * File::createObject(ObjectType type)
     case ObjectType::ETHERNET_ERROR_FORWARDED:
         obj = new EthernetErrorForwarded;
         break;
+
+    case ObjectType::Unknown124:
+    case ObjectType::Unknown125:
+    case ObjectType::Unknown126:
+    case ObjectType::Unknown127:
+        break;
+
+    case ObjectType::Unknown128:
+        obj = new Unknown128;
+        break;
     }
 
     return obj;

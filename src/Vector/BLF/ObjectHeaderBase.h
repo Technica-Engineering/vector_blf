@@ -160,7 +160,12 @@ enum class ObjectType : DWORD {
     ETHERNET_FRAME_EX = 120, /**< Ethernet packet extended object */
     ETHERNET_FRAME_FORWARDED = 121, /**< Ethernet packet forwarded object */
     ETHERNET_ERROR_EX = 122, /**< Ethernet error extended object */
-    ETHERNET_ERROR_FORWARDED = 123 /**< Ethernet error forwarded object */
+    ETHERNET_ERROR_FORWARDED = 123, /**< Ethernet error forwarded object */
+    Unknown124 = 124,
+    Unknown125 = 125,
+    Unknown126 = 126,
+    Unknown127 = 127,
+    Unknown128 = 128
 };
 
 /** object signature */

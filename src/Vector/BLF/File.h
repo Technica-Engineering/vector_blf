@@ -158,6 +158,11 @@
 #include <Vector/BLF/EthernetFrameForwarded.h> // ETHERNET_FRAME_FORWARDED = 121
 #include <Vector/BLF/EthernetErrorEx.h> // ETHERNET_ERROR_EX = 122
 #include <Vector/BLF/EthernetErrorForwarded.h> // ETHERNET_ERROR_FORWARDED = 123
+// Unknown124
+// Unknown125
+// Unknown126
+// Unknown127
+#include <Vector/BLF/Unknown128.h> // Unknown128 = 128
 
 #include <Vector/BLF/vector_blf_export.h>
 
