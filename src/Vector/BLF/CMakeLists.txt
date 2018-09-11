@@ -41,6 +41,8 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/CanOverloadFrame.h
         ${CMAKE_CURRENT_SOURCE_DIR}/CompactSerialEvent.h
         ${CMAKE_CURRENT_SOURCE_DIR}/CompressedFile.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/DataLostBegin.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/DataLostEnd.h
         ${CMAKE_CURRENT_SOURCE_DIR}/DiagRequestInterpretation.h
         ${CMAKE_CURRENT_SOURCE_DIR}/DriverOverrun.h
         ${CMAKE_CURRENT_SOURCE_DIR}/EnvironmentVariable.h
@@ -66,6 +68,7 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/FlexRayVFrReceiveMsg.h
         ${CMAKE_CURRENT_SOURCE_DIR}/FlexRayVFrStartCycle.h
         ${CMAKE_CURRENT_SOURCE_DIR}/FlexRayVFrStatus.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/FunctionBus.h
         ${CMAKE_CURRENT_SOURCE_DIR}/GeneralSerialEvent.h
         ${CMAKE_CURRENT_SOURCE_DIR}/GlobalMarker.h
         ${CMAKE_CURRENT_SOURCE_DIR}/GpsEvent.h
@@ -140,10 +143,11 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/SingleByteSerialEvent.h
         ${CMAKE_CURRENT_SOURCE_DIR}/SystemVariable.h
         ${CMAKE_CURRENT_SOURCE_DIR}/TestStructure.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/TriggerCondition.h
         ${CMAKE_CURRENT_SOURCE_DIR}/UncompressedFile.h
         ${CMAKE_CURRENT_SOURCE_DIR}/Unknown115.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/Unknown128.h
         ${CMAKE_CURRENT_SOURCE_DIR}/VectorTypes.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/WaterMarkEvent.h
         ${CMAKE_CURRENT_SOURCE_DIR}/WlanFrame.h
         ${CMAKE_CURRENT_SOURCE_DIR}/WlanStatistic.h
     PRIVATE
@@ -175,6 +179,8 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/CanOverloadFrame.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/CompactSerialEvent.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/CompressedFile.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/DataLostBegin.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/DataLostEnd.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/DiagRequestInterpretation.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/DriverOverrun.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/EnvironmentVariable.cpp
@@ -199,6 +205,7 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/FlexRayVFrReceiveMsgEx.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/FlexRayVFrStartCycle.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/FlexRayVFrStatus.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/FunctionBus.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/GeneralSerialEvent.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/GlobalMarker.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/GpsEvent.cpp
@@ -272,9 +279,10 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/SingleByteSerialEvent.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/SystemVariable.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/TestStructure.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/TriggerCondition.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UncompressedFile.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Unknown115.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Unknown128.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/WaterMarkEvent.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/WlanFrame.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/WlanStatistic.cpp)
 

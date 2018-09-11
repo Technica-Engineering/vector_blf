@@ -691,14 +691,24 @@ ObjectHeaderBase * File::createObject(ObjectType type)
         obj = new EthernetErrorForwarded;
         break;
 
-    case ObjectType::Unknown124:
-    case ObjectType::Unknown125:
-    case ObjectType::Unknown126:
-    case ObjectType::Unknown127:
+    case ObjectType::FUNCTION_BUS:
+        obj = new FunctionBus;
         break;
 
-    case ObjectType::Unknown128:
-        obj = new Unknown128;
+    case ObjectType::DATA_LOST_BEGIN:
+        obj = new DataLostBegin;
+        break;
+
+    case ObjectType::DATA_LOST_END:
+        obj = new DataLostEnd;
+        break;
+
+    case ObjectType::WATER_MARK_EVENT:
+        obj = new WaterMarkEvent;
+        break;
+
+    case ObjectType::TRIGGER_CONDITION:
+        obj = new TriggerCondition;
         break;
     }
 

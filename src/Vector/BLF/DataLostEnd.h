@@ -33,31 +33,32 @@ namespace Vector {
 namespace BLF {
 
 /**
- * @brief UNKNOWN_128
+ * @brief DATA_LOST_END
  */
-class VECTOR_BLF_EXPORT Unknown128 final : public ObjectHeader
+class VECTOR_BLF_EXPORT DataLostEnd final : public ObjectHeader
 {
 public:
-    Unknown128();
+    DataLostEnd();
 
     virtual void read(AbstractFile & is) override;
     virtual void write(AbstractFile & os) override;
     virtual DWORD calculateObjectSize() const override;
 
-    /** reserved */
-    DWORD reservedUnknown128;
+    /** enumeration for queueIdentifier */
+    enum QueueIdentifier : DWORD {
+        RtQueue = 0,
+        AnlyzQueue = 1,
+        RtAndAnlyzQueue = 2
+    };
 
-    /** reserved */
-    DWORD nameLength;
+    /** identifier for the leaking queue */
+    DWORD queueIdentifier;
 
-    /** reserved */
-    DWORD dataLength;
+    /** timestamp of the first object lost */
+    ULONGLONG firstObjectLostTimeStamp;
 
-    /** reserved */
-    std::string name;
-
-    /** reserved */
-    std::string data;
+    /** number of lost events */
+    DWORD numberOfLostEvents;
 };
 
 }

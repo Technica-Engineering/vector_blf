@@ -1949,20 +1949,47 @@ void show(Vector::BLF::EthernetErrorForwarded * obj)
     std::cout << std::endl;
 }
 
-// UNKNOWN_124 = 124
-// UNKNOWN_125 = 125
-// UNKNOWN_126 = 126
-// UNKNOWN_127 = 127
-// @todo UNKNOWN_124..127
-
-// UNKNOWN_128 = 128
-void show(Vector::BLF::Unknown128 * obj)
+// FUNCTION_BUS = 124
+void show(Vector::BLF::FunctionBus * obj)
 {
-    std::cout << "Unknown128:";
-    std::cout << " nameLength=" << std::dec << obj->nameLength;
-    std::cout << " dataLength=" << std::dec << obj->dataLength;
-    std::cout << " name=" << obj->name;
-    std::cout << " data=" << obj->data;
+    std::cout << "FunctionBus:";
+    // @todo FUNCTION_BUS
+    std::cout << std::endl;
+}
+
+// DATA_LOST_BEGIN = 125
+void show(Vector::BLF::DataLostBegin * obj)
+{
+    std::cout << "DataLostBegin:";
+    // @todo DATA_LOST_BEGIN
+    std::cout << std::endl;
+}
+
+// DATA_LOST_END = 126
+void show(Vector::BLF::DataLostEnd * obj)
+{
+    std::cout << "DataLostEnd:";
+    // @todo DATA_LOST_END
+    std::cout << std::endl;
+}
+
+// WATER_MARK_EVENT = 127
+void show(Vector::BLF::WaterMarkEvent * obj)
+{
+    std::cout << "WaterMarkEvent:";
+    // @todo WATER_MARK_EVENT
+    std::cout << std::endl;
+}
+
+// TRIGGER_CONDITION = 128
+void show(Vector::BLF::TriggerCondition * obj)
+{
+    std::cout << "TriggerCondition:";
+    std::cout << " state=" << std::dec << obj->state;
+    std::cout << " triggerBlockNameLength=" << std::dec << obj->triggerBlockNameLength;
+    std::cout << " triggerConditionLength=" << std::dec << obj->triggerConditionLength;
+    std::cout << " triggerBlockName=" << obj->triggerBlockName;
+    std::cout << " triggerCondition=" << obj->triggerCondition;
     std::cout << std::endl;
 }
 
@@ -2497,15 +2524,24 @@ int main(int argc, char * argv[])
             show(reinterpret_cast<Vector::BLF::EthernetErrorForwarded *>(ohb));
             break;
 
-        case Vector::BLF::ObjectType::Unknown124:
-        case Vector::BLF::ObjectType::Unknown125:
-        case Vector::BLF::ObjectType::Unknown126:
-        case Vector::BLF::ObjectType::Unknown127:
-            // @todo Unknown124..127
+        case Vector::BLF::ObjectType::FUNCTION_BUS:
+            show(reinterpret_cast<Vector::BLF::FunctionBus *>(ohb));
             break;
 
-        case Vector::BLF::ObjectType::Unknown128:
-            show(reinterpret_cast<Vector::BLF::Unknown128 *>(ohb));
+        case Vector::BLF::ObjectType::DATA_LOST_BEGIN:
+            show(reinterpret_cast<Vector::BLF::DataLostBegin *>(ohb));
+            break;
+
+        case Vector::BLF::ObjectType::DATA_LOST_END:
+            show(reinterpret_cast<Vector::BLF::DataLostEnd *>(ohb));
+            break;
+
+        case Vector::BLF::ObjectType::WATER_MARK_EVENT:
+            show(reinterpret_cast<Vector::BLF::WaterMarkEvent *>(ohb));
+            break;
+
+        case Vector::BLF::ObjectType::TRIGGER_CONDITION:
+            show(reinterpret_cast<Vector::BLF::TriggerCondition *>(ohb));
             break;
 
         default:

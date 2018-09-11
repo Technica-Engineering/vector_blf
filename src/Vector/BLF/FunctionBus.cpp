@@ -19,53 +19,57 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include <Vector/BLF/Unknown128.h>
+#include <Vector/BLF/FunctionBus.h>
 
 namespace Vector {
 namespace BLF {
 
-Unknown128::Unknown128() :
+FunctionBus::FunctionBus() :
     ObjectHeader(),
-    reservedUnknown128(),
+    functionBusObjectType(),
+    veType(),
     nameLength(),
     dataLength(),
     name(),
     data()
 {
-    objectType = ObjectType::Unknown128;
+    objectType = ObjectType::FUNCTION_BUS;
 }
 
-void Unknown128::read(AbstractFile & is)
+void FunctionBus::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&reservedUnknown128), sizeof(reservedUnknown128));
+    is.read(reinterpret_cast<char *>(&functionBusObjectType), sizeof(functionBusObjectType));
+    is.read(reinterpret_cast<char *>(&veType), sizeof(veType));
     is.read(reinterpret_cast<char *>(&nameLength), sizeof(nameLength));
     is.read(reinterpret_cast<char *>(&dataLength), sizeof(dataLength));
     name.resize(nameLength);
     is.read(const_cast<char *>(name.data()), nameLength);
     data.resize(dataLength);
-    is.read(const_cast<char *>(data.data()), dataLength);
+    is.read(reinterpret_cast<char *>(data.data()), dataLength);
 }
 
-void Unknown128::write(AbstractFile & os)
+void FunctionBus::write(AbstractFile & os)
 {
     /* pre processing */
     nameLength = static_cast<DWORD>(name.size());
     dataLength = static_cast<DWORD>(data.size());
 
     ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&reservedUnknown128), sizeof(reservedUnknown128));
+    os.write(reinterpret_cast<char *>(&functionBusObjectType), sizeof(functionBusObjectType));
+    os.write(reinterpret_cast<char *>(&veType), sizeof(veType));
     os.write(reinterpret_cast<char *>(&nameLength), sizeof(nameLength));
     os.write(reinterpret_cast<char *>(&dataLength), sizeof(dataLength));
     os.write(const_cast<char *>(name.data()), nameLength);
-    os.write(const_cast<char *>(data.data()), dataLength);
+    os.write(reinterpret_cast<char *>(data.data()), dataLength);
 }
 
-DWORD Unknown128::calculateObjectSize() const
+DWORD FunctionBus::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +
-        sizeof(reservedUnknown128) +
+        sizeof(functionBusObjectType) +
+        sizeof(veType) +
         sizeof(nameLength) +
         sizeof(dataLength) +
         nameLength +
