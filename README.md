@@ -75,6 +75,10 @@ The following files are products of installation and building:
 * Replace CompressedFile with std::fstream. Replace UncompressedFile with std::iostream with custom std::streambuf. Drop AbstractFile and use std::iostream instead.
 * Jenkinsfile
 
+# Standards
+
+* Implementation is compatible with binlog API version 7.1.0.
+
 # Test sources
 
 * events_from_converter/*.blf have been converted from asc files using original converter under Windows.
