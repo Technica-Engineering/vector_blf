@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [2.1.0] - 2018-09-15
+### Added
+- New Objects: FunctionBus, DataLostBegin/End, WaterMarkEvent, TriggerCondition
+### Changed
+- Updated from binlog API version 4.5.2.2 to 4.7.1.0
 ### Fixed
 - Fixed CanFdMessage64
 

@@ -34,6 +34,8 @@ namespace BLF {
 
 /**
  * @brief ETHERNET_STATISTIC
+ *
+ * Ethernet Statistics
  */
 class VECTOR_BLF_EXPORT EthernetStatistic final : public ObjectHeader
 {

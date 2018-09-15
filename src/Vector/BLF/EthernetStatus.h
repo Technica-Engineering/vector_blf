@@ -65,8 +65,20 @@ public:
         /** Duplex */
         Duplex = 0x0008,
 
+        /** MDI Type */
+        MdiType = 0x0010,
+
+        /** Connector */
+        Connector = 0x0020,
+
+        /** Clock Mode */
+        ClockMode = 0x0040,
+
+        /** BR Pair */
+        BrPair = 0x0080,
+
         /** Hardware Channel */
-        HardwareChannel = 0x0010,
+        HardwareChannel = 0x0100,
     };
 
     /** flags */

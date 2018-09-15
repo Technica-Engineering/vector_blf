@@ -36,6 +36,8 @@ namespace BLF {
 
 /**
  * @brief ETHERNET_FRAME_EX
+ *
+ * Ethernet frame2
  */
 class VECTOR_BLF_EXPORT EthernetFrameEx final : public ObjectHeader
 {

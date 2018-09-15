@@ -1953,7 +1953,13 @@ void show(Vector::BLF::EthernetErrorForwarded * obj)
 void show(Vector::BLF::FunctionBus * obj)
 {
     std::cout << "FunctionBus:";
-    // @todo FUNCTION_BUS
+    std::cout << " functionBusObjectType=" << std::dec << obj->functionBusObjectType;
+    std::cout << " veType=" << std::dec << obj->veType;
+    std::cout << " nameLength=" << std::dec << obj->nameLength;
+    std::cout << " dataLength=" << std::dec << obj->dataLength;
+    std::cout << " name=" << obj->name;
+    std::cout << " data=";
+    printData(obj->data.data(), min(obj->data.size(), obj->dataLength));
     std::cout << std::endl;
 }
 
@@ -1961,7 +1967,7 @@ void show(Vector::BLF::FunctionBus * obj)
 void show(Vector::BLF::DataLostBegin * obj)
 {
     std::cout << "DataLostBegin:";
-    // @todo DATA_LOST_BEGIN
+    std::cout << " queueIdentifier=" << std::dec << obj->queueIdentifier;
     std::cout << std::endl;
 }
 
@@ -1969,7 +1975,9 @@ void show(Vector::BLF::DataLostBegin * obj)
 void show(Vector::BLF::DataLostEnd * obj)
 {
     std::cout << "DataLostEnd:";
-    // @todo DATA_LOST_END
+    std::cout << " queueIdentifier=" << std::dec << obj->queueIdentifier;
+    std::cout << " firstObjectLostTimeStamp=" << std::dec << obj->firstObjectLostTimeStamp;
+    std::cout << " numberOfLostEvents=" << std::dec << obj->numberOfLostEvents;
     std::cout << std::endl;
 }
 
@@ -1977,7 +1985,7 @@ void show(Vector::BLF::DataLostEnd * obj)
 void show(Vector::BLF::WaterMarkEvent * obj)
 {
     std::cout << "WaterMarkEvent:";
-    // @todo WATER_MARK_EVENT
+    std::cout << " queueState=" << std::dec << obj->queueState;
     std::cout << std::endl;
 }
 

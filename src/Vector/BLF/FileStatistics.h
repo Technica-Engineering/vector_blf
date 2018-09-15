@@ -67,7 +67,10 @@ enum ApplicationId : BYTE {
     Vlconfig = 7,
 
     /** Porsche Logger */
-    Porschelogger = 200
+    Porschelogger = 200,
+
+    /** CAETEC Logger */
+    Caeteclogger = 201,
 };
 
 /**

@@ -146,6 +146,7 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/TriggerCondition.h
         ${CMAKE_CURRENT_SOURCE_DIR}/UncompressedFile.h
         ${CMAKE_CURRENT_SOURCE_DIR}/Unknown115.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/VarObjectHeader.h
         ${CMAKE_CURRENT_SOURCE_DIR}/VectorTypes.h
         ${CMAKE_CURRENT_SOURCE_DIR}/WaterMarkEvent.h
         ${CMAKE_CURRENT_SOURCE_DIR}/WlanFrame.h
@@ -282,6 +283,7 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/TriggerCondition.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UncompressedFile.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Unknown115.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/VarObjectHeader.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/WaterMarkEvent.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/WlanFrame.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/WlanStatistic.cpp)

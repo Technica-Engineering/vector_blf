@@ -36,6 +36,8 @@ namespace BLF {
 
 /**
  * @brief ETHERNET_ERROR_FORWARDED
+ *
+ * Ethernet error forwarded
  */
 class VECTOR_BLF_EXPORT EthernetErrorForwarded final : public ObjectHeader
 {
@@ -64,11 +66,11 @@ public:
 
     /**
      * @brief flags, which indicates the valid fields:
-     *   - Bit 0 - normal packet = 0, forwarded packet = 1
-     *   - Bit 1 - mHardwareChannel valid
-     *   - Bit 2 - mFrameDuration valid
-     *   - Bit 3 - mFrameChecksum valid
-     *   - Bit 4 - mFrameHandle valid
+     *   - Bit 0 - reserved
+     *   - Bit 1 - hardwareChannel valid
+     *   - Bit 2 - frameDuration valid
+     *   - Bit 3 - frameChecksum valid
+     *   - Bit 4 - frameHandle valid
      */
     WORD flags;
 
