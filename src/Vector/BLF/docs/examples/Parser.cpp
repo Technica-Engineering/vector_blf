@@ -2023,7 +2023,7 @@ int main(int argc, char * argv[])
         /* read and capture exceptions, e.g. unfinished files */
         try {
             ohb = file.read();
-        } catch (std::runtime_error(e)) {
+        } catch (std::runtime_error & e) {
             std::cout << "Exception: " << e.what() << std::endl;
         }
         if (ohb == nullptr) {
