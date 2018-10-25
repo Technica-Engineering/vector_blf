@@ -8,13 +8,13 @@ if(OPTION_BUILD_EXAMPLES)
     set(CMAKE_STATIC_LIBRARY_PREFIX "${CMAKE_CURRENT_BINARY_DIR}")
     set(CMAKE_SHARED_LIBRARY_PREFIX "${CMAKE_CURRENT_BINARY_DIR}")
 
-    if(WIN32)
-        add_custom_target(Vector_BLF-Copy ALL
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                "${PROJECT_BINARY_DIR}/src/Vector/BLF/${PROJECT_NAME}.dll"
-                "${CMAKE_CURRENT_BINARY_DIR}"
-            COMMENT "Copy ${PROJECT_BINARY_DIR}/src/Vector/BLF/${PROJECT_NAME}.dll to ${CMAKE_CURRENT_BINARY_DIR}")
-    endif()
+#    if(WIN32)
+#        add_custom_target(Vector_BLF-Copy ALL
+#            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+#                "${PROJECT_BINARY_DIR}/src/Vector/BLF/${CMAKE_BUILD_TYPE}/${PROJECT_NAME}.dll"
+#                "${CMAKE_CURRENT_BINARY_DIR}"
+#            COMMENT "Copy ${PROJECT_BINARY_DIR}/src/Vector/BLF/${CMAKE_BUILD_TYPE}/${PROJECT_NAME}.dll to ${CMAKE_CURRENT_BINARY_DIR}")
+#    endif()
 
     add_executable(vector-blf-parser "")
     target_sources(vector-blf-parser PRIVATE Parser.cpp)

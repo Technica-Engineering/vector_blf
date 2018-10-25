@@ -1844,7 +1844,6 @@ void show(Vector::BLF::Unknown115 * obj)
 // TEST_STRUCTURE = 118
 void show(Vector::BLF::TestStructure * obj)
 {
-    std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> convert;
     std::cout << "TestStructure:";
     std::cout << " type=" << std::dec << obj->type;
     std::cout << " uniqueNo=" << std::dec << obj->uniqueNo;
@@ -1853,9 +1852,14 @@ void show(Vector::BLF::TestStructure * obj)
     std::cout << " executingObjectNameLength=" << std::dec << obj->executingObjectNameLength;
     std::cout << " nameLength=" << std::dec << obj->nameLength;
     std::cout << " textLength=" << std::dec << obj->textLength;
+#if _MSC_VER >= 1900
+    /* @todo find a solution to compile under VS >=2015 */
+#else
+    std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> convert;
     std::cout << " executingObjectName=" << convert.to_bytes(obj->executingObjectName);
     std::cout << " name=" << convert.to_bytes(obj->name);
     std::cout << " text=" << convert.to_bytes(obj->text);
+#endif
     std::cout << std::endl;
 }
 

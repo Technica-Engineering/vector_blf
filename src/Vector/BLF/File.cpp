@@ -847,7 +847,7 @@ void File::uncompressedFileReadThread(File * file)
         /* process */
         try {
             file->uncompressedFile2ReadWriteQueue();
-        } catch (Vector::BLF::Exception & exp) {
+        } catch (Vector::BLF::Exception &) {
             file->m_uncompressedFileThreadRunning = false;
         }
 
@@ -883,7 +883,7 @@ void File::compressedFileReadThread(File * file)
         /* process */
         try {
             file->compressedFile2UncompressedFile();
-        } catch (Vector::BLF::Exception & exp) {
+        } catch (Vector::BLF::Exception &) {
             file->m_compressedFileThreadRunning = false;
         }
 
