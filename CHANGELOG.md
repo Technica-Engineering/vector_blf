@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Added
+- Jenkinsfile and Dockerfiles added
+### Fixed
+- Fix padding in FlexRayVFrReceiveMsgEx
+- Compilation of example parser with VS >=2015
 
 ## [2.1.0] - 2018-09-15
 ### Added
