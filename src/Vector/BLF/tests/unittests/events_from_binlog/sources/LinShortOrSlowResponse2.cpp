@@ -39,7 +39,7 @@ int main(int argc, char ** argv)
     obj.mInterruptedByBreak = 0xCC;
     obj.mReserved[0] = 0xDD;
     obj.mExactHeaderBaudrate = 14.0;
-    obj.mEarlyStopbitOffset = 15.0;
+    obj.mEarlyStopbitOffset = 15;
 
     /* VBLLINDatabyteTimestampEvent */
     for (ULONGLONG i = 0; i < 9; i++) {
