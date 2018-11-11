@@ -3,8 +3,12 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [2.1.1] - 2018-11-11
 ### Added
 - Jenkinsfile and Dockerfiles added
+### Changed
+- Update binlog examples to 4.7.1.0
 ### Fixed
 - Fix padding in FlexRayVFrReceiveMsgEx
 - Compilation of example parser with VS >=2015
