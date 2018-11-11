@@ -67,7 +67,7 @@ int main(int argc, char ** argv)
     obj.mHeader.mBase.mSignature = BL_OBJ_SIGNATURE;
     obj.mHeader.mBase.mHeaderSize = sizeof(obj.mHeader);
     obj.mHeader.mBase.mHeaderVersion = 1;
-    obj.mHeader.mBase.mObjectSize = sizeof(VBLFLEXRAYVFrReceiveMsgEx);
+    obj.mHeader.mBase.mObjectSize = sizeof(VBLFLEXRAYVFrReceiveMsgEx) - 6;
     obj.mHeader.mBase.mObjectType = BL_OBJ_TYPE_FR_RCVMESSAGE_EX;
 
     /* write object */
