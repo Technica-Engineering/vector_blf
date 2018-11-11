@@ -91,6 +91,13 @@ BOOST_AUTO_TEST_CASE(SerialEvent_1)
 
     delete ohb;
 
+    /* read last */
+    ohb = file.read();
+    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::Unknown115);
+
+    delete ohb;
+
     /* read eof */
     BOOST_REQUIRE(!file.eof());
     ohb = file.read();

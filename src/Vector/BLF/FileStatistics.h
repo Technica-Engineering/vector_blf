@@ -121,13 +121,13 @@ public:
     /** application build number (usually 0) */
     BYTE applicationBuild;
 
-    /** BL API major number (e.g. 3) */
+    /** BL API major number (e.g. 4) */
     BYTE apiMajor;
 
-    /** BL API minor number (e.g. 9) */
+    /** BL API minor number (e.g. 7) */
     BYTE apiMinor;
 
-    /** BL API build number (e.g. 6) */
+    /** BL API build number (e.g. 1) */
     BYTE apiBuild;
 
     /** BL API patch number (e.g. 0) */
