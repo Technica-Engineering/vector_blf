@@ -55,17 +55,24 @@ static void copyObjects(Vector::BLF::File & filein, Vector::BLF::File & fileout)
 }
 
 /** compare files */
-static bool compareFiles(const char * infileName, const char * outfileName, uint64_t fileSizeWithoutUnknown115)
+static bool compareFiles(const char * infileName, const char * outfileName, uint64_t startPos, uint64_t lastPos)
 {
+    /* open file */
     std::ifstream ifs1;
     std::ifstream ifs2;
     ifs1.open(infileName);
     BOOST_REQUIRE(ifs1.is_open());
     ifs2.open(outfileName);
     BOOST_REQUIRE(ifs2.is_open());
+
+    /* seek to start position */
+    ifs1.seekg(static_cast<std::streamoff>(startPos));
+    ifs2.seekg(static_cast<std::streamoff>(startPos));
+
+    /* check till end position */
     bool sameFile = true;
     while (ifs1.good() && ifs2.good() &&
-            ((fileSizeWithoutUnknown115 == 0) || (static_cast<uint64_t>(ifs1.tellg()) < fileSizeWithoutUnknown115))) {
+            ((lastPos == 0) || (static_cast<uint64_t>(ifs1.tellg()) < lastPos))) {
         char c1 = static_cast<char>(ifs1.get());
         char c2 = static_cast<char>(ifs2.get());
         if (c1 != c2) {
@@ -73,6 +80,8 @@ static bool compareFiles(const char * infileName, const char * outfileName, uint
             break;
         }
     }
+
+    /* close file */
     ifs1.close();
     BOOST_REQUIRE(!ifs1.is_open());
     ifs2.close();
@@ -80,13 +89,13 @@ static bool compareFiles(const char * infileName, const char * outfileName, uint
     return sameFile;
 }
 
-// @todo new BLF version has two Unknown115 endings
-#if 0
 /** Test with uncompressedFiles with Unknown115 ending */
 BOOST_AUTO_TEST_CASE(AllBinlogLogfiles)
 {
     /* input directory */
     boost::filesystem::path indir(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/");
+
+
 
     /* output directory */
     boost::filesystem::path outdir(CMAKE_CURRENT_BINARY_DIR "/events_from_binlog/");
@@ -122,11 +131,13 @@ BOOST_AUTO_TEST_CASE(AllBinlogLogfiles)
 
         /* compare files */
         BOOST_REQUIRE_MESSAGE(
-            compareFiles(infile.c_str(), outfile.c_str(), fileout.fileStatistics.fileSizeWithoutUnknown115),
+            compareFiles(
+                infile.c_str(), outfile.c_str(),
+                static_cast<uint64_t>(fileout.fileStatistics.statisticsSize),
+                fileout.fileStatistics.fileSizeWithoutUnknown115),
             eventFile + " is different");
     }
 }
-#endif
 
 /** Test with compressedFiles without Unknown115 ending */
 BOOST_AUTO_TEST_CASE(AllConvertedLogfiles)
@@ -173,7 +184,10 @@ BOOST_AUTO_TEST_CASE(AllConvertedLogfiles)
 
         /* compare files */
         BOOST_CHECK_MESSAGE(
-            compareFiles(infile.c_str(), outfile.c_str(), fileout.fileStatistics.fileSizeWithoutUnknown115),
+            compareFiles(
+                infile.c_str(), outfile.c_str(),
+                static_cast<uint64_t>(fileout.fileStatistics.statisticsSize),
+                fileout.fileStatistics.fileSizeWithoutUnknown115),
             eventFile + " is different");
     }
 }
