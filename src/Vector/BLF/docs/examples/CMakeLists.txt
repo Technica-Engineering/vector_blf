@@ -20,11 +20,15 @@ if(OPTION_BUILD_EXAMPLES)
     target_sources(vector-blf-parser PRIVATE Parser.cpp)
     target_link_libraries(vector-blf-parser PRIVATE ${PROJECT_NAME})
 
+    add_executable(vector-blf-write-example "")
+    target_sources(vector-blf-write-example PRIVATE Write-Example.cpp)
+    target_link_libraries(vector-blf-write-example PRIVATE ${PROJECT_NAME})
+
     install(
-        TARGETS vector-blf-parser
+        TARGETS vector-blf-parser vector-blf-write-example
         DESTINATION ${CMAKE_INSTALL_BINDIR})
 endif()
 
 install(
-    FILES Parser.cpp
+    FILES Parser.cpp Write-Example.cpp
     DESTINATION ${CMAKE_INSTALL_DOCDIR}/examples)
