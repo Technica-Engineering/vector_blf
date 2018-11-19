@@ -164,7 +164,7 @@ void UncompressedFile::write(const char * s, std::streamsize n)
                 logContainer = std::make_shared<LogContainer>();
                 logContainer->uncompressedFile.resize(m_defaultLogContainerSize);
                 logContainer->uncompressedFileSize = logContainer->uncompressedFile.size();
-                if (m_data.back() != nullptr) {
+                if (!m_data.empty()) {
                     logContainer->filePosition =
                         m_data.back()->filePosition +
                         static_cast<std::streamsize>(m_data.back()->uncompressedFileSize);
