@@ -3,7 +3,12 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [2.1.2] - 2018-11-24
+### Added
+- Example that shows how to write files
 ### Fixed
+- Fix empty list check in UncompressedFile::write()
 - Test AllLogFiles fixed
 
 ## [2.1.1] - 2018-11-11
