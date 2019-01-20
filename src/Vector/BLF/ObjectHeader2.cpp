@@ -26,10 +26,10 @@ namespace BLF {
 
 ObjectHeader2::ObjectHeader2() :
     ObjectHeaderBase(),
-    objectFlags(),
+    objectFlags(ObjectFlags::TimeOneNans),
     timeStampStatus(),
     reservedObjectHeader(),
-    objectVersion(),
+    objectVersion(0), // can be set in event class constructor
     objectTimeStamp(),
     originalTimeStamp()
 {

@@ -28,7 +28,7 @@ ObjectHeader::ObjectHeader() :
     ObjectHeaderBase(),
     objectFlags(ObjectFlags::TimeOneNans),
     clientIndex(),
-    objectVersion(),
+    objectVersion(0), // can be set in event class constructor
     objectTimeStamp()
 {
     headerVersion = 1;

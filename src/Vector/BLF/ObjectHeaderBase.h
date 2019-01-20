@@ -161,7 +161,7 @@ enum class ObjectType : DWORD {
     ETHERNET_FRAME_FORWARDED = 121, /**< Ethernet packet forwarded object */
     ETHERNET_ERROR_EX = 122, /**< Ethernet error extended object */
     ETHERNET_ERROR_FORWARDED = 123, /**< Ethernet error forwarded object */
-    FUNCTION_BUS = 124, /** FunctionBus object */
+    FUNCTION_BUS = 124, /**< FunctionBus object */
     DATA_LOST_BEGIN = 125, /**< Data lost begin */
     DATA_LOST_END = 126, /**< Data lost end */
     WATER_MARK_EVENT = 127, /**< Watermark event */
