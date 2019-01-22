@@ -46,7 +46,7 @@ BOOST_AUTO_TEST_CASE(AfdxFrame_1)
     BOOST_CHECK_EQUAL(obj->destinationAddress[3], 0xBB);
     BOOST_CHECK_EQUAL(obj->destinationAddress[4], 0xCC);
     BOOST_CHECK_EQUAL(obj->destinationAddress[5], 0xDD);
-    BOOST_CHECK_EQUAL(obj->dir, Vector::BLF::AfdxFrame::Dir::Tx);
+    BOOST_CHECK_EQUAL(obj->dir, 0x01); // Tx
     BOOST_CHECK_EQUAL(obj->type, 0xEEEE);
     BOOST_CHECK_EQUAL(obj->tpid, 0xFFFF);
     BOOST_CHECK_EQUAL(obj->tci, 0x1111);
@@ -131,7 +131,7 @@ BOOST_AUTO_TEST_CASE(AfdxFrame_2)
     BOOST_CHECK_EQUAL(obj->destinationAddress[3], 0xff);
     BOOST_CHECK_EQUAL(obj->destinationAddress[4], 0xff);
     BOOST_CHECK_EQUAL(obj->destinationAddress[5], 0xff);
-    BOOST_CHECK_EQUAL(obj->dir, Vector::BLF::AfdxFrame::Dir::Tx);
+    BOOST_CHECK_EQUAL(obj->dir, 0x01); // Tx
     BOOST_CHECK_EQUAL(obj->type, 0x0806);
     BOOST_CHECK_EQUAL(obj->tpid, 0x0000);
     BOOST_CHECK_EQUAL(obj->tci, 0x0000);
