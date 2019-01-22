@@ -76,7 +76,7 @@ enum ApplicationId : BYTE {
 /**
  * File statistics
  */
-class VECTOR_BLF_EXPORT FileStatistics
+class VECTOR_BLF_EXPORT FileStatistics final
 {
 public:
     FileStatistics();

@@ -174,7 +174,7 @@ namespace BLF {
  *
  * This is similar to std::fstream for BLFs
  */
-class VECTOR_BLF_EXPORT File
+class VECTOR_BLF_EXPORT File final
 {
 public:
     File();

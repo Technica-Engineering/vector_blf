@@ -53,7 +53,7 @@ class VECTOR_BLF_EXPORT UncompressedFile final : public AbstractFile
 {
 public:
     UncompressedFile();
-    ~UncompressedFile();
+    virtual ~UncompressedFile() override;
 
     virtual std::streamsize gcount() const override;
     virtual void read(char * s, std::streamsize n) override;
