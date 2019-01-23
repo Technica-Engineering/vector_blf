@@ -114,7 +114,8 @@ private:
     mutable std::mutex m_mutex;
 };
 
-template class VECTOR_BLF_EXPORT ObjectQueue<ObjectHeaderBase>;
+/* explicit template instantiation */
+extern template class ObjectQueue<ObjectHeaderBase>;
 
 }
 }

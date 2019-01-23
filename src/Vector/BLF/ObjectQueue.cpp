@@ -192,5 +192,7 @@ void ObjectQueue<T>::setBufferSize(DWORD bufferSize)
     m_bufferSize = bufferSize;
 }
 
+template class ObjectQueue<ObjectHeaderBase>;
+
 }
 }
