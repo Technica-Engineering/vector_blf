@@ -197,7 +197,7 @@ public:
      *
      * Unknown115 is not counted.
      */
-    DWORD currentObjectCount;
+    std::atomic<DWORD> currentObjectCount;
 
     /**
      * zlib compression level (0=no compression, 1=best speed, 9=best compression, -1=default compression
@@ -336,7 +336,7 @@ private:
     /**
      * thread still running
      */
-    std::atomic_bool m_uncompressedFileThreadRunning;
+    std::atomic<bool> m_uncompressedFileThreadRunning;
 
     /* compressed file */
 
@@ -357,7 +357,7 @@ private:
     /**
      * thread still running
      */
-    std::atomic_bool m_compressedFileThreadRunning;
+    std::atomic<bool> m_compressedFileThreadRunning;
 
     /* internal functions */
 
