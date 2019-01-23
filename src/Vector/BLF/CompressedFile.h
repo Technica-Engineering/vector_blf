@@ -24,6 +24,7 @@
 #include <Vector/BLF/platform.h>
 
 #include <fstream>
+#include <mutex>
 
 #include <Vector/BLF/AbstractFile.h>
 
@@ -35,7 +36,7 @@ namespace BLF {
 /**
  * CompressedFile (Input/output file stream)
  *
- * This class is not thread-safe.
+ * This class is thread-safe.
  */
 class VECTOR_BLF_EXPORT CompressedFile final : public AbstractFile
 {
@@ -84,6 +85,9 @@ private:
      * file stream
      */
     std::fstream m_file;
+
+    /** mutex */
+    mutable std::mutex m_mutex;
 };
 
 }
