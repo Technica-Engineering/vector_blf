@@ -32,9 +32,6 @@ CompressedFile::CompressedFile() :
 
 CompressedFile::~CompressedFile()
 {
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
     close();
 }
 
