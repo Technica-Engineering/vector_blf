@@ -51,32 +51,30 @@ ObjectQueue<T>::~ObjectQueue()
 template<typename T>
 T * ObjectQueue<T>::read()
 {
+    /* mutex lock */
+    std::unique_lock<std::mutex> lock(m_mutex);
+
+    /* wait for data */
+    tellpChanged.wait(lock, [this] {
+        return
+        m_abort ||
+        !m_queue.empty() ||
+        (m_tellg >= m_fileSize);
+    });
+
+    /* get first entry */
     T * ohb = nullptr;
-    {
-        /* mutex lock */
-        std::unique_lock<std::mutex> lock(m_mutex);
+    if (m_queue.empty()) {
+        m_rdstate = std::ios_base::eofbit | std::ios_base::failbit;
+    } else {
+        ohb = m_queue.front();
+        m_queue.pop();
 
-        /* wait for data */
-        tellpChanged.wait(lock, [this] {
-            return
-            m_abort ||
-            !m_queue.empty() ||
-            (m_tellg >= m_fileSize);
-        });
+        /* set state */
+        m_rdstate = std::ios_base::goodbit;
 
-        /* get first entry */
-        if (m_queue.empty()) {
-            m_rdstate = std::ios_base::eofbit | std::ios_base::failbit;
-        } else {
-            ohb = m_queue.front();
-            m_queue.pop();
-
-            /* set state */
-            m_rdstate = std::ios_base::goodbit;
-
-            /* increase get count */
-            m_tellg++;
-        }
+        /* increase get count */
+        m_tellg++;
     }
 
     /* notify */
@@ -97,27 +95,25 @@ DWORD ObjectQueue<T>::tellg() const
 template<typename T>
 void ObjectQueue<T>::write(T * obj)
 {
-    {
-        /* mutex lock */
-        std::unique_lock<std::mutex> lock(m_mutex);
+    /* mutex lock */
+    std::unique_lock<std::mutex> lock(m_mutex);
 
-        /* wait for free space */
-        tellgChanged.wait(lock, [this] {
-            return
-            m_abort ||
-            static_cast<DWORD>(m_queue.size()) < m_bufferSize;
-        });
+    /* wait for free space */
+    tellgChanged.wait(lock, [this] {
+        return
+        m_abort ||
+        static_cast<DWORD>(m_queue.size()) < m_bufferSize;
+    });
 
-        /* push data */
-        m_queue.push(obj);
+    /* push data */
+    m_queue.push(obj);
 
-        /* increase put count */
-        m_tellp++;
+    /* increase put count */
+    m_tellp++;
 
-        /* shift eof */
-        if (m_tellp > m_fileSize) {
-            m_fileSize = m_tellp;
-        }
+    /* shift eof */
+    if (m_tellp > m_fileSize) {
+        m_fileSize = m_tellp;
     }
 
     /* notify */
@@ -154,13 +150,11 @@ bool ObjectQueue<T>::eof() const
 template<typename T>
 void ObjectQueue<T>::abort()
 {
-    {
-        /* mutex lock */
-        std::lock_guard<std::mutex> lock(m_mutex);
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
 
-        /* stop */
-        m_abort = true;
-    }
+    /* stop */
+    m_abort = true;
 
     /* trigger blocked threads */
     tellgChanged.notify_all();
@@ -170,13 +164,11 @@ void ObjectQueue<T>::abort()
 template<typename T>
 void ObjectQueue<T>::setFileSize(DWORD fileSize)
 {
-    {
-        /* mutex lock */
-        std::lock_guard<std::mutex> lock(m_mutex);
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
 
-        /* set object count */
-        m_fileSize = fileSize;
-    }
+    /* set object count */
+    m_fileSize = fileSize;
 
     /* notify */
     tellpChanged.notify_all();
