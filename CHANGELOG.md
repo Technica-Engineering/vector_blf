@@ -4,6 +4,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [2.1.3] - 2019-01-30
+### Fixed
+- Fixed sporadic exception on close
+
 ## [2.1.2] - 2018-11-24
 ### Added
 - Example that shows how to write files
