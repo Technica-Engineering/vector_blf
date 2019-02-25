@@ -53,6 +53,9 @@ public:
 
     /** the current state of the queue */
     DWORD queueState;
+
+    /** reserved */
+    DWORD reservedWaterMarkEvent;
 };
 
 }

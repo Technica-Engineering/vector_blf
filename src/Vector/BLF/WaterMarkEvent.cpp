@@ -26,7 +26,8 @@ namespace BLF {
 
 WaterMarkEvent::WaterMarkEvent() :
     ObjectHeader(),
-    queueState()
+    queueState(),
+    reservedWaterMarkEvent()
 {
     objectType = ObjectType::WATER_MARK_EVENT;
 }
@@ -35,19 +36,22 @@ void WaterMarkEvent::read(AbstractFile & is)
 {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&queueState), sizeof(queueState));
+    is.read(reinterpret_cast<char *>(&reservedWaterMarkEvent), sizeof(reservedWaterMarkEvent));
 }
 
 void WaterMarkEvent::write(AbstractFile & os)
 {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&queueState), sizeof(queueState));
+    os.write(reinterpret_cast<char *>(&reservedWaterMarkEvent), sizeof(reservedWaterMarkEvent));
 }
 
 DWORD WaterMarkEvent::calculateObjectSize() const
 {
     return
         ObjectHeader::calculateObjectSize() +
-        sizeof(queueState);
+        sizeof(queueState) +
+        sizeof(reservedWaterMarkEvent);
 }
 
 }
