@@ -134,6 +134,9 @@ void show(Vector::BLF::CanErrorFrame * obj)
     std::cout << "CanErrorFrame:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " length=" << std::dec << obj->length;
+    if (obj->length > 0) {
+        std::cout << " reserved=0x" << std::hex << obj->reservedCanErrorFrame;
+    }
     std::cout << std::endl;
 }
 
@@ -2562,7 +2565,7 @@ int main(int argc, char * argv[])
 
         /* check objectSize */
         if (ohb->objectSize != ohb->calculateObjectSize()) {
-            std::cout << "ObjectSize=" << ohb->objectSize << " doesn't match calculatedObjectSize()=" << ohb->calculateObjectSize() << std::endl;
+            std::cout << "ObjectSize=" << std::dec << ohb->objectSize << " doesn't match calculatedObjectSize()=" << ohb->calculateObjectSize() << std::endl;
         }
 
         /* delete object */
