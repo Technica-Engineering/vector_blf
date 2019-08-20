@@ -25,8 +25,8 @@ BOOST_AUTO_TEST_CASE(ReadTest)
     BOOST_CHECK(compressedFile.is_open());
 
     /* read some data */
-    char signature[4];
-    compressedFile.read(signature, sizeof(signature));
+    char signature[5] = { 0, 0, 0, 0, 0 }; // including null termination
+    compressedFile.read(signature, 4);
     BOOST_CHECK_EQUAL(signature, "LOGG");
     BOOST_CHECK_EQUAL(compressedFile.tellg(), 4);
     BOOST_CHECK_EQUAL(compressedFile.gcount(), 4);

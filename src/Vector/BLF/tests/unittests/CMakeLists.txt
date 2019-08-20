@@ -8,6 +8,10 @@ function(add_boost_test test_name test_target)
     target_sources(${test_target} PRIVATE ${ARGN})
 
     # compiler/linker settings
+    set_target_properties(${test_target} PROPERTIES
+        CXX_EXTENSIONS OFF
+        CXX_STANDARD 11
+        CXX_STANDARD_REQUIRED ON)
     target_link_libraries(${test_target}
         PRIVATE
             ${PROJECT_NAME}
