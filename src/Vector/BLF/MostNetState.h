@@ -51,7 +51,7 @@ public:
      *
      * Application channel
      */
-    WORD channel;
+    WORD channel {};
 
     /**
      * @brief MOST NetState
@@ -74,15 +74,15 @@ public:
      *   - 6 (NetOn/InitReady): NetOn/InitReady reported
      *     to application
      */
-    WORD stateNew;
+    WORD stateNew {};
 
     /**
      * Previous network state
      */
-    WORD stateOld;
+    WORD stateOld {};
 
     /** reserved */
-    WORD reservedMostNetState;
+    WORD reservedMostNetState {};
 };
 
 }

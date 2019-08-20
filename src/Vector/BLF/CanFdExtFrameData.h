@@ -36,8 +36,12 @@ namespace BLF {
 class VECTOR_BLF_EXPORT CanFdExtFrameData
 {
 public:
-    CanFdExtFrameData();
-    virtual ~CanFdExtFrameData();
+    CanFdExtFrameData() = default;
+    virtual ~CanFdExtFrameData() noexcept = default;
+    CanFdExtFrameData(const CanFdExtFrameData&) = default;
+    CanFdExtFrameData& operator=(const CanFdExtFrameData&) = default;
+    CanFdExtFrameData(CanFdExtFrameData&&) = default;
+    CanFdExtFrameData& operator=(CanFdExtFrameData&&) = default;
 
     /** @copydoc ObjectHeader::read */
     virtual void read(AbstractFile & is);
@@ -49,10 +53,10 @@ public:
     virtual DWORD calculateObjectSize() const;
 
     /** bit rate in arbitration phas */
-    DWORD btrExtArb;
+    DWORD btrExtArb {};
 
     /** bit rate in data phase */
-    DWORD btrExtData;
+    DWORD btrExtData {};
 };
 
 }

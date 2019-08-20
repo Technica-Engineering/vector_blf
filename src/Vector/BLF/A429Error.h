@@ -49,25 +49,25 @@ public:
     virtual DWORD calculateObjectSize() const override;
 
     /** application channel */
-    WORD channel;
+    WORD channel {};
 
     /** error type, 0=error, 1=warning, 2=info */
-    WORD errorType;
+    WORD errorType {};
 
     /** source identifier */
-    ULONG sourceIdentifier;
+    ULONG sourceIdentifier {};
 
     /** error reason */
-    ULONG errReason;
+    ULONG errReason {};
 
     /** error text */
-    std::array<char, 512> errorText;
+    std::array<char, 512> errorText {};
 
     /** error attributes */
-    std::array<char, 512> errorAttributes;
+    std::array<char, 512> errorAttributes {};
 
     /** reserved */
-    DWORD reservedA429Error;
+    DWORD reservedA429Error {};
 };
 
 }

@@ -25,19 +25,7 @@ namespace Vector {
 namespace BLF {
 
 TestStructure::TestStructure() :
-    ObjectHeader(),
-    executionObjectIdentify(),
-    type(),
-    reservedTestStructure(),
-    uniqueNo(),
-    action(),
-    result(),
-    executingObjectNameLength(),
-    nameLength(),
-    textLength(),
-    executingObjectName(),
-    name(),
-    text()
+    ObjectHeader()
 {
     objectType = ObjectType::TEST_STRUCTURE;
 }

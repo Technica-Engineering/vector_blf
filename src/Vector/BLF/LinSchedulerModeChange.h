@@ -53,22 +53,22 @@ public:
      *
      * Channel number where the frame sent/received.
      */
-    WORD channel;
+    WORD channel {};
 
     /**
      * Index (0-based) of a previously active schedule
      * table
      */
-    BYTE oldMode;
+    BYTE oldMode {};
 
     /**
      * Index (0-based) of the newly activated schedule
      * table
      */
-    BYTE newMode;
+    BYTE newMode {};
 
     /** reserved */
-    DWORD reservedLinSchedulerModeChange;
+    DWORD reservedLinSchedulerModeChange {};
 };
 
 }

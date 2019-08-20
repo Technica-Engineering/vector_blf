@@ -25,14 +25,7 @@ namespace Vector {
 namespace BLF {
 
 J1708Message::J1708Message() :
-    ObjectHeader(),
-    channel(),
-    dir(),
-    reservedJ1708Message1(),
-    error(),
-    size(),
-    data(),
-    reservedJ1708Message2()
+    ObjectHeader()
 {
     objectType = ObjectType::J1708_MESSAGE; // or J1708_VIRTUAL_MSG
 }

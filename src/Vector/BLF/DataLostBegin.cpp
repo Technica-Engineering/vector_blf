@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 DataLostBegin::DataLostBegin() :
-    ObjectHeader(),
-    queueIdentifier()
+    ObjectHeader()
 {
     objectType = ObjectType::DATA_LOST_BEGIN;
 }

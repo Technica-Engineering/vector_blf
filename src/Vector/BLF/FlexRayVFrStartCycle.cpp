@@ -27,20 +27,7 @@ namespace Vector {
 namespace BLF {
 
 FlexRayVFrStartCycle::FlexRayVFrStartCycle() :
-    ObjectHeader(),
-    channel(),
-    version(),
-    channelMask(),
-    dir(),
-    cycle(),
-    clientIndexFlexRayVFrStartCycle(),
-    clusterNo(),
-    nmSize(),
-    dataBytes(),
-    reservedFlexRayVFrStartCycle1(),
-    tag(),
-    data(),
-    reservedFlexRayVFrStartCycle2()
+    ObjectHeader()
 {
     objectType = ObjectType::FR_STARTCYCLE;
 }

@@ -54,7 +54,7 @@ public:
      * CAN channel the driver error information
      * belongs to.
      */
-    WORD channel;
+    WORD channel {};
 
     /**
      * @brief # of TX errors
@@ -62,7 +62,7 @@ public:
      * Number of transmit errors that occurred in CAN
      * controller for that channel.
      */
-    BYTE txErrors;
+    BYTE txErrors {};
 
     /**
      * @brief # of RX errors
@@ -70,37 +70,37 @@ public:
      * Number of receive errors that occurred in CAN
      * controller for that channel.
      */
-    BYTE rxErrors;
+    BYTE rxErrors {};
 
     /**
      * @brief CAN driver error code
      *
      * Error code
      */
-    DWORD errorCode;
+    DWORD errorCode {};
 
     /**
      * @brief flags
      *
      * To be defined.
      */
-    DWORD flags;
+    DWORD flags {};
 
     /**
      * @brief state register
      *
      * To be defined.
      */
-    BYTE state;
+    BYTE state {};
 
     /** reserved */
-    BYTE reservedCanDriverErrorExt1;
+    BYTE reservedCanDriverErrorExt1 {};
 
     /** reserved */
-    WORD reservedCanDriverErrorExt2;
+    WORD reservedCanDriverErrorExt2 {};
 
     /** reserved */
-    std::array<DWORD, 4> reservedCanDriverErrorExt3;
+    std::array<DWORD, 4> reservedCanDriverErrorExt3 {};
 };
 
 }

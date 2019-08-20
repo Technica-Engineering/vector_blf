@@ -25,15 +25,7 @@ namespace Vector {
 namespace BLF {
 
 LinDisturbanceEvent::LinDisturbanceEvent() :
-    ObjectHeader(),
-    channel(),
-    id(),
-    disturbingFrameId(),
-    disturbanceType(),
-    byteIndex(),
-    bitIndex(),
-    bitOffsetInSixteenthBits(),
-    disturbanceLengthInSixteenthBits()
+    ObjectHeader()
 {
     objectType = ObjectType::LIN_DISTURBANCE_EVENT;
 }

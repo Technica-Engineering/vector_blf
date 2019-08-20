@@ -25,13 +25,7 @@ namespace Vector {
 namespace BLF {
 
 MostTrigger::MostTrigger() :
-    ObjectHeader2(),
-    channel(),
-    reservedMostTrigger(),
-    mode(),
-    hw(),
-    previousTriggerValue(),
-    currentTriggerValue()
+    ObjectHeader2()
 {
     objectType = ObjectType::MOST_TRIGGER;
 }

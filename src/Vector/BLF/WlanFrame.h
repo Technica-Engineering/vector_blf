@@ -53,7 +53,7 @@ public:
      *
      * The channel of the frame.
      */
-    WORD channel;
+    WORD channel {};
 
     /** enumeration for flags */
     enum Flags : WORD {
@@ -65,7 +65,7 @@ public:
     };
 
     /** flags */
-    WORD flags;
+    WORD flags {};
 
     /** enumeration for dir */
     enum Dir : BYTE {
@@ -84,7 +84,7 @@ public:
      *
      * Direction flag
      */
-    BYTE dir;
+    BYTE dir {};
 
     /**
      * @brief channel number of the radio frequency
@@ -92,21 +92,21 @@ public:
      * Channel number of the radio frequency, i.e 180
      * or 176
      */
-    BYTE radioChannel;
+    BYTE radioChannel {};
 
     /**
      * @brief signal strength in [dbm]
      *
      * Signal strength in [dBm]
      */
-    SHORT signalStrength;
+    SHORT signalStrength {};
 
     /**
      * @brief signal quality in [dbm]
      *
      * Signal quality
      */
-    WORD signalQuality;
+    WORD signalQuality {};
 
     /**
      * @brief Number of bytes (header + payload)
@@ -114,10 +114,10 @@ public:
      * Length of WLAN data in bytes. Max. 2342
      * Bytes.
      */
-    WORD frameLength;
+    WORD frameLength {};
 
     /** reserved */
-    DWORD reservedWlanFrame;
+    DWORD reservedWlanFrame {};
 
     /**
      * @brief WLAN frame data
@@ -126,7 +126,7 @@ public:
      * header.
      * Max. 2342 data bytes per frame
      */
-    std::vector<uint8_t> frameData;
+    std::vector<uint8_t> frameData {};
 };
 
 }

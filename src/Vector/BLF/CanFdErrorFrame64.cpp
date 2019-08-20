@@ -26,27 +26,7 @@ namespace BLF {
 
 CanFdErrorFrame64::CanFdErrorFrame64() :
     ObjectHeader(),
-    CanFdExtFrameData(),
-    channel(),
-    dlc(),
-    validDataBytes(),
-    ecc(),
-    flags(),
-    errorCodeExt(),
-    extFlags(),
-    extDataOffset(),
-    reservedCanFdErrorFrame1(),
-    id(),
-    frameLength(),
-    btrCfgArb(),
-    btrCfgData(),
-    timeOffsetBrsNs(),
-    timeOffsetCrcDelNs(),
-    crc(),
-    errorPosition(),
-    reservedCanFdErrorFrame2(),
-    data(),
-    reservedCanFdErrorFrame3()
+    CanFdExtFrameData()
 {
     objectType = ObjectType::CAN_FD_ERROR_64;
 }

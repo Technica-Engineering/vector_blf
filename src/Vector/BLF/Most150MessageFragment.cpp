@@ -25,23 +25,7 @@ namespace Vector {
 namespace BLF {
 
 Most150MessageFragment::Most150MessageFragment() :
-    ObjectHeader2(),
-    channel(),
-    reservedMost150MessageFragment1(),
-    ackNack(),
-    validMask(),
-    sourceAdr(),
-    destAdr(),
-    pAck(),
-    cAck(),
-    priority(),
-    pIndex(),
-    crc(),
-    dataLen(),
-    dataLenAnnounced(),
-    firstDataLen(),
-    reservedMost150MessageFragment2(),
-    firstData()
+    ObjectHeader2()
 {
     objectType = ObjectType::MOST_150_MESSAGE_FRAGMENT;
 }

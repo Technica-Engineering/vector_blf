@@ -49,58 +49,58 @@ public:
     virtual DWORD calculateObjectSize() const override;
 
     /** application channel */
-    WORD channel;
+    WORD channel {};
 
     /** direction flag: 0=Rx, 1=Tx */
-    BYTE dir;
+    BYTE dir {};
 
     /** reserved */
-    BYTE reservedA429BusStatistic;
+    BYTE reservedA429BusStatistic {};
 
     /** busload */
-    ULONG busload;
+    ULONG busload {};
 
     /** data total */
-    ULONG dataTotal;
+    ULONG dataTotal {};
 
     /** error total */
-    ULONG errorTotal;
+    ULONG errorTotal {};
 
     /** bitrate */
-    ULONG bitrate;
+    ULONG bitrate {};
 
     /** parity errors */
-    USHORT parityErrors;
+    USHORT parityErrors {};
 
     /** bitrate errors */
-    USHORT bitrateErrors;
+    USHORT bitrateErrors {};
 
     /** gap errors */
-    USHORT gapErrors;
+    USHORT gapErrors {};
 
     /** line errors */
-    USHORT lineErrors;
+    USHORT lineErrors {};
 
     /** format errors */
-    USHORT formatErrors;
+    USHORT formatErrors {};
 
     /** duty factor errors */
-    USHORT dutyFactorErrors;
+    USHORT dutyFactorErrors {};
 
     /** word length errors */
-    USHORT wordLenErrors;
+    USHORT wordLenErrors {};
 
     /** coding errors */
-    USHORT codingErrors;
+    USHORT codingErrors {};
 
     /** idle errors */
-    USHORT idleErrors;
+    USHORT idleErrors {};
 
     /** level errors */
-    USHORT levelErrors;
+    USHORT levelErrors {};
 
     /** label count */
-    std::array<USHORT, 256> labelCount;
+    std::array<USHORT, 256> labelCount {};
 };
 
 }

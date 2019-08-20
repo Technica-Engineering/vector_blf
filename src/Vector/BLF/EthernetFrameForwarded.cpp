@@ -25,18 +25,7 @@ namespace Vector {
 namespace BLF {
 
 EthernetFrameForwarded::EthernetFrameForwarded() :
-    ObjectHeader(),
-    structLength(),
-    flags(),
-    channel(),
-    hardwareChannel(),
-    frameDuration(),
-    frameChecksum(),
-    dir(),
-    frameLength(),
-    frameHandle(),
-    reservedEthernetFrameForwarded(),
-    frameData()
+    ObjectHeader()
 {
     objectType = ObjectType::ETHERNET_FRAME_FORWARDED;
 }

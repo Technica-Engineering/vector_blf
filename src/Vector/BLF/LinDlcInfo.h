@@ -53,24 +53,24 @@ public:
      *
      * Channel number where the frame sent/received.
      */
-    WORD channel;
+    WORD channel {};
 
     /**
      * @brief LIN ID
      *
      * Frame identifier
      */
-    BYTE id;
+    BYTE id {};
 
     /**
      * @brief LIN DLC
      *
      * Frame length
      */
-    BYTE dlc;
+    BYTE dlc {};
 
     /** reserved */
-    DWORD reservedLinDlcInfo;
+    DWORD reservedLinDlcInfo {};
 };
 
 }

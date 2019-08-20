@@ -26,23 +26,7 @@ namespace BLF {
 
 CanFdMessage64::CanFdMessage64() :
     ObjectHeader(),
-    CanFdExtFrameData(),
-    channel(),
-    dlc(),
-    validDataBytes(),
-    txCount(),
-    id(),
-    frameLength(),
-    flags(),
-    btrCfgArb(),
-    btrCfgData(),
-    timeOffsetBrsNs(),
-    timeOffsetCrcDelNs(),
-    bitCount(),
-    dir(),
-    extDataOffset(),
-    crc(),
-    data()
+    CanFdExtFrameData()
 {
     objectType = ObjectType::CAN_FD_MESSAGE_64;
 }

@@ -57,7 +57,7 @@ public:
      * Indexes 1-9 correspond to response data
      * bytes D1-D8
      */
-    std::array<ULONGLONG, 9> databyteTimestamps;
+    std::array<ULONGLONG, 9> databyteTimestamps {};
 };
 
 }

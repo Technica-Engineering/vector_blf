@@ -52,7 +52,7 @@ public:
      *
      * The channel of the frame.
      */
-    WORD channel;
+    WORD channel {};
 
     /** enumeration for flags */
     enum Flags : WORD {
@@ -82,86 +82,86 @@ public:
     };
 
     /** flags */
-    WORD flags;
+    WORD flags {};
 
     /**
      * Number of Rx packets since last
      * statistic event.
      */
-    ULONG rxPacketCount;
+    ULONG rxPacketCount {};
 
     /**
      * Number of Rx bytes since last
      * statistic event.
      */
-    ULONG rxByteCount;
+    ULONG rxByteCount {};
 
     /**
      * Number of Tx packets since last
      * statistic event.
      */
-    ULONG txPacketCount;
+    ULONG txPacketCount {};
 
     /**
      * Number of Tx bytes since last
      * statistic event.
      */
-    ULONG txByteCount;
+    ULONG txByteCount {};
 
     /**
      * Number of collisions since last
      * statistic event.
      */
-    ULONG collisionCount;
+    ULONG collisionCount {};
 
     /**
      * Number of errors since last statistic
      * event.
      */
-    ULONG errorCount;
+    ULONG errorCount {};
 
     /**
      * Number of dropped packet due to
      * redundancy check since last
      * statistic event.
      */
-    ULONG statDroppedRedundantPacketCount;
+    ULONG statDroppedRedundantPacketCount {};
 
     /**
      * Number of errors found at
      * redundancy check since last
      * statistic event.
      */
-    ULONG statRedundantErrorPacketCount;
+    ULONG statRedundantErrorPacketCount {};
 
     /**
      * Number of errors found at integrity
      * check since last statistic event.
      */
-    ULONG statIntegrityErrorPacketCount;
+    ULONG statIntegrityErrorPacketCount {};
 
     /**
      * Average period of frames on this
      * VL in [msec].
      */
-    ULONG statAvrgPeriodMsec;
+    ULONG statAvrgPeriodMsec {};
 
     /**
      * Average jitter of the time period of
      * frames on this VL in [mysec].
      */
-    ULONG statAvrgJitterMysec;
+    ULONG statAvrgJitterMysec {};
 
     /**
      * Unique ID assigned to this VL.
      */
-    ULONG vlid;
+    ULONG vlid {};
 
     /**
      * Time period covered by this event
      * in [msec].
      */
-    ULONG statDuration;
+    ULONG statDuration {};
 };
 
 }

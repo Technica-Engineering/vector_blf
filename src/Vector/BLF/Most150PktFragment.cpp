@@ -25,23 +25,7 @@ namespace Vector {
 namespace BLF {
 
 Most150PktFragment::Most150PktFragment() :
-    ObjectHeader2(),
-    channel(),
-    reservedMost150PktFragment1(),
-    ackNack(),
-    validMask(),
-    sourceAdr(),
-    destAdr(),
-    pAck(),
-    cAck(),
-    priority(),
-    pIndex(),
-    crc(),
-    dataLen(),
-    dataLenAnnounced(),
-    firstDataLen(),
-    reservedMost150PktFragment2(),
-    firstData()
+    ObjectHeader2()
 {
     objectType = ObjectType::MOST_150_PKT_FRAGMENT;
 }

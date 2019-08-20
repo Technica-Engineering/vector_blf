@@ -27,19 +27,6 @@
 namespace Vector {
 namespace BLF {
 
-ObjectHeaderBase::ObjectHeaderBase() :
-    signature(ObjectSignature),
-    headerSize(),
-    headerVersion(), // is set in ObjectHeader/ObjectHeader2
-    objectSize(),
-    objectType() // is set in each event class constructor
-{
-}
-
-ObjectHeaderBase::~ObjectHeaderBase()
-{
-}
-
 void ObjectHeaderBase::read(AbstractFile & is)
 {
     is.read(reinterpret_cast<char *>(&signature), sizeof(signature));

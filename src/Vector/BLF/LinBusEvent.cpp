@@ -24,18 +24,6 @@
 namespace Vector {
 namespace BLF {
 
-LinBusEvent::LinBusEvent() :
-    sof(),
-    eventBaudrate(),
-    channel(),
-    reservedLinBusEvent()
-{
-}
-
-LinBusEvent::~LinBusEvent()
-{
-}
-
 void LinBusEvent::read(AbstractFile & is)
 {
     is.read(reinterpret_cast<char *>(&sof), sizeof(sof));

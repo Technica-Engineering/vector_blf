@@ -25,11 +25,7 @@ namespace Vector {
 namespace BLF {
 
 VarObjectHeader::VarObjectHeader() :
-    ObjectHeaderBase(),
-    objectFlags(ObjectFlags::TimeOneNans),
-    objectStaticSize(),
-    objectVersion(),
-    objectTimeStamp()
+    ObjectHeaderBase()
 {
     headerVersion = 1;
 }

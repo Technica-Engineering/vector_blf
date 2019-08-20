@@ -54,16 +54,16 @@ public:
      *
      * Application channel
      */
-    WORD channel;
+    WORD channel {};
 
     /**
      * Length of variable data (usually 60 bytes for
      * MOST25)
      */
-    WORD length;
+    WORD length {};
 
     /** reserved */
-    DWORD reservedMostAllocTab;
+    DWORD reservedMostAllocTab {};
 
     /**
      * Allocation Table
@@ -82,7 +82,7 @@ public:
      * label number is 0x70, the byte is not used for any
      * label.
      */
-    std::vector<uint8_t> tableData;
+    std::vector<uint8_t> tableData {};
 };
 
 }

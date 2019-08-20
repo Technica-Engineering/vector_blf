@@ -47,31 +47,31 @@ public:
     virtual DWORD calculateObjectSize() const override;
 
     /** application channel */
-    WORD channel;
+    WORD channel {};
 
     /** direction flag: 0=Rx, 1=Tx */
-    BYTE dir;
+    BYTE dir {};
 
     /** reserved */
-    BYTE reservedA429Status1;
+    BYTE reservedA429Status1 {};
 
     /** parity */
-    WORD parity;
+    WORD parity {};
 
     /** reserved */
-    WORD reservedA429Status2;
+    WORD reservedA429Status2 {};
 
     /** minimum gap */
-    ULONG minGap;
+    ULONG minGap {};
 
     /** Tx bit rate */
-    ULONG bitrate;
+    ULONG bitrate {};
 
     /** Rx min bit rate */
-    ULONG minBitrate;
+    ULONG minBitrate {};
 
     /** Rx max bit rate */
-    ULONG maxBitrate;
+    ULONG maxBitrate {};
 };
 
 }

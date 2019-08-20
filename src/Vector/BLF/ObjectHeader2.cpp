@@ -25,13 +25,7 @@ namespace Vector {
 namespace BLF {
 
 ObjectHeader2::ObjectHeader2() :
-    ObjectHeaderBase(),
-    objectFlags(ObjectFlags::TimeOneNans),
-    timeStampStatus(),
-    reservedObjectHeader(),
-    objectVersion(0), // can be set in event class constructor
-    objectTimeStamp(),
-    originalTimeStamp()
+    ObjectHeaderBase()
 {
     headerVersion = 2;
 }

@@ -52,10 +52,10 @@ public:
      *
      * Application channel
      */
-    WORD channel;
+    WORD channel {};
 
     /** reserved */
-    WORD reservedMostDataLost;
+    WORD reservedMostDataLost {};
 
     /**
      * @brief info about data loss
@@ -70,28 +70,28 @@ public:
      *   - Bit4: 1: data loss on synchronous channel
      *   - Bit5: 1: data loss since driver queue full
      */
-    DWORD info;
+    DWORD info {};
 
     /**
      * Number of lost messages on Control channel
      */
-    DWORD lostMsgsCtrl;
+    DWORD lostMsgsCtrl {};
 
     /**
      * Number of lost messages on Packet Data
      * Channel channel
      */
-    DWORD lostMsgsAsync;
+    DWORD lostMsgsAsync {};
 
     /**
      * Absolute time in nano-seconds
      */
-    ULONGLONG lastGoodTimeStampNs;
+    ULONGLONG lastGoodTimeStampNs {};
 
     /**
      * Absolute time in nano-seconds
      */
-    ULONGLONG nextGoodTimeStampNs;
+    ULONGLONG nextGoodTimeStampNs {};
 };
 
 }

@@ -53,58 +53,58 @@ public:
      *
      * Channel number where the frame sent/received.
      */
-    WORD channel;
+    WORD channel {};
 
     /** reserved */
-    WORD reservedLinStatisticEvent1;
+    WORD reservedLinStatisticEvent1 {};
 
     /** reserved */
-    DWORD reservedLinStatisticEvent2;
+    DWORD reservedLinStatisticEvent2 {};
 
     /**
      * @brief bus load
      *
      * Bus load in percents
      */
-    double busLoad;
+    double busLoad {};
 
     /**
      * @brief bursts total
      *
      * Total number of bursts
      */
-    ULONG burstsTotal;
+    ULONG burstsTotal {};
 
     /**
      * @brief bursts overrun
      *
      * Number of overrun bursts
      */
-    ULONG burstsOverrun;
+    ULONG burstsOverrun {};
 
     /**
      * @brief frames sent
      *
      * Number of transmitted frames
      */
-    ULONG framesSent;
+    ULONG framesSent {};
 
     /**
      * @brief frames received
      *
      * Number of received frames
      */
-    ULONG framesReceived;
+    ULONG framesReceived {};
 
     /**
      * @brief frames unanswered
      *
      * Number of frames without response
      */
-    ULONG framesUnanswered;
+    ULONG framesUnanswered {};
 
     /** reserved */
-    DWORD reservedLinStatisticEvent3;
+    DWORD reservedLinStatisticEvent3 {};
 };
 
 }

@@ -25,9 +25,7 @@ namespace Vector {
 namespace BLF {
 
 LinSynchFieldEvent::LinSynchFieldEvent() :
-    LinBusEvent(),
-    synchBreakLength(),
-    synchDelLength()
+    LinBusEvent()
 {
 }
 

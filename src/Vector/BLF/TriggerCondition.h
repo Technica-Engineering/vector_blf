@@ -53,19 +53,19 @@ public:
     };
 
     /** status */
-    DWORD state;
+    DWORD state {};
 
     /** length of trigger block name in bytes */
-    DWORD triggerBlockNameLength;
+    DWORD triggerBlockNameLength {};
 
     /** length of trigger condition in bytes */
-    DWORD triggerConditionLength;
+    DWORD triggerConditionLength {};
 
     /** trigger block name */
-    std::string triggerBlockName;
+    std::string triggerBlockName {};
 
     /** trigger condition */
-    std::string triggerCondition;
+    std::string triggerCondition {};
 };
 
 }

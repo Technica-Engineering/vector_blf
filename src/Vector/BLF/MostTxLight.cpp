@@ -25,10 +25,7 @@ namespace Vector {
 namespace BLF {
 
 MostTxLight::MostTxLight() :
-    ObjectHeader2(),
-    channel(),
-    state(),
-    reservedMostTxLight()
+    ObjectHeader2()
 {
     objectType = ObjectType::MOST_TXLIGHT;
 }

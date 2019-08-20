@@ -26,11 +26,7 @@ namespace BLF {
 
 LinLongDomSignalEvent::LinLongDomSignalEvent() :
     ObjectHeader(),
-    LinBusEvent(),
-    type(),
-    reservedLinLongDomSignalEvent1(),
-    reservedLinLongDomSignalEvent2(),
-    reservedLinLongDomSignalEvent3()
+    LinBusEvent()
 {
     objectType = ObjectType::LIN_LONG_DOM_SIG;
 }

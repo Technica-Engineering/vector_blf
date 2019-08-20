@@ -27,12 +27,7 @@ namespace Vector {
 namespace BLF {
 
 EnvironmentVariable::EnvironmentVariable() :
-    ObjectHeader(),
-    nameLength(),
-    dataLength(),
-    reservedEnvironmentVariable(),
-    name(),
-    data()
+    ObjectHeader()
 {
     /* can be one of:
      *   - objectType = ObjectType::ENV_INTEGER;

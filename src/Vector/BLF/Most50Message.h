@@ -53,7 +53,7 @@ public:
      *
      * Application channel
      */
-    WORD channel;
+    WORD channel {};
 
     /**
      * @brief direction: 0: Rx; 1: Tx; 2: TxRequest
@@ -63,24 +63,24 @@ public:
      *   - 1: Tx (transmit receipt)
      *   - 2: Tx Request (transmit request)
      */
-    BYTE dir;
+    BYTE dir {};
 
     /** reserved */
-    BYTE reservedMost50Message1;
+    BYTE reservedMost50Message1 {};
 
     /**
      * @brief source address
      *
      * Source address
      */
-    DWORD sourceAdr;
+    DWORD sourceAdr {};
 
     /**
      * @brief target address
      *
      * Target address
      */
-    DWORD destAdr;
+    DWORD destAdr {};
 
     /**
      * @brief Tranfer Type
@@ -94,7 +94,7 @@ public:
      *     Message was reported by the network spy. The Spy sees all messages
      *     independently of the desti-nation address.
      */
-    BYTE transferType;
+    BYTE transferType {};
 
     /**
      * @brief transmission status
@@ -126,7 +126,7 @@ public:
      *       - only for Dir = Tx
      *       - only for mTransferType = Node
      */
-    BYTE state;
+    BYTE state {};
 
     /**
      * @brief acknowledge code
@@ -165,47 +165,47 @@ public:
      *     Restriction:
      *       - only for Dir = Tx or spy messages
      */
-    BYTE ackNack;
+    BYTE ackNack {};
 
     /** reserved */
-    BYTE reservedMost50Message2;
+    BYTE reservedMost50Message2 {};
 
     /**
      * @brief Cyclic Redundancy Check
      *
      * Cyclic Redundancy Check
      */
-    DWORD crc;
+    DWORD crc {};
 
     /** reserved */
-    WORD reservedMost50Message3;
+    WORD reservedMost50Message3 {};
 
     /**
      * @brief priority of the message
      *
      * Priority
      */
-    BYTE priority;
+    BYTE priority {};
 
     /** reserved */
-    BYTE reservedMost50Message4;
+    BYTE reservedMost50Message4 {};
 
     /**
      * @brief length of variable data in bytes (17 max)
      *
      * Length of variable data in bytes (5...17)
      */
-    DWORD msgLen;
+    DWORD msgLen {};
 
     /** reserved */
-    DWORD reservedMost50Message5;
+    DWORD reservedMost50Message5 {};
 
     /**
      * @brief variable data
      *
      * Variable data
      */
-    std::vector<uint8_t> msg;
+    std::vector<uint8_t> msg {};
 };
 
 }

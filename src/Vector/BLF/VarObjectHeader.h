@@ -70,12 +70,12 @@ public:
      *
      * Unit of object timestamp.
      */
-    DWORD objectFlags;
+    DWORD objectFlags { ObjectFlags::TimeOneNans };
 
     /**
      * @brief size of the static part of the object
      */
-    WORD objectStaticSize;
+    WORD objectStaticSize {};
 
     /**
      * @brief object specific version
@@ -84,7 +84,7 @@ public:
      * stated otherwise in the description of a specific
      * event.
      */
-    WORD objectVersion;
+    WORD objectVersion {};
 
     /**
      * @brief object timestamp
@@ -92,7 +92,7 @@ public:
      * Time stamp of this object in the unit specified in
      * objectFlags.
      */
-    ULONGLONG objectTimeStamp;
+    ULONGLONG objectTimeStamp {};
 };
 
 }

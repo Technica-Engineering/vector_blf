@@ -55,21 +55,21 @@ public:
     };
 
     /** type of system variable */
-    DWORD functionBusObjectType;
+    DWORD functionBusObjectType {};
 
-    DWORD veType;
+    DWORD veType {};
 
     /** length of variable name in bytes */
-    DWORD nameLength;
+    DWORD nameLength {};
 
     /** length of variable data in bytes */
-    DWORD dataLength;
+    DWORD dataLength {};
 
     /** path name in the port server */
-    std::string name;
+    std::string name {};
 
     /** variable data */
-    std::vector<BYTE> data;
+    std::vector<BYTE> data {};
 };
 
 }

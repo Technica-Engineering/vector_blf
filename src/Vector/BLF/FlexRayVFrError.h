@@ -53,14 +53,14 @@ public:
      *
      * Application channel
      */
-    WORD channel;
+    WORD channel {};
 
     /**
      * @brief object version
      *
      * Object version, for internal use
      */
-    WORD version;
+    WORD version {};
 
     /**
      * @brief channel mask
@@ -71,17 +71,17 @@ public:
      *   - 2 = FlexRay Channel B
      *   - 3 = FlexRay Channels A and B
      */
-    WORD channelMask;
+    WORD channelMask {};
 
     /**
      * @brief current cycle
      *
      * Cycle number
      */
-    BYTE cycle;
+    BYTE cycle {};
 
     /** reserved */
-    BYTE reservedFlexRayVFrError1;
+    BYTE reservedFlexRayVFrError1 {};
 
     /**
      * @brief clientindex of send node
@@ -89,14 +89,14 @@ public:
      * Client index of send node. Must be set to 0 if file
      * is written from other applications
      */
-    DWORD clientIndexFlexRayVFrError;
+    DWORD clientIndexFlexRayVFrError {};
 
     /**
      * @brief number of cluster
      *
      * Number of cluster: channel number - 1
      */
-    DWORD clusterNo;
+    DWORD clusterNo {};
 
     /**
      * @brief type of cc
@@ -110,7 +110,7 @@ public:
      *   - 5 = Vector VN interface
      *   - 6 = VN-Sync-Pulse (only in Status Event, for debugging purposes only)
      */
-    DWORD tag;
+    DWORD tag {};
 
     /**
      * @brief register flags
@@ -221,10 +221,10 @@ public:
      *       - Value 0x02000000: Latest Transmit Violation on channel B
      *       - Value 0x04000000: Transmit Across Boundary on Channel B
      */
-    std::array<DWORD, 4> data;
+    std::array<DWORD, 4> data {};
 
     /** reserved */
-    DWORD reservedFlexRayVFrError2;
+    DWORD reservedFlexRayVFrError2 {};
 };
 
 }

@@ -51,33 +51,33 @@ public:
     /**
      * @brief application channel
      */
-    WORD channel;
+    WORD channel {};
 
     /**
      * @brief direction
      */
-    BYTE dir;
+    BYTE dir {};
 
     /** reserved */
-    BYTE reservedJ1708Message1;
+    BYTE reservedJ1708Message1 {};
 
     /**
      * @brief error code
      */
-    WORD error;
+    WORD error {};
 
     /**
      * @brief data size
      */
-    BYTE size;
+    BYTE size {};
 
     /**
      * @brief data
      */
-    std::array<BYTE, 255> data;
+    std::array<BYTE, 255> data {};
 
     /** reserved */
-    WORD reservedJ1708Message2;
+    WORD reservedJ1708Message2 {};
 };
 
 }

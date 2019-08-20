@@ -25,13 +25,7 @@ namespace Vector {
 namespace BLF {
 
 Unknown115::Unknown115() :
-    ObjectHeader(),
-    reservedUnknownObject1(),
-    reservedUnknownObject2(),
-    reservedUnknownObject3(),
-    reservedUnknownObject4(),
-    reservedUnknownObject5(),
-    reservedUnknownObject6()
+    ObjectHeader()
 {
     objectType = ObjectType::Unknown115;
 }

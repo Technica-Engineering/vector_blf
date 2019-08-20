@@ -76,15 +76,15 @@ public:
     /**
      * @brief type of system variable
      */
-    DWORD type;
+    DWORD type {};
 
     /**
      * @brief signed, later perhaps also string codepage
      */
-    DWORD representation;
+    DWORD representation {};
 
     /** reserved */
-    ULONGLONG reservedSystemVariable1;
+    ULONGLONG reservedSystemVariable1 {};
 
     /**
      * @brief length of variable name in bytes
@@ -92,7 +92,7 @@ public:
      * Length of the name of the system variable
      * (without terminating 0)
      */
-    DWORD nameLength;
+    DWORD nameLength {};
 
     /**
      * @brief length of variable data in bytes
@@ -100,24 +100,24 @@ public:
      * Length of the data of the environment variable in
      * bytes.
      */
-    DWORD dataLength;
+    DWORD dataLength {};
 
     /** reserved */
-    ULONGLONG reservedSystemVariable2;
+    ULONGLONG reservedSystemVariable2 {};
 
     /**
      * @brief variable name in MBCS
      *
      * Name of the system variable.
      */
-    std::string name;
+    std::string name {};
 
     /**
      * @brief variable data
      *
      * Data value of the system variable.
      */
-    std::vector<uint8_t> data;
+    std::vector<uint8_t> data {};
 };
 
 }

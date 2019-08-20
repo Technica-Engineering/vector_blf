@@ -25,12 +25,7 @@ namespace Vector {
 namespace BLF {
 
 CanMessage::CanMessage() :
-    ObjectHeader(),
-    channel(),
-    flags(),
-    dlc(),
-    id(),
-    data()
+    ObjectHeader()
 {
     objectType = ObjectType::CAN_MESSAGE;
 }

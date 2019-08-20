@@ -51,33 +51,33 @@ public:
     /**
      * @brief application channel
      */
-    WORD channel;
+    WORD channel {};
 
     /** multiplexer */
-    BYTE mux;
+    BYTE mux {};
 
     /** length */
-    BYTE len;
+    BYTE len {};
 
     /** message id */
-    WORD messageId;
+    WORD messageId {};
 
     /** CRC */
-    WORD crc;
+    WORD crc {};
 
     /**
      * @brief dir
      */
-    BYTE dir;
+    BYTE dir {};
 
     /** reserved */
-    BYTE reservedFlexRayData1;
+    BYTE reservedFlexRayData1 {};
 
     /** reserved */
-    WORD reservedFlexRayData2;
+    WORD reservedFlexRayData2 {};
 
     /** data bytes */
-    std::array<BYTE, 12> dataBytes;
+    std::array<BYTE, 12> dataBytes {};
 };
 
 }

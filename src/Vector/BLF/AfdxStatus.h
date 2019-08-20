@@ -50,23 +50,23 @@ public:
     /**
      * @brief application channel
      */
-    WORD channel;
+    WORD channel {};
 
     /** reserved */
-    WORD reservedAfdxStatus1;
+    WORD reservedAfdxStatus1 {};
 
     /**
      * @brief status of adapter lineA
      */
-    AfdxLineStatus statusA;
+    AfdxLineStatus statusA {};
 
     /**
      * @brief status of adapter lineB
      */
-    AfdxLineStatus statusB;
+    AfdxLineStatus statusB {};
 
     /** reserved */
-    DWORD reservedAfdxStatus2;
+    DWORD reservedAfdxStatus2 {};
 };
 
 }

@@ -51,14 +51,14 @@ public:
      *
      * Application channel
      */
-    WORD channel;
+    WORD channel {};
 
     /**
      * State of Stress mode:
      *   - 0 – Stopped
      *   - 1 – Started
      */
-    WORD state;
+    WORD state {};
 
     /**
      * Stress mode of HW interface:
@@ -73,10 +73,10 @@ public:
      *   - 9 – Shutdown flag usage
      *   - 10 – Rx Buffer Async
      */
-    WORD mode;
+    WORD mode {};
 
     /** reserved */
-    WORD reservedMostStress;
+    WORD reservedMostStress {};
 };
 
 }

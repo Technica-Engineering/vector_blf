@@ -25,16 +25,7 @@ namespace Vector {
 namespace BLF {
 
 WlanFrame::WlanFrame() :
-    ObjectHeader(),
-    channel(),
-    flags(),
-    dir(),
-    radioChannel(),
-    signalStrength(),
-    signalQuality(),
-    frameLength(),
-    reservedWlanFrame(),
-    frameData()
+    ObjectHeader()
 {
     objectType = ObjectType::WLAN_FRAME;
 }

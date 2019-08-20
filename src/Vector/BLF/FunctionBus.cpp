@@ -25,13 +25,7 @@ namespace Vector {
 namespace BLF {
 
 FunctionBus::FunctionBus() :
-    ObjectHeader(),
-    functionBusObjectType(),
-    veType(),
-    nameLength(),
-    dataLength(),
-    name(),
-    data()
+    ObjectHeader()
 {
     objectType = ObjectType::FUNCTION_BUS;
 }

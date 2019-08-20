@@ -25,12 +25,7 @@ namespace Vector {
 namespace BLF {
 
 AppTrigger::AppTrigger() :
-    ObjectHeader(),
-    preTriggerTime(),
-    postTriggerTime(),
-    channel(),
-    flags(),
-    appSpecific2()
+    ObjectHeader()
 {
     objectType = ObjectType::APP_TRIGGER;
 }

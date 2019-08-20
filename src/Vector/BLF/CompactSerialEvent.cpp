@@ -24,16 +24,6 @@
 namespace Vector {
 namespace BLF {
 
-CompactSerialEvent::CompactSerialEvent() :
-    compactLength(),
-    compactData()
-{
-}
-
-CompactSerialEvent::~CompactSerialEvent()
-{
-}
-
 DWORD CompactSerialEvent::calculateObjectSize() const
 {
     return

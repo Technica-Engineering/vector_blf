@@ -29,16 +29,7 @@ namespace Vector {
 namespace BLF {
 
 LogContainer::LogContainer() :
-    ObjectHeaderBase(),
-    compressionMethod(),
-    reservedLogContainer1(0),
-    reservedLogContainer2(0),
-    uncompressedFileSize(0),
-    reservedLogContainer3(0),
-    compressedFile(),
-    uncompressedFile(),
-    compressedFileSize(0),
-    filePosition(0)
+    ObjectHeaderBase()
 {
     headerVersion = 1;
     objectType = ObjectType::LOG_CONTAINER;

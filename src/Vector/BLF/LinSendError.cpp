@@ -25,14 +25,7 @@ namespace Vector {
 namespace BLF {
 
 LinSendError::LinSendError() :
-    ObjectHeader(),
-    channel(),
-    id(),
-    dlc(),
-    fsmId(),
-    fsmState(),
-    headerTime(),
-    fullTime()
+    ObjectHeader()
 {
     objectType = ObjectType::LIN_SND_ERROR;
 }

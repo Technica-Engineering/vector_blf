@@ -25,12 +25,7 @@ namespace Vector {
 namespace BLF {
 
 TriggerCondition::TriggerCondition() :
-    ObjectHeader(),
-    state(),
-    triggerBlockNameLength(),
-    triggerConditionLength(),
-    triggerBlockName(),
-    triggerCondition()
+    ObjectHeader()
 {
     objectType = ObjectType::TRIGGER_CONDITION;
 }

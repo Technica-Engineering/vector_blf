@@ -24,21 +24,6 @@
 namespace Vector {
 namespace BLF {
 
-AfdxLineStatus::AfdxLineStatus() :
-    flags(),
-    linkStatus(),
-    ethernetPhy(),
-    duplex(),
-    mdi(),
-    connector(),
-    clockMode(),
-    pairs(),
-    reservedAfdxLineStatus1(),
-    reservedAfdxLineStatus2(),
-    bitrate()
-{
-}
-
 void AfdxLineStatus::read(AbstractFile & is)
 {
     is.read(reinterpret_cast<char *>(&flags), sizeof(flags));

@@ -53,24 +53,24 @@ public:
      *
      * Channel number where the event notified
      */
-    WORD channel;
+    WORD channel {};
 
     /**
      * Slave Identifier in the Final State Machine
      */
-    BYTE slaveId;
+    BYTE slaveId {};
 
     /**
      * Source state identifier of a Slave in the Final
      * State Machine
      */
-    BYTE stateId;
+    BYTE stateId {};
 
     /**
      * Target state identifier of a Slave in the Final
      * State Machine
      */
-    DWORD followStateId;
+    DWORD followStateId {};
 };
 
 }

@@ -52,39 +52,39 @@ public:
      *   - 0: no compression
      *   - 2: zlib deflate
      */
-    WORD compressionMethod;
+    WORD compressionMethod {};
 
     /**
      * reserved
      */
-    WORD reservedLogContainer1;
+    WORD reservedLogContainer1 {};
 
     /**
      * reserved
      */
-    DWORD reservedLogContainer2;
+    DWORD reservedLogContainer2 {};
 
     /**
      * uncompressed file size in bytes
      */
-    DWORD uncompressedFileSize;
+    DWORD uncompressedFileSize {};
 
     /** reserved */
-    DWORD reservedLogContainer3; // @todo what is this? 0x0215, 0x9a, 0, 0x0c...
+    DWORD reservedLogContainer3 {}; // @todo what is this? 0x0215, 0x9a, 0, 0x0c...
 
     /** compressed file content */
-    std::vector<uint8_t> compressedFile;
+    std::vector<uint8_t> compressedFile {};
 
     /* following data is calculated */
 
     /** uncompressed file content */
-    std::vector<uint8_t> uncompressedFile;
+    std::vector<uint8_t> uncompressedFile {};
 
     /** compressed file size in bytes */
-    DWORD compressedFileSize;
+    DWORD compressedFileSize {};
 
     /** position of this LogContainer::uncompressedFile within UncompressedFile class */
-    std::streampos filePosition;
+    std::streampos filePosition {};
 
     /**
      * internalHeaderSize returns the size of all headers.

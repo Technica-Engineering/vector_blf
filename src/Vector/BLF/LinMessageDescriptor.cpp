@@ -25,13 +25,7 @@ namespace Vector {
 namespace BLF {
 
 LinMessageDescriptor::LinMessageDescriptor() :
-    LinSynchFieldEvent(),
-    supplierId(),
-    messageId(),
-    nad(),
-    id(),
-    dlc(),
-    checksumModel()
+    LinSynchFieldEvent()
 {
 }
 

@@ -52,7 +52,7 @@ public:
      * as it is specified in LDF. LIN protocol 2.0
      * and higher
      */
-    WORD supplierId;
+    WORD supplierId {};
 
     /**
      * @brief LIN Sub-Identifier - Message ID (16 bits)
@@ -65,7 +65,7 @@ public:
      * as it is specified in LDF in the list of
      * transmitter’s configurable frames.
      */
-    WORD messageId;
+    WORD messageId {};
 
     /**
      * @brief LIN Sub-Identifier - NAD
@@ -74,21 +74,21 @@ public:
      * transmitter as it is specified in LDF. LIN
      * protocol 2.0 and higher
      */
-    BYTE nad;
+    BYTE nad {};
 
     /**
      * @brief LIN ID
      *
      * Frame identifier (6-bit)
      */
-    BYTE id;
+    BYTE id {};
 
     /**
      * @brief LIN DLC
      *
      * Frame length [in bytes]
      */
-    BYTE dlc;
+    BYTE dlc {};
 
     /**
      * @brief LIN checksum model
@@ -96,7 +96,7 @@ public:
      * Expected checksum model of checksum
      * value. Only valid if objectVersion >= 1.
      */
-    BYTE checksumModel;
+    BYTE checksumModel {};
 };
 
 }

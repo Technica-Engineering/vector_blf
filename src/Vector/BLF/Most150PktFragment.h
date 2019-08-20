@@ -53,10 +53,10 @@ public:
      *
      * Application channel
      */
-    WORD channel;
+    WORD channel {};
 
     /** reserved */
-    BYTE reservedMost150PktFragment1;
+    BYTE reservedMost150PktFragment1 {};
 
     /**
      * @brief acknowledge code
@@ -95,7 +95,7 @@ public:
      *     Restriction:
      *       - only for Dir = Tx or spy messages
      */
-    BYTE ackNack;
+    BYTE ackNack {};
 
     /**
      * @brief bitfield indicating which members have valid data
@@ -114,21 +114,21 @@ public:
      *   - Bit 10: 0x00000400: destMacAdr
      *   - Bit 31: 0x80000000: 0: MOST150 fragment; 1: MOST50 fragment
      */
-    DWORD validMask;
+    DWORD validMask {};
 
     /**
      * @brief source address
      *
      * Source address
      */
-    DWORD sourceAdr;
+    DWORD sourceAdr {};
 
     /**
      * @brief target address
      *
      * Target address
      */
-    DWORD destAdr;
+    DWORD destAdr {};
 
     /**
      * @brief a preemptive acknowledge code
@@ -138,7 +138,7 @@ public:
      *   - 0x01: Buffer full
      *   - 0x04: OK
      */
-    BYTE pAck;
+    BYTE pAck {};
 
     /**
      * @brief CRC acknowledge from the packet receiver(s) to the packet transmitter
@@ -149,28 +149,28 @@ public:
      *   - 0x01: CRC error
      *   - 0x04: OK
      */
-    BYTE cAck;
+    BYTE cAck {};
 
     /**
      * @brief priority of the message
      *
      * Priority (not used; write 0x00)
      */
-    BYTE priority;
+    BYTE priority {};
 
     /**
      * @brief packet index, increments per message on MOST
      *
      * Packet index, increments per message on MOST
      */
-    BYTE pIndex;
+    BYTE pIndex {};
 
     /**
      * @brief Cyclic Redundancy Check
      *
      * Cyclic Redundancy Check
      */
-    DWORD crc;
+    DWORD crc {};
 
     /**
      * @brief number of transmitted user data bytes
@@ -181,7 +181,7 @@ public:
      * Note: The number of bytes saved in this event is
      * stored in mFirstDataLen.
      */
-    DWORD dataLen;
+    DWORD dataLen {};
 
     /**
      * @brief announced user data length at the start of the transmission
@@ -198,7 +198,7 @@ public:
      * byte) dataLen can also be greater than
      * dataLenAnnonced.
      */
-    DWORD dataLenAnnounced;
+    DWORD dataLenAnnounced {};
 
     /**
      * @brief number of bytes in firstData
@@ -210,17 +210,17 @@ public:
      * all counted bytes on bus will be stored in the
      * payload of the logging event.
      */
-    DWORD firstDataLen;
+    DWORD firstDataLen {};
 
     /** reserved */
-    DWORD reservedMost150PktFragment2;
+    DWORD reservedMost150PktFragment2 {};
 
     /**
      * @brief variable data
      *
      * Variable data
      */
-    std::vector<uint8_t> firstData;
+    std::vector<uint8_t> firstData {};
 };
 
 }

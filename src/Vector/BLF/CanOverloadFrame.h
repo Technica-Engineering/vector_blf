@@ -51,13 +51,13 @@ public:
      *
      * Channel the frame was sent or received.
      */
-    WORD channel;
+    WORD channel {};
 
     /** reserved */
-    WORD reservedCanOverloadFrame1;
+    WORD reservedCanOverloadFrame1 {};
 
     /** reserved */
-    DWORD reservedCanOverloadFrame2;
+    DWORD reservedCanOverloadFrame2 {};
 };
 
 }

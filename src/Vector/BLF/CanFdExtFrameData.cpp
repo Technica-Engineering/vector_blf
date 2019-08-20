@@ -24,16 +24,6 @@
 namespace Vector {
 namespace BLF {
 
-CanFdExtFrameData::CanFdExtFrameData() :
-    btrExtArb(),
-    btrExtData()
-{
-}
-
-CanFdExtFrameData::~CanFdExtFrameData()
-{
-}
-
 void CanFdExtFrameData::read(AbstractFile & is)
 {
     is.read(reinterpret_cast<char *>(&btrExtArb), sizeof(btrExtArb));

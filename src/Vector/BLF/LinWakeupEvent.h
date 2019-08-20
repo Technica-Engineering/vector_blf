@@ -53,12 +53,12 @@ public:
      *
      * Channel number where the frame sent/received.
      */
-    WORD channel;
+    WORD channel {};
 
     /**
      * Byte value used by wakeup frame.
      */
-    BYTE signal;
+    BYTE signal {};
 
     /**
      * Flag indicating whether the wakeup frame has
@@ -66,10 +66,10 @@ public:
      * set) or by the LIN hardware itself (selector not
      * set).
      */
-    BYTE external;
+    BYTE external {};
 
     /** reserved */
-    DWORD reservedLinWakeupEvent;
+    DWORD reservedLinWakeupEvent {};
 };
 
 }

@@ -47,47 +47,47 @@ public:
     /**
      * @brief unique ID identifying the used diagnostic description
      */
-    DWORD diagDescriptionHandle;
+    DWORD diagDescriptionHandle {};
 
     /**
      * @brief unique ID identifying the used diagnostic variant
      */
-    DWORD diagVariantHandle;
+    DWORD diagVariantHandle {};
 
     /**
      * @brief unique ID identifying the used diagnostic service
      */
-    DWORD diagServiceHandle;
+    DWORD diagServiceHandle {};
 
     /**
      * @brief string length for ecuQualifier
      */
-    DWORD ecuQualifierLength;
+    DWORD ecuQualifierLength {};
 
     /**
      * @brief string length for variantQualifier
      */
-    DWORD variantQualifierLength;
+    DWORD variantQualifierLength {};
 
     /**
      * @brief string length for serviceQualifier
      */
-    DWORD serviceQualifierLength;
+    DWORD serviceQualifierLength {};
 
     /**
      * @brief qualifier of the ECU the request was sent to
      */
-    std::string ecuQualifier;
+    std::string ecuQualifier {};
 
     /**
      * @brief qualifier of the active diagnostic variant
      */
-    std::string variantQualifier;
+    std::string variantQualifier {};
 
     /**
      * @brief qualifier of the diagnostic service
      */
-    std::string serviceQualifier;
+    std::string serviceQualifier {};
 };
 
 }

@@ -41,8 +41,12 @@ namespace BLF {
 class VECTOR_BLF_EXPORT SingleByteSerialEvent final
 {
 public:
-    SingleByteSerialEvent();
-    virtual ~SingleByteSerialEvent();
+    SingleByteSerialEvent() = default;
+    virtual ~SingleByteSerialEvent() noexcept = default;
+    SingleByteSerialEvent(const SingleByteSerialEvent&) = default;
+    SingleByteSerialEvent& operator=(const SingleByteSerialEvent&) = default;
+    SingleByteSerialEvent(SingleByteSerialEvent&&) = default;
+    SingleByteSerialEvent& operator=(SingleByteSerialEvent&&) = default;
 
     /** @copydoc ObjectHeader::read */
     virtual void read(AbstractFile & is);
@@ -54,7 +58,7 @@ public:
     virtual DWORD calculateObjectSize() const;
 
     /** single byte */
-    BYTE byte;
+    BYTE byte {};
 };
 
 }

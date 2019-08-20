@@ -26,15 +26,7 @@ namespace BLF {
 
 LinShortOrSlowResponse2::LinShortOrSlowResponse2() :
     ObjectHeader(),
-    LinDatabyteTimestampEvent(),
-    numberOfRespBytes(),
-    respBytes(),
-    slowResponse(),
-    interruptedByBreak(),
-    reservedLinShortOrSlowResponse1(),
-    exactHeaderBaudrate(),
-    earlyStopbitOffset(),
-    reservedLinShortOrSlowResponse2()
+    LinDatabyteTimestampEvent()
 {
     objectType = ObjectType::LIN_SHORT_OR_SLOW_RESPONSE2;
 }

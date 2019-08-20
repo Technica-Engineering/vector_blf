@@ -74,15 +74,15 @@ public:
     /**
      * @brief bus type
      */
-    DWORD busType;
+    DWORD busType {};
 
     /**
      * @brief channel where overrun occured
      */
-    WORD channel;
+    WORD channel {};
 
     /** reserved */
-    WORD reservedDriverOverrun;
+    WORD reservedDriverOverrun {};
 };
 
 }

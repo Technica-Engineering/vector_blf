@@ -53,17 +53,17 @@ public:
      *
      * Application channel
      */
-    WORD channel;
+    WORD channel {};
 
     /**
      * - 0 – TxLight/Signal off
      * - 1 – TxLight/Signal enabled
      * - 2 – TxLight/Signal forced on
      */
-    WORD state;
+    WORD state {};
 
     /** reserved */
-    DWORD reservedMostTxLight;
+    DWORD reservedMostTxLight {};
 };
 
 }

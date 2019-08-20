@@ -51,7 +51,7 @@ public:
      *
      * CAN channel the statistic data belongs to.
      */
-    WORD channel;
+    WORD channel {};
 
     /**
      * @brief CAN bus load
@@ -59,7 +59,7 @@ public:
      * Busload in 1/100 percent (e.g. 100 means
      * 1%)
      */
-    WORD busLoad;
+    WORD busLoad {};
 
     /**
      * @brief standard CAN id data frames
@@ -67,7 +67,7 @@ public:
      * Number of standard data frames sent on
      * that channel.
      */
-    DWORD standardDataFrames;
+    DWORD standardDataFrames {};
 
     /**
      * @brief extended CAN id data frames
@@ -75,7 +75,7 @@ public:
      * Number of extended data frames sent on
      * that channel.
      */
-    DWORD extendedDataFrames;
+    DWORD extendedDataFrames {};
 
     /**
      * @brief standard CAN id remote frames
@@ -83,7 +83,7 @@ public:
      * Number of remote data frames sent on that
      * channel.
      */
-    DWORD standardRemoteFrames;
+    DWORD standardRemoteFrames {};
 
     /**
      * @brief extented CAN id remote frames
@@ -91,14 +91,14 @@ public:
      * Number of extended remote data frames
      * sent on that channel.
      */
-    DWORD extendedRemoteFrames;
+    DWORD extendedRemoteFrames {};
 
     /**
      * @brief CAN error frames
      *
      * Number of error frams sent on that channel
      */
-    DWORD errorFrames;
+    DWORD errorFrames {};
 
     /**
      * @brief CAN overload frames
@@ -106,10 +106,10 @@ public:
      * Number of overload frams sent on that
      * channel.
      */
-    DWORD overloadFrames;
+    DWORD overloadFrames {};
 
     /** reserved */
-    DWORD reservedCanDriverStatistic;
+    DWORD reservedCanDriverStatistic {};
 };
 
 }

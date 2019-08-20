@@ -52,7 +52,7 @@ public:
     };
 
     /** identifier for the leaking queue */
-    DWORD queueIdentifier;
+    DWORD queueIdentifier {};
 };
 
 }

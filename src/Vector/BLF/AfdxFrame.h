@@ -53,18 +53,18 @@ public:
      * Ethernet (MAC) address of source computer
      * (network byte order).
      */
-    std::array<BYTE, 6> sourceAddress;
+    std::array<BYTE, 6> sourceAddress {};
 
     /**
      * The channel of the frame.
      */
-    WORD channel;
+    WORD channel {};
 
     /**
      * Ethernet (MAC) address of target computer
      * (network byte order).
      */
-    std::array<BYTE, 6> destinationAddress;
+    std::array<BYTE, 6> destinationAddress {};
 
     /** enumeration for dir */
     enum Dir : WORD {
@@ -81,7 +81,7 @@ public:
     /**
      * @brief Direction flag
      */
-    WORD dir;
+    WORD dir {};
 
     /**
      * EtherType which indicates protocol for
@@ -90,28 +90,28 @@ public:
      * See Ethernet standard specification for valid
      * values.
      */
-    WORD type;
+    WORD type {};
 
     /**
      * TPID when VLAN tag valid, zweo when no
      * VLAN. See Ethernet stnadard specification.
      */
-    WORD tpid;
+    WORD tpid {};
 
     /**
      * TCI when VLAND tag valid, zero when no
      * VLAN. See Ethernet standard specification.
      */
-    WORD tci;
+    WORD tci {};
 
     /**
      * Channel number of the underlying Ethernet
      * interface, where the frame originated from.
      */
-    BYTE ethChannel;
+    BYTE ethChannel {};
 
     /** reserved */
-    BYTE reservedAfdxFrame1;
+    BYTE reservedAfdxFrame1 {};
 
     /**
      * Status- and error flags as:
@@ -127,16 +127,16 @@ public:
      * - Bit 8: A / B interface mismatch
      * - Bit 11: Fragmentation error
      */
-    WORD afdxFlags;
+    WORD afdxFlags {};
 
     /** reserved */
-    WORD reservedAfdxFrame2;
+    WORD reservedAfdxFrame2 {};
 
     /**
      * Time period since last received frame on this
      * virtual link in micro-seconds
      */
-    ULONG bagUsec;
+    ULONG bagUsec {};
 
     /**
      * @brief Number of valid payLoad bytes
@@ -144,13 +144,13 @@ public:
      * Length of Ethernet payload data in bytes. Max.
      * 1500 Bytes (without Ethernet header)
      */
-    WORD payLoadLength;
+    WORD payLoadLength {};
 
     /** reserved */
-    WORD reservedAfdxFrame3;
+    WORD reservedAfdxFrame3 {};
 
     /** reserved */
-    DWORD reservedAfdxFrame4;
+    DWORD reservedAfdxFrame4 {};
 
     /**
      * @brief Ethernet payload data
@@ -160,7 +160,7 @@ public:
      *
      * Max 1582 (1600 packet length - 18 header) data bytes per frame
      */
-    std::vector<uint8_t> payLoad;
+    std::vector<uint8_t> payLoad {};
 };
 
 }

@@ -24,19 +24,6 @@
 namespace Vector {
 namespace BLF {
 
-GeneralSerialEvent::GeneralSerialEvent() :
-    dataLength(),
-    timeStampsLength(),
-    reservedGeneralSerialEvent(),
-    data(),
-    timeStamps()
-{
-}
-
-GeneralSerialEvent::~GeneralSerialEvent()
-{
-}
-
 void GeneralSerialEvent::read(AbstractFile & is)
 {
     is.read(reinterpret_cast<char *>(&dataLength), sizeof(dataLength));

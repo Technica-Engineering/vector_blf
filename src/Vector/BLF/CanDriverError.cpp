@@ -25,11 +25,7 @@ namespace Vector {
 namespace BLF {
 
 CanDriverError::CanDriverError() :
-    ObjectHeader(),
-    channel(),
-    txErrors(),
-    rxErrors(),
-    errorCode()
+    ObjectHeader()
 {
     objectType = ObjectType::CAN_DRIVER_ERROR;
 }

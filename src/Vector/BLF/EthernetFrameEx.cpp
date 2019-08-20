@@ -25,18 +25,7 @@ namespace Vector {
 namespace BLF {
 
 EthernetFrameEx::EthernetFrameEx() :
-    ObjectHeader(),
-    structLength(),
-    flags(),
-    channel(),
-    hardwareChannel(),
-    frameDuration(),
-    frameChecksum(),
-    dir(),
-    frameLength(),
-    frameHandle(),
-    reservedEthernetFrameEx(),
-    frameData()
+    ObjectHeader()
 {
     objectType = ObjectType::ETHERNET_FRAME_EX;
 }

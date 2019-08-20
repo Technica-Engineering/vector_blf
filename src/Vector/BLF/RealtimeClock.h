@@ -49,12 +49,12 @@ public:
     /**
      * @brief logging start time in ns since 00:00 1.1.1970 GMT
      */
-    ULONGLONG time;
+    ULONGLONG time {};
 
     /**
      * @brief measurement zero offset in ns to 00:00 1.1.1970 GMT
      */
-    ULONGLONG loggingOffset;
+    ULONGLONG loggingOffset {};
 };
 
 }

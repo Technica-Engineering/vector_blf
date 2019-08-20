@@ -72,12 +72,12 @@ public:
      *
      * Unit of object timestamp.
      */
-    DWORD objectFlags;
+    DWORD objectFlags { ObjectFlags::TimeOneNans };
 
     /**
      * @brief client index of send node
      */
-    WORD clientIndex;
+    WORD clientIndex {};
 
     /**
      * @brief object specific version
@@ -85,8 +85,10 @@ public:
      * Object specific version, has to be set to 0 unless
      * stated otherwise in the description of a specific
      * event.
+     *
+     * @note can be set in event class constructor
      */
-    WORD objectVersion;
+    WORD objectVersion { 0 };
 
     /**
      * @brief object timestamp
@@ -94,7 +96,7 @@ public:
      * Time stamp of this object in the unit specified in
      * objectFlags.
      */
-    ULONGLONG objectTimeStamp;
+    ULONGLONG objectTimeStamp {};
 };
 
 }

@@ -38,8 +38,12 @@ namespace BLF {
 class VECTOR_BLF_EXPORT LinBusEvent
 {
 public:
-    LinBusEvent();
-    virtual ~LinBusEvent();
+    LinBusEvent() = default;
+    virtual ~LinBusEvent() noexcept = default;
+    LinBusEvent(const LinBusEvent&) = default;
+    LinBusEvent& operator=(const LinBusEvent&) = default;
+    LinBusEvent(LinBusEvent&&) = default;
+    LinBusEvent& operator=(LinBusEvent&&) = default;
 
     /** @copydoc ObjectHeader::read */
     virtual void read(AbstractFile & is);
@@ -55,24 +59,24 @@ public:
      *
      * Timestamp of frame/event start
      */
-    ULONGLONG sof;
+    ULONGLONG sof {};
 
     /**
      * @brief Baudrate of the event in bit/sec
      *
      * Baudrate of frame/event in bit/sec
      */
-    DWORD eventBaudrate;
+    DWORD eventBaudrate {};
 
     /**
      * @brief application channel
      *
      * Channel number where the frame/event notified
      */
-    WORD channel;
+    WORD channel {};
 
     /** reserved */
-    WORD reservedLinBusEvent;
+    WORD reservedLinBusEvent {};
 };
 
 }

@@ -25,17 +25,7 @@ namespace Vector {
 namespace BLF {
 
 LinStatisticEvent::LinStatisticEvent() :
-    ObjectHeader(),
-    channel(),
-    reservedLinStatisticEvent1(),
-    reservedLinStatisticEvent2(),
-    busLoad(),
-    burstsTotal(),
-    burstsOverrun(),
-    framesSent(),
-    framesReceived(),
-    framesUnanswered(),
-    reservedLinStatisticEvent3()
+    ObjectHeader()
 {
     objectType = ObjectType::LIN_STATISTIC;
 }

@@ -52,21 +52,21 @@ public:
      *
      * Pre trigger time.
      */
-    ULONGLONG preTriggerTime;
+    ULONGLONG preTriggerTime {};
 
     /**
      * @brief post-trigger time
      *
      * Post trigger time.
      */
-    ULONGLONG postTriggerTime;
+    ULONGLONG postTriggerTime {};
 
     /**
      * @brief channel of event which triggered (if any)
      *
      * Trigger that channel belongs to.
      */
-    WORD channel;
+    WORD channel {};
 
     /** enumeration for flags */
     enum Flags : WORD {
@@ -83,14 +83,14 @@ public:
     /**
      * @brief trigger type
      */
-    WORD flags;
+    WORD flags {};
 
     /**
      * @brief app specific member 2
      *
      * Reserved.
      */
-    DWORD appSpecific2;
+    DWORD appSpecific2 {};
 };
 
 }

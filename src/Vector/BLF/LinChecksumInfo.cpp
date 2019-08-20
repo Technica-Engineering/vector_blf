@@ -25,11 +25,7 @@ namespace Vector {
 namespace BLF {
 
 LinChecksumInfo::LinChecksumInfo() :
-    ObjectHeader(),
-    channel(),
-    id(),
-    checksumModel(),
-    reservedLinChecksumInfo()
+    ObjectHeader()
 {
     objectType = ObjectType::LIN_CHECKSUM_INFO;
 }

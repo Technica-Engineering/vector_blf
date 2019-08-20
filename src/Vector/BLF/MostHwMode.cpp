@@ -25,11 +25,7 @@ namespace Vector {
 namespace BLF {
 
 MostHwMode::MostHwMode() :
-    ObjectHeader2(),
-    channel(),
-    reservedMostHwMode(),
-    hwMode(),
-    hwModeMask()
+    ObjectHeader2()
 {
     objectType = ObjectType::MOST_HWMODE;
 }

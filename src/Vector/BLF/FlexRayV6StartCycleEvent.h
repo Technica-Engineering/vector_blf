@@ -53,7 +53,7 @@ public:
      *
      * Application channel
      */
-    WORD channel;
+    WORD channel {};
 
     /**
      * @brief dir flag (tx, rx)
@@ -64,28 +64,28 @@ public:
      *   - 2 = Tx Request
      *   - 3 and 4 are for internal use only.
      */
-    BYTE dir;
+    BYTE dir {};
 
     /**
      * @brief additional time field in simulation
      *
      * Additional time field in simulation
      */
-    BYTE lowTime;
+    BYTE lowTime {};
 
     /**
      * @brief timestamp generated from xModule
      *
      * Timestamp generated from xModule
      */
-    DWORD fpgaTick;
+    DWORD fpgaTick {};
 
     /**
      * @brief overflow counter of the timestamp
      *
      * Overflow counter of the timestamp
      */
-    DWORD fpgaTickOverflow;
+    DWORD fpgaTickOverflow {};
 
     /**
      * @brief clientindex of send node
@@ -93,24 +93,24 @@ public:
      * Client index of send node. Must be set to 0 if file
      * is written from other applications
      */
-    DWORD clientIndexFlexRayV6StartCycleEvent;
+    DWORD clientIndexFlexRayV6StartCycleEvent {};
 
     /**
      * @brief relative clustertime, from 0 to cyclelength
      *
      * Relative cluster time, from 0 to cycle length
      */
-    DWORD clusterTime;
+    DWORD clusterTime {};
 
     /**
      * @brief array of databytes
      *
      * Array of data bytes
      */
-    std::array<BYTE, 2> dataBytes;
+    std::array<BYTE, 2> dataBytes {};
 
     /** reserved */
-    WORD reservedFlexRayV6StartCycleEvent;
+    WORD reservedFlexRayV6StartCycleEvent {};
 };
 
 }

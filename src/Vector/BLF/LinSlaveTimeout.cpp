@@ -25,11 +25,7 @@ namespace Vector {
 namespace BLF {
 
 LinSlaveTimeout::LinSlaveTimeout() :
-    ObjectHeader(),
-    channel(),
-    slaveId(),
-    stateId(),
-    followStateId()
+    ObjectHeader()
 {
     objectType = ObjectType::LIN_SLV_TIMEOUT;
 }

@@ -63,7 +63,7 @@ public:
      *
      * Application channel
      */
-    WORD channel;
+    WORD channel {};
 
     /**
      * Signal state:
@@ -73,10 +73,10 @@ public:
      *   - 0x10 – Stable Lock
      *   - 0x20 – Critical Unlock
      */
-    SHORT state;
+    SHORT state {};
 
     /** reserved */
-    DWORD reservedMostLightLock;
+    DWORD reservedMostLightLock {};
 };
 
 }

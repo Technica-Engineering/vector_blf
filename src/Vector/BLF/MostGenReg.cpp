@@ -25,15 +25,7 @@ namespace Vector {
 namespace BLF {
 
 MostGenReg::MostGenReg() :
-    ObjectHeader2(),
-    channel(),
-    subType(),
-    reservedMostGenReg1(),
-    handle(),
-    regId(),
-    reservedMostGenReg2(),
-    reservedMostGenReg3(),
-    regValue()
+    ObjectHeader2()
 {
     objectType = ObjectType::MOST_GENREG;
 }

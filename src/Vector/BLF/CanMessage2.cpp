@@ -25,16 +25,7 @@ namespace Vector {
 namespace BLF {
 
 CanMessage2::CanMessage2() :
-    ObjectHeader(),
-    channel(),
-    flags(),
-    dlc(),
-    id(),
-    data(),
-    frameLength(),
-    bitCount(),
-    reservedCanMessage1(),
-    reservedCanMessage2()
+    ObjectHeader()
 {
     objectType = ObjectType::CAN_MESSAGE2;
 }

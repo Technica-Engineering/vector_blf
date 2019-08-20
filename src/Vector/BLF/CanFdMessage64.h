@@ -54,7 +54,7 @@ public:
      *
      * Channel the frame was sent or received.
      */
-    BYTE channel;
+    BYTE channel {};
 
     /**
      * @brief CAN dlc
@@ -70,7 +70,7 @@ public:
      * - DLC=14: CAN=8, CAN FD=48
      * - DLC=15: CAN=8, CAN FD=64
      */
-    BYTE dlc;
+    BYTE dlc {};
 
     /**
      * @brief Valid payload length of data
@@ -78,7 +78,7 @@ public:
      * Valid payload length of data, can differ from
      * DLC value.
      */
-    BYTE validDataBytes;
+    BYTE validDataBytes {};
 
     /**
      * @brief txRequiredCount (4 bits), txReqCount (4 Bits)
@@ -87,14 +87,14 @@ public:
      * attempts, (Bits 4-7) Max Number of
      * transmission attempts.
      */
-    BYTE txCount;
+    BYTE txCount {};
 
     /**
      * @brief CAN ID
      *
      * Frame identifier.
      */
-    DWORD id;
+    DWORD id {};
 
     /**
      * @brief message length in ns
@@ -103,7 +103,7 @@ public:
      * interframe-space bit times and by Rx-messages
      * also not including 1 end-of-frame bit time
      */
-    DWORD frameLength;
+    DWORD frameLength {};
 
     /**
      * @brief flags
@@ -128,7 +128,7 @@ public:
      * - Bit#=17 (0x20000): 1=Frame is part of a burst
      * - Bit#=18-31: Reserved, must be 0
      */
-    DWORD flags;
+    DWORD flags {};
 
     /**
      * @brief bit rate used in arbitration phase
@@ -142,7 +142,7 @@ public:
      * - Bit 16-23: BTL Cycles
      * - Bit 24-31: Sampling Point
      */
-    DWORD btrCfgArb;
+    DWORD btrCfgArb {};
 
     /**
      * @brief bit rate used in data phase
@@ -151,7 +151,7 @@ public:
      * phase, may be 0, if not supported by
      * hardware/driver. See btrCfgArb.
      */
-    DWORD btrCfgData;
+    DWORD btrCfgData {};
 
     /**
      * @brief time offset of brs field
@@ -159,7 +159,7 @@ public:
      * Time offset of bit rate switch within BRS field
      * in nanoseconds
      */
-    DWORD timeOffsetBrsNs;
+    DWORD timeOffsetBrsNs {};
 
     /**
      * @brief time offset of crc delimiter field
@@ -167,27 +167,27 @@ public:
      * Time offset of bit rate switch within CRC
      * delimiter field in nanoseconds
      */
-    DWORD timeOffsetCrcDelNs;
+    DWORD timeOffsetCrcDelNs {};
 
     /**
      * @brief complete message length in bits
      *
      * Bit count of the message
      */
-    WORD bitCount;
+    WORD bitCount {};
 
     /**
      * Direction of the message
      */
-    BYTE dir;
+    BYTE dir {};
 
     /** offset if extDataOffset is used */
-    BYTE extDataOffset;
+    BYTE extDataOffset {};
 
     /**
      * @brief CRC for CAN
      */
-    DWORD crc;
+    DWORD crc {};
 
     /**
      * @brief CAN FD data
@@ -196,7 +196,7 @@ public:
      * than 64 bytes, according to the value of
      * dlc).
      */
-    std::vector<uint8_t> data;
+    std::vector<uint8_t> data {};
 };
 
 }

@@ -52,7 +52,7 @@ public:
      *
      * Channel number of the event
      */
-    WORD channel;
+    WORD channel {};
 
     /**
      * @brief LIN ID of disturbed response
@@ -61,7 +61,7 @@ public:
      * response or 0xFF if a header
      * was disturbed.
      */
-    BYTE id;
+    BYTE id {};
 
     /**
      * @brief LIN ID of disturbing header
@@ -71,7 +71,7 @@ public:
      * header (disturbanceType
      * == 2), otherwise 0xFF.
      */
-    BYTE disturbingFrameId;
+    BYTE disturbingFrameId {};
 
     /**
      * @brief type of disturbance (dominant, recessive, header, bitstream, variable bitstream)
@@ -85,7 +85,7 @@ public:
      *   - 4: disturbance with a variable
      *     bitstream
      */
-    ULONG disturbanceType;
+    ULONG disturbanceType {};
 
     /**
      * @brief index of the byte that was disturbed
@@ -100,7 +100,7 @@ public:
      * (id == 0xFF), 0 is the sync
      * field and 1 is the PID.
      */
-    ULONG byteIndex;
+    ULONG byteIndex {};
 
     /**
      * @brief index of the bit that was disturbed
@@ -110,7 +110,7 @@ public:
      *
      * The index of the bit that was
      */
-    ULONG bitIndex;
+    ULONG bitIndex {};
 
     /**
      * @brief offset in 1/16th bits into the disturbed bit
@@ -118,7 +118,7 @@ public:
      * The offset in 1/16th bits
      * into the disturbed bit.
      */
-    ULONG bitOffsetInSixteenthBits;
+    ULONG bitOffsetInSixteenthBits {};
 
     /**
      * @brief length of the disturbance in units of 1/16th bit
@@ -127,7 +127,7 @@ public:
      * recessive disturbance in units
      * of 1/16th bits.
      */
-    ULONG disturbanceLengthInSixteenthBits;
+    ULONG disturbanceLengthInSixteenthBits {};
 };
 
 }

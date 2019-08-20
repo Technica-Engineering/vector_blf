@@ -55,7 +55,7 @@ public:
      *
      * The number of response bytes.
      */
-    ULONG numberOfRespBytes;
+    ULONG numberOfRespBytes {};
 
     /**
      * @brief the response bytes (can include the checksum)
@@ -63,7 +63,7 @@ public:
      * The response bytes (can include the
      * checksum).
      */
-    std::array<BYTE, 9> respBytes;
+    std::array<BYTE, 9> respBytes {};
 
     /**
      * @brief non-zero, if the response was too slow
@@ -71,7 +71,7 @@ public:
      * Non-zero, if the response was too
      * slow; otherwise zero.
      */
-    BYTE slowResponse;
+    BYTE slowResponse {};
 
     /**
      * @brief non-zero, if the response was interrupted by a sync break
@@ -80,10 +80,10 @@ public:
      * interrupted by a sync break;
      * otherwise zero.
      */
-    BYTE interruptedByBreak;
+    BYTE interruptedByBreak {};
 
     /** reserved */
-    BYTE reservedLinShortOrSlowResponse;
+    BYTE reservedLinShortOrSlowResponse {};
 };
 
 }

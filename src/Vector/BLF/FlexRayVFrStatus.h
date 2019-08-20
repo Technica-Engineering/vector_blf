@@ -57,14 +57,14 @@ public:
      *
      * Application channel
      */
-    WORD channel;
+    WORD channel {};
 
     /**
      * @brief object version
      *
      * Object version, for internal use
      */
-    WORD version;
+    WORD version {};
 
     /**
      * @brief channel mask
@@ -75,17 +75,17 @@ public:
      *   - 2 = FlexRay Channel B
      *   - 3 = FlexRay Channels A and B
      */
-    WORD channelMask;
+    WORD channelMask {};
 
     /**
      * @brief current cycle
      *
      * Cycle number
      */
-    BYTE cycle;
+    BYTE cycle {};
 
     /** reserved */
-    BYTE reservedFlexRayVFrStatus1;
+    BYTE reservedFlexRayVFrStatus1 {};
 
     /**
      * @brief clientindex of send node
@@ -93,14 +93,14 @@ public:
      * Client index of send node. Must be set to 0 if file is
      * written from other applications
      */
-    DWORD clientIndexFlexRayVFrStatus;
+    DWORD clientIndexFlexRayVFrStatus {};
 
     /**
      * @brief number of cluster
      *
      * Number of cluster: channel number – 1
      */
-    DWORD clusterNo;
+    DWORD clusterNo {};
 
     /**
      * @brief wakeup status
@@ -121,7 +121,7 @@ public:
      *   - 7: EXTERNAL_WAKEUP
      *   - 8: WUP_RECEIVED_WITHOUT_WUS_TX
      */
-    DWORD wus;
+    DWORD wus {};
 
     /**
      * @brief sync state of cc
@@ -135,7 +135,7 @@ public:
      *   - 1 = Synced active
      *   - 2 = Not synced
      */
-    DWORD ccSyncState;
+    DWORD ccSyncState {};
 
     /**
      * @brief type of cc
@@ -149,7 +149,7 @@ public:
      *   - 5 = Vector VN interface
      *   - 6 = VN-Sync-Pulse (only in Status Event, for debugging purposes only)
      */
-    DWORD tag;
+    DWORD tag {};
 
     /**
      * @brief register flags
@@ -215,7 +215,7 @@ public:
      *     Symbol length in bit times. Only valid for symbol type 4 and if the value is not
      *     zero.
      */
-    std::array<DWORD, 2> data;
+    std::array<DWORD, 2> data {};
 
     /**
      * @brief reserved
@@ -235,7 +235,7 @@ public:
      * reserved[1..15]:
      * Reserved
      */
-    std::array<WORD, 18> reservedFlexRayVFrStatus2;
+    std::array<WORD, 18> reservedFlexRayVFrStatus2 {};
 };
 
 }

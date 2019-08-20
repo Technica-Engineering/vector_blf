@@ -53,14 +53,14 @@ public:
      *
      * Channel number where the event notified
      */
-    WORD channel;
+    WORD channel {};
 
     /**
      * @brief LIN ID
      *
      * Frame identifier
      */
-    BYTE id;
+    BYTE id {};
 
     /**
      * @brief LIN checksum model
@@ -71,10 +71,10 @@ public:
      *   - 1: Enhanced
      *   - 0xFF: Unknown
      */
-    BYTE checksumModel;
+    BYTE checksumModel {};
 
     /** reserved */
-    DWORD reservedLinChecksumInfo;
+    DWORD reservedLinChecksumInfo {};
 };
 
 }

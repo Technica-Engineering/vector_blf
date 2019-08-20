@@ -183,31 +183,31 @@ public:
     /**
      * File statistics from file header. contains total counts/sizes
      */
-    FileStatistics fileStatistics;
+    FileStatistics fileStatistics {};
 
     /**
      * Current uncompressed file size
      *
      * This includes the LogContainer headers, and the uncompressed content.
      */
-    ULONGLONG currentUncompressedFileSize;
+    ULONGLONG currentUncompressedFileSize {};
 
     /**
      * Current number of objects read
      *
      * Unknown115 is not counted.
      */
-    std::atomic<DWORD> currentObjectCount;
+    std::atomic<DWORD> currentObjectCount {};
 
     /**
      * zlib compression level (0=no compression, 1=best speed, 9=best compression, -1=default compression
      */
-    int compressionLevel;
+    int compressionLevel { 6 };
 
     /**
      * Write Unknown115 message at file close
      */
-    bool writeUnknown115;
+    bool writeUnknown115 { true };
 
     /**
      * open file
@@ -301,7 +301,7 @@ private:
     /**
      * Open mode
      */
-    std::ios_base::openmode m_openMode;
+    std::ios_base::openmode m_openMode {};
 
     /* read/write queue */
 
@@ -315,7 +315,7 @@ private:
      * application. If there are no objects in the queue, the methods waits for the readWriteThread to finish.
      * The readWriteThread reads objects from the compressedfile and puts them into the queue.
      */
-    ObjectQueue<ObjectHeaderBase> m_readWriteQueue;
+    ObjectQueue<ObjectHeaderBase> m_readWriteQueue {};
 
     /* uncompressed file */
 
@@ -326,17 +326,17 @@ private:
      * The readWriteThread transfers data from/to here into the readWriteQueue.
      * The compressionThread transfers data from/to here into the uncompressedFile.
      */
-    UncompressedFile m_uncompressedFile;
+    UncompressedFile m_uncompressedFile {};
 
     /**
      * thread between readWriteQueue and uncompressedFile
      */
-    std::thread m_uncompressedFileThread;
+    std::thread m_uncompressedFileThread {};
 
     /**
      * thread still running
      */
-    std::atomic<bool> m_uncompressedFileThreadRunning;
+    std::atomic<bool> m_uncompressedFileThreadRunning {};
 
     /* compressed file */
 
@@ -347,17 +347,17 @@ private:
      * It mainly contains the FileStatistics and several LogContainers carrying the different objects.
      * The compressionThread transfers data from/to here into the compressedFile.
      */
-    CompressedFile m_compressedFile;
+    CompressedFile m_compressedFile {};
 
     /**
      * thread between uncompressedFile and compressedFile
      */
-    std::thread m_compressedFileThread;
+    std::thread m_compressedFileThread {};
 
     /**
      * thread still running
      */
-    std::atomic<bool> m_compressedFileThreadRunning;
+    std::atomic<bool> m_compressedFileThreadRunning {};
 
     /* internal functions */
 

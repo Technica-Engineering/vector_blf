@@ -51,7 +51,7 @@ public:
      *
      * The channel of the frame.
      */
-    WORD channel;
+    WORD channel {};
 
     /** enumeration for flags */
     enum Flags : WORD {
@@ -63,40 +63,40 @@ public:
     };
 
     /** flags */
-    WORD flags;
+    WORD flags {};
 
     /**
      * Number of Rx packets since last statistic event.
      */
-    ULONG rxPacketCount;
+    ULONG rxPacketCount {};
 
     /**
      * Number of Rx bytes since last statistic event.
      */
-    ULONG rxByteCount;
+    ULONG rxByteCount {};
 
     /**
      * Number of Tx packets since last statistic event.
      */
-    ULONG txPacketCount;
+    ULONG txPacketCount {};
 
     /**
      * Number of Tx bytes since last statistic event.
      */
-    ULONG txByteCount;
+    ULONG txByteCount {};
 
     /**
      * Number of collisions since last statistic event.
      */
-    ULONG collisionCount;
+    ULONG collisionCount {};
 
     /**
      * Number of errors since last statistic event.
      */
-    ULONG errorCount;
+    ULONG errorCount {};
 
     /** reserved */
-    DWORD reservedWlanStatistic;
+    DWORD reservedWlanStatistic {};
 };
 
 }

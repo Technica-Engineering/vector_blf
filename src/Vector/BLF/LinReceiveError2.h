@@ -65,21 +65,21 @@ public:
     /**
      * @brief data bytes.
      */
-    std::array<BYTE, 8> data;
+    std::array<BYTE, 8> data {};
 
     /**
      * Slave Identifier in the
      * Final State Machine
      * (obsolete)
      */
-    BYTE fsmId;
+    BYTE fsmId {};
 
     /**
      * State Identifier of a Slave in
      * the Final State Machine
      * (obsolete)
      */
-    BYTE fsmState;
+    BYTE fsmState {};
 
     /**
      * The lower 4 bits indicate the
@@ -124,7 +124,7 @@ public:
      *   - 3: Unexpected Break field
      *   - 4: Unidentified error
      */
-    BYTE stateReason;
+    BYTE stateReason {};
 
     /**
      * Byte value that resulted the
@@ -132,7 +132,7 @@ public:
      * valid for certain values of
      * mStateReason
      */
-    BYTE offendingByte;
+    BYTE offendingByte {};
 
     /**
      * Specifies the detail level of
@@ -143,7 +143,7 @@ public:
      * Most members are not valid
      * unless this member is 1
      */
-    BYTE shortError;
+    BYTE shortError {};
 
     /**
      * Flag indicating if the error is
@@ -154,7 +154,7 @@ public:
      *   - 0: False
      *   - 1: True
      */
-    BYTE timeoutDuringDlcDetection;
+    BYTE timeoutDuringDlcDetection {};
 
     /**
      * @brief ETF collision flag
@@ -165,14 +165,14 @@ public:
      *   - 0: not ETF
      *   - 1: ETF
      */
-    BYTE isEtf;
+    BYTE isEtf {};
 
     /**
      * Flag indicating whether at
      * least one data byte value is
      * valid
      */
-    BYTE hasDatabytes;
+    BYTE hasDatabytes {};
 
     /* the following variables are only available in Version 2 and above */
 
@@ -183,10 +183,10 @@ public:
      * measured in response [in
      * bits/sec]
      */
-    DWORD respBaudrate;
+    DWORD respBaudrate {};
 
     /** reserved */
-    DWORD reservedLinReceiveError;
+    DWORD reservedLinReceiveError {};
 
     /* the following variables are only available in Version 3 and above */
 
@@ -197,7 +197,7 @@ public:
      * measured in header [in
      * bits/sec]
      */
-    DOUBLE exactHeaderBaudrate;
+    DOUBLE exactHeaderBaudrate {};
 
     /**
      * @brief Early stop bit offset for UART timestamps in ns
@@ -206,7 +206,7 @@ public:
      * frame header for UART
      * timestamps [in ns]
      */
-    DWORD earlyStopbitOffset;
+    DWORD earlyStopbitOffset {};
 
     /**
      * @brief Early stop bit offset in frame response for UART timestamps in ns
@@ -215,7 +215,7 @@ public:
      * frame response for
      * UART timestamps [in ns]
      */
-    DWORD earlyStopbitOffsetResponse;
+    DWORD earlyStopbitOffsetResponse {};
 };
 
 }

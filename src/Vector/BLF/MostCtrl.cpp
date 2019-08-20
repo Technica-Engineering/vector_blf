@@ -25,20 +25,7 @@ namespace Vector {
 namespace BLF {
 
 MostCtrl::MostCtrl() :
-    ObjectHeader(),
-    channel(),
-    dir(),
-    reservedMostCtrl1(),
-    sourceAdr(),
-    destAdr(),
-    msg(),
-    reservedMostCtrl2(),
-    rTyp(),
-    rTypAdr(),
-    state(),
-    reservedMostCtrl3(),
-    ackNack(),
-    reservedMostCtrl4()
+    ObjectHeader()
 {
     objectType = ObjectType::MOST_CTRL;
 }

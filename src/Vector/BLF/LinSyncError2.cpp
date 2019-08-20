@@ -26,8 +26,7 @@ namespace BLF {
 
 LinSyncError2::LinSyncError2() :
     ObjectHeader(),
-    LinSynchFieldEvent(),
-    timeDiff()
+    LinSynchFieldEvent()
 {
     objectType = ObjectType::LIN_SYN_ERROR2;
 }

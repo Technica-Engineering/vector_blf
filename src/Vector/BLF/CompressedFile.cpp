@@ -24,12 +24,6 @@
 namespace Vector {
 namespace BLF {
 
-CompressedFile::CompressedFile() :
-    m_file(),
-    m_mutex()
-{
-}
-
 CompressedFile::~CompressedFile()
 {
     close();

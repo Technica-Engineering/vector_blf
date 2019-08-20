@@ -25,14 +25,7 @@ namespace Vector {
 namespace BLF {
 
 FlexRayStatusEvent::FlexRayStatusEvent() :
-    ObjectHeader(),
-    channel(),
-    version(),
-    statusType(),
-    infoMask1(),
-    infoMask2(),
-    infoMask3(),
-    reservedFlexRayStatusEvent()
+    ObjectHeader()
 {
     objectType = ObjectType::FLEXRAY_STATUS;
 }

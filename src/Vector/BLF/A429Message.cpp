@@ -25,24 +25,7 @@ namespace Vector {
 namespace BLF {
 
 A429Message::A429Message() :
-    ObjectHeader(),
-    a429Data(),
-    channel(),
-    dir(),
-    reservedA429Message1(),
-    bitrate(),
-    errReason(),
-    errPosition(),
-    reservedA429Message2(),
-    reservedA429Message3(),
-    frameGap(),
-    frameLength(),
-    msgCtrl(),
-    reservedA429Message4(),
-    cycleTime(),
-    error(),
-    bitLenOfLastBit(),
-    reservedA429Message5()
+    ObjectHeader()
 {
     objectType = ObjectType::A429_MESSAGE;
 }

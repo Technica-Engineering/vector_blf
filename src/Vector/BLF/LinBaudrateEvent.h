@@ -53,15 +53,15 @@ public:
      *
      * Channel number where the frame sent/received.
      */
-    WORD channel;
+    WORD channel {};
 
     /** reserved */
-    WORD reservedLinBaudrateEvent;
+    WORD reservedLinBaudrateEvent {};
 
     /**
      * Measured baud rate [in bits/sec]
      */
-    LONG baudrate;
+    LONG baudrate {};
 };
 
 }

@@ -58,7 +58,7 @@ public:
     /**
      * @brief Length of this structure, without sizeof(VBLObjectHeader), without mStructLength member and without mFrameData member
      */
-    WORD structLength;
+    WORD structLength {};
 
     /**
      * @brief flags, which indicates the valid fields:
@@ -68,50 +68,50 @@ public:
      *   - Bit 3 - mFrameChecksum valid
      *   - Bit 4 - mFrameHandle valid
      */
-    WORD flags;
+    WORD flags {};
 
     /**
      * @brief application channel, i.e. Eth 1
      */
-    WORD channel;
+    WORD channel {};
 
     /**
      * @brief HW channel
      */
-    WORD hardwareChannel;
+    WORD hardwareChannel {};
 
     /**
      * @brief Transmission duration in [ns]
      */
-    UINT64 frameDuration;
+    UINT64 frameDuration {};
 
     /**
      * @brief Ethernet checksum
      */
-    DWORD frameChecksum;
+    DWORD frameChecksum {};
 
     /**
      * @brief Direction flag: 0=Rx, 1=Tx, 2=TxRq
      */
-    WORD dir;
+    WORD dir {};
 
     /**
      * @brief Number of valid frameData bytes
      */
-    WORD frameLength;
+    WORD frameLength {};
 
     /**
      * @brief Handle which refer the corresponding EthernetFrameForwarded event
      */
-    DWORD frameHandle;
+    DWORD frameHandle {};
 
     /** reserved */
-    DWORD reservedEthernetFrameEx;
+    DWORD reservedEthernetFrameEx {};
 
     /**
      * @brief Max 1612 data bytes per frame. Contains Ethernet header + Ethernet payload
      */
-    std::vector<BYTE> frameData;
+    std::vector<BYTE> frameData {};
 };
 
 }

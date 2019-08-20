@@ -51,17 +51,17 @@ public:
      *
      * Channel the frame was sent or received.
      */
-    WORD channel;
+    WORD channel {};
 
     /**
      * @brief CAN error frame length
      *
      * Length of error frame - can be left 0.
      */
-    WORD length;
+    WORD length {};
 
     /** reserved */
-    DWORD reservedCanErrorFrame;
+    DWORD reservedCanErrorFrame {};
 };
 
 }

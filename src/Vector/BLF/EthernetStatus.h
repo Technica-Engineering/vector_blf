@@ -49,7 +49,7 @@ public:
     /**
      * The channel of the event.
      */
-    WORD channel;
+    WORD channel {};
 
     /** enumeration for flags */
     enum Flags : WORD {
@@ -105,7 +105,7 @@ public:
     /**
      * @brief Link Status
      */
-    BYTE linkStatus;
+    BYTE linkStatus {};
 
     /** enumeration for ethernetPhy */
     enum EthernetPhy : BYTE {
@@ -122,7 +122,7 @@ public:
     /**
      * @brief Ethernet Phy
      */
-    BYTE ethernetPhy;
+    BYTE ethernetPhy {};
 
     /** enumeration for duplex */
     enum Duplex : BYTE {
@@ -139,7 +139,7 @@ public:
     /**
      * @brief Duplex
      */
-    BYTE duplex;
+    BYTE duplex {};
 
     /** enumeration for mdi */
     enum Mdi : BYTE {
@@ -154,7 +154,7 @@ public:
     };
 
     /** MDI */
-    BYTE mdi;
+    BYTE mdi {};
 
     /** enumeration for connector */
     enum Connector : BYTE {
@@ -169,7 +169,7 @@ public:
     };
 
     /** connector */
-    BYTE connector;
+    BYTE connector {};
 
     /** enumeration for clockMode */
     enum ClockMode : BYTE {
@@ -184,7 +184,7 @@ public:
     };
 
     /** clock mode */
-    BYTE clockMode;
+    BYTE clockMode {};
 
     /** enumeration for pairs */
     enum Pairs : BYTE {
@@ -202,15 +202,15 @@ public:
     };
 
     /** pairs */
-    BYTE pairs;
+    BYTE pairs {};
 
     /** hardware channel */
-    BYTE hardwareChannel;
+    BYTE hardwareChannel {};
 
     /**
      * @brief Bitrate in [kbit/sec]
      */
-    DWORD bitrate;
+    DWORD bitrate {};
 };
 
 }

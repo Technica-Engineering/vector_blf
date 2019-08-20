@@ -25,25 +25,7 @@ namespace Vector {
 namespace BLF {
 
 A429BusStatistic::A429BusStatistic() :
-    ObjectHeader(),
-    channel(),
-    dir(),
-    reservedA429BusStatistic(),
-    busload(),
-    dataTotal(),
-    errorTotal(),
-    bitrate(),
-    parityErrors(),
-    bitrateErrors(),
-    gapErrors(),
-    lineErrors(),
-    formatErrors(),
-    dutyFactorErrors(),
-    wordLenErrors(),
-    codingErrors(),
-    idleErrors(),
-    levelErrors(),
-    labelCount()
+    ObjectHeader()
 {
     objectType = ObjectType::A429_BUS_STATISTIC;
 }

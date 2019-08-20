@@ -25,19 +25,7 @@ namespace Vector {
 namespace BLF {
 
 LinMessage::LinMessage() :
-    ObjectHeader(),
-    channel(),
-    id(),
-    dlc(),
-    data(),
-    fsmId(),
-    fsmState(),
-    headerTime(),
-    fullTime(),
-    crc(),
-    dir(),
-    reservedLinMessage1(),
-    reservedLinMessage2()
+    ObjectHeader()
 {
     objectType = ObjectType::LIN_MESSAGE;
 }

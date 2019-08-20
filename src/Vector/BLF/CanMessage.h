@@ -55,7 +55,7 @@ public:
      *
      * Channel the frame was sent or received.
      */
-    WORD channel;
+    WORD channel {};
 
     /**
      * @brief CAN dir & rtr
@@ -68,7 +68,7 @@ public:
      * - Bit 6: WU
      * - Bit 7: RTR
      */
-    BYTE flags;
+    BYTE flags {};
 
     /**
      * @brief CAN dlc
@@ -76,21 +76,21 @@ public:
      * Data length code of frame (number of valid data
      * bytes, max. 8)
      */
-    BYTE dlc;
+    BYTE dlc {};
 
     /**
      * @brief CAN ID
      *
      * Frame identifier.
      */
-    DWORD id;
+    DWORD id {};
 
     /**
      * @brief CAN data
      *
      * CAN data bytes
      */
-    std::array<BYTE, 8> data;
+    std::array<BYTE, 8> data {};
 };
 
 }

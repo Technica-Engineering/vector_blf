@@ -47,43 +47,43 @@ public:
     virtual DWORD calculateObjectSize() const override;
 
     /** channel */
-    WORD channel;
+    WORD channel {};
 
     /** reserved */
-    WORD reservedEthernetStatistic1;
+    WORD reservedEthernetStatistic1 {};
 
     /** reserved */
-    DWORD reservedEthernetStatistic2;
+    DWORD reservedEthernetStatistic2 {};
 
     /** receive ok */
-    UINT64 rcvOk_HW;
+    UINT64 rcvOk_HW {};
 
     /** transmit ok */
-    UINT64 xmitOk_HW;
+    UINT64 xmitOk_HW {};
 
     /** receive error */
-    UINT64 rcvError_HW;
+    UINT64 rcvError_HW {};
 
     /** transmit error */
-    UINT64 xmitError_HW;
+    UINT64 xmitError_HW {};
 
     /** receive bytes */
-    UINT64 rcvBytes_HW;
+    UINT64 rcvBytes_HW {};
 
     /** transmit bytes */
-    UINT64 xmitBytes_HW;
+    UINT64 xmitBytes_HW {};
 
     /** receive no buffer */
-    UINT64 rcvNoBuffer_HW;
+    UINT64 rcvNoBuffer_HW {};
 
     /** signal quality */
-    SHORT sqi;
+    SHORT sqi {};
 
     /** hardware channel */
-    WORD hardwareChannel;
+    WORD hardwareChannel {};
 
     /** reserved */
-    DWORD reservedEthernetStatistic3;
+    DWORD reservedEthernetStatistic3 {};
 };
 
 }

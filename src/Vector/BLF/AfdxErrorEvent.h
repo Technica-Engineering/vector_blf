@@ -51,7 +51,7 @@ public:
     /**
      * @brief application channel
      */
-    WORD channel;
+    WORD channel {};
 
     /**
      * @brief Error Level
@@ -59,16 +59,16 @@ public:
      *   - 1=warning
      *   - 2=info
      */
-    WORD errorLevel;
+    WORD errorLevel {};
 
     /** source identifier */
-    ULONG sourceIdentifier;
+    ULONG sourceIdentifier {};
 
     /** error text */
-    std::array<char, 512> errorText;
+    std::array<char, 512> errorText {};
 
     /** error attributes */
-    std::array<char, 512> errorAttributes;
+    std::array<char, 512> errorAttributes {};
 };
 
 }

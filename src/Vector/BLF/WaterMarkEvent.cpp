@@ -25,9 +25,7 @@ namespace Vector {
 namespace BLF {
 
 WaterMarkEvent::WaterMarkEvent() :
-    ObjectHeader(),
-    queueState(),
-    reservedWaterMarkEvent()
+    ObjectHeader()
 {
     objectType = ObjectType::WATER_MARK_EVENT;
 }

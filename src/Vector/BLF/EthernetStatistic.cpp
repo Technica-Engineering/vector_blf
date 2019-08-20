@@ -25,20 +25,7 @@ namespace Vector {
 namespace BLF {
 
 EthernetStatistic::EthernetStatistic() :
-    ObjectHeader(),
-    channel(),
-    reservedEthernetStatistic1(),
-    reservedEthernetStatistic2(),
-    rcvOk_HW(),
-    xmitOk_HW(),
-    rcvError_HW(),
-    xmitError_HW(),
-    rcvBytes_HW(),
-    xmitBytes_HW(),
-    rcvNoBuffer_HW(),
-    sqi(),
-    hardwareChannel(),
-    reservedEthernetStatistic3()
+    ObjectHeader()
 {
     objectType = ObjectType::ETHERNET_STATISTIC;
 }

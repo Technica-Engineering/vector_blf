@@ -25,17 +25,7 @@ namespace Vector {
 namespace BLF {
 
 EthernetFrame::EthernetFrame() :
-    ObjectHeader(),
-    sourceAddress(),
-    channel(),
-    destinationAddress(),
-    dir(),
-    type(),
-    tpid(),
-    tci(),
-    payLoadLength(),
-    reservedEthernetFrame(),
-    payLoad()
+    ObjectHeader()
 {
     objectType = ObjectType::ETHERNET_FRAME;
 }

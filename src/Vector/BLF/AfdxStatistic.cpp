@@ -25,22 +25,7 @@ namespace Vector {
 namespace BLF {
 
 AfdxStatistic::AfdxStatistic() :
-    ObjectHeader(),
-    channel(),
-    flags(),
-    rxPacketCount(),
-    rxByteCount(),
-    txPacketCount(),
-    txByteCount(),
-    collisionCount(),
-    errorCount(),
-    statDroppedRedundantPacketCount(),
-    statRedundantErrorPacketCount(),
-    statIntegrityErrorPacketCount(),
-    statAvrgPeriodMsec(),
-    statAvrgJitterMysec(),
-    vlid(),
-    statDuration()
+    ObjectHeader()
 {
     objectType = ObjectType::AFDX_STATISTIC;
 }

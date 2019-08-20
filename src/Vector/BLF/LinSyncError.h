@@ -57,19 +57,19 @@ public:
      *
      * Channel number where the event notified.
      */
-    WORD channel;
+    WORD channel {};
 
     /** reserved */
-    WORD reservedLinSyncError1;
+    WORD reservedLinSyncError1 {};
 
     /**
      * Time intervals [in us] detected between the
      * falling signal edges of the Sync field
      */
-    std::array<WORD, 4> timeDiff;
+    std::array<WORD, 4> timeDiff {};
 
     /** reserved */
-    DWORD reservedLinSyncError2;
+    DWORD reservedLinSyncError2 {};
 };
 
 }

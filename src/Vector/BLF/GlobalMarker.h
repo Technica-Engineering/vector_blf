@@ -52,76 +52,76 @@ public:
      *
      * Type of the commented events
      */
-    DWORD commentedEventType;
+    DWORD commentedEventType {};
 
     /**
      * Foreground color of the marker group.
      */
-    COLORREF foregroundColor;
+    COLORREF foregroundColor {};
 
     /**
      * Background color of the marker group.
      */
-    COLORREF backgroundColor;
+    COLORREF backgroundColor {};
 
     /**
      * Defines whether a marker can be relocated
      */
-    BYTE isRelocatable;
+    BYTE isRelocatable {};
 
     /** reserved */
-    BYTE reservedGlobalMarker1;
+    BYTE reservedGlobalMarker1 {};
 
     /** reserved */
-    WORD reservedGlobalMarker2;
+    WORD reservedGlobalMarker2 {};
 
     /**
      * @brief group name length in bytes
      *
      * Length of groupName without ending 0.
      */
-    DWORD groupNameLength;
+    DWORD groupNameLength {};
 
     /**
      * @brief marker name length in bytes
      *
      * Length of markerName without ending 0.
      */
-    DWORD markerNameLength;
+    DWORD markerNameLength {};
 
     /**
      * @brief description length in bytes
      *
      * Length of description without ending 0.
      */
-    DWORD descriptionLength;
+    DWORD descriptionLength {};
 
     /** reserved */
-    DWORD reservedGlobalMarker3;
+    DWORD reservedGlobalMarker3 {};
 
     /** reserved */
-    ULONGLONG reservedGlobalMarker4;
+    ULONGLONG reservedGlobalMarker4 {};
 
     /**
      * @brief group name
      *
      * Group name.
      */
-    std::string groupName;
+    std::string groupName {};
 
     /**
      * @brief marker name
      *
      * Marker.
      */
-    std::string markerName;
+    std::string markerName {};
 
     /**
      * @brief description
      *
      * Description text.
      */
-    std::string description;
+    std::string description {};
 };
 
 }

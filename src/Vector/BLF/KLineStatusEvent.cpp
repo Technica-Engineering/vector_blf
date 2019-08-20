@@ -25,12 +25,7 @@ namespace Vector {
 namespace BLF {
 
 KLineStatusEvent::KLineStatusEvent() :
-    ObjectHeader(),
-    type(),
-    dataLen(),
-    port(),
-    reservedKLineStatusEvent(),
-    data()
+    ObjectHeader()
 {
     objectType = ObjectType::KLINE_STATUSEVENT;
 }

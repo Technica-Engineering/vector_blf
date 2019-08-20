@@ -26,10 +26,6 @@
 namespace Vector {
 namespace BLF {
 
-AbstractFile::~AbstractFile()
-{
-}
-
 void AbstractFile::skipp(std::streamsize s)
 {
     std::vector<char> zero;

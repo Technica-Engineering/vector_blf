@@ -25,23 +25,7 @@ namespace Vector {
 namespace BLF {
 
 Most50Message::Most50Message() :
-    ObjectHeader2(),
-    channel(),
-    dir(),
-    reservedMost50Message1(),
-    sourceAdr(),
-    destAdr(),
-    transferType(),
-    state(),
-    ackNack(),
-    reservedMost50Message2(),
-    crc(),
-    reservedMost50Message3(),
-    priority(),
-    reservedMost50Message4(),
-    msgLen(),
-    reservedMost50Message5(),
-    msg()
+    ObjectHeader2()
 {
     objectType = ObjectType::MOST_50_MESSAGE;
 }

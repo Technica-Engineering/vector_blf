@@ -52,8 +52,12 @@ namespace BLF {
 class VECTOR_BLF_EXPORT UncompressedFile final : public AbstractFile
 {
 public:
-    UncompressedFile();
+    UncompressedFile() = default;
     virtual ~UncompressedFile() override;
+    UncompressedFile(const UncompressedFile&) = default;
+    UncompressedFile& operator=(const UncompressedFile&) = default;
+    UncompressedFile(UncompressedFile&&) = default;
+    UncompressedFile& operator=(UncompressedFile&&) = default;
 
     virtual std::streamsize gcount() const override;
     virtual void read(char * s, std::streamsize n) override;
@@ -130,34 +134,34 @@ public:
 
 private:
     /** abort further operations */
-    bool m_abort;
+    bool m_abort {};
 
     /** data */
-    std::list<std::shared_ptr<LogContainer>> m_data;
+    std::list<std::shared_ptr<LogContainer>> m_data {};
 
     /** get position */
-    std::streampos m_tellg;
+    std::streampos m_tellg {};
 
     /** put position */
-    std::streampos m_tellp;
+    std::streampos m_tellp {};
 
     /** last read size */
-    std::streamsize m_gcount;
+    std::streamsize m_gcount {};
 
     /** file size */
-    std::streamsize m_fileSize;
+    std::streamsize m_fileSize { 0x7fffffffffffffff };
 
     /** buffer size */
-    std::streamsize m_bufferSize;
+    std::streamsize m_bufferSize { 0x7fffffffffffffff };
 
     /** error state */
-    std::ios_base::iostate m_rdstate;
+    std::ios_base::iostate m_rdstate { std::ios_base::goodbit };
 
     /** mutex */
-    mutable std::mutex m_mutex;
+    mutable std::mutex m_mutex {};
 
     /** default log container size */
-    DWORD m_defaultLogContainerSize;
+    DWORD m_defaultLogContainerSize { 0x20000 };
 
     /**
      * Returns the file container, which contains pos.

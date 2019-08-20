@@ -54,7 +54,7 @@ public:
      * Width of the unexpected wakeup in nanoseconds.
      * Valid for LIN 2.x
      */
-    ULONGLONG width;
+    ULONGLONG width {};
 
     /**
      * @brief byte signal of the unexpected wakeup (valid for LIN 1.x)
@@ -62,16 +62,16 @@ public:
      * Byte signal of the unexpected wakeup. Valid for
      * LIN 1.x
      */
-    BYTE signal;
+    BYTE signal {};
 
     /** reserved */
-    BYTE reservedLinUnexpectedWakeup1;
+    BYTE reservedLinUnexpectedWakeup1 {};
 
     /** reserved */
-    WORD reservedLinUnexpectedWakeup2;
+    WORD reservedLinUnexpectedWakeup2 {};
 
     /** reserved */
-    DWORD reservedLinUnexpectedWakeup3;
+    DWORD reservedLinUnexpectedWakeup3 {};
 };
 
 }

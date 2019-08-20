@@ -25,15 +25,6 @@ namespace Vector {
 namespace BLF {
 
 
-SingleByteSerialEvent::SingleByteSerialEvent() :
-    byte()
-{
-}
-
-SingleByteSerialEvent::~SingleByteSerialEvent()
-{
-}
-
 void SingleByteSerialEvent::read(AbstractFile & is)
 {
     is.read(reinterpret_cast<char *>(&byte), sizeof(byte));

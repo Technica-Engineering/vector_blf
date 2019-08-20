@@ -50,14 +50,14 @@ public:
      *
      * Length of dominant part [in nanoseconds]
      */
-    ULONGLONG synchBreakLength;
+    ULONGLONG synchBreakLength {};
 
     /**
      * @brief Sync Delimiter Length in ns
      *
      * Length of delimiter (recessive) [in nanoseconds]
      */
-    ULONGLONG synchDelLength;
+    ULONGLONG synchDelLength {};
 };
 
 }

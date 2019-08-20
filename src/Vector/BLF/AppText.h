@@ -99,31 +99,31 @@ public:
      *
      * 2: Meta data
      */
-    DWORD source;
+    DWORD source {};
 
     /**
      * @brief reserved
      *
      * Depends on source.
      */
-    DWORD reservedAppText1;
+    DWORD reservedAppText1 {};
 
     /**
      * @brief text length in bytes
      *
      * Length of text without ending 0.
      */
-    DWORD textLength;
+    DWORD textLength {};
 
     /** reserved */
-    DWORD reservedAppText2;
+    DWORD reservedAppText2 {};
 
     /**
      * @brief text in MBCS
      *
      * Text to be saved to log file.
      */
-    std::string text;
+    std::string text {};
 };
 
 }

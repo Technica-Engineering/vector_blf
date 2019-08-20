@@ -25,16 +25,7 @@ namespace Vector {
 namespace BLF {
 
 A429Status::A429Status() :
-    ObjectHeader(),
-    channel(),
-    dir(),
-    reservedA429Status1(),
-    parity(),
-    reservedA429Status2(),
-    minGap(),
-    bitrate(),
-    minBitrate(),
-    maxBitrate()
+    ObjectHeader()
 {
     objectType = ObjectType::A429_STATUS;
 }

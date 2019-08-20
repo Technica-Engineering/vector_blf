@@ -53,18 +53,18 @@ public:
      * Ethernet (MAC) address of source computer
      * (network byte order).
      */
-    std::array<BYTE, 6> sourceAddress;
+    std::array<BYTE, 6> sourceAddress {};
 
     /**
      * The channel of the frame.
      */
-    WORD channel;
+    WORD channel {};
 
     /**
      * Ethernet (MAC) address of target computer
      * (network byte order).
      */
-    std::array<BYTE, 6> destinationAddress;
+    std::array<BYTE, 6> destinationAddress {};
 
     /** enumeration for dir */
     enum Dir : WORD {
@@ -78,7 +78,7 @@ public:
      *
      * Direction flag
      */
-    WORD dir;
+    WORD dir {};
 
     /**
      * EtherType which indicates protocol for
@@ -87,19 +87,19 @@ public:
      * See Ethernet standard specification for valid
      * values.
      */
-    WORD type;
+    WORD type {};
 
     /**
      * TPID when VLAN tag valid, zero when no
      * VLAN. See Ethernet standard specification.
      */
-    WORD tpid;
+    WORD tpid {};
 
     /**
      * TCI when VLAND tag valid, zero when no
      * VLAN. See Ethernet standard specification.
      */
-    WORD tci;
+    WORD tci {};
 
     /**
      * @brief Number of valid payLoad bytes
@@ -107,10 +107,10 @@ public:
      * Length of Ethernet payload data in bytes. Max.
      * 1500 Bytes (without Ethernet header)
      */
-    WORD payLoadLength;
+    WORD payLoadLength {};
 
     /** reserved */
-    ULONGLONG reservedEthernetFrame;
+    ULONGLONG reservedEthernetFrame {};
 
     /**
      * @brief Max 1500 data bytes per frame
@@ -118,7 +118,7 @@ public:
      * Ethernet payload data (without Ethernet
      * header)
      */
-    std::vector<uint8_t> payLoad;
+    std::vector<uint8_t> payLoad {};
 };
 
 }

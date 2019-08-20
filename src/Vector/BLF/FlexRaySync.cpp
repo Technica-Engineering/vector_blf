@@ -25,17 +25,7 @@ namespace Vector {
 namespace BLF {
 
 FlexRaySync::FlexRaySync() :
-    ObjectHeader(),
-    channel(),
-    mux(),
-    len(),
-    messageId(),
-    crc(),
-    dir(),
-    reservedFlexRaySync1(),
-    reservedFlexRaySync2(),
-    dataBytes(),
-    cycle()
+    ObjectHeader()
 {
     objectType = ObjectType::FLEXRAY_SYNC;
 }

@@ -29,32 +29,6 @@
 namespace Vector {
 namespace BLF {
 
-FileStatistics::FileStatistics() :
-    signature(FileSignature),
-    statisticsSize(calculateStatisticsSize()),
-    applicationId(),
-    applicationMajor(),
-    applicationMinor(),
-    applicationBuild(),
-    apiMajor(4),
-    apiMinor(7),
-    apiBuild(1),
-    apiPatch(0),
-    fileSize(),
-    uncompressedFileSize(),
-    objectCount(),
-    objectsRead(),
-    measurementStartTime(),
-    lastObjectTime(),
-    fileSizeWithoutUnknown115(),
-    reservedFileStatistics()
-{
-}
-
-FileStatistics::~FileStatistics()
-{
-}
-
 void FileStatistics::read(AbstractFile & is)
 {
     is.read(reinterpret_cast<char *>(&signature), sizeof(signature));

@@ -25,11 +25,7 @@ namespace Vector {
 namespace BLF {
 
 MostEcl::MostEcl() :
-    ObjectHeader2(),
-    channel(),
-    mode(),
-    eclState(),
-    reservedMostEcl()
+    ObjectHeader2()
 {
     objectType = ObjectType::MOST_ECL;
 }

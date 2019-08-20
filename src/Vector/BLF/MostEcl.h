@@ -51,13 +51,13 @@ public:
      *
      * Application channel
      */
-    WORD channel;
+    WORD channel {};
 
     /**
      * - 0 – discrete
      * - 1 – sequence
      */
-    WORD mode;
+    WORD mode {};
 
     /**
      * @brief Electrical Control Line level
@@ -69,10 +69,10 @@ public:
      *   - 0 – sequence stopped
      *   - 1 – sequence started
      */
-    WORD eclState;
+    WORD eclState {};
 
     /** reserved */
-    WORD reservedMostEcl;
+    WORD reservedMostEcl {};
 };
 
 }

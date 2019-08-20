@@ -58,16 +58,16 @@ public:
      *   - 1: Signal continuation
      *   - 2: Signal finished
      */
-    BYTE type;
+    BYTE type {};
 
     /** reserved */
-    BYTE reservedLinLongDomSignalEvent1;
+    BYTE reservedLinLongDomSignalEvent1 {};
 
     /** reserved */
-    WORD reservedLinLongDomSignalEvent2;
+    WORD reservedLinLongDomSignalEvent2 {};
 
     /** reserved */
-    DWORD reservedLinLongDomSignalEvent3;
+    DWORD reservedLinLongDomSignalEvent3 {};
 };
 
 }

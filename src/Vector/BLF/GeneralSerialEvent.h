@@ -41,8 +41,12 @@ namespace BLF {
 class VECTOR_BLF_EXPORT GeneralSerialEvent final
 {
 public:
-    GeneralSerialEvent();
-    virtual ~GeneralSerialEvent();
+    GeneralSerialEvent() = default;
+    virtual ~GeneralSerialEvent() noexcept = default;
+    GeneralSerialEvent(const GeneralSerialEvent&) = default;
+    GeneralSerialEvent& operator=(const GeneralSerialEvent&) = default;
+    GeneralSerialEvent(GeneralSerialEvent&&) = default;
+    GeneralSerialEvent& operator=(GeneralSerialEvent&&) = default;
 
     /** @copydoc ObjectHeader::read */
     virtual void read(AbstractFile & is);
@@ -58,31 +62,31 @@ public:
      *
      * length of variable data in bytes
      */
-    DWORD dataLength;
+    DWORD dataLength {};
 
     /**
      * @brief length of variable timestamps in bytes
      *
      * length of variable timestamps in bytes
      */
-    DWORD timeStampsLength;
+    DWORD timeStampsLength {};
 
     /** reserved */
-    ULONGLONG reservedGeneralSerialEvent;
+    ULONGLONG reservedGeneralSerialEvent {};
 
     /**
      * @brief variable data
      *
      * variable data
      */
-    std::vector<BYTE> data;
+    std::vector<BYTE> data {};
 
     /**
      * @brief variable timestamps (optional)
      *
      * variable timestamps (optional)
      */
-    std::vector<LONGLONG> timeStamps;
+    std::vector<LONGLONG> timeStamps {};
 };
 
 }

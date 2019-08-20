@@ -53,7 +53,7 @@ public:
      *
      * Spike length in microseconds
      */
-    ULONG width;
+    ULONG width {};
 
     /**
      * Flag indicating whether this event is a simulated
@@ -61,13 +61,13 @@ public:
      *   - 0: real event
      *   - 1: simulated event
      */
-    BYTE internal;
+    BYTE internal {};
 
     /** reserved */
-    BYTE reservedLinSpikeEvent1;
+    BYTE reservedLinSpikeEvent1 {};
 
     /** reserved */
-    WORD reservedLinSpikeEvent2;
+    WORD reservedLinSpikeEvent2 {};
 };
 
 }

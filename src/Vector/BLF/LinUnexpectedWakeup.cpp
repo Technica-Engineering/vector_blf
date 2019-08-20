@@ -26,12 +26,7 @@ namespace BLF {
 
 LinUnexpectedWakeup::LinUnexpectedWakeup() :
     ObjectHeader(),
-    LinBusEvent(),
-    width(),
-    signal(),
-    reservedLinUnexpectedWakeup1(),
-    reservedLinUnexpectedWakeup2(),
-    reservedLinUnexpectedWakeup3()
+    LinBusEvent()
 {
     objectType = ObjectType::LIN_UNEXPECTED_WAKEUP;
 }

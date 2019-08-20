@@ -47,7 +47,11 @@ class VECTOR_BLF_EXPORT SerialEvent final : public ObjectHeader
 {
 public:
     SerialEvent();
-    virtual ~SerialEvent();
+    virtual ~SerialEvent() noexcept = default;
+    SerialEvent(const SerialEvent&) = default;
+    SerialEvent& operator=(const SerialEvent&) = default;
+    SerialEvent(SerialEvent&&) = default;
+    SerialEvent& operator=(SerialEvent&&) = default;
 
     virtual void read(AbstractFile & is) override;
     virtual void write(AbstractFile & os) override;
@@ -81,33 +85,33 @@ public:
     };
 
     /** flags */
-    DWORD flags;
+    DWORD flags {};
 
     /**
      * @brief channel of event
      *
      * channel of event
      */
-    DWORD port;
+    DWORD port {};
 
     /**
      * @brief baudrate at which this event was transmitted (optional)
      *
      * baudrate at which this event was transmitted (optional)
      */
-    DWORD baudrate;
+    DWORD baudrate {};
 
     /** reserved */
-    DWORD reservedSerialEvent;
+    DWORD reservedSerialEvent {};
 
     /** general serial event */
-    GeneralSerialEvent general;
+    GeneralSerialEvent general {};
 
     /** single byte serial event */
-    SingleByteSerialEvent singleByte;
+    SingleByteSerialEvent singleByte {};
 
     /** compact serial event */
-    CompactSerialEvent compact;
+    CompactSerialEvent compact {};
 };
 
 }

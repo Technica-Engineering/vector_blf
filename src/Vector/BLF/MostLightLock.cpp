@@ -25,10 +25,7 @@ namespace Vector {
 namespace BLF {
 
 MostLightLock::MostLightLock() :
-    ObjectHeader(),
-    channel(),
-    state(),
-    reservedMostLightLock()
+    ObjectHeader()
 {
     objectType = ObjectType::MOST_LIGHTLOCK;
 }

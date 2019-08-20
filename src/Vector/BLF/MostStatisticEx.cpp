@@ -25,12 +25,7 @@ namespace Vector {
 namespace BLF {
 
 MostStatisticEx::MostStatisticEx() :
-    ObjectHeader2(),
-    channel(),
-    reservedMostStatisticEx1(),
-    codingErrors(),
-    frameCounter(),
-    reservedMostStatisticEx2()
+    ObjectHeader2()
 {
     objectType = ObjectType::MOST_STATISTICEX;
 }

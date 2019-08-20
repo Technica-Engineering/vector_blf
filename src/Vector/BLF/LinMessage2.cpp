@@ -26,22 +26,7 @@ namespace BLF {
 
 LinMessage2::LinMessage2() :
     ObjectHeader(),
-    LinDatabyteTimestampEvent(),
-    data(),
-    crc(),
-    dir(),
-    simulated(),
-    isEtf(),
-    etfAssocIndex(),
-    etfAssocEtfId(),
-    fsmId(),
-    fsmState(),
-    reservedLinMessage1(),
-    reservedLinMessage2(),
-    respBaudrate(),
-    exactHeaderBaudrate(),
-    earlyStopbitOffset(),
-    earlyStopbitOffsetResponse()
+    LinDatabyteTimestampEvent()
 {
     objectType = ObjectType::LIN_MESSAGE2;
     objectVersion = 1;

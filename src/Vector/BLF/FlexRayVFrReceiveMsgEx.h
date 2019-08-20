@@ -54,14 +54,14 @@ public:
      *
      * Application channel
      */
-    WORD channel;
+    WORD channel {};
 
     /**
      * @brief version of data struct
      *
      * Object version, for internal use
      */
-    WORD version;
+    WORD version {};
 
     /**
      * @brief channel mask
@@ -72,7 +72,7 @@ public:
      *   - 2 = FlexRay Channel B
      *   - 3 = FlexRay Channels A and B
      */
-    WORD channelMask;
+    WORD channelMask {};
 
     /**
      * @brief dir flag (tx, rx)
@@ -83,7 +83,7 @@ public:
      *   - 2 = Tx Request
      *   - 3 and 4 are for internal use only.
      */
-    WORD dir;
+    WORD dir {};
 
     /**
      * @brief clientindex of send node
@@ -91,42 +91,42 @@ public:
      * Client index of send node. Must be set to 0 if file
      * is written from other applications.
      */
-    DWORD clientIndexFlexRayVFrReceiveMsgEx;
+    DWORD clientIndexFlexRayVFrReceiveMsgEx {};
 
     /**
      * @brief number of cluster
      *
      * Number of cluster: channel number - 1
      */
-    DWORD clusterNo;
+    DWORD clusterNo {};
 
     /**
      * @brief slot identifier, word
      *
      * Slot identifier
      */
-    WORD frameId;
+    WORD frameId {};
 
     /**
      * @brief header crc channel 1
      *
      * Header CRC FlexRay channel 1 (A)
      */
-    WORD headerCrc1;
+    WORD headerCrc1 {};
 
     /**
      * @brief header crc channel 2
      *
      * Header CRC FlexRay channel 2 (B)
      */
-    WORD headerCrc2;
+    WORD headerCrc2 {};
 
     /**
      * @brief byte count (not payload) of frame from CC receive buffer
      *
      * Payload length in bytes
      */
-    WORD byteCount;
+    WORD byteCount {};
 
     /**
      * @brief length of the data array (stretchy struct)
@@ -136,14 +136,14 @@ public:
      * small to receive the complete payload, then
      * dataCount is smaller than byteCount.
      */
-    WORD dataCount;
+    WORD dataCount {};
 
     /**
      * @brief current cycle
      *
      * Cycle number
      */
-    WORD cycle;
+    WORD cycle {};
 
     /**
      * @brief type of cc
@@ -157,7 +157,7 @@ public:
      *   - 5 = Vector VN interface
      *   - 6 = VN-Sync-Pulse (only in Status Event, for debugging purposes only)
      */
-    DWORD tag;
+    DWORD tag {};
 
     /**
      * @brief register flags
@@ -213,7 +213,7 @@ public:
      *   - Bit 9: Frame CRC Error (FrmCRC)
      *   - Bit 12: Tx Conflict
      */
-    DWORD data;
+    DWORD data {};
 
     /**
      * @brief frame flags
@@ -252,21 +252,21 @@ public:
      * The reserved bits and the bits which are for internally CANoe/CANalyzer usage must be ignored
      * from other applications. Other applications must set these bits to 0 when writing logging files.
      */
-    DWORD frameFlags;
+    DWORD frameFlags {};
 
     /**
      * @brief TxRq, TxAck flags
      *
      * Not used, reserved
      */
-    DWORD appParameter;
+    DWORD appParameter {};
 
     /**
      * @brief frame crc
      *
      * Frame CRC
      */
-    DWORD frameCrc;
+    DWORD frameCrc {};
 
     /**
      * @brief length of frame in ns
@@ -275,7 +275,7 @@ public:
      * in asynchronous mode, bit 15 is set in the
      * frame flags)
      */
-    DWORD frameLengthNs;
+    DWORD frameLengthNs {};
 
     /**
      * @brief for internal use
@@ -283,7 +283,7 @@ public:
      * For PDUs only: This is the slot ID of the frame
      * which contains this PDU
      */
-    WORD frameId1;
+    WORD frameId1 {};
 
     /**
      * @brief payload offset (position in a frame)
@@ -291,7 +291,7 @@ public:
      * For PDUs only: offset in bytes of PDU in an
      * owner (raw) frame
      */
-    WORD pduOffset;
+    WORD pduOffset {};
 
     /**
      * @brief only valid for frames. Every stands for one PDU. If set, the PDU must be extracted out of the frame. The bit order is the PDU order in the frame starting with the PDU with the smallest offset
@@ -302,17 +302,17 @@ public:
      * frame starting with the PDU with the smallest
      * offset.
      */
-    WORD blfLogMask;
+    WORD blfLogMask {};
 
     /** reserved */
-    std::array<WORD, 13> reservedFlexRayVFrReceiveMsgEx;
+    std::array<WORD, 13> reservedFlexRayVFrReceiveMsgEx {};
 
     /**
      * @brief array of databytes
      *
      * Payload
      */
-    std::vector<BYTE> dataBytes;
+    std::vector<BYTE> dataBytes {};
 };
 
 }

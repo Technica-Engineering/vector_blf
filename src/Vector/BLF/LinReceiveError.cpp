@@ -25,19 +25,7 @@ namespace Vector {
 namespace BLF {
 
 LinReceiveError::LinReceiveError() :
-    ObjectHeader(),
-    channel(),
-    id(),
-    dlc(),
-    fsmId(),
-    fsmState(),
-    headerTime(),
-    fullTime(),
-    stateReason(),
-    offendingByte(),
-    shortError(),
-    timeoutDuringDlcDetection(),
-    reservedLinReceiveError()
+    ObjectHeader()
 {
     objectType = ObjectType::LIN_RCV_ERROR;
 }

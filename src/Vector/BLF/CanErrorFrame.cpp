@@ -25,10 +25,7 @@ namespace Vector {
 namespace BLF {
 
 CanErrorFrame::CanErrorFrame() :
-    ObjectHeader(),
-    channel(),
-    length(),
-    reservedCanErrorFrame()
+    ObjectHeader()
 {
     objectType = ObjectType::CAN_ERROR;
 }

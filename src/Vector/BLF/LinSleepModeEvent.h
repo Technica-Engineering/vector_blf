@@ -52,7 +52,7 @@ public:
      *
      * Channel number where the event notified
      */
-    WORD channel;
+    WORD channel {};
 
     /**
      * This value indicates the reason for an event.
@@ -76,7 +76,7 @@ public:
      *   - 18: Bus traffic (can only occur if the LIN
      *     hardware does not have a Master function)
      */
-    BYTE reason;
+    BYTE reason {};
 
     /** Bit values for flags */
     enum Flags : BYTE {
@@ -108,10 +108,10 @@ public:
      *   - 1: External event
      *   - 0: Internal event
      */
-    BYTE flags;
+    BYTE flags {};
 
     /** reserved */
-    DWORD reservedLinSleepModeEvent;
+    DWORD reservedLinSleepModeEvent {};
 };
 
 }

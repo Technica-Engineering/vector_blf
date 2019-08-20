@@ -53,7 +53,7 @@ public:
      *
      * Application channel
      */
-    WORD channel;
+    WORD channel {};
 
     /**
      * @brief dir flag (tx, rx)
@@ -64,54 +64,54 @@ public:
      *   - 2 = Tx Request
      *   - 3 and 4 are for internal use only.
      */
-    BYTE dir;
+    BYTE dir {};
 
     /**
      * @brief additional time field in simulation
      *
      * Additional time field in simulation
      */
-    BYTE lowTime;
+    BYTE lowTime {};
 
     /**
      * @brief timestamp generated from xModule
      *
      * Timestamp generated from xModule
      */
-    DWORD fpgaTick;
+    DWORD fpgaTick {};
 
     /**
      * @brief overflow counter of the timestamp
      *
      * Overflow counter of the timestamp
      */
-    DWORD fpgaTickOverflow;
+    DWORD fpgaTickOverflow {};
 
     /**
      * @brief clientindex of send node
      *
      * Client index of send node
      */
-    DWORD clientIndexFlexRayV6Message;
+    DWORD clientIndexFlexRayV6Message {};
 
     /**
      * @brief relatvie clustertime, from 0 to cyclelength
      *
      * Relatvie clustertime, from 0 to cyclelength
      */
-    DWORD clusterTime;
+    DWORD clusterTime {};
 
     /**
      * @brief slot identifier
      *
      * slot identifier
      */
-    WORD frameId;
+    WORD frameId {};
 
     /**
      * CRC of the frame header
      */
-    WORD headerCrc;
+    WORD headerCrc {};
 
     /**
      * @brief V6 framestate
@@ -134,21 +134,21 @@ public:
      *   - 6 (0xC0) reserved
      *   - 7 (0xE0) reserved
      */
-    WORD frameState;
+    WORD frameState {};
 
     /**
      * @brief dlc of message
      *
      * Payload length
      */
-    BYTE length;
+    BYTE length {};
 
     /**
      * @brief current cycle
      *
      * Current cycle number
      */
-    BYTE cycle;
+    BYTE cycle {};
 
     /**
      * @brief Bit0 = NMBit, Bit1 = SyncBit, Bit2 = Reserved
@@ -157,20 +157,20 @@ public:
      * - Bit 1 = SyncBit
      * - Bit 2 = Reserved
      */
-    BYTE headerBitMask;
+    BYTE headerBitMask {};
 
     /** reserved */
-    BYTE reservedFlexRayV6Message1;
+    BYTE reservedFlexRayV6Message1 {};
 
     /** reserved */
-    WORD reservedFlexRayV6Message2;
+    WORD reservedFlexRayV6Message2 {};
 
     /**
      * @brief array of databytes
      *
      * Payload
      */
-    std::array<BYTE, 64> dataBytes;
+    std::array<BYTE, 64> dataBytes {};
 };
 
 }

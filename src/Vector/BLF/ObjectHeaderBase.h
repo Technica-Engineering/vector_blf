@@ -179,8 +179,12 @@ const DWORD ObjectSignature = 0x4A424F4C; /* LOBJ */
 class VECTOR_BLF_EXPORT ObjectHeaderBase
 {
 public:
-    ObjectHeaderBase();
-    virtual ~ObjectHeaderBase();
+    ObjectHeaderBase() = default;
+    virtual ~ObjectHeaderBase() noexcept = default;
+    ObjectHeaderBase(const ObjectHeaderBase&) = default;
+    ObjectHeaderBase& operator=(const ObjectHeaderBase&) = default;
+    ObjectHeaderBase(ObjectHeaderBase&&) = default;
+    ObjectHeaderBase& operator=(ObjectHeaderBase&&) = default;
 
     /**
      * Read the data of this object
@@ -215,7 +219,7 @@ public:
      *
      * Object signature, must be ObjectSignature.
      */
-    DWORD signature;
+    DWORD signature { ObjectSignature };
 
     /**
      * @brief sizeof object header
@@ -225,7 +229,7 @@ public:
      * sizeof(ObjectHeader2) depending on
      * the object header type used for the object.
      */
-    WORD headerSize;
+    WORD headerSize {};
 
     /**
      * @brief header version (1)
@@ -237,22 +241,26 @@ public:
      *
      * Set this member to 2 if the object has a member
      * of type ObjectHeader2.
+     *
+     * @note is set in ObjectHeader/ObjectHeader2
      */
-    WORD headerVersion;
+    WORD headerVersion {};
 
     /**
      * @brief object size
      *
      * Object size in bytes.
      */
-    DWORD objectSize;
+    DWORD objectSize {};
 
     /**
      * @brief object type
      *
      * Object type.
+     *
+     * @note is set in each event class constructor
      */
-    ObjectType objectType;
+    ObjectType objectType {};
 };
 
 }

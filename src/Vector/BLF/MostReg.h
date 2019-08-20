@@ -55,7 +55,7 @@ public:
      *
      * Application channel
      */
-    WORD channel;
+    WORD channel {};
 
     /**
      * @brief read/write request/result
@@ -70,24 +70,24 @@ public:
      *   - ReadFailed = 6: register read operation failed
      *   - WriteFailed = 7: register write operation failed
      */
-    BYTE subType;
+    BYTE subType {};
 
     /** reserved */
-    BYTE reservedMostReg;
+    BYTE reservedMostReg {};
 
     /**
      * @brief operation handle
      *
      * Operation handle (obsolete; write 0)
      */
-    DWORD handle;
+    DWORD handle {};
 
     /**
      * @brief start address
      *
      * Register address offset
      */
-    DWORD offset;
+    DWORD offset {};
 
     /**
      * @brief chip id
@@ -95,21 +95,21 @@ public:
      * ID of chip
      *   - 1 – OS8104
      */
-    WORD chip;
+    WORD chip {};
 
     /**
      * @brief number of bytes
      *
      * Number of valid bytes in regData
      */
-    WORD regDataLen;
+    WORD regDataLen {};
 
     /**
      * @brief data bytes
      *
      * Register data
      */
-    std::array<BYTE, 16> regData;
+    std::array<BYTE, 16> regData {};
 };
 
 }

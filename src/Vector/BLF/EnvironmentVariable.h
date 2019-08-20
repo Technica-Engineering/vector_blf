@@ -55,7 +55,7 @@ public:
      * Length of the name of the environment variable
      * (without terminating 0)
      */
-    DWORD nameLength;
+    DWORD nameLength {};
 
     /**
      * @brief length of variable data in bytes
@@ -63,24 +63,24 @@ public:
      * Length of the data of the environment variable in
      * bytes.
      */
-    DWORD dataLength;
+    DWORD dataLength {};
 
     /** reserved */
-    ULONGLONG reservedEnvironmentVariable;
+    ULONGLONG reservedEnvironmentVariable {};
 
     /**
      * @brief variable name in MBCS
      *
      * Name of the environment variable.
      */
-    std::string name;
+    std::string name {};
 
     /**
      * @brief variable data
      *
      * Data value of the environment variable.
      */
-    std::vector<uint8_t> data;
+    std::vector<uint8_t> data {};
 };
 
 }

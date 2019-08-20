@@ -25,10 +25,7 @@ namespace Vector {
 namespace BLF {
 
 DriverOverrun::DriverOverrun() :
-    ObjectHeader(),
-    busType(),
-    channel(),
-    reservedDriverOverrun()
+    ObjectHeader()
 {
     objectType = ObjectType::OVERRUN_ERROR;
 }

@@ -25,15 +25,7 @@ namespace Vector {
 namespace BLF {
 
 SystemVariable::SystemVariable() :
-    ObjectHeader(),
-    type(),
-    representation(),
-    reservedSystemVariable1(),
-    nameLength(),
-    dataLength(),
-    reservedSystemVariable2(),
-    name(),
-    data()
+    ObjectHeader()
 {
     objectType = ObjectType::SYS_VARIABLE;
 }

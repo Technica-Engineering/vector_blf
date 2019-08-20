@@ -54,40 +54,40 @@ public:
      *
      * Channel the frame was sent or received.
      */
-    BYTE channel;
+    BYTE channel {};
 
     /**
      * @brief CAN dlc
      *
      * Data length code of the corrupted message.
      */
-    BYTE dlc;
+    BYTE dlc {};
 
     /**
      * @brief Valid payload length of data
      *
      * Number of data bytes of the corrupted message.
      */
-    BYTE validDataBytes;
+    BYTE validDataBytes {};
 
     /**
      * Content of Philips SJA1000 Error Code Capture
      * register, or the Vector CAN-Core error register.
      * See field ecc of CanErrorFrameExt.
      */
-    BYTE ecc;
+    BYTE ecc {};
 
     /**
      * Defines what additional information is valid. See
      * field flags of CanErrorFrameExt.
      */
-    WORD flags;
+    WORD flags {};
 
     /**
      * Extended error flags. See field flagsExt of
      * CanErrorFrameExt.
      */
-    WORD errorCodeExt;
+    WORD errorCodeExt {};
 
     /**
      * @brief FD specific flags
@@ -109,20 +109,20 @@ public:
      *   - 0: EDL is 0
      *   - 1: EDL is 1
      */
-    WORD extFlags;
+    WORD extFlags {};
 
     /** offset if extDataOffset is used */
-    BYTE extDataOffset;
+    BYTE extDataOffset {};
 
     /** resered */
-    BYTE reservedCanFdErrorFrame1;
+    BYTE reservedCanFdErrorFrame1 {};
 
     /**
      * @brief CAN ID
      *
      * Message ID of the corrupted message.
      */
-    DWORD id;
+    DWORD id {};
 
     /**
      * @brief message length in ns
@@ -133,7 +133,7 @@ public:
      *
      * without 3 inter frame space bits and by Rx-message also without 1 End-Of-Frame bit
      */
-    DWORD frameLength;
+    DWORD frameLength {};
 
     /**
      * @brief bit rate used in arbitration phase
@@ -147,7 +147,7 @@ public:
      * - Bit 16-23: BTL Cycles
      * - Bit 24-31: Sampling Point
      */
-    DWORD btrCfgArb;
+    DWORD btrCfgArb {};
 
     /**
      * @brief bit rate used in data phase
@@ -156,7 +156,7 @@ public:
      * phase, may be 0, if not supported by
      * hardware/driver. See btrCfgArb.
      */
-    DWORD btrCfgData;
+    DWORD btrCfgData {};
 
     /**
      * @brief time offset of brs field
@@ -164,7 +164,7 @@ public:
      * Time offset of bit rate switch within BRS field in
      * nanoseconds
      */
-    DWORD timeOffsetBrsNs;
+    DWORD timeOffsetBrsNs {};
 
     /**
      * @brief time offset of brs field
@@ -172,12 +172,12 @@ public:
      * Time offset of bit rate switch within CRC
      * delimiter field in nanoseconds
      */
-    DWORD timeOffsetCrcDelNs;
+    DWORD timeOffsetCrcDelNs {};
 
     /**
      * CRC checksum of corrupted message.
      */
-    DWORD crc;
+    DWORD crc {};
 
     /**
      * @brief error position as bit offset
@@ -185,10 +185,10 @@ public:
      * Bit position of the error frame in the corrupted
      * message.
      */
-    WORD errorPosition;
+    WORD errorPosition {};
 
     /** reserved */
-    WORD reservedCanFdErrorFrame2;
+    WORD reservedCanFdErrorFrame2 {};
 
     /**
      * @brief CAN FD data
@@ -198,10 +198,10 @@ public:
      * dlc, e.g. when DLC is 12 data has length
      * 24)
      */
-    std::vector<BYTE> data;
+    std::vector<BYTE> data {};
 
     /** reserved */
-    DWORD reservedCanFdErrorFrame3;
+    DWORD reservedCanFdErrorFrame3 {};
 };
 
 }

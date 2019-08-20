@@ -29,22 +29,6 @@
 namespace Vector {
 namespace BLF {
 
-UncompressedFile::UncompressedFile() :
-    tellgChanged(),
-    tellpChanged(),
-    m_abort(false),
-    m_data(),
-    m_tellg(0),
-    m_tellp(0),
-    m_gcount(0),
-    m_fileSize(0x7fffffffffffffff),
-    m_bufferSize(0x7fffffffffffffff),
-    m_rdstate(std::ios_base::goodbit),
-    m_mutex(),
-    m_defaultLogContainerSize(0x20000)
-{
-}
-
 UncompressedFile::~UncompressedFile()
 {
     abort();

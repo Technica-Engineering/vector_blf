@@ -36,7 +36,12 @@ namespace BLF {
 class VECTOR_BLF_EXPORT AfdxLineStatus final
 {
 public:
-    AfdxLineStatus();
+    AfdxLineStatus() noexcept = default;
+    virtual ~AfdxLineStatus() noexcept = default;
+    AfdxLineStatus(const AfdxLineStatus&) = default;
+    AfdxLineStatus& operator=(const AfdxLineStatus&) = default;
+    AfdxLineStatus(AfdxLineStatus&&) = default;
+    AfdxLineStatus& operator=(AfdxLineStatus&&) = default;
 
     /** @copydoc ObjectHeader::read */
     virtual void read(AbstractFile & is);
@@ -54,7 +59,7 @@ public:
      *   - Bit 2 - Ethernet Phy
      *   - Bit 3 - Duplex
      */
-    WORD flags;
+    WORD flags {};
 
     /**
      * Link Status
@@ -64,7 +69,7 @@ public:
      *   - 3 - Negotiate
      *   - 4 - Link error
      */
-    BYTE linkStatus;
+    BYTE linkStatus {};
 
     /**
      * Eternet Phy
@@ -72,7 +77,7 @@ public:
      *   - 1 - IEEE 802.3
      *   - 2 - BroadR-Reach
      */
-    BYTE ethernetPhy;
+    BYTE ethernetPhy {};
 
     /**
      * Duplex
@@ -80,7 +85,7 @@ public:
      *   - 1 - Half Duplex
      *   - 2 - Full Duplex
      */
-    BYTE duplex;
+    BYTE duplex {};
 
     /**
      * MDI
@@ -88,7 +93,7 @@ public:
      *   - 1 - Direct
      *   - 2 - Crossover
      */
-    BYTE mdi;
+    BYTE mdi {};
 
     /**
      * Connector
@@ -96,7 +101,7 @@ public:
      *   - 1 - RJ45
      *   - 2 - D-Sub
      */
-    BYTE connector;
+    BYTE connector {};
 
     /**
      * Clock Mode
@@ -104,7 +109,7 @@ public:
      *   - 1 - Master
      *   - 2 - Slave
      */
-    BYTE clockMode;
+    BYTE clockMode {};
 
     /**
      * Pairs
@@ -113,18 +118,18 @@ public:
      *   - 2 - BR 2-pair
      *   - 3 - BR 4-pair
      */
-    BYTE pairs;
+    BYTE pairs {};
 
     /** reserved */
-    BYTE reservedAfdxLineStatus1;
+    BYTE reservedAfdxLineStatus1 {};
 
     /** reserved */
-    WORD reservedAfdxLineStatus2;
+    WORD reservedAfdxLineStatus2 {};
 
     /**
      * Bitrate in [kbit/sec]
      */
-    ULONG bitrate;
+    ULONG bitrate {};
 };
 
 }

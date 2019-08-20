@@ -79,8 +79,12 @@ enum ApplicationId : BYTE {
 class VECTOR_BLF_EXPORT FileStatistics final
 {
 public:
-    FileStatistics();
-    virtual ~FileStatistics();
+    FileStatistics() = default;
+    virtual ~FileStatistics() noexcept = default;
+    FileStatistics(const FileStatistics&) = default;
+    FileStatistics& operator=(const FileStatistics&) = default;
+    FileStatistics(FileStatistics&&) = default;
+    FileStatistics& operator=(FileStatistics&&) = default;
 
     /**
      * read file statistics
@@ -104,58 +108,58 @@ public:
     DWORD calculateStatisticsSize() const;
 
     /** signature (signature) */
-    DWORD signature;
+    DWORD signature { FileSignature };
 
     /** sizeof(FileStatistics) */
-    DWORD statisticsSize;
+    DWORD statisticsSize { calculateStatisticsSize() };
 
     /** application ID (usually CANoe) */
-    BYTE applicationId;
+    BYTE applicationId {};
 
     /** application major number (usually 0) */
-    BYTE applicationMajor;
+    BYTE applicationMajor {};
 
     /** application minor number (usually 0) */
-    BYTE applicationMinor;
+    BYTE applicationMinor {};
 
     /** application build number (usually 0) */
-    BYTE applicationBuild;
+    BYTE applicationBuild {};
 
-    /** BL API major number (e.g. 4) */
-    BYTE apiMajor;
+    /** BL API major number */
+    BYTE apiMajor { 4 };
 
-    /** BL API minor number (e.g. 7) */
-    BYTE apiMinor;
+    /** BL API minor number */
+    BYTE apiMinor { 7 };
 
-    /** BL API build number (e.g. 1) */
-    BYTE apiBuild;
+    /** BL API build number */
+    BYTE apiBuild { 1 };
 
-    /** BL API patch number (e.g. 0) */
-    BYTE apiPatch;
+    /** BL API patch number */
+    BYTE apiPatch { 0 };
 
     /** (compressed) file size in bytes */
-    ULONGLONG fileSize;
+    ULONGLONG fileSize {};
 
     /** uncompressed file size in bytes */
-    ULONGLONG uncompressedFileSize;
+    ULONGLONG uncompressedFileSize {};
 
     /** number of objects */
-    DWORD objectCount;
+    DWORD objectCount {};
 
     /** number of objects read */
-    DWORD objectsRead;
+    DWORD objectsRead {};
 
     /** measurement start time */
-    SYSTEMTIME measurementStartTime;
+    SYSTEMTIME measurementStartTime {};
 
     /** last object time */
-    SYSTEMTIME lastObjectTime;
+    SYSTEMTIME lastObjectTime {};
 
     /** (compressed) file size without LogContainer+Unknown115 at end-of-file */
-    ULONGLONG fileSizeWithoutUnknown115;
+    ULONGLONG fileSizeWithoutUnknown115 {};
 
     /** reserved */
-    std::array<DWORD, 16> reservedFileStatistics;
+    std::array<DWORD, 16> reservedFileStatistics {};
 };
 
 }

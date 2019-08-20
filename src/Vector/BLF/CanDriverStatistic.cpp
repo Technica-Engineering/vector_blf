@@ -25,16 +25,7 @@ namespace Vector {
 namespace BLF {
 
 CanDriverStatistic::CanDriverStatistic() :
-    ObjectHeader(),
-    channel(),
-    busLoad(),
-    standardDataFrames(),
-    extendedDataFrames(),
-    standardRemoteFrames(),
-    extendedRemoteFrames(),
-    errorFrames(),
-    overloadFrames(),
-    reservedCanDriverStatistic()
+    ObjectHeader()
 {
     objectType = ObjectType::CAN_STATISTIC;
 }

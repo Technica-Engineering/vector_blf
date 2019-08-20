@@ -53,14 +53,14 @@ public:
      *
      * Channel the frame was sent or received.
      */
-    WORD channel;
+    WORD channel {};
 
     /**
      * @brief CAN error frame length
      *
      * Length of error frame, unused, may be 0.
      */
-    WORD length;
+    WORD length {};
 
     /**
      * @brief extended CAN error frame flags
@@ -73,7 +73,7 @@ public:
      * - 4: Vector CAN Core Error Position
      * - 8: Vector CAN Core Frame Length in ns
      */
-    DWORD flags;
+    DWORD flags {};
 
     /**
      * @brief error control code
@@ -102,7 +102,7 @@ public:
      *   - 2: RX-Error
      *   - 3: TX-Error
      */
-    BYTE ecc;
+    BYTE ecc {};
 
     /**
      * @brief error position
@@ -110,17 +110,17 @@ public:
      * Bit position of the error frame in the corrupted
      * message.
      */
-    BYTE position;
+    BYTE position {};
 
     /**
      * @brief lower 4 bits: DLC from CAN-Core. Upper 4 bits: reserved
      *
      * Data length code of the corrupted message.
      */
-    BYTE dlc;
+    BYTE dlc {};
 
     /** reserved */
-    BYTE reservedCanErrorFrameExt1;
+    BYTE reservedCanErrorFrameExt1 {};
 
     /**
      * @brief frame length in ns
@@ -129,14 +129,14 @@ public:
      * difference between Start Of Frame and End Of
      * Frame)
      */
-    DWORD frameLengthInNs;
+    DWORD frameLengthInNs {};
 
     /**
      * @brief frame ID from CAN-Core
      *
      * Message ID of the corrupted message.
      */
-    DWORD id;
+    DWORD id {};
 
     /**
      * @brief extended error flags
@@ -159,17 +159,17 @@ public:
      *   - 3: TX
      * - Bit 14: 1=The error frame was send from the application
      */
-    WORD flagsExt;
+    WORD flagsExt {};
 
     /** reserved */
-    WORD reservedCanErrorFrameExt2;
+    WORD reservedCanErrorFrameExt2 {};
 
     /**
      * @brief Payload, only for CAN-Core
      *
      * Message data.
      */
-    std::array<BYTE, 8> data;
+    std::array<BYTE, 8> data {};
 };
 
 }

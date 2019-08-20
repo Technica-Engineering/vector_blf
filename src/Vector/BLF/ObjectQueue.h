@@ -90,28 +90,28 @@ public:
 
 private:
     /** abort further operations */
-    bool m_abort;
+    bool m_abort { };
 
     /** queue */
-    std::queue<T *> m_queue;
+    std::queue<T *> m_queue {};
 
     /** read position */
-    DWORD m_tellg;
+    DWORD m_tellg { };
 
     /** write position */
-    DWORD m_tellp;
+    DWORD m_tellp { };
 
     /** max size */
-    DWORD m_bufferSize;
+    DWORD m_bufferSize { 0xffffffff };
 
     /** eof position */
-    DWORD m_fileSize;
+    DWORD m_fileSize { 0xffffffff };
 
     /** error state */
-    std::ios_base::iostate m_rdstate;
+    std::ios_base::iostate m_rdstate { std::ios_base::goodbit };
 
     /** mutex */
-    mutable std::mutex m_mutex;
+    mutable std::mutex m_mutex {};
 };
 
 /* explicit template instantiation */

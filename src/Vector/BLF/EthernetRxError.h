@@ -62,12 +62,12 @@ public:
      * sizeof(ObjectHeader) and without raw data
      * length
      */
-    WORD structLength;
+    WORD structLength {};
 
     /**
      * The channel of the frame.
      */
-    WORD channel;
+    WORD channel {};
 
     /** enumeration for dir */
     enum Dir : WORD {
@@ -84,19 +84,19 @@ public:
     /**
      * @brief Direction flag
      */
-    WORD dir;
+    WORD dir {};
 
     /**
      * @brief HW channel. 0 = invalid.
      */
-    WORD hardwareChannel;
+    WORD hardwareChannel {};
 
     /**
      * @brief Frame Check Sum
      *
      * Ethernet frame checksum.
      */
-    DWORD fcs;
+    DWORD fcs {};
 
     /**
      * @brief Number of valid raw ethernet data bytes
@@ -104,10 +104,10 @@ public:
      * Number of valid raw ethernet data bytes, starting
      * with Target MAC ID.
      */
-    WORD frameDataLength;
+    WORD frameDataLength {};
 
     /** reserved */
-    WORD reservedEthernetRxError;
+    WORD reservedEthernetRxError {};
 
     /**
      * Error code
@@ -117,7 +117,7 @@ public:
      * - 3: Invalid Data received
      * - 4: Collision detected
      */
-    DWORD error;
+    DWORD error {};
 
     /**
      * @brief Max 1600 data bytes per frame
@@ -125,7 +125,7 @@ public:
      * Raw Ethernet frame data.
      * Max 1522 data bytes per frame.
      */
-    std::vector<uint8_t> frameData;
+    std::vector<uint8_t> frameData {};
 };
 
 }

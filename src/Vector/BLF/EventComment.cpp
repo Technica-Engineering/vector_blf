@@ -27,11 +27,7 @@ namespace Vector {
 namespace BLF {
 
 EventComment::EventComment() :
-    ObjectHeader(),
-    commentedEventType(),
-    textLength(),
-    reservedEventComment(),
-    text()
+    ObjectHeader()
 {
     objectType = ObjectType::EVENT_COMMENT;
 }

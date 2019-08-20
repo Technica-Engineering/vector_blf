@@ -25,12 +25,7 @@ namespace Vector {
 namespace BLF {
 
 AfdxStatus::AfdxStatus() :
-    ObjectHeader(),
-    channel(),
-    reservedAfdxStatus1(),
-    statusA(),
-    statusB(),
-    reservedAfdxStatus2()
+    ObjectHeader()
 {
     objectType = ObjectType::AFDX_STATUS;
 }

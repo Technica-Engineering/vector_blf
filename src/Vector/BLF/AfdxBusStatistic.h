@@ -49,104 +49,104 @@ public:
     /**
      * @brief application channel
      */
-    WORD channel;
+    WORD channel {};
 
     /**
      * @brief Bit0=Valid Rx/Tx Counter, Bit1=Valid Error Counter; Bit2=Valid VLId
      */
-    WORD flags;
+    WORD flags {};
 
     /**
      * @brief real time period in mysec of statistic datacollection
      */
-    ULONG statDuration;
+    ULONG statDuration {};
 
     /* bus-specific info */
 
     /**
      * @brief read frames taken from hardware, i.e. on bus
      */
-    ULONG statRxPacketCountHW;
+    ULONG statRxPacketCountHW {};
 
     /**
      * @brief send frames as taken from hardware, i.e. on bus
      */
-    ULONG statTxPacketCountHW;
+    ULONG statTxPacketCountHW {};
 
     /**
      * @brief number of erronous Rx-frames detected by HW
      */
-    ULONG statRxErrorCountHW;
+    ULONG statRxErrorCountHW {};
 
     /**
      * @brief number of erronous Tx-frames detected by HW
      */
-    ULONG statTxErrorCountHW;
+    ULONG statTxErrorCountHW {};
 
     /**
      * @brief bytes received by HW during this time period
      */
-    ULONG statRxBytesHW;
+    ULONG statRxBytesHW {};
 
     /**
      * @brief bytes sent by HW during this time period
      */
-    ULONG statTxBytesHW;
+    ULONG statTxBytesHW {};
 
     /* CANwin specific info */
 
     /**
      * @brief received frames within CANwin
      */
-    ULONG statRxPacketCount;
+    ULONG statRxPacketCount {};
 
     /**
      * @brief send packets from within CANwin
      */
-    ULONG statTxPacketCount;
+    ULONG statTxPacketCount {};
 
     /**
      * @brief number of packets aktively dropped by CANwin
      */
-    ULONG statDroppedPacketCount;
+    ULONG statDroppedPacketCount {};
 
     /**
      * @brief number of packets with incompatible eth-header regarding AFDX-spec
      */
-    ULONG statInvalidPacketCount;
+    ULONG statInvalidPacketCount {};
 
     /**
      * @brief number of packets lost by CABwin due to queue overflow etc
      */
-    ULONG statLostPacketCount;
+    ULONG statLostPacketCount {};
 
     /* connection related info */
 
     /**
      * @brief lineA (0) or lineB (1)
      */
-    BYTE line;
+    BYTE line {};
 
     /**
      * @brief status of adapter as per EthernetStatus
      */
-    BYTE linkStatus;
+    BYTE linkStatus {};
 
     /**
      * @brief link speed: 0:=10mbps 1:=100mbps 2:=1000mbps
      */
-    WORD linkSpeed;
+    WORD linkSpeed {};
 
     /**
      * @brief counter of link-losses during this period
      */
-    WORD linkLost;
+    WORD linkLost {};
 
     /** reserved */
-    WORD reservedAfdxBusStatistic1;
+    WORD reservedAfdxBusStatistic1 {};
 
     /** reserved */
-    DWORD reservedAfdxBusStatistic2;
+    DWORD reservedAfdxBusStatistic2 {};
 };
 
 }

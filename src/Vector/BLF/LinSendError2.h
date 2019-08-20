@@ -52,7 +52,7 @@ public:
      *
      * End of header timestamp [in nanosecond]
      */
-    ULONGLONG eoh;
+    ULONGLONG eoh {};
 
     /**
      * @brief Event-triggered frame
@@ -62,27 +62,27 @@ public:
      *   - 0: not ETF
      *   - 1: ETF
      */
-    BYTE isEtf;
+    BYTE isEtf {};
 
     /**
      * Slave Identifier in the Final State
      * Machine (obsolete)
      */
-    BYTE fsmId;
+    BYTE fsmId {};
 
     /**
      * State Identifier of a Slave in the Final State
      * Machine (obsolete)
      */
-    BYTE fsmState;
+    BYTE fsmState {};
 
     /** reserved */
-    BYTE reservedLinSendError1;
+    BYTE reservedLinSendError1 {};
 
     /* the following variables are only available in Version 2 and above */
 
     /** reserved */
-    DWORD reservedLinSendError2;
+    DWORD reservedLinSendError2 {};
 
     /* the following variables are only available in Version 3 and above */
 
@@ -92,7 +92,7 @@ public:
      * Event's baudrate measured in header
      * [in bits/sec]
      */
-    DOUBLE exactHeaderBaudrate;
+    DOUBLE exactHeaderBaudrate {};
 
     /**
      * @brief Early stop bit offset for UART timestamps in ns
@@ -100,10 +100,10 @@ public:
      * Early stop bit offset in frame header
      * for UART timestamps [in ns]
      */
-    DWORD earlyStopbitOffset;
+    DWORD earlyStopbitOffset {};
 
     /** reserved */
-    DWORD reservedLinSendError3;
+    DWORD reservedLinSendError3 {};
 };
 
 }

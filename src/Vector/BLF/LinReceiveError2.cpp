@@ -26,21 +26,7 @@ namespace BLF {
 
 LinReceiveError2::LinReceiveError2() :
     ObjectHeader(),
-    LinDatabyteTimestampEvent(),
-    data(),
-    fsmId(),
-    fsmState(),
-    stateReason(),
-    offendingByte(),
-    shortError(),
-    timeoutDuringDlcDetection(),
-    isEtf(),
-    hasDatabytes(),
-    respBaudrate(),
-    reservedLinReceiveError(),
-    exactHeaderBaudrate(),
-    earlyStopbitOffset(),
-    earlyStopbitOffsetResponse()
+    LinDatabyteTimestampEvent()
 {
     objectType = ObjectType::LIN_RCV_ERROR2;
     objectVersion = 1;

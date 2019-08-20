@@ -51,10 +51,10 @@ public:
      *
      * Application channel
      */
-    WORD channel;
+    WORD channel {};
 
     /** reserved */
-    WORD reservedMostTrigger;
+    WORD reservedMostTrigger {};
 
     /**
      * @brief trigger mode
@@ -64,7 +64,7 @@ public:
      *   - 1 – synchronization master
      *   - 2 – synchronization slave
      */
-    WORD mode;
+    WORD mode {};
 
     /**
      * @brief HW info
@@ -81,17 +81,17 @@ public:
      *   - 8 – SMSC PCI 50
      *   - 9 – MOCCAcompact50e
      */
-    WORD hw;
+    WORD hw {};
 
     /**
      * value of IO register
      */
-    DWORD previousTriggerValue;
+    DWORD previousTriggerValue {};
 
     /**
      * value of IO register
      */
-    DWORD currentTriggerValue;
+    DWORD currentTriggerValue {};
 };
 
 }

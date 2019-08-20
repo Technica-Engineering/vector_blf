@@ -54,14 +54,14 @@ public:
      *
      * Databyte values
      */
-    std::array<BYTE, 8> data;
+    std::array<BYTE, 8> data {};
 
     /**
      * @brief checksum byte
      *
      * Checksum byte value
      */
-    WORD crc;
+    WORD crc {};
 
     /**
      * @brief direction
@@ -71,7 +71,7 @@ public:
      *   - 1: Tx (transmit receipt)
      *   - 2: Tx Request (transmit request)
      */
-    BYTE dir;
+    BYTE dir {};
 
     /**
      * @brief simulated frame
@@ -81,7 +81,7 @@ public:
      *   - 0: real frame
      *   - 1: simulated frame
      */
-    BYTE simulated;
+    BYTE simulated {};
 
     /**
      * @brief Event-triggered frame
@@ -91,7 +91,7 @@ public:
      *   - 0: not ETF
      *   - 1: ETF
      */
-    BYTE isEtf;
+    BYTE isEtf {};
 
     /**
      * @brief Unconditional frame associated with ETF - serial index
@@ -100,7 +100,7 @@ public:
      * of associated frame, which data is
      * carried
      */
-    BYTE etfAssocIndex;
+    BYTE etfAssocIndex {};
 
     /**
      * @brief Unconditional frame associated with ETF - id of ETF
@@ -109,25 +109,25 @@ public:
      * identifier (6-bit) of associated frame,
      * which data is carried
      */
-    BYTE etfAssocEtfId;
+    BYTE etfAssocEtfId {};
 
     /**
      * Slave Identifier in the Final State
      * Machine (obsolete)
      */
-    BYTE fsmId;
+    BYTE fsmId {};
 
     /**
      * State Identifier of a Slave in the
      * Final State Machine (obsolete)
      */
-    BYTE fsmState;
+    BYTE fsmState {};
 
     /** reserved */
-    BYTE reservedLinMessage1;
+    BYTE reservedLinMessage1 {};
 
     /** reserved */
-    WORD reservedLinMessage2;
+    WORD reservedLinMessage2 {};
 
     /* the following variables are only available in Version 2 and above */
 
@@ -138,7 +138,7 @@ public:
      * measured in response [in
      * bits/sec]
      */
-    DWORD respBaudrate;
+    DWORD respBaudrate {};
 
     /* the following variables are only available in Version 3 and above */
 
@@ -149,7 +149,7 @@ public:
      * measured in header [in
      * bits/sec]
      */
-    DOUBLE exactHeaderBaudrate;
+    DOUBLE exactHeaderBaudrate {};
 
     /**
      * @brief Early stop bit offset for UART timestamps in ns
@@ -158,7 +158,7 @@ public:
      * frame header for UART
      * timestamps [in ns]
      */
-    DWORD earlyStopbitOffset;
+    DWORD earlyStopbitOffset {};
 
     /**
      * @brief Early stop bit offset in frame response for UART timestamps in ns
@@ -167,7 +167,7 @@ public:
      * frame response for
      * UART timestamps [in ns]
      */
-    DWORD earlyStopbitOffsetResponse;
+    DWORD earlyStopbitOffsetResponse {};
 };
 
 }

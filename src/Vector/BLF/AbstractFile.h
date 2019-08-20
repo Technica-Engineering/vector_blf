@@ -36,7 +36,12 @@ namespace BLF {
 class VECTOR_BLF_EXPORT AbstractFile
 {
 public:
-    virtual ~AbstractFile();
+    AbstractFile() noexcept = default;
+    virtual ~AbstractFile() noexcept = default;
+    AbstractFile(const AbstractFile&) = default;
+    AbstractFile& operator=(const AbstractFile&) = default;
+    AbstractFile(AbstractFile&&) = default;
+    AbstractFile& operator=(AbstractFile&&) = default;
 
     /**
      * Get characters returned by last read operation.

@@ -25,10 +25,7 @@ namespace Vector {
 namespace BLF {
 
 DataLostEnd::DataLostEnd() :
-    ObjectHeader(),
-    queueIdentifier(),
-    firstObjectLostTimeStamp(),
-    numberOfLostEvents()
+    ObjectHeader()
 {
     objectType = ObjectType::DATA_LOST_END;
 }

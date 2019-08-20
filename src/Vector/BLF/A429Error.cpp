@@ -25,14 +25,7 @@ namespace Vector {
 namespace BLF {
 
 A429Error::A429Error() :
-    ObjectHeader(),
-    channel(),
-    errorType(),
-    sourceIdentifier(),
-    errReason(),
-    errorText(),
-    errorAttributes(),
-    reservedA429Error()
+    ObjectHeader()
 {
     objectType = ObjectType::A429_ERROR;
 }

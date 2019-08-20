@@ -51,7 +51,7 @@ public:
     /**
      * @brief application channel
      */
-    WORD channel;
+    WORD channel {};
 
     /**
      * Direction of message events:
@@ -59,28 +59,28 @@ public:
      *   - 1: Tx (transmit receipt)
      *   - 2: Tx Request (transmit request)
      */
-    BYTE dir;
+    BYTE dir {};
 
     /** reserved */
-    BYTE reservedMostSpy1;
+    BYTE reservedMostSpy1 {};
 
     /**
      * Source address
      */
-    DWORD sourceAdr;
+    DWORD sourceAdr {};
 
     /**
      * Target address
      */
-    DWORD destAdr;
+    DWORD destAdr {};
 
     /**
      * 17 data bytes
      */
-    std::array<BYTE, 17> msg;
+    std::array<BYTE, 17> msg {};
 
     /** reserved */
-    BYTE reservedMostSpy2;
+    BYTE reservedMostSpy2 {};
 
     /**
      * @brief Control message sub type
@@ -94,7 +94,7 @@ public:
      *   - 5: GetSource
      *   - >5: not used so far
      */
-    WORD rTyp;
+    WORD rTyp {};
 
     /**
      * @brief Addressing mode
@@ -106,7 +106,7 @@ public:
      *   - 0x30: Groupcast
      *   - 0xFF: Unknown
      */
-    BYTE rTypAdr;
+    BYTE rTypAdr {};
 
     /**
      * @brief Transmission state MOST25
@@ -141,10 +141,10 @@ public:
      *     Restriction:
      *     - only for Dir = Tx (MOSTCtrl)
      */
-    BYTE state;
+    BYTE state {};
 
     /** reserved */
-    BYTE reservedMostSpy3;
+    BYTE reservedMostSpy3 {};
 
     /**
      * AckNack holds the transmit status of a control message (see Transmit Status Register of OS8104
@@ -181,12 +181,12 @@ public:
      *     Restriction:
      *       - only for Dir = Tx or spy messages
      */
-    BYTE ackNack;
+    BYTE ackNack {};
 
     /**
      * Cyclic Redundancy Check
      */
-    DWORD crc;
+    DWORD crc {};
 };
 
 }

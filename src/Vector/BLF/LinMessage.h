@@ -55,53 +55,53 @@ public:
      *
      * Channel number where the frame sent/received.
      */
-    WORD channel;
+    WORD channel {};
 
     /**
      * @brief LIN ID
      *
      * Frame identifier
      */
-    BYTE id;
+    BYTE id {};
 
     /**
      * @brief LIN DLC
      *
      * Frame length
      */
-    BYTE dlc;
+    BYTE dlc {};
 
     /**
      * Databyte values
      */
-    std::array<BYTE, 8> data;
+    std::array<BYTE, 8> data {};
 
     /**
      * Slave Identifier in the Final State Machine
      * (obsolete)
      */
-    BYTE fsmId;
+    BYTE fsmId {};
 
     /**
      * State Identifier of a Slave in the Final State
      * Machine (obsolete)
      */
-    BYTE fsmState;
+    BYTE fsmState {};
 
     /**
      * Duration of the frame header [in bit times]
      */
-    BYTE headerTime;
+    BYTE headerTime {};
 
     /**
      * Duration of the entire frame [in bit times]
      */
-    BYTE fullTime;
+    BYTE fullTime {};
 
     /**
      * Checksum byte value
      */
-    WORD crc;
+    WORD crc {};
 
     /**
      * @brief direction
@@ -111,13 +111,13 @@ public:
      *   - 1: Tx (transmit receipt)
      *   - 2: Tx Request (transmit request)
      */
-    BYTE dir;
+    BYTE dir {};
 
     /** reserved */
-    BYTE reservedLinMessage1;
+    BYTE reservedLinMessage1 {};
 
     /** reserved */
-    DWORD reservedLinMessage2;
+    DWORD reservedLinMessage2 {};
 };
 
 }

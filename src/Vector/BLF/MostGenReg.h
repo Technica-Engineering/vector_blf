@@ -54,7 +54,7 @@ public:
      *
      * Application channel
      */
-    WORD channel;
+    WORD channel {};
 
     /**
      * @brief read/write request/result
@@ -69,17 +69,17 @@ public:
      *   - ReadFailed = 6: register read operation failed
      *   - WriteFailed = 7: register write operation failed
      */
-    BYTE subType;
+    BYTE subType {};
 
     /** reserved */
-    BYTE reservedMostGenReg1;
+    BYTE reservedMostGenReg1 {};
 
     /**
      * @brief operation handle
      *
      * Operation handle (obsolete; write 0)
      */
-    DWORD handle;
+    DWORD handle {};
 
     /**
      * @brief register ID
@@ -104,20 +104,20 @@ public:
      *   - MacAdr = 0xFE: 48 bit MAC address (EUI-48, conforming to the IEEE standard;
      *     MOST150 only)
      */
-    WORD regId;
+    WORD regId {};
 
     /** reserved */
-    WORD reservedMostGenReg2;
+    WORD reservedMostGenReg2 {};
 
     /** reserved */
-    DWORD reservedMostGenReg3;
+    DWORD reservedMostGenReg3 {};
 
     /**
      * @brief register value
      *
      * Register value
      */
-    ULONGLONG regValue;
+    ULONGLONG regValue {};
 };
 
 }

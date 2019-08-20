@@ -52,31 +52,31 @@ public:
      *
      * Application channel
      */
-    WORD channel;
+    WORD channel {};
 
     /**
      * Number of messages on Asynchronous channel
      * since the last Statistic event
      */
-    WORD pktCnt;
+    WORD pktCnt {};
 
     /**
      * Number of messages on Control channel since
      * the last Statistic event
      */
-    LONG frmCnt;
+    LONG frmCnt {};
 
     /**
      * Number of signal stat transitions since the last
      * Statistic event
      */
-    LONG lightCnt;
+    LONG lightCnt {};
 
     /**
      * Receive buffer level of Optolyzer G1 in spy
      * mode
      */
-    LONG bufferLevel;
+    LONG bufferLevel {};
 };
 
 }

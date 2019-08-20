@@ -53,14 +53,14 @@ public:
      *
      * Application channel
      */
-    WORD channel;
+    WORD channel {};
 
     /**
      * @brief version of data struct
      *
      * Object version, for internal use
      */
-    WORD version;
+    WORD version {};
 
     /**
      * @brief channel mask
@@ -71,7 +71,7 @@ public:
      *   - 2 = FlexRay Channel B
      *   - 3 = FlexRay Channels A and B
      */
-    WORD channelMask;
+    WORD channelMask {};
 
     /**
      * @brief dir flag (tx, rx)
@@ -82,10 +82,10 @@ public:
      *   - 2 = Tx Request
      *   - 3 and 4 are for internal use only.
      */
-    BYTE dir;
+    BYTE dir {};
 
     /** reserved */
-    BYTE reservedFlexRayVFrReceiveMsg1;
+    BYTE reservedFlexRayVFrReceiveMsg1 {};
 
     /**
      * @brief clientindex of send node
@@ -93,42 +93,42 @@ public:
      * Client index of send node. Must be set to 0 if file
      * is written from other applications.
      */
-    DWORD clientIndexFlexRayVFrReceiveMsg;
+    DWORD clientIndexFlexRayVFrReceiveMsg {};
 
     /**
      * @brief number of cluster
      *
      * Number of cluster: channel number - 1
      */
-    DWORD clusterNo;
+    DWORD clusterNo {};
 
     /**
      * @brief slot identifier, word
      *
      * Slot identifier
      */
-    WORD frameId;
+    WORD frameId {};
 
     /**
      * @brief header crc channel 1
      *
      * Header CRC FlexRay channel 1 (A)
      */
-    WORD headerCrc1;
+    WORD headerCrc1 {};
 
     /**
      * @brief header crc channel 2
      *
      * Header CRC FlexRay channel 2 (B)
      */
-    WORD headerCrc2;
+    WORD headerCrc2 {};
 
     /**
      * @brief byte count (not payload) of frame from CC receive buffer
      *
      * Payload length in bytes
      */
-    WORD byteCount;
+    WORD byteCount {};
 
     /**
      * @brief length of the data array (stretchy struct)
@@ -138,17 +138,17 @@ public:
      * small to receive the complete payload, then
      * dataCount is smaller than byteCount.
      */
-    WORD dataCount;
+    WORD dataCount {};
 
     /**
      * @brief current cycle
      *
      * Cycle number
      */
-    BYTE cycle;
+    BYTE cycle {};
 
     /** reserved */
-    BYTE reservedFlexRayVFrReceiveMsg2;
+    BYTE reservedFlexRayVFrReceiveMsg2 {};
 
     /**
      * @brief type of cc
@@ -162,7 +162,7 @@ public:
      *   - 5 = Vector VN interface
      *   - 6 = VN-Sync-Pulse (only in Status Event, for debugging purposes only)
      */
-    DWORD tag;
+    DWORD tag {};
 
     /**
      * @brief frame flags
@@ -201,7 +201,7 @@ public:
      * The reserved bits and the bits which are for internally CANoe/CANalyzer usage must be ignored
      * from other applications. Other applications must set these bits to 0 when writing logging files.
      */
-    DWORD data;
+    DWORD data {};
 
     /**
      * @brief frame flags
@@ -240,27 +240,27 @@ public:
      * The reserved bits and the bits which are for internally CANoe/CANalyzer usage must be ignored
      * from other applications. Other applications must set these bits to 0 when writing logging files.
      */
-    DWORD frameFlags;
+    DWORD frameFlags {};
 
     /**
      * @brief TxRq, TxAck flags
      *
      * Not used, reserved
      */
-    DWORD appParameter;
+    DWORD appParameter {};
 
     /**
      * @brief array of databytes
      *
      * Payload
      */
-    std::array<BYTE, 254> dataBytes;
+    std::array<BYTE, 254> dataBytes {};
 
     /** reserved */
-    WORD reservedFlexRayVFrReceiveMsg3;
+    WORD reservedFlexRayVFrReceiveMsg3 {};
 
     /** reserved */
-    DWORD reservedFlexRayVFrReceiveMsg4;
+    DWORD reservedFlexRayVFrReceiveMsg4 {};
 };
 
 }

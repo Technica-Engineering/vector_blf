@@ -47,7 +47,7 @@ public:
     /**
      * @brief unique ID identifying the executing test module or test configuration
      */
-    DWORD executionObjectIdentify;
+    DWORD executionObjectIdentify {};
 
     /** enumeration for type */
     enum Type : WORD {
@@ -67,15 +67,15 @@ public:
     /**
      * @brief type of structure element, see BL_TESTSTRUCT_TYPE_xxx
      */
-    WORD type;
+    WORD type {};
 
     /** reserved */
-    WORD reservedTestStructure;
+    WORD reservedTestStructure {};
 
     /**
      * @brief unique number of structure element (in this test run, transitive, can be used to correlate begin/end events)
      */
-    DWORD uniqueNo;
+    DWORD uniqueNo {};
 
     /** enumeration for action */
     enum Action : WORD {
@@ -92,7 +92,7 @@ public:
     /**
      * @brief indicates begin/end of structure element, see BL_TESTSTRUCT_ACTION_xxx
      */
-    WORD action;
+    WORD action {};
 
     /** enumeration for result */
     enum Result : WORD {
@@ -107,37 +107,37 @@ public:
     /**
      * @brief overall result (verdict) for end of structure element events
      */
-    WORD result;
+    WORD result {};
 
     /**
      * @brief string length in wchar_t's for executingObjectName
      */
-    DWORD executingObjectNameLength;
+    DWORD executingObjectNameLength {};
 
     /**
      * @brief string length in wchar_t's for name
      */
-    DWORD nameLength;
+    DWORD nameLength {};
 
     /**
      * @brief string length in wchar_t's for text
      */
-    DWORD textLength;
+    DWORD textLength {};
 
     /**
      * @brief name of the executing test module or test configuration as shown in CANoe (wchar_t)
      */
-    std::u16string executingObjectName;
+    std::u16string executingObjectName {};
 
     /**
      * @brief name of structure element (can change between begin/end when using CAPL function TestCaseTitle or similar (wchar_t)
      */
-    std::u16string name;
+    std::u16string name {};
 
     /**
      * @brief full informational text for event as it appears in CANoe trace window
      */
-    std::u16string text;
+    std::u16string text {};
 };
 
 }

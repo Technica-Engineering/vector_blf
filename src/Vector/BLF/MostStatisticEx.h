@@ -53,23 +53,23 @@ public:
      *
      * Application channel
      */
-    WORD channel;
+    WORD channel {};
 
     /** reserved */
-    WORD reservedMostStatisticEx1;
+    WORD reservedMostStatisticEx1 {};
 
     /**
      * Number of coding errors
      */
-    DWORD codingErrors;
+    DWORD codingErrors {};
 
     /**
      * MOST frame counter
      */
-    DWORD frameCounter;
+    DWORD frameCounter {};
 
     /** reserved */
-    DWORD reservedMostStatisticEx2;
+    DWORD reservedMostStatisticEx2 {};
 };
 
 }

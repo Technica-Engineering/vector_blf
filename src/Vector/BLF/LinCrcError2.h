@@ -55,14 +55,14 @@ public:
      *
      * Data byte values
      */
-    std::array<BYTE, 8> data;
+    std::array<BYTE, 8> data {};
 
     /**
      * @brief checksum byte
      *
      * Checksum byte value
      */
-    WORD crc;
+    WORD crc {};
 
     /**
      * @brief direction
@@ -72,19 +72,19 @@ public:
      *   - 1: Tx (transmit receipt)
      *   - 2: Tx Request (transmit request)
      */
-    BYTE dir;
+    BYTE dir {};
 
     /**
      * Slave Identifier in the Final State
      * Machine (obsolete)
      */
-    BYTE fsmId;
+    BYTE fsmId {};
 
     /**
      * State Identifier of a Slave in the
      * Final State Machine (obsolete)
      */
-    BYTE fsmState;
+    BYTE fsmState {};
 
     /**
      * @brief simulated frame
@@ -94,10 +94,10 @@ public:
      *   - 0: real frame
      *   - 1: simulated frame
      */
-    BYTE simulated;
+    BYTE simulated {};
 
     /** reserved */
-    WORD reservedLinCrcError1;
+    WORD reservedLinCrcError1 {};
 
     /* the following variables are only available in Version 2 and above */
 
@@ -107,10 +107,10 @@ public:
      * Event’s baudrate measured in
      * response [in bits/sec]
      */
-    DWORD respBaudrate;
+    DWORD respBaudrate {};
 
     /** reserved */
-    DWORD reservedLinCrcError2;
+    DWORD reservedLinCrcError2 {};
 
     /* the following variables are only available in Version 3 and above */
 
@@ -121,7 +121,7 @@ public:
      * measured in header [in
      * bits/sec]
      */
-    DOUBLE exactHeaderBaudrate;
+    DOUBLE exactHeaderBaudrate {};
 
     /**
      * @brief Early stop bit offset for UART timestamps in ns
@@ -130,7 +130,7 @@ public:
      * frame header for UART
      * timestamps [in ns]
      */
-    DWORD earlyStopbitOffset;
+    DWORD earlyStopbitOffset {};
 
     /**
      * @brief Early stop bit offset in frame response for UART timestamps in ns
@@ -139,7 +139,7 @@ public:
      * frame response for
      * UART timestamps [in ns]
      */
-    DWORD earlyStopbitOffsetResponse;
+    DWORD earlyStopbitOffsetResponse {};
 };
 
 }

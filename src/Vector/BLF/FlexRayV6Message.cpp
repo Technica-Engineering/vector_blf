@@ -25,23 +25,7 @@ namespace Vector {
 namespace BLF {
 
 FlexRayV6Message::FlexRayV6Message() :
-    ObjectHeader(),
-    channel(),
-    dir(),
-    lowTime(),
-    fpgaTick(),
-    fpgaTickOverflow(),
-    clientIndexFlexRayV6Message(),
-    clusterTime(),
-    frameId(),
-    headerCrc(),
-    frameState(),
-    length(),
-    cycle(),
-    headerBitMask(),
-    reservedFlexRayV6Message1(),
-    reservedFlexRayV6Message2(),
-    dataBytes()
+    ObjectHeader()
 {
     objectType = ObjectType::FLEXRAY_MESSAGE;
 }

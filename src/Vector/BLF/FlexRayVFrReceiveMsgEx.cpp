@@ -25,30 +25,7 @@ namespace Vector {
 namespace BLF {
 
 FlexRayVFrReceiveMsgEx::FlexRayVFrReceiveMsgEx() :
-    ObjectHeader(),
-    channel(),
-    version(),
-    channelMask(),
-    dir(),
-    clientIndexFlexRayVFrReceiveMsgEx(),
-    clusterNo(),
-    frameId(),
-    headerCrc1(),
-    headerCrc2(),
-    byteCount(),
-    dataCount(),
-    cycle(),
-    tag(),
-    data(),
-    frameFlags(),
-    appParameter(),
-    frameCrc(),
-    frameLengthNs(),
-    frameId1(),
-    pduOffset(),
-    blfLogMask(),
-    reservedFlexRayVFrReceiveMsgEx(),
-    dataBytes()
+    ObjectHeader()
 {
     objectType = ObjectType::FR_RCVMESSAGE_EX;
 }

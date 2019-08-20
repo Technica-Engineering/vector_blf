@@ -41,8 +41,12 @@ namespace BLF {
 class VECTOR_BLF_EXPORT CompactSerialEvent final
 {
 public:
-    CompactSerialEvent();
-    virtual ~CompactSerialEvent();
+    CompactSerialEvent() = default;
+    virtual ~CompactSerialEvent() noexcept = default;
+    CompactSerialEvent(const CompactSerialEvent&) = default;
+    CompactSerialEvent& operator=(const CompactSerialEvent&) = default;
+    CompactSerialEvent(CompactSerialEvent&&) = default;
+    CompactSerialEvent& operator=(CompactSerialEvent&&) = default;
 
     /** @copydoc ObjectHeader::read */
     virtual void read(AbstractFile & is);
@@ -54,10 +58,10 @@ public:
     virtual DWORD calculateObjectSize() const;
 
     /** compact length */
-    BYTE compactLength;
+    BYTE compactLength {};
 
     /** compact data */
-    std::array<BYTE, 15> compactData;
+    std::array<BYTE, 15> compactData {};
 };
 
 }

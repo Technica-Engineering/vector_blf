@@ -28,17 +28,7 @@ namespace Vector {
 namespace BLF {
 
 template<typename T>
-ObjectQueue<T>::ObjectQueue() :
-    tellgChanged(),
-    tellpChanged(),
-    m_abort(false),
-    m_queue(),
-    m_tellg(0),
-    m_tellp(0),
-    m_bufferSize(0xffffffff),
-    m_fileSize(0xffffffff),
-    m_rdstate(std::ios_base::goodbit),
-    m_mutex()
+ObjectQueue<T>::ObjectQueue()
 {
 }
 

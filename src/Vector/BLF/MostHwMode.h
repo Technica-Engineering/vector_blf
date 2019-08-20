@@ -54,10 +54,10 @@ public:
      *
      * Application channel
      */
-    WORD channel;
+    WORD channel {};
 
     /** reserved */
-    WORD reservedMostHwMode;
+    WORD reservedMostHwMode {};
 
     /**
      * @brief bypass/master/slave/spy
@@ -74,14 +74,14 @@ public:
      *   (MOST150)
      * - Bit 0x80: 1: no events from async. channel
      */
-    WORD hwMode;
+    WORD hwMode {};
 
     /**
      * @brief marks the altered bits
      *
      * Bitmask of changed bits
      */
-    WORD hwModeMask;
+    WORD hwModeMask {};
 };
 
 }

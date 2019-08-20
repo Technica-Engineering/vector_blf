@@ -53,14 +53,14 @@ public:
      *
      * Application channel
      */
-    WORD channel;
+    WORD channel {};
 
     /**
      * @brief determines the data layout
      *
      * Determines the data layout (see below)
      */
-    WORD eventModeFlags;
+    WORD eventModeFlags {};
 
     /**
      * @brief number of free bytes after the operation
@@ -69,7 +69,7 @@ public:
      *   - Max. 116 with SBC=29 for MOST50
      *   - Max. 372 with SBC=93 for MOST150
      */
-    WORD freeBytes;
+    WORD freeBytes {};
 
     /**
      * @brief number of bytes in tableData
@@ -77,10 +77,10 @@ public:
      * Length of variable data in bytes. The value must
      * be a multiple of 4.
      */
-    WORD length;
+    WORD length {};
 
     /** reserved */
-    ULONGLONG reservedMost150AllocTab;
+    ULONGLONG reservedMost150AllocTab {};
 
     /**
      * Allocation Table data
@@ -110,7 +110,7 @@ public:
      * - WWWW: label width
      * - < channels >: list of 16-bit channel numbers (size = label width)
      */
-    std::vector<BYTE> tableData;
+    std::vector<BYTE> tableData {};
 };
 
 }

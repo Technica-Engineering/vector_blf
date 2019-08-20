@@ -49,7 +49,7 @@ public:
     /**
      * @brief application channel
      */
-    WORD channel;
+    WORD channel {};
 
     /**
      * enumeration for flags
@@ -75,27 +75,27 @@ public:
      *
      * CAN dir, rtr, wu & nerr encoded into flags
      */
-    BYTE flags;
+    BYTE flags {};
 
     /**
      * @brief CAN dlc
      */
-    BYTE dlc;
+    BYTE dlc {};
 
     /**
      * @brief CAN ID
      */
-    DWORD id;
+    DWORD id {};
 
     /**
      * @brief message length in ns - without 3 inter frame space bits and by Rx-message also without 1 End-Of-Frame bit
      */
-    DWORD frameLength;
+    DWORD frameLength {};
 
     /**
      * @brief bit count of arbitration phase
      */
-    BYTE arbBitCount;
+    BYTE arbBitCount {};
 
     /**
      * enumeration for canFdFlags
@@ -114,26 +114,26 @@ public:
     /**
      * @brief CAN FD flags
      */
-    BYTE canFdFlags;
+    BYTE canFdFlags {};
 
     /**
      * @brief Valid payload length of data
      */
-    BYTE validDataBytes;
+    BYTE validDataBytes {};
 
     /** reserved */
-    BYTE reservedCanFdMessage1;
+    BYTE reservedCanFdMessage1 {};
 
     /** reserved */
-    DWORD reservedCanFdMessage2;
+    DWORD reservedCanFdMessage2 {};
 
     /**
      * @brief CAN FD data
      */
-    std::vector<BYTE> data;
+    std::vector<BYTE> data {};
 
     /** reserved */
-    DWORD reservedCanFdMessage3;
+    DWORD reservedCanFdMessage3 {};
 };
 
 }

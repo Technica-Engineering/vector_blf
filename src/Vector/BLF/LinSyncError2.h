@@ -57,7 +57,7 @@ public:
      * Time intervals [in us] detected between the
      * falling signal edges of the Sync field
      */
-    std::array<WORD, 4> timeDiff;
+    std::array<WORD, 4> timeDiff {};
 };
 
 }

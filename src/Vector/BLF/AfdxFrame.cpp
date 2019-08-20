@@ -25,23 +25,7 @@ namespace Vector {
 namespace BLF {
 
 AfdxFrame::AfdxFrame() :
-    ObjectHeader(),
-    sourceAddress(),
-    channel(),
-    destinationAddress(),
-    dir(),
-    type(),
-    tpid(),
-    tci(),
-    ethChannel(),
-    reservedAfdxFrame1(),
-    afdxFlags(),
-    reservedAfdxFrame2(),
-    bagUsec(),
-    payLoadLength(),
-    reservedAfdxFrame3(),
-    reservedAfdxFrame4(),
-    payLoad()
+    ObjectHeader()
 {
     objectType = ObjectType::AFDX_FRAME;
 }

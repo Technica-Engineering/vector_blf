@@ -25,12 +25,7 @@ namespace Vector {
 namespace BLF {
 
 AfdxErrorEvent::AfdxErrorEvent() :
-    ObjectHeader(),
-    channel(),
-    errorLevel(),
-    sourceIdentifier(),
-    errorText(),
-    errorAttributes()
+    ObjectHeader()
 {
     objectType = ObjectType::AFDX_ERROR_EVENT;
 }

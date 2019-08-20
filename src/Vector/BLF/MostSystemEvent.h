@@ -51,7 +51,7 @@ public:
      *
      * Application channel
      */
-    WORD channel;
+    WORD channel {};
 
     /**
      * @brief identifier of transported data
@@ -62,24 +62,24 @@ public:
      *   - 2 - Shutdown Flag (MOST150)
      *   - 3 - Shutdown Reason (MOST150)
      */
-    WORD id;
+    WORD id {};
 
     /**
      * @brief current value
      *
      * Current value
      */
-    DWORD value;
+    DWORD value {};
 
     /**
      * @brief previous value
      *
      * Previous value
      */
-    DWORD valueOld;
+    DWORD valueOld {};
 
     /** reserved */
-    DWORD reservedMostSystemEvent;
+    DWORD reservedMostSystemEvent {};
 };
 
 }

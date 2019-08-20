@@ -67,44 +67,44 @@ public:
      *
      * Channel number where the event notified
      */
-    WORD channel;
+    WORD channel {};
 
     /**
      * @brief LIN ID
      *
      * Frame identifier
      */
-    BYTE id;
+    BYTE id {};
 
     /**
      * @brief LIN DLC
      *
      * Frame length
      */
-    BYTE dlc;
+    BYTE dlc {};
 
     /**
      * Slave Identifier in the Final State
      * Machine (obsolete)
      */
-    BYTE fsmId;
+    BYTE fsmId {};
 
     /**
      * State Identifier of a Slave in the Final
      * State Machine (obsolete)
      */
-    BYTE fsmState;
+    BYTE fsmState {};
 
     /**
      * Duration of the frame header [in bit
      * times]
      */
-    BYTE headerTime;
+    BYTE headerTime {};
 
     /**
      * Duration of the entire frame [in bit times]
      */
-    BYTE fullTime;
+    BYTE fullTime {};
 
     /**
      * The lower 4 bits indicate the LIN hardware
@@ -138,14 +138,14 @@ public:
      *   - 3: Unexpected Break field
      *   - 4: Unidentified error
      */
-    BYTE stateReason;
+    BYTE stateReason {};
 
     /**
      * Byte value that resulted the protocol
      * violation. Only valid for certain values of
      * stateReason
      */
-    BYTE offendingByte;
+    BYTE offendingByte {};
 
     /**
      * Specifies the detail level of the event.
@@ -155,7 +155,7 @@ public:
      * Most members are not valid unless this
      * member is 1
      */
-    BYTE shortError;
+    BYTE shortError {};
 
     /**
      * Flag indicating if the error is a result of
@@ -164,10 +164,10 @@ public:
      *   - 0: False
      *   - 1: True
      */
-    BYTE timeoutDuringDlcDetection;
+    BYTE timeoutDuringDlcDetection {};
 
     /** reserved */
-    DWORD reservedLinReceiveError;
+    DWORD reservedLinReceiveError {};
 };
 
 }

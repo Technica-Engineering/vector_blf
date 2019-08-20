@@ -25,27 +25,7 @@ namespace Vector {
 namespace BLF {
 
 AfdxBusStatistic::AfdxBusStatistic() :
-    ObjectHeader(),
-    channel(),
-    flags(),
-    statDuration(),
-    statRxPacketCountHW(),
-    statTxPacketCountHW(),
-    statRxErrorCountHW(),
-    statTxErrorCountHW(),
-    statRxBytesHW(),
-    statTxBytesHW(),
-    statRxPacketCount(),
-    statTxPacketCount(),
-    statDroppedPacketCount(),
-    statInvalidPacketCount(),
-    statLostPacketCount(),
-    line(),
-    linkStatus(),
-    linkSpeed(),
-    linkLost(),
-    reservedAfdxBusStatistic1(),
-    reservedAfdxBusStatistic2()
+    ObjectHeader()
 {
     objectType = ObjectType::A429_BUS_STATISTIC;
 }

@@ -52,7 +52,7 @@ public:
      * CAN channel the driver error information
      * belongs to.
      */
-    WORD channel;
+    WORD channel {};
 
     /**
      * @brief # of TX errors
@@ -60,7 +60,7 @@ public:
      * Number of transmit errors that occurred in CAN
      * controller for that channel.
      */
-    BYTE txErrors;
+    BYTE txErrors {};
 
     /**
      * @brief # of RX errors
@@ -68,14 +68,14 @@ public:
      * Number of receive errors that occurred in CAN
      * controller for that channel.
      */
-    BYTE rxErrors;
+    BYTE rxErrors {};
 
     /**
      * @brief CAN driver error code
      *
      * Error code
      */
-    DWORD errorCode;
+    DWORD errorCode {};
 };
 
 }

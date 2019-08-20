@@ -25,11 +25,7 @@ namespace Vector {
 namespace BLF {
 
 MostStress::MostStress() :
-    ObjectHeader2(),
-    channel(),
-    state(),
-    mode(),
-    reservedMostStress()
+    ObjectHeader2()
 {
     objectType = ObjectType::MOST_STRESS;
 }

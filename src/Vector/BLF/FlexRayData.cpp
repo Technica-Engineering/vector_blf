@@ -25,16 +25,7 @@ namespace Vector {
 namespace BLF {
 
 FlexRayData::FlexRayData() :
-    ObjectHeader(),
-    channel(),
-    mux(),
-    len(),
-    messageId(),
-    crc(),
-    dir(),
-    reservedFlexRayData1(),
-    reservedFlexRayData2(),
-    dataBytes()
+    ObjectHeader()
 {
     objectType = ObjectType::FLEXRAY_DATA;
 }

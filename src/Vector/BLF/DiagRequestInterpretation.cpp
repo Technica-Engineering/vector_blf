@@ -25,16 +25,7 @@ namespace Vector {
 namespace BLF {
 
 DiagRequestInterpretation::DiagRequestInterpretation() :
-    ObjectHeader(),
-    diagDescriptionHandle(),
-    diagVariantHandle(),
-    diagServiceHandle(),
-    ecuQualifierLength(),
-    variantQualifierLength(),
-    serviceQualifierLength(),
-    ecuQualifier(),
-    variantQualifier(),
-    serviceQualifier()
+    ObjectHeader()
 {
     objectType = ObjectType::DIAG_REQUEST_INTERPRETATION;
 }

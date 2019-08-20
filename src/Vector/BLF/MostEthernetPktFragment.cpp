@@ -25,22 +25,7 @@ namespace Vector {
 namespace BLF {
 
 MostEthernetPktFragment::MostEthernetPktFragment() :
-    ObjectHeader2(),
-    channel(),
-    reservedMostEthernetPktFragment1(),
-    ackNack(),
-    validMask(),
-    sourceMacAdr(),
-    destMacAdr(),
-    pAck(),
-    cAck(),
-    reservedMostEthernetPktFragment2(),
-    crc(),
-    dataLen(),
-    dataLenAnnounced(),
-    firstDataLen(),
-    reservedMostEthernetPktFragment3(),
-    firstData()
+    ObjectHeader2()
 {
     objectType = ObjectType::MOST_ETHERNET_PKT_FRAGMENT;
 }

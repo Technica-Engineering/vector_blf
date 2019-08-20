@@ -53,7 +53,7 @@ public:
      *
      * Application channel
      */
-    WORD channel;
+    WORD channel {};
 
     /**
      * @brief direction: 0: Rx; 1: Tx; 2: TxRequest
@@ -63,27 +63,27 @@ public:
      *   - 1: Tx (transmit receipt)
      *   - 2: Tx Request (transmit request)
      */
-    BYTE dir;
+    BYTE dir {};
 
     /** reserved */
-    BYTE reservedMostEthernetPkt1;
+    BYTE reservedMostEthernetPkt1 {};
 
     /** reserved */
-    DWORD reservedMostEthernetPkt2;
+    DWORD reservedMostEthernetPkt2 {};
 
     /**
      * @brief 48 bit source address
      *
      * 48 bit source address
      */
-    ULONGLONG sourceMacAdr;
+    ULONGLONG sourceMacAdr {};
 
     /**
      * @brief 48 bit target address
      *
      * 48 bit target address
      */
-    ULONGLONG destMacAdr;
+    ULONGLONG destMacAdr {};
 
     /**
      * @brief Tranfer Type
@@ -97,7 +97,7 @@ public:
      *     Message was reported by the network spy. The Spy sees all messages
      *     independently of the desti-nation address.
      */
-    BYTE transferType;
+    BYTE transferType {};
 
     /**
      * @brief transmission status
@@ -129,7 +129,7 @@ public:
      *       - only for Dir = Tx
      *       - only for mTransferType = Node
      */
-    BYTE state;
+    BYTE state {};
 
     /**
      * @brief acknowledge code
@@ -168,17 +168,17 @@ public:
      *     Restriction:
      *       - only for Dir = Tx or spy messages
      */
-    BYTE ackNack;
+    BYTE ackNack {};
 
     /** reserved */
-    BYTE reservedMostEthernetPkt3;
+    BYTE reservedMostEthernetPkt3 {};
 
     /**
      * @brief Cyclic Redundancy Check
      *
      * Cyclic Redundancy Check
      */
-    DWORD crc;
+    DWORD crc {};
 
     /**
      * @brief a preemptive acknowledge code
@@ -188,7 +188,7 @@ public:
      *   - 0x01: Buffer full
      *   - 0x04: OK
      */
-    BYTE pAck;
+    BYTE pAck {};
 
     /**
      * @brief CRC acknowledge from the packet receiver(s) to the packet transmitter
@@ -199,27 +199,27 @@ public:
      *   - 0x01: CRC error
      *   - 0x04: OK
      */
-    BYTE cAck;
+    BYTE cAck {};
 
     /** reserved */
-    WORD reservedMostEthernetPkt4;
+    WORD reservedMostEthernetPkt4 {};
 
     /**
      * @brief length of variable data in bytes (1506 max)
      *
      * Length of variable data in bytes (1506 max)
      */
-    DWORD pktDataLength;
+    DWORD pktDataLength {};
 
     /** reserved */
-    ULONGLONG reservedMostEthernetPkt5;
+    ULONGLONG reservedMostEthernetPkt5 {};
 
     /**
      * @brief variable data
      *
      * Variable data
      */
-    std::vector<uint8_t> pktData;
+    std::vector<uint8_t> pktData {};
 };
 
 }

@@ -51,35 +51,35 @@ public:
     /**
      * @brief application channel
      */
-    WORD channel;
+    WORD channel {};
 
     /**
      * @brief object version
      */
-    WORD version;
+    WORD version {};
 
     /**
      * @brief type of status event
      */
-    WORD statusType;
+    WORD statusType {};
 
     /**
      * @brief additional info 1
      */
-    WORD infoMask1;
+    WORD infoMask1 {};
 
     /**
      * @brief additional info 2
      */
-    WORD infoMask2;
+    WORD infoMask2 {};
 
     /**
      * @brief additional info 3
      */
-    WORD infoMask3;
+    WORD infoMask3 {};
 
     /** reserved */
-    std::array<WORD, 18> reservedFlexRayStatusEvent;
+    std::array<WORD, 18> reservedFlexRayStatusEvent {};
 };
 
 }

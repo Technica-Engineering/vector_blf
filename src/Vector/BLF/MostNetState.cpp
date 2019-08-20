@@ -25,11 +25,7 @@ namespace Vector {
 namespace BLF {
 
 MostNetState::MostNetState() :
-    ObjectHeader2(),
-    channel(),
-    stateNew(),
-    stateOld(),
-    reservedMostNetState()
+    ObjectHeader2()
 {
     objectType = ObjectType::MOST_NETSTATE;
 }

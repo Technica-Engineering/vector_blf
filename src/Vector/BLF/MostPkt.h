@@ -54,7 +54,7 @@ public:
      *
      * Application channel
      */
-    WORD channel;
+    WORD channel {};
 
     /**
      * Direction of message events:
@@ -62,48 +62,48 @@ public:
      *   - 1: Tx (transmit receipt)
      *   - 2: Tx Request (transmit request)
      */
-    BYTE dir;
+    BYTE dir {};
 
     /** reserved */
-    BYTE reservedMostPkt1;
+    BYTE reservedMostPkt1 {};
 
     /**
      * Source address
      */
-    DWORD sourceAdr;
+    DWORD sourceAdr {};
 
     /**
      * Target address
      */
-    DWORD destAdr;
+    DWORD destAdr {};
 
     /**
      * Arbitration byte
      */
-    BYTE arbitration;
+    BYTE arbitration {};
 
     /**
      * Obsolete member; read/write 0
      */
-    BYTE timeRes;
+    BYTE timeRes {};
 
     /**
      * Number of quadlets
      */
-    BYTE quadsToFollow;
+    BYTE quadsToFollow {};
 
     /** reserved */
-    BYTE reservedMostPkt2;
+    BYTE reservedMostPkt2 {};
 
     /**
      * Cyclic Redundancy Check
      */
-    WORD crc;
+    WORD crc {};
 
     /**
      * Priority
      */
-    BYTE priority;
+    BYTE priority {};
 
     /**
      * @brief Tranfer type
@@ -117,37 +117,37 @@ public:
      *     Message was reported by the network spy. The Spy sees all messages
      *     independently of the desti-nation address.
      */
-    BYTE transferType;
+    BYTE transferType {};
 
     /**
      * Transmission state
      *   - 0 for Rx
      *   - 0x40 for TxOk (transmit request)
      */
-    BYTE state;
+    BYTE state {};
 
     /** reserved */
-    BYTE reservedMostPkt3;
+    BYTE reservedMostPkt3 {};
 
     /** reserved */
-    WORD reservedMostPkt4;
+    WORD reservedMostPkt4 {};
 
     /**
      * @brief length of variable data in bytes
      *
      * Length of variable data in bytes (1014 max)
      */
-    DWORD pktDataLength;
+    DWORD pktDataLength {};
 
     /** reserved */
-    DWORD reservedMostPkt5;
+    DWORD reservedMostPkt5 {};
 
     /**
      * @brief variable data
      *
      * Variable data
      */
-    std::vector<uint8_t> pktData;
+    std::vector<uint8_t> pktData {};
 };
 
 }

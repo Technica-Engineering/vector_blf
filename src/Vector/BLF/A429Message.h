@@ -49,55 +49,55 @@ public:
     virtual DWORD calculateObjectSize() const override;
 
     /** data */
-    std::array<BYTE, 4> a429Data;
+    std::array<BYTE, 4> a429Data {};
 
     /** application channel */
-    WORD channel;
+    WORD channel {};
 
     /** direction flag: 0=Rx, 1=Tx */
-    BYTE dir;
+    BYTE dir {};
 
     /** reserved */
-    BYTE reservedA429Message1;
+    BYTE reservedA429Message1 {};
 
     /** bitrate */
-    ULONG bitrate;
+    ULONG bitrate {};
 
     /** error reason */
-    LONG errReason;
+    LONG errReason {};
 
     /** error position */
-    WORD errPosition;
+    WORD errPosition {};
 
     /** reserved */
-    WORD reservedA429Message2;
+    WORD reservedA429Message2 {};
 
     /** reserved */
-    DWORD reservedA429Message3;
+    DWORD reservedA429Message3 {};
 
     /** frame gap */
-    ULONGLONG frameGap;
+    ULONGLONG frameGap {};
 
     /** frame length */
-    ULONG frameLength;
+    ULONG frameLength {};
 
     /** message control */
-    WORD msgCtrl;
+    WORD msgCtrl {};
 
     /** reserved */
-    WORD reservedA429Message4;
+    WORD reservedA429Message4 {};
 
     /** cycle time */
-    ULONG cycleTime;
+    ULONG cycleTime {};
 
     /** error */
-    ULONG error;
+    ULONG error {};
 
     /** bit length of last bit */
-    ULONG bitLenOfLastBit;
+    ULONG bitLenOfLastBit {};
 
     /** reserved */
-    DWORD reservedA429Message5;
+    DWORD reservedA429Message5 {};
 };
 
 }

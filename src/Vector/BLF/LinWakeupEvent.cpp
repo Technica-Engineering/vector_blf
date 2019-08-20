@@ -25,11 +25,7 @@ namespace Vector {
 namespace BLF {
 
 LinWakeupEvent::LinWakeupEvent() :
-    ObjectHeader(),
-    channel(),
-    signal(),
-    external(),
-    reservedLinWakeupEvent()
+    ObjectHeader()
 {
     objectType = ObjectType::LIN_WAKEUP;
 }

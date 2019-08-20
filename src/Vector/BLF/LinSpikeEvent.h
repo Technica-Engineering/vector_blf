@@ -54,17 +54,17 @@ public:
      *
      * Channel number where the frame sent/received.
      */
-    WORD channel;
+    WORD channel {};
 
     /** reserved */
-    WORD reservedLinSpikeEvent;
+    WORD reservedLinSpikeEvent {};
 
     /**
      * @brief the spike's width
      *
      * Spike length in microseconds
      */
-    ULONG width;
+    ULONG width {};
 };
 
 }

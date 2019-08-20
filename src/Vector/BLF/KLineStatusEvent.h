@@ -58,25 +58,25 @@ public:
     /**
      * @brief BusSystemFacility::VKLineStatusEventType
      */
-    WORD type;
+    WORD type {};
 
     /**
      * @brief number of *bytes* used in data
      */
-    WORD dataLen;
+    WORD dataLen {};
 
     /**
      * @brief channel of event
      */
-    DWORD port;
+    DWORD port {};
 
     /** reserved */
-    ULONGLONG reservedKLineStatusEvent;
+    ULONGLONG reservedKLineStatusEvent {};
 
     /**
      * @brief the actual data, but only dataLen BYTES are used!
      */
-    std::array<UINT64, 3> data;
+    std::array<UINT64, 3> data {};
 };
 
 }

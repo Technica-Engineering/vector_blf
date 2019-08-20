@@ -53,14 +53,14 @@ public:
      *
      * Application channel
      */
-    WORD channel;
+    WORD channel {};
 
     /**
      * @brief version of data struct
      *
      * Object version, for internal use
      */
-    WORD version;
+    WORD version {};
 
     /**
      * @brief channel mask
@@ -71,7 +71,7 @@ public:
      *   - 2 = FlexRay Channel B
      *   - 3 = FlexRay Channels A and B
      */
-    WORD channelMask;
+    WORD channelMask {};
 
     /**
      * @brief dir flag (tx, rx)
@@ -82,45 +82,45 @@ public:
      *   - 2 = Tx Request
      *   - 3 and 4 are for internal use only.
      */
-    BYTE dir;
+    BYTE dir {};
 
     /**
      * @brief current cycle
      *
      * Cycle number
      */
-    BYTE cycle;
+    BYTE cycle {};
 
     /**
      * @brief clientindex of send node
      *
      * Client index of send node
      */
-    DWORD clientIndexFlexRayVFrStartCycle;
+    DWORD clientIndexFlexRayVFrStartCycle {};
 
     /**
      * @brief number of cluster
      *
      * Number of cluster: channel number - 1
      */
-    DWORD clusterNo;
+    DWORD clusterNo {};
 
     /**
      * @brief size of NM Vector
      *
      * Length of NM-Vector in bytes
      */
-    WORD nmSize;
+    WORD nmSize {};
 
     /**
      * @brief array of databytes (NM vector max. length)
      *
      * Array of databytes (NM vector max. length)
      */
-    std::array<BYTE, 12> dataBytes;
+    std::array<BYTE, 12> dataBytes {};
 
     /** reserved */
-    WORD reservedFlexRayVFrStartCycle1;
+    WORD reservedFlexRayVFrStartCycle1 {};
 
     /**
      * @brief type of cc
@@ -134,7 +134,7 @@ public:
      *   - 5 = Vector VN interface
      *   - 6 = VN-Sync-Pulse (only in Status Event, for debugging purposes only)
      */
-    DWORD tag;
+    DWORD tag {};
 
     /**
      * @brief register flags
@@ -159,12 +159,12 @@ public:
      *   - 3: Cycles with correction in passive mode, read from CCEV register
      *   - 4: Sync Frame status, read from SFS register
      */
-    std::array<DWORD, 5> data;
+    std::array<DWORD, 5> data {};
 
     /**
      * Reserved
      */
-    ULONGLONG reservedFlexRayVFrStartCycle2;
+    ULONGLONG reservedFlexRayVFrStartCycle2 {};
 };
 
 }

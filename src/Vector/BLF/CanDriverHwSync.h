@@ -51,7 +51,7 @@ public:
      *
      * Application channel
      */
-    WORD channel;
+    WORD channel {};
 
     /** enumeration for flags */
     enum Flags : BYTE {
@@ -66,13 +66,13 @@ public:
     };
 
     /** flags */
-    BYTE flags;
+    BYTE flags {};
 
     /** reserved */
-    BYTE reservedCanDriverHwSync1;
+    BYTE reservedCanDriverHwSync1 {};
 
     /** reserved */
-    DWORD reservedCanDriverHwSync2;
+    DWORD reservedCanDriverHwSync2 {};
 };
 
 }

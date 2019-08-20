@@ -49,19 +49,19 @@ public:
     /**
      * Not used, must be 0.
      */
-    DWORD flags;
+    DWORD flags {};
 
     /**
      * @brief channel of event
      *
      * GPS channel the GPS event was sent.
      */
-    WORD channel;
+    WORD channel {};
 
     /**
      * Reserved, must be 0.
      */
-    WORD reservedGpsEvent;
+    WORD reservedGpsEvent {};
 
     /**
      * Latitude, possible values reach from -180 to 180.
@@ -69,24 +69,24 @@ public:
      * Negative values are western hemisphere, positive
      * values are eastern hemisphere.
      */
-    DOUBLE latitude;
+    DOUBLE latitude {};
 
     /**
      * Longitude, possible values reach from -90 to 90.
      * Negative values are Southern hemisphere,
      * positive values are northern hemisphere.
      */
-    DOUBLE longitude;
+    DOUBLE longitude {};
 
     /**
      * Altitude in meters, measured above sea line.
      */
-    DOUBLE altitude;
+    DOUBLE altitude {};
 
     /**
      * Current vehicle speed in km/h.
      */
-    DOUBLE speed;
+    DOUBLE speed {};
 
     /**
      * Current driving course, possible values reach
@@ -94,7 +94,7 @@ public:
      * north, 90 means driving east, -90 means driving
      * west, -180 and 180 mean driving south.
      */
-    DOUBLE course;
+    DOUBLE course {};
 };
 
 }

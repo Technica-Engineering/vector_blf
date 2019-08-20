@@ -25,12 +25,7 @@ namespace Vector {
 namespace BLF {
 
 MostSystemEvent::MostSystemEvent() :
-    ObjectHeader2(),
-    channel(),
-    id(),
-    value(),
-    valueOld(),
-    reservedMostSystemEvent()
+    ObjectHeader2()
 {
     objectType = ObjectType::MOST_SYSTEM_EVENT;
 }

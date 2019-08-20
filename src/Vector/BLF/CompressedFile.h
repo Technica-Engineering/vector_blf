@@ -41,8 +41,12 @@ namespace BLF {
 class VECTOR_BLF_EXPORT CompressedFile final : public AbstractFile
 {
 public:
-    CompressedFile();
+    CompressedFile() = default;
     virtual ~CompressedFile() override;
+    CompressedFile(const CompressedFile&) = default;
+    CompressedFile& operator=(const CompressedFile&) = default;
+    CompressedFile(CompressedFile&&) = default;
+    CompressedFile& operator=(CompressedFile&&) = default;
 
     virtual std::streamsize gcount() const override;
     virtual void read(char * s, std::streamsize n) override;
@@ -84,10 +88,10 @@ private:
     /**
      * file stream
      */
-    std::fstream m_file;
+    std::fstream m_file {};
 
     /** mutex */
-    mutable std::mutex m_mutex;
+    mutable std::mutex m_mutex {};
 };
 
 }

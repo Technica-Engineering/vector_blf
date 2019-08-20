@@ -72,7 +72,7 @@ public:
      *
      * Unit of object timestamp.
      */
-    DWORD objectFlags;
+    DWORD objectFlags { ObjectFlags::TimeOneNans };
 
     /** enumeration for timeStampStatus */
     enum TimeStampStatus : BYTE {
@@ -116,8 +116,10 @@ public:
      * Object specific version, has to be set to 0 unless
      * stated otherwise in the description of a specific
      * event.
+     *
+     * @note can be set in event class constructor
      */
-    WORD objectVersion;
+    WORD objectVersion { 0 };
 
     /**
      * @brief object timestamp

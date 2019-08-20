@@ -52,10 +52,10 @@ public:
     };
 
     /** the current state of the queue */
-    DWORD queueState;
+    DWORD queueState {};
 
     /** reserved */
-    DWORD reservedWaterMarkEvent;
+    DWORD reservedWaterMarkEvent {};
 };
 
 }

@@ -53,12 +53,12 @@ public:
      *   - 1: Wake-up is too short
      *   - 2: Wake-up is too long
      */
-    BYTE lengthInfo;
+    BYTE lengthInfo {};
 
     /**
      * Byte value used by wakeup frame.
      */
-    BYTE signal;
+    BYTE signal {};
 
     /**
      * Flag indicating whether the wakeup frame has
@@ -66,13 +66,13 @@ public:
      * set) or by the LIN hardware itself (selector not
      * set).
      */
-    BYTE external;
+    BYTE external {};
 
     /** reserved */
-    BYTE reservedLinWakeupEvent1;
+    BYTE reservedLinWakeupEvent1 {};
 
     /** reserved */
-    DWORD reservedLinWakeupEvent2;
+    DWORD reservedLinWakeupEvent2 {};
 };
 
 }

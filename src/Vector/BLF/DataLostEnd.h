@@ -52,13 +52,13 @@ public:
     };
 
     /** identifier for the leaking queue */
-    DWORD queueIdentifier;
+    DWORD queueIdentifier {};
 
     /** timestamp of the first object lost */
-    ULONGLONG firstObjectLostTimeStamp;
+    ULONGLONG firstObjectLostTimeStamp {};
 
     /** number of lost events */
-    DWORD numberOfLostEvents;
+    DWORD numberOfLostEvents {};
 };
 
 }

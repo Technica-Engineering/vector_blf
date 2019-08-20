@@ -53,26 +53,26 @@ public:
      *
      * Type of the commented event
      */
-    DWORD commentedEventType;
+    DWORD commentedEventType {};
 
     /**
      * @brief text length in bytes
      *
      * Length of text without ending 0.
      */
-    DWORD textLength;
+    DWORD textLength {};
 
     /**
      * reserved
      */
-    ULONGLONG reservedEventComment;
+    ULONGLONG reservedEventComment {};
 
     /**
      * @brief text in MBCS
      *
      * Comment text.
      */
-    std::string text;
+    std::string text {};
 };
 
 }

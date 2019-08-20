@@ -28,20 +28,7 @@
 namespace Vector {
 namespace BLF {
 
-File::File() :
-    fileStatistics(),
-    currentUncompressedFileSize(0),
-    currentObjectCount(0),
-    compressionLevel(6),
-    writeUnknown115(true),
-    m_openMode(),
-    m_readWriteQueue(),
-    m_uncompressedFile(),
-    m_uncompressedFileThread(),
-    m_uncompressedFileThreadRunning(),
-    m_compressedFile(),
-    m_compressedFileThread(),
-    m_compressedFileThreadRunning()
+File::File()
 {
     /* set performance/memory values */
     m_readWriteQueue.setBufferSize(10);
