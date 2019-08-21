@@ -51,12 +51,12 @@ void UncompressedFile::read(char * s, std::streamsize n)
     tellpChanged.wait(lock, [this, n] {
         return
         m_abort ||
-        (m_tellg + n <= m_tellp) ||
-        (m_tellg + n > m_fileSize);
+        (n + m_tellg <= m_tellp) ||
+        (n + m_tellg > m_fileSize);
     });
 
     /* handle read behind eof */
-    if (m_tellg + n > m_fileSize) {
+    if (n + m_tellg > m_fileSize) {
         n = m_fileSize - m_tellg;
         m_rdstate = std::ios_base::eofbit | std::ios_base::failbit;
     } else {
@@ -76,7 +76,7 @@ void UncompressedFile::read(char * s, std::streamsize n)
         std::streamoff offset = m_tellg - logContainer->filePosition;
 
         /* copy data */
-        std::streamsize gcount = std::min(n, logContainer->uncompressedFileSize - offset);
+        std::streamsize gcount = std::min(n, static_cast<std::streamsize>(logContainer->uncompressedFileSize - offset));
         std::copy(logContainer->uncompressedFile.begin() + offset, logContainer->uncompressedFile.begin() + offset + gcount, s);
 
         /* remember get count */
@@ -114,7 +114,7 @@ void UncompressedFile::seekg(std::streamoff off, const std::ios_base::seekdir /*
     std::lock_guard<std::mutex> lock(m_mutex);
 
     /* new get position */
-    m_tellg = std::min(m_tellg + off, static_cast<std::streampos>(m_fileSize));
+    m_tellg = std::min(static_cast<std::streamsize>(m_tellg + off), m_fileSize);
 
     /* notify */
     tellgChanged.notify_all();
@@ -145,8 +145,8 @@ void UncompressedFile::write(const char * s, std::streamsize n)
             logContainer->uncompressedFileSize = logContainer->uncompressedFile.size();
             if (!m_data.empty()) {
                 logContainer->filePosition =
-                    m_data.back()->filePosition +
-                    static_cast<std::streamsize>(m_data.back()->uncompressedFileSize);
+                    m_data.back()->uncompressedFileSize +
+                    m_data.back()->filePosition;
             }
             m_data.push_back(logContainer);
         }
@@ -155,7 +155,7 @@ void UncompressedFile::write(const char * s, std::streamsize n)
         std::streamoff offset = m_tellp - logContainer->filePosition;
 
         /* copy data */
-        uint32_t pcount = std::min(n, logContainer->uncompressedFileSize - offset);
+        std::streamsize pcount = std::min(n, static_cast<std::streamsize>(logContainer->uncompressedFileSize - offset));
         std::copy(s, s + pcount, logContainer->uncompressedFile.begin() + offset);
 
         /* new put position */
@@ -291,7 +291,7 @@ void UncompressedFile::dropOldData()
     /* check if drop should be done now */
     std::shared_ptr<LogContainer> logContainer = m_data.front();
     if (logContainer) {
-        std::streampos position = logContainer->filePosition + static_cast<std::streamsize>(logContainer->uncompressedFileSize);
+        std::streampos position = logContainer->uncompressedFileSize + logContainer->filePosition;
         if ((position > m_tellg) || (position > m_tellp) || (position > m_fileSize)) {
             /* don't drop yet */
             return;
@@ -325,7 +325,7 @@ std::shared_ptr<LogContainer> UncompressedFile::logContainerContaining(std::stre
     for (std::shared_ptr<LogContainer> logContainer : m_data) {
         /* when file position is contained ... */
         if ((pos >= logContainer->filePosition) &&
-                (pos < (logContainer->filePosition + static_cast<std::streamsize>(logContainer->uncompressedFileSize)))) {
+                (pos < logContainer->uncompressedFileSize + logContainer->filePosition)) {
 
             /* ... return log container */
             return logContainer;
