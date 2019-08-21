@@ -24,6 +24,7 @@
 #include <Vector/BLF/platform.h>
 
 #include <condition_variable>
+#include <limits>
 #include <list>
 #include <memory>
 #include <mutex>
@@ -149,10 +150,10 @@ private:
     std::streamsize m_gcount {};
 
     /** file size */
-    std::streamsize m_fileSize { 0x7fffffffffffffff };
+    std::streamsize m_fileSize { std::numeric_limits<std::streamsize>::max() };
 
     /** buffer size */
-    std::streamsize m_bufferSize { 0x7fffffffffffffff };
+    std::streamsize m_bufferSize { std::numeric_limits<std::streamsize>::max() };
 
     /** error state */
     std::ios_base::iostate m_rdstate { std::ios_base::goodbit };

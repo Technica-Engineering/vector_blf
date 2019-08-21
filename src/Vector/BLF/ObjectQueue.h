@@ -24,6 +24,7 @@
 #include <Vector/BLF/platform.h>
 
 #include <condition_variable>
+#include <limits>
 #include <mutex>
 #include <queue>
 
@@ -102,10 +103,10 @@ private:
     DWORD m_tellp { };
 
     /** max size */
-    DWORD m_bufferSize { 0xffffffff };
+    DWORD m_bufferSize { std::numeric_limits<DWORD>::max() };
 
     /** eof position */
-    DWORD m_fileSize { 0xffffffff };
+    DWORD m_fileSize { std::numeric_limits<DWORD>::max() };
 
     /** error state */
     std::ios_base::iostate m_rdstate { std::ios_base::goodbit };
