@@ -39,9 +39,7 @@ namespace BLF {
  *
  * @deprecated
  */
-class VECTOR_BLF_EXPORT FlexRayStatusEvent final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT FlexRayStatusEvent final : ObjectHeader {
     FlexRayStatusEvent();
 
     virtual void read(AbstractFile & is) override;

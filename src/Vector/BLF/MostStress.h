@@ -37,9 +37,7 @@ namespace BLF {
  *
  * Information about Stress activity of the hardware interface.
  */
-class VECTOR_BLF_EXPORT MostStress final : public ObjectHeader2
-{
-public:
+struct VECTOR_BLF_EXPORT MostStress final : ObjectHeader2 {
     MostStress();
 
     virtual void read(AbstractFile & is) override;

@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 AppTrigger::AppTrigger() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::APP_TRIGGER;
 }
 
-void AppTrigger::read(AbstractFile & is)
-{
+void AppTrigger::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&preTriggerTime), sizeof(preTriggerTime));
     is.read(reinterpret_cast<char *>(&postTriggerTime), sizeof(postTriggerTime));
@@ -40,8 +38,7 @@ void AppTrigger::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&appSpecific2), sizeof(appSpecific2));
 }
 
-void AppTrigger::write(AbstractFile & os)
-{
+void AppTrigger::write(AbstractFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&preTriggerTime), sizeof(preTriggerTime));
     os.write(reinterpret_cast<char *>(&postTriggerTime), sizeof(postTriggerTime));
@@ -50,8 +47,7 @@ void AppTrigger::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&appSpecific2), sizeof(appSpecific2));
 }
 
-DWORD AppTrigger::calculateObjectSize() const
-{
+DWORD AppTrigger::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(preTriggerTime) +

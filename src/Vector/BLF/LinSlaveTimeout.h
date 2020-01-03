@@ -39,9 +39,7 @@ namespace BLF {
  * CAPL. The technology of Final State Machine on LIN Hardware is still supported, but it is
  * obsolete.
  */
-class VECTOR_BLF_EXPORT LinSlaveTimeout final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT LinSlaveTimeout final : ObjectHeader {
     LinSlaveTimeout();
 
     virtual void read(AbstractFile & is) override;

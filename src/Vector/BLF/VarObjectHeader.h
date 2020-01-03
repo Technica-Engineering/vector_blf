@@ -35,9 +35,7 @@ namespace BLF {
 /**
  * @brief Extended base object header type definition with dynamic extendible objects
  */
-class VECTOR_BLF_EXPORT VarObjectHeader : public ObjectHeaderBase
-{
-public:
+struct VECTOR_BLF_EXPORT VarObjectHeader : ObjectHeaderBase {
     VarObjectHeader();
 
     virtual void read(AbstractFile & is) override;
@@ -70,7 +68,7 @@ public:
      *
      * Unit of object timestamp.
      */
-    DWORD objectFlags { ObjectFlags::TimeOneNans };
+    DWORD objectFlags {ObjectFlags::TimeOneNans};
 
     /**
      * @brief size of the static part of the object

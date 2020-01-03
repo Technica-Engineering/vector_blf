@@ -37,9 +37,7 @@ namespace BLF {
 /**
  * @brief LOG_CONTAINER
  */
-class VECTOR_BLF_EXPORT LogContainer final : public ObjectHeaderBase
-{
-public:
+struct VECTOR_BLF_EXPORT LogContainer final : ObjectHeaderBase {
     LogContainer();
 
     virtual void read(AbstractFile & is) override;

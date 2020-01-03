@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 Unknown115::Unknown115() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::Unknown115;
 }
 
-void Unknown115::read(AbstractFile & is)
-{
+void Unknown115::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&reservedUnknownObject1), sizeof(reservedUnknownObject1));
     is.read(reinterpret_cast<char *>(&reservedUnknownObject2), sizeof(reservedUnknownObject2));
@@ -41,8 +39,7 @@ void Unknown115::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&reservedUnknownObject6), sizeof(reservedUnknownObject6));
 }
 
-void Unknown115::write(AbstractFile & os)
-{
+void Unknown115::write(AbstractFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&reservedUnknownObject1), sizeof(reservedUnknownObject1));
     os.write(reinterpret_cast<char *>(&reservedUnknownObject2), sizeof(reservedUnknownObject2));
@@ -52,8 +49,7 @@ void Unknown115::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reservedUnknownObject6), sizeof(reservedUnknownObject6));
 }
 
-DWORD Unknown115::calculateObjectSize() const
-{
+DWORD Unknown115::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(reservedUnknownObject1) +

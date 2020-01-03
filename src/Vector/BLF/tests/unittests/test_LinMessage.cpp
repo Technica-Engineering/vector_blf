@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* LIN_MESSAGE = 11 */
-BOOST_AUTO_TEST_CASE(LinMessage)
-{
+BOOST_AUTO_TEST_CASE(LinMessage) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_LinMessage.blf");
     BOOST_REQUIRE(file.is_open());

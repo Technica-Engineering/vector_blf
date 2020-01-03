@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* MOST_REG = 35 */
-BOOST_AUTO_TEST_CASE(MostReg_1)
-{
+BOOST_AUTO_TEST_CASE(MostReg_1) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_MostReg.blf");
     BOOST_REQUIRE(file.is_open());
@@ -42,9 +41,8 @@ BOOST_AUTO_TEST_CASE(MostReg_1)
     BOOST_CHECK_EQUAL(obj->offset, 0x55555555);
     BOOST_CHECK_EQUAL(obj->chip, 0x6666);
     BOOST_CHECK_EQUAL(obj->regDataLen, 0x7777);
-    for (uint8_t i = 0; i < 16; i++) {
+    for (uint8_t i = 0; i < 16; i++)
         BOOST_CHECK_EQUAL(obj->regData[i], i);
-    }
 
     delete ohb;
 
@@ -77,8 +75,7 @@ BOOST_AUTO_TEST_CASE(MostReg_1)
     file.close();
 }
 
-BOOST_AUTO_TEST_CASE(MostReg_2)
-{
+BOOST_AUTO_TEST_CASE(MostReg_2) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_converter/test_MostReg.blf");
     BOOST_REQUIRE(file.is_open());

@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 LinSendError::LinSendError() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::LIN_SND_ERROR;
 }
 
-void LinSendError::read(AbstractFile & is)
-{
+void LinSendError::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&id), sizeof(id));
@@ -42,8 +40,7 @@ void LinSendError::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&fullTime), sizeof(fullTime));
 }
 
-void LinSendError::write(AbstractFile & os)
-{
+void LinSendError::write(AbstractFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&id), sizeof(id));
@@ -54,8 +51,7 @@ void LinSendError::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&fullTime), sizeof(fullTime));
 }
 
-DWORD LinSendError::calculateObjectSize() const
-{
+DWORD LinSendError::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

@@ -39,9 +39,7 @@ namespace BLF {
  * of an unknown frame. This frame length value is set as the one to be expected for this frame in the
  * future.
  */
-class VECTOR_BLF_EXPORT LinDlcInfo final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT LinDlcInfo final : ObjectHeader {
     LinDlcInfo();
 
     virtual void read(AbstractFile & is) override;

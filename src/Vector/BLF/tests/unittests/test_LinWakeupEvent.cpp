@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* LIN_WAKEUP = 21 */
-BOOST_AUTO_TEST_CASE(LinWakeupEvent)
-{
+BOOST_AUTO_TEST_CASE(LinWakeupEvent) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_LinWakeupEvent.blf");
     BOOST_REQUIRE(file.is_open());

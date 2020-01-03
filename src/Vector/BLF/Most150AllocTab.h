@@ -39,9 +39,7 @@ namespace BLF {
  *
  * Transports current state and changes of the MOST50/150 Allocation Table.
  */
-class VECTOR_BLF_EXPORT Most150AllocTab final : public ObjectHeader2 /* applied for MOST50 and MOST150 */
-{
-public:
+struct VECTOR_BLF_EXPORT Most150AllocTab final : ObjectHeader2 { /* applied for MOST50 and MOST150 */
     Most150AllocTab();
 
     virtual void read(AbstractFile & is) override;

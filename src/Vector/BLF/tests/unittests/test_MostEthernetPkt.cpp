@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* MOST_ETHERNET_PKT = 78 */
-BOOST_AUTO_TEST_CASE(MostEthernetPkt_1)
-{
+BOOST_AUTO_TEST_CASE(MostEthernetPkt_1) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_MostEthernetPkt.blf");
     BOOST_REQUIRE(file.is_open());
@@ -86,8 +85,7 @@ BOOST_AUTO_TEST_CASE(MostEthernetPkt_1)
     file.close();
 }
 
-BOOST_AUTO_TEST_CASE(MostEthernetPkt_2)
-{
+BOOST_AUTO_TEST_CASE(MostEthernetPkt_2) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_converter/test_MostEthernetPkt.blf");
     BOOST_REQUIRE(file.is_open());

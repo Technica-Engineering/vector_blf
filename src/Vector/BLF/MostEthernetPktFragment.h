@@ -39,9 +39,7 @@ namespace BLF {
  *
  * Partial transmitted message on MOST Ethernet Packet Channel.
  */
-class VECTOR_BLF_EXPORT MostEthernetPktFragment final : public ObjectHeader2
-{
-public:
+struct VECTOR_BLF_EXPORT MostEthernetPktFragment final : ObjectHeader2 {
     MostEthernetPktFragment();
 
     virtual void read(AbstractFile & is) override;

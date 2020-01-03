@@ -38,9 +38,7 @@ namespace BLF {
  *
  * LIN Wakeup-Frame received or transmitted on a LIN channel.
  */
-class VECTOR_BLF_EXPORT LinWakeupEvent2 final : public ObjectHeader, public LinBusEvent
-{
-public:
+struct VECTOR_BLF_EXPORT LinWakeupEvent2 final : ObjectHeader, LinBusEvent {
     LinWakeupEvent2();
 
     virtual void read(AbstractFile & is) override;

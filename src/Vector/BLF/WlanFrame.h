@@ -39,9 +39,7 @@ namespace BLF {
  *
  * WLAN frame.
  */
-class VECTOR_BLF_EXPORT WlanFrame final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT WlanFrame final : ObjectHeader {
     WlanFrame();
 
     virtual void read(AbstractFile & is) override;

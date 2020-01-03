@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 LinSchedulerModeChange::LinSchedulerModeChange() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::LIN_SCHED_MODCH;
 }
 
-void LinSchedulerModeChange::read(AbstractFile & is)
-{
+void LinSchedulerModeChange::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&oldMode), sizeof(oldMode));
@@ -39,8 +37,7 @@ void LinSchedulerModeChange::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&reservedLinSchedulerModeChange), sizeof(reservedLinSchedulerModeChange));
 }
 
-void LinSchedulerModeChange::write(AbstractFile & os)
-{
+void LinSchedulerModeChange::write(AbstractFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&oldMode), sizeof(oldMode));
@@ -48,8 +45,7 @@ void LinSchedulerModeChange::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reservedLinSchedulerModeChange), sizeof(reservedLinSchedulerModeChange));
 }
 
-DWORD LinSchedulerModeChange::calculateObjectSize() const
-{
+DWORD LinSchedulerModeChange::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

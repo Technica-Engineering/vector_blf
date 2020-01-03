@@ -50,15 +50,14 @@ namespace BLF {
  *
  * This class is thread-safe.
  */
-class VECTOR_BLF_EXPORT UncompressedFile final : public AbstractFile
-{
-public:
+class VECTOR_BLF_EXPORT UncompressedFile final : public AbstractFile {
+  public:
     UncompressedFile() = default;
     virtual ~UncompressedFile() override;
-    UncompressedFile(const UncompressedFile&) = default;
-    UncompressedFile& operator=(const UncompressedFile&) = default;
-    UncompressedFile(UncompressedFile&&) = default;
-    UncompressedFile& operator=(UncompressedFile&&) = default;
+    UncompressedFile(const UncompressedFile &) = default;
+    UncompressedFile & operator=(const UncompressedFile &) = default;
+    UncompressedFile(UncompressedFile &&) = default;
+    UncompressedFile & operator=(UncompressedFile &&) = default;
 
     virtual std::streamsize gcount() const override;
     virtual void read(char * s, std::streamsize n) override;
@@ -133,7 +132,7 @@ public:
     /** tellp was changed (after write or seekp) */
     std::condition_variable tellpChanged;
 
-private:
+  private:
     /** abort further operations */
     bool m_abort {};
 
@@ -150,19 +149,19 @@ private:
     std::streamsize m_gcount {};
 
     /** file size */
-    std::streamsize m_fileSize { std::numeric_limits<std::streamsize>::max() };
+    std::streamsize m_fileSize {std::numeric_limits<std::streamsize>::max()};
 
     /** buffer size */
-    std::streamsize m_bufferSize { std::numeric_limits<std::streamsize>::max() };
+    std::streamsize m_bufferSize {std::numeric_limits<std::streamsize>::max()};
 
     /** error state */
-    std::ios_base::iostate m_rdstate { std::ios_base::goodbit };
+    std::ios_base::iostate m_rdstate {std::ios_base::goodbit};
 
     /** mutex */
     mutable std::mutex m_mutex {};
 
     /** default log container size */
-    DWORD m_defaultLogContainerSize { 0x20000 };
+    DWORD m_defaultLogContainerSize {0x20000};
 
     /**
      * Returns the file container, which contains pos.

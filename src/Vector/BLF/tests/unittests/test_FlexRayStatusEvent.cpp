@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* FLEXRAY_STATUS = 45 */
-BOOST_AUTO_TEST_CASE(FlexRayStatusEvent)
-{
+BOOST_AUTO_TEST_CASE(FlexRayStatusEvent) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_FlexRayStatusEvent.blf");
     BOOST_REQUIRE(file.is_open());
@@ -39,9 +38,8 @@ BOOST_AUTO_TEST_CASE(FlexRayStatusEvent)
     BOOST_CHECK_EQUAL(obj->infoMask1, 0x4444);
     BOOST_CHECK_EQUAL(obj->infoMask2, 0x5555);
     BOOST_CHECK_EQUAL(obj->infoMask3, 0x6666);
-    for (uint16_t i = 0; i < 16; i++) {
+    for (uint16_t i = 0; i < 16; i++)
         BOOST_CHECK_EQUAL(obj->reservedFlexRayStatusEvent[i], i);
-    }
     BOOST_CHECK_EQUAL(obj->reservedFlexRayStatusEvent[16], 0);
     BOOST_CHECK_EQUAL(obj->reservedFlexRayStatusEvent[17], 0);
 

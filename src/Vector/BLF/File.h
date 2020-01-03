@@ -174,9 +174,8 @@ namespace BLF {
  *
  * This is similar to std::fstream for BLFs
  */
-class VECTOR_BLF_EXPORT File final
-{
-public:
+class VECTOR_BLF_EXPORT File final {
+  public:
     File();
     virtual ~File();
 
@@ -202,12 +201,12 @@ public:
     /**
      * zlib compression level (0=no compression, 1=best speed, 9=best compression, -1=default compression
      */
-    int compressionLevel { 6 };
+    int compressionLevel {6};
 
     /**
      * Write Unknown115 message at file close
      */
-    bool writeUnknown115 { true };
+    bool writeUnknown115 {true};
 
     /**
      * open file
@@ -297,7 +296,7 @@ public:
      */
     static ObjectHeaderBase * createObject(ObjectType type);
 
-private:
+  private:
     /**
      * Open mode
      */

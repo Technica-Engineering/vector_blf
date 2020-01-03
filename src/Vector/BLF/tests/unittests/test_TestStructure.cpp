@@ -11,8 +11,7 @@
 
 #include <Vector/BLF.h>
 
-std::string toUtf8String(std::u16string u16str)
-{
+std::string toUtf8String(std::u16string u16str) {
     using convert_type = std::codecvt_utf8<char16_t>;
     std::wstring_convert<convert_type, char16_t> converter;
 
@@ -20,8 +19,7 @@ std::string toUtf8String(std::u16string u16str)
 }
 
 /* TEST_STRUCTURE = 118 */
-BOOST_AUTO_TEST_CASE(TestStructure)
-{
+BOOST_AUTO_TEST_CASE(TestStructure) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_TestStructure.blf");
     BOOST_REQUIRE(file.is_open());

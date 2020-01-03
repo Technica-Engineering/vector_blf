@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* MOST_TRIGGER = 39 */
-BOOST_AUTO_TEST_CASE(MostTrigger_)
-{
+BOOST_AUTO_TEST_CASE(MostTrigger_) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_MostTrigger.blf");
     BOOST_REQUIRE(file.is_open());
@@ -73,8 +72,7 @@ BOOST_AUTO_TEST_CASE(MostTrigger_)
     file.close();
 }
 
-BOOST_AUTO_TEST_CASE(MostTrigger_2)
-{
+BOOST_AUTO_TEST_CASE(MostTrigger_2) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_converter/test_MostTrigger.blf");
     BOOST_REQUIRE(file.is_open());

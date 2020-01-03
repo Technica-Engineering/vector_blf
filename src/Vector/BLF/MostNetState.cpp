@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 MostNetState::MostNetState() :
-    ObjectHeader2()
-{
+    ObjectHeader2() {
     objectType = ObjectType::MOST_NETSTATE;
 }
 
-void MostNetState::read(AbstractFile & is)
-{
+void MostNetState::read(AbstractFile & is) {
     ObjectHeader2::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&stateNew), sizeof(stateNew));
@@ -39,8 +37,7 @@ void MostNetState::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&reservedMostNetState), sizeof(reservedMostNetState));
 }
 
-void MostNetState::write(AbstractFile & os)
-{
+void MostNetState::write(AbstractFile & os) {
     ObjectHeader2::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&stateNew), sizeof(stateNew));
@@ -48,8 +45,7 @@ void MostNetState::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reservedMostNetState), sizeof(reservedMostNetState));
 }
 
-DWORD MostNetState::calculateObjectSize() const
-{
+DWORD MostNetState::calculateObjectSize() const {
     return
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +

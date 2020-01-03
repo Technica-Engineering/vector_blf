@@ -37,9 +37,7 @@ namespace BLF {
  *
  * Ethernet status.
  */
-class VECTOR_BLF_EXPORT EthernetStatus final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT EthernetStatus final : ObjectHeader {
     EthernetStatus();
 
     virtual void read(AbstractFile & is) override;

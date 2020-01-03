@@ -35,9 +35,7 @@ namespace BLF {
 /**
  * @brief OVERRUN_ERROR
  */
-class VECTOR_BLF_EXPORT DriverOverrun final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT DriverOverrun final : ObjectHeader {
     DriverOverrun();
 
     virtual void read(AbstractFile & is) override;

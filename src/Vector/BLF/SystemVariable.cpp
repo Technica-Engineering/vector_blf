@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 SystemVariable::SystemVariable() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::SYS_VARIABLE;
 }
 
-void SystemVariable::read(AbstractFile & is)
-{
+void SystemVariable::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&type), sizeof(type));
     is.read(reinterpret_cast<char *>(&representation), sizeof(representation));
@@ -48,8 +46,7 @@ void SystemVariable::read(AbstractFile & is)
     is.seekg(objectSize % 4, std::ios_base::cur);
 }
 
-void SystemVariable::write(AbstractFile & os)
-{
+void SystemVariable::write(AbstractFile & os) {
     /* pre processing */
     nameLength = static_cast<DWORD>(name.size());
     dataLength = static_cast<DWORD>(data.size());
@@ -68,8 +65,7 @@ void SystemVariable::write(AbstractFile & os)
     os.skipp(objectSize % 4);
 }
 
-DWORD SystemVariable::calculateObjectSize() const
-{
+DWORD SystemVariable::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(type) +

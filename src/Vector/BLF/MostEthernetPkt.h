@@ -39,9 +39,7 @@ namespace BLF {
  *
  * Message on MOST Ethernet Packet Channel.
  */
-class VECTOR_BLF_EXPORT MostEthernetPkt final : public ObjectHeader2
-{
-public:
+struct VECTOR_BLF_EXPORT MostEthernetPkt final : ObjectHeader2 {
     MostEthernetPkt();
 
     virtual void read(AbstractFile & is) override;

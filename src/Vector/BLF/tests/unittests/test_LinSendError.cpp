@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* LIN_SND_ERROR = 15 */
-BOOST_AUTO_TEST_CASE(LinSendError)
-{
+BOOST_AUTO_TEST_CASE(LinSendError) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_LinSendError.blf");
     BOOST_REQUIRE(file.is_open());

@@ -39,9 +39,7 @@ namespace BLF {
  *
  * @deprecated
  */
-class VECTOR_BLF_EXPORT FlexRayData final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT FlexRayData final : ObjectHeader {
     FlexRayData();
 
     virtual void read(AbstractFile & is) override;

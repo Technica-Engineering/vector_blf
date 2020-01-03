@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* GLOBAL_MARKER = 96 */
-BOOST_AUTO_TEST_CASE(GlobalMarker_1)
-{
+BOOST_AUTO_TEST_CASE(GlobalMarker_1) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_GlobalMarker.blf");
     BOOST_REQUIRE(file.is_open());
@@ -79,8 +78,7 @@ BOOST_AUTO_TEST_CASE(GlobalMarker_1)
     file.close();
 }
 
-BOOST_AUTO_TEST_CASE(GlobalMarker_2)
-{
+BOOST_AUTO_TEST_CASE(GlobalMarker_2) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_converter/test_GlobalMarker.blf");
     BOOST_REQUIRE(file.is_open());

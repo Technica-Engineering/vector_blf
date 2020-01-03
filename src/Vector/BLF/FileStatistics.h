@@ -76,15 +76,13 @@ enum ApplicationId : BYTE {
 /**
  * File statistics
  */
-class VECTOR_BLF_EXPORT FileStatistics final
-{
-public:
+struct VECTOR_BLF_EXPORT FileStatistics final {
     FileStatistics() = default;
     virtual ~FileStatistics() noexcept = default;
-    FileStatistics(const FileStatistics&) = default;
-    FileStatistics& operator=(const FileStatistics&) = default;
-    FileStatistics(FileStatistics&&) = default;
-    FileStatistics& operator=(FileStatistics&&) = default;
+    FileStatistics(const FileStatistics &) = default;
+    FileStatistics & operator=(const FileStatistics &) = default;
+    FileStatistics(FileStatistics &&) = default;
+    FileStatistics & operator=(FileStatistics &&) = default;
 
     /**
      * read file statistics
@@ -108,10 +106,10 @@ public:
     DWORD calculateStatisticsSize() const;
 
     /** signature (signature) */
-    DWORD signature { FileSignature };
+    DWORD signature {FileSignature};
 
     /** sizeof(FileStatistics) */
-    DWORD statisticsSize { calculateStatisticsSize() };
+    DWORD statisticsSize {calculateStatisticsSize()};
 
     /** application ID (usually CANoe) */
     BYTE applicationId {};
@@ -126,16 +124,16 @@ public:
     BYTE applicationBuild {};
 
     /** BL API major number */
-    BYTE apiMajor { 4 };
+    BYTE apiMajor {4};
 
     /** BL API minor number */
-    BYTE apiMinor { 7 };
+    BYTE apiMinor {7};
 
     /** BL API build number */
-    BYTE apiBuild { 1 };
+    BYTE apiBuild {1};
 
     /** BL API patch number */
-    BYTE apiPatch { 0 };
+    BYTE apiPatch {0};
 
     /** (compressed) file size in bytes */
     ULONGLONG fileSize {};

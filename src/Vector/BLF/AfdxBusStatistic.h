@@ -37,9 +37,7 @@ namespace BLF {
  *
  * AFDX line-specific bus-statistic event used since 8.2
  */
-class VECTOR_BLF_EXPORT AfdxBusStatistic final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT AfdxBusStatistic final : ObjectHeader {
     AfdxBusStatistic();
 
     virtual void read(AbstractFile & is) override;

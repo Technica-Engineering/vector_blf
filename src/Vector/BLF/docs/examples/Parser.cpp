@@ -32,36 +32,29 @@
 #define min(a, b) ((a < b) ? a : b)
 #define max(a, b) ((a > b) ? a : b)
 
-void printData(uint8_t * data, size_t size)
-{
-    if ((data == nullptr) || (size == 0)) {
+void printData(uint8_t * data, size_t size) {
+    if ((data == nullptr) || (size == 0))
         return;
-    }
 
     std::cout << "[";
     for (size_t i = 0; i < size; ++i) {
         uint16_t value = data[i];
-        if (i > 0) {
+        if (i > 0)
             std::cout << " ";
-        }
         std::cout << std::setfill('0') << std::setw(2) << std::hex << static_cast<uint16_t>(value);
     }
     std::cout << "]";
 }
 
-void printString(char * data, size_t size)
-{
-    if ((data == nullptr) || (size == 0)) {
+void printString(char * data, size_t size) {
+    if ((data == nullptr) || (size == 0))
         return;
-    }
 
-    for (size_t i = 0; i < size; ++i) {
+    for (size_t i = 0; i < size; ++i)
         std::cout << static_cast<char>(data[i]);
-    }
 }
 
-void show(Vector::BLF::FileStatistics * obj)
-{
+void show(Vector::BLF::FileStatistics * obj) {
     std::cout << "FileStatistics:" << std::endl;
     std::cout << "  statisticsSize: "
               << "0x" << std::hex << obj->statisticsSize << std::endl;
@@ -116,8 +109,7 @@ void show(Vector::BLF::FileStatistics * obj)
 // UNKNOWN = 0
 
 // CAN_MESSAGE = 1
-void show(Vector::BLF::CanMessage * obj)
-{
+void show(Vector::BLF::CanMessage * obj) {
     std::cout << "CanMessage:"
               << " channel=" << obj->channel
               << " flags=" << static_cast<uint16_t>(obj->flags)
@@ -129,28 +121,24 @@ void show(Vector::BLF::CanMessage * obj)
 }
 
 // CAN_ERROR = 2
-void show(Vector::BLF::CanErrorFrame * obj)
-{
+void show(Vector::BLF::CanErrorFrame * obj) {
     std::cout << "CanErrorFrame:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " length=" << std::dec << obj->length;
-    if (obj->length > 0) {
+    if (obj->length > 0)
         std::cout << " reserved=0x" << std::hex << obj->reservedCanErrorFrame;
-    }
     std::cout << std::endl;
 }
 
 // CAN_OVERLOAD = 3
-void show(Vector::BLF::CanOverloadFrame * obj)
-{
+void show(Vector::BLF::CanOverloadFrame * obj) {
     std::cout << "CanOverloadFrame:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << std::endl;
 }
 
 // CAN_STATISTIC = 4
-void show(Vector::BLF::CanDriverStatistic * obj)
-{
+void show(Vector::BLF::CanDriverStatistic * obj) {
     std::cout << "CanDriverStatistic:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " busLoad=" << std::dec << obj->busLoad;
@@ -164,8 +152,7 @@ void show(Vector::BLF::CanDriverStatistic * obj)
 }
 
 // APP_TRIGGER = 5
-void show(Vector::BLF::AppTrigger * obj)
-{
+void show(Vector::BLF::AppTrigger * obj) {
     std::cout << "AppTrigger:";
     std::cout << " preTriggerTime=" << std::dec << obj->preTriggerTime;
     std::cout << " postTriggerTime=" << std::dec << obj->postTriggerTime;
@@ -179,8 +166,7 @@ void show(Vector::BLF::AppTrigger * obj)
 // ENV_DOUBLE = 7
 // ENV_STRING = 8
 // ENV_DATA = 9
-void show(Vector::BLF::EnvironmentVariable * obj)
-{
+void show(Vector::BLF::EnvironmentVariable * obj) {
     std::cout << "EnvironmentVariable:";
     std::cout << " name=" << obj->name;
     switch (obj->objectType) {
@@ -210,8 +196,7 @@ void show(Vector::BLF::EnvironmentVariable * obj)
 }
 
 // LOG_CONTAINER = 10
-void show(Vector::BLF::LogContainer * obj)
-{
+void show(Vector::BLF::LogContainer * obj) {
     std::cout << "LogContainer:";
     std::cout << " compressionMethod=" << std::dec << obj->compressionMethod;
     std::cout << " uncompressedFileSize=" << std::dec << obj->uncompressedFileSize;
@@ -219,8 +204,7 @@ void show(Vector::BLF::LogContainer * obj)
 }
 
 // LIN_MESSAGE = 11
-void show(Vector::BLF::LinMessage * obj)
-{
+void show(Vector::BLF::LinMessage * obj) {
     std::cout << "LinMessage:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " id=" << std::dec << static_cast<uint16_t>(obj->id);
@@ -237,8 +221,7 @@ void show(Vector::BLF::LinMessage * obj)
 }
 
 // LIN_CRC_ERROR = 12
-void show(Vector::BLF::LinCrcError * obj)
-{
+void show(Vector::BLF::LinCrcError * obj) {
     std::cout << "LinCrcError:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " id=" << std::dec << static_cast<uint16_t>(obj->id);
@@ -255,8 +238,7 @@ void show(Vector::BLF::LinCrcError * obj)
 }
 
 // LIN_DLC_INFO = 13
-void show(Vector::BLF::LinDlcInfo * obj)
-{
+void show(Vector::BLF::LinDlcInfo * obj) {
     std::cout << "LinDlcInfo:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " id=" << std::dec << static_cast<uint16_t>(obj->id);
@@ -265,8 +247,7 @@ void show(Vector::BLF::LinDlcInfo * obj)
 }
 
 // LIN_RCV_ERROR =  14
-void show(Vector::BLF::LinReceiveError * obj)
-{
+void show(Vector::BLF::LinReceiveError * obj) {
     std::cout << "LinReceiveError:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " id=" << std::dec << static_cast<uint16_t>(obj->id);
@@ -283,8 +264,7 @@ void show(Vector::BLF::LinReceiveError * obj)
 }
 
 // LIN_SND_ERROR = 15
-void show(Vector::BLF::LinSendError * obj)
-{
+void show(Vector::BLF::LinSendError * obj) {
     std::cout << "LinSendError:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " id=" << std::dec << static_cast<uint16_t>(obj->id);
@@ -297,8 +277,7 @@ void show(Vector::BLF::LinSendError * obj)
 }
 
 // LIN_SLV_TIMEOUT = 16
-void show(Vector::BLF::LinSlaveTimeout * obj)
-{
+void show(Vector::BLF::LinSlaveTimeout * obj) {
     std::cout << "LinSlaveTimeout:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " slaveId=" << std::dec << static_cast<uint16_t>(obj->slaveId);
@@ -308,8 +287,7 @@ void show(Vector::BLF::LinSlaveTimeout * obj)
 }
 
 // LIN_SCHED_MODCH = 17
-void show(Vector::BLF::LinSchedulerModeChange * obj)
-{
+void show(Vector::BLF::LinSchedulerModeChange * obj) {
     std::cout << "LinSchedulerModeChange:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " oldMode=" << std::dec << static_cast<uint16_t>(obj->oldMode);
@@ -318,8 +296,7 @@ void show(Vector::BLF::LinSchedulerModeChange * obj)
 }
 
 // LIN_SYN_ERROR = 18
-void show(Vector::BLF::LinSyncError * obj)
-{
+void show(Vector::BLF::LinSyncError * obj) {
     std::cout << "LinSyncError:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " timeDiff[0]=" << std::dec << obj->timeDiff[0];
@@ -330,8 +307,7 @@ void show(Vector::BLF::LinSyncError * obj)
 }
 
 // LIN_BAUDRATE = 19
-void show(Vector::BLF::LinBaudrateEvent * obj)
-{
+void show(Vector::BLF::LinBaudrateEvent * obj) {
     std::cout << "LinBaudrateEvent:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " baudrate=" << std::dec << obj->baudrate;
@@ -339,8 +315,7 @@ void show(Vector::BLF::LinBaudrateEvent * obj)
 }
 
 // LIN_SLEEP = 20
-void show(Vector::BLF::LinSleepModeEvent * obj)
-{
+void show(Vector::BLF::LinSleepModeEvent * obj) {
     std::cout << "LinSleepModeEvent:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " reason=" << std::dec << static_cast<uint16_t>(obj->reason);
@@ -349,8 +324,7 @@ void show(Vector::BLF::LinSleepModeEvent * obj)
 }
 
 // LIN_WAKEUP = 21
-void show(Vector::BLF::LinWakeupEvent * obj)
-{
+void show(Vector::BLF::LinWakeupEvent * obj) {
     std::cout << "LinWakeupEvent:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " signal=" << std::dec << static_cast<uint16_t>(obj->signal);
@@ -359,8 +333,7 @@ void show(Vector::BLF::LinWakeupEvent * obj)
 }
 
 // MOST_SPY = 22
-void show(Vector::BLF::MostSpy * obj)
-{
+void show(Vector::BLF::MostSpy * obj) {
     std::cout << "MostSpy:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " dir=" << std::dec << static_cast<uint16_t>(obj->dir);
@@ -377,8 +350,7 @@ void show(Vector::BLF::MostSpy * obj)
 }
 
 // MOST_CTRL = 23
-void show(Vector::BLF::MostCtrl * obj)
-{
+void show(Vector::BLF::MostCtrl * obj) {
     std::cout << "MostCtrl:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " dir=" << std::dec << static_cast<uint16_t>(obj->dir);
@@ -394,8 +366,7 @@ void show(Vector::BLF::MostCtrl * obj)
 }
 
 // MOST_LIGHTLOCK = 24
-void show(Vector::BLF::MostLightLock * obj)
-{
+void show(Vector::BLF::MostLightLock * obj) {
     std::cout << "MostLightLock:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " state=0x" << std::hex << obj->state;
@@ -403,8 +374,7 @@ void show(Vector::BLF::MostLightLock * obj)
 }
 
 // MOST_STATISTIC = 25
-void show(Vector::BLF::MostStatistic * obj)
-{
+void show(Vector::BLF::MostStatistic * obj) {
     std::cout << "MostStatistic:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " pktCnt=" << std::dec << obj->pktCnt;
@@ -419,8 +389,7 @@ void show(Vector::BLF::MostStatistic * obj)
 // Reserved28 = 28
 
 // FLEXRAY_DATA = 29
-void show(Vector::BLF::FlexRayData * obj)
-{
+void show(Vector::BLF::FlexRayData * obj) {
     std::cout << "FlexRayData:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " mux=" << std::dec << static_cast<uint16_t>(obj->mux);
@@ -434,8 +403,7 @@ void show(Vector::BLF::FlexRayData * obj)
 }
 
 // FLEXRAY_SYNC = 30
-void show(Vector::BLF::FlexRaySync * obj)
-{
+void show(Vector::BLF::FlexRaySync * obj) {
     std::cout << "FlexRaySync:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " mux=" << std::dec << static_cast<uint16_t>(obj->mux);
@@ -449,8 +417,7 @@ void show(Vector::BLF::FlexRaySync * obj)
 }
 
 // CAN_DRIVER_ERROR = 31
-void show(Vector::BLF::CanDriverError * obj)
-{
+void show(Vector::BLF::CanDriverError * obj) {
     std::cout << "CanDriverError:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " txErrors=" << std::dec << static_cast<uint16_t>(obj->txErrors);
@@ -460,8 +427,7 @@ void show(Vector::BLF::CanDriverError * obj)
 }
 
 // MOST_PKT = 32
-void show(Vector::BLF::MostPkt * obj)
-{
+void show(Vector::BLF::MostPkt * obj) {
     std::cout << "MostPkt:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " dir=" << std::dec << static_cast<uint16_t>(obj->dir);
@@ -481,8 +447,7 @@ void show(Vector::BLF::MostPkt * obj)
 }
 
 // MOST_PKT2 = 33
-void show(Vector::BLF::MostPkt2 * obj)
-{
+void show(Vector::BLF::MostPkt2 * obj) {
     std::cout << "MostPkt2:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " dir=" << std::dec << static_cast<uint16_t>(obj->dir);
@@ -502,8 +467,7 @@ void show(Vector::BLF::MostPkt2 * obj)
 }
 
 // MOST_HWMODE = 34
-void show(Vector::BLF::MostHwMode * obj)
-{
+void show(Vector::BLF::MostHwMode * obj) {
     std::cout << "MostHwMode:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " hwMode=0x" << std::hex << obj->hwMode;
@@ -512,8 +476,7 @@ void show(Vector::BLF::MostHwMode * obj)
 }
 
 // MOST_REG = 35
-void show(Vector::BLF::MostReg * obj)
-{
+void show(Vector::BLF::MostReg * obj) {
     std::cout << "MostReg:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " subType=" << std::dec << static_cast<uint16_t>(obj->subType);
@@ -527,8 +490,7 @@ void show(Vector::BLF::MostReg * obj)
 }
 
 // MOST_GENREG = 36
-void show(Vector::BLF::MostGenReg * obj)
-{
+void show(Vector::BLF::MostGenReg * obj) {
     std::cout << "MostGenReg:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " subType=" << std::dec << static_cast<uint16_t>(obj->subType);
@@ -539,8 +501,7 @@ void show(Vector::BLF::MostGenReg * obj)
 }
 
 // MOST_NETSTATE = 37
-void show(Vector::BLF::MostNetState * obj)
-{
+void show(Vector::BLF::MostNetState * obj) {
     std::cout << "MostNetState:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " stateNew=" << std::dec << obj->stateNew;
@@ -549,8 +510,7 @@ void show(Vector::BLF::MostNetState * obj)
 }
 
 // MOST_DATALOST = 38
-void show(Vector::BLF::MostDataLost * obj)
-{
+void show(Vector::BLF::MostDataLost * obj) {
     std::cout << "MostDataLost:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " info=0x" << std::hex << obj->info;
@@ -562,8 +522,7 @@ void show(Vector::BLF::MostDataLost * obj)
 }
 
 // MOST_TRIGGER = 39
-void show(Vector::BLF::MostTrigger * obj)
-{
+void show(Vector::BLF::MostTrigger * obj) {
     std::cout << "MostTrigger:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " mode=" << std::dec << obj->mode;
@@ -574,8 +533,7 @@ void show(Vector::BLF::MostTrigger * obj)
 }
 
 // FLEXRAY_CYCLE = 40
-void show(Vector::BLF::FlexRayV6StartCycleEvent * obj)
-{
+void show(Vector::BLF::FlexRayV6StartCycleEvent * obj) {
     std::cout << "FlexRayV6StartCycleEvent:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " dir=" << std::dec << static_cast<uint16_t>(obj->dir);
@@ -590,8 +548,7 @@ void show(Vector::BLF::FlexRayV6StartCycleEvent * obj)
 }
 
 // FLEXRAY_MESSAGE = 41
-void show(Vector::BLF::FlexRayV6Message * obj)
-{
+void show(Vector::BLF::FlexRayV6Message * obj) {
     std::cout << "FlexRayV6Message:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " dir=" << std::dec << static_cast<uint16_t>(obj->dir);
@@ -612,8 +569,7 @@ void show(Vector::BLF::FlexRayV6Message * obj)
 }
 
 // LIN_CHECKSUM_INFO = 42
-void show(Vector::BLF::LinChecksumInfo * obj)
-{
+void show(Vector::BLF::LinChecksumInfo * obj) {
     std::cout << "LinChecksumInfo:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " id=" << std::dec << static_cast<uint16_t>(obj->id);
@@ -622,8 +578,7 @@ void show(Vector::BLF::LinChecksumInfo * obj)
 }
 
 // LIN_SPIKE_EVENT = 43
-void show(Vector::BLF::LinSpikeEvent * obj)
-{
+void show(Vector::BLF::LinSpikeEvent * obj) {
     std::cout << "LinSpikeEvent:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " width=" << std::dec << obj->width;
@@ -631,8 +586,7 @@ void show(Vector::BLF::LinSpikeEvent * obj)
 }
 
 // CAN_DRIVER_SYNC = 44
-void show(Vector::BLF::CanDriverHwSync * obj)
-{
+void show(Vector::BLF::CanDriverHwSync * obj) {
     std::cout << "CanDriverHwSync:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " flags=0x" << std::hex << static_cast<uint16_t>(obj->flags);
@@ -640,8 +594,7 @@ void show(Vector::BLF::CanDriverHwSync * obj)
 }
 
 // FLEXRAY_STATUS = 45
-void show(Vector::BLF::FlexRayStatusEvent * obj)
-{
+void show(Vector::BLF::FlexRayStatusEvent * obj) {
     std::cout << "FlexRayStatusEvent:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " version=" << std::dec << obj->version;
@@ -653,8 +606,7 @@ void show(Vector::BLF::FlexRayStatusEvent * obj)
 }
 
 // GPS_EVENT = 46
-void show(Vector::BLF::GpsEvent * obj)
-{
+void show(Vector::BLF::GpsEvent * obj) {
     std::cout << "GpsEvent:";
     std::cout << " flags=0x" << std::hex << obj->flags;
     std::cout << " channel=" << std::dec << obj->channel;
@@ -667,8 +619,7 @@ void show(Vector::BLF::GpsEvent * obj)
 }
 
 // FR_ERROR = 47
-void show(Vector::BLF::FlexRayVFrError * obj)
-{
+void show(Vector::BLF::FlexRayVFrError * obj) {
     std::cout << "FlexRayVFrError:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " version=" << std::dec << obj->version;
@@ -685,8 +636,7 @@ void show(Vector::BLF::FlexRayVFrError * obj)
 }
 
 // FR_STATUS = 48
-void show(Vector::BLF::FlexRayVFrStatus * obj)
-{
+void show(Vector::BLF::FlexRayVFrStatus * obj) {
     std::cout << "FlexRayVFrStatus:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " version=" << std::dec << obj->version;
@@ -704,8 +654,7 @@ void show(Vector::BLF::FlexRayVFrStatus * obj)
 }
 
 // FR_STARTCYCLE = 49
-void show(Vector::BLF::FlexRayVFrStartCycle * obj)
-{
+void show(Vector::BLF::FlexRayVFrStartCycle * obj) {
     std::cout << "FlexRayVFrStartCycle:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " version=" << std::dec << obj->version;
@@ -727,8 +676,7 @@ void show(Vector::BLF::FlexRayVFrStartCycle * obj)
 }
 
 // FR_RCVMESSAGE = 50
-void show(Vector::BLF::FlexRayVFrReceiveMsg * obj)
-{
+void show(Vector::BLF::FlexRayVFrReceiveMsg * obj) {
     std::cout << "FlexRayVFrReceiveMsg:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " version=" << std::dec << obj->version;
@@ -752,8 +700,7 @@ void show(Vector::BLF::FlexRayVFrReceiveMsg * obj)
 }
 
 // REALTIMECLOCK = 51
-void show(Vector::BLF::RealtimeClock * obj)
-{
+void show(Vector::BLF::RealtimeClock * obj) {
     std::cout << "RealtimeClock:";
     std::cout << " time=" << std::dec << obj->time;
     std::cout << " loggingOffset=" << std::dec << obj->loggingOffset;
@@ -764,8 +711,7 @@ void show(Vector::BLF::RealtimeClock * obj)
 // Reserved52 = 53
 
 // LIN_STATISTIC = 54
-void show(Vector::BLF::LinStatisticEvent * obj)
-{
+void show(Vector::BLF::LinStatisticEvent * obj) {
     std::cout << "LinStatisticEvent:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " busload=" << std::fixed << obj->busLoad;
@@ -779,8 +725,7 @@ void show(Vector::BLF::LinStatisticEvent * obj)
 
 // J1708_MESSAGE = 55
 // J1708_VIRTUAL_MSG = 56
-void show(Vector::BLF::J1708Message * obj)
-{
+void show(Vector::BLF::J1708Message * obj) {
     switch (obj->objectType) {
     case Vector::BLF::ObjectType::J1708_MESSAGE:
         std::cout << "J1708Message:";
@@ -802,8 +747,7 @@ void show(Vector::BLF::J1708Message * obj)
 }
 
 // LIN_MESSAGE2 = 57
-void show(Vector::BLF::LinMessage2 * obj)
-{
+void show(Vector::BLF::LinMessage2 * obj) {
     std::cout << "LinMessage2:";
     std::cout << " data=";
     printData(obj->data.data(), obj->data.size());
@@ -823,8 +767,7 @@ void show(Vector::BLF::LinMessage2 * obj)
 }
 
 // LIN_SND_ERROR2 = 58
-void show(Vector::BLF::LinSendError2 * obj)
-{
+void show(Vector::BLF::LinSendError2 * obj) {
     std::cout << "LinSendError2:";
     std::cout << " eoh=" << std::dec << obj->eoh;
     std::cout << " isEtf=" << std::dec << static_cast<uint16_t>(obj->isEtf);
@@ -836,8 +779,7 @@ void show(Vector::BLF::LinSendError2 * obj)
 }
 
 // LIN_SYN_ERROR2 = 59
-void show(Vector::BLF::LinSyncError2 * obj)
-{
+void show(Vector::BLF::LinSyncError2 * obj) {
     std::cout << "LinSendError2:";
     std::cout << " timeDiff[0]=" << std::dec << obj->timeDiff[0];
     std::cout << " timeDiff[1]=" << std::dec << obj->timeDiff[1];
@@ -847,8 +789,7 @@ void show(Vector::BLF::LinSyncError2 * obj)
 }
 
 // LIN_CRC_ERROR2 = 60
-void show(Vector::BLF::LinCrcError2 * obj)
-{
+void show(Vector::BLF::LinCrcError2 * obj) {
     std::cout << "LinCrcError2:";
     std::cout << " data=";
     printData(obj->data.data(), obj->data.size());
@@ -865,8 +806,7 @@ void show(Vector::BLF::LinCrcError2 * obj)
 }
 
 // LIN_RCV_ERROR2 = 61
-void show(Vector::BLF::LinReceiveError2 * obj)
-{
+void show(Vector::BLF::LinReceiveError2 * obj) {
     std::cout << "LinReceiveError2:";
     std::cout << " data=";
     printData(obj->data.data(), obj->data.size());
@@ -886,8 +826,7 @@ void show(Vector::BLF::LinReceiveError2 * obj)
 }
 
 // LIN_WAKEUP2 = 62
-void show(Vector::BLF::LinWakeupEvent2 * obj)
-{
+void show(Vector::BLF::LinWakeupEvent2 * obj) {
     std::cout << "LinWakeupEvent2:";
     std::cout << " lengthInfo=" << std::dec << static_cast<uint16_t>(obj->lengthInfo);
     std::cout << " signal=" << std::dec << static_cast<uint16_t>(obj->signal);
@@ -896,8 +835,7 @@ void show(Vector::BLF::LinWakeupEvent2 * obj)
 }
 
 // LIN_SPIKE_EVENT2 = 63
-void show(Vector::BLF::LinSpikeEvent2 * obj)
-{
+void show(Vector::BLF::LinSpikeEvent2 * obj) {
     std::cout << "LinSpikeEvent2:";
     std::cout << " width=" << std::dec << obj->width;
     std::cout << " internal=" << std::dec << static_cast<uint16_t>(obj->internal);
@@ -905,16 +843,14 @@ void show(Vector::BLF::LinSpikeEvent2 * obj)
 }
 
 // LIN_LONG_DOM_SIG = 64
-void show(Vector::BLF::LinLongDomSignalEvent * obj)
-{
+void show(Vector::BLF::LinLongDomSignalEvent * obj) {
     std::cout << "LinLongDomSignalEvent:";
     std::cout << " type=" << std::dec << static_cast<uint16_t>(obj->type);
     std::cout << std::endl;
 }
 
 // APP_TEXT = 65
-void show(Vector::BLF::AppText * obj)
-{
+void show(Vector::BLF::AppText * obj) {
     std::cout << "AppText:";
     std::cout << " source=0x" << std::hex << obj->source;
     std::cout << " textLength=" << std::dec << obj->textLength;
@@ -923,8 +859,7 @@ void show(Vector::BLF::AppText * obj)
 }
 
 // FR_RCVMESSAGE_EX = 66
-void show(Vector::BLF::FlexRayVFrReceiveMsgEx * obj)
-{
+void show(Vector::BLF::FlexRayVFrReceiveMsgEx * obj) {
     std::cout << "FlexRayVFrReceiveMsgEx:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " version=" << std::dec << obj->version;
@@ -953,8 +888,7 @@ void show(Vector::BLF::FlexRayVFrReceiveMsgEx * obj)
 }
 
 // MOST_STATISTICEX = 67
-void show(Vector::BLF::MostStatisticEx * obj)
-{
+void show(Vector::BLF::MostStatisticEx * obj) {
     std::cout << "MostStatisticEx:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " codingErrors=" << std::dec << obj->codingErrors;
@@ -963,8 +897,7 @@ void show(Vector::BLF::MostStatisticEx * obj)
 }
 
 // MOST_TXLIGHT = 68
-void show(Vector::BLF::MostTxLight * obj)
-{
+void show(Vector::BLF::MostTxLight * obj) {
     std::cout << "MostTxLight:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " state=" << std::dec << obj->state;
@@ -972,8 +905,7 @@ void show(Vector::BLF::MostTxLight * obj)
 }
 
 // MOST_ALLOCTAB = 69
-void show(Vector::BLF::MostAllocTab * obj)
-{
+void show(Vector::BLF::MostAllocTab * obj) {
     std::cout << "MostAllocTab:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " length=0x" << std::hex << obj->length;
@@ -983,8 +915,7 @@ void show(Vector::BLF::MostAllocTab * obj)
 }
 
 // MOST_STRESS = 70
-void show(Vector::BLF::MostStress * obj)
-{
+void show(Vector::BLF::MostStress * obj) {
     std::cout << "MostStress:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " state=" << std::dec << obj->state;
@@ -993,8 +924,7 @@ void show(Vector::BLF::MostStress * obj)
 }
 
 // ETHERNET_FRAME = 71
-void show(Vector::BLF::EthernetFrame * obj)
-{
+void show(Vector::BLF::EthernetFrame * obj) {
     std::cout << "EthernetFrame:";
     std::cout << " sourceAddress=";
     printData(obj->sourceAddress.data(), obj->sourceAddress.size());
@@ -1012,8 +942,7 @@ void show(Vector::BLF::EthernetFrame * obj)
 }
 
 // SYS_VARIABLE = 72
-void show(Vector::BLF::SystemVariable * obj)
-{
+void show(Vector::BLF::SystemVariable * obj) {
     std::cout << "SystemVariable:";
     switch (obj->type) {
     case Vector::BLF::SystemVariable::Type::Double:
@@ -1049,9 +978,8 @@ void show(Vector::BLF::SystemVariable * obj)
         std::cout << " name=" << obj->name;
         std::cout << " data=[";
         for (uint32_t i = 0; i < min(obj->data.size(), obj->dataLength) / sizeof(double); ++i) {
-            if (i > 0) {
+            if (i > 0)
                 std::cout << ",";
-            }
             std::cout << std::fixed << static_cast<double>(obj->data[i * sizeof(double)]);
         }
         std::cout << "]";
@@ -1064,9 +992,8 @@ void show(Vector::BLF::SystemVariable * obj)
         std::cout << " name=" << obj->name;
         std::cout << " data=[";
         for (uint32_t i = 0; i < min(obj->data.size(), obj->dataLength) / sizeof(int32_t); ++i) {
-            if (i > 0) {
+            if (i > 0)
                 std::cout << ",";
-            }
             std::cout << std::dec << static_cast<int32_t>(obj->data[i * sizeof(int32_t)]);
         }
         std::cout << "]";
@@ -1087,9 +1014,8 @@ void show(Vector::BLF::SystemVariable * obj)
         std::cout << " name=" << obj->name;
         std::cout << " data=[";
         for (uint32_t i = 0; i < min(obj->data.size(), obj->dataLength); ++i) {
-            if (i > 0) {
+            if (i > 0)
                 std::cout << ",";
-            }
             std::cout << std::dec << static_cast<uint16_t>(obj->data[i]);
         }
         std::cout << "]";
@@ -1099,8 +1025,7 @@ void show(Vector::BLF::SystemVariable * obj)
 }
 
 // CAN_ERROR_EXT = 73
-void show(Vector::BLF::CanErrorFrameExt * obj)
-{
+void show(Vector::BLF::CanErrorFrameExt * obj) {
     std::cout << "CanErrorFrameExt:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " length=" << std::dec << obj->length;
@@ -1117,8 +1042,7 @@ void show(Vector::BLF::CanErrorFrameExt * obj)
 }
 
 // CAN_DRIVER_ERROR_EXT = 74
-void show(Vector::BLF::CanDriverErrorExt * obj)
-{
+void show(Vector::BLF::CanDriverErrorExt * obj) {
     std::cout << "CanErrorFrameExt:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " txErrors=" << std::dec << static_cast<uint16_t>(obj->txErrors);
@@ -1130,8 +1054,7 @@ void show(Vector::BLF::CanDriverErrorExt * obj)
 }
 
 // LIN_LONG_DOM_SIG2 = 75
-void show(Vector::BLF::LinLongDomSignalEvent2 * obj)
-{
+void show(Vector::BLF::LinLongDomSignalEvent2 * obj) {
     std::cout << "LinLongDomSignalEvent2:";
     std::cout << " type=" << std::dec << static_cast<uint16_t>(obj->type);
     std::cout << " length=" << std::dec << obj->length;
@@ -1139,8 +1062,7 @@ void show(Vector::BLF::LinLongDomSignalEvent2 * obj)
 }
 
 // MOST_150_MESSAGE = 76
-void show(Vector::BLF::Most150Message * obj)
-{
+void show(Vector::BLF::Most150Message * obj) {
     std::cout << "Most150Message:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " dir=" << std::dec << static_cast<uint16_t>(obj->dir);
@@ -1161,8 +1083,7 @@ void show(Vector::BLF::Most150Message * obj)
 }
 
 // MOST_150_PKT = 77
-void show(Vector::BLF::Most150Pkt * obj)
-{
+void show(Vector::BLF::Most150Pkt * obj) {
     std::cout << "Most150Pkt:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " dir=" << std::dec << static_cast<uint16_t>(obj->dir);
@@ -1183,8 +1104,7 @@ void show(Vector::BLF::Most150Pkt * obj)
 }
 
 // MOST_ETHERNET_PKT = 78
-void show(Vector::BLF::MostEthernetPkt * obj)
-{
+void show(Vector::BLF::MostEthernetPkt * obj) {
     std::cout << "MostEthernetPkt:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " dir=" << std::dec << static_cast<uint16_t>(obj->dir);
@@ -1203,8 +1123,7 @@ void show(Vector::BLF::MostEthernetPkt * obj)
 }
 
 // MOST_150_MESSAGE_FRAGMENT = 79
-void show(Vector::BLF::Most150MessageFragment * obj)
-{
+void show(Vector::BLF::Most150MessageFragment * obj) {
     std::cout << "Most150MessageFragment:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " ackNack=0x" << std::hex << static_cast<uint16_t>(obj->ackNack);
@@ -1225,8 +1144,7 @@ void show(Vector::BLF::Most150MessageFragment * obj)
 }
 
 // MOST_150_PKT_FRAGMENT = 80
-void show(Vector::BLF::Most150PktFragment * obj)
-{
+void show(Vector::BLF::Most150PktFragment * obj) {
     std::cout << "Most150PktFragment:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " ackNack=0x" << std::hex << static_cast<uint16_t>(obj->ackNack);
@@ -1247,8 +1165,7 @@ void show(Vector::BLF::Most150PktFragment * obj)
 }
 
 // MOST_ETHERNET_PKT_FRAGMENT = 81
-void show(Vector::BLF::MostEthernetPktFragment * obj)
-{
+void show(Vector::BLF::MostEthernetPktFragment * obj) {
     std::cout << "MostEthernetPktFragment:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " ackNack=0x" << std::hex << static_cast<uint16_t>(obj->ackNack);
@@ -1267,8 +1184,7 @@ void show(Vector::BLF::MostEthernetPktFragment * obj)
 }
 
 // MOST_SYSTEM_EVENT = 82
-void show(Vector::BLF::MostSystemEvent * obj)
-{
+void show(Vector::BLF::MostSystemEvent * obj) {
     std::cout << "MostSystemEvent:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " id=" << std::dec << obj->id;
@@ -1278,8 +1194,7 @@ void show(Vector::BLF::MostSystemEvent * obj)
 }
 
 // MOST_150_ALLOCTAB = 83
-void show(Vector::BLF::Most150AllocTab * obj)
-{
+void show(Vector::BLF::Most150AllocTab * obj) {
     std::cout << "Most150AllocTab:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " eventModeFlags=0x" << std::hex << obj->eventModeFlags;
@@ -1291,8 +1206,7 @@ void show(Vector::BLF::Most150AllocTab * obj)
 }
 
 // MOST_50_MESSAGE = 84
-void show(Vector::BLF::Most50Message * obj)
-{
+void show(Vector::BLF::Most50Message * obj) {
     std::cout << "Most50Message:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " dir=" << std::dec << static_cast<uint16_t>(obj->dir);
@@ -1310,8 +1224,7 @@ void show(Vector::BLF::Most50Message * obj)
 }
 
 // MOST_50_PKT = 85
-void show(Vector::BLF::Most50Pkt * obj)
-{
+void show(Vector::BLF::Most50Pkt * obj) {
     std::cout << "Most50Pkt:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " dir=" << std::dec << static_cast<uint16_t>(obj->dir);
@@ -1329,8 +1242,7 @@ void show(Vector::BLF::Most50Pkt * obj)
 }
 
 // CAN_MESSAGE2 = 86
-void show(Vector::BLF::CanMessage2 * obj)
-{
+void show(Vector::BLF::CanMessage2 * obj) {
     std::cout << "CanMessage2:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " flags=0x" << std::hex << static_cast<uint16_t>(obj->flags);
@@ -1344,8 +1256,7 @@ void show(Vector::BLF::CanMessage2 * obj)
 }
 
 // LIN_UNEXPECTED_WAKEUP = 87
-void show(Vector::BLF::LinUnexpectedWakeup * obj)
-{
+void show(Vector::BLF::LinUnexpectedWakeup * obj) {
     std::cout << "LinUnexpectedWakeup:";
     std::cout << " width=" << std::dec << obj->width;
     std::cout << " signal=" << std::dec << static_cast<uint16_t>(obj->signal);
@@ -1353,8 +1264,7 @@ void show(Vector::BLF::LinUnexpectedWakeup * obj)
 }
 
 // LIN_SHORT_OR_SLOW_RESPONSE = 88
-void show(Vector::BLF::LinShortOrSlowResponse * obj)
-{
+void show(Vector::BLF::LinShortOrSlowResponse * obj) {
     std::cout << "LinShortOrSlowResponse:";
     std::cout << " numberOfRespBytes=" << std::dec << obj->numberOfRespBytes;
     std::cout << " respBytes=";
@@ -1365,8 +1275,7 @@ void show(Vector::BLF::LinShortOrSlowResponse * obj)
 }
 
 // LIN_DISTURBANCE_EVENT = 89
-void show(Vector::BLF::LinDisturbanceEvent * obj)
-{
+void show(Vector::BLF::LinDisturbanceEvent * obj) {
     std::cout << "LinDisturbanceEvent:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " id=" << std::dec << static_cast<uint16_t>(obj->id);
@@ -1380,8 +1289,7 @@ void show(Vector::BLF::LinDisturbanceEvent * obj)
 }
 
 // SERIAL_EVENT = 90
-void show(Vector::BLF::SerialEvent * obj)
-{
+void show(Vector::BLF::SerialEvent * obj) {
     std::cout << "SerialEvent:";
     std::cout << " flags=0x" << std::hex << obj->flags;
     std::cout << " port=" << std::dec << obj->port;
@@ -1403,9 +1311,8 @@ void show(Vector::BLF::SerialEvent * obj)
             printData(obj->general.data.data(), min(obj->general.data.size(), obj->general.dataLength));
             std::cout << " timeStamps=";
             for (uint32_t i = 0; i < min(obj->general.timeStamps.size(), obj->general.timeStampsLength / sizeof(uint64_t)); ++i) {
-                if (i > 0) {
+                if (i > 0)
                     std::cout << ",";
-                }
                 std::cout << std::dec << obj->general.timeStamps[i];
             }
         }
@@ -1414,8 +1321,7 @@ void show(Vector::BLF::SerialEvent * obj)
 }
 
 // OVERRUN_ERROR = 91
-void show(Vector::BLF::DriverOverrun * obj)
-{
+void show(Vector::BLF::DriverOverrun * obj) {
     std::cout << "DriverOverrun:";
     std::cout << " busType=" << std::dec << obj->busType;
     std::cout << " channel=" << std::dec << obj->channel;
@@ -1423,8 +1329,7 @@ void show(Vector::BLF::DriverOverrun * obj)
 }
 
 // EVENT_COMMENT = 92
-void show(Vector::BLF::EventComment * obj)
-{
+void show(Vector::BLF::EventComment * obj) {
     std::cout << "EventComment:";
     std::cout << " commentedEventType=" << std::dec << obj->commentedEventType;
     std::cout << " textLength=" << std::dec << obj->textLength;
@@ -1433,8 +1338,7 @@ void show(Vector::BLF::EventComment * obj)
 }
 
 // WLAN_FRAME = 93
-void show(Vector::BLF::WlanFrame * obj)
-{
+void show(Vector::BLF::WlanFrame * obj) {
     std::cout << "WlanFrame:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " flags=0x" << std::hex << obj->flags;
@@ -1449,8 +1353,7 @@ void show(Vector::BLF::WlanFrame * obj)
 }
 
 // WLAN_STATISTIC = 94
-void show(Vector::BLF::WlanStatistic * obj)
-{
+void show(Vector::BLF::WlanStatistic * obj) {
     std::cout << "WlanStatistic:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " flags=0x" << std::hex << obj->flags;
@@ -1464,8 +1367,7 @@ void show(Vector::BLF::WlanStatistic * obj)
 }
 
 // MOST_ECL = 95
-void show(Vector::BLF::MostEcl * obj)
-{
+void show(Vector::BLF::MostEcl * obj) {
     std::cout << "MostEcl:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " mode=" << std::dec << obj->mode;
@@ -1474,8 +1376,7 @@ void show(Vector::BLF::MostEcl * obj)
 }
 
 // GLOBAL_MARKER = 96
-void show(Vector::BLF::GlobalMarker * obj)
-{
+void show(Vector::BLF::GlobalMarker * obj) {
     std::cout << "GlobalMarker:";
     std::cout << " commentedEventType=" << std::dec << obj->commentedEventType;
     std::cout << " foregroundColor=0x" << std::hex << obj->foregroundColor;
@@ -1491,8 +1392,7 @@ void show(Vector::BLF::GlobalMarker * obj)
 }
 
 // AFDX_FRAME = 97
-void show(Vector::BLF::AfdxFrame * obj)
-{
+void show(Vector::BLF::AfdxFrame * obj) {
     std::cout << "AfdxFrame:";
     std::cout << " sourceAddress=";
     printData(obj->sourceAddress.data(), obj->sourceAddress.size());
@@ -1512,8 +1412,7 @@ void show(Vector::BLF::AfdxFrame * obj)
 }
 
 // AFDX_STATISTIC = 98
-void show(Vector::BLF::AfdxStatistic * obj)
-{
+void show(Vector::BLF::AfdxStatistic * obj) {
     std::cout << "AfdxStatistic:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " flags=0x" << std::hex << static_cast<uint16_t>(obj->flags);
@@ -1534,17 +1433,15 @@ void show(Vector::BLF::AfdxStatistic * obj)
 }
 
 // KLINE_STATUSEVENT = 99
-void show(Vector::BLF::KLineStatusEvent * obj)
-{
+void show(Vector::BLF::KLineStatusEvent * obj) {
     std::cout << "KLineStatusEvent:";
     std::cout << " type=0x" << std::hex << obj->type;
     std::cout << " dataLen=" << std::dec << obj->dataLen;
     std::cout << " port=" << std::dec << obj->port;
     std::cout << " data=[";
     for (uint32_t i = 0; i < min(obj->data.size(), obj->dataLen / sizeof(uint64_t)); ++i) {
-        if (i > 0) {
+        if (i > 0)
             std::cout << " ";
-        }
         std::cout << std::hex << obj->data[i];
     }
     std::cout << "]";
@@ -1552,8 +1449,7 @@ void show(Vector::BLF::KLineStatusEvent * obj)
 }
 
 // CAN_FD_MESSAGE = 100
-void show(Vector::BLF::CanFdMessage * obj)
-{
+void show(Vector::BLF::CanFdMessage * obj) {
     std::cout << "CanFdMessage:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " flags=0x" << std::hex << static_cast<uint16_t>(obj->flags);
@@ -1569,8 +1465,7 @@ void show(Vector::BLF::CanFdMessage * obj)
 }
 
 // CAN_FD_MESSAGE_64 = 101
-void show(Vector::BLF::CanFdMessage64 * obj)
-{
+void show(Vector::BLF::CanFdMessage64 * obj) {
     std::cout << "CanFdMessage64:";
     std::cout << " channel=" << std::dec << static_cast<uint16_t>(obj->channel);
     std::cout << " dlc=" << std::dec << static_cast<uint16_t>(obj->dlc);
@@ -1593,8 +1488,7 @@ void show(Vector::BLF::CanFdMessage64 * obj)
 }
 
 // ETHERNET_RX_ERROR = 102
-void show(Vector::BLF::EthernetRxError * obj)
-{
+void show(Vector::BLF::EthernetRxError * obj) {
     std::cout << "EthernetRxError:";
     std::cout << " structLength=" << std::dec << obj->structLength;
     std::cout << " channel=" << std::dec << obj->channel;
@@ -1609,8 +1503,7 @@ void show(Vector::BLF::EthernetRxError * obj)
 }
 
 // ETHERNET_STATUS = 103
-void show(Vector::BLF::EthernetStatus * obj)
-{
+void show(Vector::BLF::EthernetStatus * obj) {
     std::cout << "EthernetStatus:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " flags=0x" << std::hex << obj->flags;
@@ -1627,8 +1520,7 @@ void show(Vector::BLF::EthernetStatus * obj)
 }
 
 // CAN_FD_ERROR_64 = 104
-void show(Vector::BLF::CanFdErrorFrame64 * obj)
-{
+void show(Vector::BLF::CanFdErrorFrame64 * obj) {
     std::cout << "CanFdErrorFrame64:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " dlc=" << std::dec << static_cast<uint16_t>(obj->dlc);
@@ -1652,8 +1544,7 @@ void show(Vector::BLF::CanFdErrorFrame64 * obj)
 }
 
 // LIN_SHORT_OR_SLOW_RESPONSE2 = 105
-void show(Vector::BLF::LinShortOrSlowResponse2 * obj)
-{
+void show(Vector::BLF::LinShortOrSlowResponse2 * obj) {
     std::cout << "LinShortOrSlowResponse2:";
     std::cout << " numberOfRespBytes=" << std::dec << obj->numberOfRespBytes;
     std::cout << " respBytes=";
@@ -1666,8 +1557,7 @@ void show(Vector::BLF::LinShortOrSlowResponse2 * obj)
 }
 
 // AFDX_STATUS = 106
-void show(Vector::BLF::AfdxStatus * obj)
-{
+void show(Vector::BLF::AfdxStatus * obj) {
     std::cout << "AfdxStatus:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " statusA::flags=0x" << std::hex << obj->statusA.flags;
@@ -1692,8 +1582,7 @@ void show(Vector::BLF::AfdxStatus * obj)
 }
 
 // AFDX_BUS_STATISTIC = 107
-void show(Vector::BLF::AfdxBusStatistic * obj)
-{
+void show(Vector::BLF::AfdxBusStatistic * obj) {
     std::cout << "AfdxBusStatistic:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " flags=" << std::dec << obj->flags;
@@ -1719,8 +1608,7 @@ void show(Vector::BLF::AfdxBusStatistic * obj)
 // Reserved108 = 108
 
 // AFDX_ERROR_EVENT = 109
-void show(Vector::BLF::AfdxErrorEvent * obj)
-{
+void show(Vector::BLF::AfdxErrorEvent * obj) {
     std::cout << "AfdxErrorEvent:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " errorLevel=" << std::dec << obj->errorLevel;
@@ -1733,8 +1621,7 @@ void show(Vector::BLF::AfdxErrorEvent * obj)
 }
 
 // A429_ERROR = 110
-void show(Vector::BLF::A429Error * obj)
-{
+void show(Vector::BLF::A429Error * obj) {
     std::cout << "A429Error:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " errorType=" << std::dec << obj->errorType;
@@ -1748,8 +1635,7 @@ void show(Vector::BLF::A429Error * obj)
 }
 
 // A429_STATUS = 111
-void show(Vector::BLF::A429Status * obj)
-{
+void show(Vector::BLF::A429Status * obj) {
     std::cout << "A429Status:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " dir=" << std::dec << static_cast<uint16_t>(obj->dir);
@@ -1762,8 +1648,7 @@ void show(Vector::BLF::A429Status * obj)
 }
 
 // A429_BUS_STATISTIC = 112
-void show(Vector::BLF::A429BusStatistic * obj)
-{
+void show(Vector::BLF::A429BusStatistic * obj) {
     std::cout << "A429BusStatistic:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " dir=" << std::dec << static_cast<uint16_t>(obj->dir);
@@ -1783,17 +1668,15 @@ void show(Vector::BLF::A429BusStatistic * obj)
     std::cout << " levelErrors=" << std::dec << obj->levelErrors;
     std::cout << " labelCount=";
     for (uint32_t i = 0; i < obj->labelCount.size(); ++i) {
-        if (i > 0) {
+        if (i > 0)
             std::cout << ",";
-        }
         std::cout << std::dec << obj->labelCount[i];
     }
     std::cout << std::endl;
 }
 
 // A429_MESSAGE = 113
-void show(Vector::BLF::A429Message * obj)
-{
+void show(Vector::BLF::A429Message * obj) {
     std::cout << "A429Message:";
     std::cout << " a429Data=";
     printData(obj->a429Data.data(), obj->a429Data.size());
@@ -1812,8 +1695,7 @@ void show(Vector::BLF::A429Message * obj)
 }
 
 // ETHERNET_STATISTIC = 114
-void show(Vector::BLF::EthernetStatistic * obj)
-{
+void show(Vector::BLF::EthernetStatistic * obj) {
     std::cout << "EthernetStatistic:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " rcvOk_HW=" << std::dec << obj->rcvOk_HW;
@@ -1829,8 +1711,7 @@ void show(Vector::BLF::EthernetStatistic * obj)
 }
 
 // Unknown115 = 115
-void show(Vector::BLF::Unknown115 * obj)
-{
+void show(Vector::BLF::Unknown115 * obj) {
     std::cout << "Unknown115:";
     std::cout << " res[0]=0x" << std::setfill('0') << std::setw(8) << std::hex << obj->reservedUnknownObject1;
     std::cout << " res[1]=0x" << std::setfill('0') << std::setw(8) << std::hex << obj->reservedUnknownObject2;
@@ -1845,8 +1726,7 @@ void show(Vector::BLF::Unknown115 * obj)
 // Reserved117 = 117
 
 // TEST_STRUCTURE = 118
-void show(Vector::BLF::TestStructure * obj)
-{
+void show(Vector::BLF::TestStructure * obj) {
     std::cout << "TestStructure:";
     std::cout << " type=" << std::dec << obj->type;
     std::cout << " uniqueNo=" << std::dec << obj->uniqueNo;
@@ -1867,8 +1747,7 @@ void show(Vector::BLF::TestStructure * obj)
 }
 
 // DIAG_REQUEST_INTERPRETATION = 119
-void show(Vector::BLF::DiagRequestInterpretation * obj)
-{
+void show(Vector::BLF::DiagRequestInterpretation * obj) {
     std::cout << "DiagRequestInterpretation:";
     std::cout << " diagDescriptionHandle=" << std::dec << obj->diagDescriptionHandle;
     std::cout << " diagVariantHandle=" << std::dec << obj->diagVariantHandle;
@@ -1883,8 +1762,7 @@ void show(Vector::BLF::DiagRequestInterpretation * obj)
 }
 
 // ETHERNET_FRAME_EX = 120
-void show(Vector::BLF::EthernetFrameEx * obj)
-{
+void show(Vector::BLF::EthernetFrameEx * obj) {
     std::cout << "EthernetFrameEx:";
     std::cout << " structLength=" << std::dec << obj->structLength;
     std::cout << " flags=0x" << std::hex << obj->flags;
@@ -1901,8 +1779,7 @@ void show(Vector::BLF::EthernetFrameEx * obj)
 }
 
 // ETHERNET_FRAME_FORWARDED = 121
-void show(Vector::BLF::EthernetFrameForwarded * obj)
-{
+void show(Vector::BLF::EthernetFrameForwarded * obj) {
     std::cout << "EthernetFrameForwarded:";
     std::cout << " structLength=" << std::dec << obj->structLength;
     std::cout << " flags=0x" << std::hex << obj->flags;
@@ -1919,8 +1796,7 @@ void show(Vector::BLF::EthernetFrameForwarded * obj)
 }
 
 // ETHERNET_ERROR_EX = 122
-void show(Vector::BLF::EthernetErrorEx * obj)
-{
+void show(Vector::BLF::EthernetErrorEx * obj) {
     std::cout << "EthernetErrorEx:";
     std::cout << " structLength=" << std::dec << obj->structLength;
     std::cout << " flags=0x" << std::hex << obj->flags;
@@ -1938,8 +1814,7 @@ void show(Vector::BLF::EthernetErrorEx * obj)
 }
 
 // ETHERNET_ERROR_FORWARDED = 123
-void show(Vector::BLF::EthernetErrorForwarded * obj)
-{
+void show(Vector::BLF::EthernetErrorForwarded * obj) {
     std::cout << "EthernetErrorForwarded:";
     std::cout << " structLength=" << std::dec << obj->structLength;
     std::cout << " flags=0x" << std::hex << obj->flags;
@@ -1957,8 +1832,7 @@ void show(Vector::BLF::EthernetErrorForwarded * obj)
 }
 
 // FUNCTION_BUS = 124
-void show(Vector::BLF::FunctionBus * obj)
-{
+void show(Vector::BLF::FunctionBus * obj) {
     std::cout << "FunctionBus:";
     std::cout << " functionBusObjectType=" << std::dec << obj->functionBusObjectType;
     std::cout << " veType=" << std::dec << obj->veType;
@@ -1971,16 +1845,14 @@ void show(Vector::BLF::FunctionBus * obj)
 }
 
 // DATA_LOST_BEGIN = 125
-void show(Vector::BLF::DataLostBegin * obj)
-{
+void show(Vector::BLF::DataLostBegin * obj) {
     std::cout << "DataLostBegin:";
     std::cout << " queueIdentifier=" << std::dec << obj->queueIdentifier;
     std::cout << std::endl;
 }
 
 // DATA_LOST_END = 126
-void show(Vector::BLF::DataLostEnd * obj)
-{
+void show(Vector::BLF::DataLostEnd * obj) {
     std::cout << "DataLostEnd:";
     std::cout << " queueIdentifier=" << std::dec << obj->queueIdentifier;
     std::cout << " firstObjectLostTimeStamp=" << std::dec << obj->firstObjectLostTimeStamp;
@@ -1989,16 +1861,14 @@ void show(Vector::BLF::DataLostEnd * obj)
 }
 
 // WATER_MARK_EVENT = 127
-void show(Vector::BLF::WaterMarkEvent * obj)
-{
+void show(Vector::BLF::WaterMarkEvent * obj) {
     std::cout << "WaterMarkEvent:";
     std::cout << " queueState=" << std::dec << obj->queueState;
     std::cout << std::endl;
 }
 
 // TRIGGER_CONDITION = 128
-void show(Vector::BLF::TriggerCondition * obj)
-{
+void show(Vector::BLF::TriggerCondition * obj) {
     std::cout << "TriggerCondition:";
     std::cout << " state=" << std::dec << obj->state;
     std::cout << " triggerBlockNameLength=" << std::dec << obj->triggerBlockNameLength;
@@ -2008,8 +1878,7 @@ void show(Vector::BLF::TriggerCondition * obj)
     std::cout << std::endl;
 }
 
-int main(int argc, char * argv[])
-{
+int main(int argc, char * argv[]) {
     if (argc != 2) {
         std::cout << "Parser <filename.blf>" << std::endl;
         return -1;
@@ -2033,9 +1902,8 @@ int main(int argc, char * argv[])
         } catch (std::runtime_error & e) {
             std::cout << "Exception: " << e.what() << std::endl;
         }
-        if (ohb == nullptr) {
+        if (ohb == nullptr)
             break;
-        }
 
         /* ObjectHeader */
         Vector::BLF::ObjectHeader * oh = dynamic_cast<Vector::BLF::ObjectHeader *>(ohb);
@@ -2564,9 +2432,8 @@ int main(int argc, char * argv[])
         }
 
         /* check objectSize */
-        if (ohb->objectSize != ohb->calculateObjectSize()) {
+        if (ohb->objectSize != ohb->calculateObjectSize())
             std::cout << "ObjectSize=" << std::dec << ohb->objectSize << " doesn't match calculatedObjectSize()=" << ohb->calculateObjectSize() << std::endl;
-        }
 
         /* delete object */
         delete ohb;

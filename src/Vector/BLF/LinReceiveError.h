@@ -53,9 +53,7 @@ namespace BLF {
  *   - LIN hardware only receives part of a frame, at the start of a measurement (in a correctly
  *     functioning system).
  */
-class VECTOR_BLF_EXPORT LinReceiveError final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT LinReceiveError final : ObjectHeader {
     LinReceiveError();
 
     virtual void read(AbstractFile & is) override;

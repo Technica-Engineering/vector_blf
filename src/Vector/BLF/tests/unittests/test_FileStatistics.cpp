@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /** test throw on wrong file signature */
-BOOST_AUTO_TEST_CASE(CorrectFileSignature)
-{
+BOOST_AUTO_TEST_CASE(CorrectFileSignature) {
     /* open file and write in fileStatistics */
     Vector::BLF::UncompressedFile file;
     Vector::BLF::FileStatistics fileStatistics1;
@@ -21,8 +20,7 @@ BOOST_AUTO_TEST_CASE(CorrectFileSignature)
 }
 
 /** test throw on wrong file signature */
-BOOST_AUTO_TEST_CASE(WrongFileSignature)
-{
+BOOST_AUTO_TEST_CASE(WrongFileSignature) {
     /* open file and write in fileStatistics */
     Vector::BLF::UncompressedFile file;
     Vector::BLF::FileStatistics fileStatistics1;

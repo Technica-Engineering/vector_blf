@@ -41,9 +41,7 @@ namespace BLF {
  * the OS8104). Unlike the special register event (MostGenReg) this event does not occur
  * spontaneous.
  */
-class VECTOR_BLF_EXPORT MostReg final : public ObjectHeader2
-{
-public:
+struct VECTOR_BLF_EXPORT MostReg final : ObjectHeader2 {
     MostReg();
 
     virtual void read(AbstractFile & is) override;

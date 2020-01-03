@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 ObjectHeader::ObjectHeader() :
-    ObjectHeaderBase()
-{
+    ObjectHeaderBase() {
     headerVersion = 1;
 }
 
-void ObjectHeader::read(AbstractFile & is)
-{
+void ObjectHeader::read(AbstractFile & is) {
     ObjectHeaderBase::read(is);
     is.read(reinterpret_cast<char *>(&objectFlags), sizeof(objectFlags));
     is.read(reinterpret_cast<char *>(&clientIndex), sizeof(clientIndex));
@@ -39,8 +37,7 @@ void ObjectHeader::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&objectTimeStamp), sizeof(objectTimeStamp));
 }
 
-void ObjectHeader::write(AbstractFile & os)
-{
+void ObjectHeader::write(AbstractFile & os) {
     ObjectHeaderBase::write(os);
     os.write(reinterpret_cast<char *>(&objectFlags), sizeof(objectFlags));
     os.write(reinterpret_cast<char *>(&clientIndex), sizeof(clientIndex));
@@ -48,8 +45,7 @@ void ObjectHeader::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&objectTimeStamp), sizeof(objectTimeStamp));
 }
 
-WORD ObjectHeader::calculateHeaderSize() const
-{
+WORD ObjectHeader::calculateHeaderSize() const {
     return
         ObjectHeaderBase::calculateHeaderSize() +
         sizeof(objectFlags) +
@@ -58,8 +54,7 @@ WORD ObjectHeader::calculateHeaderSize() const
         sizeof(objectTimeStamp);
 }
 
-DWORD ObjectHeader::calculateObjectSize() const
-{
+DWORD ObjectHeader::calculateObjectSize() const {
     return calculateHeaderSize();
 }
 

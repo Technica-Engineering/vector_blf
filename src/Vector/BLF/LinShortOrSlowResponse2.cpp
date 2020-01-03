@@ -26,13 +26,11 @@ namespace BLF {
 
 LinShortOrSlowResponse2::LinShortOrSlowResponse2() :
     ObjectHeader(),
-    LinDatabyteTimestampEvent()
-{
+    LinDatabyteTimestampEvent() {
     objectType = ObjectType::LIN_SHORT_OR_SLOW_RESPONSE2;
 }
 
-void LinShortOrSlowResponse2::read(AbstractFile & is)
-{
+void LinShortOrSlowResponse2::read(AbstractFile & is) {
     ObjectHeader::read(is);
     LinDatabyteTimestampEvent::read(is);
     is.read(reinterpret_cast<char *>(&numberOfRespBytes), sizeof(numberOfRespBytes));
@@ -45,8 +43,7 @@ void LinShortOrSlowResponse2::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&reservedLinShortOrSlowResponse2), sizeof(reservedLinShortOrSlowResponse2));
 }
 
-void LinShortOrSlowResponse2::write(AbstractFile & os)
-{
+void LinShortOrSlowResponse2::write(AbstractFile & os) {
     ObjectHeader::write(os);
     LinDatabyteTimestampEvent::write(os);
     os.write(reinterpret_cast<char *>(&numberOfRespBytes), sizeof(numberOfRespBytes));
@@ -59,8 +56,7 @@ void LinShortOrSlowResponse2::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reservedLinShortOrSlowResponse2), sizeof(reservedLinShortOrSlowResponse2));
 }
 
-DWORD LinShortOrSlowResponse2::calculateObjectSize() const
-{
+DWORD LinShortOrSlowResponse2::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         LinDatabyteTimestampEvent::calculateObjectSize() +

@@ -39,9 +39,7 @@ namespace BLF {
  *
  * AFDX general error event, available since 8.5
  */
-class VECTOR_BLF_EXPORT AfdxErrorEvent final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT AfdxErrorEvent final : ObjectHeader {
     AfdxErrorEvent();
 
     virtual void read(AbstractFile & is) override;

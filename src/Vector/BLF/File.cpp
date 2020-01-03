@@ -28,31 +28,26 @@
 namespace Vector {
 namespace BLF {
 
-File::File()
-{
+File::File() {
     /* set performance/memory values */
     m_readWriteQueue.setBufferSize(10);
     m_uncompressedFile.setBufferSize(m_uncompressedFile.defaultLogContainerSize());
 }
 
-File::~File()
-{
+File::~File() {
     close();
 }
 
-void File::open(const char * filename, std::ios_base::openmode mode)
-{
+void File::open(const char * filename, std::ios_base::openmode mode) {
     /* check */
-    if (is_open()) {
+    if (is_open())
         return;
-    }
 
     /* try to open file */
     mode |= std::ios_base::binary;
     m_compressedFile.open(filename, mode);
-    if (!m_compressedFile.is_open()) {
+    if (!m_compressedFile.is_open())
         return;
-    }
     m_openMode = mode;
 
     /* read */
@@ -90,62 +85,52 @@ void File::open(const char * filename, std::ios_base::openmode mode)
         }
 }
 
-void File::open(const std::string & filename, std::ios_base::openmode mode)
-{
+void File::open(const std::string & filename, std::ios_base::openmode mode) {
     open(filename.c_str(), mode);
 }
 
-bool File::is_open() const
-{
+bool File::is_open() const {
     return m_compressedFile.is_open();
 }
 
-bool File::good()
-{
+bool File::good() {
     return m_readWriteQueue.good();
 }
 
-bool File::eof()
-{
+bool File::eof() {
     return m_readWriteQueue.eof();
 }
 
-ObjectHeaderBase * File::read()
-{
+ObjectHeaderBase * File::read() {
     /* read object */
     ObjectHeaderBase * ohb = m_readWriteQueue.read();
 
     return ohb;
 }
 
-void File::write(ObjectHeaderBase * ohb)
-{
+void File::write(ObjectHeaderBase * ohb) {
     /* push to queue */
     m_readWriteQueue.write(ohb);
 }
 
-void File::close()
-{
+void File::close() {
     /* check if file is open */
-    if (!is_open()) {
+    if (!is_open())
         return;
-    }
 
     /* read */
     if (m_openMode & std::ios_base::in) {
         /* finalize compressedFileThread */
         m_compressedFileThreadRunning = false;
         m_compressedFile.close();
-        if (m_compressedFileThread.joinable()) {
+        if (m_compressedFileThread.joinable())
             m_compressedFileThread.join();
-        }
 
         /* finalize uncompressedFileThread */
         m_uncompressedFileThreadRunning = false;
         m_uncompressedFile.abort();
-        if (m_uncompressedFileThread.joinable()) {
+        if (m_uncompressedFileThread.joinable())
             m_uncompressedFileThread.join();
-        }
 
         /* abort readWriteQueue */
         m_readWriteQueue.abort();
@@ -157,14 +142,12 @@ void File::close()
         m_readWriteQueue.setFileSize(m_readWriteQueue.tellp()); // set eof
 
         /* finalize uncompressedFileThread */
-        if (m_uncompressedFileThread.joinable()) {
+        if (m_uncompressedFileThread.joinable())
             m_uncompressedFileThread.join();
-        }
 
         /* finalize compressedFileThread */
-        if (m_compressedFileThread.joinable()) {
+        if (m_compressedFileThread.joinable())
             m_compressedFileThread.join();
-        }
 
         /* write final LogContainer+Unknown115 */
         if (writeUnknown115) {
@@ -196,18 +179,15 @@ void File::close()
     }
 }
 
-DWORD File::defaultLogContainerSize() const
-{
+DWORD File::defaultLogContainerSize() const {
     return m_uncompressedFile.defaultLogContainerSize();
 }
 
-void File::setDefaultLogContainerSize(DWORD defaultLogContainerSize)
-{
+void File::setDefaultLogContainerSize(DWORD defaultLogContainerSize) {
     m_uncompressedFile.setDefaultLogContainerSize(defaultLogContainerSize);
 }
 
-ObjectHeaderBase * File::createObject(ObjectType type)
-{
+ObjectHeaderBase * File::createObject(ObjectType type) {
     ObjectHeaderBase * obj = nullptr;
 
     switch (type) {
@@ -702,8 +682,7 @@ ObjectHeaderBase * File::createObject(ObjectType type)
     return obj;
 }
 
-void File::uncompressedFile2ReadWriteQueue()
-{
+void File::uncompressedFile2ReadWriteQueue() {
     /* identify type */
     ObjectHeaderBase ohb;
     ohb.read(m_uncompressedFile);
@@ -731,16 +710,14 @@ void File::uncompressedFile2ReadWriteQueue()
     m_readWriteQueue.write(obj);
 
     /* statistics */
-    if (obj->objectType != ObjectType::Unknown115) {
+    if (obj->objectType != ObjectType::Unknown115)
         currentObjectCount++;
-    }
 
     /* drop old data */
     m_uncompressedFile.dropOldData();
 }
 
-void File::readWriteQueue2UncompressedFile()
-{
+void File::readWriteQueue2UncompressedFile() {
     /* get from readWriteQueue */
     ObjectHeaderBase * ohb = m_readWriteQueue.read();
 
@@ -754,33 +731,28 @@ void File::readWriteQueue2UncompressedFile()
     ohb->write(m_uncompressedFile);
 
     /* statistics */
-    if (ohb->objectType != ObjectType::Unknown115) {
+    if (ohb->objectType != ObjectType::Unknown115)
         currentObjectCount++;
-    }
 
     /* delete object */
     delete ohb;
 }
 
-void File::compressedFile2UncompressedFile()
-{
+void File::compressedFile2UncompressedFile() {
     /* read header to identify type */
     ObjectHeaderBase ohb;
     ohb.read(m_compressedFile);
-    if (!m_compressedFile.good()) {
+    if (!m_compressedFile.good())
         throw Exception("File::compressedFile2UncompressedFile(): Read beyond end of file.");
-    }
     m_compressedFile.seekg(-ohb.calculateHeaderSize(), std::ios_base::cur);
-    if (ohb.objectType != ObjectType::LOG_CONTAINER) {
+    if (ohb.objectType != ObjectType::LOG_CONTAINER)
         throw Exception("File::compressedFile2UncompressedFile(): Object read for inflation is not a log container.");
-    }
 
     /* read LogContainer */
     std::shared_ptr<LogContainer> logContainer(new LogContainer);
     logContainer->read(m_compressedFile);
-    if (!m_compressedFile.good()) {
+    if (!m_compressedFile.good())
         throw Exception("File::compressedFile2UncompressedFile(): Read beyond end of file.");
-    }
 
     /* statistics */
     currentUncompressedFileSize +=
@@ -794,8 +766,7 @@ void File::compressedFile2UncompressedFile()
     m_uncompressedFile.write(logContainer);
 }
 
-void File::uncompressedFile2CompressedFile()
-{
+void File::uncompressedFile2CompressedFile() {
     /* setup new log container */
     LogContainer logContainer;
 
@@ -828,8 +799,7 @@ void File::uncompressedFile2CompressedFile()
     m_uncompressedFile.dropOldData();
 }
 
-void File::uncompressedFileReadThread(File * file)
-{
+void File::uncompressedFileReadThread(File * file) {
     while (file->m_uncompressedFileThreadRunning) {
         /* process */
         try {
@@ -839,33 +809,29 @@ void File::uncompressedFileReadThread(File * file)
         }
 
         /* check for eof */
-        if (!file->m_uncompressedFile.good()) {
+        if (!file->m_uncompressedFile.good())
             file->m_uncompressedFileThreadRunning = false;
-        }
     }
 
     /* set end of file */
     file->m_readWriteQueue.setFileSize(file->m_readWriteQueue.tellp());
 }
 
-void File::uncompressedFileWriteThread(File * file)
-{
+void File::uncompressedFileWriteThread(File * file) {
     while (file->m_uncompressedFileThreadRunning) {
         /* process */
         file->readWriteQueue2UncompressedFile();
 
         /* check for eof */
-        if (!file->m_readWriteQueue.good()) {
+        if (!file->m_readWriteQueue.good())
             file->m_uncompressedFileThreadRunning = false;
-        }
     }
 
     /* set end of file */
     file->m_uncompressedFile.setFileSize(file->m_uncompressedFile.tellp());
 }
 
-void File::compressedFileReadThread(File * file)
-{
+void File::compressedFileReadThread(File * file) {
     while (file->m_compressedFileThreadRunning) {
         /* process */
         try {
@@ -875,25 +841,22 @@ void File::compressedFileReadThread(File * file)
         }
 
         /* check for eof */
-        if (!file->m_compressedFile.good()) {
+        if (!file->m_compressedFile.good())
             file->m_compressedFileThreadRunning = false;
-        }
     }
 
     /* set end of file */
     file->m_uncompressedFile.setFileSize(file->m_uncompressedFile.tellp());
 }
 
-void File::compressedFileWriteThread(File * file)
-{
+void File::compressedFileWriteThread(File * file) {
     while (file->m_compressedFileThreadRunning) {
         /* process */
         file->uncompressedFile2CompressedFile();
 
         /* check for eof */
-        if (!file->m_uncompressedFile.good()) {
+        if (!file->m_uncompressedFile.good())
             file->m_compressedFileThreadRunning = false;
-        }
     }
 
     /* set end of file */

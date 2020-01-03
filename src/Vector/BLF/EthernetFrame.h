@@ -40,9 +40,7 @@ namespace BLF {
  *
  * Ethernet frame
  */
-class VECTOR_BLF_EXPORT EthernetFrame final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT EthernetFrame final : ObjectHeader {
     EthernetFrame();
 
     virtual void read(AbstractFile & is) override;

@@ -25,29 +25,25 @@ namespace Vector {
 namespace BLF {
 
 MostLightLock::MostLightLock() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::MOST_LIGHTLOCK;
 }
 
-void MostLightLock::read(AbstractFile & is)
-{
+void MostLightLock::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&state), sizeof(state));
     is.read(reinterpret_cast<char *>(&reservedMostLightLock), sizeof(reservedMostLightLock));
 }
 
-void MostLightLock::write(AbstractFile & os)
-{
+void MostLightLock::write(AbstractFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&state), sizeof(state));
     os.write(reinterpret_cast<char *>(&reservedMostLightLock), sizeof(reservedMostLightLock));
 }
 
-DWORD MostLightLock::calculateObjectSize() const
-{
+DWORD MostLightLock::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

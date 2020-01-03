@@ -37,9 +37,7 @@ namespace BLF {
 /**
  * @brief KLINE_STATUSEVENT
  */
-class VECTOR_BLF_EXPORT KLineStatusEvent final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT KLineStatusEvent final : ObjectHeader {
     KLineStatusEvent();
 
     virtual void read(AbstractFile & is) override;

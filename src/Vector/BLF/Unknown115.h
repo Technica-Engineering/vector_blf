@@ -37,9 +37,7 @@ namespace BLF {
  *
  * This always comes at the end of a file.
  */
-class VECTOR_BLF_EXPORT Unknown115 final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT Unknown115 final : ObjectHeader {
     Unknown115();
 
     virtual void read(AbstractFile & is) override;

@@ -39,9 +39,7 @@ namespace BLF {
  *
  * A429 bus statistic object
  */
-class VECTOR_BLF_EXPORT A429BusStatistic final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT A429BusStatistic final : ObjectHeader {
     A429BusStatistic();
 
     virtual void read(AbstractFile & is) override;

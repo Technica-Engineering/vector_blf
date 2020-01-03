@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* ETHERNET_ERROR_FORWARDED = 123 */
-BOOST_AUTO_TEST_CASE(EthernetErrorForwarded)
-{
+BOOST_AUTO_TEST_CASE(EthernetErrorForwarded) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_EthernetErrorForwarded.blf");
     BOOST_REQUIRE(file.is_open());

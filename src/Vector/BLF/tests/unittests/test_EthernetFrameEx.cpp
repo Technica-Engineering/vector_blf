@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* ETHERNET_FRAME_EX = 120 */
-BOOST_AUTO_TEST_CASE(EthernetFrameEx)
-{
+BOOST_AUTO_TEST_CASE(EthernetFrameEx) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_EthernetFrameEx.blf");
     BOOST_REQUIRE(file.is_open());

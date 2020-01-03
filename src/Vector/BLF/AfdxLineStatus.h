@@ -33,15 +33,13 @@ namespace Vector {
 namespace BLF {
 
 /** line A/B information in AfdxStatus class */
-class VECTOR_BLF_EXPORT AfdxLineStatus final
-{
-public:
+struct VECTOR_BLF_EXPORT AfdxLineStatus final {
     AfdxLineStatus() noexcept = default;
     virtual ~AfdxLineStatus() noexcept = default;
-    AfdxLineStatus(const AfdxLineStatus&) = default;
-    AfdxLineStatus& operator=(const AfdxLineStatus&) = default;
-    AfdxLineStatus(AfdxLineStatus&&) = default;
-    AfdxLineStatus& operator=(AfdxLineStatus&&) = default;
+    AfdxLineStatus(const AfdxLineStatus &) = default;
+    AfdxLineStatus & operator=(const AfdxLineStatus &) = default;
+    AfdxLineStatus(AfdxLineStatus &&) = default;
+    AfdxLineStatus & operator=(AfdxLineStatus &&) = default;
 
     /** @copydoc ObjectHeader::read */
     virtual void read(AbstractFile & is);

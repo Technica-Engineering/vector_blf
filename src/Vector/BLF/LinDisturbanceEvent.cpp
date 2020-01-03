@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 LinDisturbanceEvent::LinDisturbanceEvent() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::LIN_DISTURBANCE_EVENT;
 }
 
-void LinDisturbanceEvent::read(AbstractFile & is)
-{
+void LinDisturbanceEvent::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&id), sizeof(id));
@@ -44,8 +42,7 @@ void LinDisturbanceEvent::read(AbstractFile & is)
     // @note might be extended in future versions
 }
 
-void LinDisturbanceEvent::write(AbstractFile & os)
-{
+void LinDisturbanceEvent::write(AbstractFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&id), sizeof(id));
@@ -57,8 +54,7 @@ void LinDisturbanceEvent::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&disturbanceLengthInSixteenthBits), sizeof(disturbanceLengthInSixteenthBits));
 }
 
-DWORD LinDisturbanceEvent::calculateObjectSize() const
-{
+DWORD LinDisturbanceEvent::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

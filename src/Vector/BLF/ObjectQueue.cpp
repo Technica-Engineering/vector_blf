@@ -28,19 +28,16 @@ namespace Vector {
 namespace BLF {
 
 template<typename T>
-ObjectQueue<T>::ObjectQueue()
-{
+ObjectQueue<T>::ObjectQueue() {
 }
 
 template<typename T>
-ObjectQueue<T>::~ObjectQueue()
-{
+ObjectQueue<T>::~ObjectQueue() {
     abort();
 }
 
 template<typename T>
-T * ObjectQueue<T>::read()
-{
+T * ObjectQueue<T>::read() {
     /* mutex lock */
     std::unique_lock<std::mutex> lock(m_mutex);
 
@@ -54,9 +51,9 @@ T * ObjectQueue<T>::read()
 
     /* get first entry */
     T * ohb = nullptr;
-    if (m_queue.empty()) {
+    if (m_queue.empty())
         m_rdstate = std::ios_base::eofbit | std::ios_base::failbit;
-    } else {
+    else {
         ohb = m_queue.front();
         m_queue.pop();
 
@@ -74,8 +71,7 @@ T * ObjectQueue<T>::read()
 }
 
 template<typename T>
-DWORD ObjectQueue<T>::tellg() const
-{
+DWORD ObjectQueue<T>::tellg() const {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
@@ -83,8 +79,7 @@ DWORD ObjectQueue<T>::tellg() const
 }
 
 template<typename T>
-void ObjectQueue<T>::write(T * obj)
-{
+void ObjectQueue<T>::write(T * obj) {
     /* mutex lock */
     std::unique_lock<std::mutex> lock(m_mutex);
 
@@ -102,17 +97,15 @@ void ObjectQueue<T>::write(T * obj)
     m_tellp++;
 
     /* shift eof */
-    if (m_tellp > m_fileSize) {
+    if (m_tellp > m_fileSize)
         m_fileSize = m_tellp;
-    }
 
     /* notify */
     tellpChanged.notify_all();
 }
 
 template<typename T>
-DWORD ObjectQueue<T>::tellp() const
-{
+DWORD ObjectQueue<T>::tellp() const {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
@@ -120,8 +113,7 @@ DWORD ObjectQueue<T>::tellp() const
 }
 
 template<typename T>
-bool ObjectQueue<T>::good() const
-{
+bool ObjectQueue<T>::good() const {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
@@ -129,8 +121,7 @@ bool ObjectQueue<T>::good() const
 }
 
 template<typename T>
-bool ObjectQueue<T>::eof() const
-{
+bool ObjectQueue<T>::eof() const {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
@@ -138,8 +129,7 @@ bool ObjectQueue<T>::eof() const
 }
 
 template<typename T>
-void ObjectQueue<T>::abort()
-{
+void ObjectQueue<T>::abort() {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
@@ -152,8 +142,7 @@ void ObjectQueue<T>::abort()
 }
 
 template<typename T>
-void ObjectQueue<T>::setFileSize(DWORD fileSize)
-{
+void ObjectQueue<T>::setFileSize(DWORD fileSize) {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
@@ -165,8 +154,7 @@ void ObjectQueue<T>::setFileSize(DWORD fileSize)
 }
 
 template<typename T>
-void ObjectQueue<T>::setBufferSize(DWORD bufferSize)
-{
+void ObjectQueue<T>::setBufferSize(DWORD bufferSize) {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 

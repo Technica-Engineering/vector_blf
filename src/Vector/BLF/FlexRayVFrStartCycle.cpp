@@ -27,13 +27,11 @@ namespace Vector {
 namespace BLF {
 
 FlexRayVFrStartCycle::FlexRayVFrStartCycle() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::FR_STARTCYCLE;
 }
 
-void FlexRayVFrStartCycle::read(AbstractFile & is)
-{
+void FlexRayVFrStartCycle::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&version), sizeof(version));
@@ -50,8 +48,7 @@ void FlexRayVFrStartCycle::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&reservedFlexRayVFrStartCycle2), sizeof(reservedFlexRayVFrStartCycle2));
 }
 
-void FlexRayVFrStartCycle::write(AbstractFile & os)
-{
+void FlexRayVFrStartCycle::write(AbstractFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&version), sizeof(version));
@@ -68,8 +65,7 @@ void FlexRayVFrStartCycle::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reservedFlexRayVFrStartCycle2), sizeof(reservedFlexRayVFrStartCycle2));
 }
 
-DWORD FlexRayVFrStartCycle::calculateObjectSize() const
-{
+DWORD FlexRayVFrStartCycle::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

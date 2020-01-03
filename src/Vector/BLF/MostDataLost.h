@@ -38,9 +38,7 @@ namespace BLF {
  * Indicates loss of data. (Number of lost messages and start and end time stamp of data
  * loss.)
  */
-class VECTOR_BLF_EXPORT MostDataLost final : public ObjectHeader2
-{
-public:
+struct VECTOR_BLF_EXPORT MostDataLost final : ObjectHeader2 {
     MostDataLost();
 
     virtual void read(AbstractFile & is) override;

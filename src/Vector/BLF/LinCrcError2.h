@@ -41,9 +41,7 @@ namespace BLF {
  * Checksum error event occurring when Slave sends an incorrect checksum value for a
  * frame response that is otherwise correct.
  */
-class VECTOR_BLF_EXPORT LinCrcError2 final : public ObjectHeader, public LinDatabyteTimestampEvent
-{
-public:
+struct VECTOR_BLF_EXPORT LinCrcError2 final : ObjectHeader, LinDatabyteTimestampEvent {
     LinCrcError2();
 
     virtual void read(AbstractFile & is) override;

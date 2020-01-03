@@ -39,9 +39,7 @@ namespace BLF {
  *
  * Message on MOST50 Control Channel.
  */
-class VECTOR_BLF_EXPORT Most50Message final : public ObjectHeader2
-{
-public:
+struct VECTOR_BLF_EXPORT Most50Message final : ObjectHeader2 {
     Most50Message();
 
     virtual void read(AbstractFile & is) override;

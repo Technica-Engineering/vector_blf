@@ -37,9 +37,7 @@ namespace BLF {
  *
  * GPS event.
  */
-class VECTOR_BLF_EXPORT GpsEvent final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT GpsEvent final : ObjectHeader {
     GpsEvent();
 
     virtual void read(AbstractFile & is) override;

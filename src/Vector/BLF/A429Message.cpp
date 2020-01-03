@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 A429Message::A429Message() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::A429_MESSAGE;
 }
 
-void A429Message::read(AbstractFile & is)
-{
+void A429Message::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(a429Data.data()), static_cast<std::streamsize>(a429Data.size()));
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
@@ -52,8 +50,7 @@ void A429Message::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&reservedA429Message5), sizeof(reservedA429Message5));
 }
 
-void A429Message::write(AbstractFile & os)
-{
+void A429Message::write(AbstractFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(a429Data.data()), static_cast<std::streamsize>(a429Data.size()));
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
@@ -74,8 +71,7 @@ void A429Message::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reservedA429Message5), sizeof(reservedA429Message5));
 }
 
-DWORD A429Message::calculateObjectSize() const
-{
+DWORD A429Message::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         static_cast<DWORD>(a429Data.size()) +

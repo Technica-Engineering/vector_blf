@@ -9,8 +9,7 @@
 
 /* J1708_MESSAGE = 55 */
 /* J1708_VIRTUAL_MSG = 56 */
-BOOST_AUTO_TEST_CASE(J1708Message)
-{
+BOOST_AUTO_TEST_CASE(J1708Message) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_J1708Message.blf");
     BOOST_REQUIRE(file.is_open());
@@ -39,9 +38,8 @@ BOOST_AUTO_TEST_CASE(J1708Message)
     BOOST_CHECK_EQUAL(obj->reservedJ1708Message1, 0);
     BOOST_CHECK_EQUAL(obj->error, 0x3333);
     BOOST_CHECK_EQUAL(obj->size, 0x44);
-    for (uint8_t i = 0; i < 255; i++) {
+    for (uint8_t i = 0; i < 255; i++)
         BOOST_CHECK_EQUAL(obj->data[i], i);
-    }
     BOOST_CHECK_EQUAL(obj->reservedJ1708Message2, 0);
 
     delete ohb;

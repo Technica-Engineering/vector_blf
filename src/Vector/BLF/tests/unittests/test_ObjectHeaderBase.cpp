@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /** check if it throws on wrong signature */
-BOOST_AUTO_TEST_CASE(WrongSignature)
-{
+BOOST_AUTO_TEST_CASE(WrongSignature) {
     /* open uncompressedFile */
     Vector::BLF::UncompressedFile file;
 

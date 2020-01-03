@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* A429_STATUS = 111 */
-BOOST_AUTO_TEST_CASE(A429Status)
-{
+BOOST_AUTO_TEST_CASE(A429Status) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_A429Status.blf");
     BOOST_REQUIRE(file.is_open());

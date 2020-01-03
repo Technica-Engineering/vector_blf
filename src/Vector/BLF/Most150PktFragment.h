@@ -39,9 +39,7 @@ namespace BLF {
  *
  * Partial transmitted message on MOST50 and MOST150 Packet Data Channel.
  */
-class VECTOR_BLF_EXPORT Most150PktFragment final : public ObjectHeader2 /* applied for MOST50 and MOST150 */
-{
-public:
+struct VECTOR_BLF_EXPORT Most150PktFragment final : ObjectHeader2 { /* applied for MOST50 and MOST150 */
     Most150PktFragment();
 
     virtual void read(AbstractFile & is) override;

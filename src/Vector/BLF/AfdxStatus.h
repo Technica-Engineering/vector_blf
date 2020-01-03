@@ -38,9 +38,7 @@ namespace BLF {
  *
  * AFDX adapter status event, available since 8.2
  */
-class VECTOR_BLF_EXPORT AfdxStatus final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT AfdxStatus final : ObjectHeader {
     AfdxStatus();
 
     virtual void read(AbstractFile & is) override;

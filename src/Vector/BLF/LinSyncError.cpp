@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 LinSyncError::LinSyncError() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::LIN_SYN_ERROR;
 }
 
-void LinSyncError::read(AbstractFile & is)
-{
+void LinSyncError::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&reservedLinSyncError1), sizeof(reservedLinSyncError1));
@@ -39,8 +37,7 @@ void LinSyncError::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&reservedLinSyncError2), sizeof(reservedLinSyncError2));
 }
 
-void LinSyncError::write(AbstractFile & os)
-{
+void LinSyncError::write(AbstractFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&reservedLinSyncError1), sizeof(reservedLinSyncError1));
@@ -48,8 +45,7 @@ void LinSyncError::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reservedLinSyncError2), sizeof(reservedLinSyncError2));
 }
 
-DWORD LinSyncError::calculateObjectSize() const
-{
+DWORD LinSyncError::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

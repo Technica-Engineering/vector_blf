@@ -26,13 +26,11 @@ namespace BLF {
 
 LinCrcError2::LinCrcError2() :
     ObjectHeader(),
-    LinDatabyteTimestampEvent()
-{
+    LinDatabyteTimestampEvent() {
     objectType = ObjectType::LIN_CRC_ERROR2;
 }
 
-void LinCrcError2::read(AbstractFile & is)
-{
+void LinCrcError2::read(AbstractFile & is) {
     ObjectHeader::read(is);
     LinDatabyteTimestampEvent::read(is);
     is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
@@ -50,8 +48,7 @@ void LinCrcError2::read(AbstractFile & is)
     // @note might be extended in future versions
 }
 
-void LinCrcError2::write(AbstractFile & os)
-{
+void LinCrcError2::write(AbstractFile & os) {
     ObjectHeader::write(os);
     LinDatabyteTimestampEvent::write(os);
     os.write(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
@@ -68,8 +65,7 @@ void LinCrcError2::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&earlyStopbitOffsetResponse), sizeof(earlyStopbitOffsetResponse));
 }
 
-DWORD LinCrcError2::calculateObjectSize() const
-{
+DWORD LinCrcError2::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         LinDatabyteTimestampEvent::calculateObjectSize() +

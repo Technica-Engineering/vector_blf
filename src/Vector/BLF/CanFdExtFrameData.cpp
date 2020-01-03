@@ -24,21 +24,18 @@
 namespace Vector {
 namespace BLF {
 
-void CanFdExtFrameData::read(AbstractFile & is)
-{
+void CanFdExtFrameData::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&btrExtArb), sizeof(btrExtArb));
     is.read(reinterpret_cast<char *>(&btrExtData), sizeof(btrExtData));
     // @note might be extended in future versions
 }
 
-void CanFdExtFrameData::write(AbstractFile & os)
-{
+void CanFdExtFrameData::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&btrExtArb), sizeof(btrExtArb));
     os.write(reinterpret_cast<char *>(&btrExtData), sizeof(btrExtData));
 }
 
-DWORD CanFdExtFrameData::calculateObjectSize() const
-{
+DWORD CanFdExtFrameData::calculateObjectSize() const {
     return
         sizeof(btrExtArb) +
         sizeof(btrExtData);

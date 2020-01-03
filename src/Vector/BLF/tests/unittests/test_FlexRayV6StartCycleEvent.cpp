@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* FLEXRAY_CYCLE = 40 */
-BOOST_AUTO_TEST_CASE(FlexRayV6StartCycleEvent)
-{
+BOOST_AUTO_TEST_CASE(FlexRayV6StartCycleEvent) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_FlexRayV6StartCycleEvent.blf");
     BOOST_REQUIRE(file.is_open());

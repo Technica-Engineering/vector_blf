@@ -40,9 +40,7 @@ namespace BLF {
  *
  * System variable that can be used with CANoe.
  */
-class VECTOR_BLF_EXPORT SystemVariable final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT SystemVariable final : ObjectHeader {
     SystemVariable();
 
     virtual void read(AbstractFile & is) override;

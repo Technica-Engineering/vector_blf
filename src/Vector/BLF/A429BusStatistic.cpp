@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 A429BusStatistic::A429BusStatistic() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::A429_BUS_STATISTIC;
 }
 
-void A429BusStatistic::read(AbstractFile & is)
-{
+void A429BusStatistic::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
@@ -53,8 +51,7 @@ void A429BusStatistic::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(labelCount.data()), static_cast<std::streamsize>(labelCount.size() * sizeof(USHORT)));
 }
 
-void A429BusStatistic::write(AbstractFile & os)
-{
+void A429BusStatistic::write(AbstractFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
@@ -76,8 +73,7 @@ void A429BusStatistic::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(labelCount.data()), static_cast<std::streamsize>(labelCount.size() * sizeof(USHORT)));
 }
 
-DWORD A429BusStatistic::calculateObjectSize() const
-{
+DWORD A429BusStatistic::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

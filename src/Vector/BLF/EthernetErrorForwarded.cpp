@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 EthernetErrorForwarded::EthernetErrorForwarded() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::ETHERNET_ERROR_FORWARDED;
 }
 
-void EthernetErrorForwarded::read(AbstractFile & is)
-{
+void EthernetErrorForwarded::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&structLength), sizeof(structLength));
     is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
@@ -47,8 +45,7 @@ void EthernetErrorForwarded::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(frameData.data()), frameLength);
 }
 
-void EthernetErrorForwarded::write(AbstractFile & os)
-{
+void EthernetErrorForwarded::write(AbstractFile & os) {
     /* pre processing */
     structLength = calculateStructLength();
     frameLength = static_cast<WORD>(frameData.size());
@@ -67,8 +64,7 @@ void EthernetErrorForwarded::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(frameData.data()), frameLength);
 }
 
-DWORD EthernetErrorForwarded::calculateObjectSize() const
-{
+DWORD EthernetErrorForwarded::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(structLength) +
@@ -84,8 +80,7 @@ DWORD EthernetErrorForwarded::calculateObjectSize() const
         frameLength;
 }
 
-WORD EthernetErrorForwarded::calculateStructLength() const
-{
+WORD EthernetErrorForwarded::calculateStructLength() const {
     return
         sizeof(flags) +
         sizeof(channel) +

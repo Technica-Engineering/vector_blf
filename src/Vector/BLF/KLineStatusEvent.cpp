@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 KLineStatusEvent::KLineStatusEvent() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::KLINE_STATUSEVENT;
 }
 
-void KLineStatusEvent::read(AbstractFile & is)
-{
+void KLineStatusEvent::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&type), sizeof(type));
     is.read(reinterpret_cast<char *>(&dataLen), sizeof(dataLen));
@@ -41,8 +39,7 @@ void KLineStatusEvent::read(AbstractFile & is)
     // @note might be extended in future versions
 }
 
-void KLineStatusEvent::write(AbstractFile & os)
-{
+void KLineStatusEvent::write(AbstractFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&type), sizeof(type));
     os.write(reinterpret_cast<char *>(&dataLen), sizeof(dataLen));
@@ -51,8 +48,7 @@ void KLineStatusEvent::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size() * sizeof(UINT64)));
 }
 
-DWORD KLineStatusEvent::calculateObjectSize() const
-{
+DWORD KLineStatusEvent::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(type) +

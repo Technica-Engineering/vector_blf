@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* CAN_FD_MESSAGE_64 = 101 */
-BOOST_AUTO_TEST_CASE(CanFdMessage64)
-{
+BOOST_AUTO_TEST_CASE(CanFdMessage64) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_CanFdMessage64.blf");
     BOOST_REQUIRE(file.is_open());
@@ -48,9 +47,8 @@ BOOST_AUTO_TEST_CASE(CanFdMessage64)
     BOOST_CHECK_EQUAL(obj->dir, 0xDD);
     BOOST_CHECK_EQUAL(obj->extDataOffset, 0xEE);
     BOOST_CHECK_EQUAL(obj->crc, 0xFFFFFFFF);
-    for (uint8_t i = 0; i < 64; i++) {
+    for (uint8_t i = 0; i < 64; i++)
         BOOST_CHECK_EQUAL(obj->data[i], i);
-    }
     BOOST_CHECK_EQUAL(obj->btrExtArb, 0x11111111);
     BOOST_CHECK_EQUAL(obj->btrExtData, 0x22222222);
 

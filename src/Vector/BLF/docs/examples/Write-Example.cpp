@@ -29,8 +29,7 @@
 
 #include <Vector/BLF.h>
 
-int main(int argc, char * argv[])
-{
+int main(int argc, char * argv[]) {
     if (argc != 2) {
         std::cout << "Write-Example <filename.blf>" << std::endl;
         return -1;

@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* CAN_MESSAGE2 = 86 */
-BOOST_AUTO_TEST_CASE(CanMessage2)
-{
+BOOST_AUTO_TEST_CASE(CanMessage2) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_CanMessage2.blf");
     BOOST_REQUIRE(file.is_open());

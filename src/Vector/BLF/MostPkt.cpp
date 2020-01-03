@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 MostPkt::MostPkt() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::MOST_PKT;
 }
 
-void MostPkt::read(AbstractFile & is)
-{
+void MostPkt::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
@@ -57,8 +55,7 @@ void MostPkt::read(AbstractFile & is)
     is.seekg(objectSize % 4, std::ios_base::cur);
 }
 
-void MostPkt::write(AbstractFile & os)
-{
+void MostPkt::write(AbstractFile & os) {
     /* pre processing */
     pktDataLength = static_cast<DWORD>(pktData.size());
 
@@ -86,8 +83,7 @@ void MostPkt::write(AbstractFile & os)
     os.skipp(objectSize % 4);
 }
 
-DWORD MostPkt::calculateObjectSize() const
-{
+DWORD MostPkt::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

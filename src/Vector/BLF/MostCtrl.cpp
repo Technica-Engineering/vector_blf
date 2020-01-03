@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 MostCtrl::MostCtrl() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::MOST_CTRL;
 }
 
-void MostCtrl::read(AbstractFile & is)
-{
+void MostCtrl::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
@@ -48,8 +46,7 @@ void MostCtrl::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&reservedMostCtrl4), sizeof(reservedMostCtrl4));
 }
 
-void MostCtrl::write(AbstractFile & os)
-{
+void MostCtrl::write(AbstractFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
@@ -66,8 +63,7 @@ void MostCtrl::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reservedMostCtrl4), sizeof(reservedMostCtrl4));
 }
 
-DWORD MostCtrl::calculateObjectSize() const
-{
+DWORD MostCtrl::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* TRIGGER_CONDITION = 128 */
-BOOST_AUTO_TEST_CASE(TriggerCondition)
-{
+BOOST_AUTO_TEST_CASE(TriggerCondition) {
 #if 0
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_TriggerCondition.blf");

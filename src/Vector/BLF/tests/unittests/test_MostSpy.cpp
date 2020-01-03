@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* MOST_SPY = 22 */
-BOOST_AUTO_TEST_CASE(MostSpy_1)
-{
+BOOST_AUTO_TEST_CASE(MostSpy_1) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_MostSpy.blf");
     BOOST_REQUIRE(file.is_open());
@@ -38,9 +37,8 @@ BOOST_AUTO_TEST_CASE(MostSpy_1)
     BOOST_CHECK_EQUAL(obj->reservedMostSpy1, 0x33);
     BOOST_CHECK_EQUAL(obj->sourceAdr, 0x44444444);
     BOOST_CHECK_EQUAL(obj->destAdr, 0x55555555);
-    for (uint8_t i = 0; i < 17; i++) {
+    for (uint8_t i = 0; i < 17; i++)
         BOOST_CHECK_EQUAL(obj->msg[i], i);
-    }
     BOOST_CHECK_EQUAL(obj->reservedMostSpy2, 0x66);
     BOOST_CHECK_EQUAL(obj->rTyp, 0x7777);
     BOOST_CHECK_EQUAL(obj->rTypAdr, 0x88);
@@ -80,8 +78,7 @@ BOOST_AUTO_TEST_CASE(MostSpy_1)
     file.close();
 }
 
-BOOST_AUTO_TEST_CASE(MostSpy_2)
-{
+BOOST_AUTO_TEST_CASE(MostSpy_2) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_converter/test_MostSpy.blf");
     BOOST_REQUIRE(file.is_open());

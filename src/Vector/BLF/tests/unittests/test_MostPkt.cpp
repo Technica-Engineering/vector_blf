@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* MOST_PKT = 32 */
-BOOST_AUTO_TEST_CASE(MostPkt)
-{
+BOOST_AUTO_TEST_CASE(MostPkt) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_MostPkt.blf");
     BOOST_REQUIRE(file.is_open());

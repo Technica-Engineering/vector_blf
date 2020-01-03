@@ -43,15 +43,13 @@ namespace BLF {
  *
  * serial event
  */
-class VECTOR_BLF_EXPORT SerialEvent final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT SerialEvent final : ObjectHeader {
     SerialEvent();
     virtual ~SerialEvent() noexcept = default;
-    SerialEvent(const SerialEvent&) = default;
-    SerialEvent& operator=(const SerialEvent&) = default;
-    SerialEvent(SerialEvent&&) = default;
-    SerialEvent& operator=(SerialEvent&&) = default;
+    SerialEvent(const SerialEvent &) = default;
+    SerialEvent & operator=(const SerialEvent &) = default;
+    SerialEvent(SerialEvent &&) = default;
+    SerialEvent & operator=(SerialEvent &&) = default;
 
     virtual void read(AbstractFile & is) override;
     virtual void write(AbstractFile & os) override;

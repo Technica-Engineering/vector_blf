@@ -39,9 +39,7 @@ namespace BLF {
  * This event occurs if an unexpected byte received in bus idle phase of wake mode
  * could be a wakeup frame
  */
-class VECTOR_BLF_EXPORT LinUnexpectedWakeup final : public ObjectHeader, public LinBusEvent
-{
-public:
+struct VECTOR_BLF_EXPORT LinUnexpectedWakeup final : ObjectHeader, LinBusEvent {
     LinUnexpectedWakeup();
 
     virtual void read(AbstractFile & is) override;

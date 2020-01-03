@@ -25,12 +25,10 @@ namespace Vector {
 namespace BLF {
 
 LinMessageDescriptor::LinMessageDescriptor() :
-    LinSynchFieldEvent()
-{
+    LinSynchFieldEvent() {
 }
 
-void LinMessageDescriptor::read(AbstractFile & is)
-{
+void LinMessageDescriptor::read(AbstractFile & is) {
     LinSynchFieldEvent::read(is);
     is.read(reinterpret_cast<char *>(&supplierId), sizeof(supplierId));
     is.read(reinterpret_cast<char *>(&messageId), sizeof(messageId));
@@ -40,8 +38,7 @@ void LinMessageDescriptor::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&checksumModel), sizeof(checksumModel));
 }
 
-void LinMessageDescriptor::write(AbstractFile & os)
-{
+void LinMessageDescriptor::write(AbstractFile & os) {
     LinSynchFieldEvent::write(os);
     os.write(reinterpret_cast<char *>(&supplierId), sizeof(supplierId));
     os.write(reinterpret_cast<char *>(&messageId), sizeof(messageId));
@@ -51,8 +48,7 @@ void LinMessageDescriptor::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&checksumModel), sizeof(checksumModel));
 }
 
-DWORD LinMessageDescriptor::calculateObjectSize() const
-{
+DWORD LinMessageDescriptor::calculateObjectSize() const {
     return
         LinSynchFieldEvent::calculateObjectSize() +
         sizeof(supplierId) +

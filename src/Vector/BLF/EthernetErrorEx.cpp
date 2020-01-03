@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 EthernetErrorEx::EthernetErrorEx() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::ETHERNET_ERROR_EX;
 }
 
-void EthernetErrorEx::read(AbstractFile & is)
-{
+void EthernetErrorEx::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&structLength), sizeof(structLength));
     is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
@@ -47,8 +45,7 @@ void EthernetErrorEx::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(frameData.data()), frameLength);
 }
 
-void EthernetErrorEx::write(AbstractFile & os)
-{
+void EthernetErrorEx::write(AbstractFile & os) {
     /* pre processing */
     structLength = calculateStructLength();
     frameLength = static_cast<WORD>(frameData.size());
@@ -67,8 +64,7 @@ void EthernetErrorEx::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(frameData.data()), frameLength);
 }
 
-DWORD EthernetErrorEx::calculateObjectSize() const
-{
+DWORD EthernetErrorEx::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(structLength) +
@@ -84,8 +80,7 @@ DWORD EthernetErrorEx::calculateObjectSize() const
         frameLength;
 }
 
-WORD EthernetErrorEx::calculateStructLength() const
-{
+WORD EthernetErrorEx::calculateStructLength() const {
     return
         sizeof(flags) +
         sizeof(channel) +

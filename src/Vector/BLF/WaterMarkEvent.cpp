@@ -25,27 +25,23 @@ namespace Vector {
 namespace BLF {
 
 WaterMarkEvent::WaterMarkEvent() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::WATER_MARK_EVENT;
 }
 
-void WaterMarkEvent::read(AbstractFile & is)
-{
+void WaterMarkEvent::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&queueState), sizeof(queueState));
     is.read(reinterpret_cast<char *>(&reservedWaterMarkEvent), sizeof(reservedWaterMarkEvent));
 }
 
-void WaterMarkEvent::write(AbstractFile & os)
-{
+void WaterMarkEvent::write(AbstractFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&queueState), sizeof(queueState));
     os.write(reinterpret_cast<char *>(&reservedWaterMarkEvent), sizeof(reservedWaterMarkEvent));
 }
 
-DWORD WaterMarkEvent::calculateObjectSize() const
-{
+DWORD WaterMarkEvent::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(queueState) +

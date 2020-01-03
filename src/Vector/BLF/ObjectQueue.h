@@ -40,9 +40,8 @@ namespace BLF {
  * Thread-safe queue for ObjectHeaderBase
  */
 template <typename T>
-class VECTOR_BLF_EXPORT ObjectQueue
-{
-public:
+class VECTOR_BLF_EXPORT ObjectQueue {
+  public:
     explicit ObjectQueue();
     virtual ~ObjectQueue();
 
@@ -89,27 +88,27 @@ public:
     /** data was enqueued */
     std::condition_variable tellpChanged;
 
-private:
+  private:
     /** abort further operations */
-    bool m_abort { };
+    bool m_abort {};
 
     /** queue */
     std::queue<T *> m_queue {};
 
     /** read position */
-    DWORD m_tellg { };
+    DWORD m_tellg {};
 
     /** write position */
-    DWORD m_tellp { };
+    DWORD m_tellp {};
 
     /** max size */
-    DWORD m_bufferSize { std::numeric_limits<DWORD>::max() };
+    DWORD m_bufferSize {std::numeric_limits<DWORD>::max()};
 
     /** eof position */
-    DWORD m_fileSize { std::numeric_limits<DWORD>::max() };
+    DWORD m_fileSize {std::numeric_limits<DWORD>::max()};
 
     /** error state */
-    std::ios_base::iostate m_rdstate { std::ios_base::goodbit };
+    std::ios_base::iostate m_rdstate {std::ios_base::goodbit};
 
     /** mutex */
     mutable std::mutex m_mutex {};

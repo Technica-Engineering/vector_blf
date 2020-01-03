@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 FlexRaySync::FlexRaySync() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::FLEXRAY_SYNC;
 }
 
-void FlexRaySync::read(AbstractFile & is)
-{
+void FlexRaySync::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&mux), sizeof(mux));
@@ -45,8 +43,7 @@ void FlexRaySync::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&cycle), sizeof(cycle));
 }
 
-void FlexRaySync::write(AbstractFile & os)
-{
+void FlexRaySync::write(AbstractFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&mux), sizeof(mux));
@@ -60,8 +57,7 @@ void FlexRaySync::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&cycle), sizeof(cycle));
 }
 
-DWORD FlexRaySync::calculateObjectSize() const
-{
+DWORD FlexRaySync::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

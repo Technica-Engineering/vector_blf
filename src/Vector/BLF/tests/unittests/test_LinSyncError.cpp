@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* LIN_SYN_ERROR = 18 */
-BOOST_AUTO_TEST_CASE(LinSyncError)
-{
+BOOST_AUTO_TEST_CASE(LinSyncError) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_LinSyncError.blf");
     BOOST_REQUIRE(file.is_open());

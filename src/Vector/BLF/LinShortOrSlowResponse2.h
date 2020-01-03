@@ -38,9 +38,7 @@ namespace BLF {
 /**
  * @brief LIN_SHORT_OR_SLOW_RESPONSE2
  */
-class VECTOR_BLF_EXPORT LinShortOrSlowResponse2 final : public ObjectHeader, public LinDatabyteTimestampEvent
-{
-public:
+struct VECTOR_BLF_EXPORT LinShortOrSlowResponse2 final : ObjectHeader, LinDatabyteTimestampEvent {
     LinShortOrSlowResponse2();
 
     virtual void read(AbstractFile & is) override;

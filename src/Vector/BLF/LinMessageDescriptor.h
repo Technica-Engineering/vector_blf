@@ -36,9 +36,7 @@ namespace BLF {
 /**
  * Common header of LIN bus events containing LIN header data
  */
-class VECTOR_BLF_EXPORT LinMessageDescriptor : public LinSynchFieldEvent
-{
-public:
+struct VECTOR_BLF_EXPORT LinMessageDescriptor : LinSynchFieldEvent {
     LinMessageDescriptor();
 
     virtual void read(AbstractFile & is) override;

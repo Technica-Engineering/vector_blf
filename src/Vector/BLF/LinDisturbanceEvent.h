@@ -38,9 +38,7 @@ namespace BLF {
  * This event occurs if CANoe/CANalyzer explicitly caused to disturb one bit or a
  * sequence of bits.
  */
-class VECTOR_BLF_EXPORT LinDisturbanceEvent final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT LinDisturbanceEvent final : ObjectHeader {
     LinDisturbanceEvent();
 
     virtual void read(AbstractFile & is) override;

@@ -39,9 +39,7 @@ namespace BLF {
  *
  * FlexRay StartCycle event transmitted by the FlexRay hardware.
  */
-class VECTOR_BLF_EXPORT FlexRayVFrStartCycle final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT FlexRayVFrStartCycle final : ObjectHeader {
     FlexRayVFrStartCycle();
 
     virtual void read(AbstractFile & is) override;

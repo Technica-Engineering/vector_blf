@@ -38,15 +38,13 @@ namespace BLF {
 /**
  * compact serial event
  */
-class VECTOR_BLF_EXPORT CompactSerialEvent final
-{
-public:
+struct VECTOR_BLF_EXPORT CompactSerialEvent final {
     CompactSerialEvent() = default;
     virtual ~CompactSerialEvent() noexcept = default;
-    CompactSerialEvent(const CompactSerialEvent&) = default;
-    CompactSerialEvent& operator=(const CompactSerialEvent&) = default;
-    CompactSerialEvent(CompactSerialEvent&&) = default;
-    CompactSerialEvent& operator=(CompactSerialEvent&&) = default;
+    CompactSerialEvent(const CompactSerialEvent &) = default;
+    CompactSerialEvent & operator=(const CompactSerialEvent &) = default;
+    CompactSerialEvent(CompactSerialEvent &&) = default;
+    CompactSerialEvent & operator=(CompactSerialEvent &&) = default;
 
     /** @copydoc ObjectHeader::read */
     virtual void read(AbstractFile & is);

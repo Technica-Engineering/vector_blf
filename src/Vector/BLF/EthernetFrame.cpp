@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 EthernetFrame::EthernetFrame() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::ETHERNET_FRAME;
 }
 
-void EthernetFrame::read(AbstractFile & is)
-{
+void EthernetFrame::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(sourceAddress.data()), static_cast<std::streamsize>(sourceAddress.size()));
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
@@ -49,8 +47,7 @@ void EthernetFrame::read(AbstractFile & is)
     is.seekg(objectSize % 4, std::ios_base::cur);
 }
 
-void EthernetFrame::write(AbstractFile & os)
-{
+void EthernetFrame::write(AbstractFile & os) {
     /* pre processing */
     payLoadLength = static_cast<WORD>(payLoad.size());
 
@@ -70,8 +67,7 @@ void EthernetFrame::write(AbstractFile & os)
     os.skipp(objectSize % 4);
 }
 
-DWORD EthernetFrame::calculateObjectSize() const
-{
+DWORD EthernetFrame::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         static_cast<DWORD>(sourceAddress.size()) +

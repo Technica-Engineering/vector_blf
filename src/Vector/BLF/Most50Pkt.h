@@ -39,9 +39,7 @@ namespace BLF {
  *
  * Message on MOST50 Packet Data Channel.
  */
-class VECTOR_BLF_EXPORT Most50Pkt final : public ObjectHeader2
-{
-public:
+struct VECTOR_BLF_EXPORT Most50Pkt final : ObjectHeader2 {
     Most50Pkt();
 
     virtual void read(AbstractFile & is) override;

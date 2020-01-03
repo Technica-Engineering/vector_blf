@@ -7,8 +7,7 @@
 
 #include <Vector/BLF.h>
 
-BOOST_AUTO_TEST_CASE(SimpleTest)
-{
+BOOST_AUTO_TEST_CASE(SimpleTest) {
     Vector::BLF::CompactSerialEvent obj;
     BOOST_CHECK_EQUAL(obj.calculateObjectSize(), 0x10);
 }

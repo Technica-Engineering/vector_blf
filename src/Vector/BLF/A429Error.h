@@ -39,9 +39,7 @@ namespace BLF {
  *
  * A429 error object
  */
-class VECTOR_BLF_EXPORT A429Error final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT A429Error final : ObjectHeader {
     A429Error();
 
     virtual void read(AbstractFile & is) override;

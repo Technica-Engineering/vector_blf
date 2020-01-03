@@ -38,15 +38,13 @@ namespace BLF {
 /**
  * single byte serial event
  */
-class VECTOR_BLF_EXPORT SingleByteSerialEvent final
-{
-public:
+struct VECTOR_BLF_EXPORT SingleByteSerialEvent final {
     SingleByteSerialEvent() = default;
     virtual ~SingleByteSerialEvent() noexcept = default;
-    SingleByteSerialEvent(const SingleByteSerialEvent&) = default;
-    SingleByteSerialEvent& operator=(const SingleByteSerialEvent&) = default;
-    SingleByteSerialEvent(SingleByteSerialEvent&&) = default;
-    SingleByteSerialEvent& operator=(SingleByteSerialEvent&&) = default;
+    SingleByteSerialEvent(const SingleByteSerialEvent &) = default;
+    SingleByteSerialEvent & operator=(const SingleByteSerialEvent &) = default;
+    SingleByteSerialEvent(SingleByteSerialEvent &&) = default;
+    SingleByteSerialEvent & operator=(SingleByteSerialEvent &&) = default;
 
     /** @copydoc ObjectHeader::read */
     virtual void read(AbstractFile & is);

@@ -41,9 +41,7 @@ namespace BLF {
  *
  * LIN frame received or transmitted on a LIN channel.
  */
-class VECTOR_BLF_EXPORT LinMessage final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT LinMessage final : ObjectHeader {
     LinMessage();
 
     virtual void read(AbstractFile & is) override;

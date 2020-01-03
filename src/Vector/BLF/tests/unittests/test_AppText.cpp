@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* APP_TEXT = 65 */
-BOOST_AUTO_TEST_CASE(AppText)
-{
+BOOST_AUTO_TEST_CASE(AppText) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_AppText.blf");
     BOOST_REQUIRE(file.is_open());

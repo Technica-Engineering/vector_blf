@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* LIN_SHORT_OR_SLOW_RESPONSE2 = 105 */
-BOOST_AUTO_TEST_CASE(LinShortOrSlowResponse2)
-{
+BOOST_AUTO_TEST_CASE(LinShortOrSlowResponse2) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_LinShortOrSlowResponse2.blf");
     BOOST_REQUIRE(file.is_open());

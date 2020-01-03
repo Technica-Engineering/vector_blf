@@ -29,21 +29,18 @@
 namespace Vector {
 namespace BLF {
 
-UncompressedFile::~UncompressedFile()
-{
+UncompressedFile::~UncompressedFile() {
     abort();
 }
 
-std::streamsize UncompressedFile::gcount() const
-{
+std::streamsize UncompressedFile::gcount() const {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
     return m_gcount;
 }
 
-void UncompressedFile::read(char * s, std::streamsize n)
-{
+void UncompressedFile::read(char * s, std::streamsize n) {
     /* mutex lock */
     std::unique_lock<std::mutex> lock(m_mutex);
 
@@ -59,18 +56,16 @@ void UncompressedFile::read(char * s, std::streamsize n)
     if (n + m_tellg > m_fileSize) {
         n = m_fileSize - m_tellg;
         m_rdstate = std::ios_base::eofbit | std::ios_base::failbit;
-    } else {
+    } else
         m_rdstate = std::ios_base::goodbit;
-    }
 
     /* read data */
     m_gcount = 0;
     while (n > 0) {
         /* find starting log container */
         std::shared_ptr<LogContainer> logContainer = logContainerContaining(m_tellg);
-        if (!logContainer) {
+        if (!logContainer)
             break;
-        }
 
         /* offset to read */
         std::streamoff offset = m_tellg - logContainer->filePosition;
@@ -96,20 +91,17 @@ void UncompressedFile::read(char * s, std::streamsize n)
     tellgChanged.notify_all();
 }
 
-std::streampos UncompressedFile::tellg()
-{
+std::streampos UncompressedFile::tellg() {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
     /* in case of failure return -1 */
-    if (m_rdstate & (std::ios_base::failbit | std::ios_base::badbit)) {
+    if (m_rdstate & (std::ios_base::failbit | std::ios_base::badbit))
         return -1;
-    }
     return m_tellg;
 }
 
-void UncompressedFile::seekg(std::streamoff off, const std::ios_base::seekdir /*way*/)
-{
+void UncompressedFile::seekg(std::streamoff off, const std::ios_base::seekdir /*way*/) {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
@@ -120,8 +112,7 @@ void UncompressedFile::seekg(std::streamoff off, const std::ios_base::seekdir /*
     tellgChanged.notify_all();
 }
 
-void UncompressedFile::write(const char * s, std::streamsize n)
-{
+void UncompressedFile::write(const char * s, std::streamsize n) {
     /* mutex lock */
     std::unique_lock<std::mutex> lock(m_mutex);
 
@@ -169,44 +160,38 @@ void UncompressedFile::write(const char * s, std::streamsize n)
     }
 
     /* if new position is behind eof, shift it */
-    if (m_tellp >= m_fileSize) {
+    if (m_tellp >= m_fileSize)
         m_fileSize = m_tellp;
-    }
 
     /* notify */
     tellpChanged.notify_all();
 }
 
-std::streampos UncompressedFile::tellp()
-{
+std::streampos UncompressedFile::tellp() {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
     /* in case of failure return -1 */
-    if (m_rdstate & (std::ios_base::failbit | std::ios_base::badbit)) {
+    if (m_rdstate & (std::ios_base::failbit | std::ios_base::badbit))
         return -1;
-    }
     return m_tellp;
 }
 
-bool UncompressedFile::good() const
-{
+bool UncompressedFile::good() const {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
     return (m_rdstate == std::ios_base::goodbit);
 }
 
-bool UncompressedFile::eof() const
-{
+bool UncompressedFile::eof() const {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
     return (m_rdstate & std::ios_base::eofbit);
 }
 
-void UncompressedFile::abort()
-{
+void UncompressedFile::abort() {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
@@ -218,8 +203,7 @@ void UncompressedFile::abort()
     tellpChanged.notify_all();
 }
 
-void UncompressedFile::write(std::shared_ptr<LogContainer> logContainer)
-{
+void UncompressedFile::write(std::shared_ptr<LogContainer> logContainer) {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
@@ -234,8 +218,7 @@ void UncompressedFile::write(std::shared_ptr<LogContainer> logContainer)
     tellpChanged.notify_all();
 }
 
-void UncompressedFile::nextLogContainer()
-{
+void UncompressedFile::nextLogContainer() {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
@@ -253,8 +236,7 @@ void UncompressedFile::nextLogContainer()
     }
 }
 
-std::streamsize UncompressedFile::fileSize()
-{
+std::streamsize UncompressedFile::fileSize() {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
@@ -262,8 +244,7 @@ std::streamsize UncompressedFile::fileSize()
     return m_fileSize;
 }
 
-void UncompressedFile::setFileSize(std::streamsize fileSize)
-{
+void UncompressedFile::setFileSize(std::streamsize fileSize) {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
@@ -274,8 +255,7 @@ void UncompressedFile::setFileSize(std::streamsize fileSize)
     tellpChanged.notify_all();
 }
 
-void UncompressedFile::setBufferSize(std::streamsize bufferSize)
-{
+void UncompressedFile::setBufferSize(std::streamsize bufferSize) {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
@@ -283,8 +263,7 @@ void UncompressedFile::setBufferSize(std::streamsize bufferSize)
     m_bufferSize = bufferSize;
 }
 
-void UncompressedFile::dropOldData()
-{
+void UncompressedFile::dropOldData() {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
@@ -302,16 +281,14 @@ void UncompressedFile::dropOldData()
     m_data.pop_front();
 }
 
-DWORD UncompressedFile::defaultLogContainerSize() const
-{
+DWORD UncompressedFile::defaultLogContainerSize() const {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
     return m_defaultLogContainerSize;
 }
 
-void UncompressedFile::setDefaultLogContainerSize(DWORD defaultLogContainerSize)
-{
+void UncompressedFile::setDefaultLogContainerSize(DWORD defaultLogContainerSize) {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
@@ -319,8 +296,7 @@ void UncompressedFile::setDefaultLogContainerSize(DWORD defaultLogContainerSize)
     m_defaultLogContainerSize = defaultLogContainerSize;
 }
 
-std::shared_ptr<LogContainer> UncompressedFile::logContainerContaining(std::streampos pos)
-{
+std::shared_ptr<LogContainer> UncompressedFile::logContainerContaining(std::streampos pos) {
     /* loop over all logContainers */
     for (std::shared_ptr<LogContainer> logContainer : m_data) {
         /* when file position is contained ... */

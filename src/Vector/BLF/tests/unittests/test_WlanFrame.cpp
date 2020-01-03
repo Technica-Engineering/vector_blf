@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* WLAN_FRAME = 93 */
-BOOST_AUTO_TEST_CASE(WlanFrame)
-{
+BOOST_AUTO_TEST_CASE(WlanFrame) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_WlanFrame.blf");
     BOOST_REQUIRE(file.is_open());

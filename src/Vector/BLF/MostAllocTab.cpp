@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 MostAllocTab::MostAllocTab() :
-    ObjectHeader2()
-{
+    ObjectHeader2() {
     objectType = ObjectType::MOST_ALLOCTAB;
 }
 
-void MostAllocTab::read(AbstractFile & is)
-{
+void MostAllocTab::read(AbstractFile & is) {
     ObjectHeader2::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&length), sizeof(length));
@@ -43,8 +41,7 @@ void MostAllocTab::read(AbstractFile & is)
     is.seekg(objectSize % 4, std::ios_base::cur);
 }
 
-void MostAllocTab::write(AbstractFile & os)
-{
+void MostAllocTab::write(AbstractFile & os) {
     /* pre processing */
     length = static_cast<WORD>(tableData.size());
 
@@ -58,8 +55,7 @@ void MostAllocTab::write(AbstractFile & os)
     os.skipp(objectSize % 4);
 }
 
-DWORD MostAllocTab::calculateObjectSize() const
-{
+DWORD MostAllocTab::calculateObjectSize() const {
     return
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +

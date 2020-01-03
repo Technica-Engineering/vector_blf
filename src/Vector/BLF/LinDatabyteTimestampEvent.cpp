@@ -25,24 +25,20 @@ namespace Vector {
 namespace BLF {
 
 LinDatabyteTimestampEvent::LinDatabyteTimestampEvent() :
-    LinMessageDescriptor()
-{
+    LinMessageDescriptor() {
 }
 
-void LinDatabyteTimestampEvent::read(AbstractFile & is)
-{
+void LinDatabyteTimestampEvent::read(AbstractFile & is) {
     LinMessageDescriptor::read(is);
     is.read(reinterpret_cast<char *>(databyteTimestamps.data()), static_cast<std::streamsize>(databyteTimestamps.size() * sizeof(ULONGLONG)));
 }
 
-void LinDatabyteTimestampEvent::write(AbstractFile & os)
-{
+void LinDatabyteTimestampEvent::write(AbstractFile & os) {
     LinMessageDescriptor::write(os);
     os.write(reinterpret_cast<char *>(databyteTimestamps.data()), static_cast<std::streamsize>(databyteTimestamps.size() * sizeof(ULONGLONG)));
 }
 
-DWORD LinDatabyteTimestampEvent::calculateObjectSize() const
-{
+DWORD LinDatabyteTimestampEvent::calculateObjectSize() const {
     return
         LinMessageDescriptor::calculateObjectSize() +
         static_cast<DWORD>(databyteTimestamps.size() * sizeof(ULONGLONG));

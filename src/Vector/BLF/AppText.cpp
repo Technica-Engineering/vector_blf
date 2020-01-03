@@ -27,13 +27,11 @@ namespace Vector {
 namespace BLF {
 
 AppText::AppText() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::APP_TEXT;
 }
 
-void AppText::read(AbstractFile & is)
-{
+void AppText::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&source), sizeof(source));
     is.read(reinterpret_cast<char *>(&reservedAppText1), sizeof(reservedAppText1));
@@ -46,8 +44,7 @@ void AppText::read(AbstractFile & is)
     is.seekg(objectSize % 4, std::ios_base::cur);
 }
 
-void AppText::write(AbstractFile & os)
-{
+void AppText::write(AbstractFile & os) {
     /* pre processing */
     textLength = static_cast<DWORD>(text.size());
 
@@ -62,8 +59,7 @@ void AppText::write(AbstractFile & os)
     os.skipp(objectSize % 4);
 }
 
-DWORD AppText::calculateObjectSize() const
-{
+DWORD AppText::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(source) +

@@ -49,9 +49,7 @@ namespace BLF {
  * time is greater than a certain threshold, it is called "Critical Unlock" (details see MOST
  * specification).
  */
-class VECTOR_BLF_EXPORT MostLightLock final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT MostLightLock final : ObjectHeader {
     MostLightLock();
 
     virtual void read(AbstractFile & is) override;

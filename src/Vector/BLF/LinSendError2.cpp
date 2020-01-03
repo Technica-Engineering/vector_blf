@@ -26,14 +26,12 @@ namespace BLF {
 
 LinSendError2::LinSendError2() :
     ObjectHeader(),
-    LinMessageDescriptor()
-{
+    LinMessageDescriptor() {
     objectType = ObjectType::LIN_SND_ERROR2;
     objectVersion = 1;
 }
 
-void LinSendError2::read(AbstractFile & is)
-{
+void LinSendError2::read(AbstractFile & is) {
     ObjectHeader::read(is);
     LinMessageDescriptor::read(is);
     is.read(reinterpret_cast<char *>(&eoh), sizeof(eoh));
@@ -48,8 +46,7 @@ void LinSendError2::read(AbstractFile & is)
     // @note might be extended in future versions
 }
 
-void LinSendError2::write(AbstractFile & os)
-{
+void LinSendError2::write(AbstractFile & os) {
     ObjectHeader::write(os);
     LinMessageDescriptor::write(os);
     os.write(reinterpret_cast<char *>(&eoh), sizeof(eoh));
@@ -63,8 +60,7 @@ void LinSendError2::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reservedLinSendError3), sizeof(reservedLinSendError3));
 }
 
-DWORD LinSendError2::calculateObjectSize() const
-{
+DWORD LinSendError2::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         LinMessageDescriptor::calculateObjectSize() +

@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /** Make some basic tests. */
-BOOST_AUTO_TEST_CASE(SimpleTest)
-{
+BOOST_AUTO_TEST_CASE(SimpleTest) {
     Vector::BLF::LogContainer logContainer;
 
     logContainer.compressedFile.resize(0x00);
@@ -20,15 +19,13 @@ BOOST_AUTO_TEST_CASE(SimpleTest)
 }
 
 /** compress a LogContainer, manipulate the uncompressedSize and see if it throws on uncompress */
-BOOST_AUTO_TEST_CASE(LogContainerUnexpectedUncompressedSizeException)
-{
+BOOST_AUTO_TEST_CASE(LogContainerUnexpectedUncompressedSizeException) {
     Vector::BLF::LogContainer logContainer;
 
     /* put in some uncompressedData */
     logContainer.uncompressedFile.resize(256);
-    for (uint16_t i = 0; i < 256; i++) {
+    for (uint16_t i = 0; i < 256; i++)
         logContainer.uncompressedFile[i] = i;
-    }
     logContainer.uncompressedFileSize = 256;
 
     /* compress LogContainer */
@@ -42,15 +39,13 @@ BOOST_AUTO_TEST_CASE(LogContainerUnexpectedUncompressedSizeException)
 }
 
 /** compress a LogContainer, manipulate the compressedFile and see if it throws on uncompress */
-BOOST_AUTO_TEST_CASE(LogContainerUncompressErrorException)
-{
+BOOST_AUTO_TEST_CASE(LogContainerUncompressErrorException) {
     Vector::BLF::LogContainer logContainer;
 
     /* put in some uncompressedData */
     logContainer.uncompressedFile.resize(256);
-    for (uint16_t i = 0; i < 256; i++) {
+    for (uint16_t i = 0; i < 256; i++)
         logContainer.uncompressedFile[i] = i;
-    }
     logContainer.uncompressedFileSize = 256;
 
     /* compress LogContainer */
@@ -64,15 +59,13 @@ BOOST_AUTO_TEST_CASE(LogContainerUncompressErrorException)
 }
 
 /** compress a LogContainer, manipulate the compressionMethod and see if it throws on uncompress */
-BOOST_AUTO_TEST_CASE(LogContainerUnknownCompressionMethod)
-{
+BOOST_AUTO_TEST_CASE(LogContainerUnknownCompressionMethod) {
     Vector::BLF::LogContainer logContainer;
 
     /* put in some uncompressedData */
     logContainer.uncompressedFile.resize(256);
-    for (uint16_t i = 0; i < 256; i++) {
+    for (uint16_t i = 0; i < 256; i++)
         logContainer.uncompressedFile[i] = i;
-    }
     logContainer.uncompressedFileSize = 256;
 
     /* compress LogContainer */
@@ -86,15 +79,13 @@ BOOST_AUTO_TEST_CASE(LogContainerUnknownCompressionMethod)
 }
 
 /** compress a LogContainer with wrong compressionMethod or -Level and see if it throws */
-BOOST_AUTO_TEST_CASE(LogContainerCompressedWithWrongCompresionMethodOrLevel)
-{
+BOOST_AUTO_TEST_CASE(LogContainerCompressedWithWrongCompresionMethodOrLevel) {
     Vector::BLF::LogContainer logContainer;
 
     /* put in some uncompressedData */
     logContainer.uncompressedFile.resize(256);
-    for (uint16_t i = 0; i < 256; i++) {
+    for (uint16_t i = 0; i < 256; i++)
         logContainer.uncompressedFile[i] = i;
-    }
     logContainer.uncompressedFileSize = 256;
 
     /* compress LogContainer */

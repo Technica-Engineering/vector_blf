@@ -27,20 +27,17 @@
 namespace Vector {
 namespace BLF {
 
-void ObjectHeaderBase::read(AbstractFile & is)
-{
+void ObjectHeaderBase::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&signature), sizeof(signature));
-    if (signature != ObjectSignature) {
+    if (signature != ObjectSignature)
         throw Exception("ObjectHeaderBase::read(): Object signature doesn't match at this position.");
-    }
     is.read(reinterpret_cast<char *>(&headerSize), sizeof(headerSize));
     is.read(reinterpret_cast<char *>(&headerVersion), sizeof(headerVersion));
     is.read(reinterpret_cast<char *>(&objectSize), sizeof(objectSize));
     is.read(reinterpret_cast<char *>(&objectType), sizeof(objectType));
 }
 
-void ObjectHeaderBase::write(AbstractFile & os)
-{
+void ObjectHeaderBase::write(AbstractFile & os) {
     /* pre processing */
     headerSize = calculateHeaderSize();
     objectSize = calculateObjectSize();
@@ -52,8 +49,7 @@ void ObjectHeaderBase::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&objectType), sizeof(objectType));
 }
 
-WORD ObjectHeaderBase::calculateHeaderSize() const
-{
+WORD ObjectHeaderBase::calculateHeaderSize() const {
     return
         sizeof(signature) +
         sizeof(headerSize) +
@@ -62,8 +58,7 @@ WORD ObjectHeaderBase::calculateHeaderSize() const
         sizeof(objectType);
 }
 
-DWORD ObjectHeaderBase::calculateObjectSize() const
-{
+DWORD ObjectHeaderBase::calculateObjectSize() const {
     return calculateHeaderSize();
 }
 

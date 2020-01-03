@@ -37,9 +37,7 @@ namespace BLF {
  *
  * WLAN statistic.
  */
-class VECTOR_BLF_EXPORT WlanStatistic final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT WlanStatistic final : ObjectHeader {
     WlanStatistic();
 
     virtual void read(AbstractFile & is) override;

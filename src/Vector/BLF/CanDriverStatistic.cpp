@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 CanDriverStatistic::CanDriverStatistic() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::CAN_STATISTIC;
 }
 
-void CanDriverStatistic::read(AbstractFile & is)
-{
+void CanDriverStatistic::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&busLoad), sizeof(busLoad));
@@ -44,8 +42,7 @@ void CanDriverStatistic::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&reservedCanDriverStatistic), sizeof(reservedCanDriverStatistic));
 }
 
-void CanDriverStatistic::write(AbstractFile & os)
-{
+void CanDriverStatistic::write(AbstractFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&busLoad), sizeof(busLoad));
@@ -58,8 +55,7 @@ void CanDriverStatistic::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reservedCanDriverStatistic), sizeof(reservedCanDriverStatistic));
 }
 
-DWORD CanDriverStatistic::calculateObjectSize() const
-{
+DWORD CanDriverStatistic::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

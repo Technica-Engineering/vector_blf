@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 LinSlaveTimeout::LinSlaveTimeout() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::LIN_SLV_TIMEOUT;
 }
 
-void LinSlaveTimeout::read(AbstractFile & is)
-{
+void LinSlaveTimeout::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&slaveId), sizeof(slaveId));
@@ -39,8 +37,7 @@ void LinSlaveTimeout::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&followStateId), sizeof(followStateId));
 }
 
-void LinSlaveTimeout::write(AbstractFile & os)
-{
+void LinSlaveTimeout::write(AbstractFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&slaveId), sizeof(slaveId));
@@ -48,8 +45,7 @@ void LinSlaveTimeout::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&followStateId), sizeof(followStateId));
 }
 
-DWORD LinSlaveTimeout::calculateObjectSize() const
-{
+DWORD LinSlaveTimeout::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

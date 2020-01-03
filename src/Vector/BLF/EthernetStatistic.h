@@ -37,9 +37,7 @@ namespace BLF {
  *
  * Ethernet Statistics
  */
-class VECTOR_BLF_EXPORT EthernetStatistic final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT EthernetStatistic final : ObjectHeader {
     EthernetStatistic();
 
     virtual void read(AbstractFile & is) override;

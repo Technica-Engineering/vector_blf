@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* LIN_SPIKE_EVENT = 43 */
-BOOST_AUTO_TEST_CASE(LinSpikeEvent)
-{
+BOOST_AUTO_TEST_CASE(LinSpikeEvent) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_LinSpikeEvent.blf");
     BOOST_REQUIRE(file.is_open());

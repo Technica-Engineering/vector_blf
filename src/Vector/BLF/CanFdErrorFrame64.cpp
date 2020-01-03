@@ -26,13 +26,11 @@ namespace BLF {
 
 CanFdErrorFrame64::CanFdErrorFrame64() :
     ObjectHeader(),
-    CanFdExtFrameData()
-{
+    CanFdExtFrameData() {
     objectType = ObjectType::CAN_FD_ERROR_64;
 }
 
-void CanFdErrorFrame64::read(AbstractFile & is)
-{
+void CanFdErrorFrame64::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&dlc), sizeof(dlc));
@@ -54,14 +52,12 @@ void CanFdErrorFrame64::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&reservedCanFdErrorFrame2), sizeof(reservedCanFdErrorFrame2));
     data.resize(validDataBytes);
     is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
-    if (extDataOffset != 0) {
+    if (extDataOffset != 0)
         CanFdExtFrameData::read(is);
-    }
     is.read(reinterpret_cast<char *>(&reservedCanFdErrorFrame3), sizeof(reservedCanFdErrorFrame3));
 }
 
-void CanFdErrorFrame64::write(AbstractFile & os)
-{
+void CanFdErrorFrame64::write(AbstractFile & os) {
     /* pre processing */
     validDataBytes = static_cast<WORD>(data.size());
 
@@ -85,14 +81,12 @@ void CanFdErrorFrame64::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&errorPosition), sizeof(errorPosition));
     os.write(reinterpret_cast<char *>(&reservedCanFdErrorFrame2), sizeof(reservedCanFdErrorFrame2));
     os.write(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
-    if (extDataOffset != 0) {
+    if (extDataOffset != 0)
         CanFdExtFrameData::write(os);
-    }
     os.write(reinterpret_cast<char *>(&reservedCanFdErrorFrame3), sizeof(reservedCanFdErrorFrame3));
 }
 
-DWORD CanFdErrorFrame64::calculateObjectSize() const
-{
+DWORD CanFdErrorFrame64::calculateObjectSize() const {
     DWORD size =
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
@@ -114,9 +108,8 @@ DWORD CanFdErrorFrame64::calculateObjectSize() const
         sizeof(errorPosition) +
         sizeof(reservedCanFdErrorFrame2) +
         static_cast<DWORD>(data.size());
-    if (extDataOffset != 0) {
+    if (extDataOffset != 0)
         size += CanFdExtFrameData::calculateObjectSize();
-    }
     size += sizeof(reservedCanFdErrorFrame3);
     return size;
 }

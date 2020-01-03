@@ -39,9 +39,7 @@ namespace BLF {
  *
  * FlexRay Error event transmitted by the FlexRay hardware.
  */
-class VECTOR_BLF_EXPORT FlexRayVFrError final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT FlexRayVFrError final : ObjectHeader {
     FlexRayVFrError();
 
     virtual void read(AbstractFile & is) override;

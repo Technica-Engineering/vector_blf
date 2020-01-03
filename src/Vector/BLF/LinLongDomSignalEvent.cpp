@@ -26,13 +26,11 @@ namespace BLF {
 
 LinLongDomSignalEvent::LinLongDomSignalEvent() :
     ObjectHeader(),
-    LinBusEvent()
-{
+    LinBusEvent() {
     objectType = ObjectType::LIN_LONG_DOM_SIG;
 }
 
-void LinLongDomSignalEvent::read(AbstractFile & is)
-{
+void LinLongDomSignalEvent::read(AbstractFile & is) {
     ObjectHeader::read(is);
     LinBusEvent::read(is);
     is.read(reinterpret_cast<char *>(&type), sizeof(type));
@@ -41,8 +39,7 @@ void LinLongDomSignalEvent::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&reservedLinLongDomSignalEvent3), sizeof(reservedLinLongDomSignalEvent3));
 }
 
-void LinLongDomSignalEvent::write(AbstractFile & os)
-{
+void LinLongDomSignalEvent::write(AbstractFile & os) {
     ObjectHeader::write(os);
     LinBusEvent::write(os);
     os.write(reinterpret_cast<char *>(&type), sizeof(type));
@@ -51,8 +48,7 @@ void LinLongDomSignalEvent::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reservedLinLongDomSignalEvent3), sizeof(reservedLinLongDomSignalEvent3));
 }
 
-DWORD LinLongDomSignalEvent::calculateObjectSize() const
-{
+DWORD LinLongDomSignalEvent::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         LinBusEvent::calculateObjectSize() +

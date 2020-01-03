@@ -40,9 +40,7 @@ namespace BLF {
  *
  * AFDX frame.
  */
-class VECTOR_BLF_EXPORT AfdxFrame final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT AfdxFrame final : ObjectHeader {
     AfdxFrame();
 
     virtual void read(AbstractFile & is) override;

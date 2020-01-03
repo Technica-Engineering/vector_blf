@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 MostEcl::MostEcl() :
-    ObjectHeader2()
-{
+    ObjectHeader2() {
     objectType = ObjectType::MOST_ECL;
 }
 
-void MostEcl::read(AbstractFile & is)
-{
+void MostEcl::read(AbstractFile & is) {
     ObjectHeader2::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&mode), sizeof(mode));
@@ -40,8 +38,7 @@ void MostEcl::read(AbstractFile & is)
     // @note might be extended in future versions
 }
 
-void MostEcl::write(AbstractFile & os)
-{
+void MostEcl::write(AbstractFile & os) {
     ObjectHeader2::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&mode), sizeof(mode));
@@ -49,8 +46,7 @@ void MostEcl::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reservedMostEcl), sizeof(reservedMostEcl));
 }
 
-DWORD MostEcl::calculateObjectSize() const
-{
+DWORD MostEcl::calculateObjectSize() const {
     return
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +

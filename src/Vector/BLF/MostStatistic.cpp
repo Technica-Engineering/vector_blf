@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 MostStatistic::MostStatistic() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::MOST_STATISTIC;
 }
 
-void MostStatistic::read(AbstractFile & is)
-{
+void MostStatistic::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&pktCnt), sizeof(pktCnt));
@@ -40,8 +38,7 @@ void MostStatistic::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&bufferLevel), sizeof(bufferLevel));
 }
 
-void MostStatistic::write(AbstractFile & os)
-{
+void MostStatistic::write(AbstractFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&pktCnt), sizeof(pktCnt));
@@ -50,8 +47,7 @@ void MostStatistic::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&bufferLevel), sizeof(bufferLevel));
 }
 
-DWORD MostStatistic::calculateObjectSize() const
-{
+DWORD MostStatistic::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

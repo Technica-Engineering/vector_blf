@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* MOST_150_PKT = 77 */
-BOOST_AUTO_TEST_CASE(Most150Pkt_1)
-{
+BOOST_AUTO_TEST_CASE(Most150Pkt_1) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_Most150Pkt.blf");
     BOOST_REQUIRE(file.is_open());
@@ -86,8 +85,7 @@ BOOST_AUTO_TEST_CASE(Most150Pkt_1)
     file.close();
 }
 
-BOOST_AUTO_TEST_CASE(Most150Pkt_2)
-{
+BOOST_AUTO_TEST_CASE(Most150Pkt_2) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_converter/test_Most150Pkt.blf");
     BOOST_REQUIRE(file.is_open());

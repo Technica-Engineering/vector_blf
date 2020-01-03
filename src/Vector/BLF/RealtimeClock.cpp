@@ -25,27 +25,23 @@ namespace Vector {
 namespace BLF {
 
 RealtimeClock::RealtimeClock() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::REALTIMECLOCK;
 }
 
-void RealtimeClock::read(AbstractFile & is)
-{
+void RealtimeClock::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&time), sizeof(time));
     is.read(reinterpret_cast<char *>(&loggingOffset), sizeof(loggingOffset));
 }
 
-void RealtimeClock::write(AbstractFile & os)
-{
+void RealtimeClock::write(AbstractFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&time), sizeof(time));
     os.write(reinterpret_cast<char *>(&loggingOffset), sizeof(loggingOffset));
 }
 
-DWORD RealtimeClock::calculateObjectSize() const
-{
+DWORD RealtimeClock::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(time) +

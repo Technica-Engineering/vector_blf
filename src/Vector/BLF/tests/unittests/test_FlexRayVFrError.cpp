@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* FR_ERROR = 47 */
-BOOST_AUTO_TEST_CASE(FlexRayVFrError)
-{
+BOOST_AUTO_TEST_CASE(FlexRayVFrError) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_FlexRayVFrError.blf");
     BOOST_REQUIRE(file.is_open());

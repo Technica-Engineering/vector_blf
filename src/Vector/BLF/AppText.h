@@ -40,9 +40,7 @@ namespace BLF {
  * Application defined text to be saved in BLF log file (currently not used in
  * CANoe/CANalyzer).
  */
-class VECTOR_BLF_EXPORT AppText final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT AppText final : ObjectHeader {
     AppText();
 
     virtual void read(AbstractFile & is) override;

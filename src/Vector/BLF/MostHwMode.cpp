@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 MostHwMode::MostHwMode() :
-    ObjectHeader2()
-{
+    ObjectHeader2() {
     objectType = ObjectType::MOST_HWMODE;
 }
 
-void MostHwMode::read(AbstractFile & is)
-{
+void MostHwMode::read(AbstractFile & is) {
     ObjectHeader2::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&reservedMostHwMode), sizeof(reservedMostHwMode));
@@ -39,8 +37,7 @@ void MostHwMode::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&hwModeMask), sizeof(hwModeMask));
 }
 
-void MostHwMode::write(AbstractFile & os)
-{
+void MostHwMode::write(AbstractFile & os) {
     ObjectHeader2::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&reservedMostHwMode), sizeof(reservedMostHwMode));
@@ -48,8 +45,7 @@ void MostHwMode::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&hwModeMask), sizeof(hwModeMask));
 }
 
-DWORD MostHwMode::calculateObjectSize() const
-{
+DWORD MostHwMode::calculateObjectSize() const {
     return
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +

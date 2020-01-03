@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 MostSpy::MostSpy() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::MOST_SPY;
 }
 
-void MostSpy::read(AbstractFile & is)
-{
+void MostSpy::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
@@ -48,8 +46,7 @@ void MostSpy::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&crc), sizeof(crc));
 }
 
-void MostSpy::write(AbstractFile & os)
-{
+void MostSpy::write(AbstractFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
@@ -66,8 +63,7 @@ void MostSpy::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&crc), sizeof(crc));
 }
 
-DWORD MostSpy::calculateObjectSize() const
-{
+DWORD MostSpy::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

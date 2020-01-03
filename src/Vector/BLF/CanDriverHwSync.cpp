@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 CanDriverHwSync::CanDriverHwSync() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::CAN_DRIVER_SYNC;
 }
 
-void CanDriverHwSync::read(AbstractFile & is)
-{
+void CanDriverHwSync::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
@@ -39,8 +37,7 @@ void CanDriverHwSync::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&reservedCanDriverHwSync2), sizeof(reservedCanDriverHwSync2));
 }
 
-void CanDriverHwSync::write(AbstractFile & os)
-{
+void CanDriverHwSync::write(AbstractFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&flags), sizeof(flags));
@@ -48,8 +45,7 @@ void CanDriverHwSync::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reservedCanDriverHwSync2), sizeof(reservedCanDriverHwSync2));
 }
 
-DWORD CanDriverHwSync::calculateObjectSize() const
-{
+DWORD CanDriverHwSync::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

@@ -37,9 +37,7 @@ namespace BLF {
  *
  * Transports changes of HW IO pins. The event is used for debugging purposes only.
  */
-class VECTOR_BLF_EXPORT MostTrigger final : public ObjectHeader2
-{
-public:
+struct VECTOR_BLF_EXPORT MostTrigger final : ObjectHeader2 {
     MostTrigger();
 
     virtual void read(AbstractFile & is) override;

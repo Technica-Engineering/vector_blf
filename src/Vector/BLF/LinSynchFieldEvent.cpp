@@ -25,26 +25,22 @@ namespace Vector {
 namespace BLF {
 
 LinSynchFieldEvent::LinSynchFieldEvent() :
-    LinBusEvent()
-{
+    LinBusEvent() {
 }
 
-void LinSynchFieldEvent::read(AbstractFile & is)
-{
+void LinSynchFieldEvent::read(AbstractFile & is) {
     LinBusEvent::read(is);
     is.read(reinterpret_cast<char *>(&synchBreakLength), sizeof(synchBreakLength));
     is.read(reinterpret_cast<char *>(&synchDelLength), sizeof(synchDelLength));
 }
 
-void LinSynchFieldEvent::write(AbstractFile & os)
-{
+void LinSynchFieldEvent::write(AbstractFile & os) {
     LinBusEvent::write(os);
     os.write(reinterpret_cast<char *>(&synchBreakLength), sizeof(synchBreakLength));
     os.write(reinterpret_cast<char *>(&synchDelLength), sizeof(synchDelLength));
 }
 
-DWORD LinSynchFieldEvent::calculateObjectSize() const
-{
+DWORD LinSynchFieldEvent::calculateObjectSize() const {
     return
         LinBusEvent::calculateObjectSize() +
         sizeof(synchBreakLength) +

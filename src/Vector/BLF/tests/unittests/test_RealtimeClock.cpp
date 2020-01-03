@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* REALTIMECLOCK = 51 */
-BOOST_AUTO_TEST_CASE(RealtimeClock)
-{
+BOOST_AUTO_TEST_CASE(RealtimeClock) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_RealtimeClock.blf");
     BOOST_REQUIRE(file.is_open());

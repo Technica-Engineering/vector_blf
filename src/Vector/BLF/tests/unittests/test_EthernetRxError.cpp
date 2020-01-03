@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* ETHERNET_RX_ERROR = 102 */
-BOOST_AUTO_TEST_CASE(EthernetRxError)
-{
+BOOST_AUTO_TEST_CASE(EthernetRxError) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_EthernetRxError.blf");
     BOOST_REQUIRE(file.is_open());

@@ -39,9 +39,7 @@ namespace BLF {
  *
  * Extended CAN error frame received or transmitted on a CAN channel.
  */
-class VECTOR_BLF_EXPORT CanErrorFrameExt final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT CanErrorFrameExt final : ObjectHeader {
     CanErrorFrameExt();
 
     virtual void read(AbstractFile & is) override;

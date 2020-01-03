@@ -39,9 +39,7 @@ namespace BLF {
  * schedule table is transmitted for the first time. This info event may appear on starting a
  * measurement.
  */
-class VECTOR_BLF_EXPORT LinSchedulerModeChange final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT LinSchedulerModeChange final : ObjectHeader {
     LinSchedulerModeChange();
 
     virtual void read(AbstractFile & is) override;

@@ -6,19 +6,16 @@
 
 #include "binlog.h"
 
-int main(int argc, char ** argv)
-{
+int main(int argc, char ** argv) {
     /* create file */
     LPCTSTR pFileName = _T("test_FlexRayVFrReceiveMsgEx.blf");
     HANDLE hFile = BLCreateFile(pFileName, GENERIC_WRITE);
-    if (hFile == INVALID_HANDLE_VALUE) {
+    if (hFile == INVALID_HANDLE_VALUE)
         return -1;
-    }
 
     /* set write options */
-    if (!BLSetWriteOptions(hFile, BL_COMPRESSION_NONE, 0)) {
+    if (!BLSetWriteOptions(hFile, BL_COMPRESSION_NONE, 0))
         return -1;
-    }
 
     /* define object */
     VBLFLEXRAYVFrReceiveMsgEx obj;
@@ -53,9 +50,8 @@ int main(int argc, char ** argv)
     obj.mReserved[3] = 0xBBBBBBBB;
     obj.mReserved[4] = 0xCCCCCCCC;
     obj.mReserved[5] = 0xDDDDDDDD;
-    for (BYTE i = 0; i < 254; i++) {
+    for (BYTE i = 0; i < 254; i++)
         obj.mDataBytes[i] = i;
-    }
 
     /* VBLObjectHeader */
     obj.mHeader.mObjectFlags = BL_OBJ_FLAG_TIME_ONE_NANS;
@@ -71,19 +67,16 @@ int main(int argc, char ** argv)
     obj.mHeader.mBase.mObjectType = BL_OBJ_TYPE_FR_RCVMESSAGE_EX;
 
     /* write object */
-    if (!BLWriteObject(hFile, &obj.mHeader.mBase)) {
+    if (!BLWriteObject(hFile, &obj.mHeader.mBase))
         return -1;
-    }
 
     /* write object again */
-    if (!BLWriteObject(hFile, &obj.mHeader.mBase)) {
+    if (!BLWriteObject(hFile, &obj.mHeader.mBase))
         return -1;
-    }
 
     /* close handle */
-    if (!BLCloseHandle(hFile)) {
+    if (!BLCloseHandle(hFile))
         return -1;
-    }
 
     return 0;
 }

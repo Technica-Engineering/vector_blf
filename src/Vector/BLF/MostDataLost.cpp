@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 MostDataLost::MostDataLost() :
-    ObjectHeader2()
-{
+    ObjectHeader2() {
     objectType = ObjectType::MOST_DATALOST;
 }
 
-void MostDataLost::read(AbstractFile & is)
-{
+void MostDataLost::read(AbstractFile & is) {
     ObjectHeader2::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&reservedMostDataLost), sizeof(reservedMostDataLost));
@@ -42,8 +40,7 @@ void MostDataLost::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&nextGoodTimeStampNs), sizeof(nextGoodTimeStampNs));
 }
 
-void MostDataLost::write(AbstractFile & os)
-{
+void MostDataLost::write(AbstractFile & os) {
     ObjectHeader2::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&reservedMostDataLost), sizeof(reservedMostDataLost));
@@ -54,8 +51,7 @@ void MostDataLost::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&nextGoodTimeStampNs), sizeof(nextGoodTimeStampNs));
 }
 
-DWORD MostDataLost::calculateObjectSize() const
-{
+DWORD MostDataLost::calculateObjectSize() const {
     return
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +

@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* LIN_MESSAGE2 = 57 */
-BOOST_AUTO_TEST_CASE(LinMessage2_1)
-{
+BOOST_AUTO_TEST_CASE(LinMessage2_1) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_LinMessage2.blf");
     BOOST_REQUIRE(file.is_open());
@@ -116,8 +115,7 @@ BOOST_AUTO_TEST_CASE(LinMessage2_1)
     file.close();
 }
 
-BOOST_AUTO_TEST_CASE(LinMessage2_2)
-{
+BOOST_AUTO_TEST_CASE(LinMessage2_2) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_converter/test_LinMessage2.blf");
     BOOST_REQUIRE(file.is_open());
@@ -174,8 +172,7 @@ BOOST_AUTO_TEST_CASE(LinMessage2_2)
 }
 
 /** write and read a LinMessage with objectVersion0 */
-BOOST_AUTO_TEST_CASE(LinMessageVersion0)
-{
+BOOST_AUTO_TEST_CASE(LinMessageVersion0) {
     Vector::BLF::UncompressedFile file;
 
     /* write to file */

@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 WlanStatistic::WlanStatistic() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::WLAN_STATISTIC;
 }
 
-void WlanStatistic::read(AbstractFile & is)
-{
+void WlanStatistic::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
@@ -45,8 +43,7 @@ void WlanStatistic::read(AbstractFile & is)
     // @note might be extended in future versions
 }
 
-void WlanStatistic::write(AbstractFile & os)
-{
+void WlanStatistic::write(AbstractFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&flags), sizeof(flags));
@@ -59,8 +56,7 @@ void WlanStatistic::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reservedWlanStatistic), sizeof(reservedWlanStatistic));
 }
 
-DWORD WlanStatistic::calculateObjectSize() const
-{
+DWORD WlanStatistic::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

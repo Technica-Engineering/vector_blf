@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 FlexRayV6Message::FlexRayV6Message() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::FLEXRAY_MESSAGE;
 }
 
-void FlexRayV6Message::read(AbstractFile & is)
-{
+void FlexRayV6Message::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
@@ -51,8 +49,7 @@ void FlexRayV6Message::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(dataBytes.data()), static_cast<std::streamsize>(dataBytes.size()));
 }
 
-void FlexRayV6Message::write(AbstractFile & os)
-{
+void FlexRayV6Message::write(AbstractFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
@@ -72,8 +69,7 @@ void FlexRayV6Message::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(dataBytes.data()), static_cast<std::streamsize>(dataBytes.size()));
 }
 
-DWORD FlexRayV6Message::calculateObjectSize() const
-{
+DWORD FlexRayV6Message::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

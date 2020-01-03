@@ -6,19 +6,16 @@
 
 #include "binlog.h"
 
-int main(int argc, char ** argv)
-{
+int main(int argc, char ** argv) {
     /* create file */
     LPCTSTR pFileName = _T("test_J1708Message.blf");
     HANDLE hFile = BLCreateFile(pFileName, GENERIC_WRITE);
-    if (hFile == INVALID_HANDLE_VALUE) {
+    if (hFile == INVALID_HANDLE_VALUE)
         return -1;
-    }
 
     /* set write options */
-    if (!BLSetWriteOptions(hFile, BL_COMPRESSION_NONE, 0)) {
+    if (!BLSetWriteOptions(hFile, BL_COMPRESSION_NONE, 0))
         return -1;
-    }
 
     /* define object */
     VBLJ1708Message obj;
@@ -29,9 +26,8 @@ int main(int argc, char ** argv)
     obj.mDir = 0x22;
     obj.mError = 0x3333;
     obj.mSize = 0x44;
-    for (BYTE i = 0; i < 255; i++) {
+    for (BYTE i = 0; i < 255; i++)
         obj.mData[i] = i;
-    }
 
     /* VBLObjectHeader */
     obj.mHeader.mObjectFlags = BL_OBJ_FLAG_TIME_ONE_NANS;
@@ -47,21 +43,18 @@ int main(int argc, char ** argv)
     obj.mHeader.mBase.mObjectType = BL_OBJ_TYPE_J1708_MESSAGE;
 
     /* write object */
-    if (!BLWriteObject(hFile, &obj.mHeader.mBase)) {
+    if (!BLWriteObject(hFile, &obj.mHeader.mBase))
         return -1;
-    }
 
     obj.mHeader.mBase.mObjectType = BL_OBJ_TYPE_J1708_VIRTUAL_MSG;
 
     /* write object again */
-    if (!BLWriteObject(hFile, &obj.mHeader.mBase)) {
+    if (!BLWriteObject(hFile, &obj.mHeader.mBase))
         return -1;
-    }
 
     /* close handle */
-    if (!BLCloseHandle(hFile)) {
+    if (!BLCloseHandle(hFile))
         return -1;
-    }
 
     return 0;
 }

@@ -12,8 +12,7 @@
 #include <Vector/BLF.h>
 
 /** copy file statistics */
-static void copyFileStatistics(Vector::BLF::File & filein, Vector::BLF::File & fileout)
-{
+static void copyFileStatistics(Vector::BLF::File & filein, Vector::BLF::File & fileout) {
     /* copy non-generated filein statistics to fileout statistics */
     fileout.fileStatistics.applicationId = filein.fileStatistics.applicationId;
     fileout.fileStatistics.applicationMajor = filein.fileStatistics.applicationMajor;
@@ -28,18 +27,15 @@ static void copyFileStatistics(Vector::BLF::File & filein, Vector::BLF::File & f
 }
 
 /** copy objects and close files */
-static void copyObjects(Vector::BLF::File & filein, Vector::BLF::File & fileout)
-{
+static void copyObjects(Vector::BLF::File & filein, Vector::BLF::File & fileout) {
     /* read all objects from input file */
     Vector::BLF::ObjectQueue<Vector::BLF::ObjectHeaderBase> objectQueue;
     while (!filein.eof()) {
         Vector::BLF::ObjectHeaderBase * ohb = filein.read();
-        if (ohb == nullptr) {
+        if (ohb == nullptr)
             break;
-        }
-        if (ohb->objectType != Vector::BLF::ObjectType::Unknown115) {
+        if (ohb->objectType != Vector::BLF::ObjectType::Unknown115)
             objectQueue.write(ohb);
-        }
     }
     filein.close();
 
@@ -47,16 +43,14 @@ static void copyObjects(Vector::BLF::File & filein, Vector::BLF::File & fileout)
     objectQueue.setFileSize(objectQueue.tellp());
     while (!objectQueue.eof()) {
         Vector::BLF::ObjectHeaderBase * ohb = objectQueue.read();
-        if (ohb != nullptr) {
+        if (ohb != nullptr)
             fileout.write(ohb);
-        }
     }
     fileout.close();
 }
 
 /** compare files */
-static bool compareFiles(const char * infileName, const char * outfileName, uint64_t startPos, uint64_t lastPos)
-{
+static bool compareFiles(const char * infileName, const char * outfileName, uint64_t startPos, uint64_t lastPos) {
     /* open file */
     std::ifstream ifs1;
     std::ifstream ifs2;
@@ -90,8 +84,7 @@ static bool compareFiles(const char * infileName, const char * outfileName, uint
 }
 
 /** Test with uncompressedFiles with Unknown115 ending */
-BOOST_AUTO_TEST_CASE(AllBinlogLogfiles)
-{
+BOOST_AUTO_TEST_CASE(AllBinlogLogfiles) {
     /* input directory */
     boost::filesystem::path indir(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/");
 
@@ -99,15 +92,13 @@ BOOST_AUTO_TEST_CASE(AllBinlogLogfiles)
 
     /* output directory */
     boost::filesystem::path outdir(CMAKE_CURRENT_BINARY_DIR "/events_from_binlog/");
-    if (!exists(outdir)) {
+    if (!exists(outdir))
         BOOST_REQUIRE(create_directory(outdir));
-    }
 
     /* loop over all blfs */
     for (boost::filesystem::directory_entry & x : boost::filesystem::directory_iterator(indir)) {
-        if (!boost::filesystem::is_regular_file(x)) {
+        if (!boost::filesystem::is_regular_file(x))
             continue;
-        }
         std::string eventFile = x.path().filename().string();
 
         /* open input file */
@@ -140,22 +131,19 @@ BOOST_AUTO_TEST_CASE(AllBinlogLogfiles)
 }
 
 /** Test with compressedFiles without Unknown115 ending */
-BOOST_AUTO_TEST_CASE(AllConvertedLogfiles)
-{
+BOOST_AUTO_TEST_CASE(AllConvertedLogfiles) {
     /* input directory */
     boost::filesystem::path indir(CMAKE_CURRENT_SOURCE_DIR "/events_from_converter/");
 
     /* output directory */
     boost::filesystem::path outdir(CMAKE_CURRENT_BINARY_DIR "/events_from_converter/");
-    if (!exists(outdir)) {
+    if (!exists(outdir))
         BOOST_REQUIRE(create_directory(outdir));
-    }
 
     /* loop over all blfs */
     for (boost::filesystem::directory_entry & x : boost::filesystem::directory_iterator(indir)) {
-        if (!boost::filesystem::is_regular_file(x)) {
+        if (!boost::filesystem::is_regular_file(x))
             continue;
-        }
         std::string eventFile = x.path().filename().string();
 
         /* open input file */
@@ -178,9 +166,8 @@ BOOST_AUTO_TEST_CASE(AllConvertedLogfiles)
         copyObjects(filein, fileout);
 
         // Vector bug: sizeof(EventComment) + ...
-        if (eventFile == "test_GlobalMarker.blf") {
+        if (eventFile == "test_GlobalMarker.blf")
             continue;
-        }
 
         /* compare files */
         BOOST_CHECK_MESSAGE(

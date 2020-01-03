@@ -38,9 +38,7 @@ namespace BLF {
  * Application defined trigger to be saved in BLF log file (currently not used in CANoe
  * / CANalyzer).
  */
-class VECTOR_BLF_EXPORT AppTrigger final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT AppTrigger final : ObjectHeader {
     AppTrigger();
 
     virtual void read(AbstractFile & is) override;

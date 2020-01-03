@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* LIN_STATISTIC = 54 */
-BOOST_AUTO_TEST_CASE(LinStatisticEvent_1)
-{
+BOOST_AUTO_TEST_CASE(LinStatisticEvent_1) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_LinStatisticEvent.blf");
     BOOST_REQUIRE(file.is_open());
@@ -75,8 +74,7 @@ BOOST_AUTO_TEST_CASE(LinStatisticEvent_1)
     file.close();
 }
 
-BOOST_AUTO_TEST_CASE(LinStatisticEvent_2)
-{
+BOOST_AUTO_TEST_CASE(LinStatisticEvent_2) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_converter/test_LinStatisticEvent.blf");
     BOOST_REQUIRE(file.is_open());

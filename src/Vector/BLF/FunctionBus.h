@@ -37,9 +37,7 @@ namespace BLF {
 /**
  * @brief FUNCTION_BUS
  */
-class VECTOR_BLF_EXPORT FunctionBus final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT FunctionBus final : ObjectHeader {
     FunctionBus();
 
     virtual void read(AbstractFile & is) override;

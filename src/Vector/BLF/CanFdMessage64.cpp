@@ -26,13 +26,11 @@ namespace BLF {
 
 CanFdMessage64::CanFdMessage64() :
     ObjectHeader(),
-    CanFdExtFrameData()
-{
+    CanFdExtFrameData() {
     objectType = ObjectType::CAN_FD_MESSAGE_64;
 }
 
-void CanFdMessage64::read(AbstractFile & is)
-{
+void CanFdMessage64::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&dlc), sizeof(dlc));
@@ -51,13 +49,11 @@ void CanFdMessage64::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&crc), sizeof(crc));
     data.resize(validDataBytes);
     is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
-    if (extDataOffset != 0) {
+    if (extDataOffset != 0)
         CanFdExtFrameData::read(is);
-    }
 }
 
-void CanFdMessage64::write(AbstractFile & os)
-{
+void CanFdMessage64::write(AbstractFile & os) {
     /* pre processing */
     validDataBytes = static_cast<WORD>(data.size());
 
@@ -78,13 +74,11 @@ void CanFdMessage64::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&extDataOffset), sizeof(extDataOffset));
     os.write(reinterpret_cast<char *>(&crc), sizeof(crc));
     os.write(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
-    if (extDataOffset != 0) {
+    if (extDataOffset != 0)
         CanFdExtFrameData::write(os);
-    }
 }
 
-DWORD CanFdMessage64::calculateObjectSize() const
-{
+DWORD CanFdMessage64::calculateObjectSize() const {
     DWORD size =
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
@@ -103,9 +97,8 @@ DWORD CanFdMessage64::calculateObjectSize() const
         sizeof(extDataOffset) +
         sizeof(crc) +
         static_cast<DWORD>(data.size());
-    if (extDataOffset != 0) {
+    if (extDataOffset != 0)
         size += CanFdExtFrameData::calculateObjectSize();
-    }
     return size;
 }
 

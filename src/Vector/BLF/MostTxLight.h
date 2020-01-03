@@ -39,9 +39,7 @@ namespace BLF {
  *
  * Electrical physical layer: Signal output state
  */
-class VECTOR_BLF_EXPORT MostTxLight final : public ObjectHeader2
-{
-public:
+struct VECTOR_BLF_EXPORT MostTxLight final : ObjectHeader2 {
     MostTxLight();
 
     virtual void read(AbstractFile & is) override;

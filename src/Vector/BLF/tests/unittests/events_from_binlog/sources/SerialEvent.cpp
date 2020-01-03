@@ -6,19 +6,16 @@
 
 #include "binlog.h"
 
-int main(int argc, char ** argv)
-{
+int main(int argc, char ** argv) {
     /* create file */
     LPCTSTR pFileName = _T("test_SerialEvent.blf");
     HANDLE hFile = BLCreateFile(pFileName, GENERIC_WRITE);
-    if (hFile == INVALID_HANDLE_VALUE) {
+    if (hFile == INVALID_HANDLE_VALUE)
         return -1;
-    }
 
     /* set write options */
-    if (!BLSetWriteOptions(hFile, BL_COMPRESSION_NONE, 0)) {
+    if (!BLSetWriteOptions(hFile, BL_COMPRESSION_NONE, 0))
         return -1;
-    }
 
     /* define object */
     VBLSerialEvent obj;
@@ -51,18 +48,16 @@ int main(int argc, char ** argv)
     obj.mGeneral.mData = reinterpret_cast<unsigned char *>(data);
     obj.mGeneral.mTimeStamps = reinterpret_cast<PLONGLONG>(timeStamps);
     obj.mHeader.mBase.mObjectSize = sizeof(VBLSerialEvent) + obj.mGeneral.mDataLength + obj.mGeneral.mTimeStampsLength;
-    if (!BLWriteObject(hFile, &obj.mHeader.mBase)) {
+    if (!BLWriteObject(hFile, &obj.mHeader.mBase))
         return -1;
-    }
 
     /* write SingleByteSerialEvent object */
     obj.mFlags = BL_SERIAL_TYPE_SINGLE_BYTE;
     memset(&obj.mSingleByte, 0, 16); // size of union of singleByte/compact/general
     obj.mSingleByte.mByte = 0x11;
     obj.mHeader.mBase.mObjectSize = sizeof(VBLSerialEvent);
-    if (!BLWriteObject(hFile, &obj.mHeader.mBase)) {
+    if (!BLWriteObject(hFile, &obj.mHeader.mBase))
         return -1;
-    }
 
     /* write CompactSerialEvent object */
     obj.mFlags = BL_SERIAL_TYPE_COMPACT_BYTES;
@@ -72,19 +67,16 @@ int main(int argc, char ** argv)
     obj.mCompact.mCompactData[1] = 0x22;
     obj.mCompact.mCompactData[2] = 0x33;
     obj.mHeader.mBase.mObjectSize = sizeof(VBLSerialEvent);
-    if (!BLWriteObject(hFile, &obj.mHeader.mBase)) {
+    if (!BLWriteObject(hFile, &obj.mHeader.mBase))
         return -1;
-    }
 
     /* write object again */
-    if (!BLWriteObject(hFile, &obj.mHeader.mBase)) {
+    if (!BLWriteObject(hFile, &obj.mHeader.mBase))
         return -1;
-    }
 
     /* close handle */
-    if (!BLCloseHandle(hFile)) {
+    if (!BLCloseHandle(hFile))
         return -1;
-    }
 
     return 0;
 }

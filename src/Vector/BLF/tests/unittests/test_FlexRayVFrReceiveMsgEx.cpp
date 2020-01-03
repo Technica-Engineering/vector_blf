@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* FR_RCVMESSAGE_EX = 66 */
-BOOST_AUTO_TEST_CASE(FlexRayVFrReceiveMsgEx_1)
-{
+BOOST_AUTO_TEST_CASE(FlexRayVFrReceiveMsgEx_1) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_FlexRayVFrReceiveMsgEx.blf");
     BOOST_REQUIRE(file.is_open());
@@ -67,9 +66,8 @@ BOOST_AUTO_TEST_CASE(FlexRayVFrReceiveMsgEx_1)
     BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx[10], 0xCCCC);
     BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx[11], 0xDDDD);
     BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsgEx[12], 0xDDDD);
-    for (uint8_t i = 0; i < 254; i++) {
+    for (uint8_t i = 0; i < 254; i++)
         BOOST_CHECK_EQUAL(obj->dataBytes[i], i);
-    }
 
     delete ohb;
 
@@ -102,8 +100,7 @@ BOOST_AUTO_TEST_CASE(FlexRayVFrReceiveMsgEx_1)
     file.close();
 }
 
-BOOST_AUTO_TEST_CASE(FlexRayVFrReceiveMsgEx_2)
-{
+BOOST_AUTO_TEST_CASE(FlexRayVFrReceiveMsgEx_2) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_converter/test_FlexRayVFrReceiveMsgEx.blf");
     BOOST_REQUIRE(file.is_open());

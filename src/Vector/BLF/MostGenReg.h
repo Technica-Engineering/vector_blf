@@ -40,9 +40,7 @@ namespace BLF {
  * measurement start the current values of the special registers are reported even if they have not
  * changed.
  */
-class VECTOR_BLF_EXPORT MostGenReg final : public ObjectHeader2
-{
-public:
+struct VECTOR_BLF_EXPORT MostGenReg final : ObjectHeader2 {
     MostGenReg();
 
     virtual void read(AbstractFile & is) override;

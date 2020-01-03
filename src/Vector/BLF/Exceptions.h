@@ -33,9 +33,8 @@ namespace BLF {
 /**
  * Exception class for all possible exceptions the Vector BLF library throws.
  */
-class VECTOR_BLF_EXPORT Exception : public std::runtime_error
-{
-public:
+class VECTOR_BLF_EXPORT Exception : public std::runtime_error {
+  public:
     /**
      * Exception constructor
      *

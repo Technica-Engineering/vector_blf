@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 LinDlcInfo::LinDlcInfo() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::LIN_DLC_INFO;
 }
 
-void LinDlcInfo::read(AbstractFile & is)
-{
+void LinDlcInfo::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&id), sizeof(id));
@@ -39,8 +37,7 @@ void LinDlcInfo::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&reservedLinDlcInfo), sizeof(reservedLinDlcInfo));
 }
 
-void LinDlcInfo::write(AbstractFile & os)
-{
+void LinDlcInfo::write(AbstractFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&id), sizeof(id));
@@ -48,8 +45,7 @@ void LinDlcInfo::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reservedLinDlcInfo), sizeof(reservedLinDlcInfo));
 }
 
-DWORD LinDlcInfo::calculateObjectSize() const
-{
+DWORD LinDlcInfo::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

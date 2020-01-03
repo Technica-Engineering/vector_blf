@@ -33,15 +33,13 @@ namespace BLF {
 /**
  * Generic interface to access CompressedFile and UncompressedFile in the same way.
  */
-class VECTOR_BLF_EXPORT AbstractFile
-{
-public:
+struct VECTOR_BLF_EXPORT AbstractFile {
     AbstractFile() noexcept = default;
     virtual ~AbstractFile() noexcept = default;
-    AbstractFile(const AbstractFile&) = default;
-    AbstractFile& operator=(const AbstractFile&) = default;
-    AbstractFile(AbstractFile&&) = default;
-    AbstractFile& operator=(AbstractFile&&) = default;
+    AbstractFile(const AbstractFile &) = default;
+    AbstractFile & operator=(const AbstractFile &) = default;
+    AbstractFile(AbstractFile &&) = default;
+    AbstractFile & operator=(AbstractFile &&) = default;
 
     /**
      * Get characters returned by last read operation.

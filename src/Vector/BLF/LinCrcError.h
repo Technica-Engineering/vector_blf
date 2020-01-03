@@ -42,9 +42,7 @@ namespace BLF {
  * Checksum error event occurring when Slave sends an incorrect checksum value for a
  * frame response that is otherwise correct.
  */
-class VECTOR_BLF_EXPORT LinCrcError final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT LinCrcError final : ObjectHeader {
     LinCrcError();
 
     virtual void read(AbstractFile & is) override;

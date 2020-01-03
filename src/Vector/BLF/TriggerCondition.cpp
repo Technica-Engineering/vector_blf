@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 TriggerCondition::TriggerCondition() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::TRIGGER_CONDITION;
 }
 
-void TriggerCondition::read(AbstractFile & is)
-{
+void TriggerCondition::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&state), sizeof(state));
     is.read(reinterpret_cast<char *>(&triggerBlockNameLength), sizeof(triggerBlockNameLength));
@@ -42,8 +40,7 @@ void TriggerCondition::read(AbstractFile & is)
     is.read(const_cast<char *>(triggerCondition.data()), triggerConditionLength);
 }
 
-void TriggerCondition::write(AbstractFile & os)
-{
+void TriggerCondition::write(AbstractFile & os) {
     /* pre processing */
     triggerBlockNameLength = static_cast<DWORD>(triggerBlockName.size());
     triggerConditionLength = static_cast<DWORD>(triggerCondition.size());
@@ -56,8 +53,7 @@ void TriggerCondition::write(AbstractFile & os)
     os.write(const_cast<char *>(triggerCondition.data()), triggerConditionLength);
 }
 
-DWORD TriggerCondition::calculateObjectSize() const
-{
+DWORD TriggerCondition::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(state) +

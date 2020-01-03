@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* MOST_LIGHTLOCK = 24 */
-BOOST_AUTO_TEST_CASE(MostLightLock_1)
-{
+BOOST_AUTO_TEST_CASE(MostLightLock_1) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_MostLightLock.blf");
     BOOST_REQUIRE(file.is_open());
@@ -68,8 +67,7 @@ BOOST_AUTO_TEST_CASE(MostLightLock_1)
     file.close();
 }
 
-BOOST_AUTO_TEST_CASE(MostLightLock_2)
-{
+BOOST_AUTO_TEST_CASE(MostLightLock_2) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_converter/test_MostLightLock.blf");
     BOOST_REQUIRE(file.is_open());

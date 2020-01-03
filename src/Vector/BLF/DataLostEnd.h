@@ -35,9 +35,7 @@ namespace BLF {
 /**
  * @brief DATA_LOST_END
  */
-class VECTOR_BLF_EXPORT DataLostEnd final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT DataLostEnd final : ObjectHeader {
     DataLostEnd();
 
     virtual void read(AbstractFile & is) override;

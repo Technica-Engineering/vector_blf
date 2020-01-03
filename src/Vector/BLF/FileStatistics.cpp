@@ -29,12 +29,10 @@
 namespace Vector {
 namespace BLF {
 
-void FileStatistics::read(AbstractFile & is)
-{
+void FileStatistics::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&signature), sizeof(signature));
-    if (signature != FileSignature) {
+    if (signature != FileSignature)
         throw Exception("FileStatistics::read(): File signature doesn't match at this position.");
-    }
     is.read(reinterpret_cast<char *>(&statisticsSize), sizeof(statisticsSize));
     is.read(reinterpret_cast<char *>(&applicationId), sizeof(applicationId));
     is.read(reinterpret_cast<char *>(&applicationMajor), sizeof(applicationMajor));
@@ -54,8 +52,7 @@ void FileStatistics::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(reservedFileStatistics.data()), static_cast<std::streamsize>(reservedFileStatistics.size() * sizeof(DWORD)));
 }
 
-void FileStatistics::write(AbstractFile & os)
-{
+void FileStatistics::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&signature), sizeof(signature));
     os.write(reinterpret_cast<char *>(&statisticsSize), sizeof(statisticsSize));
     os.write(reinterpret_cast<char *>(&applicationId), sizeof(applicationId));
@@ -76,8 +73,7 @@ void FileStatistics::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(reservedFileStatistics.data()), static_cast<std::streamsize>(reservedFileStatistics.size() * sizeof(DWORD)));
 }
 
-DWORD FileStatistics::calculateStatisticsSize() const
-{
+DWORD FileStatistics::calculateStatisticsSize() const {
     return
         sizeof(signature) +
         sizeof(statisticsSize) +

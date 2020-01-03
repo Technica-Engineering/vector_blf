@@ -25,29 +25,25 @@ namespace Vector {
 namespace BLF {
 
 LinSpikeEvent::LinSpikeEvent() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::LIN_SPIKE_EVENT;
 }
 
-void LinSpikeEvent::read(AbstractFile & is)
-{
+void LinSpikeEvent::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&reservedLinSpikeEvent), sizeof(reservedLinSpikeEvent));
     is.read(reinterpret_cast<char *>(&width), sizeof(width));
 }
 
-void LinSpikeEvent::write(AbstractFile & os)
-{
+void LinSpikeEvent::write(AbstractFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&reservedLinSpikeEvent), sizeof(reservedLinSpikeEvent));
     os.write(reinterpret_cast<char *>(&width), sizeof(width));
 }
 
-DWORD LinSpikeEvent::calculateObjectSize() const
-{
+DWORD LinSpikeEvent::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

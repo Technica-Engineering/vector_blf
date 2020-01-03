@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* OVERRUN_ERROR = 91 */
-BOOST_AUTO_TEST_CASE(DriverOverrun)
-{
+BOOST_AUTO_TEST_CASE(DriverOverrun) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_DriverOverrun.blf");
     BOOST_REQUIRE(file.is_open());

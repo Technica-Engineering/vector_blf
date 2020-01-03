@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* FR_RCVMESSAGE = 50 */
-BOOST_AUTO_TEST_CASE(FlexRayVFrReceiveMsg)
-{
+BOOST_AUTO_TEST_CASE(FlexRayVFrReceiveMsg) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_FlexRayVFrReceiveMsg.blf");
     BOOST_REQUIRE(file.is_open());
@@ -51,9 +50,8 @@ BOOST_AUTO_TEST_CASE(FlexRayVFrReceiveMsg)
     BOOST_CHECK_EQUAL(obj->data, 0xEEEEEEEE);
     BOOST_CHECK_EQUAL(obj->frameFlags, 0xFFFFFFFF);
     BOOST_CHECK_EQUAL(obj->appParameter, 0x11111111);
-    for (uint8_t i = 0; i < 254; i++) {
+    for (uint8_t i = 0; i < 254; i++)
         BOOST_CHECK_EQUAL(obj->dataBytes[i], i);
-    }
     BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsg3, 0);
     BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrReceiveMsg4, 0);
 

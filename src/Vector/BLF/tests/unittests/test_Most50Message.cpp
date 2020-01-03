@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* MOST_50_MESSAGE = 84 */
-BOOST_AUTO_TEST_CASE(Most50Message_1)
-{
+BOOST_AUTO_TEST_CASE(Most50Message_1) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_Most50Message.blf");
     BOOST_REQUIRE(file.is_open());
@@ -85,8 +84,7 @@ BOOST_AUTO_TEST_CASE(Most50Message_1)
     file.close();
 }
 
-BOOST_AUTO_TEST_CASE(Most50Message_2)
-{
+BOOST_AUTO_TEST_CASE(Most50Message_2) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_converter/test_Most50Message.blf");
     BOOST_REQUIRE(file.is_open());

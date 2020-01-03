@@ -25,29 +25,25 @@ namespace Vector {
 namespace BLF {
 
 DataLostEnd::DataLostEnd() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::DATA_LOST_END;
 }
 
-void DataLostEnd::read(AbstractFile & is)
-{
+void DataLostEnd::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&queueIdentifier), sizeof(queueIdentifier));
     is.read(reinterpret_cast<char *>(&firstObjectLostTimeStamp), sizeof(firstObjectLostTimeStamp));
     is.read(reinterpret_cast<char *>(&numberOfLostEvents), sizeof(numberOfLostEvents));
 }
 
-void DataLostEnd::write(AbstractFile & os)
-{
+void DataLostEnd::write(AbstractFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&queueIdentifier), sizeof(queueIdentifier));
     os.write(reinterpret_cast<char *>(&firstObjectLostTimeStamp), sizeof(firstObjectLostTimeStamp));
     os.write(reinterpret_cast<char *>(&numberOfLostEvents), sizeof(numberOfLostEvents));
 }
 
-DWORD DataLostEnd::calculateObjectSize() const
-{
+DWORD DataLostEnd::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(queueIdentifier) +

@@ -40,9 +40,7 @@ namespace BLF {
  *
  * LIN frame received or transmitted on a LIN channel.
  */
-class VECTOR_BLF_EXPORT LinMessage2 final : public ObjectHeader, public LinDatabyteTimestampEvent
-{
-public:
+struct VECTOR_BLF_EXPORT LinMessage2 final : ObjectHeader, LinDatabyteTimestampEvent {
     LinMessage2();
 
     virtual void read(AbstractFile & is) override;

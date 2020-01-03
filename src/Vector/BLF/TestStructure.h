@@ -35,9 +35,7 @@ namespace BLF {
 /**
  * @brief TEST_STRUCTURE
  */
-class VECTOR_BLF_EXPORT TestStructure final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT TestStructure final : ObjectHeader {
     TestStructure();
 
     virtual void read(AbstractFile & is) override;

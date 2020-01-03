@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 AfdxBusStatistic::AfdxBusStatistic() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::A429_BUS_STATISTIC;
 }
 
-void AfdxBusStatistic::read(AbstractFile & is)
-{
+void AfdxBusStatistic::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
@@ -56,8 +54,7 @@ void AfdxBusStatistic::read(AbstractFile & is)
     // @note might be extended in future versions
 }
 
-void AfdxBusStatistic::write(AbstractFile & os)
-{
+void AfdxBusStatistic::write(AbstractFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&flags), sizeof(flags));
@@ -81,8 +78,7 @@ void AfdxBusStatistic::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reservedAfdxBusStatistic2), sizeof(reservedAfdxBusStatistic2));
 }
 
-DWORD AfdxBusStatistic::calculateObjectSize() const
-{
+DWORD AfdxBusStatistic::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

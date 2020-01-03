@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* LIN_CRC_ERROR = 12 */
-BOOST_AUTO_TEST_CASE(LinCrcError)
-{
+BOOST_AUTO_TEST_CASE(LinCrcError) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_LinCrcError.blf");
     BOOST_REQUIRE(file.is_open());

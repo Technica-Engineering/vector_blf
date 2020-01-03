@@ -37,9 +37,7 @@ namespace BLF {
  *
  * State change of the MOST Electrical Control Line.
  */
-class VECTOR_BLF_EXPORT MostEcl final : public ObjectHeader2
-{
-public:
+struct VECTOR_BLF_EXPORT MostEcl final : ObjectHeader2 {
     MostEcl();
 
     virtual void read(AbstractFile & is) override;

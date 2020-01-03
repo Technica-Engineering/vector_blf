@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 FlexRayVFrReceiveMsgEx::FlexRayVFrReceiveMsgEx() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::FR_RCVMESSAGE_EX;
 }
 
-void FlexRayVFrReceiveMsgEx::read(AbstractFile & is)
-{
+void FlexRayVFrReceiveMsgEx::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&version), sizeof(version));
@@ -59,8 +57,7 @@ void FlexRayVFrReceiveMsgEx::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(dataBytes.data()), static_cast<std::streamsize>(dataCount));
 }
 
-void FlexRayVFrReceiveMsgEx::write(AbstractFile & os)
-{
+void FlexRayVFrReceiveMsgEx::write(AbstractFile & os) {
     /* pre processing */
     dataCount = static_cast<WORD>(dataBytes.size());
 
@@ -90,8 +87,7 @@ void FlexRayVFrReceiveMsgEx::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(dataBytes.data()), static_cast<std::streamsize>(dataCount));
 }
 
-DWORD FlexRayVFrReceiveMsgEx::calculateObjectSize() const
-{
+DWORD FlexRayVFrReceiveMsgEx::calculateObjectSize() const {
     DWORD size =
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

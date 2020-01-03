@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* CAN_FD_ERROR_64 = 104 */
-BOOST_AUTO_TEST_CASE(CanFdErrorFrame64)
-{
+BOOST_AUTO_TEST_CASE(CanFdErrorFrame64) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_CanFdErrorFrame64.blf");
     BOOST_REQUIRE(file.is_open());
@@ -51,9 +50,8 @@ BOOST_AUTO_TEST_CASE(CanFdErrorFrame64)
     BOOST_CHECK_EQUAL(obj->crc, 0x11111111);
     BOOST_CHECK_EQUAL(obj->errorPosition, 0x2222);
     BOOST_CHECK_EQUAL(obj->reservedCanFdErrorFrame2, 0x3333);
-    for (uint8_t i = 0; i < 64; i++) {
+    for (uint8_t i = 0; i < 64; i++)
         BOOST_CHECK_EQUAL(obj->data[i], i);
-    }
 
     /* CanFdExtFrameData */
     BOOST_CHECK_EQUAL(obj->btrExtArb, 0x11111111);

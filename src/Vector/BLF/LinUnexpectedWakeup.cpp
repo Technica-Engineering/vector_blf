@@ -26,13 +26,11 @@ namespace BLF {
 
 LinUnexpectedWakeup::LinUnexpectedWakeup() :
     ObjectHeader(),
-    LinBusEvent()
-{
+    LinBusEvent() {
     objectType = ObjectType::LIN_UNEXPECTED_WAKEUP;
 }
 
-void LinUnexpectedWakeup::read(AbstractFile & is)
-{
+void LinUnexpectedWakeup::read(AbstractFile & is) {
     ObjectHeader::read(is);
     LinBusEvent::read(is);
     is.read(reinterpret_cast<char *>(&width), sizeof(width));
@@ -43,8 +41,7 @@ void LinUnexpectedWakeup::read(AbstractFile & is)
     // @note might be extended in future versions
 }
 
-void LinUnexpectedWakeup::write(AbstractFile & os)
-{
+void LinUnexpectedWakeup::write(AbstractFile & os) {
     ObjectHeader::write(os);
     LinBusEvent::write(os);
     os.write(reinterpret_cast<char *>(&width), sizeof(width));
@@ -54,8 +51,7 @@ void LinUnexpectedWakeup::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reservedLinUnexpectedWakeup3), sizeof(reservedLinUnexpectedWakeup3));
 }
 
-DWORD LinUnexpectedWakeup::calculateObjectSize() const
-{
+DWORD LinUnexpectedWakeup::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         LinBusEvent::calculateObjectSize() +

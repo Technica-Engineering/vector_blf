@@ -11,8 +11,7 @@
 /* ENV_DOUBLE = 7 */
 /* ENV_STRING = 8 */
 /* ENV_DATA = 9 */
-BOOST_AUTO_TEST_CASE(EnvironmentVariable_1)
-{
+BOOST_AUTO_TEST_CASE(EnvironmentVariable_1) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_EnvironmentVariable.blf");
     BOOST_REQUIRE(file.is_open());
@@ -97,8 +96,7 @@ BOOST_AUTO_TEST_CASE(EnvironmentVariable_1)
     file.close();
 }
 
-BOOST_AUTO_TEST_CASE(EnvironmentVariable_2)
-{
+BOOST_AUTO_TEST_CASE(EnvironmentVariable_2) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_converter/test_EnvironmentVariable.blf");
     BOOST_REQUIRE(file.is_open());

@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 MostSystemEvent::MostSystemEvent() :
-    ObjectHeader2()
-{
+    ObjectHeader2() {
     objectType = ObjectType::MOST_SYSTEM_EVENT;
 }
 
-void MostSystemEvent::read(AbstractFile & is)
-{
+void MostSystemEvent::read(AbstractFile & is) {
     ObjectHeader2::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&id), sizeof(id));
@@ -40,8 +38,7 @@ void MostSystemEvent::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&reservedMostSystemEvent), sizeof(reservedMostSystemEvent));
 }
 
-void MostSystemEvent::write(AbstractFile & os)
-{
+void MostSystemEvent::write(AbstractFile & os) {
     ObjectHeader2::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&id), sizeof(id));
@@ -50,8 +47,7 @@ void MostSystemEvent::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reservedMostSystemEvent), sizeof(reservedMostSystemEvent));
 }
 
-DWORD MostSystemEvent::calculateObjectSize() const
-{
+DWORD MostSystemEvent::calculateObjectSize() const {
     return
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +

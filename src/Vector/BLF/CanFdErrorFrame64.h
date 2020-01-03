@@ -40,9 +40,7 @@ namespace BLF {
  *
  * CAN-FD error frame received or transmitted on a CAN-FD channel.
  */
-class VECTOR_BLF_EXPORT CanFdErrorFrame64 final : public ObjectHeader, public CanFdExtFrameData
-{
-public:
+struct VECTOR_BLF_EXPORT CanFdErrorFrame64 final : ObjectHeader, CanFdExtFrameData {
     CanFdErrorFrame64();
 
     virtual void read(AbstractFile & is) override;

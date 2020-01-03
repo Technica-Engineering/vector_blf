@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /** trigger an exception and see if it throws */
-BOOST_AUTO_TEST_CASE(Test)
-{
+BOOST_AUTO_TEST_CASE(Test) {
     Vector::BLF::Exception exception("Something happened.");
     BOOST_CHECK_EQUAL(exception.what(), "Something happened.");
     BOOST_CHECK_THROW(throw exception, Vector::BLF::Exception);

@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* FLEXRAY_MESSAGE = 41 */
-BOOST_AUTO_TEST_CASE(FlexRayV6Message)
-{
+BOOST_AUTO_TEST_CASE(FlexRayV6Message) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_FlexRayV6Message.blf");
     BOOST_REQUIRE(file.is_open());
@@ -48,9 +47,8 @@ BOOST_AUTO_TEST_CASE(FlexRayV6Message)
     BOOST_CHECK_EQUAL(obj->headerBitMask, 0xDD);
     BOOST_CHECK_EQUAL(obj->reservedFlexRayV6Message1, 0xEE);
     BOOST_CHECK_EQUAL(obj->reservedFlexRayV6Message2, 0xFFFF);
-    for (uint8_t i = 0; i < 64; i++) {
+    for (uint8_t i = 0; i < 64; i++)
         BOOST_CHECK_EQUAL(obj->dataBytes[i], i);
-    }
 
     delete ohb;
 

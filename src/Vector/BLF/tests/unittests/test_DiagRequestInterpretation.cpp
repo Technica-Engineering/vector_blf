@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* DIAG_REQUEST_INTERPRETATION = 119 */
-BOOST_AUTO_TEST_CASE(DiagRequestInterpretation)
-{
+BOOST_AUTO_TEST_CASE(DiagRequestInterpretation) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_DiagRequestInterpretation.blf");
     BOOST_REQUIRE(file.is_open());

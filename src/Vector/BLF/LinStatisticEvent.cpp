@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 LinStatisticEvent::LinStatisticEvent() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::LIN_STATISTIC;
 }
 
-void LinStatisticEvent::read(AbstractFile & is)
-{
+void LinStatisticEvent::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&reservedLinStatisticEvent1), sizeof(reservedLinStatisticEvent1));
@@ -45,8 +43,7 @@ void LinStatisticEvent::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&reservedLinStatisticEvent3), sizeof(reservedLinStatisticEvent3));
 }
 
-void LinStatisticEvent::write(AbstractFile & os)
-{
+void LinStatisticEvent::write(AbstractFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&reservedLinStatisticEvent1), sizeof(reservedLinStatisticEvent1));
@@ -60,8 +57,7 @@ void LinStatisticEvent::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reservedLinStatisticEvent3), sizeof(reservedLinStatisticEvent3));
 }
 
-DWORD LinStatisticEvent::calculateObjectSize() const
-{
+DWORD LinStatisticEvent::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

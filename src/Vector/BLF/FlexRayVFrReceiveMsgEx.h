@@ -40,9 +40,7 @@ namespace BLF {
  *
  * FlexRay message or PDU received or transmitted on FlexRay bus.
  */
-class VECTOR_BLF_EXPORT FlexRayVFrReceiveMsgEx final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT FlexRayVFrReceiveMsgEx final : ObjectHeader {
     FlexRayVFrReceiveMsgEx();
 
     virtual void read(AbstractFile & is) override;

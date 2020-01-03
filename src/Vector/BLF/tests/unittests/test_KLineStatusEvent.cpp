@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* KLINE_STATUSEVENT = 99 */
-BOOST_AUTO_TEST_CASE(KLineStatusEvent)
-{
+BOOST_AUTO_TEST_CASE(KLineStatusEvent) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_KLineStatusEvent.blf");
     BOOST_REQUIRE(file.is_open());

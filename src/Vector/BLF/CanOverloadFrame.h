@@ -37,9 +37,7 @@ namespace BLF {
  *
  * CAN overload frame received or transmitted on a CAN channel.
  */
-class VECTOR_BLF_EXPORT CanOverloadFrame final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT CanOverloadFrame final : ObjectHeader {
     CanOverloadFrame();
 
     virtual void read(AbstractFile & is) override;

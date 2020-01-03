@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* FLEXRAY_DATA = 29 */
-BOOST_AUTO_TEST_CASE(FlexRayData)
-{
+BOOST_AUTO_TEST_CASE(FlexRayData) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_FlexRayData.blf");
     BOOST_REQUIRE(file.is_open());
@@ -41,9 +40,8 @@ BOOST_AUTO_TEST_CASE(FlexRayData)
     BOOST_CHECK_EQUAL(obj->dir, 0x66);
     BOOST_CHECK_EQUAL(obj->reservedFlexRayData1, 0x77);
     BOOST_CHECK_EQUAL(obj->reservedFlexRayData2, 0x8888);
-    for (uint8_t i = 0; i < 12; i++) {
+    for (uint8_t i = 0; i < 12; i++)
         BOOST_CHECK_EQUAL(obj->dataBytes[i], i);
-    }
 
     delete ohb;
 

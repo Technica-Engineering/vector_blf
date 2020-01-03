@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 LinChecksumInfo::LinChecksumInfo() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::LIN_CHECKSUM_INFO;
 }
 
-void LinChecksumInfo::read(AbstractFile & is)
-{
+void LinChecksumInfo::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&id), sizeof(id));
@@ -39,8 +37,7 @@ void LinChecksumInfo::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&reservedLinChecksumInfo), sizeof(reservedLinChecksumInfo));
 }
 
-void LinChecksumInfo::write(AbstractFile & os)
-{
+void LinChecksumInfo::write(AbstractFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&id), sizeof(id));
@@ -48,8 +45,7 @@ void LinChecksumInfo::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reservedLinChecksumInfo), sizeof(reservedLinChecksumInfo));
 }
 
-DWORD LinChecksumInfo::calculateObjectSize() const
-{
+DWORD LinChecksumInfo::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

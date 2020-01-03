@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 MostEthernetPkt::MostEthernetPkt() :
-    ObjectHeader2()
-{
+    ObjectHeader2() {
     objectType = ObjectType::MOST_ETHERNET_PKT;
 }
 
-void MostEthernetPkt::read(AbstractFile & is)
-{
+void MostEthernetPkt::read(AbstractFile & is) {
     ObjectHeader2::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
@@ -56,8 +54,7 @@ void MostEthernetPkt::read(AbstractFile & is)
     is.seekg(objectSize % 4, std::ios_base::cur);
 }
 
-void MostEthernetPkt::write(AbstractFile & os)
-{
+void MostEthernetPkt::write(AbstractFile & os) {
     /* pre processing */
     pktDataLength = static_cast<DWORD>(pktData.size());
 
@@ -84,8 +81,7 @@ void MostEthernetPkt::write(AbstractFile & os)
     os.skipp(objectSize % 4);
 }
 
-DWORD MostEthernetPkt::calculateObjectSize() const
-{
+DWORD MostEthernetPkt::calculateObjectSize() const {
     return
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +

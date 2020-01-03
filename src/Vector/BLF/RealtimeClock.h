@@ -37,9 +37,7 @@ namespace BLF {
  *
  * Realtime clock object
  */
-class VECTOR_BLF_EXPORT RealtimeClock final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT RealtimeClock final : ObjectHeader {
     RealtimeClock();
 
     virtual void read(AbstractFile & is) override;

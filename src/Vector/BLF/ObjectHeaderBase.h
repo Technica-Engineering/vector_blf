@@ -176,15 +176,13 @@ const DWORD ObjectSignature = 0x4A424F4C; /* LOBJ */
  *
  * Object header base structure.
  */
-class VECTOR_BLF_EXPORT ObjectHeaderBase
-{
-public:
+struct VECTOR_BLF_EXPORT ObjectHeaderBase {
     ObjectHeaderBase() = default;
     virtual ~ObjectHeaderBase() noexcept = default;
-    ObjectHeaderBase(const ObjectHeaderBase&) = default;
-    ObjectHeaderBase& operator=(const ObjectHeaderBase&) = default;
-    ObjectHeaderBase(ObjectHeaderBase&&) = default;
-    ObjectHeaderBase& operator=(ObjectHeaderBase&&) = default;
+    ObjectHeaderBase(const ObjectHeaderBase &) = default;
+    ObjectHeaderBase & operator=(const ObjectHeaderBase &) = default;
+    ObjectHeaderBase(ObjectHeaderBase &&) = default;
+    ObjectHeaderBase & operator=(ObjectHeaderBase &&) = default;
 
     /**
      * Read the data of this object
@@ -219,7 +217,7 @@ public:
      *
      * Object signature, must be ObjectSignature.
      */
-    DWORD signature { ObjectSignature };
+    DWORD signature {ObjectSignature};
 
     /**
      * @brief sizeof object header

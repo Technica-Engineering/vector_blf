@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 MostTrigger::MostTrigger() :
-    ObjectHeader2()
-{
+    ObjectHeader2() {
     objectType = ObjectType::MOST_TRIGGER;
 }
 
-void MostTrigger::read(AbstractFile & is)
-{
+void MostTrigger::read(AbstractFile & is) {
     ObjectHeader2::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&reservedMostTrigger), sizeof(reservedMostTrigger));
@@ -41,8 +39,7 @@ void MostTrigger::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&currentTriggerValue), sizeof(currentTriggerValue));
 }
 
-void MostTrigger::write(AbstractFile & os)
-{
+void MostTrigger::write(AbstractFile & os) {
     ObjectHeader2::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&reservedMostTrigger), sizeof(reservedMostTrigger));
@@ -52,8 +49,7 @@ void MostTrigger::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&currentTriggerValue), sizeof(currentTriggerValue));
 }
 
-DWORD MostTrigger::calculateObjectSize() const
-{
+DWORD MostTrigger::calculateObjectSize() const {
     return
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +

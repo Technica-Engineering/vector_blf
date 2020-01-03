@@ -39,9 +39,7 @@ namespace BLF {
  *
  * CAN data or CAN remote frame received or transmitted on a CAN channel.
  */
-class VECTOR_BLF_EXPORT CanMessage2 final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT CanMessage2 final : ObjectHeader {
     CanMessage2();
 
     virtual void read(AbstractFile & is) override;

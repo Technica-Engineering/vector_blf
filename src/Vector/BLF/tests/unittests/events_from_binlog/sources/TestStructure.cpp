@@ -6,19 +6,16 @@
 
 #include "binlog.h"
 
-int main(int argc, char ** argv)
-{
+int main(int argc, char ** argv) {
     /* create file */
     LPCTSTR pFileName = _T("test_TestStructure.blf");
     HANDLE hFile = BLCreateFile(pFileName, GENERIC_WRITE);
-    if (hFile == INVALID_HANDLE_VALUE) {
+    if (hFile == INVALID_HANDLE_VALUE)
         return -1;
-    }
 
     /* set write options */
-    if (!BLSetWriteOptions(hFile, BL_COMPRESSION_NONE, 0)) {
+    if (!BLSetWriteOptions(hFile, BL_COMPRESSION_NONE, 0))
         return -1;
-    }
 
     /* define object */
     VBLTestStructure obj;
@@ -51,21 +48,18 @@ int main(int argc, char ** argv)
     obj.mHeader.mBase.mObjectType = BL_OBJ_TYPE_TEST_STRUCTURE;
 
     /* write object */
-    if (!BLWriteObject(hFile, &obj.mHeader.mBase)) {
+    if (!BLWriteObject(hFile, &obj.mHeader.mBase))
         return -1;
-    }
 
     /* write object again */
     // Vector bug: objectSize is set to 0x42 by BLWriteObject, so we need to set it back to 0x4E.
     obj.mHeader.mBase.mObjectSize = sizeof(VBLTestStructure) + (obj.mExecutingObjectNameLength + obj.mNameLength + obj.mTextLength) * sizeof(wchar_t);
-    if (!BLWriteObject(hFile, &obj.mHeader.mBase)) {
+    if (!BLWriteObject(hFile, &obj.mHeader.mBase))
         return -1;
-    }
 
     /* close handle */
-    if (!BLCloseHandle(hFile)) {
+    if (!BLCloseHandle(hFile))
         return -1;
-    }
 
     return 0;
 }

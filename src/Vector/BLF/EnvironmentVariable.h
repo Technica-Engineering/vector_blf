@@ -40,9 +40,7 @@ namespace BLF {
  *
  * Environment variable that can be used with CANoe.
  */
-class VECTOR_BLF_EXPORT EnvironmentVariable final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT EnvironmentVariable final : ObjectHeader {
     EnvironmentVariable();
 
     virtual void read(AbstractFile & is) override;

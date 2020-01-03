@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* CAN_OVERLOAD = 3 */
-BOOST_AUTO_TEST_CASE(CanOverloadFrame)
-{
+BOOST_AUTO_TEST_CASE(CanOverloadFrame) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_CanOverloadFrame.blf");
     BOOST_REQUIRE(file.is_open());

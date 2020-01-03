@@ -6,19 +6,16 @@
 
 #include "binlog.h"
 
-int main(int argc, char ** argv)
-{
+int main(int argc, char ** argv) {
     /* create file */
     LPCTSTR pFileName = _T("test_DiagRequestInterpretation.blf");
     HANDLE hFile = BLCreateFile(pFileName, GENERIC_WRITE);
-    if (hFile == INVALID_HANDLE_VALUE) {
+    if (hFile == INVALID_HANDLE_VALUE)
         return -1;
-    }
 
     /* set write options */
-    if (!BLSetWriteOptions(hFile, BL_COMPRESSION_NONE, 0)) {
+    if (!BLSetWriteOptions(hFile, BL_COMPRESSION_NONE, 0))
         return -1;
-    }
 
     /* define object */
     VBLDiagRequestInterpretation obj;
@@ -49,21 +46,18 @@ int main(int argc, char ** argv)
     obj.mHeader.mBase.mObjectType = BL_OBJ_TYPE_DIAG_REQUEST_INTERPRETATION;
 
     /* write object */
-    if (!BLWriteObject(hFile, &obj.mHeader.mBase)) {
+    if (!BLWriteObject(hFile, &obj.mHeader.mBase))
         return -1;
-    }
 
     /* write object again */
     // Vector bug: objectSize is set to 0x31 by BLWriteObject, so we need to set it back to 0x41.
     obj.mHeader.mBase.mObjectSize = sizeof(VBLDiagRequestInterpretation) + obj.mEcuQualifierLength + obj.mVariantQualifierLength + obj.mServiceQualifierLength;
-    if (!BLWriteObject(hFile, &obj.mHeader.mBase)) {
+    if (!BLWriteObject(hFile, &obj.mHeader.mBase))
         return -1;
-    }
 
     /* close handle */
-    if (!BLCloseHandle(hFile)) {
+    if (!BLCloseHandle(hFile))
         return -1;
-    }
 
     return 0;
 }

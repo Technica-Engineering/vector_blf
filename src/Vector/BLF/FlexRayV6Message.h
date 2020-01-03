@@ -39,9 +39,7 @@ namespace BLF {
  *
  * FlexRay Message received or transmitted on a FlexRay channel.
  */
-class VECTOR_BLF_EXPORT FlexRayV6Message final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT FlexRayV6Message final : ObjectHeader {
     FlexRayV6Message();
 
     virtual void read(AbstractFile & is) override;

@@ -29,14 +29,12 @@ namespace Vector {
 namespace BLF {
 
 LogContainer::LogContainer() :
-    ObjectHeaderBase()
-{
+    ObjectHeaderBase() {
     headerVersion = 1;
     objectType = ObjectType::LOG_CONTAINER;
 }
 
-void LogContainer::read(AbstractFile & is)
-{
+void LogContainer::read(AbstractFile & is) {
     ObjectHeaderBase::read(is);
     is.read(reinterpret_cast<char *>(&compressionMethod), sizeof(compressionMethod));
     is.read(reinterpret_cast<char *>(&reservedLogContainer1), sizeof(reservedLogContainer1));
@@ -51,8 +49,7 @@ void LogContainer::read(AbstractFile & is)
     is.seekg(objectSize % 4, std::ios_base::cur);
 }
 
-void LogContainer::write(AbstractFile & os)
-{
+void LogContainer::write(AbstractFile & os) {
     /* pre processing */
     compressedFileSize = static_cast<DWORD>(compressedFile.size());
 
@@ -68,15 +65,13 @@ void LogContainer::write(AbstractFile & os)
     os.skipp(objectSize % 4);
 }
 
-DWORD LogContainer::calculateObjectSize() const
-{
+DWORD LogContainer::calculateObjectSize() const {
     return
         internalHeaderSize() +
         static_cast<DWORD>(compressedFile.size());
 }
 
-WORD LogContainer::internalHeaderSize() const
-{
+WORD LogContainer::internalHeaderSize() const {
     return
         ObjectHeaderBase::calculateHeaderSize() +
         sizeof(compressionMethod) +
@@ -86,8 +81,7 @@ WORD LogContainer::internalHeaderSize() const
         sizeof(reservedLogContainer3);
 }
 
-void LogContainer::uncompress()
-{
+void LogContainer::uncompress() {
     switch (compressionMethod) {
     case 0: /* no compression */
         uncompressedFile = compressedFile;
@@ -104,12 +98,10 @@ void LogContainer::uncompress()
                          &size,
                          reinterpret_cast<Byte *>(compressedFile.data()),
                          static_cast<uLong>(compressedFileSize));
-        if (size != uncompressedFileSize) {
+        if (size != uncompressedFileSize)
             throw Exception("LogContainer::uncompress(): unexpected uncompressedSize");
-        }
-        if (retVal != Z_OK) {
+        if (retVal != Z_OK)
             throw Exception("LogContainer::uncompress(): uncompress error");
-        }
     }
     break;
 
@@ -118,8 +110,7 @@ void LogContainer::uncompress()
     }
 }
 
-void LogContainer::compress(WORD compressionMethod, int compressionLevel)
-{
+void LogContainer::compress(WORD compressionMethod, int compressionLevel) {
     this->compressionMethod = compressionMethod;
 
     switch (compressionMethod) {
@@ -138,9 +129,8 @@ void LogContainer::compress(WORD compressionMethod, int compressionLevel)
                          reinterpret_cast<Byte *>(uncompressedFile.data()),
                          uncompressedFileSize,
                          compressionLevel);
-        if (retVal != Z_OK) {
+        if (retVal != Z_OK)
             throw Exception("File::uncompressedFile2CompressedFile(): compress2 error");
-        }
         compressedFileSize = static_cast<DWORD>(compressedBufferSize);
         compressedFile.resize(compressedFileSize); // shrink
     }

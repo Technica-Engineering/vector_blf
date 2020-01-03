@@ -43,9 +43,7 @@ namespace BLF {
  * modified. This error event may also occur if the Master transmits an invalid or corrupted Sync
  * field.
  */
-class VECTOR_BLF_EXPORT LinSyncError final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT LinSyncError final : ObjectHeader {
     LinSyncError();
 
     virtual void read(AbstractFile & is) override;

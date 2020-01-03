@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* MOST_SYSTEM_EVENT = 82 */
-BOOST_AUTO_TEST_CASE(MostSystemEvent_1)
-{
+BOOST_AUTO_TEST_CASE(MostSystemEvent_1) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_MostSystemEvent.blf");
     BOOST_REQUIRE(file.is_open());
@@ -71,8 +70,7 @@ BOOST_AUTO_TEST_CASE(MostSystemEvent_1)
     file.close();
 }
 
-BOOST_AUTO_TEST_CASE(MostSystemEvent_2)
-{
+BOOST_AUTO_TEST_CASE(MostSystemEvent_2) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_converter/test_MostSystemEvent.blf");
     BOOST_REQUIRE(file.is_open());

@@ -26,14 +26,12 @@ namespace BLF {
 
 LinMessage2::LinMessage2() :
     ObjectHeader(),
-    LinDatabyteTimestampEvent()
-{
+    LinDatabyteTimestampEvent() {
     objectType = ObjectType::LIN_MESSAGE2;
     objectVersion = 1;
 }
 
-void LinMessage2::read(AbstractFile & is)
-{
+void LinMessage2::read(AbstractFile & is) {
     ObjectHeader::read(is);
     LinDatabyteTimestampEvent::read(is);
     is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
@@ -55,9 +53,8 @@ void LinMessage2::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&respBaudrate), sizeof(respBaudrate));
 
     /* the following variables are only available in Version 3 and above */
-    if (objectVersion < 1) { // Vector bug: Shouldn't this be < 2?
+    if (objectVersion < 1)   // Vector bug: Shouldn't this be < 2?
         return;
-    }
 
     is.read(reinterpret_cast<char *>(&exactHeaderBaudrate), sizeof(exactHeaderBaudrate));
     is.read(reinterpret_cast<char *>(&earlyStopbitOffset), sizeof(earlyStopbitOffset));
@@ -66,8 +63,7 @@ void LinMessage2::read(AbstractFile & is)
     // @note might be extended in future versions
 }
 
-void LinMessage2::write(AbstractFile & os)
-{
+void LinMessage2::write(AbstractFile & os) {
     ObjectHeader::write(os);
     LinDatabyteTimestampEvent::write(os);
     os.write(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
@@ -89,17 +85,15 @@ void LinMessage2::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&respBaudrate), sizeof(respBaudrate));
 
     /* the following variables are only available in Version 3 and above */
-    if (objectVersion < 1) { // Vector bug: Shouldn't this be < 2?
+    if (objectVersion < 1)   // Vector bug: Shouldn't this be < 2?
         return;
-    }
 
     os.write(reinterpret_cast<char *>(&exactHeaderBaudrate), sizeof(exactHeaderBaudrate));
     os.write(reinterpret_cast<char *>(&earlyStopbitOffset), sizeof(earlyStopbitOffset));
     os.write(reinterpret_cast<char *>(&earlyStopbitOffsetResponse), sizeof(earlyStopbitOffsetResponse));
 }
 
-DWORD LinMessage2::calculateObjectSize() const
-{
+DWORD LinMessage2::calculateObjectSize() const {
     DWORD size =
         ObjectHeader::calculateObjectSize() +
         LinDatabyteTimestampEvent::calculateObjectSize() +

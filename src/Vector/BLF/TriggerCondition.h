@@ -35,9 +35,7 @@ namespace BLF {
 /**
  * @brief TRIGGER_CONDITION
  */
-class VECTOR_BLF_EXPORT TriggerCondition final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT TriggerCondition final : ObjectHeader {
     TriggerCondition();
 
     virtual void read(AbstractFile & is) override;

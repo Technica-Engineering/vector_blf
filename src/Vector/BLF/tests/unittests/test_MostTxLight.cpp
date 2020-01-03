@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* MOST_TXLIGHT = 68 */
-BOOST_AUTO_TEST_CASE(MostTxLight_1)
-{
+BOOST_AUTO_TEST_CASE(MostTxLight_1) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_MostTxLight.blf");
     BOOST_REQUIRE(file.is_open());
@@ -70,8 +69,7 @@ BOOST_AUTO_TEST_CASE(MostTxLight_1)
     file.close();
 }
 
-BOOST_AUTO_TEST_CASE(MostTxLight_2)
-{
+BOOST_AUTO_TEST_CASE(MostTxLight_2) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_converter/test_MostTxLight.blf");
     BOOST_REQUIRE(file.is_open());

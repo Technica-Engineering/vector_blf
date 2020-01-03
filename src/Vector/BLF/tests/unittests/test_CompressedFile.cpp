@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /** Test read operations on a blf file. */
-BOOST_AUTO_TEST_CASE(ReadTest)
-{
+BOOST_AUTO_TEST_CASE(ReadTest) {
     Vector::BLF::CompressedFile compressedFile;
 
     /* checks after initialize */

@@ -25,27 +25,24 @@ namespace Vector {
 namespace BLF {
 
 SerialEvent::SerialEvent() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::SERIAL_EVENT;
 }
 
-void SerialEvent::read(AbstractFile & is)
-{
+void SerialEvent::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
     is.read(reinterpret_cast<char *>(&port), sizeof(port));
     is.read(reinterpret_cast<char *>(&baudrate), sizeof(baudrate));
     is.read(reinterpret_cast<char *>(&reservedSerialEvent), sizeof(reservedSerialEvent));
 
-    if (flags & Flags::SingleByte) {
+    if (flags & Flags::SingleByte)
         singleByte.read(is);
-    } else {
-        if (flags & Flags::CompactByte) {
+    else {
+        if (flags & Flags::CompactByte)
             compact.read(is);
-        } else {
+        else
             general.read(is);
-        }
     }
 
     /* skip padding */
@@ -53,30 +50,27 @@ void SerialEvent::read(AbstractFile & is)
     // @note might be extended in future versions
 }
 
-void SerialEvent::write(AbstractFile & os)
-{
+void SerialEvent::write(AbstractFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&flags), sizeof(flags));
     os.write(reinterpret_cast<char *>(&port), sizeof(port));
     os.write(reinterpret_cast<char *>(&baudrate), sizeof(baudrate));
     os.write(reinterpret_cast<char *>(&reservedSerialEvent), sizeof(reservedSerialEvent));
 
-    if (flags & Flags::SingleByte) {
+    if (flags & Flags::SingleByte)
         singleByte.write(os);
-    } else {
-        if (flags & Flags::CompactByte) {
+    else {
+        if (flags & Flags::CompactByte)
             compact.write(os);
-        } else {
+        else
             general.write(os);
-        }
     }
 
     /* skip padding */
     os.skipp(objectSize % 4);
 }
 
-DWORD SerialEvent::calculateObjectSize() const
-{
+DWORD SerialEvent::calculateObjectSize() const {
     DWORD size =
         ObjectHeader::calculateObjectSize() +
         sizeof(flags) +
@@ -85,9 +79,8 @@ DWORD SerialEvent::calculateObjectSize() const
         sizeof(reservedSerialEvent) +
         16; // size of union of singleByte/compact/general
 
-    if (flags & ~(Flags::SingleByte | Flags::CompactByte)) {
+    if (flags & ~(Flags::SingleByte | Flags::CompactByte))
         size += general.dataLength + general.timeStampsLength;
-    }
 
     return size;
 }

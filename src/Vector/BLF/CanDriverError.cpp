@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 CanDriverError::CanDriverError() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::CAN_DRIVER_ERROR;
 }
 
-void CanDriverError::read(AbstractFile & is)
-{
+void CanDriverError::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&txErrors), sizeof(txErrors));
@@ -39,8 +37,7 @@ void CanDriverError::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&errorCode), sizeof(errorCode));
 }
 
-void CanDriverError::write(AbstractFile & os)
-{
+void CanDriverError::write(AbstractFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&txErrors), sizeof(txErrors));
@@ -48,8 +45,7 @@ void CanDriverError::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&errorCode), sizeof(errorCode));
 }
 
-DWORD CanDriverError::calculateObjectSize() const
-{
+DWORD CanDriverError::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

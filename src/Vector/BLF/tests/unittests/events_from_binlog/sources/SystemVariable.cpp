@@ -6,19 +6,16 @@
 
 #include "binlog.h"
 
-int main(int argc, char ** argv)
-{
+int main(int argc, char ** argv) {
     /* create file */
     LPCTSTR pFileName = _T("test_SystemVariable.blf");
     HANDLE hFile = BLCreateFile(pFileName, GENERIC_WRITE);
-    if (hFile == INVALID_HANDLE_VALUE) {
+    if (hFile == INVALID_HANDLE_VALUE)
         return -1;
-    }
 
     /* set write options */
-    if (!BLSetWriteOptions(hFile, BL_COMPRESSION_NONE, 0)) {
+    if (!BLSetWriteOptions(hFile, BL_COMPRESSION_NONE, 0))
         return -1;
-    }
 
     /* define object */
     VBLSystemVariable obj;
@@ -49,9 +46,8 @@ int main(int argc, char ** argv)
     obj.mDataLength = sizeof(doubleValue);
     obj.mData = reinterpret_cast<unsigned char *>(&doubleValue);
     obj.mHeader.mBase.mObjectSize = sizeof(VBLSystemVariable) + obj.mNameLength + obj.mDataLength;
-    if (!BLWriteObject(hFile, &obj.mHeader.mBase)) {
+    if (!BLWriteObject(hFile, &obj.mHeader.mBase))
         return -1;
-    }
 
     /* write LONG object */
     LONG longValue = 0x11111111;
@@ -59,9 +55,8 @@ int main(int argc, char ** argv)
     obj.mDataLength = sizeof(longValue);
     obj.mData = reinterpret_cast<unsigned char *>(&longValue);
     obj.mHeader.mBase.mObjectSize = sizeof(VBLSystemVariable) + obj.mNameLength + obj.mDataLength;
-    if (!BLWriteObject(hFile, &obj.mHeader.mBase)) {
+    if (!BLWriteObject(hFile, &obj.mHeader.mBase))
         return -1;
-    }
 
     /* write STRING object */
     char stringValue[] = "xyz";
@@ -69,9 +64,8 @@ int main(int argc, char ** argv)
     obj.mDataLength = 3;
     obj.mData = reinterpret_cast<unsigned char *>(&stringValue);
     obj.mHeader.mBase.mObjectSize = sizeof(VBLSystemVariable) + obj.mNameLength + obj.mDataLength;
-    if (!BLWriteObject(hFile, &obj.mHeader.mBase)) {
+    if (!BLWriteObject(hFile, &obj.mHeader.mBase))
         return -1;
-    }
 
     /* write DOUBLEARRAY object */
     DOUBLE doubleArray[] = { 1.0, 2.0, 3.0 };
@@ -79,9 +73,8 @@ int main(int argc, char ** argv)
     obj.mDataLength = sizeof(doubleArray);
     obj.mData = reinterpret_cast<unsigned char *>(&doubleArray);
     obj.mHeader.mBase.mObjectSize = sizeof(VBLSystemVariable) + obj.mNameLength + obj.mDataLength;
-    if (!BLWriteObject(hFile, &obj.mHeader.mBase)) {
+    if (!BLWriteObject(hFile, &obj.mHeader.mBase))
         return -1;
-    }
 
     /* write LONGARRAY object */
     LONG longArray[] = { 1, 2, 3 };
@@ -89,9 +82,8 @@ int main(int argc, char ** argv)
     obj.mDataLength = sizeof(longArray);
     obj.mData = reinterpret_cast<unsigned char *>(&longArray);
     obj.mHeader.mBase.mObjectSize = sizeof(VBLSystemVariable) + obj.mNameLength + obj.mDataLength;
-    if (!BLWriteObject(hFile, &obj.mHeader.mBase)) {
+    if (!BLWriteObject(hFile, &obj.mHeader.mBase))
         return -1;
-    }
 
     /* write LONGLONG object */
     LONGLONG longLongValue = 0x1111111111111111;
@@ -99,9 +91,8 @@ int main(int argc, char ** argv)
     obj.mDataLength = sizeof(longLongValue);
     obj.mData = reinterpret_cast<unsigned char *>(&longLongValue);
     obj.mHeader.mBase.mObjectSize = sizeof(VBLSystemVariable) + obj.mNameLength + obj.mDataLength;
-    if (!BLWriteObject(hFile, &obj.mHeader.mBase)) {
+    if (!BLWriteObject(hFile, &obj.mHeader.mBase))
         return -1;
-    }
 
     /* write BYTEARRAY object */
     BYTE byteArray[] = { 1, 2, 3 };
@@ -109,19 +100,16 @@ int main(int argc, char ** argv)
     obj.mDataLength = sizeof(byteArray);
     obj.mData = reinterpret_cast<unsigned char *>(&byteArray);
     obj.mHeader.mBase.mObjectSize = sizeof(VBLSystemVariable) + obj.mNameLength + obj.mDataLength;
-    if (!BLWriteObject(hFile, &obj.mHeader.mBase)) {
+    if (!BLWriteObject(hFile, &obj.mHeader.mBase))
         return -1;
-    }
 
     /* write object again */
-    if (!BLWriteObject(hFile, &obj.mHeader.mBase)) {
+    if (!BLWriteObject(hFile, &obj.mHeader.mBase))
         return -1;
-    }
 
     /* close handle */
-    if (!BLCloseHandle(hFile)) {
+    if (!BLCloseHandle(hFile))
         return -1;
-    }
 
     return 0;
 }

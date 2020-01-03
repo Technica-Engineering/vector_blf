@@ -38,9 +38,7 @@ namespace BLF {
  * The event transports common network statistics. Usually the event is not visible in a
  * trace window.
  */
-class VECTOR_BLF_EXPORT MostStatistic final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT MostStatistic final : ObjectHeader {
     MostStatistic();
 
     virtual void read(AbstractFile & is) override;

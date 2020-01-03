@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 Most150Message::Most150Message() :
-    ObjectHeader2()
-{
+    ObjectHeader2() {
     objectType = ObjectType::MOST_150_MESSAGE;
 }
 
-void Most150Message::read(AbstractFile & is)
-{
+void Most150Message::read(AbstractFile & is) {
     ObjectHeader2::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
@@ -56,8 +54,7 @@ void Most150Message::read(AbstractFile & is)
     is.seekg(objectSize % 4, std::ios_base::cur);
 }
 
-void Most150Message::write(AbstractFile & os)
-{
+void Most150Message::write(AbstractFile & os) {
     /* pre processing */
     msgLen = static_cast<DWORD>(msg.size());
 
@@ -84,8 +81,7 @@ void Most150Message::write(AbstractFile & os)
     os.skipp(objectSize % 4);
 }
 
-DWORD Most150Message::calculateObjectSize() const
-{
+DWORD Most150Message::calculateObjectSize() const {
     return
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +

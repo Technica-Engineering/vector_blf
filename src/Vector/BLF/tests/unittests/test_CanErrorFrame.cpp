@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* CAN_ERROR = 2 */
-BOOST_AUTO_TEST_CASE(CanErrorFrame_1)
-{
+BOOST_AUTO_TEST_CASE(CanErrorFrame_1) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_CanErrorFrame.blf");
     BOOST_REQUIRE(file.is_open());
@@ -67,8 +66,7 @@ BOOST_AUTO_TEST_CASE(CanErrorFrame_1)
     file.close();
 }
 
-BOOST_AUTO_TEST_CASE(CanErrorFrame_2)
-{
+BOOST_AUTO_TEST_CASE(CanErrorFrame_2) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_converter/test_CanErrorFrame.blf");
     BOOST_REQUIRE(file.is_open());

@@ -37,9 +37,7 @@ namespace BLF {
  *
  * Network state derived by MOST Supervisor Layer I+II
  */
-class VECTOR_BLF_EXPORT MostNetState final : public ObjectHeader2
-{
-public:
+struct VECTOR_BLF_EXPORT MostNetState final : ObjectHeader2 {
     MostNetState();
 
     virtual void read(AbstractFile & is) override;

@@ -26,13 +26,11 @@ namespace BLF {
 
 LinSpikeEvent2::LinSpikeEvent2() :
     ObjectHeader(),
-    LinBusEvent()
-{
+    LinBusEvent() {
     objectType = ObjectType::LIN_SPIKE_EVENT2;
 }
 
-void LinSpikeEvent2::read(AbstractFile & is)
-{
+void LinSpikeEvent2::read(AbstractFile & is) {
     ObjectHeader::read(is);
     LinBusEvent::read(is);
     is.read(reinterpret_cast<char *>(&width), sizeof(width));
@@ -42,8 +40,7 @@ void LinSpikeEvent2::read(AbstractFile & is)
     // @note might be extended in future versions
 }
 
-void LinSpikeEvent2::write(AbstractFile & os)
-{
+void LinSpikeEvent2::write(AbstractFile & os) {
     ObjectHeader::write(os);
     LinBusEvent::write(os);
     os.write(reinterpret_cast<char *>(&width), sizeof(width));
@@ -52,8 +49,7 @@ void LinSpikeEvent2::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reservedLinSpikeEvent2), sizeof(reservedLinSpikeEvent2));
 }
 
-DWORD LinSpikeEvent2::calculateObjectSize() const
-{
+DWORD LinSpikeEvent2::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         LinBusEvent::calculateObjectSize() +

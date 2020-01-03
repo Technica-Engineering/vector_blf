@@ -43,9 +43,7 @@ namespace BLF {
  * - The POC state or wakeup state of the CC has changed
  * - The status of the symbol window has changed
  */
-class VECTOR_BLF_EXPORT FlexRayVFrStatus final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT FlexRayVFrStatus final : ObjectHeader {
     FlexRayVFrStatus();
 
     virtual void read(AbstractFile & is) override;

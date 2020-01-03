@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* FR_STARTCYCLE = 49 */
-BOOST_AUTO_TEST_CASE(FlexRayVFrStartCycle_1)
-{
+BOOST_AUTO_TEST_CASE(FlexRayVFrStartCycle_1) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_FlexRayVFrStartCycle.blf");
     BOOST_REQUIRE(file.is_open());
@@ -41,9 +40,8 @@ BOOST_AUTO_TEST_CASE(FlexRayVFrStartCycle_1)
     BOOST_CHECK_EQUAL(obj->clientIndexFlexRayVFrStartCycle, 0x66666666);
     BOOST_CHECK_EQUAL(obj->clusterNo, 0x77777777);
     BOOST_CHECK_EQUAL(obj->nmSize, 0x8888);
-    for (uint16_t i = 0; i < 12; i++) {
+    for (uint16_t i = 0; i < 12; i++)
         BOOST_CHECK_EQUAL(obj->dataBytes[i], i);
-    }
     BOOST_CHECK_EQUAL(obj->reservedFlexRayVFrStartCycle1, 0);
     BOOST_CHECK_EQUAL(obj->tag, 0x99999999);
     BOOST_CHECK_EQUAL(obj->data[0], 0xAAAAAAAA);
@@ -84,8 +82,7 @@ BOOST_AUTO_TEST_CASE(FlexRayVFrStartCycle_1)
     file.close();
 }
 
-BOOST_AUTO_TEST_CASE(FlexRayVFrStartCycle_2)
-{
+BOOST_AUTO_TEST_CASE(FlexRayVFrStartCycle_2) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_converter/test_FlexRayVFrStartCycle.blf");
     BOOST_REQUIRE(file.is_open());

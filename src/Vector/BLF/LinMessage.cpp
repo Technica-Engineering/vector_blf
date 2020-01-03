@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 LinMessage::LinMessage() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::LIN_MESSAGE;
 }
 
-void LinMessage::read(AbstractFile & is)
-{
+void LinMessage::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&id), sizeof(id));
@@ -47,8 +45,7 @@ void LinMessage::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&reservedLinMessage2), sizeof(reservedLinMessage2));
 }
 
-void LinMessage::write(AbstractFile & os)
-{
+void LinMessage::write(AbstractFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&id), sizeof(id));
@@ -64,8 +61,7 @@ void LinMessage::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reservedLinMessage2), sizeof(reservedLinMessage2));
 }
 
-DWORD LinMessage::calculateObjectSize() const
-{
+DWORD LinMessage::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

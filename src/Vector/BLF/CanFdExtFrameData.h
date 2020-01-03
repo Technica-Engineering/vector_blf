@@ -33,15 +33,13 @@ namespace Vector {
 namespace BLF {
 
 /** optional information in CanFdMessage64 and CanFdErrorFrame64 classes */
-class VECTOR_BLF_EXPORT CanFdExtFrameData
-{
-public:
+struct VECTOR_BLF_EXPORT CanFdExtFrameData {
     CanFdExtFrameData() = default;
     virtual ~CanFdExtFrameData() noexcept = default;
-    CanFdExtFrameData(const CanFdExtFrameData&) = default;
-    CanFdExtFrameData& operator=(const CanFdExtFrameData&) = default;
-    CanFdExtFrameData(CanFdExtFrameData&&) = default;
-    CanFdExtFrameData& operator=(CanFdExtFrameData&&) = default;
+    CanFdExtFrameData(const CanFdExtFrameData &) = default;
+    CanFdExtFrameData & operator=(const CanFdExtFrameData &) = default;
+    CanFdExtFrameData(CanFdExtFrameData &&) = default;
+    CanFdExtFrameData & operator=(CanFdExtFrameData &&) = default;
 
     /** @copydoc ObjectHeader::read */
     virtual void read(AbstractFile & is);

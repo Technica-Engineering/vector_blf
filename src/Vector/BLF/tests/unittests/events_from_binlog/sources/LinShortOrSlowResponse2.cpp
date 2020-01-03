@@ -6,19 +6,16 @@
 
 #include "binlog.h"
 
-int main(int argc, char ** argv)
-{
+int main(int argc, char ** argv) {
     /* create file */
     LPCTSTR pFileName = _T("test_LinShortOrSlowResponse2.blf");
     HANDLE hFile = BLCreateFile(pFileName, GENERIC_WRITE);
-    if (hFile == INVALID_HANDLE_VALUE) {
+    if (hFile == INVALID_HANDLE_VALUE)
         return -1;
-    }
 
     /* set write options */
-    if (!BLSetWriteOptions(hFile, BL_COMPRESSION_NONE, 0)) {
+    if (!BLSetWriteOptions(hFile, BL_COMPRESSION_NONE, 0))
         return -1;
-    }
 
     /* define object */
     VBLLINShortOrSlowResponse2 obj;
@@ -42,9 +39,8 @@ int main(int argc, char ** argv)
     obj.mEarlyStopbitOffset = 15;
 
     /* VBLLINDatabyteTimestampEvent */
-    for (ULONGLONG i = 0; i < 9; i++) {
+    for (ULONGLONG i = 0; i < 9; i++)
         obj.mLinTimestampEvent.mDatabyteTimestamps[i] = i;
-    }
 
     /* VBLLINMessageDescriptor */
     obj.mLinTimestampEvent.mLinMsgDescrEvent.mSupplierID = 0x1111;
@@ -79,19 +75,16 @@ int main(int argc, char ** argv)
     obj.mHeader.mBase.mObjectType = BL_OBJ_TYPE_LIN_SHORT_OR_SLOW_RESPONSE2;
 
     /* write object */
-    if (!BLWriteObject(hFile, &obj.mHeader.mBase)) {
+    if (!BLWriteObject(hFile, &obj.mHeader.mBase))
         return -1;
-    }
 
     /* write object again */
-    if (!BLWriteObject(hFile, &obj.mHeader.mBase)) {
+    if (!BLWriteObject(hFile, &obj.mHeader.mBase))
         return -1;
-    }
 
     /* close handle */
-    if (!BLCloseHandle(hFile)) {
+    if (!BLCloseHandle(hFile))
         return -1;
-    }
 
     return 0;
 }

@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 FunctionBus::FunctionBus() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::FUNCTION_BUS;
 }
 
-void FunctionBus::read(AbstractFile & is)
-{
+void FunctionBus::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&functionBusObjectType), sizeof(functionBusObjectType));
     is.read(reinterpret_cast<char *>(&veType), sizeof(veType));
@@ -43,8 +41,7 @@ void FunctionBus::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(data.data()), dataLength);
 }
 
-void FunctionBus::write(AbstractFile & os)
-{
+void FunctionBus::write(AbstractFile & os) {
     /* pre processing */
     nameLength = static_cast<DWORD>(name.size());
     dataLength = static_cast<DWORD>(data.size());
@@ -58,8 +55,7 @@ void FunctionBus::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(data.data()), dataLength);
 }
 
-DWORD FunctionBus::calculateObjectSize() const
-{
+DWORD FunctionBus::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(functionBusObjectType) +

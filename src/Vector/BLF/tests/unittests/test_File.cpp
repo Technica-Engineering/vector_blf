@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /** check error conditions in open */
-BOOST_AUTO_TEST_CASE(OpenErrors)
-{
+BOOST_AUTO_TEST_CASE(OpenErrors) {
     Vector::BLF::File file;
 
     /* try to open an unexisting file for reading */
@@ -30,8 +29,7 @@ BOOST_AUTO_TEST_CASE(OpenErrors)
 }
 
 /** try to create objects that are not triggered anyway by other test cases */
-BOOST_AUTO_TEST_CASE(createUnknownObjects)
-{
+BOOST_AUTO_TEST_CASE(createUnknownObjects) {
     /* doesn't exist */
     BOOST_CHECK(Vector::BLF::File::createObject(Vector::BLF::ObjectType::UNKNOWN) == nullptr);
     BOOST_CHECK(Vector::BLF::File::createObject(Vector::BLF::ObjectType::Reserved26) == nullptr);
@@ -52,8 +50,7 @@ BOOST_AUTO_TEST_CASE(createUnknownObjects)
 }
 
 /** test getter/setter for defaultContainerSize */
-BOOST_AUTO_TEST_CASE(defaultContainerSize)
-{
+BOOST_AUTO_TEST_CASE(defaultContainerSize) {
     Vector::BLF::File file;
 
     BOOST_CHECK_EQUAL(file.defaultLogContainerSize(), 0x20000);
@@ -62,8 +59,7 @@ BOOST_AUTO_TEST_CASE(defaultContainerSize)
 }
 
 /** Test file with only two CanMessages, but no LogContainers. */
-BOOST_AUTO_TEST_CASE(fileWithoutLogContainers)
-{
+BOOST_AUTO_TEST_CASE(fileWithoutLogContainers) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/errors/FileWithoutLogContainers.blf", std::ios_base::in);
     BOOST_REQUIRE(file.is_open());
@@ -79,8 +75,7 @@ BOOST_AUTO_TEST_CASE(fileWithoutLogContainers)
 }
 
 /** Test file without two CanMessages in a truncated compressed LogContainer (-8 Bytes). */
-BOOST_AUTO_TEST_CASE(fileWithTruncatedCompressedLogContainer)
-{
+BOOST_AUTO_TEST_CASE(fileWithTruncatedCompressedLogContainer) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/errors/FileWithTruncatedCompressedLogContainer.blf", std::ios_base::in);
     BOOST_REQUIRE(file.is_open());
@@ -96,8 +91,7 @@ BOOST_AUTO_TEST_CASE(fileWithTruncatedCompressedLogContainer)
 }
 
 /** Test file with two CanMessages, in a truncated uncompressed LogContainer (-8 Bytes). */
-BOOST_AUTO_TEST_CASE(fileWithTruncatedUncompressedLogContainer)
-{
+BOOST_AUTO_TEST_CASE(fileWithTruncatedUncompressedLogContainer) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/errors/FileWithTruncatedUncompressedLogContainer.blf", std::ios_base::in);
     BOOST_REQUIRE(file.is_open());
@@ -113,8 +107,7 @@ BOOST_AUTO_TEST_CASE(fileWithTruncatedUncompressedLogContainer)
 }
 
 /** Test file without two CanMessages, second is truncated (-8 Bytes). */
-BOOST_AUTO_TEST_CASE(fileWithTruncatedCanMessage)
-{
+BOOST_AUTO_TEST_CASE(fileWithTruncatedCanMessage) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/errors/FileWithTruncatedCanMessage.blf", std::ios_base::in);
     BOOST_REQUIRE(file.is_open());
@@ -138,8 +131,7 @@ BOOST_AUTO_TEST_CASE(fileWithTruncatedCanMessage)
 }
 
 /** Test file without two CanMessage, where second has objectType set to 0xA0. */
-BOOST_AUTO_TEST_CASE(fileWithUnknownObjectType)
-{
+BOOST_AUTO_TEST_CASE(fileWithUnknownObjectType) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/errors/FileWithUnknownObjectType.blf", std::ios_base::in);
     BOOST_REQUIRE(file.is_open());

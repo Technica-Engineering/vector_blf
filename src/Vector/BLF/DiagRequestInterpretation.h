@@ -35,9 +35,7 @@ namespace BLF {
 /**
  * @brief DIAG_REQUEST_INTERPRETATION
  */
-class VECTOR_BLF_EXPORT DiagRequestInterpretation final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT DiagRequestInterpretation final : ObjectHeader {
     DiagRequestInterpretation();
 
     virtual void read(AbstractFile & is) override;

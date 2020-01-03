@@ -27,13 +27,11 @@ namespace Vector {
 namespace BLF {
 
 GlobalMarker::GlobalMarker() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::GLOBAL_MARKER;
 }
 
-void GlobalMarker::read(AbstractFile & is)
-{
+void GlobalMarker::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&commentedEventType), sizeof(commentedEventType));
     is.read(reinterpret_cast<char *>(&foregroundColor), sizeof(foregroundColor));
@@ -57,8 +55,7 @@ void GlobalMarker::read(AbstractFile & is)
     is.seekg(objectSize % 4, std::ios_base::cur);
 }
 
-void GlobalMarker::write(AbstractFile & os)
-{
+void GlobalMarker::write(AbstractFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&commentedEventType), sizeof(commentedEventType));
     os.write(reinterpret_cast<char *>(&foregroundColor), sizeof(foregroundColor));
@@ -79,8 +76,7 @@ void GlobalMarker::write(AbstractFile & os)
     os.skipp(objectSize % 4);
 }
 
-DWORD GlobalMarker::calculateObjectSize() const
-{
+DWORD GlobalMarker::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(commentedEventType) +

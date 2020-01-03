@@ -35,9 +35,7 @@ namespace BLF {
 /**
  * @brief WATER_MARK_EVENT
  */
-class VECTOR_BLF_EXPORT WaterMarkEvent final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT WaterMarkEvent final : ObjectHeader {
     WaterMarkEvent();
 
     virtual void read(AbstractFile & is) override;

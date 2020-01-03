@@ -37,9 +37,7 @@ namespace BLF {
  *
  * Object header. Version 2.
  */
-class VECTOR_BLF_EXPORT ObjectHeader2 : public ObjectHeaderBase
-{
-public:
+struct VECTOR_BLF_EXPORT ObjectHeader2 : ObjectHeaderBase {
     ObjectHeader2();
 
     virtual void read(AbstractFile & is) override;
@@ -72,7 +70,7 @@ public:
      *
      * Unit of object timestamp.
      */
-    DWORD objectFlags { ObjectFlags::TimeOneNans };
+    DWORD objectFlags {ObjectFlags::TimeOneNans};
 
     /** enumeration for timeStampStatus */
     enum TimeStampStatus : BYTE {
@@ -119,7 +117,7 @@ public:
      *
      * @note can be set in event class constructor
      */
-    WORD objectVersion { 0 };
+    WORD objectVersion {0};
 
     /**
      * @brief object timestamp

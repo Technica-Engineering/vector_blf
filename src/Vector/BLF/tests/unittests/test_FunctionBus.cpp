@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* FUNCTION_BUS = 124 */
-BOOST_AUTO_TEST_CASE(FunctionBus)
-{
+BOOST_AUTO_TEST_CASE(FunctionBus) {
 #if 0
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_FunctionBus.blf");

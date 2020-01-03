@@ -24,8 +24,7 @@
 namespace Vector {
 namespace BLF {
 
-void AfdxLineStatus::read(AbstractFile & is)
-{
+void AfdxLineStatus::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
     is.read(reinterpret_cast<char *>(&linkStatus), sizeof(linkStatus));
     is.read(reinterpret_cast<char *>(&ethernetPhy), sizeof(ethernetPhy));
@@ -40,8 +39,7 @@ void AfdxLineStatus::read(AbstractFile & is)
     // @note might be extended in future versions
 }
 
-void AfdxLineStatus::write(AbstractFile & os)
-{
+void AfdxLineStatus::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&flags), sizeof(flags));
     os.write(reinterpret_cast<char *>(&linkStatus), sizeof(linkStatus));
     os.write(reinterpret_cast<char *>(&ethernetPhy), sizeof(ethernetPhy));
@@ -55,8 +53,7 @@ void AfdxLineStatus::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&bitrate), sizeof(bitrate));
 }
 
-DWORD AfdxLineStatus::calculateObjectSize() const
-{
+DWORD AfdxLineStatus::calculateObjectSize() const {
     return
         sizeof(flags) +
         sizeof(linkStatus) +

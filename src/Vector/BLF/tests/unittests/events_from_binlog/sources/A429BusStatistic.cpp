@@ -6,19 +6,16 @@
 
 #include "binlog.h"
 
-int main(int argc, char ** argv)
-{
+int main(int argc, char ** argv) {
     /* create file */
     LPCTSTR pFileName = _T("test_A429BusStatistic.blf");
     HANDLE hFile = BLCreateFile(pFileName, GENERIC_WRITE);
-    if (hFile == INVALID_HANDLE_VALUE) {
+    if (hFile == INVALID_HANDLE_VALUE)
         return -1;
-    }
 
     /* set write options */
-    if (!BLSetWriteOptions(hFile, BL_COMPRESSION_NONE, 0)) {
+    if (!BLSetWriteOptions(hFile, BL_COMPRESSION_NONE, 0))
         return -1;
-    }
 
     /* define object */
     VBLA429BusStatistic obj;
@@ -41,9 +38,8 @@ int main(int argc, char ** argv)
     obj.mCodingErrors = 0xEEEE;
     obj.mIdleErrors = 0xFFFF;
     obj.mLevelErrors = 0x1111;
-    for (WORD i = 0; i < 256; i++) {
+    for (WORD i = 0; i < 256; i++)
         obj.mLabelCount[i] = i;
-    }
 
     /* VBLObjectHeader */
     obj.mHeader.mObjectFlags = BL_OBJ_FLAG_TIME_ONE_NANS;
@@ -59,19 +55,16 @@ int main(int argc, char ** argv)
     obj.mHeader.mBase.mObjectType = BL_OBJ_TYPE_A429_BUS_STATISTIC;
 
     /* write object */
-    if (!BLWriteObject(hFile, &obj.mHeader.mBase)) {
+    if (!BLWriteObject(hFile, &obj.mHeader.mBase))
         return -1;
-    }
 
     /* write object again */
-    if (!BLWriteObject(hFile, &obj.mHeader.mBase)) {
+    if (!BLWriteObject(hFile, &obj.mHeader.mBase))
         return -1;
-    }
 
     /* close handle */
-    if (!BLCloseHandle(hFile)) {
+    if (!BLCloseHandle(hFile))
         return -1;
-    }
 
     return 0;
 }

@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* CAN_DRIVER_SYNC = 44 */
-BOOST_AUTO_TEST_CASE(CanDriverHwSync)
-{
+BOOST_AUTO_TEST_CASE(CanDriverHwSync) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_CanDriverHwSync.blf");
     BOOST_REQUIRE(file.is_open());

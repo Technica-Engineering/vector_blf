@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 LinWakeupEvent::LinWakeupEvent() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::LIN_WAKEUP;
 }
 
-void LinWakeupEvent::read(AbstractFile & is)
-{
+void LinWakeupEvent::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&signal), sizeof(signal));
@@ -39,8 +37,7 @@ void LinWakeupEvent::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&reservedLinWakeupEvent), sizeof(reservedLinWakeupEvent));
 }
 
-void LinWakeupEvent::write(AbstractFile & os)
-{
+void LinWakeupEvent::write(AbstractFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&signal), sizeof(signal));
@@ -48,8 +45,7 @@ void LinWakeupEvent::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reservedLinWakeupEvent), sizeof(reservedLinWakeupEvent));
 }
 
-DWORD LinWakeupEvent::calculateObjectSize() const
-{
+DWORD LinWakeupEvent::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

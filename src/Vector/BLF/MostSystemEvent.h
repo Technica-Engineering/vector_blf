@@ -37,9 +37,7 @@ namespace BLF {
  *
  * Event for various system states.
  */
-class VECTOR_BLF_EXPORT MostSystemEvent final : public ObjectHeader2
-{
-public:
+struct VECTOR_BLF_EXPORT MostSystemEvent final : ObjectHeader2 {
     MostSystemEvent();
 
     virtual void read(AbstractFile & is) override;

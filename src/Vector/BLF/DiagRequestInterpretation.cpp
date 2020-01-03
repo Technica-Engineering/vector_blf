@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 DiagRequestInterpretation::DiagRequestInterpretation() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::DIAG_REQUEST_INTERPRETATION;
 }
 
-void DiagRequestInterpretation::read(AbstractFile & is)
-{
+void DiagRequestInterpretation::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&diagDescriptionHandle), sizeof(diagDescriptionHandle));
     is.read(reinterpret_cast<char *>(&diagVariantHandle), sizeof(diagVariantHandle));
@@ -47,8 +45,7 @@ void DiagRequestInterpretation::read(AbstractFile & is)
     is.read(const_cast<char *>(serviceQualifier.data()), serviceQualifierLength);
 }
 
-void DiagRequestInterpretation::write(AbstractFile & os)
-{
+void DiagRequestInterpretation::write(AbstractFile & os) {
     /* pre processing */
     ecuQualifierLength = static_cast<DWORD>(ecuQualifier.size());
     variantQualifierLength = static_cast<DWORD>(variantQualifier.size());
@@ -66,8 +63,7 @@ void DiagRequestInterpretation::write(AbstractFile & os)
     os.write(const_cast<char *>(serviceQualifier.data()), serviceQualifierLength);
 }
 
-DWORD DiagRequestInterpretation::calculateObjectSize() const
-{
+DWORD DiagRequestInterpretation::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(diagDescriptionHandle) +

@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 VarObjectHeader::VarObjectHeader() :
-    ObjectHeaderBase()
-{
+    ObjectHeaderBase() {
     headerVersion = 1;
 }
 
-void VarObjectHeader::read(AbstractFile & is)
-{
+void VarObjectHeader::read(AbstractFile & is) {
     ObjectHeaderBase::read(is);
     is.read(reinterpret_cast<char *>(&objectFlags), sizeof(objectFlags));
     is.read(reinterpret_cast<char *>(&objectStaticSize), sizeof(objectStaticSize));
@@ -39,8 +37,7 @@ void VarObjectHeader::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&objectTimeStamp), sizeof(objectTimeStamp));
 }
 
-void VarObjectHeader::write(AbstractFile & os)
-{
+void VarObjectHeader::write(AbstractFile & os) {
     ObjectHeaderBase::write(os);
     os.write(reinterpret_cast<char *>(&objectFlags), sizeof(objectFlags));
     os.write(reinterpret_cast<char *>(&objectStaticSize), sizeof(objectStaticSize));
@@ -48,8 +45,7 @@ void VarObjectHeader::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&objectTimeStamp), sizeof(objectTimeStamp));
 }
 
-WORD VarObjectHeader::calculateHeaderSize() const
-{
+WORD VarObjectHeader::calculateHeaderSize() const {
     return
         ObjectHeaderBase::calculateHeaderSize() +
         sizeof(objectFlags) +
@@ -58,8 +54,7 @@ WORD VarObjectHeader::calculateHeaderSize() const
         sizeof(objectTimeStamp);
 }
 
-DWORD VarObjectHeader::calculateObjectSize() const
-{
+DWORD VarObjectHeader::calculateObjectSize() const {
     return calculateHeaderSize();
 }
 

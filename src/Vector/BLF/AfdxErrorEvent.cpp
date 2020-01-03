@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 AfdxErrorEvent::AfdxErrorEvent() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::AFDX_ERROR_EVENT;
 }
 
-void AfdxErrorEvent::read(AbstractFile & is)
-{
+void AfdxErrorEvent::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&errorLevel), sizeof(errorLevel));
@@ -41,8 +39,7 @@ void AfdxErrorEvent::read(AbstractFile & is)
     // @note might be extended in future versions
 }
 
-void AfdxErrorEvent::write(AbstractFile & os)
-{
+void AfdxErrorEvent::write(AbstractFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&errorLevel), sizeof(errorLevel));
@@ -51,8 +48,7 @@ void AfdxErrorEvent::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(errorAttributes.data()), static_cast<std::streamsize>(errorAttributes.size()));
 }
 
-DWORD AfdxErrorEvent::calculateObjectSize() const
-{
+DWORD AfdxErrorEvent::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

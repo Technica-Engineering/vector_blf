@@ -39,9 +39,7 @@ namespace BLF {
  * This event occurs when a LIN channel remains in the dominant state for a time, which
  * is longer than a valid wakeup frame and it is not a valid sync break.
  */
-class VECTOR_BLF_EXPORT LinLongDomSignalEvent2 final : public ObjectHeader, public LinBusEvent
-{
-public:
+struct VECTOR_BLF_EXPORT LinLongDomSignalEvent2 final : ObjectHeader, LinBusEvent {
     LinLongDomSignalEvent2();
 
     virtual void read(AbstractFile & is) override;

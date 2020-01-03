@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* A429_ERROR = 110 */
-BOOST_AUTO_TEST_CASE(A429Error)
-{
+BOOST_AUTO_TEST_CASE(A429Error) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_A429Error.blf");
     BOOST_REQUIRE(file.is_open());

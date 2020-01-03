@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* LIN_RCV_ERROR2 = 61 */
-BOOST_AUTO_TEST_CASE(LinReceiveError2_1)
-{
+BOOST_AUTO_TEST_CASE(LinReceiveError2_1) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_LinReceiveError2.blf");
     BOOST_REQUIRE(file.is_open());
@@ -115,8 +114,7 @@ BOOST_AUTO_TEST_CASE(LinReceiveError2_1)
     file.close();
 }
 
-BOOST_AUTO_TEST_CASE(LinReceiveError2_2)
-{
+BOOST_AUTO_TEST_CASE(LinReceiveError2_2) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_converter/test_LinReceiveError2.blf");
     BOOST_REQUIRE(file.is_open());

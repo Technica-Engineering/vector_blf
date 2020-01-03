@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 CanMessage::CanMessage() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::CAN_MESSAGE;
 }
 
-void CanMessage::read(AbstractFile & is)
-{
+void CanMessage::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
@@ -40,8 +38,7 @@ void CanMessage::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
 }
 
-void CanMessage::write(AbstractFile & os)
-{
+void CanMessage::write(AbstractFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&flags), sizeof(flags));
@@ -50,8 +47,7 @@ void CanMessage::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
 }
 
-DWORD CanMessage::calculateObjectSize() const
-{
+DWORD CanMessage::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

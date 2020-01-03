@@ -36,9 +36,7 @@ namespace BLF {
 /**
  * Common header of LIN bus events containing break field data
  */
-class VECTOR_BLF_EXPORT LinSynchFieldEvent : public LinBusEvent
-{
-public:
+struct VECTOR_BLF_EXPORT LinSynchFieldEvent : LinBusEvent {
     LinSynchFieldEvent();
 
     virtual void read(AbstractFile & is) override;

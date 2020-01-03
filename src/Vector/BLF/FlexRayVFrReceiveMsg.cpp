@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 FlexRayVFrReceiveMsg::FlexRayVFrReceiveMsg() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::FR_RCVMESSAGE;
 }
 
-void FlexRayVFrReceiveMsg::read(AbstractFile & is)
-{
+void FlexRayVFrReceiveMsg::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&version), sizeof(version));
@@ -56,8 +54,7 @@ void FlexRayVFrReceiveMsg::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&reservedFlexRayVFrReceiveMsg4), sizeof(reservedFlexRayVFrReceiveMsg4));
 }
 
-void FlexRayVFrReceiveMsg::write(AbstractFile & os)
-{
+void FlexRayVFrReceiveMsg::write(AbstractFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&version), sizeof(version));
@@ -82,8 +79,7 @@ void FlexRayVFrReceiveMsg::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reservedFlexRayVFrReceiveMsg4), sizeof(reservedFlexRayVFrReceiveMsg4));
 }
 
-DWORD FlexRayVFrReceiveMsg::calculateObjectSize() const
-{
+DWORD FlexRayVFrReceiveMsg::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

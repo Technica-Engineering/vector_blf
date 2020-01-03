@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 CanDriverErrorExt::CanDriverErrorExt() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::CAN_DRIVER_ERROR_EXT;
 }
 
-void CanDriverErrorExt::read(AbstractFile & is)
-{
+void CanDriverErrorExt::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&txErrors), sizeof(txErrors));
@@ -44,8 +42,7 @@ void CanDriverErrorExt::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(reservedCanDriverErrorExt3.data()), static_cast<std::streamsize>(reservedCanDriverErrorExt3.size() * sizeof(DWORD)));
 }
 
-void CanDriverErrorExt::write(AbstractFile & os)
-{
+void CanDriverErrorExt::write(AbstractFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&txErrors), sizeof(txErrors));
@@ -58,8 +55,7 @@ void CanDriverErrorExt::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(reservedCanDriverErrorExt3.data()), static_cast<std::streamsize>(reservedCanDriverErrorExt3.size() * sizeof(DWORD)));
 }
 
-DWORD CanDriverErrorExt::calculateObjectSize() const
-{
+DWORD CanDriverErrorExt::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

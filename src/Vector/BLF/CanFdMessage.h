@@ -37,9 +37,7 @@ namespace BLF {
 /**
  * @brief CAN_FD_MESSAGE
  */
-class VECTOR_BLF_EXPORT CanFdMessage final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT CanFdMessage final : ObjectHeader {
     CanFdMessage();
 
     virtual void read(AbstractFile & is) override;

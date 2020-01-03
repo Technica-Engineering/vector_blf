@@ -39,9 +39,7 @@ namespace BLF {
  *
  * Extended CAN driver error information for transceiver of a CAN channel.
  */
-class VECTOR_BLF_EXPORT CanDriverErrorExt final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT CanDriverErrorExt final : ObjectHeader {
     CanDriverErrorExt();
 
     virtual void read(AbstractFile & is) override;

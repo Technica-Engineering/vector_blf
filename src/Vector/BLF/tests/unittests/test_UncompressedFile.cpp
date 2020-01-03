@@ -9,8 +9,7 @@
 #include <Vector/BLF.h>
 
 /** Open a file, read/write on it, close it again. */
-BOOST_AUTO_TEST_CASE(OpenWriteReadClose)
-{
+BOOST_AUTO_TEST_CASE(OpenWriteReadClose) {
     Vector::BLF::UncompressedFile uncompressedFile;
 
     /* after initialization */
@@ -56,8 +55,7 @@ BOOST_AUTO_TEST_CASE(OpenWriteReadClose)
 }
 
 /** test getter/setter for defaultContainerSize */
-BOOST_AUTO_TEST_CASE(defaultContainerSize)
-{
+BOOST_AUTO_TEST_CASE(defaultContainerSize) {
     Vector::BLF::UncompressedFile uncompressedFile;
 
     BOOST_CHECK_EQUAL(uncompressedFile.defaultLogContainerSize(), 0x20000);
@@ -66,14 +64,12 @@ BOOST_AUTO_TEST_CASE(defaultContainerSize)
 }
 
 /** Read more than available to test gcount limit. */
-BOOST_AUTO_TEST_CASE(ReadMoreThanAvailable)
-{
+BOOST_AUTO_TEST_CASE(ReadMoreThanAvailable) {
     /* setup logContainer */
     std::shared_ptr<Vector::BLF::LogContainer> logContainer(new Vector::BLF::LogContainer);
     logContainer->uncompressedFile.resize(256);
-    for (uint16_t i = 0; i < 256; i++) {
+    for (uint16_t i = 0; i < 256; i++)
         logContainer->uncompressedFile[i] = i;
-    }
     logContainer->uncompressedFileSize = 256;
 
     /* setup uncompressedFile and set eof */
@@ -91,8 +87,7 @@ BOOST_AUTO_TEST_CASE(ReadMoreThanAvailable)
 }
 
 /** Write data beyond one logContainer size. */
-BOOST_AUTO_TEST_CASE(WriteMoreThanAvailable)
-{
+BOOST_AUTO_TEST_CASE(WriteMoreThanAvailable) {
     /* setup uncompressedFile and set eof */
     Vector::BLF::UncompressedFile uncompressedFile;
     BOOST_CHECK_EQUAL(uncompressedFile.tellp(), 0);
@@ -104,14 +99,12 @@ BOOST_AUTO_TEST_CASE(WriteMoreThanAvailable)
 }
 
 /** Seek before begin of file and try to read. */
-BOOST_AUTO_TEST_CASE(SeekBeforeBeginOfFile)
-{
+BOOST_AUTO_TEST_CASE(SeekBeforeBeginOfFile) {
     /* setup logContainer */
     std::shared_ptr<Vector::BLF::LogContainer> logContainer(new Vector::BLF::LogContainer);
     logContainer->uncompressedFile.resize(256);
-    for (uint16_t i = 0; i < 256; i++) {
+    for (uint16_t i = 0; i < 256; i++)
         logContainer->uncompressedFile[i] = i;
-    }
     logContainer->uncompressedFileSize = 256;
 
     /* setup uncompressedFile and set eof */
@@ -135,8 +128,7 @@ BOOST_AUTO_TEST_CASE(SeekBeforeBeginOfFile)
  * std::fstream resp. CompressedFile behaves different, as there is only one pointer for
  * read/write operations.
  */
-BOOST_AUTO_TEST_CASE(StdStringStream1)
-{
+BOOST_AUTO_TEST_CASE(StdStringStream1) {
     std::stringstream ss;
     Vector::BLF::UncompressedFile uncompressedFile;
     uncompressedFile.setFileSize(0);
@@ -196,8 +188,7 @@ BOOST_AUTO_TEST_CASE(StdStringStream1)
  * std::fstream resp. CompressedFile behaves different, as there is only one pointer for
  * read/write operations.
  */
-BOOST_AUTO_TEST_CASE(StdStringStream2)
-{
+BOOST_AUTO_TEST_CASE(StdStringStream2) {
     std::stringstream ss;
     Vector::BLF::UncompressedFile uncompressedFile;
     uncompressedFile.setFileSize(0);

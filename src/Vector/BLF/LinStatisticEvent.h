@@ -39,9 +39,7 @@ namespace BLF {
  *
  * This info event is sent by the LIN hardware and transports bus statistics.
  */
-class VECTOR_BLF_EXPORT LinStatisticEvent final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT LinStatisticEvent final : ObjectHeader {
     LinStatisticEvent();
 
     virtual void read(AbstractFile & is) override;

@@ -40,9 +40,7 @@ namespace BLF {
  * This event structure was never and should never be used. Use MostPkt2
  * instead.
  */
-class VECTOR_BLF_EXPORT MostPkt final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT MostPkt final : ObjectHeader {
     MostPkt();
 
     virtual void read(AbstractFile & is) override;

@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* CAN_DRIVER_ERROR_EXT = 74 */
-BOOST_AUTO_TEST_CASE(CanDriverErrorExt)
-{
+BOOST_AUTO_TEST_CASE(CanDriverErrorExt) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_CanDriverErrorExt.blf");
     BOOST_REQUIRE(file.is_open());

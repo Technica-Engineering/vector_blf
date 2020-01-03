@@ -37,9 +37,7 @@ namespace BLF {
  *
  * Event that occurs when hardware sync is executed.
  */
-class VECTOR_BLF_EXPORT CanDriverHwSync final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT CanDriverHwSync final : ObjectHeader {
     CanDriverHwSync();
 
     virtual void read(AbstractFile & is) override;

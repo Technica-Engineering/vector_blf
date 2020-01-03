@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 Most150PktFragment::Most150PktFragment() :
-    ObjectHeader2()
-{
+    ObjectHeader2() {
     objectType = ObjectType::MOST_150_PKT_FRAGMENT;
 }
 
-void Most150PktFragment::read(AbstractFile & is)
-{
+void Most150PktFragment::read(AbstractFile & is) {
     ObjectHeader2::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&reservedMost150PktFragment1), sizeof(reservedMost150PktFragment1));
@@ -55,8 +53,7 @@ void Most150PktFragment::read(AbstractFile & is)
     is.seekg(objectSize % 4, std::ios_base::cur);
 }
 
-void Most150PktFragment::write(AbstractFile & os)
-{
+void Most150PktFragment::write(AbstractFile & os) {
     /* pre processing */
     firstDataLen = static_cast<DWORD>(firstData.size());
 
@@ -82,8 +79,7 @@ void Most150PktFragment::write(AbstractFile & os)
     os.skipp(objectSize % 4);
 }
 
-DWORD Most150PktFragment::calculateObjectSize() const
-{
+DWORD Most150PktFragment::calculateObjectSize() const {
     return
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +

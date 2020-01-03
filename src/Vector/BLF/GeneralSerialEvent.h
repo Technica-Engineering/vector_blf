@@ -38,15 +38,13 @@ namespace BLF {
 /**
  * general serial event
  */
-class VECTOR_BLF_EXPORT GeneralSerialEvent final
-{
-public:
+struct VECTOR_BLF_EXPORT GeneralSerialEvent final {
     GeneralSerialEvent() = default;
     virtual ~GeneralSerialEvent() noexcept = default;
-    GeneralSerialEvent(const GeneralSerialEvent&) = default;
-    GeneralSerialEvent& operator=(const GeneralSerialEvent&) = default;
-    GeneralSerialEvent(GeneralSerialEvent&&) = default;
-    GeneralSerialEvent& operator=(GeneralSerialEvent&&) = default;
+    GeneralSerialEvent(const GeneralSerialEvent &) = default;
+    GeneralSerialEvent & operator=(const GeneralSerialEvent &) = default;
+    GeneralSerialEvent(GeneralSerialEvent &&) = default;
+    GeneralSerialEvent & operator=(GeneralSerialEvent &&) = default;
 
     /** @copydoc ObjectHeader::read */
     virtual void read(AbstractFile & is);

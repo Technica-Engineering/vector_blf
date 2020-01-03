@@ -37,9 +37,7 @@ namespace BLF {
  *
  * Object header. Version 1.
  */
-class VECTOR_BLF_EXPORT ObjectHeader : public ObjectHeaderBase
-{
-public:
+struct VECTOR_BLF_EXPORT ObjectHeader : ObjectHeaderBase {
     ObjectHeader();
 
     virtual void read(AbstractFile & is) override;
@@ -72,7 +70,7 @@ public:
      *
      * Unit of object timestamp.
      */
-    DWORD objectFlags { ObjectFlags::TimeOneNans };
+    DWORD objectFlags {ObjectFlags::TimeOneNans};
 
     /**
      * @brief client index of send node
@@ -88,7 +86,7 @@ public:
      *
      * @note can be set in event class constructor
      */
-    WORD objectVersion { 0 };
+    WORD objectVersion {0};
 
     /**
      * @brief object timestamp

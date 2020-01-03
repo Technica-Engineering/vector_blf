@@ -38,9 +38,7 @@ namespace BLF {
  *
  * Global Marker assigned to another event or to a time stamp.
  */
-class VECTOR_BLF_EXPORT GlobalMarker final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT GlobalMarker final : ObjectHeader {
     GlobalMarker();
 
     virtual void read(AbstractFile & is) override;

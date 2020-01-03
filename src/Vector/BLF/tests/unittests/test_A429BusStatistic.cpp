@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* A429_BUS_STATISTIC = 112 */
-BOOST_AUTO_TEST_CASE(A429BusStatistic)
-{
+BOOST_AUTO_TEST_CASE(A429BusStatistic) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_A429BusStatistic.blf");
     BOOST_REQUIRE(file.is_open());
@@ -50,9 +49,8 @@ BOOST_AUTO_TEST_CASE(A429BusStatistic)
     BOOST_CHECK_EQUAL(obj->codingErrors, 0xEEEE);
     BOOST_CHECK_EQUAL(obj->idleErrors, 0xFFFF);
     BOOST_CHECK_EQUAL(obj->levelErrors, 0x1111);
-    for (uint16_t i = 0; i < 256; i++) {
+    for (uint16_t i = 0; i < 256; i++)
         BOOST_CHECK_EQUAL(obj->labelCount[i], i);
-    }
 
     delete ohb;
 

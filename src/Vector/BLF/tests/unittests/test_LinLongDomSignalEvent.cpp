@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* LIN_LONG_DOM_SIG = 64 */
-BOOST_AUTO_TEST_CASE(LinLongDomSignalEvent)
-{
+BOOST_AUTO_TEST_CASE(LinLongDomSignalEvent) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_LinLongDomSignalEvent.blf");
     BOOST_REQUIRE(file.is_open());

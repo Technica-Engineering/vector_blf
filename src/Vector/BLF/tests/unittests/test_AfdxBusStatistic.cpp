@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* AFDX_BUS_STATISTIC = 107 */
-BOOST_AUTO_TEST_CASE(AfdxBusStatistic_1)
-{
+BOOST_AUTO_TEST_CASE(AfdxBusStatistic_1) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_AfdxBusStatistic.blf");
     BOOST_REQUIRE(file.is_open());
@@ -83,8 +82,7 @@ BOOST_AUTO_TEST_CASE(AfdxBusStatistic_1)
     file.close();
 }
 
-BOOST_AUTO_TEST_CASE(AfdxStatistic_2)
-{
+BOOST_AUTO_TEST_CASE(AfdxStatistic_2) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_converter/test_AfdxStatistic.blf");
     BOOST_REQUIRE(file.is_open());

@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 A429Error::A429Error() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::A429_ERROR;
 }
 
-void A429Error::read(AbstractFile & is)
-{
+void A429Error::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&errorType), sizeof(errorType));
@@ -42,8 +40,7 @@ void A429Error::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&reservedA429Error), sizeof(reservedA429Error));
 }
 
-void A429Error::write(AbstractFile & os)
-{
+void A429Error::write(AbstractFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&errorType), sizeof(errorType));
@@ -54,8 +51,7 @@ void A429Error::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&reservedA429Error), sizeof(reservedA429Error));
 }
 
-DWORD A429Error::calculateObjectSize() const
-{
+DWORD A429Error::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

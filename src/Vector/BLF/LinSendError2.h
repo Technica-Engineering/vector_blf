@@ -38,9 +38,7 @@ namespace BLF {
  *
  * This event occurs when no Slave responds to a frame header from Master.
  */
-class VECTOR_BLF_EXPORT LinSendError2 final : public ObjectHeader, public LinMessageDescriptor
-{
-public:
+struct VECTOR_BLF_EXPORT LinSendError2 final : ObjectHeader, LinMessageDescriptor {
     LinSendError2();
 
     virtual void read(AbstractFile & is) override;

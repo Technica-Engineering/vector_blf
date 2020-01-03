@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 MostEthernetPktFragment::MostEthernetPktFragment() :
-    ObjectHeader2()
-{
+    ObjectHeader2() {
     objectType = ObjectType::MOST_ETHERNET_PKT_FRAGMENT;
 }
 
-void MostEthernetPktFragment::read(AbstractFile & is)
-{
+void MostEthernetPktFragment::read(AbstractFile & is) {
     ObjectHeader2::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&reservedMostEthernetPktFragment1), sizeof(reservedMostEthernetPktFragment1));
@@ -54,8 +52,7 @@ void MostEthernetPktFragment::read(AbstractFile & is)
     is.seekg(objectSize % 4, std::ios_base::cur);
 }
 
-void MostEthernetPktFragment::write(AbstractFile & os)
-{
+void MostEthernetPktFragment::write(AbstractFile & os) {
     /* pre processing */
     firstDataLen = static_cast<DWORD>(firstData.size());
 
@@ -80,8 +77,7 @@ void MostEthernetPktFragment::write(AbstractFile & os)
     os.skipp(objectSize % 4);
 }
 
-DWORD MostEthernetPktFragment::calculateObjectSize() const
-{
+DWORD MostEthernetPktFragment::calculateObjectSize() const {
     return
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +

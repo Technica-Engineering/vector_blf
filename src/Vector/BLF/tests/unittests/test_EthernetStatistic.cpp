@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 /* ETHERNET_STATISTIC = 114 */
-BOOST_AUTO_TEST_CASE(EthernetStatistic)
-{
+BOOST_AUTO_TEST_CASE(EthernetStatistic) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_EthernetStatistic.blf");
     BOOST_REQUIRE(file.is_open());

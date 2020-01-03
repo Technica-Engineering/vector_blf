@@ -37,9 +37,7 @@ namespace BLF {
 /**
  * @brief ETHERNET_ERROR_EX
  */
-class VECTOR_BLF_EXPORT EthernetErrorEx final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT EthernetErrorEx final : ObjectHeader {
     EthernetErrorEx();
 
     virtual void read(AbstractFile & is) override;

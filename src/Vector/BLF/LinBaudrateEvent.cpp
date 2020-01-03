@@ -25,29 +25,25 @@ namespace Vector {
 namespace BLF {
 
 LinBaudrateEvent::LinBaudrateEvent() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::LIN_BAUDRATE;
 }
 
-void LinBaudrateEvent::read(AbstractFile & is)
-{
+void LinBaudrateEvent::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&reservedLinBaudrateEvent), sizeof(reservedLinBaudrateEvent));
     is.read(reinterpret_cast<char *>(&baudrate), sizeof(baudrate));
 }
 
-void LinBaudrateEvent::write(AbstractFile & os)
-{
+void LinBaudrateEvent::write(AbstractFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&reservedLinBaudrateEvent), sizeof(reservedLinBaudrateEvent));
     os.write(reinterpret_cast<char *>(&baudrate), sizeof(baudrate));
 }
 
-DWORD LinBaudrateEvent::calculateObjectSize() const
-{
+DWORD LinBaudrateEvent::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

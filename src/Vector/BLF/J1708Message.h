@@ -39,9 +39,7 @@ namespace BLF {
  *
  * J1708 message object
  */
-class VECTOR_BLF_EXPORT J1708Message final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT J1708Message final : ObjectHeader {
     J1708Message();
 
     virtual void read(AbstractFile & is) override;

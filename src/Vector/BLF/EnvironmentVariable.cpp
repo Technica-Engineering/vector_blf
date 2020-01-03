@@ -27,8 +27,7 @@ namespace Vector {
 namespace BLF {
 
 EnvironmentVariable::EnvironmentVariable() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     /* can be one of:
      *   - objectType = ObjectType::ENV_INTEGER;
      *   - objectType = ObjectType::ENV_DOUBLE;
@@ -37,8 +36,7 @@ EnvironmentVariable::EnvironmentVariable() :
      */
 }
 
-void EnvironmentVariable::read(AbstractFile & is)
-{
+void EnvironmentVariable::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&nameLength), sizeof(nameLength));
     is.read(reinterpret_cast<char *>(&dataLength), sizeof(dataLength));
@@ -52,8 +50,7 @@ void EnvironmentVariable::read(AbstractFile & is)
     is.seekg(objectSize % 4, std::ios_base::cur);
 }
 
-void EnvironmentVariable::write(AbstractFile & os)
-{
+void EnvironmentVariable::write(AbstractFile & os) {
     /* pre processing */
     nameLength = static_cast<DWORD>(name.size());
     dataLength = static_cast<DWORD>(data.size());
@@ -69,8 +66,7 @@ void EnvironmentVariable::write(AbstractFile & os)
     os.skipp(objectSize % 4);
 }
 
-DWORD EnvironmentVariable::calculateObjectSize() const
-{
+DWORD EnvironmentVariable::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(nameLength) +

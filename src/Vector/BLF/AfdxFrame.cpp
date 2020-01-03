@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 AfdxFrame::AfdxFrame() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::AFDX_FRAME;
 }
 
-void AfdxFrame::read(AbstractFile & is)
-{
+void AfdxFrame::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(sourceAddress.data()), static_cast<std::streamsize>(sourceAddress.size()));
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
@@ -55,8 +53,7 @@ void AfdxFrame::read(AbstractFile & is)
     is.seekg(objectSize % 4, std::ios_base::cur);
 }
 
-void AfdxFrame::write(AbstractFile & os)
-{
+void AfdxFrame::write(AbstractFile & os) {
     /* pre processing */
     payLoadLength = static_cast<WORD>(payLoad.size());
 
@@ -82,8 +79,7 @@ void AfdxFrame::write(AbstractFile & os)
     os.skipp(objectSize % 4);
 }
 
-DWORD AfdxFrame::calculateObjectSize() const
-{
+DWORD AfdxFrame::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         static_cast<DWORD>(sourceAddress.size()) +

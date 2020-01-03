@@ -25,13 +25,11 @@ namespace Vector {
 namespace BLF {
 
 A429Status::A429Status() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::A429_STATUS;
 }
 
-void A429Status::read(AbstractFile & is)
-{
+void A429Status::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
@@ -44,8 +42,7 @@ void A429Status::read(AbstractFile & is)
     is.read(reinterpret_cast<char *>(&maxBitrate), sizeof(maxBitrate));
 }
 
-void A429Status::write(AbstractFile & os)
-{
+void A429Status::write(AbstractFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
@@ -58,8 +55,7 @@ void A429Status::write(AbstractFile & os)
     os.write(reinterpret_cast<char *>(&maxBitrate), sizeof(maxBitrate));
 }
 
-DWORD A429Status::calculateObjectSize() const
-{
+DWORD A429Status::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

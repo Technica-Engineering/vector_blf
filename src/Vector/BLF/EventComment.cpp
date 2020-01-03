@@ -27,13 +27,11 @@ namespace Vector {
 namespace BLF {
 
 EventComment::EventComment() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::EVENT_COMMENT;
 }
 
-void EventComment::read(AbstractFile & is)
-{
+void EventComment::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&commentedEventType), sizeof(commentedEventType));
     is.read(reinterpret_cast<char *>(&textLength), sizeof(textLength));
@@ -45,8 +43,7 @@ void EventComment::read(AbstractFile & is)
     is.seekg(objectSize % 4, std::ios_base::cur);
 }
 
-void EventComment::write(AbstractFile & os)
-{
+void EventComment::write(AbstractFile & os) {
     /* pre processing */
     textLength = static_cast<DWORD>(text.size());
 
@@ -60,8 +57,7 @@ void EventComment::write(AbstractFile & os)
     os.skipp(objectSize % 4);
 }
 
-DWORD EventComment::calculateObjectSize() const
-{
+DWORD EventComment::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(commentedEventType) +

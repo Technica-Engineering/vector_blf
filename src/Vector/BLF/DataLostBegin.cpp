@@ -25,25 +25,21 @@ namespace Vector {
 namespace BLF {
 
 DataLostBegin::DataLostBegin() :
-    ObjectHeader()
-{
+    ObjectHeader() {
     objectType = ObjectType::DATA_LOST_BEGIN;
 }
 
-void DataLostBegin::read(AbstractFile & is)
-{
+void DataLostBegin::read(AbstractFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&queueIdentifier), sizeof(queueIdentifier));
 }
 
-void DataLostBegin::write(AbstractFile & os)
-{
+void DataLostBegin::write(AbstractFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&queueIdentifier), sizeof(queueIdentifier));
 }
 
-DWORD DataLostBegin::calculateObjectSize() const
-{
+DWORD DataLostBegin::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(queueIdentifier);

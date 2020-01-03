@@ -38,9 +38,7 @@ namespace BLF {
  * AFDX statistic event per virtual link.
  * AFDX combined bus- and VL- statistic event; used before 8.2
  */
-class VECTOR_BLF_EXPORT AfdxStatistic final : public ObjectHeader
-{
-public:
+struct VECTOR_BLF_EXPORT AfdxStatistic final : ObjectHeader {
     AfdxStatistic();
 
     virtual void read(AbstractFile & is) override;
