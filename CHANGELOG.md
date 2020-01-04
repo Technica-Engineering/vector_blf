@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.1.7] - 2020-01-20
+### Changed
+- Convert classes to struct. Only public members. No invariants.
+- Change style to Google
+
 ## [2.1.6] - 2019-08-26
 ### Changed
 - Make use of C++11 and member initializer lists
