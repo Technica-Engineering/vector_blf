@@ -16,7 +16,7 @@ BOOST_AUTO_TEST_CASE(FlexRaySync) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::FLEXRAY_SYNC);
-    Vector::BLF::FlexRaySync * obj = static_cast<Vector::BLF::FlexRaySync *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::FlexRaySync *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);

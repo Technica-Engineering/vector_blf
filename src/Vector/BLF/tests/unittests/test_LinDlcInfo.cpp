@@ -16,7 +16,7 @@ BOOST_AUTO_TEST_CASE(LinDlcInfo_1) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_DLC_INFO);
-    Vector::BLF::LinDlcInfo * obj = static_cast<Vector::BLF::LinDlcInfo *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::LinDlcInfo *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);
@@ -76,7 +76,7 @@ BOOST_AUTO_TEST_CASE(LinDlcInfo_2) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_DLC_INFO);
-    Vector::BLF::LinDlcInfo * obj = static_cast<Vector::BLF::LinDlcInfo *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::LinDlcInfo *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);

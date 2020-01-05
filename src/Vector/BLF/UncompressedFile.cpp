@@ -203,7 +203,7 @@ void UncompressedFile::abort() {
     tellpChanged.notify_all();
 }
 
-void UncompressedFile::write(std::shared_ptr<LogContainer> logContainer) {
+void UncompressedFile::write(const std::shared_ptr<LogContainer> & logContainer) {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 

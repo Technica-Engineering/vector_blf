@@ -16,7 +16,7 @@ BOOST_AUTO_TEST_CASE(LinCrcError2) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_CRC_ERROR2);
-    Vector::BLF::LinCrcError2 * obj = static_cast<Vector::BLF::LinCrcError2 *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::LinCrcError2 *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);

@@ -17,7 +17,7 @@ BOOST_AUTO_TEST_CASE(DataLostBegin) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::DATA_LOST_BEGIN);
-    Vector::BLF::DataLostBegin * obj = static_cast<Vector::BLF::DataLostBegin *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::DataLostBegin *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);

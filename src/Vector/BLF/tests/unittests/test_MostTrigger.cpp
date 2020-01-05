@@ -16,7 +16,7 @@ BOOST_AUTO_TEST_CASE(MostTrigger_) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_TRIGGER);
-    Vector::BLF::MostTrigger * obj = static_cast<Vector::BLF::MostTrigger *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::MostTrigger *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);
@@ -80,7 +80,7 @@ BOOST_AUTO_TEST_CASE(MostTrigger_2) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_TRIGGER);
-    Vector::BLF::MostTrigger * obj = static_cast<Vector::BLF::MostTrigger *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::MostTrigger *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);

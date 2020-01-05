@@ -16,7 +16,7 @@ BOOST_AUTO_TEST_CASE(A429Status) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::A429_STATUS);
-    Vector::BLF::A429Status * obj = static_cast<Vector::BLF::A429Status *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::A429Status *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);

@@ -16,7 +16,7 @@ BOOST_AUTO_TEST_CASE(MostTxLight_1) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_TXLIGHT);
-    Vector::BLF::MostTxLight * obj = static_cast<Vector::BLF::MostTxLight *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::MostTxLight *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);
@@ -77,7 +77,7 @@ BOOST_AUTO_TEST_CASE(MostTxLight_2) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_TXLIGHT);
-    Vector::BLF::MostTxLight * obj = static_cast<Vector::BLF::MostTxLight *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::MostTxLight *>(ohb);
 
     /* MostTxLight */
     BOOST_CHECK_EQUAL(obj->channel, 1);

@@ -16,7 +16,7 @@ BOOST_AUTO_TEST_CASE(CanErrorFrame_1) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::CAN_ERROR);
-    Vector::BLF::CanErrorFrame * obj = static_cast<Vector::BLF::CanErrorFrame *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::CanErrorFrame *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);
@@ -74,7 +74,7 @@ BOOST_AUTO_TEST_CASE(CanErrorFrame_2) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::CAN_ERROR);
-    Vector::BLF::CanErrorFrame * obj = static_cast<Vector::BLF::CanErrorFrame *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::CanErrorFrame *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);

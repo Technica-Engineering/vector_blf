@@ -16,7 +16,7 @@ BOOST_AUTO_TEST_CASE(KLineStatusEvent) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::KLINE_STATUSEVENT);
-    Vector::BLF::KLineStatusEvent * obj = static_cast<Vector::BLF::KLineStatusEvent *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::KLineStatusEvent *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);

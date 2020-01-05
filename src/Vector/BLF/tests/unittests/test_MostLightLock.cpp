@@ -16,7 +16,7 @@ BOOST_AUTO_TEST_CASE(MostLightLock_1) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_LIGHTLOCK);
-    Vector::BLF::MostLightLock * obj = static_cast<Vector::BLF::MostLightLock *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::MostLightLock *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);
@@ -75,7 +75,7 @@ BOOST_AUTO_TEST_CASE(MostLightLock_2) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_LIGHTLOCK);
-    Vector::BLF::MostLightLock * obj = static_cast<Vector::BLF::MostLightLock *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::MostLightLock *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);

@@ -17,7 +17,7 @@ BOOST_AUTO_TEST_CASE(TriggerCondition) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::TRIGGER_CONDITION);
-    Vector::BLF::TriggerCondition * obj = static_cast<Vector::BLF::TriggerCondition *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::TriggerCondition *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);

@@ -103,10 +103,10 @@ struct VECTOR_BLF_EXPORT ObjectHeader2 : ObjectHeaderBase {
      *
      * Bit field.
      */
-    BYTE timeStampStatus;
+    BYTE timeStampStatus {};
 
     /** reserved */
-    BYTE reservedObjectHeader;
+    BYTE reservedObjectHeader{0};
 
     /**
      * @brief object specific version
@@ -125,7 +125,7 @@ struct VECTOR_BLF_EXPORT ObjectHeader2 : ObjectHeaderBase {
      * Time stamp of this object in the unit specified in
      * objectFlags.
      */
-    ULONGLONG objectTimeStamp;
+    ULONGLONG objectTimeStamp {0};
 
     /**
      * @brief original object timestamp
@@ -133,7 +133,7 @@ struct VECTOR_BLF_EXPORT ObjectHeader2 : ObjectHeaderBase {
      * Original timestamp in the unit specified in
      * objectFlags.
      */
-    ULONGLONG originalTimeStamp;
+    ULONGLONG originalTimeStamp {0};
 };
 
 }

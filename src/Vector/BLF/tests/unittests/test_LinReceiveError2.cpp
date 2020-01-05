@@ -16,7 +16,7 @@ BOOST_AUTO_TEST_CASE(LinReceiveError2_1) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_RCV_ERROR2);
-    Vector::BLF::LinReceiveError2 * obj = static_cast<Vector::BLF::LinReceiveError2 *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::LinReceiveError2 *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);
@@ -122,7 +122,7 @@ BOOST_AUTO_TEST_CASE(LinReceiveError2_2) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_RCV_ERROR2);
-    Vector::BLF::LinReceiveError2 * obj = static_cast<Vector::BLF::LinReceiveError2 *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::LinReceiveError2 *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);

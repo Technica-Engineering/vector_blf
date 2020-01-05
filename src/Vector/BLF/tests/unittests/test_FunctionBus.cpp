@@ -17,7 +17,7 @@ BOOST_AUTO_TEST_CASE(FunctionBus) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::FUNCTION_BUS);
-    Vector::BLF::FunctionBus * obj = static_cast<Vector::BLF::FunctionBus *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::FunctionBus *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);

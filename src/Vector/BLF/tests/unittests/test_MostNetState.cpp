@@ -16,7 +16,7 @@ BOOST_AUTO_TEST_CASE(MostNetState_1) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_NETSTATE);
-    Vector::BLF::MostNetState * obj = static_cast<Vector::BLF::MostNetState *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::MostNetState *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);
@@ -78,7 +78,7 @@ BOOST_AUTO_TEST_CASE(MostNetState_2) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_NETSTATE);
-    Vector::BLF::MostNetState * obj = static_cast<Vector::BLF::MostNetState *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::MostNetState *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);

@@ -16,7 +16,7 @@ BOOST_AUTO_TEST_CASE(EthernetRxError) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::ETHERNET_RX_ERROR);
-    Vector::BLF::EthernetRxError * obj = static_cast<Vector::BLF::EthernetRxError *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::EthernetRxError *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);

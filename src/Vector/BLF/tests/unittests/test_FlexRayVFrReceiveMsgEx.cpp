@@ -16,7 +16,7 @@ BOOST_AUTO_TEST_CASE(FlexRayVFrReceiveMsgEx_1) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::FR_RCVMESSAGE_EX);
-    Vector::BLF::FlexRayVFrReceiveMsgEx * obj = static_cast<Vector::BLF::FlexRayVFrReceiveMsgEx *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::FlexRayVFrReceiveMsgEx *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);
@@ -108,7 +108,7 @@ BOOST_AUTO_TEST_CASE(FlexRayVFrReceiveMsgEx_2) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::FR_RCVMESSAGE_EX);
-    Vector::BLF::FlexRayVFrReceiveMsgEx * obj = static_cast<Vector::BLF::FlexRayVFrReceiveMsgEx *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::FlexRayVFrReceiveMsgEx *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);

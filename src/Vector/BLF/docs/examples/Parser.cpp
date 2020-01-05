@@ -29,10 +29,10 @@
 
 #include <Vector/BLF.h>
 
-#define min(a, b) ((a < b) ? a : b)
-#define max(a, b) ((a > b) ? a : b)
+#define min(a, b) (((a) < (b)) ? (a) : (b))
+#define max(a, b) (((a) > (b)) ? (a) : (b))
 
-void printData(uint8_t * data, size_t size) {
+void printData(const uint8_t * data, size_t size) {
     if ((data == nullptr) || (size == 0))
         return;
 
@@ -977,10 +977,10 @@ void show(Vector::BLF::SystemVariable * obj) {
         std::cout << " dataLength=" << std::dec << obj->dataLength;
         std::cout << " name=" << obj->name;
         std::cout << " data=[";
-        for (uint32_t i = 0; i < min(obj->data.size(), obj->dataLength) / sizeof(double); ++i) {
+        for (auto i = 0; i < min(obj->data.size(), obj->dataLength) / 8; ++i) {
             if (i > 0)
                 std::cout << ",";
-            std::cout << std::fixed << static_cast<double>(obj->data[i * sizeof(double)]);
+            std::cout << std::fixed << static_cast<double>(obj->data[i * 8]);
         }
         std::cout << "]";
         break;
@@ -991,10 +991,10 @@ void show(Vector::BLF::SystemVariable * obj) {
         std::cout << " dataLength=" << std::dec << obj->dataLength;
         std::cout << " name=" << obj->name;
         std::cout << " data=[";
-        for (uint32_t i = 0; i < min(obj->data.size(), obj->dataLength) / sizeof(int32_t); ++i) {
+        for (auto i = 0; i < min(obj->data.size(), obj->dataLength) / 4; ++i) {
             if (i > 0)
                 std::cout << ",";
-            std::cout << std::dec << static_cast<int32_t>(obj->data[i * sizeof(int32_t)]);
+            std::cout << std::dec << static_cast<int32_t>(obj->data[i * 4]);
         }
         std::cout << "]";
         break;
@@ -1013,7 +1013,7 @@ void show(Vector::BLF::SystemVariable * obj) {
         std::cout << " dataLength=" << std::dec << obj->dataLength;
         std::cout << " name=" << obj->name;
         std::cout << " data=[";
-        for (uint32_t i = 0; i < min(obj->data.size(), obj->dataLength); ++i) {
+        for (auto i = 0; i < min(obj->data.size(), obj->dataLength); ++i) {
             if (i > 0)
                 std::cout << ",";
             std::cout << std::dec << static_cast<uint16_t>(obj->data[i]);
@@ -1310,7 +1310,7 @@ void show(Vector::BLF::SerialEvent * obj) {
             std::cout << " data=";
             printData(obj->general.data.data(), min(obj->general.data.size(), obj->general.dataLength));
             std::cout << " timeStamps=";
-            for (uint32_t i = 0; i < min(obj->general.timeStamps.size(), obj->general.timeStampsLength / sizeof(uint64_t)); ++i) {
+            for (auto i = 0; i < min(obj->general.timeStamps.size(), obj->general.timeStampsLength / 8); ++i) {
                 if (i > 0)
                     std::cout << ",";
                 std::cout << std::dec << obj->general.timeStamps[i];
@@ -1439,7 +1439,7 @@ void show(Vector::BLF::KLineStatusEvent * obj) {
     std::cout << " dataLen=" << std::dec << obj->dataLen;
     std::cout << " port=" << std::dec << obj->port;
     std::cout << " data=[";
-    for (uint32_t i = 0; i < min(obj->data.size(), obj->dataLen / sizeof(uint64_t)); ++i) {
+    for (auto i = 0; i < min(obj->data.size(), obj->dataLen / 8); ++i) {
         if (i > 0)
             std::cout << " ";
         std::cout << std::hex << obj->data[i];
@@ -1667,7 +1667,7 @@ void show(Vector::BLF::A429BusStatistic * obj) {
     std::cout << " idleErrors=" << std::dec << obj->idleErrors;
     std::cout << " levelErrors=" << std::dec << obj->levelErrors;
     std::cout << " labelCount=";
-    for (uint32_t i = 0; i < obj->labelCount.size(); ++i) {
+    for (auto i = 0; i < obj->labelCount.size(); ++i) {
         if (i > 0)
             std::cout << ",";
         std::cout << std::dec << obj->labelCount[i];
@@ -1906,7 +1906,7 @@ int main(int argc, char * argv[]) {
             break;
 
         /* ObjectHeader */
-        Vector::BLF::ObjectHeader * oh = dynamic_cast<Vector::BLF::ObjectHeader *>(ohb);
+        auto * oh = dynamic_cast<Vector::BLF::ObjectHeader *>(ohb);
         if (oh != nullptr) {
             std::cout << std::dec << oh->objectTimeStamp;
             switch (oh->objectFlags) {
@@ -1920,7 +1920,7 @@ int main(int argc, char * argv[]) {
         }
 
         /* ObjectHeader2 */
-        Vector::BLF::ObjectHeader2 * oh2 = dynamic_cast<Vector::BLF::ObjectHeader2 *>(ohb);
+        auto * oh2 = dynamic_cast<Vector::BLF::ObjectHeader2 *>(ohb);
         if (oh2 != nullptr) {
             std::cout << std::dec << oh2->objectTimeStamp;
             switch (oh2->objectFlags) {

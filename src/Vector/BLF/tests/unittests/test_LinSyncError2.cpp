@@ -16,7 +16,7 @@ BOOST_AUTO_TEST_CASE(LinSyncError2_1) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_SYN_ERROR2);
-    Vector::BLF::LinSyncError2 * obj = static_cast<Vector::BLF::LinSyncError2 *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::LinSyncError2 *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);
@@ -86,7 +86,7 @@ BOOST_AUTO_TEST_CASE(LinSyncError2_2) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_SYN_ERROR2);
-    Vector::BLF::LinSyncError2 * obj = static_cast<Vector::BLF::LinSyncError2 *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::LinSyncError2 *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);

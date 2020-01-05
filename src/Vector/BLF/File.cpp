@@ -158,7 +158,7 @@ void File::close() {
             fileStatistics.fileSizeWithoutUnknown115 = static_cast<ULONGLONG>(m_compressedFile.tellp());
 
             /* write end of file message */
-            Unknown115 * unknown115 = new Unknown115;
+            auto * unknown115 = new Unknown115;
             m_readWriteQueue.write(unknown115);
 
             /* process once */

@@ -16,7 +16,7 @@ BOOST_AUTO_TEST_CASE(AppTrigger) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::APP_TRIGGER);
-    Vector::BLF::AppTrigger * obj = static_cast<Vector::BLF::AppTrigger *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::AppTrigger *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);

@@ -16,7 +16,7 @@ BOOST_AUTO_TEST_CASE(AfdxStatistic) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_STATISTIC);
-    Vector::BLF::AfdxStatistic * obj = static_cast<Vector::BLF::AfdxStatistic *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::AfdxStatistic *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);

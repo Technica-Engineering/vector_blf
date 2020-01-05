@@ -54,10 +54,6 @@ class VECTOR_BLF_EXPORT UncompressedFile final : public AbstractFile {
   public:
     UncompressedFile() = default;
     virtual ~UncompressedFile() override;
-    UncompressedFile(const UncompressedFile &) = default;
-    UncompressedFile & operator=(const UncompressedFile &) = default;
-    UncompressedFile(UncompressedFile &&) = default;
-    UncompressedFile & operator=(UncompressedFile &&) = default;
 
     virtual std::streamsize gcount() const override;
     virtual void read(char * s, std::streamsize n) override;
@@ -78,7 +74,7 @@ class VECTOR_BLF_EXPORT UncompressedFile final : public AbstractFile {
      *
      * @param[in] logContainer log container
      */
-    virtual void write(std::shared_ptr<LogContainer> logContainer);
+    virtual void write(const std::shared_ptr<LogContainer> & logContainer);
 
     /**
      * Close the current logContainer.

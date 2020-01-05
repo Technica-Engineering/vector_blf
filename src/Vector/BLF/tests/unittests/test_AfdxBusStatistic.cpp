@@ -16,7 +16,7 @@ BOOST_AUTO_TEST_CASE(AfdxBusStatistic_1) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_BUS_STATISTIC);
-    Vector::BLF::AfdxBusStatistic * obj = static_cast<Vector::BLF::AfdxBusStatistic *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::AfdxBusStatistic *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);
@@ -90,7 +90,7 @@ BOOST_AUTO_TEST_CASE(AfdxStatistic_2) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::AFDX_STATISTIC);
-    Vector::BLF::AfdxStatistic * obj = static_cast<Vector::BLF::AfdxStatistic *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::AfdxStatistic *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);

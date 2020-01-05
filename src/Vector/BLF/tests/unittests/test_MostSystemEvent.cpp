@@ -16,7 +16,7 @@ BOOST_AUTO_TEST_CASE(MostSystemEvent_1) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_SYSTEM_EVENT);
-    Vector::BLF::MostSystemEvent * obj = static_cast<Vector::BLF::MostSystemEvent *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::MostSystemEvent *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);
@@ -78,7 +78,7 @@ BOOST_AUTO_TEST_CASE(MostSystemEvent_2) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_SYSTEM_EVENT);
-    Vector::BLF::MostSystemEvent * obj = static_cast<Vector::BLF::MostSystemEvent *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::MostSystemEvent *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);

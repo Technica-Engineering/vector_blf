@@ -28,10 +28,6 @@ namespace Vector {
 namespace BLF {
 
 template<typename T>
-ObjectQueue<T>::ObjectQueue() {
-}
-
-template<typename T>
 ObjectQueue<T>::~ObjectQueue() {
     abort();
 }

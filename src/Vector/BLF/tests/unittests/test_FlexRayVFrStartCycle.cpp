@@ -16,7 +16,7 @@ BOOST_AUTO_TEST_CASE(FlexRayVFrStartCycle_1) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::FR_STARTCYCLE);
-    Vector::BLF::FlexRayVFrStartCycle * obj = static_cast<Vector::BLF::FlexRayVFrStartCycle *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::FlexRayVFrStartCycle *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);
@@ -90,7 +90,7 @@ BOOST_AUTO_TEST_CASE(FlexRayVFrStartCycle_2) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::FR_STARTCYCLE);
-    Vector::BLF::FlexRayVFrStartCycle * obj = static_cast<Vector::BLF::FlexRayVFrStartCycle *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::FlexRayVFrStartCycle *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);

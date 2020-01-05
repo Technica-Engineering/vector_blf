@@ -16,7 +16,7 @@ BOOST_AUTO_TEST_CASE(CanDriverErrorExt) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::CAN_DRIVER_ERROR_EXT);
-    Vector::BLF::CanDriverErrorExt * obj = static_cast<Vector::BLF::CanDriverErrorExt *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::CanDriverErrorExt *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);

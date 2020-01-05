@@ -17,7 +17,7 @@ BOOST_AUTO_TEST_CASE(WaterMarkEvent) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::WATER_MARK_EVENT);
-    Vector::BLF::WaterMarkEvent * obj = static_cast<Vector::BLF::WaterMarkEvent *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::WaterMarkEvent *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);

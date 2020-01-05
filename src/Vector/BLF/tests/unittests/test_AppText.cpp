@@ -16,7 +16,7 @@ BOOST_AUTO_TEST_CASE(AppText) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::APP_TEXT);
-    Vector::BLF::AppText * obj = static_cast<Vector::BLF::AppText *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::AppText *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);

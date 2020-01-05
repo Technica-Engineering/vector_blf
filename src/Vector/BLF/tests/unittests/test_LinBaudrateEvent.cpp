@@ -16,7 +16,7 @@ BOOST_AUTO_TEST_CASE(LinBaudrateEvent_1) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_BAUDRATE);
-    Vector::BLF::LinBaudrateEvent * obj = static_cast<Vector::BLF::LinBaudrateEvent *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::LinBaudrateEvent *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);
@@ -75,7 +75,7 @@ BOOST_AUTO_TEST_CASE(LinBaudrateEvent_2) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_BAUDRATE);
-    Vector::BLF::LinBaudrateEvent * obj = static_cast<Vector::BLF::LinBaudrateEvent *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::LinBaudrateEvent *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);

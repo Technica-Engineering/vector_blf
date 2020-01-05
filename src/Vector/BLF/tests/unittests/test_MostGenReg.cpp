@@ -16,7 +16,7 @@ BOOST_AUTO_TEST_CASE(MostGenReg_1) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_GENREG);
-    Vector::BLF::MostGenReg * obj = static_cast<Vector::BLF::MostGenReg *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::MostGenReg *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);
@@ -82,7 +82,7 @@ BOOST_AUTO_TEST_CASE(MostGenReg_2) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_GENREG);
-    Vector::BLF::MostGenReg * obj = static_cast<Vector::BLF::MostGenReg *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::MostGenReg *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);

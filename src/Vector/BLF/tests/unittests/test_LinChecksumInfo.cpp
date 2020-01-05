@@ -16,7 +16,7 @@ BOOST_AUTO_TEST_CASE(LinChecksumInfo_1) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_CHECKSUM_INFO);
-    Vector::BLF::LinChecksumInfo * obj = static_cast<Vector::BLF::LinChecksumInfo *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::LinChecksumInfo *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);
@@ -76,7 +76,7 @@ BOOST_AUTO_TEST_CASE(LinChecksumInfo_2) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_CHECKSUM_INFO);
-    Vector::BLF::LinChecksumInfo * obj = static_cast<Vector::BLF::LinChecksumInfo *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::LinChecksumInfo *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);

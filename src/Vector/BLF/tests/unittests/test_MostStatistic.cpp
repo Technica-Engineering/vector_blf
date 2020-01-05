@@ -16,7 +16,7 @@ BOOST_AUTO_TEST_CASE(MostStatistic_1) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_STATISTIC);
-    Vector::BLF::MostStatistic * obj = static_cast<Vector::BLF::MostStatistic *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::MostStatistic *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);
@@ -77,7 +77,7 @@ BOOST_AUTO_TEST_CASE(MostStatistic_2) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_STATISTIC);
-    Vector::BLF::MostStatistic * obj = static_cast<Vector::BLF::MostStatistic *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::MostStatistic *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);

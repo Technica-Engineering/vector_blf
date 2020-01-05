@@ -42,7 +42,7 @@ namespace BLF {
 template <typename T>
 class VECTOR_BLF_EXPORT ObjectQueue {
   public:
-    explicit ObjectQueue();
+    explicit ObjectQueue() = default;
     virtual ~ObjectQueue();
 
     /**

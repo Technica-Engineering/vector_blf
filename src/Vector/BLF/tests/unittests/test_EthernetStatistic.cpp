@@ -16,7 +16,7 @@ BOOST_AUTO_TEST_CASE(EthernetStatistic) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::ETHERNET_STATISTIC);
-    Vector::BLF::EthernetStatistic * obj = static_cast<Vector::BLF::EthernetStatistic *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::EthernetStatistic *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);

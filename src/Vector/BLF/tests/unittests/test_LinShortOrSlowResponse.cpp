@@ -16,7 +16,7 @@ BOOST_AUTO_TEST_CASE(LinShortOrSlowResponse_1) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_SHORT_OR_SLOW_RESPONSE);
-    Vector::BLF::LinShortOrSlowResponse * obj = static_cast<Vector::BLF::LinShortOrSlowResponse *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::LinShortOrSlowResponse *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);
@@ -114,7 +114,7 @@ BOOST_AUTO_TEST_CASE(LinShortOrSlowResponse_2) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_SHORT_OR_SLOW_RESPONSE);
-    Vector::BLF::LinShortOrSlowResponse * obj = static_cast<Vector::BLF::LinShortOrSlowResponse *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::LinShortOrSlowResponse *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);

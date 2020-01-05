@@ -16,7 +16,7 @@ BOOST_AUTO_TEST_CASE(MostEthernetPktFragment_1) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_ETHERNET_PKT_FRAGMENT);
-    Vector::BLF::MostEthernetPktFragment * obj = static_cast<Vector::BLF::MostEthernetPktFragment *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::MostEthernetPktFragment *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);
@@ -91,7 +91,7 @@ BOOST_AUTO_TEST_CASE(MostEthernetPktFragment_2) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_ETHERNET_PKT_FRAGMENT);
-    Vector::BLF::MostEthernetPktFragment * obj = static_cast<Vector::BLF::MostEthernetPktFragment *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::MostEthernetPktFragment *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);

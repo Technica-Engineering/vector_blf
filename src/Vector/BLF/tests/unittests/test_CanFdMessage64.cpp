@@ -16,7 +16,7 @@ BOOST_AUTO_TEST_CASE(CanFdMessage64) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::CAN_FD_MESSAGE_64);
-    Vector::BLF::CanFdMessage64 * obj = static_cast<Vector::BLF::CanFdMessage64 *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::CanFdMessage64 *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);

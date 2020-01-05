@@ -44,7 +44,7 @@ int main(int argc, char * argv[]) {
     }
 
     /* write a CanMessage */
-    Vector::BLF::CanMessage * canMessage = new Vector::BLF::CanMessage;
+    auto * canMessage = new Vector::BLF::CanMessage;
     canMessage->channel = 1;
     canMessage->flags = 1; // TX
     canMessage->dlc = 2;

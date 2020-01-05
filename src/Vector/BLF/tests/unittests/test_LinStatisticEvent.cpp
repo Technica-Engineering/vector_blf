@@ -16,7 +16,7 @@ BOOST_AUTO_TEST_CASE(LinStatisticEvent_1) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_STATISTIC);
-    Vector::BLF::LinStatisticEvent * obj = static_cast<Vector::BLF::LinStatisticEvent *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::LinStatisticEvent *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);
@@ -82,7 +82,7 @@ BOOST_AUTO_TEST_CASE(LinStatisticEvent_2) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_STATISTIC);
-    Vector::BLF::LinStatisticEvent * obj = static_cast<Vector::BLF::LinStatisticEvent *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::LinStatisticEvent *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);

@@ -16,7 +16,7 @@ BOOST_AUTO_TEST_CASE(LinLongDomSignalEvent2_1) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_LONG_DOM_SIG2);
-    Vector::BLF::LinLongDomSignalEvent2 * obj = static_cast<Vector::BLF::LinLongDomSignalEvent2 *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::LinLongDomSignalEvent2 *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);
@@ -83,7 +83,7 @@ BOOST_AUTO_TEST_CASE(LinLongDomSignalEvent2_2) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_LONG_DOM_SIG2);
-    Vector::BLF::LinLongDomSignalEvent2 * obj = static_cast<Vector::BLF::LinLongDomSignalEvent2 *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::LinLongDomSignalEvent2 *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);

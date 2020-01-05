@@ -16,7 +16,7 @@ BOOST_AUTO_TEST_CASE(EthernetFrameForwarded) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::ETHERNET_FRAME_FORWARDED);
-    Vector::BLF::EthernetFrameForwarded * obj = static_cast<Vector::BLF::EthernetFrameForwarded *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::EthernetFrameForwarded *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);

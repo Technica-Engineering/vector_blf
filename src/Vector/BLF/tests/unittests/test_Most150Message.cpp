@@ -16,7 +16,7 @@ BOOST_AUTO_TEST_CASE(Most150Message_1) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_150_MESSAGE);
-    Vector::BLF::Most150Message * obj = static_cast<Vector::BLF::Most150Message *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::Most150Message *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);
@@ -92,7 +92,7 @@ BOOST_AUTO_TEST_CASE(Most150Message_2) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::MOST_150_MESSAGE);
-    Vector::BLF::Most150Message * obj = static_cast<Vector::BLF::Most150Message *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::Most150Message *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);

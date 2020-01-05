@@ -16,7 +16,7 @@ BOOST_AUTO_TEST_CASE(LinWakeupEvent) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_WAKEUP);
-    Vector::BLF::LinWakeupEvent * obj = static_cast<Vector::BLF::LinWakeupEvent *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::LinWakeupEvent *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);

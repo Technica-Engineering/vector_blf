@@ -19,7 +19,7 @@ BOOST_AUTO_TEST_CASE(EnvironmentVariable_1) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::ENV_INTEGER);
-    Vector::BLF::EnvironmentVariable * obj = static_cast<Vector::BLF::EnvironmentVariable *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::EnvironmentVariable *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);
@@ -104,7 +104,7 @@ BOOST_AUTO_TEST_CASE(EnvironmentVariable_2) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::ENV_INTEGER);
-    Vector::BLF::EnvironmentVariable * obj = static_cast<Vector::BLF::EnvironmentVariable *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::EnvironmentVariable *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);

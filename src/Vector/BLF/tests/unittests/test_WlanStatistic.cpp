@@ -16,7 +16,7 @@ BOOST_AUTO_TEST_CASE(WlanStatistic) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::WLAN_STATISTIC);
-    Vector::BLF::WlanStatistic * obj = static_cast<Vector::BLF::WlanStatistic *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::WlanStatistic *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);

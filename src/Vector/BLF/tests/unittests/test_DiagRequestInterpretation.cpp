@@ -16,7 +16,7 @@ BOOST_AUTO_TEST_CASE(DiagRequestInterpretation) {
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::DIAG_REQUEST_INTERPRETATION);
-    Vector::BLF::DiagRequestInterpretation * obj = static_cast<Vector::BLF::DiagRequestInterpretation *>(ohb);
+    auto * obj = dynamic_cast<Vector::BLF::DiagRequestInterpretation *>(ohb);
 
     /* ObjectHeaderBase */
     BOOST_CHECK_EQUAL(obj->signature, Vector::BLF::ObjectSignature);
