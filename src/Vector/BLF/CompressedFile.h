@@ -42,10 +42,10 @@ class VECTOR_BLF_EXPORT CompressedFile final : public AbstractFile {
   public:
     CompressedFile() = default;
     virtual ~CompressedFile() override;
-    CompressedFile(const CompressedFile &) = default;
-    CompressedFile & operator=(const CompressedFile &) = default;
-    CompressedFile(CompressedFile &&) = default;
-    CompressedFile & operator=(CompressedFile &&) = default;
+    CompressedFile(const CompressedFile &) = delete;
+    CompressedFile & operator=(const CompressedFile &) = delete;
+    CompressedFile(CompressedFile &&) = delete;
+    CompressedFile & operator=(CompressedFile &&) = delete;
 
     virtual std::streamsize gcount() const override;
     virtual void read(char * s, std::streamsize n) override;

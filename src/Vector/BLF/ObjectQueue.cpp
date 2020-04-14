@@ -38,7 +38,7 @@ T * ObjectQueue<T>::read() {
     std::unique_lock<std::mutex> lock(m_mutex);
 
     /* wait for data */
-    tellpChanged.wait(lock, [this] {
+    tellpChanged.wait(lock, [&] {
         return
         m_abort ||
         !m_queue.empty() ||
@@ -80,7 +80,7 @@ void ObjectQueue<T>::write(T * obj) {
     std::unique_lock<std::mutex> lock(m_mutex);
 
     /* wait for free space */
-    tellgChanged.wait(lock, [this] {
+    tellgChanged.wait(lock, [&] {
         return
         m_abort ||
         static_cast<DWORD>(m_queue.size()) < m_bufferSize;

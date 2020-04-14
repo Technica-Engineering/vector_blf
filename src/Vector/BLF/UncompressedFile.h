@@ -58,7 +58,7 @@ class VECTOR_BLF_EXPORT UncompressedFile final : public AbstractFile {
     virtual std::streamsize gcount() const override;
     virtual void read(char * s, std::streamsize n) override;
     virtual std::streampos tellg() override;
-    virtual void seekg(std::streamoff off, const std::ios_base::seekdir way  = std::ios_base::cur) override;
+    virtual void seekg(std::streamoff off, const std::ios_base::seekdir way = std::ios_base::cur) override;
     virtual void write(const char * s, std::streamsize n) override;
     virtual std::streampos tellp() override;
     virtual bool good() const override;

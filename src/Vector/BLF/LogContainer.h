@@ -104,7 +104,7 @@ struct VECTOR_BLF_EXPORT LogContainer final : ObjectHeaderBase {
      * @param[in] compressionMethod compression method
      * @param[in] compressionLevel compression level (different for each method)
      */
-    virtual void compress(WORD compressionMethod, int compressionLevel);
+    virtual void compress(const WORD compressionMethod, const int compressionLevel);
 };
 
 }

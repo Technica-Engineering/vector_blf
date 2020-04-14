@@ -110,7 +110,7 @@ void LogContainer::uncompress() {
     }
 }
 
-void LogContainer::compress(WORD compressionMethod, int compressionLevel) {
+void LogContainer::compress(const WORD compressionMethod, const int compressionLevel) {
     this->compressionMethod = compressionMethod;
 
     switch (compressionMethod) {

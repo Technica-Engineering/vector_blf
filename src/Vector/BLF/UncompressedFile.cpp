@@ -45,7 +45,7 @@ void UncompressedFile::read(char * s, std::streamsize n) {
     std::unique_lock<std::mutex> lock(m_mutex);
 
     /* wait until there is sufficient data */
-    tellpChanged.wait(lock, [this, n] {
+    tellpChanged.wait(lock, [&] {
         return
         m_abort ||
         (n + m_tellg <= m_tellp) ||
@@ -72,7 +72,7 @@ void UncompressedFile::read(char * s, std::streamsize n) {
 
         /* copy data */
         std::streamsize gcount = std::min(n, static_cast<std::streamsize>(logContainer->uncompressedFileSize - offset));
-        std::copy(logContainer->uncompressedFile.begin() + offset, logContainer->uncompressedFile.begin() + offset + gcount, s);
+        std::copy(logContainer->uncompressedFile.cbegin() + offset, logContainer->uncompressedFile.cbegin() + offset + gcount, s);
 
         /* remember get count */
         m_gcount += gcount;
@@ -117,7 +117,7 @@ void UncompressedFile::write(const char * s, std::streamsize n) {
     std::unique_lock<std::mutex> lock(m_mutex);
 
     /* wait for free space */
-    tellgChanged.wait(lock, [this] {
+    tellgChanged.wait(lock, [&] {
         return
         m_abort ||
         ((m_tellp - m_tellg) < m_bufferSize);
