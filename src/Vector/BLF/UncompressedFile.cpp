@@ -147,16 +147,18 @@ void UncompressedFile::write(const char * s, std::streamsize n) {
 
         /* copy data */
         std::streamsize pcount = std::min(n, static_cast<std::streamsize>(logContainer->uncompressedFileSize - offset));
-        std::copy(s, s + pcount, logContainer->uncompressedFile.begin() + offset);
+        if (pcount > 0) {
+            std::copy(s, s + pcount, logContainer->uncompressedFile.begin() + offset);
 
-        /* new put position */
-        m_tellp += pcount;
+            /* new put position */
+            m_tellp += pcount;
 
-        /* advance */
-        s += pcount;
+            /* advance */
+            s += pcount;
 
-        /* calculate remaining data to copy */
-        n -= pcount;
+            /* calculate remaining data to copy */
+            n -= pcount;
+        }
     }
 
     /* if new position is behind eof, shift it */
