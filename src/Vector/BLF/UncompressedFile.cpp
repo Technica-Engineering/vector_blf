@@ -270,6 +270,9 @@ void UncompressedFile::dropOldData() {
     std::lock_guard<std::mutex> lock(m_mutex);
 
     /* check if drop should be done now */
+    if (m_data.empty()) {
+        return;
+    }
     std::shared_ptr<LogContainer> logContainer = m_data.front();
     if (logContainer) {
         std::streampos position = logContainer->uncompressedFileSize + logContainer->filePosition;

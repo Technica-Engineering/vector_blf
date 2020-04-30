@@ -153,3 +153,11 @@ BOOST_AUTO_TEST_CASE(fileWithUnknownObjectType) {
 
     file.close();
 }
+
+/** Test open and close cycle to see if there is nothing freed forcefully. */
+BOOST_AUTO_TEST_CASE(OpenCloseCycles) {
+    Vector::BLF::File logfile;
+
+    logfile.open(CMAKE_CURRENT_BINARY_DIR "test.blf", std::ios_base::out);
+    logfile.close();
+}
