@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.1.9] - 2020-04-30
+### Fixed
+- Fix a free, on an undefined pointer.
+
 ## [2.1.8] - 2020-04-29
 ### Fixed
 - Fix a memory leak with large chunks of data.
