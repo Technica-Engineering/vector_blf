@@ -40,9 +40,9 @@ namespace BLF {
 struct VECTOR_BLF_EXPORT EthernetStatus final : ObjectHeader {
     EthernetStatus();
 
-    virtual void read(AbstractFile & is) override;
-    virtual void write(AbstractFile & os) override;
-    virtual DWORD calculateObjectSize() const override;
+    void read(AbstractFile & is) override;
+    void write(AbstractFile & os) override;
+    DWORD calculateObjectSize() const override;
 
     /**
      * The channel of the event.

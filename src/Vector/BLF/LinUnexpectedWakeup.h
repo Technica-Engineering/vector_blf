@@ -42,9 +42,9 @@ namespace BLF {
 struct VECTOR_BLF_EXPORT LinUnexpectedWakeup final : ObjectHeader, LinBusEvent {
     LinUnexpectedWakeup();
 
-    virtual void read(AbstractFile & is) override;
-    virtual void write(AbstractFile & os) override;
-    virtual DWORD calculateObjectSize() const override;
+    void read(AbstractFile & is) override;
+    void write(AbstractFile & os) override;
+    DWORD calculateObjectSize() const override;
 
     /**
      * @brief width of the unexpected wakeup in nanoseconds (valid for LIN 2.x)

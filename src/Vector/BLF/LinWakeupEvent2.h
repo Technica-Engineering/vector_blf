@@ -41,9 +41,9 @@ namespace BLF {
 struct VECTOR_BLF_EXPORT LinWakeupEvent2 final : ObjectHeader, LinBusEvent {
     LinWakeupEvent2();
 
-    virtual void read(AbstractFile & is) override;
-    virtual void write(AbstractFile & os) override;
-    virtual DWORD calculateObjectSize() const override;
+    void read(AbstractFile & is) override;
+    void write(AbstractFile & os) override;
+    DWORD calculateObjectSize() const override;
 
     /**
      * Wake-up length validity indicator:

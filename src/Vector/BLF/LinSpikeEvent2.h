@@ -42,9 +42,9 @@ namespace BLF {
 struct VECTOR_BLF_EXPORT LinSpikeEvent2 final : ObjectHeader, LinBusEvent {
     LinSpikeEvent2();
 
-    virtual void read(AbstractFile & is) override;
-    virtual void write(AbstractFile & os) override;
-    virtual DWORD calculateObjectSize() const override;
+    void read(AbstractFile & is) override;
+    void write(AbstractFile & os) override;
+    DWORD calculateObjectSize() const override;
 
     /**
      * @brief the spike's width in microseconds

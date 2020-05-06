@@ -43,9 +43,9 @@ namespace BLF {
 struct VECTOR_BLF_EXPORT MostGenReg final : ObjectHeader2 {
     MostGenReg();
 
-    virtual void read(AbstractFile & is) override;
-    virtual void write(AbstractFile & os) override;
-    virtual DWORD calculateObjectSize() const override;
+    void read(AbstractFile & is) override;
+    void write(AbstractFile & os) override;
+    DWORD calculateObjectSize() const override;
 
     /**
      * @brief application channel

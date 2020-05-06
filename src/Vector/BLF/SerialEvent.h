@@ -51,9 +51,9 @@ struct VECTOR_BLF_EXPORT SerialEvent final : ObjectHeader {
     SerialEvent(SerialEvent &&) = default;
     SerialEvent & operator=(SerialEvent &&) = default;
 
-    virtual void read(AbstractFile & is) override;
-    virtual void write(AbstractFile & os) override;
-    virtual DWORD calculateObjectSize() const override;
+    void read(AbstractFile & is) override;
+    void write(AbstractFile & os) override;
+    DWORD calculateObjectSize() const override;
 
     /** enumeration for flags */
     enum Flags : DWORD {

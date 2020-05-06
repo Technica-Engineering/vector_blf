@@ -40,9 +40,9 @@ namespace BLF {
 struct VECTOR_BLF_EXPORT RealtimeClock final : ObjectHeader {
     RealtimeClock();
 
-    virtual void read(AbstractFile & is) override;
-    virtual void write(AbstractFile & os) override;
-    virtual DWORD calculateObjectSize() const override;
+    void read(AbstractFile & is) override;
+    void write(AbstractFile & os) override;
+    DWORD calculateObjectSize() const override;
 
     /**
      * @brief logging start time in ns since 00:00 1.1.1970 GMT

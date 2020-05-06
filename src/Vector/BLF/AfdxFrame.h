@@ -43,9 +43,9 @@ namespace BLF {
 struct VECTOR_BLF_EXPORT AfdxFrame final : ObjectHeader {
     AfdxFrame();
 
-    virtual void read(AbstractFile & is) override;
-    virtual void write(AbstractFile & os) override;
-    virtual DWORD calculateObjectSize() const override;
+    void read(AbstractFile & is) override;
+    void write(AbstractFile & os) override;
+    DWORD calculateObjectSize() const override;
 
     /**
      * Ethernet (MAC) address of source computer

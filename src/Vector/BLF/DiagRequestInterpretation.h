@@ -38,9 +38,9 @@ namespace BLF {
 struct VECTOR_BLF_EXPORT DiagRequestInterpretation final : ObjectHeader {
     DiagRequestInterpretation();
 
-    virtual void read(AbstractFile & is) override;
-    virtual void write(AbstractFile & os) override;
-    virtual DWORD calculateObjectSize() const override;
+    void read(AbstractFile & is) override;
+    void write(AbstractFile & os) override;
+    DWORD calculateObjectSize() const override;
 
     /**
      * @brief unique ID identifying the used diagnostic description

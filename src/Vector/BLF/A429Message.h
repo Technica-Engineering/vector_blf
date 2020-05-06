@@ -42,9 +42,9 @@ namespace BLF {
 struct VECTOR_BLF_EXPORT A429Message final : ObjectHeader {
     A429Message();
 
-    virtual void read(AbstractFile & is) override;
-    virtual void write(AbstractFile & os) override;
-    virtual DWORD calculateObjectSize() const override;
+    void read(AbstractFile & is) override;
+    void write(AbstractFile & os) override;
+    DWORD calculateObjectSize() const override;
 
     /** data */
     std::array<BYTE, 4> a429Data {};

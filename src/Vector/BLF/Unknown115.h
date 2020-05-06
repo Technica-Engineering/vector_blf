@@ -40,9 +40,9 @@ namespace BLF {
 struct VECTOR_BLF_EXPORT Unknown115 final : ObjectHeader {
     Unknown115();
 
-    virtual void read(AbstractFile & is) override;
-    virtual void write(AbstractFile & os) override;
-    virtual DWORD calculateObjectSize() const override;
+    void read(AbstractFile & is) override;
+    void write(AbstractFile & os) override;
+    DWORD calculateObjectSize() const override;
 
     /** reserved */
     DWORD reservedUnknownObject1 {}; // @todo what is this? 0x001E00C4, ...

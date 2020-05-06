@@ -42,9 +42,9 @@ namespace BLF {
 struct VECTOR_BLF_EXPORT A429BusStatistic final : ObjectHeader {
     A429BusStatistic();
 
-    virtual void read(AbstractFile & is) override;
-    virtual void write(AbstractFile & os) override;
-    virtual DWORD calculateObjectSize() const override;
+    void read(AbstractFile & is) override;
+    void write(AbstractFile & os) override;
+    DWORD calculateObjectSize() const override;
 
     /** application channel */
     WORD channel {};

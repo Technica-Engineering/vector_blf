@@ -41,20 +41,20 @@ namespace BLF {
 class VECTOR_BLF_EXPORT CompressedFile final : public AbstractFile {
   public:
     CompressedFile() = default;
-    virtual ~CompressedFile() override;
+    ~CompressedFile() override;
     CompressedFile(const CompressedFile &) = delete;
     CompressedFile & operator=(const CompressedFile &) = delete;
     CompressedFile(CompressedFile &&) = delete;
     CompressedFile & operator=(CompressedFile &&) = delete;
 
-    virtual std::streamsize gcount() const override;
-    virtual void read(char * s, std::streamsize n) override;
-    virtual std::streampos tellg() override;
-    virtual void seekg(std::streamoff off, const std::ios_base::seekdir way = std::ios_base::cur) override;
-    virtual void write(const char * s, std::streamsize n) override;
-    virtual std::streampos tellp() override;
-    virtual bool good() const override;
-    virtual bool eof() const override;
+    std::streamsize gcount() const override;
+    void read(char * s, std::streamsize n) override;
+    std::streampos tellg() override;
+    void seekg(std::streamoff off, const std::ios_base::seekdir way = std::ios_base::cur) override;
+    void write(const char * s, std::streamsize n) override;
+    std::streampos tellp() override;
+    bool good() const override;
+    bool eof() const override;
 
     /**
      * open file

@@ -43,9 +43,9 @@ namespace BLF {
 struct VECTOR_BLF_EXPORT AppText final : ObjectHeader {
     AppText();
 
-    virtual void read(AbstractFile & is) override;
-    virtual void write(AbstractFile & os) override;
-    virtual DWORD calculateObjectSize() const override;
+    void read(AbstractFile & is) override;
+    void write(AbstractFile & os) override;
+    DWORD calculateObjectSize() const override;
 
     /** enumeration for source */
     enum Source : DWORD {

@@ -53,16 +53,16 @@ namespace BLF {
 class VECTOR_BLF_EXPORT UncompressedFile final : public AbstractFile {
   public:
     UncompressedFile() = default;
-    virtual ~UncompressedFile() override;
+    ~UncompressedFile() override;
 
-    virtual std::streamsize gcount() const override;
-    virtual void read(char * s, std::streamsize n) override;
-    virtual std::streampos tellg() override;
-    virtual void seekg(std::streamoff off, const std::ios_base::seekdir way = std::ios_base::cur) override;
-    virtual void write(const char * s, std::streamsize n) override;
-    virtual std::streampos tellp() override;
-    virtual bool good() const override;
-    virtual bool eof() const override;
+    std::streamsize gcount() const override;
+    void read(char * s, std::streamsize n) override;
+    std::streampos tellg() override;
+    void seekg(std::streamoff off, const std::ios_base::seekdir way = std::ios_base::cur) override;
+    void write(const char * s, std::streamsize n) override;
+    std::streampos tellp() override;
+    bool good() const override;
+    bool eof() const override;
 
     /**
      * Stop further operations. Return from waiting reads.

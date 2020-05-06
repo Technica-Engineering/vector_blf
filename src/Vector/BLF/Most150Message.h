@@ -42,9 +42,9 @@ namespace BLF {
 struct VECTOR_BLF_EXPORT Most150Message final : ObjectHeader2 {
     Most150Message();
 
-    virtual void read(AbstractFile & is) override;
-    virtual void write(AbstractFile & os) override;
-    virtual DWORD calculateObjectSize() const override;
+    void read(AbstractFile & is) override;
+    void write(AbstractFile & os) override;
+    DWORD calculateObjectSize() const override;
 
     /**
      * @brief application channel

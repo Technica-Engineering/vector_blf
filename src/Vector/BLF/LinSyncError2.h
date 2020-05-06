@@ -47,9 +47,9 @@ namespace BLF {
 struct VECTOR_BLF_EXPORT LinSyncError2 final : ObjectHeader, LinSynchFieldEvent {
     LinSyncError2();
 
-    virtual void read(AbstractFile & is) override;
-    virtual void write(AbstractFile & os) override;
-    virtual DWORD calculateObjectSize() const override;
+    void read(AbstractFile & is) override;
+    void write(AbstractFile & os) override;
+    DWORD calculateObjectSize() const override;
 
     /**
      * Time intervals [in us] detected between the

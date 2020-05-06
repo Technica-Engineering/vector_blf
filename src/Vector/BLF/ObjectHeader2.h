@@ -40,10 +40,10 @@ namespace BLF {
 struct VECTOR_BLF_EXPORT ObjectHeader2 : ObjectHeaderBase {
     ObjectHeader2(const ObjectType objectType);
 
-    virtual void read(AbstractFile & is) override;
-    virtual void write(AbstractFile & os) override;
-    virtual WORD calculateHeaderSize() const override;
-    virtual DWORD calculateObjectSize() const override;
+    void read(AbstractFile & is) override;
+    void write(AbstractFile & os) override;
+    WORD calculateHeaderSize() const override;
+    DWORD calculateObjectSize() const override;
 
     /** enumeration for objectFlags */
     enum ObjectFlags : DWORD {

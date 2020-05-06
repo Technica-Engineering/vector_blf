@@ -43,9 +43,9 @@ namespace BLF {
 struct VECTOR_BLF_EXPORT Most150MessageFragment final : ObjectHeader2 { /* applied for MOST50 and MOST150 */
     Most150MessageFragment();
 
-    virtual void read(AbstractFile & is) override;
-    virtual void write(AbstractFile & os) override;
-    virtual DWORD calculateObjectSize() const override;
+    void read(AbstractFile & is) override;
+    void write(AbstractFile & os) override;
+    DWORD calculateObjectSize() const override;
 
     /**
      * @brief application channel

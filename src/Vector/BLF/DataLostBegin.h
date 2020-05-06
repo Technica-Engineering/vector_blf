@@ -38,9 +38,9 @@ namespace BLF {
 struct VECTOR_BLF_EXPORT DataLostBegin final : ObjectHeader {
     DataLostBegin();
 
-    virtual void read(AbstractFile & is) override;
-    virtual void write(AbstractFile & os) override;
-    virtual DWORD calculateObjectSize() const override;
+    void read(AbstractFile & is) override;
+    void write(AbstractFile & os) override;
+    DWORD calculateObjectSize() const override;
 
     /** enumeration for queueIdentifier */
     enum QueueIdentifier : DWORD {

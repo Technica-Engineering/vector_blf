@@ -42,9 +42,9 @@ namespace BLF {
 struct VECTOR_BLF_EXPORT A429Error final : ObjectHeader {
     A429Error();
 
-    virtual void read(AbstractFile & is) override;
-    virtual void write(AbstractFile & os) override;
-    virtual DWORD calculateObjectSize() const override;
+    void read(AbstractFile & is) override;
+    void write(AbstractFile & os) override;
+    DWORD calculateObjectSize() const override;
 
     /** application channel */
     WORD channel {};
