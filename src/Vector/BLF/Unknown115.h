@@ -23,6 +23,8 @@
 
 #include <Vector/BLF/platform.h>
 
+#include <vector>
+
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
 #include <Vector/BLF/VectorTypes.h>
@@ -45,22 +47,7 @@ struct VECTOR_BLF_EXPORT Unknown115 final : ObjectHeader {
     DWORD calculateObjectSize() const override;
 
     /** reserved */
-    DWORD reservedUnknownObject1 {}; // @todo what is this? 0x001E00C4, ...
-
-    /** reserved */
-    DWORD reservedUnknownObject2 {}; // @todo what is this? 0x00000000, ...
-
-    /** reserved */
-    DWORD reservedUnknownObject3 {}; // @todo what is this? 0x000000D6, ...
-
-    /** reserved */
-    DWORD reservedUnknownObject4 {}; // @todo what is this? 0x0008F30C, ...
-
-    /** reserved */
-    DWORD reservedUnknownObject5 {}; // @todo what is this? 0x00180008, ...
-
-    /** reserved */
-    DWORD reservedUnknownObject6 {}; // @todo what is this? 0x000003E8, ...
+    std::vector<uint8_t> unknownData {}; // @todo what is this?
 };
 
 }

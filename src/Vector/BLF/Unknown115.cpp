@@ -30,33 +30,19 @@ Unknown115::Unknown115() :
 
 void Unknown115::read(AbstractFile & is) {
     ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&reservedUnknownObject1), sizeof(reservedUnknownObject1));
-    is.read(reinterpret_cast<char *>(&reservedUnknownObject2), sizeof(reservedUnknownObject2));
-    is.read(reinterpret_cast<char *>(&reservedUnknownObject3), sizeof(reservedUnknownObject3));
-    is.read(reinterpret_cast<char *>(&reservedUnknownObject4), sizeof(reservedUnknownObject4));
-    is.read(reinterpret_cast<char *>(&reservedUnknownObject5), sizeof(reservedUnknownObject5));
-    is.read(reinterpret_cast<char *>(&reservedUnknownObject6), sizeof(reservedUnknownObject6));
+    unknownData.resize(objectSize - ObjectHeader::calculateObjectSize());
+    is.read(reinterpret_cast<char *>(unknownData.data()), unknownData.size());
 }
 
 void Unknown115::write(AbstractFile & os) {
     ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&reservedUnknownObject1), sizeof(reservedUnknownObject1));
-    os.write(reinterpret_cast<char *>(&reservedUnknownObject2), sizeof(reservedUnknownObject2));
-    os.write(reinterpret_cast<char *>(&reservedUnknownObject3), sizeof(reservedUnknownObject3));
-    os.write(reinterpret_cast<char *>(&reservedUnknownObject4), sizeof(reservedUnknownObject4));
-    os.write(reinterpret_cast<char *>(&reservedUnknownObject5), sizeof(reservedUnknownObject5));
-    os.write(reinterpret_cast<char *>(&reservedUnknownObject6), sizeof(reservedUnknownObject6));
+    os.write(reinterpret_cast<char *>(unknownData.data()), unknownData.size());
 }
 
 DWORD Unknown115::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
-        sizeof(reservedUnknownObject1) +
-        sizeof(reservedUnknownObject2) +
-        sizeof(reservedUnknownObject3) +
-        sizeof(reservedUnknownObject4) +
-        sizeof(reservedUnknownObject5) +
-        sizeof(reservedUnknownObject6);
+        unknownData.size();
 }
 
 }

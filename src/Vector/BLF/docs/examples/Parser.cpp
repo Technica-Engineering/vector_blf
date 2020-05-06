@@ -1713,12 +1713,8 @@ void show(Vector::BLF::EthernetStatistic * obj) {
 // Unknown115 = 115
 void show(Vector::BLF::Unknown115 * obj) {
     std::cout << "Unknown115:";
-    std::cout << " res[0]=0x" << std::setfill('0') << std::setw(8) << std::hex << obj->reservedUnknownObject1;
-    std::cout << " res[1]=0x" << std::setfill('0') << std::setw(8) << std::hex << obj->reservedUnknownObject2;
-    std::cout << " res[2]=0x" << std::setfill('0') << std::setw(8) << std::hex << obj->reservedUnknownObject3;
-    std::cout << " res[3]=0x" << std::setfill('0') << std::setw(8) << std::hex << obj->reservedUnknownObject4;
-    std::cout << " res[4]=0x" << std::setfill('0') << std::setw(8) << std::hex << obj->reservedUnknownObject5;
-    std::cout << " res[5]=0x" << std::setfill('0') << std::setw(8) << std::hex << obj->reservedUnknownObject6;
+    std::cout << " unknownData=";
+    printData(obj->unknownData.data(), obj->unknownData.size());
     std::cout << std::endl;
 }
 
