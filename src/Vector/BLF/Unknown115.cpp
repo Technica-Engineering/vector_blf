@@ -30,19 +30,58 @@ Unknown115::Unknown115() :
 
 void Unknown115::read(AbstractFile & is) {
     ObjectHeader::read(is);
-    unknownData.resize(objectSize - ObjectHeader::calculateObjectSize());
-    is.read(reinterpret_cast<char *>(unknownData.data()), unknownData.size());
+
+    is.read(reinterpret_cast<char *>(&unknown0), sizeof(unknown0));
+    is.read(reinterpret_cast<char *>(&unknown1), sizeof(unknown1));
+    is.read(reinterpret_cast<char *>(&unknown2), sizeof(unknown2));
+
+    uint8_t size = objectSize
+            - ObjectHeader::calculateObjectSize()
+            - sizeof(unknown0)
+            - sizeof(unknown1)
+            - sizeof(unknown2);
+
+    while(size > 0) {
+        UnknownDataBlock dataBlock;
+        is.read(reinterpret_cast<char *>(&dataBlock.timeStamp), sizeof(dataBlock.timeStamp));
+        is.read(reinterpret_cast<char *>(&dataBlock.uncompressedFileSize), sizeof(dataBlock.uncompressedFileSize));
+        is.read(reinterpret_cast<char *>(&dataBlock.value), sizeof(dataBlock.value));
+        is.read(reinterpret_cast<char *>(&dataBlock.flags), sizeof(dataBlock.flags));
+        unknownData.push_back(dataBlock);
+        size -=
+            sizeof(dataBlock.timeStamp) +
+            sizeof(dataBlock.uncompressedFileSize) +
+            sizeof(dataBlock.value) +
+            sizeof(dataBlock.flags);
+    }
 }
 
 void Unknown115::write(AbstractFile & os) {
     ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(unknownData.data()), unknownData.size());
+
+    os.write(reinterpret_cast<char *>(&unknown0), sizeof(unknown0));
+    os.write(reinterpret_cast<char *>(&unknown1), sizeof(unknown1));
+    os.write(reinterpret_cast<char *>(&unknown2), sizeof(unknown2));
+
+    for (const UnknownDataBlock & dataBlock: unknownData) {
+        os.write(reinterpret_cast<char *>(dataBlock.timeStamp), sizeof(dataBlock.timeStamp));
+        os.write(reinterpret_cast<char *>(dataBlock.uncompressedFileSize), sizeof(dataBlock.uncompressedFileSize));
+        os.write(reinterpret_cast<char *>(dataBlock.value), sizeof(dataBlock.value));
+        os.write(reinterpret_cast<char *>(dataBlock.flags), sizeof(dataBlock.flags));
+    }
 }
 
 DWORD Unknown115::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
-        unknownData.size();
+        sizeof(unknown0) +
+        sizeof(unknown1) +
+        sizeof(unknown2) +
+        unknownData.size() * (
+                sizeof(UnknownDataBlock::timeStamp) +
+                sizeof(UnknownDataBlock::uncompressedFileSize) +
+                sizeof(UnknownDataBlock::value) +
+                sizeof(UnknownDataBlock::flags));
 }
 
 }
