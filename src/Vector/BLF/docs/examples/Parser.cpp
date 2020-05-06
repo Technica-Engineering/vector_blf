@@ -977,7 +977,7 @@ void show(Vector::BLF::SystemVariable * obj) {
         std::cout << " dataLength=" << std::dec << obj->dataLength;
         std::cout << " name=" << obj->name;
         std::cout << " data=[";
-        for (auto i = 0; i < min(obj->data.size(), obj->dataLength) / 8; ++i) {
+        for (uint32_t i = 0; i < min(obj->data.size(), obj->dataLength) / 8; ++i) {
             if (i > 0)
                 std::cout << ",";
             std::cout << std::fixed << static_cast<double>(obj->data[i * 8]);
@@ -991,7 +991,7 @@ void show(Vector::BLF::SystemVariable * obj) {
         std::cout << " dataLength=" << std::dec << obj->dataLength;
         std::cout << " name=" << obj->name;
         std::cout << " data=[";
-        for (auto i = 0; i < min(obj->data.size(), obj->dataLength) / 4; ++i) {
+        for (uint32_t i = 0; i < min(obj->data.size(), obj->dataLength) / 4; ++i) {
             if (i > 0)
                 std::cout << ",";
             std::cout << std::dec << static_cast<int32_t>(obj->data[i * 4]);
@@ -1013,7 +1013,7 @@ void show(Vector::BLF::SystemVariable * obj) {
         std::cout << " dataLength=" << std::dec << obj->dataLength;
         std::cout << " name=" << obj->name;
         std::cout << " data=[";
-        for (auto i = 0; i < min(obj->data.size(), obj->dataLength); ++i) {
+        for (uint32_t i = 0; i < min(obj->data.size(), obj->dataLength); ++i) {
             if (i > 0)
                 std::cout << ",";
             std::cout << std::dec << static_cast<uint16_t>(obj->data[i]);
@@ -1310,7 +1310,7 @@ void show(Vector::BLF::SerialEvent * obj) {
             std::cout << " data=";
             printData(obj->general.data.data(), min(obj->general.data.size(), obj->general.dataLength));
             std::cout << " timeStamps=";
-            for (auto i = 0; i < min(obj->general.timeStamps.size(), obj->general.timeStampsLength / 8); ++i) {
+            for (uint32_t i = 0; i < min(obj->general.timeStamps.size(), obj->general.timeStampsLength / 8); ++i) {
                 if (i > 0)
                     std::cout << ",";
                 std::cout << std::dec << obj->general.timeStamps[i];
@@ -1439,7 +1439,7 @@ void show(Vector::BLF::KLineStatusEvent * obj) {
     std::cout << " dataLen=" << std::dec << obj->dataLen;
     std::cout << " port=" << std::dec << obj->port;
     std::cout << " data=[";
-    for (auto i = 0; i < min(obj->data.size(), obj->dataLen / 8); ++i) {
+    for (uint32_t i = 0; i < min(obj->data.size(), obj->dataLen / 8); ++i) {
         if (i > 0)
             std::cout << " ";
         std::cout << std::hex << obj->data[i];
@@ -1667,7 +1667,7 @@ void show(Vector::BLF::A429BusStatistic * obj) {
     std::cout << " idleErrors=" << std::dec << obj->idleErrors;
     std::cout << " levelErrors=" << std::dec << obj->levelErrors;
     std::cout << " labelCount=";
-    for (auto i = 0; i < obj->labelCount.size(); ++i) {
+    for (uint32_t i = 0; i < obj->labelCount.size(); ++i) {
         if (i > 0)
             std::cout << ",";
         std::cout << std::dec << obj->labelCount[i];
