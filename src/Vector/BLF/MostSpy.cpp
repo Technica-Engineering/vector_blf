@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 MostSpy::MostSpy() :
-    ObjectHeader() {
-    objectType = ObjectType::MOST_SPY;
+    ObjectHeader(ObjectType::MOST_SPY) {
 }
 
 void MostSpy::read(AbstractFile & is) {

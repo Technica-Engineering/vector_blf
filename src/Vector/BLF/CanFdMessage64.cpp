@@ -25,9 +25,7 @@ namespace Vector {
 namespace BLF {
 
 CanFdMessage64::CanFdMessage64() :
-    ObjectHeader(),
-    CanFdExtFrameData() {
-    objectType = ObjectType::CAN_FD_MESSAGE_64;
+    ObjectHeader(ObjectType::CAN_FD_MESSAGE_64) {
 }
 
 void CanFdMessage64::read(AbstractFile & is) {

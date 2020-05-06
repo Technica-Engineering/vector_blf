@@ -24,10 +24,6 @@
 namespace Vector {
 namespace BLF {
 
-LinSynchFieldEvent::LinSynchFieldEvent() :
-    LinBusEvent() {
-}
-
 void LinSynchFieldEvent::read(AbstractFile & is) {
     LinBusEvent::read(is);
     is.read(reinterpret_cast<char *>(&synchBreakLength), sizeof(synchBreakLength));

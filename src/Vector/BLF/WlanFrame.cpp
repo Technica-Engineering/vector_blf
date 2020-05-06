@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 WlanFrame::WlanFrame() :
-    ObjectHeader() {
-    objectType = ObjectType::WLAN_FRAME;
+    ObjectHeader(ObjectType::WLAN_FRAME) {
 }
 
 void WlanFrame::read(AbstractFile & is) {

@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 MostEthernetPkt::MostEthernetPkt() :
-    ObjectHeader2() {
-    objectType = ObjectType::MOST_ETHERNET_PKT;
+    ObjectHeader2(ObjectType::MOST_ETHERNET_PKT) {
 }
 
 void MostEthernetPkt::read(AbstractFile & is) {

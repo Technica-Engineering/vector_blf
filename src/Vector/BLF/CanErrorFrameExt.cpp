@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 CanErrorFrameExt::CanErrorFrameExt() :
-    ObjectHeader() {
-    objectType = ObjectType::CAN_ERROR_EXT;
+    ObjectHeader(ObjectType::CAN_ERROR_EXT) {
 }
 
 void CanErrorFrameExt::read(AbstractFile & is) {

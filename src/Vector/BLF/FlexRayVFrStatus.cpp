@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 FlexRayVFrStatus::FlexRayVFrStatus() :
-    ObjectHeader() {
-    objectType = ObjectType::FR_STATUS;
+    ObjectHeader(ObjectType::FR_STATUS) {
 }
 
 void FlexRayVFrStatus::read(AbstractFile & is) {

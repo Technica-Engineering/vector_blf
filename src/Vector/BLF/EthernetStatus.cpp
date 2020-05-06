@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 EthernetStatus::EthernetStatus() :
-    ObjectHeader() {
-    objectType = ObjectType::ETHERNET_STATUS;
+    ObjectHeader(ObjectType::ETHERNET_STATUS) {
 }
 
 void EthernetStatus::read(AbstractFile & is) {

@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 TestStructure::TestStructure() :
-    ObjectHeader() {
-    objectType = ObjectType::TEST_STRUCTURE;
+    ObjectHeader(ObjectType::TEST_STRUCTURE) {
 }
 
 void TestStructure::read(AbstractFile & is) {

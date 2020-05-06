@@ -27,6 +27,11 @@
 namespace Vector {
 namespace BLF {
 
+ObjectHeaderBase::ObjectHeaderBase(const WORD headerVersion, const ObjectType objectType) :
+    headerVersion(headerVersion),
+    objectType(objectType) {
+}
+
 void ObjectHeaderBase::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&signature), sizeof(signature));
     if (signature != ObjectSignature)

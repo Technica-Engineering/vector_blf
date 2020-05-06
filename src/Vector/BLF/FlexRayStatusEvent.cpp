@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 FlexRayStatusEvent::FlexRayStatusEvent() :
-    ObjectHeader() {
-    objectType = ObjectType::FLEXRAY_STATUS;
+    ObjectHeader(ObjectType::FLEXRAY_STATUS) {
 }
 
 void FlexRayStatusEvent::read(AbstractFile & is) {

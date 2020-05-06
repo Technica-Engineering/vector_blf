@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 Most150Message::Most150Message() :
-    ObjectHeader2() {
-    objectType = ObjectType::MOST_150_MESSAGE;
+    ObjectHeader2(ObjectType::MOST_150_MESSAGE) {
 }
 
 void Most150Message::read(AbstractFile & is) {

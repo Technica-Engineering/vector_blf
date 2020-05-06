@@ -37,8 +37,6 @@ namespace BLF {
  * Common header of LIN bus events containing LIN header data
  */
 struct VECTOR_BLF_EXPORT LinMessageDescriptor : LinSynchFieldEvent {
-    LinMessageDescriptor();
-
     virtual void read(AbstractFile & is) override;
     virtual void write(AbstractFile & os) override;
     virtual DWORD calculateObjectSize() const override;

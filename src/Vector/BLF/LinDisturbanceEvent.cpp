@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 LinDisturbanceEvent::LinDisturbanceEvent() :
-    ObjectHeader() {
-    objectType = ObjectType::LIN_DISTURBANCE_EVENT;
+    ObjectHeader(ObjectType::LIN_DISTURBANCE_EVENT) {
 }
 
 void LinDisturbanceEvent::read(AbstractFile & is) {

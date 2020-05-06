@@ -27,8 +27,7 @@ namespace Vector {
 namespace BLF {
 
 AppText::AppText() :
-    ObjectHeader() {
-    objectType = ObjectType::APP_TEXT;
+    ObjectHeader(ObjectType::APP_TEXT) {
 }
 
 void AppText::read(AbstractFile & is) {

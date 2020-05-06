@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 LinSchedulerModeChange::LinSchedulerModeChange() :
-    ObjectHeader() {
-    objectType = ObjectType::LIN_SCHED_MODCH;
+    ObjectHeader(ObjectType::LIN_SCHED_MODCH) {
 }
 
 void LinSchedulerModeChange::read(AbstractFile & is) {

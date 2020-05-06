@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 DataLostEnd::DataLostEnd() :
-    ObjectHeader() {
-    objectType = ObjectType::DATA_LOST_END;
+    ObjectHeader(ObjectType::DATA_LOST_END) {
 }
 
 void DataLostEnd::read(AbstractFile & is) {

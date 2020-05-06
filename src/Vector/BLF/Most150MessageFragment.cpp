@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 Most150MessageFragment::Most150MessageFragment() :
-    ObjectHeader2() {
-    objectType = ObjectType::MOST_150_MESSAGE_FRAGMENT;
+    ObjectHeader2(ObjectType::MOST_150_MESSAGE_FRAGMENT) {
 }
 
 void Most150MessageFragment::read(AbstractFile & is) {

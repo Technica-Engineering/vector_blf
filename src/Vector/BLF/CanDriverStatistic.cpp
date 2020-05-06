@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 CanDriverStatistic::CanDriverStatistic() :
-    ObjectHeader() {
-    objectType = ObjectType::CAN_STATISTIC;
+    ObjectHeader(ObjectType::CAN_STATISTIC) {
 }
 
 void CanDriverStatistic::read(AbstractFile & is) {

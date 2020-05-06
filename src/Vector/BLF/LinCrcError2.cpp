@@ -25,9 +25,7 @@ namespace Vector {
 namespace BLF {
 
 LinCrcError2::LinCrcError2() :
-    ObjectHeader(),
-    LinDatabyteTimestampEvent() {
-    objectType = ObjectType::LIN_CRC_ERROR2;
+    ObjectHeader(ObjectType::LIN_CRC_ERROR2) {
 }
 
 void LinCrcError2::read(AbstractFile & is) {

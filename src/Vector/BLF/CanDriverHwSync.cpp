@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 CanDriverHwSync::CanDriverHwSync() :
-    ObjectHeader() {
-    objectType = ObjectType::CAN_DRIVER_SYNC;
+    ObjectHeader(ObjectType::CAN_DRIVER_SYNC) {
 }
 
 void CanDriverHwSync::read(AbstractFile & is) {

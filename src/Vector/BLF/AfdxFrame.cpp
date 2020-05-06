@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 AfdxFrame::AfdxFrame() :
-    ObjectHeader() {
-    objectType = ObjectType::AFDX_FRAME;
+    ObjectHeader(ObjectType::AFDX_FRAME) {
 }
 
 void AfdxFrame::read(AbstractFile & is) {

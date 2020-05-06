@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 FlexRayV6Message::FlexRayV6Message() :
-    ObjectHeader() {
-    objectType = ObjectType::FLEXRAY_MESSAGE;
+    ObjectHeader(ObjectType::FLEXRAY_MESSAGE) {
 }
 
 void FlexRayV6Message::read(AbstractFile & is) {

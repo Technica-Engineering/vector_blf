@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 DataLostBegin::DataLostBegin() :
-    ObjectHeader() {
-    objectType = ObjectType::DATA_LOST_BEGIN;
+    ObjectHeader(ObjectType::DATA_LOST_BEGIN) {
 }
 
 void DataLostBegin::read(AbstractFile & is) {

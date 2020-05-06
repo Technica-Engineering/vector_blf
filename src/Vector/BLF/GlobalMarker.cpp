@@ -27,8 +27,7 @@ namespace Vector {
 namespace BLF {
 
 GlobalMarker::GlobalMarker() :
-    ObjectHeader() {
-    objectType = ObjectType::GLOBAL_MARKER;
+    ObjectHeader(ObjectType::GLOBAL_MARKER) {
 }
 
 void GlobalMarker::read(AbstractFile & is) {

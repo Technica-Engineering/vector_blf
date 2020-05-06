@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 MostTrigger::MostTrigger() :
-    ObjectHeader2() {
-    objectType = ObjectType::MOST_TRIGGER;
+    ObjectHeader2(ObjectType::MOST_TRIGGER) {
 }
 
 void MostTrigger::read(AbstractFile & is) {

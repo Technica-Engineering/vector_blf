@@ -24,9 +24,8 @@
 namespace Vector {
 namespace BLF {
 
-VarObjectHeader::VarObjectHeader() :
-    ObjectHeaderBase() {
-    headerVersion = 1;
+VarObjectHeader::VarObjectHeader(const ObjectType objectType) :
+    ObjectHeaderBase(1, objectType) {
 }
 
 void VarObjectHeader::read(AbstractFile & is) {

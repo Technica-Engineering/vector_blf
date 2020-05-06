@@ -25,10 +25,7 @@ namespace Vector {
 namespace BLF {
 
 LinReceiveError2::LinReceiveError2() :
-    ObjectHeader(),
-    LinDatabyteTimestampEvent() {
-    objectType = ObjectType::LIN_RCV_ERROR2;
-    objectVersion = 1;
+    ObjectHeader(ObjectType::LIN_RCV_ERROR2, 1) {
 }
 
 void LinReceiveError2::read(AbstractFile & is) {

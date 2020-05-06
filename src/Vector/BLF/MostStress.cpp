@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 MostStress::MostStress() :
-    ObjectHeader2() {
-    objectType = ObjectType::MOST_STRESS;
+    ObjectHeader2(ObjectType::MOST_STRESS) {
 }
 
 void MostStress::read(AbstractFile & is) {

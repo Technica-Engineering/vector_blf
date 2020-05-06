@@ -25,9 +25,7 @@ namespace Vector {
 namespace BLF {
 
 LinSpikeEvent2::LinSpikeEvent2() :
-    ObjectHeader(),
-    LinBusEvent() {
-    objectType = ObjectType::LIN_SPIKE_EVENT2;
+    ObjectHeader(ObjectType::LIN_SPIKE_EVENT2) {
 }
 
 void LinSpikeEvent2::read(AbstractFile & is) {

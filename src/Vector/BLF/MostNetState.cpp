@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 MostNetState::MostNetState() :
-    ObjectHeader2() {
-    objectType = ObjectType::MOST_NETSTATE;
+    ObjectHeader2(ObjectType::MOST_NETSTATE) {
 }
 
 void MostNetState::read(AbstractFile & is) {

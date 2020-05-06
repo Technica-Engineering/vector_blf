@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 EthernetErrorForwarded::EthernetErrorForwarded() :
-    ObjectHeader() {
-    objectType = ObjectType::ETHERNET_ERROR_FORWARDED;
+    ObjectHeader(ObjectType::ETHERNET_ERROR_FORWARDED) {
 }
 
 void EthernetErrorForwarded::read(AbstractFile & is) {

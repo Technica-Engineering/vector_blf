@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 CanDriverErrorExt::CanDriverErrorExt() :
-    ObjectHeader() {
-    objectType = ObjectType::CAN_DRIVER_ERROR_EXT;
+    ObjectHeader(ObjectType::CAN_DRIVER_ERROR_EXT) {
 }
 
 void CanDriverErrorExt::read(AbstractFile & is) {

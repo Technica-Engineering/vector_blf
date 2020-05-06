@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 MostSystemEvent::MostSystemEvent() :
-    ObjectHeader2() {
-    objectType = ObjectType::MOST_SYSTEM_EVENT;
+    ObjectHeader2(ObjectType::MOST_SYSTEM_EVENT) {
 }
 
 void MostSystemEvent::read(AbstractFile & is) {

@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 FlexRayV6StartCycleEvent::FlexRayV6StartCycleEvent() :
-    ObjectHeader() {
-    objectType = ObjectType::FLEXRAY_CYCLE;
+    ObjectHeader(ObjectType::FLEXRAY_CYCLE) {
 }
 
 void FlexRayV6StartCycleEvent::read(AbstractFile & is) {

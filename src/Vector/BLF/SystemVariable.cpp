@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 SystemVariable::SystemVariable() :
-    ObjectHeader() {
-    objectType = ObjectType::SYS_VARIABLE;
+    ObjectHeader(ObjectType::SYS_VARIABLE) {
 }
 
 void SystemVariable::read(AbstractFile & is) {

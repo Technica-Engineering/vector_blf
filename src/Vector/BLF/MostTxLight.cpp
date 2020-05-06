@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 MostTxLight::MostTxLight() :
-    ObjectHeader2() {
-    objectType = ObjectType::MOST_TXLIGHT;
+    ObjectHeader2(ObjectType::MOST_TXLIGHT) {
 }
 
 void MostTxLight::read(AbstractFile & is) {

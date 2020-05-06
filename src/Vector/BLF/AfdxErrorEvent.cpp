@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 AfdxErrorEvent::AfdxErrorEvent() :
-    ObjectHeader() {
-    objectType = ObjectType::AFDX_ERROR_EVENT;
+    ObjectHeader(ObjectType::AFDX_ERROR_EVENT) {
 }
 
 void AfdxErrorEvent::read(AbstractFile & is) {

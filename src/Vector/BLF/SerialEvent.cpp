@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 SerialEvent::SerialEvent() :
-    ObjectHeader() {
-    objectType = ObjectType::SERIAL_EVENT;
+    ObjectHeader(ObjectType::SERIAL_EVENT) {
 }
 
 void SerialEvent::read(AbstractFile & is) {

@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 LinReceiveError::LinReceiveError() :
-    ObjectHeader() {
-    objectType = ObjectType::LIN_RCV_ERROR;
+    ObjectHeader(ObjectType::LIN_RCV_ERROR) {
 }
 
 void LinReceiveError::read(AbstractFile & is) {

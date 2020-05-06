@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 LinWakeupEvent::LinWakeupEvent() :
-    ObjectHeader() {
-    objectType = ObjectType::LIN_WAKEUP;
+    ObjectHeader(ObjectType::LIN_WAKEUP) {
 }
 
 void LinWakeupEvent::read(AbstractFile & is) {

@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 A429Error::A429Error() :
-    ObjectHeader() {
-    objectType = ObjectType::A429_ERROR;
+    ObjectHeader(ObjectType::A429_ERROR) {
 }
 
 void A429Error::read(AbstractFile & is) {

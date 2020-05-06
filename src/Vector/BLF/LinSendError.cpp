@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 LinSendError::LinSendError() :
-    ObjectHeader() {
-    objectType = ObjectType::LIN_SND_ERROR;
+    ObjectHeader(ObjectType::LIN_SND_ERROR) {
 }
 
 void LinSendError::read(AbstractFile & is) {

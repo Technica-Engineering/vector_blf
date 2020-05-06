@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 KLineStatusEvent::KLineStatusEvent() :
-    ObjectHeader() {
-    objectType = ObjectType::KLINE_STATUSEVENT;
+    ObjectHeader(ObjectType::KLINE_STATUSEVENT) {
 }
 
 void KLineStatusEvent::read(AbstractFile & is) {

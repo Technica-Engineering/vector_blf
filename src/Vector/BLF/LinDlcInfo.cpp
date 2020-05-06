@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 LinDlcInfo::LinDlcInfo() :
-    ObjectHeader() {
-    objectType = ObjectType::LIN_DLC_INFO;
+    ObjectHeader(ObjectType::LIN_DLC_INFO) {
 }
 
 void LinDlcInfo::read(AbstractFile & is) {

@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 GpsEvent::GpsEvent() :
-    ObjectHeader() {
-    objectType = ObjectType::GPS_EVENT;
+    ObjectHeader(ObjectType::GPS_EVENT) {
 }
 
 void GpsEvent::read(AbstractFile & is) {

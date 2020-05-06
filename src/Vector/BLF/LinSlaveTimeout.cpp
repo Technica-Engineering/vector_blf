@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 LinSlaveTimeout::LinSlaveTimeout() :
-    ObjectHeader() {
-    objectType = ObjectType::LIN_SLV_TIMEOUT;
+    ObjectHeader(ObjectType::LIN_SLV_TIMEOUT) {
 }
 
 void LinSlaveTimeout::read(AbstractFile & is) {

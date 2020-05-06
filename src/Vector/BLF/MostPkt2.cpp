@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 MostPkt2::MostPkt2() :
-    ObjectHeader2() {
-    objectType = ObjectType::MOST_PKT2;
+    ObjectHeader2(ObjectType::MOST_PKT2) {
 }
 
 void MostPkt2::read(AbstractFile & is) {

@@ -25,9 +25,7 @@ namespace Vector {
 namespace BLF {
 
 LinUnexpectedWakeup::LinUnexpectedWakeup() :
-    ObjectHeader(),
-    LinBusEvent() {
-    objectType = ObjectType::LIN_UNEXPECTED_WAKEUP;
+    ObjectHeader(ObjectType::LIN_UNEXPECTED_WAKEUP) {
 }
 
 void LinUnexpectedWakeup::read(AbstractFile & is) {

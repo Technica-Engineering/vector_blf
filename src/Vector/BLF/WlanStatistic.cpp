@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 WlanStatistic::WlanStatistic() :
-    ObjectHeader() {
-    objectType = ObjectType::WLAN_STATISTIC;
+    ObjectHeader(ObjectType::WLAN_STATISTIC) {
 }
 
 void WlanStatistic::read(AbstractFile & is) {

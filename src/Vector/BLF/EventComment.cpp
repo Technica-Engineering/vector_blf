@@ -27,8 +27,7 @@ namespace Vector {
 namespace BLF {
 
 EventComment::EventComment() :
-    ObjectHeader() {
-    objectType = ObjectType::EVENT_COMMENT;
+    ObjectHeader(ObjectType::EVENT_COMMENT) {
 }
 
 void EventComment::read(AbstractFile & is) {

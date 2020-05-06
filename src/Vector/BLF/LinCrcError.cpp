@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 LinCrcError::LinCrcError() :
-    ObjectHeader() {
-    objectType = ObjectType::LIN_CRC_ERROR;
+    ObjectHeader(ObjectType::LIN_CRC_ERROR) {
 }
 
 void LinCrcError::read(AbstractFile & is) {

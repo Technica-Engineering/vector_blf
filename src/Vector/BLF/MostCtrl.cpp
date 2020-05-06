@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 MostCtrl::MostCtrl() :
-    ObjectHeader() {
-    objectType = ObjectType::MOST_CTRL;
+    ObjectHeader(ObjectType::MOST_CTRL) {
 }
 
 void MostCtrl::read(AbstractFile & is) {

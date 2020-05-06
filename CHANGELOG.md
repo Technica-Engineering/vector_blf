@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+### Changed
+- ObjectHeader constructors improved. Clang warning fixed.
+
 ## [2.1.9] - 2020-04-30
 ### Fixed
 - Fix a free, on an undefined pointer.

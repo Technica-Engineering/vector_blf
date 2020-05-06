@@ -684,7 +684,7 @@ ObjectHeaderBase * File::createObject(ObjectType type) {
 
 void File::uncompressedFile2ReadWriteQueue() {
     /* identify type */
-    ObjectHeaderBase ohb;
+    ObjectHeaderBase ohb(0, ObjectType::UNKNOWN);
     ohb.read(m_uncompressedFile);
     if (!m_uncompressedFile.good()) {
         /* This is a normal eof. No objects ended abruptly. */
@@ -740,7 +740,7 @@ void File::readWriteQueue2UncompressedFile() {
 
 void File::compressedFile2UncompressedFile() {
     /* read header to identify type */
-    ObjectHeaderBase ohb;
+    ObjectHeaderBase ohb(0, ObjectType::UNKNOWN);
     ohb.read(m_compressedFile);
     if (!m_compressedFile.good())
         throw Exception("File::compressedFile2UncompressedFile(): Read beyond end of file.");

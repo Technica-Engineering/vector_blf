@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 LinStatisticEvent::LinStatisticEvent() :
-    ObjectHeader() {
-    objectType = ObjectType::LIN_STATISTIC;
+    ObjectHeader(ObjectType::LIN_STATISTIC) {
 }
 
 void LinStatisticEvent::read(AbstractFile & is) {

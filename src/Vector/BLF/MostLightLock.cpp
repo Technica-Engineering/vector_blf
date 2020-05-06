@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 MostLightLock::MostLightLock() :
-    ObjectHeader() {
-    objectType = ObjectType::MOST_LIGHTLOCK;
+    ObjectHeader(ObjectType::MOST_LIGHTLOCK) {
 }
 
 void MostLightLock::read(AbstractFile & is) {

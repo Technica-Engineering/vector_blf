@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 LinBaudrateEvent::LinBaudrateEvent() :
-    ObjectHeader() {
-    objectType = ObjectType::LIN_BAUDRATE;
+    ObjectHeader(ObjectType::LIN_BAUDRATE) {
 }
 
 void LinBaudrateEvent::read(AbstractFile & is) {

@@ -25,9 +25,7 @@ namespace Vector {
 namespace BLF {
 
 LinLongDomSignalEvent::LinLongDomSignalEvent() :
-    ObjectHeader(),
-    LinBusEvent() {
-    objectType = ObjectType::LIN_LONG_DOM_SIG;
+    ObjectHeader(ObjectType::LIN_LONG_DOM_SIG) {
 }
 
 void LinLongDomSignalEvent::read(AbstractFile & is) {

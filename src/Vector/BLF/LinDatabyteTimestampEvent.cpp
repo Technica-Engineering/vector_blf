@@ -24,10 +24,6 @@
 namespace Vector {
 namespace BLF {
 
-LinDatabyteTimestampEvent::LinDatabyteTimestampEvent() :
-    LinMessageDescriptor() {
-}
-
 void LinDatabyteTimestampEvent::read(AbstractFile & is) {
     LinMessageDescriptor::read(is);
     is.read(reinterpret_cast<char *>(databyteTimestamps.data()), static_cast<std::streamsize>(databyteTimestamps.size() * sizeof(ULONGLONG)));

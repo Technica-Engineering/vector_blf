@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 MostEcl::MostEcl() :
-    ObjectHeader2() {
-    objectType = ObjectType::MOST_ECL;
+    ObjectHeader2(ObjectType::MOST_ECL) {
 }
 
 void MostEcl::read(AbstractFile & is) {

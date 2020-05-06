@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 DriverOverrun::DriverOverrun() :
-    ObjectHeader() {
-    objectType = ObjectType::OVERRUN_ERROR;
+    ObjectHeader(ObjectType::OVERRUN_ERROR) {
 }
 
 void DriverOverrun::read(AbstractFile & is) {

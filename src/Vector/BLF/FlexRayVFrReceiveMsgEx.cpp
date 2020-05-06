@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 FlexRayVFrReceiveMsgEx::FlexRayVFrReceiveMsgEx() :
-    ObjectHeader() {
-    objectType = ObjectType::FR_RCVMESSAGE_EX;
+    ObjectHeader(ObjectType::FR_RCVMESSAGE_EX) {
 }
 
 void FlexRayVFrReceiveMsgEx::read(AbstractFile & is) {

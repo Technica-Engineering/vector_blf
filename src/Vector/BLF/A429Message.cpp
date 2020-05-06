@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 A429Message::A429Message() :
-    ObjectHeader() {
-    objectType = ObjectType::A429_MESSAGE;
+    ObjectHeader(ObjectType::A429_MESSAGE) {
 }
 
 void A429Message::read(AbstractFile & is) {

@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 J1708Message::J1708Message() :
-    ObjectHeader() {
-    objectType = ObjectType::J1708_MESSAGE; // or J1708_VIRTUAL_MSG
+    ObjectHeader(ObjectType::J1708_MESSAGE) { // or J1708_VIRTUAL_MSG
 }
 
 void J1708Message::read(AbstractFile & is) {

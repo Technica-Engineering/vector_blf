@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 CanOverloadFrame::CanOverloadFrame() :
-    ObjectHeader() {
-    objectType = ObjectType::CAN_OVERLOAD;
+    ObjectHeader(ObjectType::CAN_OVERLOAD) {
 }
 
 void CanOverloadFrame::read(AbstractFile & is) {

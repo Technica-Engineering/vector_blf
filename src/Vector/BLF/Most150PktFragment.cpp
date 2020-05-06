@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 Most150PktFragment::Most150PktFragment() :
-    ObjectHeader2() {
-    objectType = ObjectType::MOST_150_PKT_FRAGMENT;
+    ObjectHeader2(ObjectType::MOST_150_PKT_FRAGMENT) {
 }
 
 void Most150PktFragment::read(AbstractFile & is) {

@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 LinSyncError::LinSyncError() :
-    ObjectHeader() {
-    objectType = ObjectType::LIN_SYN_ERROR;
+    ObjectHeader(ObjectType::LIN_SYN_ERROR) {
 }
 
 void LinSyncError::read(AbstractFile & is) {

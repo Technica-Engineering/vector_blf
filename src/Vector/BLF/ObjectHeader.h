@@ -38,7 +38,7 @@ namespace BLF {
  * Object header. Version 1.
  */
 struct VECTOR_BLF_EXPORT ObjectHeader : ObjectHeaderBase {
-    ObjectHeader();
+    ObjectHeader(const ObjectType objectType, const WORD objectVersion = 0);
 
     virtual void read(AbstractFile & is) override;
     virtual void write(AbstractFile & os) override;

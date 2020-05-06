@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 CanMessage2::CanMessage2() :
-    ObjectHeader() {
-    objectType = ObjectType::CAN_MESSAGE2;
+    ObjectHeader(ObjectType::CAN_MESSAGE2) {
 }
 
 void CanMessage2::read(AbstractFile & is) {

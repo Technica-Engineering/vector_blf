@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 EthernetStatistic::EthernetStatistic() :
-    ObjectHeader() {
-    objectType = ObjectType::ETHERNET_STATISTIC;
+    ObjectHeader(ObjectType::ETHERNET_STATISTIC) {
 }
 
 void EthernetStatistic::read(AbstractFile & is) {

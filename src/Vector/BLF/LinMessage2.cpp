@@ -25,10 +25,7 @@ namespace Vector {
 namespace BLF {
 
 LinMessage2::LinMessage2() :
-    ObjectHeader(),
-    LinDatabyteTimestampEvent() {
-    objectType = ObjectType::LIN_MESSAGE2;
-    objectVersion = 1;
+    ObjectHeader(ObjectType::LIN_MESSAGE2, 1) {
 }
 
 void LinMessage2::read(AbstractFile & is) {

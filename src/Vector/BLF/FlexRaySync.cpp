@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 FlexRaySync::FlexRaySync() :
-    ObjectHeader() {
-    objectType = ObjectType::FLEXRAY_SYNC;
+    ObjectHeader(ObjectType::FLEXRAY_SYNC) {
 }
 
 void FlexRaySync::read(AbstractFile & is) {

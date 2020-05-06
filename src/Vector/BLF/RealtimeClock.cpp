@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 RealtimeClock::RealtimeClock() :
-    ObjectHeader() {
-    objectType = ObjectType::REALTIMECLOCK;
+    ObjectHeader(ObjectType::REALTIMECLOCK) {
 }
 
 void RealtimeClock::read(AbstractFile & is) {

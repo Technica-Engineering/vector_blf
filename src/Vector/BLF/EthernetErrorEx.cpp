@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 EthernetErrorEx::EthernetErrorEx() :
-    ObjectHeader() {
-    objectType = ObjectType::ETHERNET_ERROR_EX;
+    ObjectHeader(ObjectType::ETHERNET_ERROR_EX) {
 }
 
 void EthernetErrorEx::read(AbstractFile & is) {

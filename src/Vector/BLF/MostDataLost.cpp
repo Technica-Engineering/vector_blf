@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 MostDataLost::MostDataLost() :
-    ObjectHeader2() {
-    objectType = ObjectType::MOST_DATALOST;
+    ObjectHeader2(ObjectType::MOST_DATALOST) {
 }
 
 void MostDataLost::read(AbstractFile & is) {

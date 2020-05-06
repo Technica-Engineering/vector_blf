@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 EthernetFrame::EthernetFrame() :
-    ObjectHeader() {
-    objectType = ObjectType::ETHERNET_FRAME;
+    ObjectHeader(ObjectType::ETHERNET_FRAME) {
 }
 
 void EthernetFrame::read(AbstractFile & is) {

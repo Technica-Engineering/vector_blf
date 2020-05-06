@@ -29,9 +29,7 @@ namespace Vector {
 namespace BLF {
 
 LogContainer::LogContainer() :
-    ObjectHeaderBase() {
-    headerVersion = 1;
-    objectType = ObjectType::LOG_CONTAINER;
+    ObjectHeaderBase(1, ObjectType::LOG_CONTAINER) {
 }
 
 void LogContainer::read(AbstractFile & is) {

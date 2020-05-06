@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 MostReg::MostReg() :
-    ObjectHeader2() {
-    objectType = ObjectType::MOST_REG;
+    ObjectHeader2(ObjectType::MOST_REG) {
 }
 
 void MostReg::read(AbstractFile & is) {

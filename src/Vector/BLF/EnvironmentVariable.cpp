@@ -26,8 +26,8 @@
 namespace Vector {
 namespace BLF {
 
-EnvironmentVariable::EnvironmentVariable() :
-    ObjectHeader() {
+EnvironmentVariable::EnvironmentVariable(/*const ObjectType objectType*/) :
+    ObjectHeader(ObjectType::UNKNOWN) {
     /* can be one of:
      *   - objectType = ObjectType::ENV_INTEGER;
      *   - objectType = ObjectType::ENV_DOUBLE;

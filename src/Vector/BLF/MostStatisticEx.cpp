@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 MostStatisticEx::MostStatisticEx() :
-    ObjectHeader2() {
-    objectType = ObjectType::MOST_STATISTICEX;
+    ObjectHeader2(ObjectType::MOST_STATISTICEX) {
 }
 
 void MostStatisticEx::read(AbstractFile & is) {

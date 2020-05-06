@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 A429BusStatistic::A429BusStatistic() :
-    ObjectHeader() {
-    objectType = ObjectType::A429_BUS_STATISTIC;
+    ObjectHeader(ObjectType::A429_BUS_STATISTIC) {
 }
 
 void A429BusStatistic::read(AbstractFile & is) {

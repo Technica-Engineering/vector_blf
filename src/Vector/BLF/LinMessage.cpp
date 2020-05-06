@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 LinMessage::LinMessage() :
-    ObjectHeader() {
-    objectType = ObjectType::LIN_MESSAGE;
+    ObjectHeader(ObjectType::LIN_MESSAGE) {
 }
 
 void LinMessage::read(AbstractFile & is) {

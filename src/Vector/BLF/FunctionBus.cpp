@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 FunctionBus::FunctionBus() :
-    ObjectHeader() {
-    objectType = ObjectType::FUNCTION_BUS;
+    ObjectHeader(ObjectType::FUNCTION_BUS) {
 }
 
 void FunctionBus::read(AbstractFile & is) {

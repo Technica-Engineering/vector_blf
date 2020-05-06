@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 AppTrigger::AppTrigger() :
-    ObjectHeader() {
-    objectType = ObjectType::APP_TRIGGER;
+    ObjectHeader(ObjectType::APP_TRIGGER) {
 }
 
 void AppTrigger::read(AbstractFile & is) {

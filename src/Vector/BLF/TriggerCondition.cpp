@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 TriggerCondition::TriggerCondition() :
-    ObjectHeader() {
-    objectType = ObjectType::TRIGGER_CONDITION;
+    ObjectHeader(ObjectType::TRIGGER_CONDITION) {
 }
 
 void TriggerCondition::read(AbstractFile & is) {

@@ -25,9 +25,7 @@ namespace Vector {
 namespace BLF {
 
 CanFdErrorFrame64::CanFdErrorFrame64() :
-    ObjectHeader(),
-    CanFdExtFrameData() {
-    objectType = ObjectType::CAN_FD_ERROR_64;
+    ObjectHeader(ObjectType::CAN_FD_ERROR_64) {
 }
 
 void CanFdErrorFrame64::read(AbstractFile & is) {

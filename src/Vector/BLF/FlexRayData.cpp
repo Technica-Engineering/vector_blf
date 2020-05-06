@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 FlexRayData::FlexRayData() :
-    ObjectHeader() {
-    objectType = ObjectType::FLEXRAY_DATA;
+    ObjectHeader(ObjectType::FLEXRAY_DATA) {
 }
 
 void FlexRayData::read(AbstractFile & is) {

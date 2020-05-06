@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 MostHwMode::MostHwMode() :
-    ObjectHeader2() {
-    objectType = ObjectType::MOST_HWMODE;
+    ObjectHeader2(ObjectType::MOST_HWMODE) {
 }
 
 void MostHwMode::read(AbstractFile & is) {

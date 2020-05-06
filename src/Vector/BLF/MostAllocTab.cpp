@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 MostAllocTab::MostAllocTab() :
-    ObjectHeader2() {
-    objectType = ObjectType::MOST_ALLOCTAB;
+    ObjectHeader2(ObjectType::MOST_ALLOCTAB) {
 }
 
 void MostAllocTab::read(AbstractFile & is) {

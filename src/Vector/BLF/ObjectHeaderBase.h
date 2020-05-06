@@ -177,7 +177,7 @@ const DWORD ObjectSignature = 0x4A424F4C; /* LOBJ */
  * Object header base structure.
  */
 struct VECTOR_BLF_EXPORT ObjectHeaderBase {
-    ObjectHeaderBase() = default;
+    ObjectHeaderBase(const WORD headerVersion, const ObjectType objectType);
     virtual ~ObjectHeaderBase() noexcept = default;
     ObjectHeaderBase(const ObjectHeaderBase &) = default;
     ObjectHeaderBase & operator=(const ObjectHeaderBase &) = default;

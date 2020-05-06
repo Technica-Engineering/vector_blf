@@ -25,9 +25,7 @@ namespace Vector {
 namespace BLF {
 
 LinShortOrSlowResponse2::LinShortOrSlowResponse2() :
-    ObjectHeader(),
-    LinDatabyteTimestampEvent() {
-    objectType = ObjectType::LIN_SHORT_OR_SLOW_RESPONSE2;
+    ObjectHeader(ObjectType::LIN_SHORT_OR_SLOW_RESPONSE2) {
 }
 
 void LinShortOrSlowResponse2::read(AbstractFile & is) {

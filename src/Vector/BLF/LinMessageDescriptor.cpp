@@ -24,10 +24,6 @@
 namespace Vector {
 namespace BLF {
 
-LinMessageDescriptor::LinMessageDescriptor() :
-    LinSynchFieldEvent() {
-}
-
 void LinMessageDescriptor::read(AbstractFile & is) {
     LinSynchFieldEvent::read(is);
     is.read(reinterpret_cast<char *>(&supplierId), sizeof(supplierId));

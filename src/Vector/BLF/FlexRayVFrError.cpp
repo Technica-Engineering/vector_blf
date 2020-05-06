@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 FlexRayVFrError::FlexRayVFrError() :
-    ObjectHeader() {
-    objectType = ObjectType::FR_ERROR;
+    ObjectHeader(ObjectType::FR_ERROR) {
 }
 
 void FlexRayVFrError::read(AbstractFile & is) {

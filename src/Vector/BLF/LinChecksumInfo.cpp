@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 LinChecksumInfo::LinChecksumInfo() :
-    ObjectHeader() {
-    objectType = ObjectType::LIN_CHECKSUM_INFO;
+    ObjectHeader(ObjectType::LIN_CHECKSUM_INFO) {
 }
 
 void LinChecksumInfo::read(AbstractFile & is) {

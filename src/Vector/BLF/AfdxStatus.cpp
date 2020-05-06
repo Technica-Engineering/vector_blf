@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 AfdxStatus::AfdxStatus() :
-    ObjectHeader() {
-    objectType = ObjectType::AFDX_STATUS;
+    ObjectHeader(ObjectType::AFDX_STATUS) {
 }
 
 void AfdxStatus::read(AbstractFile & is) {

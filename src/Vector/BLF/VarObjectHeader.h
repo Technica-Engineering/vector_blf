@@ -36,7 +36,7 @@ namespace BLF {
  * @brief Extended base object header type definition with dynamic extendible objects
  */
 struct VECTOR_BLF_EXPORT VarObjectHeader : ObjectHeaderBase {
-    VarObjectHeader();
+    VarObjectHeader(const ObjectType objectType);
 
     virtual void read(AbstractFile & is) override;
     virtual void write(AbstractFile & os) override;

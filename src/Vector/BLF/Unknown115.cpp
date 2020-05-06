@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 Unknown115::Unknown115() :
-    ObjectHeader() {
-    objectType = ObjectType::Unknown115;
+    ObjectHeader(ObjectType::Unknown115) {
 }
 
 void Unknown115::read(AbstractFile & is) {

@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 WaterMarkEvent::WaterMarkEvent() :
-    ObjectHeader() {
-    objectType = ObjectType::WATER_MARK_EVENT;
+    ObjectHeader(ObjectType::WATER_MARK_EVENT) {
 }
 
 void WaterMarkEvent::read(AbstractFile & is) {

@@ -13,11 +13,11 @@ BOOST_AUTO_TEST_CASE(WrongSignature) {
     Vector::BLF::UncompressedFile file;
 
     /* write bad data */
-    Vector::BLF::ObjectHeaderBase ohb1;
+    Vector::BLF::ObjectHeaderBase ohb1(1, Vector::BLF::ObjectType::UNKNOWN);
     ohb1.signature = Vector::BLF::ObjectSignature - 1;
     ohb1.write(file);
 
     /* read back data */
-    Vector::BLF::ObjectHeaderBase ohb2;
+    Vector::BLF::ObjectHeaderBase ohb2(1, Vector::BLF::ObjectType::UNKNOWN);
     BOOST_CHECK_THROW(ohb2.read(file), Vector::BLF::Exception);
 }

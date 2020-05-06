@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 LinSleepModeEvent::LinSleepModeEvent() :
-    ObjectHeader() {
-    objectType = ObjectType::LIN_SLEEP;
+    ObjectHeader(ObjectType::LIN_SLEEP) {
 }
 
 void LinSleepModeEvent::read(AbstractFile & is) {

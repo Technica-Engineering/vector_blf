@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 A429Status::A429Status() :
-    ObjectHeader() {
-    objectType = ObjectType::A429_STATUS;
+    ObjectHeader(ObjectType::A429_STATUS) {
 }
 
 void A429Status::read(AbstractFile & is) {

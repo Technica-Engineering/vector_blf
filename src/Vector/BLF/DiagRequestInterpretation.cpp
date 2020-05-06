@@ -25,8 +25,7 @@ namespace Vector {
 namespace BLF {
 
 DiagRequestInterpretation::DiagRequestInterpretation() :
-    ObjectHeader() {
-    objectType = ObjectType::DIAG_REQUEST_INTERPRETATION;
+    ObjectHeader(ObjectType::DIAG_REQUEST_INTERPRETATION) {
 }
 
 void DiagRequestInterpretation::read(AbstractFile & is) {
