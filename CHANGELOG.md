@@ -5,6 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ### Changed
 - ObjectHeader constructors improved. Clang warning fixed.
+- Changed some methods/arguments to const, where possible.
 
 ## [2.1.9] - 2020-04-30
 ### Fixed

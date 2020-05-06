@@ -38,14 +38,13 @@ File::~File() {
     close();
 }
 
-void File::open(const char * filename, std::ios_base::openmode mode) {
+void File::open(const char * filename, const std::ios_base::openmode mode) {
     /* check */
     if (is_open())
         return;
 
     /* try to open file */
-    mode |= std::ios_base::binary;
-    m_compressedFile.open(filename, mode);
+    m_compressedFile.open(filename, mode | std::ios_base::binary);
     if (!m_compressedFile.is_open())
         return;
     m_openMode = mode;
@@ -93,11 +92,11 @@ bool File::is_open() const {
     return m_compressedFile.is_open();
 }
 
-bool File::good() {
+bool File::good() const {
     return m_readWriteQueue.good();
 }
 
-bool File::eof() {
+bool File::eof() const {
     return m_readWriteQueue.eof();
 }
 

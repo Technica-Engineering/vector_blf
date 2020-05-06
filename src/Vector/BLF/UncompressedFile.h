@@ -86,7 +86,7 @@ class VECTOR_BLF_EXPORT UncompressedFile final : public AbstractFile {
      *
      * @return file size
      */
-    virtual std::streamsize fileSize();
+    virtual std::streamsize fileSize() const;
 
     /**
      * Set file size resp. end-of-file position.

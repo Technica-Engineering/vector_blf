@@ -214,7 +214,7 @@ class VECTOR_BLF_EXPORT File final {
      * @param[in] filename file name
      * @param[in] mode open mode, either in (read) or out (write)
      */
-    virtual void open(const char * filename, std::ios_base::openmode mode = std::ios_base::in);
+    virtual void open(const char * filename, const std::ios_base::openmode mode = std::ios_base::in);
 
     /**
      * open file
@@ -222,7 +222,7 @@ class VECTOR_BLF_EXPORT File final {
      * @param[in] filename file name
      * @param[in] mode open mode, either in (read) or out (write)
      */
-    virtual void open(const std::string & filename, std::ios_base::openmode mode = std::ios_base::in);
+    virtual void open(const std::string & filename, const std::ios_base::openmode mode = std::ios_base::in);
 
     /**
      * is file open?
@@ -236,14 +236,14 @@ class VECTOR_BLF_EXPORT File final {
      *
      * @return true if no error flags set
      */
-    virtual bool good();
+    virtual bool good() const;
 
     /**
      * Check whether eofbit is set.
      *
      * @return true if end-of-file reached
      */
-    virtual bool eof();
+    virtual bool eof() const;
 
     /**
      * Read object from file.

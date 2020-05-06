@@ -238,7 +238,7 @@ void UncompressedFile::nextLogContainer() {
     }
 }
 
-std::streamsize UncompressedFile::fileSize() {
+std::streamsize UncompressedFile::fileSize() const {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
