@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.9)
 
 project(Vector_BLF
-    VERSION 2.1.9
+    VERSION 2.2.0
     DESCRIPTION "Vector Binary Log File support library")
 
 # build types: None, Debug, Release, RelWithDebInfo, MinSizeRel

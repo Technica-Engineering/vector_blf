@@ -38,8 +38,6 @@ namespace BLF {
  * @brief UNKNOWN_115
  *
  * This always comes at the end of a file.
- *
- * @todo There is still unknown data in this record.
  */
 struct VECTOR_BLF_EXPORT Unknown115 final : ObjectHeader {
     Unknown115();
@@ -48,6 +46,7 @@ struct VECTOR_BLF_EXPORT Unknown115 final : ObjectHeader {
     void write(AbstractFile & os) override;
     DWORD calculateObjectSize() const override;
 
+    /* @todo unclear what the following values mean */
     uint64_t unknown0{};
     uint64_t unknown1{};
     uint64_t unknown2{};
@@ -55,11 +54,9 @@ struct VECTOR_BLF_EXPORT Unknown115 final : ObjectHeader {
     struct UnknownDataBlock {
         uint64_t timeStamp; // unit: ns
         uint64_t uncompressedFileSize; // unit: bytes
-        uint32_t value;
-        uint32_t flags;
+        uint32_t value; // @todo some value counting down
+        uint32_t flags; // @todo might be some flags field
     };
-
-    /** reserved */
     std::vector<UnknownDataBlock> unknownData {};
 };
 

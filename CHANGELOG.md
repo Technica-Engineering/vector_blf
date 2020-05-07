@@ -2,8 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+## [2.2.0] - 2020-05-07
 ### Changed
+- Brought some more insight in Unknown115.
 - ObjectHeader constructors improved. Clang warning fixed.
 - Changed some methods/arguments to const, where possible.
 
