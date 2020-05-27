@@ -24,6 +24,14 @@
 namespace Vector {
 namespace BLF {
 
+DWORD Unknown115::UnknownDataBlock::calculateObjectSize() {
+    return
+            sizeof(UnknownDataBlock::timeStamp) +
+            sizeof(UnknownDataBlock::uncompressedFileSize) +
+            sizeof(UnknownDataBlock::value) +
+            sizeof(UnknownDataBlock::flags);
+}
+
 Unknown115::Unknown115() :
     ObjectHeader(ObjectType::Unknown115) {
 }
@@ -35,25 +43,24 @@ void Unknown115::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&unknown1), sizeof(unknown1));
     is.read(reinterpret_cast<char *>(&unknown2), sizeof(unknown2));
 
-    uint8_t size = objectSize
+    DWORD size = objectSize
             - ObjectHeader::calculateObjectSize()
             - sizeof(unknown0)
             - sizeof(unknown1)
             - sizeof(unknown2);
 
-    while(size > 0) {
+    while(size >= UnknownDataBlock::calculateObjectSize()) {
         UnknownDataBlock dataBlock;
         is.read(reinterpret_cast<char *>(&dataBlock.timeStamp), sizeof(dataBlock.timeStamp));
         is.read(reinterpret_cast<char *>(&dataBlock.uncompressedFileSize), sizeof(dataBlock.uncompressedFileSize));
         is.read(reinterpret_cast<char *>(&dataBlock.value), sizeof(dataBlock.value));
         is.read(reinterpret_cast<char *>(&dataBlock.flags), sizeof(dataBlock.flags));
         unknownData.push_back(dataBlock);
-        size -=
-            sizeof(dataBlock.timeStamp) +
-            sizeof(dataBlock.uncompressedFileSize) +
-            sizeof(dataBlock.value) +
-            sizeof(dataBlock.flags);
+        size -= UnknownDataBlock::calculateObjectSize();
     }
+
+    reservedUnknown115.resize(size);
+    is.read(reinterpret_cast<char *>(reservedUnknown115.data()), static_cast<std::streamsize>(reservedUnknown115.size()));
 }
 
 void Unknown115::write(AbstractFile & os) {
@@ -69,6 +76,8 @@ void Unknown115::write(AbstractFile & os) {
         os.write(reinterpret_cast<char *>(dataBlock.value), sizeof(dataBlock.value));
         os.write(reinterpret_cast<char *>(dataBlock.flags), sizeof(dataBlock.flags));
     }
+
+    os.write(reinterpret_cast<char *>(reservedUnknown115.data()), static_cast<std::streamsize>(reservedUnknown115.size()));
 }
 
 DWORD Unknown115::calculateObjectSize() const {
@@ -77,11 +86,8 @@ DWORD Unknown115::calculateObjectSize() const {
         sizeof(unknown0) +
         sizeof(unknown1) +
         sizeof(unknown2) +
-        unknownData.size() * (
-                sizeof(UnknownDataBlock::timeStamp) +
-                sizeof(UnknownDataBlock::uncompressedFileSize) +
-                sizeof(UnknownDataBlock::value) +
-                sizeof(UnknownDataBlock::flags));
+        unknownData.size() * UnknownDataBlock::calculateObjectSize() +
+        static_cast<DWORD>(reservedUnknown115.size());
 }
 
 }

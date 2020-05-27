@@ -39,7 +39,7 @@ namespace BLF {
  *
  * This always comes at the end of a file.
  */
-struct VECTOR_BLF_EXPORT Unknown115 final : ObjectHeader {
+struct VECTOR_BLF_EXPORT Unknown115 final : public ObjectHeader {
     Unknown115();
 
     void read(AbstractFile & is) override;
@@ -54,10 +54,14 @@ struct VECTOR_BLF_EXPORT Unknown115 final : ObjectHeader {
     struct UnknownDataBlock {
         uint64_t timeStamp; // unit: ns
         uint64_t uncompressedFileSize; // unit: bytes
-        uint32_t value; // @todo some value counting down
-        uint32_t flags; // @todo might be some flags field
+        uint32_t value; // @todo unknown value
+        uint32_t flags; // @todo looks like some kind of flags field
+
+        static DWORD calculateObjectSize();
     };
     std::vector<UnknownDataBlock> unknownData {};
+
+    std::vector<uint8_t> reservedUnknown115 {};
 };
 
 }
