@@ -39,7 +39,7 @@ int main(int argc, char ** argv) {
     obj.mTimeOffsetCrcDelNs = 0xBBBBBBBB;
     obj.mBitCount = 0xCCCC;
     obj.mDir = 0xDD;
-    obj.mExtDataOffset = 0xEE;
+    obj.mExtDataOffset = 0x50;
     obj.mCRC = 0xFFFFFFFF;
     for (BYTE i = 0; i < 64; i++)
         obj.mData[i] = i;

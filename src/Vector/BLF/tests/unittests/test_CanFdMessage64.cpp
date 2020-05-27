@@ -45,7 +45,7 @@ BOOST_AUTO_TEST_CASE(CanFdMessage64) {
     BOOST_CHECK_EQUAL(obj->timeOffsetCrcDelNs, 0xBBBBBBBB);
     BOOST_CHECK_EQUAL(obj->bitCount, 0xCCCC);
     BOOST_CHECK_EQUAL(obj->dir, 0xDD);
-    BOOST_CHECK_EQUAL(obj->extDataOffset, 0xEE);
+    BOOST_CHECK_EQUAL(obj->extDataOffset, 0x50);
     BOOST_CHECK_EQUAL(obj->crc, 0xFFFFFFFF);
     for (uint8_t i = 0; i < 64; i++)
         BOOST_CHECK_EQUAL(obj->data[i], i);
