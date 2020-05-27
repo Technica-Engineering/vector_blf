@@ -50,9 +50,11 @@ void CanFdErrorFrame64::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&reservedCanFdErrorFrame2), sizeof(reservedCanFdErrorFrame2));
     data.resize(validDataBytes);
     is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
-    if (extDataOffset != 0)
+    if (hasExtData())
         CanFdExtFrameData::read(is);
-    is.read(reinterpret_cast<char *>(&reservedCanFdErrorFrame3), sizeof(reservedCanFdErrorFrame3));
+    // @note reservedCanFdExtFrameData is read here as CanFdExtFrameData doesn't know the objectSize
+    reservedCanFdExtFrameData.resize(objectSize - calculateObjectSize());
+    is.read(reinterpret_cast<char *>(reservedCanFdExtFrameData.data()), static_cast<std::streamsize>(reservedCanFdExtFrameData.size()));
 }
 
 void CanFdErrorFrame64::write(AbstractFile & os) {
@@ -79,9 +81,14 @@ void CanFdErrorFrame64::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&errorPosition), sizeof(errorPosition));
     os.write(reinterpret_cast<char *>(&reservedCanFdErrorFrame2), sizeof(reservedCanFdErrorFrame2));
     os.write(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
-    if (extDataOffset != 0)
+    if (hasExtData())
         CanFdExtFrameData::write(os);
-    os.write(reinterpret_cast<char *>(&reservedCanFdErrorFrame3), sizeof(reservedCanFdErrorFrame3));
+}
+
+bool CanFdErrorFrame64::hasExtData() const {
+    return
+        (extDataOffset != 0) &&
+        (objectSize >= extDataOffset + CanFdExtFrameData::calculateObjectSize());
 }
 
 DWORD CanFdErrorFrame64::calculateObjectSize() const {
@@ -106,9 +113,8 @@ DWORD CanFdErrorFrame64::calculateObjectSize() const {
         sizeof(errorPosition) +
         sizeof(reservedCanFdErrorFrame2) +
         static_cast<DWORD>(data.size());
-    if (extDataOffset != 0)
+    if (hasExtData())
         size += CanFdExtFrameData::calculateObjectSize();
-    size += sizeof(reservedCanFdErrorFrame3);
     return size;
 }
 

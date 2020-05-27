@@ -1484,6 +1484,10 @@ void show(Vector::BLF::CanFdMessage64 * obj) {
     std::cout << " crc=0x" << std::dec << obj->crc;
     std::cout << " data=";
     printData(obj->data.data(), min(obj->data.size(), obj->validDataBytes));
+    if (obj->hasExtData()) {
+        std::cout << " btrExtArb=0x" << std::hex << obj->btrExtArb;
+        std::cout << " btrExtData=0x" << std::hex << obj->btrExtData;
+    }
     std::cout << std::endl;
 }
 
@@ -1540,6 +1544,10 @@ void show(Vector::BLF::CanFdErrorFrame64 * obj) {
     std::cout << " errorPosition=" << std::dec << obj->errorPosition;
     std::cout << " data=";
     printData(obj->data.data(), min(obj->data.size(), obj->frameLength));
+    if (obj->hasExtData()) {
+        std::cout << " btrExtArb=0x" << std::hex << obj->btrExtArb;
+        std::cout << " btrExtData=0x" << std::hex << obj->btrExtData;
+    }
     std::cout << std::endl;
 }
 

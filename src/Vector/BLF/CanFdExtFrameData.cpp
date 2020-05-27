@@ -28,17 +28,20 @@ void CanFdExtFrameData::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&btrExtArb), sizeof(btrExtArb));
     is.read(reinterpret_cast<char *>(&btrExtData), sizeof(btrExtData));
     // @note might be extended in future versions
+    // reservedCanFdExtFrameData is read by CanFdMessage64/CanFdErrorFrame64 due to objectSize known there.
 }
 
 void CanFdExtFrameData::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&btrExtArb), sizeof(btrExtArb));
     os.write(reinterpret_cast<char *>(&btrExtData), sizeof(btrExtData));
+    os.write(reinterpret_cast<char *>(reservedCanFdExtFrameData.data()), static_cast<std::streamsize>(reservedCanFdExtFrameData.size()));
 }
 
 DWORD CanFdExtFrameData::calculateObjectSize() const {
     return
         sizeof(btrExtArb) +
-        sizeof(btrExtData);
+        sizeof(btrExtData) +
+        static_cast<DWORD>(reservedCanFdExtFrameData.size());
 }
 
 }

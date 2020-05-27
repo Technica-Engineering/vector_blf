@@ -47,6 +47,8 @@ struct VECTOR_BLF_EXPORT CanFdErrorFrame64 final : ObjectHeader, CanFdExtFrameDa
     void write(AbstractFile & os) override;
     DWORD calculateObjectSize() const override;
 
+    virtual bool hasExtData() const;
+
     /**
      * @brief application channel
      *
@@ -197,9 +199,6 @@ struct VECTOR_BLF_EXPORT CanFdErrorFrame64 final : ObjectHeader, CanFdExtFrameDa
      * 24)
      */
     std::vector<BYTE> data {};
-
-    /** reserved */
-    DWORD reservedCanFdErrorFrame3 {};
 };
 
 }

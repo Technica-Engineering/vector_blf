@@ -23,6 +23,8 @@
 
 #include <Vector/BLF/platform.h>
 
+#include <vector>
+
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
 #include <Vector/BLF/VectorTypes.h>
@@ -50,11 +52,34 @@ struct VECTOR_BLF_EXPORT CanFdExtFrameData {
     /** @copydoc ObjectHeader::calculateObjectSize */
     virtual DWORD calculateObjectSize() const;
 
-    /** bit rate in arbitration phas */
+    /**
+     * bit rate in arbitration phase
+     *
+     * - Bit 0-7: TSEG1-1
+     * - Bit 8-15: TSEG2-1
+     * - Bit 16-27: Prescaler
+     * - Bit 28-31: Quartz Frequency (enumeration). Supported values:
+     *   - 0: 16 MHz
+     *   - 1: 32 MHz
+     *   - 2: 80 MHz
+     */
     DWORD btrExtArb {};
 
-    /** bit rate in data phase */
+    /**
+     * bit rate in data phase
+     *
+     * - Bit 0-7: TSEG1-1
+     * - Bit 8-15: TSEG2-1
+     * - Bit 16-27: Prescaler
+     * - Bit 28-31: Quartz Frequency (enumeration). Supported values:
+     *   - 0: 16 MHz
+     *   - 1: 32 MHz
+     *   - 2: 80 MHz
+     */
     DWORD btrExtData {};
+
+    /** reserved */
+    std::vector<uint8_t> reservedCanFdExtFrameData {};
 };
 
 }
