@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.3.0] - 2020-05-27
+### Added
+- Add method hasExtData to CanFdErrorFrame64 and CanFdMessage64.
+### Changed
+- Variable length of reserved data for CanFdExtFrameData and Unknown115.
+- Parser example enhanced for CanFdExtFrameData.
+
 ## [2.2.0] - 2020-05-07
 ### Changed
 - Brought some more insight in Unknown115.
