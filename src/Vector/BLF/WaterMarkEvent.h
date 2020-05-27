@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Tobias Lorenz.
+ * Copyright (C) 2013-2020 Tobias Lorenz.
  * Contact: tobias.lorenz@gmx.net
  *
  * This file is part of Tobias Lorenz's Toolkit.
