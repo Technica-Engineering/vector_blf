@@ -41,6 +41,24 @@ struct VECTOR_BLF_EXPORT AbstractFile {
     AbstractFile(AbstractFile &&) = default;
     AbstractFile & operator=(AbstractFile &&) = default;
 
+    /* general methods */
+
+    /**
+     * Check whether state of stream is good.
+     *
+     * @return true if no error flags are set
+     */
+    virtual bool good() const = 0;
+
+    /**
+     * Check whether eofbit is set.
+     *
+     * @return true if eofbit is set
+     */
+    virtual bool eof() const = 0;
+
+    /* input methods */
+
     /**
      * Get characters returned by last read operation.
      *
@@ -68,10 +86,19 @@ struct VECTOR_BLF_EXPORT AbstractFile {
     /**
      * Set position in input sequence.
      *
+     * @param[in] pos Position
+     */
+    virtual void seekg(const std::streampos pos) = 0;
+
+    /**
+     * Set position in input sequence.
+     *
      * @param[in] off Offset
      * @param[in] way Direction
      */
-    virtual void seekg(std::streamoff off, const std::ios_base::seekdir way = std::ios_base::cur) = 0;
+    virtual void seekg(const std::streamoff off, const std::ios_base::seekdir way) = 0;
+
+    /* output methods */
 
     /**
      * Write block of data.
@@ -89,18 +116,19 @@ struct VECTOR_BLF_EXPORT AbstractFile {
     virtual std::streampos tellp() = 0;
 
     /**
-     * Check whether state of stream is good.
+     * Set position in output sequence.
      *
-     * @return true if no error flags are set
+     * @param[in] pos Position
      */
-    virtual bool good() const = 0;
+    virtual void seekp(const std::streampos pos) = 0;
 
     /**
-     * Check whether eofbit is set.
+     * Set position in output sequence.
      *
-     * @return true if eofbit is set
+     * @param[in] off Offset
+     * @param[in] way Direction
      */
-    virtual bool eof() const = 0;
+    virtual void seekp(const std::streamoff off, const std::ios_base::seekdir way) = 0;
 
     /**
      * Write padding null bytes.

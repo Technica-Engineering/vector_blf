@@ -28,6 +28,20 @@ CompressedFile::~CompressedFile() {
     close();
 }
 
+bool CompressedFile::good() const {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    return m_file.good();
+}
+
+bool CompressedFile::eof() const {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    return m_file.eof();
+}
+
 std::streamsize CompressedFile::gcount() const {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
@@ -49,6 +63,13 @@ std::streampos CompressedFile::tellg() {
     return m_file.tellg();
 }
 
+void CompressedFile::seekg(std::streampos pos) {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    m_file.seekg(pos);
+}
+
 void CompressedFile::seekg(std::streamoff off, const std::ios_base::seekdir way) {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
@@ -63,25 +84,25 @@ void CompressedFile::write(const char * s, std::streamsize n) {
     m_file.write(s, n);
 }
 
+void CompressedFile::seekp(const std::streampos pos) {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    m_file.seekp(pos);
+}
+
+void CompressedFile::seekp(const std::streamoff off, const std::ios_base::seekdir way) {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    m_file.seekp(off, way);
+}
+
 std::streampos CompressedFile::tellp() {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
     return m_file.tellp();
-}
-
-bool CompressedFile::good() const {
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    return m_file.good();
-}
-
-bool CompressedFile::eof() const {
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    return m_file.eof();
 }
 
 void CompressedFile::open(const char * filename, std::ios_base::openmode openMode) {
@@ -103,13 +124,6 @@ void CompressedFile::close() {
     std::lock_guard<std::mutex> lock(m_mutex);
 
     m_file.close();
-}
-
-void CompressedFile::seekp(std::streampos pos) {
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    m_file.seekp(pos);
 }
 
 }

@@ -33,6 +33,20 @@ UncompressedFile::~UncompressedFile() {
     abort();
 }
 
+bool UncompressedFile::good() const {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    return (m_rdstate == std::ios_base::goodbit);
+}
+
+bool UncompressedFile::eof() const {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    return (m_rdstate & std::ios_base::eofbit);
+}
+
 std::streamsize UncompressedFile::gcount() const {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
@@ -101,12 +115,33 @@ std::streampos UncompressedFile::tellg() {
     return m_tellg;
 }
 
-void UncompressedFile::seekg(std::streamoff off, const std::ios_base::seekdir /*way*/) {
+void UncompressedFile::seekg(const std::streampos pos) {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
     /* new get position */
-    m_tellg = std::min(static_cast<std::streamsize>(m_tellg + off), m_fileSize);
+    m_tellg = pos;
+
+    /* notify */
+    tellgChanged.notify_all();
+}
+
+void UncompressedFile::seekg(const std::streamoff off, const std::ios_base::seekdir way) {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    /* new get position */
+    switch(way) {
+    case std::ios_base::beg:
+        m_tellg = off;
+        break;
+    case std::ios_base::cur:
+        m_tellg = m_tellg + off;
+        break;
+    case std::ios_base::end:
+        m_tellg = m_fileSize + off;
+        break;
+    }
 
     /* notify */
     tellgChanged.notify_all();
@@ -179,18 +214,36 @@ std::streampos UncompressedFile::tellp() {
     return m_tellp;
 }
 
-bool UncompressedFile::good() const {
+void UncompressedFile::seekp(const std::streampos pos) {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
-    return (m_rdstate == std::ios_base::goodbit);
+    /* new put position */
+    m_tellp = pos;
+
+    /* notify */
+    tellpChanged.notify_all();
 }
 
-bool UncompressedFile::eof() const {
+void UncompressedFile::seekp(const std::streamoff off, const std::ios_base::seekdir way) {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
-    return (m_rdstate & std::ios_base::eofbit);
+    /* new put position */
+    switch(way) {
+    case std::ios_base::beg:
+        m_tellp = off;
+        break;
+    case std::ios_base::cur:
+        m_tellp = m_tellp + off;
+        break;
+    case std::ios_base::end:
+        m_tellp = m_fileSize + off;
+        break;
+    }
+
+    /* notify */
+    tellpChanged.notify_all();
 }
 
 void UncompressedFile::abort() {

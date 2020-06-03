@@ -55,14 +55,17 @@ class VECTOR_BLF_EXPORT UncompressedFile final : public AbstractFile {
     UncompressedFile() = default;
     ~UncompressedFile() override;
 
+    bool good() const override;
+    bool eof() const override;
     std::streamsize gcount() const override;
     void read(char * s, std::streamsize n) override;
     std::streampos tellg() override;
-    void seekg(std::streamoff off, const std::ios_base::seekdir way = std::ios_base::cur) override;
+    void seekg(const std::streampos pos) override;
+    void seekg(const std::streamoff off, const std::ios_base::seekdir way) override;
     void write(const char * s, std::streamsize n) override;
     std::streampos tellp() override;
-    bool good() const override;
-    bool eof() const override;
+    void seekp(const std::streampos pos) override;
+    void seekp(const std::streamoff off, const std::ios_base::seekdir way) override;
 
     /**
      * Stop further operations. Return from waiting reads.
