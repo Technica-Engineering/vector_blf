@@ -21,6 +21,10 @@
 
 #include <Vector/BLF/CompressedFile.h>
 
+#undef NDEBUG
+#include <cassert>
+#include <vector>
+
 namespace Vector {
 namespace BLF {
 
@@ -85,6 +89,9 @@ void CompressedFile::write(const char * s, std::streamsize n) {
 }
 
 void CompressedFile::seekp(const std::streampos pos) {
+    /* only to be used to write fileStatistics on close */
+    assert(pos == 0);
+
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
@@ -92,10 +99,13 @@ void CompressedFile::seekp(const std::streampos pos) {
 }
 
 void CompressedFile::seekp(const std::streamoff off, const std::ios_base::seekdir way) {
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
+    /* only to be used to skip padding bytes */
+    assert(off >= 0);
+    assert(way == std::ios_base::cur);
 
-    m_file.seekp(off, way);
+    /* ensure zeros are written */
+    std::vector<char> zero(off);
+    write(zero.data(), zero.size()); // write does the lock
 }
 
 std::streampos CompressedFile::tellp() {

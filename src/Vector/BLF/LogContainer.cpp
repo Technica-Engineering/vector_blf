@@ -60,7 +60,7 @@ void LogContainer::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(compressedFile.data()), compressedFileSize);
 
     /* skip padding */
-    os.skipp(objectSize % 4);
+    os.seekp(objectSize % 4, std::ios_base::cur);
 }
 
 DWORD LogContainer::calculateObjectSize() const {

@@ -33,8 +33,8 @@ BOOST_AUTO_TEST_CASE(ReadTest) {
     /* rewind to beginning of file */
     compressedFile.seekg(0, std::ios_base::beg);
     BOOST_CHECK_EQUAL(compressedFile.tellg(), 0);
-    compressedFile.seekp(4);
-    BOOST_CHECK_EQUAL(compressedFile.tellp(), 4);
+    compressedFile.seekp(0);
+    BOOST_CHECK_EQUAL(compressedFile.tellp(), 0);
 
     /* close file */
     compressedFile.close();

@@ -62,7 +62,7 @@ void EthernetRxError::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(frameData.data()), frameDataLength);
 
     /* skip padding */
-    os.skipp(objectSize % 4);
+    os.seekp(objectSize % 4, std::ios_base::cur);
 }
 
 DWORD EthernetRxError::calculateObjectSize() const {

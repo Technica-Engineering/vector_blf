@@ -61,7 +61,7 @@ void WlanFrame::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(frameData.data()), frameLength);
 
     /* skip padding */
-    os.skipp(objectSize % 4);
+    os.seekp(objectSize % 4, std::ios_base::cur);
 }
 
 DWORD WlanFrame::calculateObjectSize() const {

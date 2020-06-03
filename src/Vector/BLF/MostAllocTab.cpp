@@ -51,7 +51,7 @@ void MostAllocTab::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(tableData.data()), length);
 
     /* skip padding */
-    os.skipp(objectSize % 4);
+    os.seekp(objectSize % 4, std::ios_base::cur);
 }
 
 DWORD MostAllocTab::calculateObjectSize() const {

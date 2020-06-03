@@ -157,7 +157,6 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/A429Error.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/A429Message.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/A429Status.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/AbstractFile.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/AfdxBusStatistic.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/AfdxErrorEvent.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/AfdxFrame.cpp

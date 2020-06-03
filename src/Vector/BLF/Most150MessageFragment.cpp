@@ -75,7 +75,7 @@ void Most150MessageFragment::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(firstData.data()), firstDataLen);
 
     /* skip padding */
-    os.skipp(objectSize % 4);
+    os.seekp(objectSize % 4, std::ios_base::cur);
 }
 
 DWORD Most150MessageFragment::calculateObjectSize() const {

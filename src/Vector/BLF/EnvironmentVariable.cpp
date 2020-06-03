@@ -63,7 +63,7 @@ void EnvironmentVariable::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(data.data()), dataLength);
 
     /* skip padding */
-    os.skipp(objectSize % 4);
+    os.seekp(objectSize % 4, std::ios_base::cur);
 }
 
 DWORD EnvironmentVariable::calculateObjectSize() const {

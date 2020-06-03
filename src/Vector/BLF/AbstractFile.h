@@ -118,6 +118,8 @@ struct VECTOR_BLF_EXPORT AbstractFile {
     /**
      * Set position in output sequence.
      *
+     * @note seekp writes zeros if it goes beyond eof.
+     *
      * @param[in] pos Position
      */
     virtual void seekp(const std::streampos pos) = 0;
@@ -125,17 +127,12 @@ struct VECTOR_BLF_EXPORT AbstractFile {
     /**
      * Set position in output sequence.
      *
+     * @note seekp writes zeros if it goes beyond eof.
+     *
      * @param[in] off Offset
      * @param[in] way Direction
      */
     virtual void seekp(const std::streamoff off, const std::ios_base::seekdir way) = 0;
-
-    /**
-     * Write padding null bytes.
-     *
-     * @param[in] s Number of padding bytes.
-     */
-    virtual void skipp(const std::streamsize s) final;
 };
 
 }

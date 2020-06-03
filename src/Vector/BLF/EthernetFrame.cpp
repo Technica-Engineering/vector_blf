@@ -63,7 +63,7 @@ void EthernetFrame::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(payLoad.data()), payLoadLength);
 
     /* skip padding */
-    os.skipp(objectSize % 4);
+    os.seekp(objectSize % 4, std::ios_base::cur);
 }
 
 DWORD EthernetFrame::calculateObjectSize() const {

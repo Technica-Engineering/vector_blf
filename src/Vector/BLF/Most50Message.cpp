@@ -75,7 +75,7 @@ void Most50Message::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(msg.data()), msgLen);
 
     /* skip padding */
-    os.skipp(objectSize % 4);
+    os.seekp(objectSize % 4, std::ios_base::cur);
 }
 
 DWORD Most50Message::calculateObjectSize() const {

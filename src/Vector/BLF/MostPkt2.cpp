@@ -79,7 +79,7 @@ void MostPkt2::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(pktData.data()), pktDataLength);
 
     /* skip padding */
-    os.skipp(objectSize % 4);
+    os.seekp(objectSize % 4, std::ios_base::cur);
 }
 
 DWORD MostPkt2::calculateObjectSize() const {

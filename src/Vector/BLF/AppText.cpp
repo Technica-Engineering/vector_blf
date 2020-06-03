@@ -55,7 +55,7 @@ void AppText::write(AbstractFile & os) {
     os.write(const_cast<char *>(text.data()), textLength);
 
     /* skip padding */
-    os.skipp(objectSize % 4);
+    os.seekp(objectSize % 4, std::ios_base::cur);
 }
 
 DWORD AppText::calculateObjectSize() const {

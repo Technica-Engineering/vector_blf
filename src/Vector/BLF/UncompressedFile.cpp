@@ -22,6 +22,8 @@
 #include <Vector/BLF/UncompressedFile.h>
 
 #include <algorithm>
+#undef NDEBUG
+#include <cassert>
 #include <cstring>
 
 #include <Vector/BLF/Exceptions.h>
@@ -37,14 +39,14 @@ bool UncompressedFile::good() const {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
-    return (m_rdstate == std::ios_base::goodbit);
+    return m_rdstate == std::ios_base::goodbit;
 }
 
 bool UncompressedFile::eof() const {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
-    return (m_rdstate & std::ios_base::eofbit);
+    return m_rdstate & std::ios_base::eofbit;
 }
 
 std::streamsize UncompressedFile::gcount() const {
@@ -141,6 +143,8 @@ void UncompressedFile::seekg(const std::streamoff off, const std::ios_base::seek
     case std::ios_base::end:
         m_tellg = m_fileSize + off;
         break;
+    default:
+        assert(false);
     }
 
     /* notify */
@@ -214,36 +218,18 @@ std::streampos UncompressedFile::tellp() {
     return m_tellp;
 }
 
-void UncompressedFile::seekp(const std::streampos pos) {
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    /* new put position */
-    m_tellp = pos;
-
-    /* notify */
-    tellpChanged.notify_all();
+void UncompressedFile::seekp(const std::streampos /*pos*/) {
+    /* should not be used */
+    assert(false);
 }
 
 void UncompressedFile::seekp(const std::streamoff off, const std::ios_base::seekdir way) {
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
+    /* only to be used to skip padding bytes */
+    assert(off >= 0);
+    assert(way == std::ios_base::cur);
 
-    /* new put position */
-    switch(way) {
-    case std::ios_base::beg:
-        m_tellp = off;
-        break;
-    case std::ios_base::cur:
-        m_tellp = m_tellp + off;
-        break;
-    case std::ios_base::end:
-        m_tellp = m_fileSize + off;
-        break;
-    }
-
-    /* notify */
-    tellpChanged.notify_all();
+    std::vector<char> zero(off);
+    write(zero.data(), zero.size()); // write does the lock
 }
 
 void UncompressedFile::abort() {
