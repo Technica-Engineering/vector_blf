@@ -105,9 +105,9 @@ struct VECTOR_BLF_EXPORT AbstractFile {
     /**
      * Write padding null bytes.
      *
-     * @param s Number of padding bytes.
+     * @param[in] s Number of padding bytes.
      */
-    virtual void skipp(std::streamsize s) final;
+    virtual void skipp(const std::streamsize s) final;
 };
 
 }

@@ -87,14 +87,14 @@ struct VECTOR_BLF_EXPORT FileStatistics final {
     /**
      * read file statistics
      *
-     * @param is input stream
+     * @param[in] is input stream
      */
     virtual void read(AbstractFile & is);
 
     /**
      * write file statistics
      *
-     * @param os output stream
+     * @param[in] os output stream
      */
     virtual void write(AbstractFile & os);
 

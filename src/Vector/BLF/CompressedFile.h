@@ -59,8 +59,8 @@ class VECTOR_BLF_EXPORT CompressedFile final : public AbstractFile {
     /**
      * open file
      *
-     * @param filename file name
-     * @param openMode open in read or write mode
+     * @param[in] filename file name
+     * @param[in] openMode open in read or write mode
      */
     virtual void open(const char * filename, std::ios_base::openmode openMode);
 

@@ -291,10 +291,10 @@ class VECTOR_BLF_EXPORT File final {
     /**
      * create object of given type
      *
-     * @param type object type
+     * @param[in] type object type
      * @return new object
      */
-    static ObjectHeaderBase * createObject(ObjectType type);
+    static ObjectHeaderBase * createObject(const ObjectType type);
 
   private:
     /**

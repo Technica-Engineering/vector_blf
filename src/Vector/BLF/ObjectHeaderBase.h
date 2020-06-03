@@ -51,14 +51,14 @@ struct VECTOR_BLF_EXPORT ObjectHeaderBase {
     /**
      * Read the data of this object
      *
-     * @param is input stream
+     * @param[in] is input stream
      */
     virtual void read(AbstractFile & is);
 
     /**
      * Write the data of this object
      *
-     * @param os output stream
+     * @param[in] os output stream
      */
     virtual void write(AbstractFile & os);
 

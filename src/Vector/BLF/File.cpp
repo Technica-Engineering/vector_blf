@@ -186,7 +186,7 @@ void File::setDefaultLogContainerSize(DWORD defaultLogContainerSize) {
     m_uncompressedFile.setDefaultLogContainerSize(defaultLogContainerSize);
 }
 
-ObjectHeaderBase * File::createObject(ObjectType type) {
+ObjectHeaderBase * File::createObject(const ObjectType type) {
     ObjectHeaderBase * obj = nullptr;
 
     switch (type) {
