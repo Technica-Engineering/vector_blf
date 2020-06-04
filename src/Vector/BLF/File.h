@@ -24,7 +24,6 @@
 #include <Vector/BLF/platform.h>
 
 #include <atomic>
-#include <fstream>
 #include <thread>
 
 #include <Vector/BLF/FileStatistics.h>
@@ -191,13 +190,6 @@ class VECTOR_BLF_EXPORT File final {
     ULONGLONG currentUncompressedFileSize {};
 
     /**
-     * Current number of objects read
-     *
-     * Unknown115 is not counted.
-     */
-    std::atomic<DWORD> currentObjectCount {};
-
-    /**
      * zlib compression level (0=no compression, 1=best speed, 9=best compression, -1=default compression
      */
     int compressionLevel {6};
@@ -338,16 +330,6 @@ class VECTOR_BLF_EXPORT File final {
     std::atomic<bool> m_uncompressedFileThreadRunning {};
 
     /* internal functions */
-
-    /**
-     * Read data from uncompressedFile into readWriteQueue.
-     */
-    void uncompressedFile2ReadWriteQueue();
-
-    /**
-     * Write data from readWriteQueue into uncompressedFile.
-     */
-    void readWriteQueue2UncompressedFile();
 
     /**
      * Read/inflate/uncompress data from compressedFile into uncompressedFile.

@@ -102,6 +102,13 @@ public:
      */
     virtual void dropOldData();
 
+private:
+    /** structured compress file */
+    StructuredCompressedFile & m_structuredCompressedFile;
+
+    /** mutex */
+    mutable std::mutex m_mutex {};
+
     /** file size */
     std::streamsize m_fileSize {std::numeric_limits<std::streamsize>::max()};
 
@@ -115,26 +122,19 @@ public:
     std::streamsize m_gcount {};
 
     /** get position */
-    std::streampos m_tellg {}; // @todo rename to m_gpos
+    std::streampos m_gpos {};
 
     /** tellg was changed (after read or seekg) */
     std::condition_variable tellgChanged;
 
     /** put position */
-    std::streampos m_tellp {}; // @todo rename to m_ppos
+    std::streampos m_ppos {};
 
     /** tellp was changed (after write or seekp) */
     std::condition_variable tellpChanged;
 
     /** abort further operations */
     bool m_abort {};
-
-private:
-    /** structured compress file */
-    StructuredCompressedFile & m_structuredCompressedFile;
-
-    /** mutex */
-    std::mutex & m_mutex;
 };
 
 }

@@ -29,22 +29,6 @@ StructuredCompressedFile::StructuredCompressedFile(RawCompressedFile & rawCompre
 {
 }
 
-std::shared_ptr<LogContainer> StructuredCompressedFile::logContainerContaining(std::streampos pos) {
-    /* loop over all logContainers */
-    for (std::shared_ptr<LogContainer> logContainer : m_data) {
-        /* when file position is contained ... */
-        if ((pos >= logContainer->filePosition) &&
-                (pos < logContainer->uncompressedFileSize + logContainer->filePosition)) {
-
-            /* ... return log container */
-            return logContainer;
-        }
-    }
-
-    /* not found, so return nullptr */
-    return nullptr;
-}
-
 DWORD StructuredCompressedFile::defaultLogContainerSize() const {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
@@ -58,6 +42,78 @@ void StructuredCompressedFile::setDefaultLogContainerSize(DWORD defaultLogContai
 
     /* set default log container size */
     m_defaultLogContainerSize = defaultLogContainerSize;
+}
+
+StructuredCompressedFile::reference StructuredCompressedFile::front() {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    return m_data.front();
+}
+
+StructuredCompressedFile::const_reference StructuredCompressedFile::front() const {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    return m_data.front();
+}
+
+StructuredCompressedFile::reference StructuredCompressedFile::back() {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    return m_data.back();
+}
+
+StructuredCompressedFile::const_reference StructuredCompressedFile::back() const {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    return m_data.back();
+}
+
+bool StructuredCompressedFile::empty() const {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    return m_data.empty();
+}
+
+void StructuredCompressedFile::push_back(const StructuredCompressedFile::value_type & value) {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    m_data.push_back(value);
+}
+
+void StructuredCompressedFile::push_back(StructuredCompressedFile::value_type && value) {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    m_data.push_back(value);
+}
+
+void StructuredCompressedFile::pop_front() {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    m_data.pop_front();
+}
+
+StructuredCompressedFile::value_type StructuredCompressedFile::logContainerContaining(std::streampos pos) {
+    /* loop over all logContainers */
+    for (std::shared_ptr<LogContainer> logContainer : m_data) {
+        /* when file position is contained ... */
+        if ((pos >= logContainer->filePosition) &&
+                (pos < logContainer->uncompressedFileSize + logContainer->filePosition)) {
+
+            /* ... return log container */
+            return logContainer;
+        }
+    }
+
+    /* not found, so return nullptr */
+    return nullptr;
 }
 
 }

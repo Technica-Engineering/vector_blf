@@ -166,14 +166,14 @@ void File::close() {
             m_structuredUncompressedFile.m_readWriteQueue.write(unknown115);
 
             /* process once */
-            readWriteQueue2UncompressedFile();
+            m_structuredUncompressedFile.readWriteQueue2UncompressedFile();
             uncompressedFile2CompressedFile();
         }
 
         /* set file statistics */
         fileStatistics.fileSize = static_cast<ULONGLONG>(m_rawCompressedFile.tellp());
         fileStatistics.uncompressedFileSize = currentUncompressedFileSize;
-        fileStatistics.objectCount = currentObjectCount;
+        fileStatistics.objectCount = m_structuredUncompressedFile.currentObjectCount;
         // @todo fileStatistics.objectsRead = ?
 
         /* write fileStatistics and close compressedFile */
@@ -686,63 +686,9 @@ ObjectHeaderBase * File::createObject(const ObjectType type) {
     return obj;
 }
 
-void File::uncompressedFile2ReadWriteQueue() {
-    /* identify type */
-    ObjectHeaderBase ohb(0, ObjectType::UNKNOWN);
-    ohb.read(m_rawUncompressedFile);
-    if (!m_rawUncompressedFile.good()) {
-        /* This is a normal eof. No objects ended abruptly. */
-        return;
-    }
-    m_rawUncompressedFile.seekg(-ohb.calculateHeaderSize(), std::ios_base::cur);
-
-    /* create object */
-    ObjectHeaderBase * obj = createObject(ohb.objectType);
-    if (obj == nullptr) {
-        /* in case of unknown objectType */
-        throw Exception("File::uncompressedFile2ReadWriteQueue(): Unknown object.");
-    }
-
-    /* read object */
-    obj->read(m_rawUncompressedFile);
-    if (!m_rawUncompressedFile.good()) {
-        delete obj;
-        throw Exception("File::uncompressedFile2ReadWriteQueue(): Read beyond end of file.");
-    }
-
-    /* push data into readWriteQueue */
-    m_structuredUncompressedFile.m_readWriteQueue.write(obj);
-
-    /* statistics */
-    if (obj->objectType != ObjectType::Unknown115)
-        currentObjectCount++;
-
-    /* drop old data */
-    m_rawUncompressedFile.dropOldData();
-}
-
-void File::readWriteQueue2UncompressedFile() {
-    /* get from readWriteQueue */
-    ObjectHeaderBase * ohb = m_structuredUncompressedFile.m_readWriteQueue.read();
-
-    /* process data */
-    if (ohb == nullptr) {
-        // Read intentionally returns, when the thread is aborted.
-        return;
-    }
-
-    /* write into uncompressedFile */
-    ohb->write(m_rawUncompressedFile);
-
-    /* statistics */
-    if (ohb->objectType != ObjectType::Unknown115)
-        currentObjectCount++;
-
-    /* delete object */
-    delete ohb;
-}
-
 void File::compressedFile2UncompressedFile() {
+    // rawCompressedFile --> structuredCompressedFile
+
     /* read header to identify type */
     ObjectHeaderBase ohb(0, ObjectType::UNKNOWN);
     ohb.read(m_rawCompressedFile);
@@ -758,6 +704,8 @@ void File::compressedFile2UncompressedFile() {
     if (!m_rawCompressedFile.good())
         throw Exception("File::compressedFile2UncompressedFile(): Read beyond end of file.");
 
+    // structuredCompressedFile --> rawUncompressedFile
+
     /* statistics */
     currentUncompressedFileSize +=
         logContainer->internalHeaderSize() +
@@ -771,6 +719,8 @@ void File::compressedFile2UncompressedFile() {
 }
 
 void File::uncompressedFile2CompressedFile() {
+    // rawUncompressedFile --> structuredCompressedFile
+
     /* setup new log container */
     LogContainer logContainer;
 
@@ -791,6 +741,8 @@ void File::uncompressedFile2CompressedFile() {
         logContainer.compress(2, compressionLevel);
     }
 
+    // structuredCompressedFile --> rawCompressedFile
+
     /* write log container */
     logContainer.write(m_rawCompressedFile);
 
@@ -807,7 +759,7 @@ void File::uncompressedFileReadThread(File * file) {
     while (file->m_uncompressedFileThreadRunning) {
         /* process */
         try {
-            file->uncompressedFile2ReadWriteQueue();
+            file->m_structuredUncompressedFile.uncompressedFile2ReadWriteQueue();
         } catch (Vector::BLF::Exception &) {
             file->m_uncompressedFileThreadRunning = false;
         }
@@ -824,7 +776,7 @@ void File::uncompressedFileReadThread(File * file) {
 void File::uncompressedFileWriteThread(File * file) {
     while (file->m_uncompressedFileThreadRunning) {
         /* process */
-        file->readWriteQueue2UncompressedFile();
+        file->m_structuredUncompressedFile.readWriteQueue2UncompressedFile();
 
         /* check for eof */
         if (!file->m_structuredUncompressedFile.m_readWriteQueue.good())

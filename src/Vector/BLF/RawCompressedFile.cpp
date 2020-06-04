@@ -21,6 +21,7 @@
 
 #include <Vector/BLF/RawUncompressedFile.h>
 
+#undef NDEBUG
 #include <cassert>
 #include <vector>
 

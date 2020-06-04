@@ -28,8 +28,7 @@ namespace Vector {
 namespace BLF {
 
 RawUncompressedFile::RawUncompressedFile(StructuredCompressedFile & structuredCompressedFile) :
-    m_structuredCompressedFile(structuredCompressedFile),
-    m_mutex(m_structuredCompressedFile.m_mutex)
+    m_structuredCompressedFile(structuredCompressedFile)
 {
 }
 
@@ -74,13 +73,13 @@ void RawUncompressedFile::read(char * s, std::streamsize n) {
     tellpChanged.wait(lock, [&] {
         return
         m_abort ||
-        (n + m_tellg <= m_tellp) ||
-        (n + m_tellg > m_fileSize);
+        (n + m_gpos <= m_ppos) ||
+        (n + m_gpos > m_fileSize);
     });
 
     /* handle read behind eof */
-    if (n + m_tellg > m_fileSize) {
-        n = m_fileSize - m_tellg;
+    if (n + m_gpos > m_fileSize) {
+        n = m_fileSize - m_gpos;
         m_rdstate = std::ios_base::eofbit | std::ios_base::failbit;
     } else
         m_rdstate = std::ios_base::goodbit;
@@ -89,12 +88,12 @@ void RawUncompressedFile::read(char * s, std::streamsize n) {
     m_gcount = 0;
     while (n > 0) {
         /* find starting log container */
-        std::shared_ptr<LogContainer> logContainer = m_structuredCompressedFile.logContainerContaining(m_tellg);
+        std::shared_ptr<LogContainer> logContainer = m_structuredCompressedFile.logContainerContaining(m_gpos);
         if (!logContainer)
             break;
 
         /* offset to read */
-        std::streamoff offset = m_tellg - logContainer->filePosition;
+        std::streamoff offset = m_gpos - logContainer->filePosition;
 
         /* copy data */
         std::streamsize gcount = std::min(n, static_cast<std::streamsize>(logContainer->uncompressedFileSize - offset));
@@ -104,7 +103,7 @@ void RawUncompressedFile::read(char * s, std::streamsize n) {
         m_gcount += gcount;
 
         /* new get position */
-        m_tellg += gcount;
+        m_gpos += gcount;
 
         /* advance */
         s += gcount;
@@ -124,7 +123,7 @@ std::streampos RawUncompressedFile::tellg() {
     /* in case of failure return -1 */
     if (m_rdstate & (std::ios_base::failbit | std::ios_base::badbit))
         return -1;
-    return m_tellg;
+    return m_gpos;
 }
 
 void RawUncompressedFile::seekg(const std::streampos pos) {
@@ -132,7 +131,7 @@ void RawUncompressedFile::seekg(const std::streampos pos) {
     std::lock_guard<std::mutex> lock(m_mutex);
 
     /* new get position */
-    m_tellg = pos;
+    m_gpos = pos;
 
     /* notify */
     tellgChanged.notify_all();
@@ -145,13 +144,13 @@ void RawUncompressedFile::seekg(const std::streamoff off, const std::ios_base::s
     /* new get position */
     switch(way) {
     case std::ios_base::beg:
-        m_tellg = off;
+        m_gpos = off;
         break;
     case std::ios_base::cur:
-        m_tellg = m_tellg + off;
+        m_gpos = m_gpos + off;
         break;
     case std::ios_base::end:
-        m_tellg = m_fileSize + off;
+        m_gpos = m_fileSize + off;
         break;
     default:
         assert(false);
@@ -169,30 +168,30 @@ void RawUncompressedFile::write(const char * s, std::streamsize n) {
     tellgChanged.wait(lock, [&] {
         return
         m_abort ||
-        ((m_tellp - m_tellg) < m_bufferSize);
+        ((m_ppos - m_gpos) < m_bufferSize);
     });
 
     /* write data */
     while (n > 0) {
         /* find starting log container */
-        std::shared_ptr<LogContainer> logContainer = m_structuredCompressedFile.logContainerContaining(m_tellp);
+        std::shared_ptr<LogContainer> logContainer = m_structuredCompressedFile.logContainerContaining(m_ppos);
 
         /* append new log container */
         if (!logContainer) {
             /* append new log container */
             logContainer = std::make_shared<LogContainer>();
-            logContainer->uncompressedFile.resize(m_structuredCompressedFile.m_defaultLogContainerSize);
+            logContainer->uncompressedFile.resize(m_structuredCompressedFile.defaultLogContainerSize());
             logContainer->uncompressedFileSize = logContainer->uncompressedFile.size();
-            if (!m_structuredCompressedFile.m_data.empty()) {
+            if (!m_structuredCompressedFile.empty()) {
                 logContainer->filePosition =
-                    m_structuredCompressedFile.m_data.back()->uncompressedFileSize +
-                    m_structuredCompressedFile.m_data.back()->filePosition;
+                    m_structuredCompressedFile.back()->uncompressedFileSize +
+                    m_structuredCompressedFile.back()->filePosition;
             }
-            m_structuredCompressedFile.m_data.push_back(logContainer);
+            m_structuredCompressedFile.push_back(logContainer);
         }
 
         /* offset to write */
-        std::streamoff offset = m_tellp - logContainer->filePosition;
+        std::streamoff offset = m_ppos - logContainer->filePosition;
 
         /* copy data */
         std::streamsize pcount = std::min(n, static_cast<std::streamsize>(logContainer->uncompressedFileSize - offset));
@@ -200,7 +199,7 @@ void RawUncompressedFile::write(const char * s, std::streamsize n) {
             std::copy(s, s + pcount, logContainer->uncompressedFile.begin() + offset);
 
             /* new put position */
-            m_tellp += pcount;
+            m_ppos += pcount;
 
             /* advance */
             s += pcount;
@@ -211,8 +210,8 @@ void RawUncompressedFile::write(const char * s, std::streamsize n) {
     }
 
     /* if new position is behind eof, shift it */
-    if (m_tellp >= m_fileSize)
-        m_fileSize = m_tellp;
+    if (m_ppos >= m_fileSize)
+        m_fileSize = m_ppos;
 
     /* notify */
     tellpChanged.notify_all();
@@ -225,7 +224,7 @@ std::streampos RawUncompressedFile::tellp() {
     /* in case of failure return -1 */
     if (m_rdstate & (std::ios_base::failbit | std::ios_base::badbit))
         return -1;
-    return m_tellp;
+    return m_ppos;
 }
 
 void RawUncompressedFile::seekp(const std::streampos /*pos*/) {
@@ -259,11 +258,11 @@ void RawUncompressedFile::write(const std::shared_ptr<LogContainer> & logContain
     std::lock_guard<std::mutex> lock(m_mutex);
 
     /* append logContainer */
-    m_structuredCompressedFile.m_data.push_back(logContainer);
-    logContainer->filePosition = m_tellp;
+    m_structuredCompressedFile.push_back(logContainer);
+    logContainer->filePosition = m_ppos;
 
     /* advance put pointer */
-    m_tellp += logContainer->uncompressedFileSize;
+    m_ppos += logContainer->uncompressedFileSize;
 
     /* notify */
     tellpChanged.notify_all();
@@ -274,10 +273,10 @@ void RawUncompressedFile::nextLogContainer() {
     std::lock_guard<std::mutex> lock(m_mutex);
 
     /* find starting log container */
-    std::shared_ptr<LogContainer> logContainer = m_structuredCompressedFile.logContainerContaining(m_tellp);
+    std::shared_ptr<LogContainer> logContainer = m_structuredCompressedFile.logContainerContaining(m_ppos);
     if (logContainer) {
         /* offset to write */
-        std::streamoff offset = m_tellp - logContainer->filePosition;
+        std::streamoff offset = m_ppos - logContainer->filePosition;
 
         /* resize logContainer, if it's not already a newly created one */
         if (offset > 0) {
@@ -319,20 +318,20 @@ void RawUncompressedFile::dropOldData() {
     std::lock_guard<std::mutex> lock(m_mutex);
 
     /* check if drop should be done now */
-    if (m_structuredCompressedFile.m_data.empty()) {
+    if (m_structuredCompressedFile.empty()) {
         return;
     }
-    std::shared_ptr<LogContainer> logContainer = m_structuredCompressedFile.m_data.front();
+    std::shared_ptr<LogContainer> logContainer = m_structuredCompressedFile.front();
     if (logContainer) {
         std::streampos position = logContainer->uncompressedFileSize + logContainer->filePosition;
-        if ((position > m_tellg) || (position > m_tellp) || (position > m_fileSize)) {
+        if ((position > m_gpos) || (position > m_ppos) || (position > m_fileSize)) {
             /* don't drop yet */
             return;
         }
     }
 
     /* drop data */
-    m_structuredCompressedFile.m_data.pop_front();
+    m_structuredCompressedFile.pop_front();
 }
 
 }

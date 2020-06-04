@@ -23,6 +23,8 @@
 
 #include <Vector/BLF/platform.h>
 
+#include <atomic>
+
 #include <Vector/BLF/ObjectQueue.h>
 #include <Vector/BLF/RawUncompressedFile.h>
 
@@ -38,6 +40,48 @@ class VECTOR_BLF_EXPORT StructuredUncompressedFile {
 public:
     StructuredUncompressedFile(RawUncompressedFile & rawUncompressedFile);
 
+    /* member types */
+//    using value_type = std::shared_ptr<LogContainer>;
+//    using reference = value_type&;
+//    using const_reference = const value_type&;
+//    using pointer = value_type*;
+//    using const_pointer = const value_type*;
+//    using size_type = std::size_t;
+
+    /* Element access */
+//    at
+//    operator[]
+//    reference front();
+//    const_reference front() const;
+//    reference back();
+//    const_reference back() const;
+
+    /* Iterators */
+//    begin();
+//    cbegin();
+//    end();
+//    cend();
+//    rbegin();
+//    crbegin();
+//    rend();
+//    crend();
+
+    /* Capacity */
+//    bool empty() const;
+//    size_type size() const;
+
+    /* Modifiers */
+//    void push_back(const value_type & value);
+//    void push_back(value_type && value);
+//    void pop_front();
+
+    /**
+     * Current number of objects read
+     *
+     * Unknown115 is not counted.
+     */
+    std::atomic<DWORD> currentObjectCount {};
+
     /**
      * read/write queue
      *
@@ -50,8 +94,22 @@ public:
      */
     ObjectQueue<ObjectHeaderBase> m_readWriteQueue {};
 
+    /**
+     * Read data from uncompressedFile into readWriteQueue.
+     */
+    void uncompressedFile2ReadWriteQueue();
+
+    /**
+     * Write data from readWriteQueue into uncompressedFile.
+     */
+    void readWriteQueue2UncompressedFile();
+
 private:
+    /** raw uncompressed file */
     RawUncompressedFile & m_rawUncompressedFile;
+
+    /** mutex */
+    mutable std::mutex m_mutex {};
 };
 
 }

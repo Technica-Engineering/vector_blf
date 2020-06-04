@@ -42,14 +42,6 @@ class VECTOR_BLF_EXPORT StructuredCompressedFile {
 public:
     StructuredCompressedFile(RawCompressedFile & rawCompressedFile);
 
-    mutable std::mutex m_mutex {};
-
-    /** data */
-    std::list<std::shared_ptr<LogContainer>> m_data {};
-
-    /** default log container size */
-    DWORD m_defaultLogContainerSize {0x20000};
-
     /**
      * Get default log container size.
      *
@@ -64,6 +56,41 @@ public:
      */
     virtual void setDefaultLogContainerSize(DWORD defaultLogContainerSize);
 
+    /* member types */
+    using value_type = std::shared_ptr<LogContainer>;
+    using reference = value_type&;
+    using const_reference = const value_type&;
+    using pointer = value_type*;
+    using const_pointer = const value_type*;
+    using size_type = std::size_t;
+
+    /* Element access */
+//    at
+//    operator[]
+    reference front();
+    const_reference front() const;
+    reference back();
+    const_reference back() const;
+
+    /* Iterators */
+//    begin();
+//    cbegin();
+//    end();
+//    cend();
+//    rbegin();
+//    crbegin();
+//    rend();
+//    crend();
+
+    /* Capacity */
+    bool empty() const;
+//    size_type size() const;
+
+    /* Modifiers */
+    void push_back(const value_type & value);
+    void push_back(value_type && value);
+    void pop_front();
+
     /**
      * Returns the file container, which contains pos.
      *
@@ -74,10 +101,20 @@ public:
      * @param[in] pos position
      * @return log container or nullptr
      */
-    std::shared_ptr<LogContainer> logContainerContaining(std::streampos pos);
+    value_type logContainerContaining(std::streampos pos);
 
 private:
+    /** raw compressed file */
     RawCompressedFile & m_rawCompressedFile;
+
+    /** mutex */
+    mutable std::mutex m_mutex {};
+
+    /** data */
+    std::list<std::shared_ptr<LogContainer>> m_data {};
+
+    /** default log container size */
+    DWORD m_defaultLogContainerSize {0x20000};
 };
 
 }

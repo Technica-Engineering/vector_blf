@@ -2457,10 +2457,11 @@ int main(int argc, char * argv[]) {
 
     std::cout << std::endl;
     std::cout << "End of file." << std::endl;
-    std::cout << "uncompressedFileSize: " << std::dec << file.currentUncompressedFileSize << std::endl;
-    std::cout << "objectCount: " << std::dec << file.currentObjectCount << std::endl;
 
     file.close();
+
+    std::cout << "uncompressedFileSize: " << std::dec << file.fileStatistics.uncompressedFileSize << std::endl;
+    std::cout << "objectCount: " << std::dec << file.fileStatistics.objectCount << std::endl;
 
     return 0;
 }
