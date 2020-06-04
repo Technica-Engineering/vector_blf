@@ -125,5 +125,13 @@ struct VECTOR_BLF_EXPORT ObjectHeaderBase {
     ObjectType objectType {};
 };
 
+/**
+ * create object of given type
+ *
+ * @param[in] type object type
+ * @return new object
+ */
+ObjectHeaderBase * makeObject(const ObjectType type) VECTOR_BLF_EXPORT;
+
 }
 }

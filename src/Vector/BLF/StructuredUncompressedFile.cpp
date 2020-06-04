@@ -44,7 +44,7 @@ void StructuredUncompressedFile::uncompressedFile2ReadWriteQueue() {
     m_rawUncompressedFile.seekg(-ohb.calculateHeaderSize(), std::ios_base::cur);
 
     /* create object */
-    ObjectHeaderBase * obj = File::createObject(ohb.objectType);
+    ObjectHeaderBase * obj = makeObject(ohb.objectType);
     if (obj == nullptr) {
         /* in case of unknown objectType */
         throw Exception("StructuredUncompressedFile::uncompressedFile2ReadWriteQueue(): Unknown object.");
