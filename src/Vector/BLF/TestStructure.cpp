@@ -28,7 +28,7 @@ TestStructure::TestStructure() :
     ObjectHeader(ObjectType::TEST_STRUCTURE) {
 }
 
-void TestStructure::read(AbstractFile & is) {
+void TestStructure::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&executionObjectIdentify), sizeof(executionObjectIdentify));
     is.read(reinterpret_cast<char *>(&type), sizeof(type));
@@ -47,7 +47,7 @@ void TestStructure::read(AbstractFile & is) {
     is.read(const_cast<char *>(reinterpret_cast<const char *>(text.data())), textLength * sizeof(char16_t));
 }
 
-void TestStructure::write(AbstractFile & os) {
+void TestStructure::write(RawFile & os) {
     /* pre processing */
     executingObjectNameLength = static_cast<DWORD>(executingObjectName.size());
     nameLength = static_cast<DWORD>(name.size());

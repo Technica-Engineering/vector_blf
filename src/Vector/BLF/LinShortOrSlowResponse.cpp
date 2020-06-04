@@ -28,7 +28,7 @@ LinShortOrSlowResponse::LinShortOrSlowResponse() :
     ObjectHeader(ObjectType::LIN_SHORT_OR_SLOW_RESPONSE) {
 }
 
-void LinShortOrSlowResponse::read(AbstractFile & is) {
+void LinShortOrSlowResponse::read(RawFile & is) {
     ObjectHeader::read(is);
     LinDatabyteTimestampEvent::read(is);
     is.read(reinterpret_cast<char *>(&numberOfRespBytes), sizeof(numberOfRespBytes));
@@ -39,7 +39,7 @@ void LinShortOrSlowResponse::read(AbstractFile & is) {
     // @note might be extended in future versions
 }
 
-void LinShortOrSlowResponse::write(AbstractFile & os) {
+void LinShortOrSlowResponse::write(RawFile & os) {
     ObjectHeader::write(os);
     LinDatabyteTimestampEvent::write(os);
     os.write(reinterpret_cast<char *>(&numberOfRespBytes), sizeof(numberOfRespBytes));

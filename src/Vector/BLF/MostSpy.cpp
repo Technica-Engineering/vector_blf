@@ -28,7 +28,7 @@ MostSpy::MostSpy() :
     ObjectHeader(ObjectType::MOST_SPY) {
 }
 
-void MostSpy::read(AbstractFile & is) {
+void MostSpy::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
@@ -45,7 +45,7 @@ void MostSpy::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&crc), sizeof(crc));
 }
 
-void MostSpy::write(AbstractFile & os) {
+void MostSpy::write(RawFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&dir), sizeof(dir));

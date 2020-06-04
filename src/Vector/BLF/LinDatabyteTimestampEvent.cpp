@@ -24,12 +24,12 @@
 namespace Vector {
 namespace BLF {
 
-void LinDatabyteTimestampEvent::read(AbstractFile & is) {
+void LinDatabyteTimestampEvent::read(RawFile & is) {
     LinMessageDescriptor::read(is);
     is.read(reinterpret_cast<char *>(databyteTimestamps.data()), static_cast<std::streamsize>(databyteTimestamps.size() * sizeof(ULONGLONG)));
 }
 
-void LinDatabyteTimestampEvent::write(AbstractFile & os) {
+void LinDatabyteTimestampEvent::write(RawFile & os) {
     LinMessageDescriptor::write(os);
     os.write(reinterpret_cast<char *>(databyteTimestamps.data()), static_cast<std::streamsize>(databyteTimestamps.size() * sizeof(ULONGLONG)));
 }

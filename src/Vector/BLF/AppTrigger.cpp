@@ -28,7 +28,7 @@ AppTrigger::AppTrigger() :
     ObjectHeader(ObjectType::APP_TRIGGER) {
 }
 
-void AppTrigger::read(AbstractFile & is) {
+void AppTrigger::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&preTriggerTime), sizeof(preTriggerTime));
     is.read(reinterpret_cast<char *>(&postTriggerTime), sizeof(postTriggerTime));
@@ -37,7 +37,7 @@ void AppTrigger::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&appSpecific2), sizeof(appSpecific2));
 }
 
-void AppTrigger::write(AbstractFile & os) {
+void AppTrigger::write(RawFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&preTriggerTime), sizeof(preTriggerTime));
     os.write(reinterpret_cast<char *>(&postTriggerTime), sizeof(postTriggerTime));

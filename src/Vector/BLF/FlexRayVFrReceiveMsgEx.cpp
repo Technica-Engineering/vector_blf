@@ -28,7 +28,7 @@ FlexRayVFrReceiveMsgEx::FlexRayVFrReceiveMsgEx() :
     ObjectHeader(ObjectType::FR_RCVMESSAGE_EX) {
 }
 
-void FlexRayVFrReceiveMsgEx::read(AbstractFile & is) {
+void FlexRayVFrReceiveMsgEx::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&version), sizeof(version));
@@ -56,7 +56,7 @@ void FlexRayVFrReceiveMsgEx::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(dataBytes.data()), static_cast<std::streamsize>(dataCount));
 }
 
-void FlexRayVFrReceiveMsgEx::write(AbstractFile & os) {
+void FlexRayVFrReceiveMsgEx::write(RawFile & os) {
     /* pre processing */
     dataCount = static_cast<WORD>(dataBytes.size());
 

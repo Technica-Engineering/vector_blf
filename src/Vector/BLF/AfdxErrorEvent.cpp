@@ -28,7 +28,7 @@ AfdxErrorEvent::AfdxErrorEvent() :
     ObjectHeader(ObjectType::AFDX_ERROR_EVENT) {
 }
 
-void AfdxErrorEvent::read(AbstractFile & is) {
+void AfdxErrorEvent::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&errorLevel), sizeof(errorLevel));
@@ -38,7 +38,7 @@ void AfdxErrorEvent::read(AbstractFile & is) {
     // @note might be extended in future versions
 }
 
-void AfdxErrorEvent::write(AbstractFile & os) {
+void AfdxErrorEvent::write(RawFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&errorLevel), sizeof(errorLevel));

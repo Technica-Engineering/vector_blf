@@ -28,7 +28,7 @@ KLineStatusEvent::KLineStatusEvent() :
     ObjectHeader(ObjectType::KLINE_STATUSEVENT) {
 }
 
-void KLineStatusEvent::read(AbstractFile & is) {
+void KLineStatusEvent::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&type), sizeof(type));
     is.read(reinterpret_cast<char *>(&dataLen), sizeof(dataLen));
@@ -38,7 +38,7 @@ void KLineStatusEvent::read(AbstractFile & is) {
     // @note might be extended in future versions
 }
 
-void KLineStatusEvent::write(AbstractFile & os) {
+void KLineStatusEvent::write(RawFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&type), sizeof(type));
     os.write(reinterpret_cast<char *>(&dataLen), sizeof(dataLen));

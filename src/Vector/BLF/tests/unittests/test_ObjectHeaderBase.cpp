@@ -9,15 +9,20 @@
 
 /** check if it throws on wrong signature */
 BOOST_AUTO_TEST_CASE(WrongSignature) {
-    /* open uncompressedFile */
-    Vector::BLF::UncompressedFile file;
-
     /* write bad data */
-    Vector::BLF::ObjectHeaderBase ohb1(1, Vector::BLF::ObjectType::UNKNOWN);
-    ohb1.signature = Vector::BLF::ObjectSignature - 1;
-    ohb1.write(file);
+    {
+        Vector::BLF::RawCompressedFile file;
+        file.open(CMAKE_CURRENT_BINARY_DIR "/test_ObjectHeaderBase.blf", std::ios_base::out);
+        Vector::BLF::ObjectHeaderBase ohb1(1, Vector::BLF::ObjectType::UNKNOWN);
+        ohb1.signature = Vector::BLF::ObjectSignature - 1;
+        ohb1.write(file);
+    }
 
     /* read back data */
-    Vector::BLF::ObjectHeaderBase ohb2(1, Vector::BLF::ObjectType::UNKNOWN);
-    BOOST_CHECK_THROW(ohb2.read(file), Vector::BLF::Exception);
+    {
+        Vector::BLF::RawCompressedFile file;
+        file.open(CMAKE_CURRENT_BINARY_DIR "/test_ObjectHeaderBase.blf", std::ios_base::in);
+        Vector::BLF::ObjectHeaderBase ohb2(1, Vector::BLF::ObjectType::UNKNOWN);
+        BOOST_CHECK_THROW(ohb2.read(file), Vector::BLF::Exception);
+    }
 }

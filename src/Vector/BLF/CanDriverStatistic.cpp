@@ -28,7 +28,7 @@ CanDriverStatistic::CanDriverStatistic() :
     ObjectHeader(ObjectType::CAN_STATISTIC) {
 }
 
-void CanDriverStatistic::read(AbstractFile & is) {
+void CanDriverStatistic::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&busLoad), sizeof(busLoad));
@@ -41,7 +41,7 @@ void CanDriverStatistic::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&reservedCanDriverStatistic), sizeof(reservedCanDriverStatistic));
 }
 
-void CanDriverStatistic::write(AbstractFile & os) {
+void CanDriverStatistic::write(RawFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&busLoad), sizeof(busLoad));

@@ -28,7 +28,7 @@ MostHwMode::MostHwMode() :
     ObjectHeader2(ObjectType::MOST_HWMODE) {
 }
 
-void MostHwMode::read(AbstractFile & is) {
+void MostHwMode::read(RawFile & is) {
     ObjectHeader2::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&reservedMostHwMode), sizeof(reservedMostHwMode));
@@ -36,7 +36,7 @@ void MostHwMode::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&hwModeMask), sizeof(hwModeMask));
 }
 
-void MostHwMode::write(AbstractFile & os) {
+void MostHwMode::write(RawFile & os) {
     ObjectHeader2::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&reservedMostHwMode), sizeof(reservedMostHwMode));

@@ -28,7 +28,7 @@ AfdxFrame::AfdxFrame() :
     ObjectHeader(ObjectType::AFDX_FRAME) {
 }
 
-void AfdxFrame::read(AbstractFile & is) {
+void AfdxFrame::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(sourceAddress.data()), static_cast<std::streamsize>(sourceAddress.size()));
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
@@ -52,7 +52,7 @@ void AfdxFrame::read(AbstractFile & is) {
     is.seekg(objectSize % 4, std::ios_base::cur);
 }
 
-void AfdxFrame::write(AbstractFile & os) {
+void AfdxFrame::write(RawFile & os) {
     /* pre processing */
     payLoadLength = static_cast<WORD>(payLoad.size());
 

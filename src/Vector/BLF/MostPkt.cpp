@@ -28,7 +28,7 @@ MostPkt::MostPkt() :
     ObjectHeader(ObjectType::MOST_PKT) {
 }
 
-void MostPkt::read(AbstractFile & is) {
+void MostPkt::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
@@ -54,7 +54,7 @@ void MostPkt::read(AbstractFile & is) {
     is.seekg(objectSize % 4, std::ios_base::cur);
 }
 
-void MostPkt::write(AbstractFile & os) {
+void MostPkt::write(RawFile & os) {
     /* pre processing */
     pktDataLength = static_cast<DWORD>(pktData.size());
 

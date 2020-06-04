@@ -28,7 +28,7 @@ AfdxStatistic::AfdxStatistic() :
     ObjectHeader(ObjectType::AFDX_STATISTIC) {
 }
 
-void AfdxStatistic::read(AbstractFile & is) {
+void AfdxStatistic::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
@@ -48,7 +48,7 @@ void AfdxStatistic::read(AbstractFile & is) {
     // @note might be extended in future versions
 }
 
-void AfdxStatistic::write(AbstractFile & os) {
+void AfdxStatistic::write(RawFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&flags), sizeof(flags));

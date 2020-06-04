@@ -21,8 +21,6 @@
 
 #include <Vector/BLF/FlexRayVFrStartCycle.h>
 
-#include <Vector/BLF/AbstractFile.h>
-
 namespace Vector {
 namespace BLF {
 
@@ -30,7 +28,7 @@ FlexRayVFrStartCycle::FlexRayVFrStartCycle() :
     ObjectHeader(ObjectType::FR_STARTCYCLE) {
 }
 
-void FlexRayVFrStartCycle::read(AbstractFile & is) {
+void FlexRayVFrStartCycle::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&version), sizeof(version));
@@ -47,7 +45,7 @@ void FlexRayVFrStartCycle::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&reservedFlexRayVFrStartCycle2), sizeof(reservedFlexRayVFrStartCycle2));
 }
 
-void FlexRayVFrStartCycle::write(AbstractFile & os) {
+void FlexRayVFrStartCycle::write(RawFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&version), sizeof(version));

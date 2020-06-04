@@ -28,12 +28,12 @@ DataLostBegin::DataLostBegin() :
     ObjectHeader(ObjectType::DATA_LOST_BEGIN) {
 }
 
-void DataLostBegin::read(AbstractFile & is) {
+void DataLostBegin::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&queueIdentifier), sizeof(queueIdentifier));
 }
 
-void DataLostBegin::write(AbstractFile & os) {
+void DataLostBegin::write(RawFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&queueIdentifier), sizeof(queueIdentifier));
 }

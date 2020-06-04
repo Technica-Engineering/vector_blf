@@ -31,17 +31,30 @@ namespace Vector {
 namespace BLF {
 
 /**
- * Generic interface to access CompressedFile and UncompressedFile in the same way.
+ * Generic interface to access RawCompressedFile and RawUncompressedFile in the same way.
  */
-struct VECTOR_BLF_EXPORT AbstractFile {
-    AbstractFile() noexcept = default;
-    virtual ~AbstractFile() noexcept = default;
-    AbstractFile(const AbstractFile &) = default;
-    AbstractFile & operator=(const AbstractFile &) = default;
-    AbstractFile(AbstractFile &&) = default;
-    AbstractFile & operator=(AbstractFile &&) = default;
+struct VECTOR_BLF_EXPORT RawFile {
+    virtual ~RawFile() = default;
 
     /* general methods */
+
+    /**
+     * open file
+     *
+     * @param[in] filename file name
+     * @param[in] openMode open in read or write mode
+     */
+    virtual void open(const char * filename, std::ios_base::openmode mode = std::ios_base::in | std::ios_base::out) = 0;
+
+    /**
+     * is file open?
+     *
+     * @return true if file is open
+     */
+    virtual bool is_open() const = 0;
+
+    /** Close file. */
+    virtual void close() = 0;
 
     /**
      * Check whether state of stream is good.

@@ -28,7 +28,7 @@ Most150MessageFragment::Most150MessageFragment() :
     ObjectHeader2(ObjectType::MOST_150_MESSAGE_FRAGMENT) {
 }
 
-void Most150MessageFragment::read(AbstractFile & is) {
+void Most150MessageFragment::read(RawFile & is) {
     ObjectHeader2::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&reservedMost150MessageFragment1), sizeof(reservedMost150MessageFragment1));
@@ -52,7 +52,7 @@ void Most150MessageFragment::read(AbstractFile & is) {
     is.seekg(objectSize % 4, std::ios_base::cur);
 }
 
-void Most150MessageFragment::write(AbstractFile & os) {
+void Most150MessageFragment::write(RawFile & os) {
     /* pre processing */
     firstDataLen = static_cast<DWORD>(firstData.size());
 

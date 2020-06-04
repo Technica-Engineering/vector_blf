@@ -28,14 +28,14 @@ MostLightLock::MostLightLock() :
     ObjectHeader(ObjectType::MOST_LIGHTLOCK) {
 }
 
-void MostLightLock::read(AbstractFile & is) {
+void MostLightLock::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&state), sizeof(state));
     is.read(reinterpret_cast<char *>(&reservedMostLightLock), sizeof(reservedMostLightLock));
 }
 
-void MostLightLock::write(AbstractFile & os) {
+void MostLightLock::write(RawFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&state), sizeof(state));

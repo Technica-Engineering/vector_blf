@@ -23,13 +23,13 @@
 
 #include <string>
 
-#include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/Exceptions.h>
+#include <Vector/BLF/RawFile.h>
 
 namespace Vector {
 namespace BLF {
 
-void FileStatistics::read(AbstractFile & is) {
+void FileStatistics::read(RawFile & is) {
     is.read(reinterpret_cast<char *>(&signature), sizeof(signature));
     if (signature != FileSignature)
         throw Exception("FileStatistics::read(): File signature doesn't match at this position.");
@@ -52,7 +52,7 @@ void FileStatistics::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(reservedFileStatistics.data()), static_cast<std::streamsize>(reservedFileStatistics.size() * sizeof(DWORD)));
 }
 
-void FileStatistics::write(AbstractFile & os) {
+void FileStatistics::write(RawFile & os) {
     os.write(reinterpret_cast<char *>(&signature), sizeof(signature));
     os.write(reinterpret_cast<char *>(&statisticsSize), sizeof(statisticsSize));
     os.write(reinterpret_cast<char *>(&applicationId), sizeof(applicationId));

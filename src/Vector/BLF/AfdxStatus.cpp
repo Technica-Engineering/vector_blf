@@ -28,7 +28,7 @@ AfdxStatus::AfdxStatus() :
     ObjectHeader(ObjectType::AFDX_STATUS) {
 }
 
-void AfdxStatus::read(AbstractFile & is) {
+void AfdxStatus::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&reservedAfdxStatus1), sizeof(reservedAfdxStatus1));
@@ -37,7 +37,7 @@ void AfdxStatus::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&reservedAfdxStatus2), sizeof(reservedAfdxStatus2));
 }
 
-void AfdxStatus::write(AbstractFile & os) {
+void AfdxStatus::write(RawFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&reservedAfdxStatus1), sizeof(reservedAfdxStatus1));

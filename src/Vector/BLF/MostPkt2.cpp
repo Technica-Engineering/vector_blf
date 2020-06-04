@@ -28,7 +28,7 @@ MostPkt2::MostPkt2() :
     ObjectHeader2(ObjectType::MOST_PKT2) {
 }
 
-void MostPkt2::read(AbstractFile & is) {
+void MostPkt2::read(RawFile & is) {
     ObjectHeader2::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
@@ -54,7 +54,7 @@ void MostPkt2::read(AbstractFile & is) {
     is.seekg(objectSize % 4, std::ios_base::cur);
 }
 
-void MostPkt2::write(AbstractFile & os) {
+void MostPkt2::write(RawFile & os) {
     /* pre processing */
     pktDataLength = static_cast<DWORD>(pktData.size());
 

@@ -26,7 +26,7 @@
 #include <fstream>
 #include <mutex>
 
-#include <Vector/BLF/AbstractFile.h>
+#include <Vector/BLF/RawFile.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -34,19 +34,17 @@ namespace Vector {
 namespace BLF {
 
 /**
- * CompressedFile (Input/output file stream)
- *
- * This class is thread-safe.
+ * This class allows byte-wise access to the compressed file.
  */
-class VECTOR_BLF_EXPORT CompressedFile final : public AbstractFile {
-  public:
-    CompressedFile() = default;
-    ~CompressedFile() override;
-    CompressedFile(const CompressedFile &) = delete;
-    CompressedFile & operator=(const CompressedFile &) = delete;
-    CompressedFile(CompressedFile &&) = delete;
-    CompressedFile & operator=(CompressedFile &&) = delete;
+class VECTOR_BLF_EXPORT RawCompressedFile :
+    public RawFile
+{
+public:
+    RawCompressedFile();
 
+    void open(const char * filename, std::ios_base::openmode mode = std::ios_base::in | std::ios_base::out) override;
+    bool is_open() const override;
+    void close() override;
     bool good() const override;
     bool eof() const override;
     std::streamsize gcount() const override;
@@ -59,31 +57,9 @@ class VECTOR_BLF_EXPORT CompressedFile final : public AbstractFile {
     void seekp(const std::streampos pos) override;
     void seekp(const std::streamoff off, const std::ios_base::seekdir way) override;
 
-    /**
-     * open file
-     *
-     * @param[in] filename file name
-     * @param[in] openMode open in read or write mode
-     */
-    virtual void open(const char * filename, std::ios_base::openmode openMode);
-
-    /**
-     * is file open?
-     *
-     * @return true if file is open
-     */
-    virtual bool is_open() const;
-
-    /**
-     * Close file.
-     */
-    virtual void close();
-
-  private:
-    /**
-     * file stream
-     */
-    std::fstream m_file {};
+private:
+    /** actual file on disk */
+    std::fstream m_file;
 
     /** mutex */
     mutable std::mutex m_mutex {};

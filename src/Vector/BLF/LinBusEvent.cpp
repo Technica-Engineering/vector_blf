@@ -24,14 +24,14 @@
 namespace Vector {
 namespace BLF {
 
-void LinBusEvent::read(AbstractFile & is) {
+void LinBusEvent::read(RawFile & is) {
     is.read(reinterpret_cast<char *>(&sof), sizeof(sof));
     is.read(reinterpret_cast<char *>(&eventBaudrate), sizeof(eventBaudrate));
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&reservedLinBusEvent), sizeof(reservedLinBusEvent));
 }
 
-void LinBusEvent::write(AbstractFile & os) {
+void LinBusEvent::write(RawFile & os) {
     os.write(reinterpret_cast<char *>(&sof), sizeof(sof));
     os.write(reinterpret_cast<char *>(&eventBaudrate), sizeof(eventBaudrate));
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));

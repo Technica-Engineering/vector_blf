@@ -28,14 +28,14 @@ LinBaudrateEvent::LinBaudrateEvent() :
     ObjectHeader(ObjectType::LIN_BAUDRATE) {
 }
 
-void LinBaudrateEvent::read(AbstractFile & is) {
+void LinBaudrateEvent::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&reservedLinBaudrateEvent), sizeof(reservedLinBaudrateEvent));
     is.read(reinterpret_cast<char *>(&baudrate), sizeof(baudrate));
 }
 
-void LinBaudrateEvent::write(AbstractFile & os) {
+void LinBaudrateEvent::write(RawFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&reservedLinBaudrateEvent), sizeof(reservedLinBaudrateEvent));

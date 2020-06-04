@@ -28,7 +28,7 @@ DiagRequestInterpretation::DiagRequestInterpretation() :
     ObjectHeader(ObjectType::DIAG_REQUEST_INTERPRETATION) {
 }
 
-void DiagRequestInterpretation::read(AbstractFile & is) {
+void DiagRequestInterpretation::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&diagDescriptionHandle), sizeof(diagDescriptionHandle));
     is.read(reinterpret_cast<char *>(&diagVariantHandle), sizeof(diagVariantHandle));
@@ -44,7 +44,7 @@ void DiagRequestInterpretation::read(AbstractFile & is) {
     is.read(const_cast<char *>(serviceQualifier.data()), serviceQualifierLength);
 }
 
-void DiagRequestInterpretation::write(AbstractFile & os) {
+void DiagRequestInterpretation::write(RawFile & os) {
     /* pre processing */
     ecuQualifierLength = static_cast<DWORD>(ecuQualifier.size());
     variantQualifierLength = static_cast<DWORD>(variantQualifier.size());

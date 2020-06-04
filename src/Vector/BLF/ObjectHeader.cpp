@@ -29,7 +29,7 @@ ObjectHeader::ObjectHeader(const ObjectType objectType, const WORD objectVersion
     objectVersion(objectVersion) {
 }
 
-void ObjectHeader::read(AbstractFile & is) {
+void ObjectHeader::read(RawFile & is) {
     ObjectHeaderBase::read(is);
     is.read(reinterpret_cast<char *>(&objectFlags), sizeof(objectFlags));
     is.read(reinterpret_cast<char *>(&clientIndex), sizeof(clientIndex));
@@ -37,7 +37,7 @@ void ObjectHeader::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&objectTimeStamp), sizeof(objectTimeStamp));
 }
 
-void ObjectHeader::write(AbstractFile & os) {
+void ObjectHeader::write(RawFile & os) {
     ObjectHeaderBase::write(os);
     os.write(reinterpret_cast<char *>(&objectFlags), sizeof(objectFlags));
     os.write(reinterpret_cast<char *>(&clientIndex), sizeof(clientIndex));

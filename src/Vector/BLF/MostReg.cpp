@@ -28,7 +28,7 @@ MostReg::MostReg() :
     ObjectHeader2(ObjectType::MOST_REG) {
 }
 
-void MostReg::read(AbstractFile & is) {
+void MostReg::read(RawFile & is) {
     ObjectHeader2::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&subType), sizeof(subType));
@@ -40,7 +40,7 @@ void MostReg::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(regData.data()), static_cast<std::streamsize>(regData.size()));
 }
 
-void MostReg::write(AbstractFile & os) {
+void MostReg::write(RawFile & os) {
     ObjectHeader2::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&subType), sizeof(subType));

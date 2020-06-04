@@ -28,7 +28,7 @@ FlexRayStatusEvent::FlexRayStatusEvent() :
     ObjectHeader(ObjectType::FLEXRAY_STATUS) {
 }
 
-void FlexRayStatusEvent::read(AbstractFile & is) {
+void FlexRayStatusEvent::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&version), sizeof(version));
@@ -39,7 +39,7 @@ void FlexRayStatusEvent::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(reservedFlexRayStatusEvent.data()), static_cast<std::streamsize>(reservedFlexRayStatusEvent.size() * sizeof(WORD)));
 }
 
-void FlexRayStatusEvent::write(AbstractFile & os) {
+void FlexRayStatusEvent::write(RawFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&version), sizeof(version));

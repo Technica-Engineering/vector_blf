@@ -28,7 +28,7 @@ AfdxBusStatistic::AfdxBusStatistic() :
     ObjectHeader(ObjectType::A429_BUS_STATISTIC) {
 }
 
-void AfdxBusStatistic::read(AbstractFile & is) {
+void AfdxBusStatistic::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
@@ -53,7 +53,7 @@ void AfdxBusStatistic::read(AbstractFile & is) {
     // @note might be extended in future versions
 }
 
-void AfdxBusStatistic::write(AbstractFile & os) {
+void AfdxBusStatistic::write(RawFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&flags), sizeof(flags));

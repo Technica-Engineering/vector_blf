@@ -25,7 +25,7 @@
 
 #include <array>
 
-#include <Vector/BLF/AbstractFile.h>
+#include <Vector/BLF/RawFile.h>
 #include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
@@ -89,14 +89,14 @@ struct VECTOR_BLF_EXPORT FileStatistics final {
      *
      * @param[in] is input stream
      */
-    virtual void read(AbstractFile & is);
+    virtual void read(RawFile & is);
 
     /**
      * write file statistics
      *
      * @param[in] os output stream
      */
-    virtual void write(AbstractFile & os);
+    virtual void write(RawFile & os);
 
     /**
      * Calculates the statisticsSize

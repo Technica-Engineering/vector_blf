@@ -36,7 +36,7 @@ EnvironmentVariable::EnvironmentVariable(/*const ObjectType objectType*/) :
      */
 }
 
-void EnvironmentVariable::read(AbstractFile & is) {
+void EnvironmentVariable::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&nameLength), sizeof(nameLength));
     is.read(reinterpret_cast<char *>(&dataLength), sizeof(dataLength));
@@ -50,7 +50,7 @@ void EnvironmentVariable::read(AbstractFile & is) {
     is.seekg(objectSize % 4, std::ios_base::cur);
 }
 
-void EnvironmentVariable::write(AbstractFile & os) {
+void EnvironmentVariable::write(RawFile & os) {
     /* pre processing */
     nameLength = static_cast<DWORD>(name.size());
     dataLength = static_cast<DWORD>(data.size());

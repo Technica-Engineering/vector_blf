@@ -23,8 +23,8 @@
 
 #include <Vector/BLF/platform.h>
 
-#include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeaderBase.h>
+#include <Vector/BLF/RawFile.h>
 #include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
@@ -40,8 +40,8 @@ namespace BLF {
 struct VECTOR_BLF_EXPORT ObjectHeader : ObjectHeaderBase {
     ObjectHeader(const ObjectType objectType, const WORD objectVersion = 0);
 
-    void read(AbstractFile & is) override;
-    void write(AbstractFile & os) override;
+    void read(RawFile & is) override;
+    void write(RawFile & os) override;
     WORD calculateHeaderSize() const override;
     DWORD calculateObjectSize() const override;
 

@@ -28,7 +28,7 @@ Most150AllocTab::Most150AllocTab() :
     ObjectHeader2(ObjectType::MOST_150_ALLOCTAB) {
 }
 
-void Most150AllocTab::read(AbstractFile & is) {
+void Most150AllocTab::read(RawFile & is) {
     ObjectHeader2::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&eventModeFlags), sizeof(eventModeFlags));
@@ -42,7 +42,7 @@ void Most150AllocTab::read(AbstractFile & is) {
     is.seekg(objectSize % 4, std::ios_base::cur);
 }
 
-void Most150AllocTab::write(AbstractFile & os) {
+void Most150AllocTab::write(RawFile & os) {
     /* pre processing */
     length = static_cast<WORD>(tableData.size());
 

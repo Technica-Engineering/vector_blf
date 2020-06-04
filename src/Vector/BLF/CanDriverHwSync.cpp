@@ -28,7 +28,7 @@ CanDriverHwSync::CanDriverHwSync() :
     ObjectHeader(ObjectType::CAN_DRIVER_SYNC) {
 }
 
-void CanDriverHwSync::read(AbstractFile & is) {
+void CanDriverHwSync::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
@@ -36,7 +36,7 @@ void CanDriverHwSync::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&reservedCanDriverHwSync2), sizeof(reservedCanDriverHwSync2));
 }
 
-void CanDriverHwSync::write(AbstractFile & os) {
+void CanDriverHwSync::write(RawFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&flags), sizeof(flags));

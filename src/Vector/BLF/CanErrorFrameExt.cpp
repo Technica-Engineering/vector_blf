@@ -28,7 +28,7 @@ CanErrorFrameExt::CanErrorFrameExt() :
     ObjectHeader(ObjectType::CAN_ERROR_EXT) {
 }
 
-void CanErrorFrameExt::read(AbstractFile & is) {
+void CanErrorFrameExt::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&length), sizeof(length));
@@ -44,7 +44,7 @@ void CanErrorFrameExt::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
 }
 
-void CanErrorFrameExt::write(AbstractFile & os) {
+void CanErrorFrameExt::write(RawFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&length), sizeof(length));

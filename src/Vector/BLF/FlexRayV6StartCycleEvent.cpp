@@ -28,7 +28,7 @@ FlexRayV6StartCycleEvent::FlexRayV6StartCycleEvent() :
     ObjectHeader(ObjectType::FLEXRAY_CYCLE) {
 }
 
-void FlexRayV6StartCycleEvent::read(AbstractFile & is) {
+void FlexRayV6StartCycleEvent::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
@@ -41,7 +41,7 @@ void FlexRayV6StartCycleEvent::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&reservedFlexRayV6StartCycleEvent), sizeof(reservedFlexRayV6StartCycleEvent));
 }
 
-void FlexRayV6StartCycleEvent::write(AbstractFile & os) {
+void FlexRayV6StartCycleEvent::write(RawFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&dir), sizeof(dir));

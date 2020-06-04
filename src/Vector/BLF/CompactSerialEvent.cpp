@@ -30,13 +30,13 @@ DWORD CompactSerialEvent::calculateObjectSize() const {
         static_cast<DWORD>(compactData.size());
 }
 
-void CompactSerialEvent::read(AbstractFile & is) {
+void CompactSerialEvent::read(RawFile & is) {
     is.read(reinterpret_cast<char *>(&compactLength), sizeof(compactLength));
     is.read(reinterpret_cast<char *>(compactData.data()), static_cast<std::streamsize>(compactData.size()));
     // @note might be extended in future versions
 }
 
-void CompactSerialEvent::write(AbstractFile & os) {
+void CompactSerialEvent::write(RawFile & os) {
     os.write(reinterpret_cast<char *>(&compactLength), sizeof(compactLength));
     os.write(reinterpret_cast<char *>(&compactData), sizeof(compactData));
 }

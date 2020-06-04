@@ -28,7 +28,7 @@ LinSleepModeEvent::LinSleepModeEvent() :
     ObjectHeader(ObjectType::LIN_SLEEP) {
 }
 
-void LinSleepModeEvent::read(AbstractFile & is) {
+void LinSleepModeEvent::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&reason), sizeof(reason));
@@ -36,7 +36,7 @@ void LinSleepModeEvent::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&reservedLinSleepModeEvent), sizeof(reservedLinSleepModeEvent));
 }
 
-void LinSleepModeEvent::write(AbstractFile & os) {
+void LinSleepModeEvent::write(RawFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&reason), sizeof(reason));

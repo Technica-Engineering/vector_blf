@@ -28,7 +28,7 @@ FlexRayData::FlexRayData() :
     ObjectHeader(ObjectType::FLEXRAY_DATA) {
 }
 
-void FlexRayData::read(AbstractFile & is) {
+void FlexRayData::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&mux), sizeof(mux));
@@ -41,7 +41,7 @@ void FlexRayData::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(dataBytes.data()), static_cast<std::streamsize>(dataBytes.size()));
 }
 
-void FlexRayData::write(AbstractFile & os) {
+void FlexRayData::write(RawFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&mux), sizeof(mux));

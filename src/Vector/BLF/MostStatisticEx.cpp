@@ -28,7 +28,7 @@ MostStatisticEx::MostStatisticEx() :
     ObjectHeader2(ObjectType::MOST_STATISTICEX) {
 }
 
-void MostStatisticEx::read(AbstractFile & is) {
+void MostStatisticEx::read(RawFile & is) {
     ObjectHeader2::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&reservedMostStatisticEx1), sizeof(reservedMostStatisticEx1));
@@ -37,7 +37,7 @@ void MostStatisticEx::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&reservedMostStatisticEx2), sizeof(reservedMostStatisticEx2));
 }
 
-void MostStatisticEx::write(AbstractFile & os) {
+void MostStatisticEx::write(RawFile & os) {
     ObjectHeader2::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&reservedMostStatisticEx1), sizeof(reservedMostStatisticEx1));

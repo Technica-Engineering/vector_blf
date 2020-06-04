@@ -25,8 +25,8 @@
 
 #include <vector>
 
-#include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader2.h>
+#include <Vector/BLF/RawFile.h>
 #include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
@@ -42,8 +42,8 @@ namespace BLF {
 struct VECTOR_BLF_EXPORT MostEthernetPkt final : ObjectHeader2 {
     MostEthernetPkt();
 
-    void read(AbstractFile & is) override;
-    void write(AbstractFile & os) override;
+    void read(RawFile & is) override;
+    void write(RawFile & os) override;
     DWORD calculateObjectSize() const override;
 
     /**

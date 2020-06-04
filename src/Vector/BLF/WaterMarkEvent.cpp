@@ -28,13 +28,13 @@ WaterMarkEvent::WaterMarkEvent() :
     ObjectHeader(ObjectType::WATER_MARK_EVENT) {
 }
 
-void WaterMarkEvent::read(AbstractFile & is) {
+void WaterMarkEvent::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&queueState), sizeof(queueState));
     is.read(reinterpret_cast<char *>(&reservedWaterMarkEvent), sizeof(reservedWaterMarkEvent));
 }
 
-void WaterMarkEvent::write(AbstractFile & os) {
+void WaterMarkEvent::write(RawFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&queueState), sizeof(queueState));
     os.write(reinterpret_cast<char *>(&reservedWaterMarkEvent), sizeof(reservedWaterMarkEvent));

@@ -28,7 +28,7 @@ A429Status::A429Status() :
     ObjectHeader(ObjectType::A429_STATUS) {
 }
 
-void A429Status::read(AbstractFile & is) {
+void A429Status::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
@@ -41,7 +41,7 @@ void A429Status::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&maxBitrate), sizeof(maxBitrate));
 }
 
-void A429Status::write(AbstractFile & os) {
+void A429Status::write(RawFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&dir), sizeof(dir));

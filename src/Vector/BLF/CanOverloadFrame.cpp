@@ -28,14 +28,14 @@ CanOverloadFrame::CanOverloadFrame() :
     ObjectHeader(ObjectType::CAN_OVERLOAD) {
 }
 
-void CanOverloadFrame::read(AbstractFile & is) {
+void CanOverloadFrame::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&reservedCanOverloadFrame1), sizeof(reservedCanOverloadFrame1));
     is.read(reinterpret_cast<char *>(&reservedCanOverloadFrame2), sizeof(reservedCanOverloadFrame2));
 }
 
-void CanOverloadFrame::write(AbstractFile & os) {
+void CanOverloadFrame::write(RawFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&reservedCanOverloadFrame1), sizeof(reservedCanOverloadFrame1));

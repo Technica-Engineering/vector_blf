@@ -28,14 +28,14 @@ DriverOverrun::DriverOverrun() :
     ObjectHeader(ObjectType::OVERRUN_ERROR) {
 }
 
-void DriverOverrun::read(AbstractFile & is) {
+void DriverOverrun::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&busType), sizeof(busType));
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&reservedDriverOverrun), sizeof(reservedDriverOverrun));
 }
 
-void DriverOverrun::write(AbstractFile & os) {
+void DriverOverrun::write(RawFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&busType), sizeof(busType));
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));

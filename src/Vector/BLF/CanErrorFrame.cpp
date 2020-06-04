@@ -28,7 +28,7 @@ CanErrorFrame::CanErrorFrame() :
     ObjectHeader(ObjectType::CAN_ERROR) {
 }
 
-void CanErrorFrame::read(AbstractFile & is) {
+void CanErrorFrame::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&length), sizeof(length));
@@ -36,7 +36,7 @@ void CanErrorFrame::read(AbstractFile & is) {
         is.read(reinterpret_cast<char *>(&reservedCanErrorFrame), sizeof(reservedCanErrorFrame));
 }
 
-void CanErrorFrame::write(AbstractFile & os) {
+void CanErrorFrame::write(RawFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&length), sizeof(length));

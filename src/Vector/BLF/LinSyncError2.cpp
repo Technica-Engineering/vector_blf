@@ -28,14 +28,14 @@ LinSyncError2::LinSyncError2() :
     ObjectHeader(ObjectType::LIN_SYN_ERROR2) {
 }
 
-void LinSyncError2::read(AbstractFile & is) {
+void LinSyncError2::read(RawFile & is) {
     ObjectHeader::read(is);
     LinSynchFieldEvent::read(is);
     is.read(reinterpret_cast<char *>(timeDiff.data()), static_cast<std::streamsize>(timeDiff.size() * sizeof(WORD)));
     // @note might be extended in future versions
 }
 
-void LinSyncError2::write(AbstractFile & os) {
+void LinSyncError2::write(RawFile & os) {
     ObjectHeader::write(os);
     LinSynchFieldEvent::write(os);
     os.write(reinterpret_cast<char *>(timeDiff.data()), static_cast<std::streamsize>(timeDiff.size() * sizeof(WORD)));

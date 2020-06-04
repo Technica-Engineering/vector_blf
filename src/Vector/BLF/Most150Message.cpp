@@ -28,7 +28,7 @@ Most150Message::Most150Message() :
     ObjectHeader2(ObjectType::MOST_150_MESSAGE) {
 }
 
-void Most150Message::read(AbstractFile & is) {
+void Most150Message::read(RawFile & is) {
     ObjectHeader2::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
@@ -53,7 +53,7 @@ void Most150Message::read(AbstractFile & is) {
     is.seekg(objectSize % 4, std::ios_base::cur);
 }
 
-void Most150Message::write(AbstractFile & os) {
+void Most150Message::write(RawFile & os) {
     /* pre processing */
     msgLen = static_cast<DWORD>(msg.size());
 

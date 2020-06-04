@@ -28,7 +28,7 @@ LinSchedulerModeChange::LinSchedulerModeChange() :
     ObjectHeader(ObjectType::LIN_SCHED_MODCH) {
 }
 
-void LinSchedulerModeChange::read(AbstractFile & is) {
+void LinSchedulerModeChange::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&oldMode), sizeof(oldMode));
@@ -36,7 +36,7 @@ void LinSchedulerModeChange::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&reservedLinSchedulerModeChange), sizeof(reservedLinSchedulerModeChange));
 }
 
-void LinSchedulerModeChange::write(AbstractFile & os) {
+void LinSchedulerModeChange::write(RawFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&oldMode), sizeof(oldMode));

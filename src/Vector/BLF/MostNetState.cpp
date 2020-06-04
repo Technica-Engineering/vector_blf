@@ -28,7 +28,7 @@ MostNetState::MostNetState() :
     ObjectHeader2(ObjectType::MOST_NETSTATE) {
 }
 
-void MostNetState::read(AbstractFile & is) {
+void MostNetState::read(RawFile & is) {
     ObjectHeader2::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&stateNew), sizeof(stateNew));
@@ -36,7 +36,7 @@ void MostNetState::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&reservedMostNetState), sizeof(reservedMostNetState));
 }
 
-void MostNetState::write(AbstractFile & os) {
+void MostNetState::write(RawFile & os) {
     ObjectHeader2::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&stateNew), sizeof(stateNew));

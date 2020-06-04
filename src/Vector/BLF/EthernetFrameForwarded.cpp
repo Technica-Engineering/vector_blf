@@ -28,7 +28,7 @@ EthernetFrameForwarded::EthernetFrameForwarded() :
     ObjectHeader(ObjectType::ETHERNET_FRAME_FORWARDED) {
 }
 
-void EthernetFrameForwarded::read(AbstractFile & is) {
+void EthernetFrameForwarded::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&structLength), sizeof(structLength));
     is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
@@ -44,7 +44,7 @@ void EthernetFrameForwarded::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(frameData.data()), frameLength);
 }
 
-void EthernetFrameForwarded::write(AbstractFile & os) {
+void EthernetFrameForwarded::write(RawFile & os) {
     /* pre processing */
     structLength = calculateStructLength();
     frameLength = static_cast<WORD>(frameData.size());

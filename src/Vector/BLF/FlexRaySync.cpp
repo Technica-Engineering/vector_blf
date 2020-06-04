@@ -28,7 +28,7 @@ FlexRaySync::FlexRaySync() :
     ObjectHeader(ObjectType::FLEXRAY_SYNC) {
 }
 
-void FlexRaySync::read(AbstractFile & is) {
+void FlexRaySync::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&mux), sizeof(mux));
@@ -42,7 +42,7 @@ void FlexRaySync::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&cycle), sizeof(cycle));
 }
 
-void FlexRaySync::write(AbstractFile & os) {
+void FlexRaySync::write(RawFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&mux), sizeof(mux));

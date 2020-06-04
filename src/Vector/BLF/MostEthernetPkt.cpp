@@ -28,7 +28,7 @@ MostEthernetPkt::MostEthernetPkt() :
     ObjectHeader2(ObjectType::MOST_ETHERNET_PKT) {
 }
 
-void MostEthernetPkt::read(AbstractFile & is) {
+void MostEthernetPkt::read(RawFile & is) {
     ObjectHeader2::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
@@ -53,7 +53,7 @@ void MostEthernetPkt::read(AbstractFile & is) {
     is.seekg(objectSize % 4, std::ios_base::cur);
 }
 
-void MostEthernetPkt::write(AbstractFile & os) {
+void MostEthernetPkt::write(RawFile & os) {
     /* pre processing */
     pktDataLength = static_cast<DWORD>(pktData.size());
 

@@ -28,7 +28,7 @@ LinMessage::LinMessage() :
     ObjectHeader(ObjectType::LIN_MESSAGE) {
 }
 
-void LinMessage::read(AbstractFile & is) {
+void LinMessage::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&id), sizeof(id));
@@ -44,7 +44,7 @@ void LinMessage::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&reservedLinMessage2), sizeof(reservedLinMessage2));
 }
 
-void LinMessage::write(AbstractFile & os) {
+void LinMessage::write(RawFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&id), sizeof(id));

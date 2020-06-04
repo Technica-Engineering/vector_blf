@@ -28,7 +28,7 @@ TriggerCondition::TriggerCondition() :
     ObjectHeader(ObjectType::TRIGGER_CONDITION) {
 }
 
-void TriggerCondition::read(AbstractFile & is) {
+void TriggerCondition::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&state), sizeof(state));
     is.read(reinterpret_cast<char *>(&triggerBlockNameLength), sizeof(triggerBlockNameLength));
@@ -39,7 +39,7 @@ void TriggerCondition::read(AbstractFile & is) {
     is.read(const_cast<char *>(triggerCondition.data()), triggerConditionLength);
 }
 
-void TriggerCondition::write(AbstractFile & os) {
+void TriggerCondition::write(RawFile & os) {
     /* pre processing */
     triggerBlockNameLength = static_cast<DWORD>(triggerBlockName.size());
     triggerConditionLength = static_cast<DWORD>(triggerCondition.size());

@@ -28,7 +28,7 @@ LinMessage2::LinMessage2() :
     ObjectHeader(ObjectType::LIN_MESSAGE2, 1) {
 }
 
-void LinMessage2::read(AbstractFile & is) {
+void LinMessage2::read(RawFile & is) {
     ObjectHeader::read(is);
     LinDatabyteTimestampEvent::read(is);
     is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
@@ -60,7 +60,7 @@ void LinMessage2::read(AbstractFile & is) {
     // @note might be extended in future versions
 }
 
-void LinMessage2::write(AbstractFile & os) {
+void LinMessage2::write(RawFile & os) {
     ObjectHeader::write(os);
     LinDatabyteTimestampEvent::write(os);
     os.write(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));

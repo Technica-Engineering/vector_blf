@@ -28,7 +28,7 @@ LinReceiveError2::LinReceiveError2() :
     ObjectHeader(ObjectType::LIN_RCV_ERROR2, 1) {
 }
 
-void LinReceiveError2::read(AbstractFile & is) {
+void LinReceiveError2::read(RawFile & is) {
     ObjectHeader::read(is);
     LinDatabyteTimestampEvent::read(is);
     is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
@@ -48,7 +48,7 @@ void LinReceiveError2::read(AbstractFile & is) {
     // @note might be extended in future versions
 }
 
-void LinReceiveError2::write(AbstractFile & os) {
+void LinReceiveError2::write(RawFile & os) {
     ObjectHeader::write(os);
     LinDatabyteTimestampEvent::write(os);
     os.write(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));

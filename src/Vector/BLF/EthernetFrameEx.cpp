@@ -28,7 +28,7 @@ EthernetFrameEx::EthernetFrameEx() :
     ObjectHeader(ObjectType::ETHERNET_FRAME_EX) {
 }
 
-void EthernetFrameEx::read(AbstractFile & is) {
+void EthernetFrameEx::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&structLength), sizeof(structLength));
     is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
@@ -44,7 +44,7 @@ void EthernetFrameEx::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(frameData.data()), frameLength);
 }
 
-void EthernetFrameEx::write(AbstractFile & os) {
+void EthernetFrameEx::write(RawFile & os) {
     /* pre processing */
     structLength = calculateStructLength();
     frameLength = static_cast<WORD>(frameData.size());

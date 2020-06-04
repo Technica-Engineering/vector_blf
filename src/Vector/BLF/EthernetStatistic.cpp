@@ -28,7 +28,7 @@ EthernetStatistic::EthernetStatistic() :
     ObjectHeader(ObjectType::ETHERNET_STATISTIC) {
 }
 
-void EthernetStatistic::read(AbstractFile & is) {
+void EthernetStatistic::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&reservedEthernetStatistic1), sizeof(reservedEthernetStatistic1));
@@ -45,7 +45,7 @@ void EthernetStatistic::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&reservedEthernetStatistic3), sizeof(reservedEthernetStatistic3));
 }
 
-void EthernetStatistic::write(AbstractFile & os) {
+void EthernetStatistic::write(RawFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&reservedEthernetStatistic1), sizeof(reservedEthernetStatistic1));

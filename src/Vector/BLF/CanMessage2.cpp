@@ -28,7 +28,7 @@ CanMessage2::CanMessage2() :
     ObjectHeader(ObjectType::CAN_MESSAGE2) {
 }
 
-void CanMessage2::read(AbstractFile & is) {
+void CanMessage2::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
@@ -42,7 +42,7 @@ void CanMessage2::read(AbstractFile & is) {
     // @note might be extended in future versions
 }
 
-void CanMessage2::write(AbstractFile & os) {
+void CanMessage2::write(RawFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&flags), sizeof(flags));

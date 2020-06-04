@@ -28,7 +28,7 @@ Most50Message::Most50Message() :
     ObjectHeader2(ObjectType::MOST_50_MESSAGE) {
 }
 
-void Most50Message::read(AbstractFile & is) {
+void Most50Message::read(RawFile & is) {
     ObjectHeader2::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
@@ -52,7 +52,7 @@ void Most50Message::read(AbstractFile & is) {
     is.seekg(objectSize % 4, std::ios_base::cur);
 }
 
-void Most50Message::write(AbstractFile & os) {
+void Most50Message::write(RawFile & os) {
     /* pre processing */
     msgLen = static_cast<DWORD>(msg.size());
 

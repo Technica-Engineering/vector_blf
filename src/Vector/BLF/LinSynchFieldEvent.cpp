@@ -24,13 +24,13 @@
 namespace Vector {
 namespace BLF {
 
-void LinSynchFieldEvent::read(AbstractFile & is) {
+void LinSynchFieldEvent::read(RawFile & is) {
     LinBusEvent::read(is);
     is.read(reinterpret_cast<char *>(&synchBreakLength), sizeof(synchBreakLength));
     is.read(reinterpret_cast<char *>(&synchDelLength), sizeof(synchDelLength));
 }
 
-void LinSynchFieldEvent::write(AbstractFile & os) {
+void LinSynchFieldEvent::write(RawFile & os) {
     LinBusEvent::write(os);
     os.write(reinterpret_cast<char *>(&synchBreakLength), sizeof(synchBreakLength));
     os.write(reinterpret_cast<char *>(&synchDelLength), sizeof(synchDelLength));

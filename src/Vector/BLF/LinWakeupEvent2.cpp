@@ -28,7 +28,7 @@ LinWakeupEvent2::LinWakeupEvent2() :
     ObjectHeader(ObjectType::LIN_WAKEUP2) {
 }
 
-void LinWakeupEvent2::read(AbstractFile & is) {
+void LinWakeupEvent2::read(RawFile & is) {
     ObjectHeader::read(is);
     LinBusEvent::read(is);
     is.read(reinterpret_cast<char *>(&lengthInfo), sizeof(lengthInfo));
@@ -39,7 +39,7 @@ void LinWakeupEvent2::read(AbstractFile & is) {
     // @note might be extended in future versions
 }
 
-void LinWakeupEvent2::write(AbstractFile & os) {
+void LinWakeupEvent2::write(RawFile & os) {
     ObjectHeader::write(os);
     LinBusEvent::write(os);
     os.write(reinterpret_cast<char *>(&lengthInfo), sizeof(lengthInfo));

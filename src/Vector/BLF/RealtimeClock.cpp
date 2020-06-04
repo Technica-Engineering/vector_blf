@@ -28,13 +28,13 @@ RealtimeClock::RealtimeClock() :
     ObjectHeader(ObjectType::REALTIMECLOCK) {
 }
 
-void RealtimeClock::read(AbstractFile & is) {
+void RealtimeClock::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&time), sizeof(time));
     is.read(reinterpret_cast<char *>(&loggingOffset), sizeof(loggingOffset));
 }
 
-void RealtimeClock::write(AbstractFile & os) {
+void RealtimeClock::write(RawFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&time), sizeof(time));
     os.write(reinterpret_cast<char *>(&loggingOffset), sizeof(loggingOffset));

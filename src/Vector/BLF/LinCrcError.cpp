@@ -28,7 +28,7 @@ LinCrcError::LinCrcError() :
     ObjectHeader(ObjectType::LIN_CRC_ERROR) {
 }
 
-void LinCrcError::read(AbstractFile & is) {
+void LinCrcError::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&id), sizeof(id));
@@ -44,7 +44,7 @@ void LinCrcError::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&reservedLinCrcError2), sizeof(reservedLinCrcError2));
 }
 
-void LinCrcError::write(AbstractFile & os) {
+void LinCrcError::write(RawFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&id), sizeof(id));

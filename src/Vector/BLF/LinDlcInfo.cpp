@@ -28,7 +28,7 @@ LinDlcInfo::LinDlcInfo() :
     ObjectHeader(ObjectType::LIN_DLC_INFO) {
 }
 
-void LinDlcInfo::read(AbstractFile & is) {
+void LinDlcInfo::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&id), sizeof(id));
@@ -36,7 +36,7 @@ void LinDlcInfo::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&reservedLinDlcInfo), sizeof(reservedLinDlcInfo));
 }
 
-void LinDlcInfo::write(AbstractFile & os) {
+void LinDlcInfo::write(RawFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&id), sizeof(id));

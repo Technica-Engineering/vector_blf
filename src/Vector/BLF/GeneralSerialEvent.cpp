@@ -24,7 +24,7 @@
 namespace Vector {
 namespace BLF {
 
-void GeneralSerialEvent::read(AbstractFile & is) {
+void GeneralSerialEvent::read(RawFile & is) {
     is.read(reinterpret_cast<char *>(&dataLength), sizeof(dataLength));
     is.read(reinterpret_cast<char *>(&timeStampsLength), sizeof(timeStampsLength));
     is.read(reinterpret_cast<char *>(&reservedGeneralSerialEvent), sizeof(reservedGeneralSerialEvent));
@@ -35,7 +35,7 @@ void GeneralSerialEvent::read(AbstractFile & is) {
     // @note might be extended in future versions
 }
 
-void GeneralSerialEvent::write(AbstractFile & os) {
+void GeneralSerialEvent::write(RawFile & os) {
     /* pre processing */
     dataLength = static_cast<DWORD>(data.size());
     timeStampsLength = static_cast<DWORD>(timeStamps.size() * sizeof(LONGLONG));

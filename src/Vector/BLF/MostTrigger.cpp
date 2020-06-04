@@ -28,7 +28,7 @@ MostTrigger::MostTrigger() :
     ObjectHeader2(ObjectType::MOST_TRIGGER) {
 }
 
-void MostTrigger::read(AbstractFile & is) {
+void MostTrigger::read(RawFile & is) {
     ObjectHeader2::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&reservedMostTrigger), sizeof(reservedMostTrigger));
@@ -38,7 +38,7 @@ void MostTrigger::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&currentTriggerValue), sizeof(currentTriggerValue));
 }
 
-void MostTrigger::write(AbstractFile & os) {
+void MostTrigger::write(RawFile & os) {
     ObjectHeader2::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&reservedMostTrigger), sizeof(reservedMostTrigger));

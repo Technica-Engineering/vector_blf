@@ -28,7 +28,7 @@ MostStress::MostStress() :
     ObjectHeader2(ObjectType::MOST_STRESS) {
 }
 
-void MostStress::read(AbstractFile & is) {
+void MostStress::read(RawFile & is) {
     ObjectHeader2::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&state), sizeof(state));
@@ -36,7 +36,7 @@ void MostStress::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&reservedMostStress), sizeof(reservedMostStress));
 }
 
-void MostStress::write(AbstractFile & os) {
+void MostStress::write(RawFile & os) {
     ObjectHeader2::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&state), sizeof(state));

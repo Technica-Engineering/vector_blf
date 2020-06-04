@@ -21,7 +21,6 @@
 
 #include <Vector/BLF/ObjectHeaderBase.h>
 
-#include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/Exceptions.h>
 
 namespace Vector {
@@ -32,7 +31,7 @@ ObjectHeaderBase::ObjectHeaderBase(const WORD headerVersion, const ObjectType ob
     objectType(objectType) {
 }
 
-void ObjectHeaderBase::read(AbstractFile & is) {
+void ObjectHeaderBase::read(RawFile & is) {
     is.read(reinterpret_cast<char *>(&signature), sizeof(signature));
     if (signature != ObjectSignature)
         throw Exception("ObjectHeaderBase::read(): Object signature doesn't match at this position.");
@@ -42,7 +41,7 @@ void ObjectHeaderBase::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&objectType), sizeof(objectType));
 }
 
-void ObjectHeaderBase::write(AbstractFile & os) {
+void ObjectHeaderBase::write(RawFile & os) {
     /* pre processing */
     headerSize = calculateHeaderSize();
     objectSize = calculateObjectSize();

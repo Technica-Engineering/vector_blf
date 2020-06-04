@@ -28,7 +28,7 @@ FlexRayVFrStatus::FlexRayVFrStatus() :
     ObjectHeader(ObjectType::FR_STATUS) {
 }
 
-void FlexRayVFrStatus::read(AbstractFile & is) {
+void FlexRayVFrStatus::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&version), sizeof(version));
@@ -44,7 +44,7 @@ void FlexRayVFrStatus::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(reservedFlexRayVFrStatus2.data()), static_cast<std::streamsize>(reservedFlexRayVFrStatus2.size() * sizeof(WORD)));
 }
 
-void FlexRayVFrStatus::write(AbstractFile & os) {
+void FlexRayVFrStatus::write(RawFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&version), sizeof(version));

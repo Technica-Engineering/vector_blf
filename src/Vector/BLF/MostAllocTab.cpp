@@ -28,7 +28,7 @@ MostAllocTab::MostAllocTab() :
     ObjectHeader2(ObjectType::MOST_ALLOCTAB) {
 }
 
-void MostAllocTab::read(AbstractFile & is) {
+void MostAllocTab::read(RawFile & is) {
     ObjectHeader2::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&length), sizeof(length));
@@ -40,7 +40,7 @@ void MostAllocTab::read(AbstractFile & is) {
     is.seekg(objectSize % 4, std::ios_base::cur);
 }
 
-void MostAllocTab::write(AbstractFile & os) {
+void MostAllocTab::write(RawFile & os) {
     /* pre processing */
     length = static_cast<WORD>(tableData.size());
 

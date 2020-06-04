@@ -17,7 +17,6 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/A429Error.h
         ${CMAKE_CURRENT_SOURCE_DIR}/A429Message.h
         ${CMAKE_CURRENT_SOURCE_DIR}/A429Status.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/AbstractFile.h
         ${CMAKE_CURRENT_SOURCE_DIR}/AfdxBusStatistic.h
         ${CMAKE_CURRENT_SOURCE_DIR}/AfdxErrorEvent.h
         ${CMAKE_CURRENT_SOURCE_DIR}/AfdxFrame.h
@@ -40,7 +39,6 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/CanMessage.h
         ${CMAKE_CURRENT_SOURCE_DIR}/CanOverloadFrame.h
         ${CMAKE_CURRENT_SOURCE_DIR}/CompactSerialEvent.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/CompressedFile.h
         ${CMAKE_CURRENT_SOURCE_DIR}/DataLostBegin.h
         ${CMAKE_CURRENT_SOURCE_DIR}/DataLostEnd.h
         ${CMAKE_CURRENT_SOURCE_DIR}/DiagRequestInterpretation.h
@@ -139,13 +137,17 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/ObjectQueue.h
         ${CMAKE_CURRENT_SOURCE_DIR}/ObjectType.h
         ${CMAKE_CURRENT_SOURCE_DIR}/platform.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/RawFile.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/RawCompressedFile.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/RawUncompressedFile.h
         ${CMAKE_CURRENT_SOURCE_DIR}/RealtimeClock.h
         ${CMAKE_CURRENT_SOURCE_DIR}/SerialEvent.h
         ${CMAKE_CURRENT_SOURCE_DIR}/SingleByteSerialEvent.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/StructuredCompressedFile.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/StructuredUncompressedFile.h
         ${CMAKE_CURRENT_SOURCE_DIR}/SystemVariable.h
         ${CMAKE_CURRENT_SOURCE_DIR}/TestStructure.h
         ${CMAKE_CURRENT_SOURCE_DIR}/TriggerCondition.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/UncompressedFile.h
         ${CMAKE_CURRENT_SOURCE_DIR}/Unknown115.h
         ${CMAKE_CURRENT_SOURCE_DIR}/VarObjectHeader.h
         ${CMAKE_CURRENT_SOURCE_DIR}/VectorTypes.h
@@ -179,7 +181,6 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/CanMessage.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/CanOverloadFrame.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/CompactSerialEvent.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/CompressedFile.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/DataLostBegin.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/DataLostEnd.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/DiagRequestInterpretation.cpp
@@ -275,13 +276,16 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/ObjectHeaderBase.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/ObjectHeader.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/ObjectQueue.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/RawCompressedFile.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/RawUncompressedFile.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/RealtimeClock.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/SerialEvent.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/SingleByteSerialEvent.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/StructuredCompressedFile.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/StructuredUncompressedFile.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/SystemVariable.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/TestStructure.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/TriggerCondition.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/UncompressedFile.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Unknown115.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/VarObjectHeader.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/WaterMarkEvent.cpp

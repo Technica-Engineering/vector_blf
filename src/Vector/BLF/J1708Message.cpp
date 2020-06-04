@@ -28,7 +28,7 @@ J1708Message::J1708Message() :
     ObjectHeader(ObjectType::J1708_MESSAGE) { // or J1708_VIRTUAL_MSG
 }
 
-void J1708Message::read(AbstractFile & is) {
+void J1708Message::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
@@ -39,7 +39,7 @@ void J1708Message::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&reservedJ1708Message2), sizeof(reservedJ1708Message2));
 }
 
-void J1708Message::write(AbstractFile & os) {
+void J1708Message::write(RawFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&dir), sizeof(dir));

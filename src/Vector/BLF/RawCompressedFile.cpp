@@ -19,76 +19,104 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-#include <Vector/BLF/CompressedFile.h>
+#include <Vector/BLF/RawUncompressedFile.h>
 
-#undef NDEBUG
 #include <cassert>
 #include <vector>
 
 namespace Vector {
 namespace BLF {
 
-CompressedFile::~CompressedFile() {
-    close();
+RawCompressedFile::RawCompressedFile() :
+    m_file()
+{
 }
 
-bool CompressedFile::good() const {
+void RawCompressedFile::open(const char * filename, std::ios_base::openmode mode) {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    m_file.open(filename, mode);
+}
+
+bool RawCompressedFile::is_open() const {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    return m_file.is_open();
+}
+
+void RawCompressedFile::close() {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    m_file.close();
+}
+
+bool RawCompressedFile::good() const {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
     return m_file.good();
 }
 
-bool CompressedFile::eof() const {
+bool RawCompressedFile::eof() const {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
     return m_file.eof();
 }
 
-std::streamsize CompressedFile::gcount() const {
+std::streamsize RawCompressedFile::gcount() const {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
     return m_file.gcount();
 }
 
-void CompressedFile::read(char * s, std::streamsize n) {
+void RawCompressedFile::read(char * s, std::streamsize n) {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
     m_file.read(s, n);
 }
 
-std::streampos CompressedFile::tellg() {
+std::streampos RawCompressedFile::tellg() {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
     return m_file.tellg();
 }
 
-void CompressedFile::seekg(std::streampos pos) {
+void RawCompressedFile::seekg(const std::streampos pos) {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
     m_file.seekg(pos);
 }
 
-void CompressedFile::seekg(std::streamoff off, const std::ios_base::seekdir way) {
+void RawCompressedFile::seekg(const std::streamoff off, const std::ios_base::seekdir way) {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
     m_file.seekg(off, way);
 }
 
-void CompressedFile::write(const char * s, std::streamsize n) {
+void RawCompressedFile::write(const char * s, std::streamsize n) {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
     m_file.write(s, n);
 }
 
-void CompressedFile::seekp(const std::streampos pos) {
+std::streampos RawCompressedFile::tellp() {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    return m_file.tellp();
+}
+
+void RawCompressedFile::seekp(const std::streampos pos) {
     /* only to be used to write fileStatistics on close */
     assert(pos == 0);
 
@@ -98,42 +126,17 @@ void CompressedFile::seekp(const std::streampos pos) {
     m_file.seekp(pos);
 }
 
-void CompressedFile::seekp(const std::streamoff off, const std::ios_base::seekdir way) {
+void RawCompressedFile::seekp(const std::streamoff off, const std::ios_base::seekdir way) {
     /* only to be used to skip padding bytes */
     assert(off >= 0);
     assert(way == std::ios_base::cur);
 
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
     /* ensure zeros are written */
     std::vector<char> zero(off);
-    write(zero.data(), zero.size()); // write does the lock
-}
-
-std::streampos CompressedFile::tellp() {
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    return m_file.tellp();
-}
-
-void CompressedFile::open(const char * filename, std::ios_base::openmode openMode) {
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    m_file.open(filename, openMode);
-}
-
-bool CompressedFile::is_open() const {
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    return m_file.is_open();
-}
-
-void CompressedFile::close() {
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    m_file.close();
+    m_file.write(zero.data(), zero.size());
 }
 
 }

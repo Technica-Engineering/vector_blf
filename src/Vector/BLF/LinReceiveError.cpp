@@ -28,7 +28,7 @@ LinReceiveError::LinReceiveError() :
     ObjectHeader(ObjectType::LIN_RCV_ERROR) {
 }
 
-void LinReceiveError::read(AbstractFile & is) {
+void LinReceiveError::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&id), sizeof(id));
@@ -44,7 +44,7 @@ void LinReceiveError::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&reservedLinReceiveError), sizeof(reservedLinReceiveError));
 }
 
-void LinReceiveError::write(AbstractFile & os) {
+void LinReceiveError::write(RawFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&id), sizeof(id));

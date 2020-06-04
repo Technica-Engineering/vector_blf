@@ -28,7 +28,7 @@ WlanStatistic::WlanStatistic() :
     ObjectHeader(ObjectType::WLAN_STATISTIC) {
 }
 
-void WlanStatistic::read(AbstractFile & is) {
+void WlanStatistic::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
@@ -42,7 +42,7 @@ void WlanStatistic::read(AbstractFile & is) {
     // @note might be extended in future versions
 }
 
-void WlanStatistic::write(AbstractFile & os) {
+void WlanStatistic::write(RawFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&flags), sizeof(flags));

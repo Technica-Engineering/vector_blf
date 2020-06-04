@@ -28,7 +28,7 @@ MostEcl::MostEcl() :
     ObjectHeader2(ObjectType::MOST_ECL) {
 }
 
-void MostEcl::read(AbstractFile & is) {
+void MostEcl::read(RawFile & is) {
     ObjectHeader2::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&mode), sizeof(mode));
@@ -37,7 +37,7 @@ void MostEcl::read(AbstractFile & is) {
     // @note might be extended in future versions
 }
 
-void MostEcl::write(AbstractFile & os) {
+void MostEcl::write(RawFile & os) {
     ObjectHeader2::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&mode), sizeof(mode));

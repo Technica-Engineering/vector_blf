@@ -28,7 +28,7 @@ LinUnexpectedWakeup::LinUnexpectedWakeup() :
     ObjectHeader(ObjectType::LIN_UNEXPECTED_WAKEUP) {
 }
 
-void LinUnexpectedWakeup::read(AbstractFile & is) {
+void LinUnexpectedWakeup::read(RawFile & is) {
     ObjectHeader::read(is);
     LinBusEvent::read(is);
     is.read(reinterpret_cast<char *>(&width), sizeof(width));
@@ -39,7 +39,7 @@ void LinUnexpectedWakeup::read(AbstractFile & is) {
     // @note might be extended in future versions
 }
 
-void LinUnexpectedWakeup::write(AbstractFile & os) {
+void LinUnexpectedWakeup::write(RawFile & os) {
     ObjectHeader::write(os);
     LinBusEvent::write(os);
     os.write(reinterpret_cast<char *>(&width), sizeof(width));

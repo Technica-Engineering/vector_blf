@@ -28,7 +28,7 @@ MostEthernetPktFragment::MostEthernetPktFragment() :
     ObjectHeader2(ObjectType::MOST_ETHERNET_PKT_FRAGMENT) {
 }
 
-void MostEthernetPktFragment::read(AbstractFile & is) {
+void MostEthernetPktFragment::read(RawFile & is) {
     ObjectHeader2::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&reservedMostEthernetPktFragment1), sizeof(reservedMostEthernetPktFragment1));
@@ -51,7 +51,7 @@ void MostEthernetPktFragment::read(AbstractFile & is) {
     is.seekg(objectSize % 4, std::ios_base::cur);
 }
 
-void MostEthernetPktFragment::write(AbstractFile & os) {
+void MostEthernetPktFragment::write(RawFile & os) {
     /* pre processing */
     firstDataLen = static_cast<DWORD>(firstData.size());
 

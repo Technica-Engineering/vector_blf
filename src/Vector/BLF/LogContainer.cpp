@@ -32,7 +32,7 @@ LogContainer::LogContainer() :
     ObjectHeaderBase(1, ObjectType::LOG_CONTAINER) {
 }
 
-void LogContainer::read(AbstractFile & is) {
+void LogContainer::read(RawFile & is) {
     ObjectHeaderBase::read(is);
     is.read(reinterpret_cast<char *>(&compressionMethod), sizeof(compressionMethod));
     is.read(reinterpret_cast<char *>(&reservedLogContainer1), sizeof(reservedLogContainer1));
@@ -47,7 +47,7 @@ void LogContainer::read(AbstractFile & is) {
     is.seekg(objectSize % 4, std::ios_base::cur);
 }
 
-void LogContainer::write(AbstractFile & os) {
+void LogContainer::write(RawFile & os) {
     /* pre processing */
     compressedFileSize = static_cast<DWORD>(compressedFile.size());
 

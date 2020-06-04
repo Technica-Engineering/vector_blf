@@ -28,7 +28,7 @@ MostStatistic::MostStatistic() :
     ObjectHeader(ObjectType::MOST_STATISTIC) {
 }
 
-void MostStatistic::read(AbstractFile & is) {
+void MostStatistic::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&pktCnt), sizeof(pktCnt));
@@ -37,7 +37,7 @@ void MostStatistic::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&bufferLevel), sizeof(bufferLevel));
 }
 
-void MostStatistic::write(AbstractFile & os) {
+void MostStatistic::write(RawFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&pktCnt), sizeof(pktCnt));

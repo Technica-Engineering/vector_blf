@@ -28,7 +28,7 @@ GpsEvent::GpsEvent() :
     ObjectHeader(ObjectType::GPS_EVENT) {
 }
 
-void GpsEvent::read(AbstractFile & is) {
+void GpsEvent::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
@@ -40,7 +40,7 @@ void GpsEvent::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&course), sizeof(course));
 }
 
-void GpsEvent::write(AbstractFile & os) {
+void GpsEvent::write(RawFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&flags), sizeof(flags));
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));

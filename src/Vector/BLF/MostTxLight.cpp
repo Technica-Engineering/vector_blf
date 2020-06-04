@@ -28,14 +28,14 @@ MostTxLight::MostTxLight() :
     ObjectHeader2(ObjectType::MOST_TXLIGHT) {
 }
 
-void MostTxLight::read(AbstractFile & is) {
+void MostTxLight::read(RawFile & is) {
     ObjectHeader2::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&state), sizeof(state));
     is.read(reinterpret_cast<char *>(&reservedMostTxLight), sizeof(reservedMostTxLight));
 }
 
-void MostTxLight::write(AbstractFile & os) {
+void MostTxLight::write(RawFile & os) {
     ObjectHeader2::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&state), sizeof(state));

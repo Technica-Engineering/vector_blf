@@ -28,7 +28,7 @@ MostSystemEvent::MostSystemEvent() :
     ObjectHeader2(ObjectType::MOST_SYSTEM_EVENT) {
 }
 
-void MostSystemEvent::read(AbstractFile & is) {
+void MostSystemEvent::read(RawFile & is) {
     ObjectHeader2::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&id), sizeof(id));
@@ -37,7 +37,7 @@ void MostSystemEvent::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&reservedMostSystemEvent), sizeof(reservedMostSystemEvent));
 }
 
-void MostSystemEvent::write(AbstractFile & os) {
+void MostSystemEvent::write(RawFile & os) {
     ObjectHeader2::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&id), sizeof(id));

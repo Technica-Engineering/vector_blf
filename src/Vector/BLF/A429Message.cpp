@@ -28,7 +28,7 @@ A429Message::A429Message() :
     ObjectHeader(ObjectType::A429_MESSAGE) {
 }
 
-void A429Message::read(AbstractFile & is) {
+void A429Message::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(a429Data.data()), static_cast<std::streamsize>(a429Data.size()));
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
@@ -49,7 +49,7 @@ void A429Message::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&reservedA429Message5), sizeof(reservedA429Message5));
 }
 
-void A429Message::write(AbstractFile & os) {
+void A429Message::write(RawFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(a429Data.data()), static_cast<std::streamsize>(a429Data.size()));
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));

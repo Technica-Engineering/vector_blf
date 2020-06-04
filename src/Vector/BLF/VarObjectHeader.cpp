@@ -28,7 +28,7 @@ VarObjectHeader::VarObjectHeader(const ObjectType objectType) :
     ObjectHeaderBase(1, objectType) {
 }
 
-void VarObjectHeader::read(AbstractFile & is) {
+void VarObjectHeader::read(RawFile & is) {
     ObjectHeaderBase::read(is);
     is.read(reinterpret_cast<char *>(&objectFlags), sizeof(objectFlags));
     is.read(reinterpret_cast<char *>(&objectStaticSize), sizeof(objectStaticSize));
@@ -36,7 +36,7 @@ void VarObjectHeader::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&objectTimeStamp), sizeof(objectTimeStamp));
 }
 
-void VarObjectHeader::write(AbstractFile & os) {
+void VarObjectHeader::write(RawFile & os) {
     ObjectHeaderBase::write(os);
     os.write(reinterpret_cast<char *>(&objectFlags), sizeof(objectFlags));
     os.write(reinterpret_cast<char *>(&objectStaticSize), sizeof(objectStaticSize));

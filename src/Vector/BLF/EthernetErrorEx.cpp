@@ -28,7 +28,7 @@ EthernetErrorEx::EthernetErrorEx() :
     ObjectHeader(ObjectType::ETHERNET_ERROR_EX) {
 }
 
-void EthernetErrorEx::read(AbstractFile & is) {
+void EthernetErrorEx::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&structLength), sizeof(structLength));
     is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
@@ -44,7 +44,7 @@ void EthernetErrorEx::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(frameData.data()), frameLength);
 }
 
-void EthernetErrorEx::write(AbstractFile & os) {
+void EthernetErrorEx::write(RawFile & os) {
     /* pre processing */
     structLength = calculateStructLength();
     frameLength = static_cast<WORD>(frameData.size());

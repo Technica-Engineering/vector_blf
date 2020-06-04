@@ -27,11 +27,12 @@
 #include <fstream>
 #include <thread>
 
-#include <Vector/BLF/CompressedFile.h>
 #include <Vector/BLF/FileStatistics.h>
 #include <Vector/BLF/ObjectHeaderBase.h>
-#include <Vector/BLF/ObjectQueue.h>
-#include <Vector/BLF/UncompressedFile.h>
+#include <Vector/BLF/RawCompressedFile.h>
+#include <Vector/BLF/RawUncompressedFile.h>
+#include <Vector/BLF/StructuredCompressedFile.h>
+#include <Vector/BLF/StructuredUncompressedFile.h>
 #include <Vector/BLF/VectorTypes.h>
 
 // UNKNOWN = 0
@@ -171,8 +172,6 @@ namespace BLF {
 
 /**
  * File
- *
- * This is similar to std::fstream for BLFs
  */
 class VECTOR_BLF_EXPORT File final {
   public:
@@ -297,56 +296,24 @@ class VECTOR_BLF_EXPORT File final {
     static ObjectHeaderBase * createObject(const ObjectType type);
 
   private:
+    /** raw compressed file */
+    RawCompressedFile m_rawCompressedFile;
+
+    /** structured compressed file */
+    StructuredCompressedFile m_structuredCompressedFile;
+
+    /** raw uncompressed file */
+    RawUncompressedFile m_rawUncompressedFile;
+
+    /** structured uncompressed file */
+    StructuredUncompressedFile m_structuredUncompressedFile;
+
     /**
      * Open mode
      */
     std::ios_base::openmode m_openMode {};
 
-    /* read/write queue */
-
-    /**
-     * read/write queue
-     *
-     * When the write method is called the object is enqueued here, so that it returns quickly to the calling
-     * application. The readWriteThread gets the objects out of the queue and puts them into the compressedFile.
-     *
-     * When the read method is called the object is taken out of the queue, so that it returns quickly to the calling
-     * application. If there are no objects in the queue, the methods waits for the readWriteThread to finish.
-     * The readWriteThread reads objects from the compressedfile and puts them into the queue.
-     */
-    ObjectQueue<ObjectHeaderBase> m_readWriteQueue {};
-
-    /* uncompressed file */
-
-    /**
-     * uncompressed file
-     *
-     * This file contains the data, contained in the (compressed) log containers.
-     * The readWriteThread transfers data from/to here into the readWriteQueue.
-     * The compressionThread transfers data from/to here into the uncompressedFile.
-     */
-    UncompressedFile m_uncompressedFile {};
-
-    /**
-     * thread between readWriteQueue and uncompressedFile
-     */
-    std::thread m_uncompressedFileThread {};
-
-    /**
-     * thread still running
-     */
-    std::atomic<bool> m_uncompressedFileThreadRunning {};
-
     /* compressed file */
-
-    /**
-     * compressed file
-     *
-     * This file is actually the fstream, so the actual BLF data.
-     * It mainly contains the FileStatistics and several LogContainers carrying the different objects.
-     * The compressionThread transfers data from/to here into the compressedFile.
-     */
-    CompressedFile m_compressedFile {};
 
     /**
      * thread between uncompressedFile and compressedFile
@@ -357,6 +324,18 @@ class VECTOR_BLF_EXPORT File final {
      * thread still running
      */
     std::atomic<bool> m_compressedFileThreadRunning {};
+
+    /* uncompressed file */
+
+    /**
+     * thread between readWriteQueue and uncompressedFile
+     */
+    std::thread m_uncompressedFileThread {};
+
+    /**
+     * thread still running
+     */
+    std::atomic<bool> m_uncompressedFileThreadRunning {};
 
     /* internal functions */
 

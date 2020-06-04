@@ -28,7 +28,7 @@ WlanFrame::WlanFrame() :
     ObjectHeader(ObjectType::WLAN_FRAME) {
 }
 
-void WlanFrame::read(AbstractFile & is) {
+void WlanFrame::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
@@ -45,7 +45,7 @@ void WlanFrame::read(AbstractFile & is) {
     is.seekg(objectSize % 4, std::ios_base::cur);
 }
 
-void WlanFrame::write(AbstractFile & os) {
+void WlanFrame::write(RawFile & os) {
     /* pre processing */
     frameLength = static_cast<WORD>(frameData.size());
 

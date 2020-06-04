@@ -28,7 +28,7 @@ LinDisturbanceEvent::LinDisturbanceEvent() :
     ObjectHeader(ObjectType::LIN_DISTURBANCE_EVENT) {
 }
 
-void LinDisturbanceEvent::read(AbstractFile & is) {
+void LinDisturbanceEvent::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&id), sizeof(id));
@@ -41,7 +41,7 @@ void LinDisturbanceEvent::read(AbstractFile & is) {
     // @note might be extended in future versions
 }
 
-void LinDisturbanceEvent::write(AbstractFile & os) {
+void LinDisturbanceEvent::write(RawFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&id), sizeof(id));

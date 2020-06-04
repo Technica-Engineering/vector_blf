@@ -28,7 +28,7 @@ MostGenReg::MostGenReg() :
     ObjectHeader2(ObjectType::MOST_GENREG) {
 }
 
-void MostGenReg::read(AbstractFile & is) {
+void MostGenReg::read(RawFile & is) {
     ObjectHeader2::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&subType), sizeof(subType));
@@ -40,7 +40,7 @@ void MostGenReg::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&regValue), sizeof(regValue));
 }
 
-void MostGenReg::write(AbstractFile & os) {
+void MostGenReg::write(RawFile & os) {
     ObjectHeader2::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&subType), sizeof(subType));

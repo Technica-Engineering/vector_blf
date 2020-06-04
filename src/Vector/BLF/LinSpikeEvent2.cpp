@@ -28,7 +28,7 @@ LinSpikeEvent2::LinSpikeEvent2() :
     ObjectHeader(ObjectType::LIN_SPIKE_EVENT2) {
 }
 
-void LinSpikeEvent2::read(AbstractFile & is) {
+void LinSpikeEvent2::read(RawFile & is) {
     ObjectHeader::read(is);
     LinBusEvent::read(is);
     is.read(reinterpret_cast<char *>(&width), sizeof(width));
@@ -38,7 +38,7 @@ void LinSpikeEvent2::read(AbstractFile & is) {
     // @note might be extended in future versions
 }
 
-void LinSpikeEvent2::write(AbstractFile & os) {
+void LinSpikeEvent2::write(RawFile & os) {
     ObjectHeader::write(os);
     LinBusEvent::write(os);
     os.write(reinterpret_cast<char *>(&width), sizeof(width));

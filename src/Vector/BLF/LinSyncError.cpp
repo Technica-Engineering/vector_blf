@@ -28,7 +28,7 @@ LinSyncError::LinSyncError() :
     ObjectHeader(ObjectType::LIN_SYN_ERROR) {
 }
 
-void LinSyncError::read(AbstractFile & is) {
+void LinSyncError::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&reservedLinSyncError1), sizeof(reservedLinSyncError1));
@@ -36,7 +36,7 @@ void LinSyncError::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&reservedLinSyncError2), sizeof(reservedLinSyncError2));
 }
 
-void LinSyncError::write(AbstractFile & os) {
+void LinSyncError::write(RawFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&reservedLinSyncError1), sizeof(reservedLinSyncError1));

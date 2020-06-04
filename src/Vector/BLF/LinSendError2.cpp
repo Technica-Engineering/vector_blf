@@ -28,7 +28,7 @@ LinSendError2::LinSendError2() :
     ObjectHeader(ObjectType::LIN_SND_ERROR2, 1) {
 }
 
-void LinSendError2::read(AbstractFile & is) {
+void LinSendError2::read(RawFile & is) {
     ObjectHeader::read(is);
     LinMessageDescriptor::read(is);
     is.read(reinterpret_cast<char *>(&eoh), sizeof(eoh));
@@ -43,7 +43,7 @@ void LinSendError2::read(AbstractFile & is) {
     // @note might be extended in future versions
 }
 
-void LinSendError2::write(AbstractFile & os) {
+void LinSendError2::write(RawFile & os) {
     ObjectHeader::write(os);
     LinMessageDescriptor::write(os);
     os.write(reinterpret_cast<char *>(&eoh), sizeof(eoh));

@@ -25,13 +25,13 @@ namespace Vector {
 namespace BLF {
 
 
-void SingleByteSerialEvent::read(AbstractFile & is) {
+void SingleByteSerialEvent::read(RawFile & is) {
     is.read(reinterpret_cast<char *>(&byte), sizeof(byte));
     is.seekg(15, std::ios_base::cur); // due to union
     // @note might be extended in future versions
 }
 
-void SingleByteSerialEvent::write(AbstractFile & os) {
+void SingleByteSerialEvent::write(RawFile & os) {
     os.write(reinterpret_cast<char *>(&byte), sizeof(byte));
     os.seekp(15, std::ios_base::cur); // due to union
 }

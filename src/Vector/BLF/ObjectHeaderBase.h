@@ -23,8 +23,8 @@
 
 #include <Vector/BLF/platform.h>
 
-#include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectType.h>
+#include <Vector/BLF/RawFile.h>
 #include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
@@ -53,14 +53,14 @@ struct VECTOR_BLF_EXPORT ObjectHeaderBase {
      *
      * @param[in] is input stream
      */
-    virtual void read(AbstractFile & is);
+    virtual void read(RawFile & is);
 
     /**
      * Write the data of this object
      *
      * @param[in] os output stream
      */
-    virtual void write(AbstractFile & os);
+    virtual void write(RawFile & os);
 
     /**
      * Calculates the headerSize

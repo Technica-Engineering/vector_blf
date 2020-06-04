@@ -26,10 +26,10 @@
 #include <array>
 #include <vector>
 
-#include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/CompactSerialEvent.h>
 #include <Vector/BLF/GeneralSerialEvent.h>
 #include <Vector/BLF/ObjectHeader.h>
+#include <Vector/BLF/RawFile.h>
 #include <Vector/BLF/SingleByteSerialEvent.h>
 #include <Vector/BLF/VectorTypes.h>
 
@@ -51,8 +51,8 @@ struct VECTOR_BLF_EXPORT SerialEvent final : ObjectHeader {
     SerialEvent(SerialEvent &&) = default;
     SerialEvent & operator=(SerialEvent &&) = default;
 
-    void read(AbstractFile & is) override;
-    void write(AbstractFile & os) override;
+    void read(RawFile & is) override;
+    void write(RawFile & os) override;
     DWORD calculateObjectSize() const override;
 
     /** enumeration for flags */

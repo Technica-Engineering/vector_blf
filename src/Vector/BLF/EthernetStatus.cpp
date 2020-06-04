@@ -28,7 +28,7 @@ EthernetStatus::EthernetStatus() :
     ObjectHeader(ObjectType::ETHERNET_STATUS) {
 }
 
-void EthernetStatus::read(AbstractFile & is) {
+void EthernetStatus::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
@@ -43,7 +43,7 @@ void EthernetStatus::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&bitrate), sizeof(bitrate));
 }
 
-void EthernetStatus::write(AbstractFile & os) {
+void EthernetStatus::write(RawFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&flags), sizeof(flags));

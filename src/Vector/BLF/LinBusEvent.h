@@ -23,8 +23,8 @@
 
 #include <Vector/BLF/platform.h>
 
-#include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
+#include <Vector/BLF/RawFile.h>
 #include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
@@ -44,10 +44,10 @@ struct VECTOR_BLF_EXPORT LinBusEvent {
     LinBusEvent & operator=(LinBusEvent &&) = default;
 
     /** @copydoc ObjectHeader::read */
-    virtual void read(AbstractFile & is);
+    virtual void read(RawFile & is);
 
     /** @copydoc ObjectHeader::write */
-    virtual void write(AbstractFile & os);
+    virtual void write(RawFile & os);
 
     /** @copydoc ObjectHeader::calculateObjectSize */
     virtual DWORD calculateObjectSize() const;

@@ -30,7 +30,7 @@ GlobalMarker::GlobalMarker() :
     ObjectHeader(ObjectType::GLOBAL_MARKER) {
 }
 
-void GlobalMarker::read(AbstractFile & is) {
+void GlobalMarker::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&commentedEventType), sizeof(commentedEventType));
     is.read(reinterpret_cast<char *>(&foregroundColor), sizeof(foregroundColor));
@@ -54,7 +54,7 @@ void GlobalMarker::read(AbstractFile & is) {
     is.seekg(objectSize % 4, std::ios_base::cur);
 }
 
-void GlobalMarker::write(AbstractFile & os) {
+void GlobalMarker::write(RawFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&commentedEventType), sizeof(commentedEventType));
     os.write(reinterpret_cast<char *>(&foregroundColor), sizeof(foregroundColor));

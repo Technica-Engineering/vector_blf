@@ -30,7 +30,7 @@ EventComment::EventComment() :
     ObjectHeader(ObjectType::EVENT_COMMENT) {
 }
 
-void EventComment::read(AbstractFile & is) {
+void EventComment::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&commentedEventType), sizeof(commentedEventType));
     is.read(reinterpret_cast<char *>(&textLength), sizeof(textLength));
@@ -42,7 +42,7 @@ void EventComment::read(AbstractFile & is) {
     is.seekg(objectSize % 4, std::ios_base::cur);
 }
 
-void EventComment::write(AbstractFile & os) {
+void EventComment::write(RawFile & os) {
     /* pre processing */
     textLength = static_cast<DWORD>(text.size());
 

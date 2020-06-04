@@ -28,7 +28,7 @@ Most150Pkt::Most150Pkt() :
     ObjectHeader2(ObjectType::MOST_150_PKT) {
 }
 
-void Most150Pkt::read(AbstractFile & is) {
+void Most150Pkt::read(RawFile & is) {
     ObjectHeader2::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
@@ -53,7 +53,7 @@ void Most150Pkt::read(AbstractFile & is) {
     is.seekg(objectSize % 4, std::ios_base::cur);
 }
 
-void Most150Pkt::write(AbstractFile & os) {
+void Most150Pkt::write(RawFile & os) {
     /* pre processing */
     pktDataLength = static_cast<DWORD>(pktData.size());
 

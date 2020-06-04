@@ -25,8 +25,8 @@
 
 #include <vector>
 
-#include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
+#include <Vector/BLF/RawFile.h>
 #include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
@@ -40,8 +40,8 @@ namespace BLF {
 struct VECTOR_BLF_EXPORT CanFdMessage final : ObjectHeader {
     CanFdMessage();
 
-    void read(AbstractFile & is) override;
-    void write(AbstractFile & os) override;
+    void read(RawFile & is) override;
+    void write(RawFile & os) override;
     DWORD calculateObjectSize() const override;
 
     /**

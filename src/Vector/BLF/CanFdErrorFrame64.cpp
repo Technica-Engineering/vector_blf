@@ -28,7 +28,7 @@ CanFdErrorFrame64::CanFdErrorFrame64() :
     ObjectHeader(ObjectType::CAN_FD_ERROR_64) {
 }
 
-void CanFdErrorFrame64::read(AbstractFile & is) {
+void CanFdErrorFrame64::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&dlc), sizeof(dlc));
@@ -57,7 +57,7 @@ void CanFdErrorFrame64::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(reservedCanFdExtFrameData.data()), static_cast<std::streamsize>(reservedCanFdExtFrameData.size()));
 }
 
-void CanFdErrorFrame64::write(AbstractFile & os) {
+void CanFdErrorFrame64::write(RawFile & os) {
     /* pre processing */
     validDataBytes = static_cast<WORD>(data.size());
 

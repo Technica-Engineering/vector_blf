@@ -28,7 +28,7 @@ FlexRayVFrError::FlexRayVFrError() :
     ObjectHeader(ObjectType::FR_ERROR) {
 }
 
-void FlexRayVFrError::read(AbstractFile & is) {
+void FlexRayVFrError::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&version), sizeof(version));
@@ -42,7 +42,7 @@ void FlexRayVFrError::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&reservedFlexRayVFrError2), sizeof(reservedFlexRayVFrError2));
 }
 
-void FlexRayVFrError::write(AbstractFile & os) {
+void FlexRayVFrError::write(RawFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&version), sizeof(version));

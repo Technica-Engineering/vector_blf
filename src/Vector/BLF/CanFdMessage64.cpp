@@ -28,7 +28,7 @@ CanFdMessage64::CanFdMessage64() :
     ObjectHeader(ObjectType::CAN_FD_MESSAGE_64) {
 }
 
-void CanFdMessage64::read(AbstractFile & is) {
+void CanFdMessage64::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&dlc), sizeof(dlc));
@@ -54,7 +54,7 @@ void CanFdMessage64::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(reservedCanFdExtFrameData.data()), static_cast<std::streamsize>(reservedCanFdExtFrameData.size()));
 }
 
-void CanFdMessage64::write(AbstractFile & os) {
+void CanFdMessage64::write(RawFile & os) {
     /* pre processing */
     validDataBytes = static_cast<WORD>(data.size());
 

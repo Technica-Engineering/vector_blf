@@ -28,7 +28,7 @@ A429BusStatistic::A429BusStatistic() :
     ObjectHeader(ObjectType::A429_BUS_STATISTIC) {
 }
 
-void A429BusStatistic::read(AbstractFile & is) {
+void A429BusStatistic::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
@@ -50,7 +50,7 @@ void A429BusStatistic::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(labelCount.data()), static_cast<std::streamsize>(labelCount.size() * sizeof(USHORT)));
 }
 
-void A429BusStatistic::write(AbstractFile & os) {
+void A429BusStatistic::write(RawFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&dir), sizeof(dir));

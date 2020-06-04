@@ -28,7 +28,7 @@ CanDriverError::CanDriverError() :
     ObjectHeader(ObjectType::CAN_DRIVER_ERROR) {
 }
 
-void CanDriverError::read(AbstractFile & is) {
+void CanDriverError::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&txErrors), sizeof(txErrors));
@@ -36,7 +36,7 @@ void CanDriverError::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&errorCode), sizeof(errorCode));
 }
 
-void CanDriverError::write(AbstractFile & os) {
+void CanDriverError::write(RawFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&txErrors), sizeof(txErrors));

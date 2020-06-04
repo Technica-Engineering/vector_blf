@@ -36,7 +36,7 @@ Unknown115::Unknown115() :
     ObjectHeader(ObjectType::Unknown115) {
 }
 
-void Unknown115::read(AbstractFile & is) {
+void Unknown115::read(RawFile & is) {
     ObjectHeader::read(is);
 
     is.read(reinterpret_cast<char *>(&unknown0), sizeof(unknown0));
@@ -63,7 +63,7 @@ void Unknown115::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(reservedUnknown115.data()), static_cast<std::streamsize>(reservedUnknown115.size()));
 }
 
-void Unknown115::write(AbstractFile & os) {
+void Unknown115::write(RawFile & os) {
     ObjectHeader::write(os);
 
     os.write(reinterpret_cast<char *>(&unknown0), sizeof(unknown0));

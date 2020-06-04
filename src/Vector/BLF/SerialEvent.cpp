@@ -28,7 +28,7 @@ SerialEvent::SerialEvent() :
     ObjectHeader(ObjectType::SERIAL_EVENT) {
 }
 
-void SerialEvent::read(AbstractFile & is) {
+void SerialEvent::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
     is.read(reinterpret_cast<char *>(&port), sizeof(port));
@@ -49,7 +49,7 @@ void SerialEvent::read(AbstractFile & is) {
     // @note might be extended in future versions
 }
 
-void SerialEvent::write(AbstractFile & os) {
+void SerialEvent::write(RawFile & os) {
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&flags), sizeof(flags));
     os.write(reinterpret_cast<char *>(&port), sizeof(port));

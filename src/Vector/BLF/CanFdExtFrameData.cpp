@@ -24,14 +24,14 @@
 namespace Vector {
 namespace BLF {
 
-void CanFdExtFrameData::read(AbstractFile & is) {
+void CanFdExtFrameData::read(RawFile & is) {
     is.read(reinterpret_cast<char *>(&btrExtArb), sizeof(btrExtArb));
     is.read(reinterpret_cast<char *>(&btrExtData), sizeof(btrExtData));
     // @note might be extended in future versions
     // reservedCanFdExtFrameData is read by CanFdMessage64/CanFdErrorFrame64 due to objectSize known there.
 }
 
-void CanFdExtFrameData::write(AbstractFile & os) {
+void CanFdExtFrameData::write(RawFile & os) {
     os.write(reinterpret_cast<char *>(&btrExtArb), sizeof(btrExtArb));
     os.write(reinterpret_cast<char *>(&btrExtData), sizeof(btrExtData));
     os.write(reinterpret_cast<char *>(reservedCanFdExtFrameData.data()), static_cast<std::streamsize>(reservedCanFdExtFrameData.size()));

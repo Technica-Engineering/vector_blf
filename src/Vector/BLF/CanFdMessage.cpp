@@ -28,7 +28,7 @@ CanFdMessage::CanFdMessage() :
     ObjectHeader(ObjectType::CAN_FD_MESSAGE) {
 }
 
-void CanFdMessage::read(AbstractFile & is) {
+void CanFdMessage::read(RawFile & is) {
     ObjectHeader::read(is);
     is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
     is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
@@ -46,7 +46,7 @@ void CanFdMessage::read(AbstractFile & is) {
     // @note might be extended in future versions
 }
 
-void CanFdMessage::write(AbstractFile & os) {
+void CanFdMessage::write(RawFile & os) {
     /* pre processing */
     validDataBytes = static_cast<WORD>(data.size());
 
