@@ -21,6 +21,9 @@
 
 #include <Vector/BLF/StructuredUncompressedFile.h>
 
+#undef NDEBUG
+#include <cassert>
+
 #include <Vector/BLF/Exceptions.h>
 #include <Vector/BLF/File.h>
 #include <Vector/BLF/ObjectHeaderBase.h>
@@ -31,6 +34,10 @@ namespace BLF {
 StructuredUncompressedFile::StructuredUncompressedFile(RawUncompressedFile & rawUncompressedFile) :
     m_rawUncompressedFile(rawUncompressedFile)
 {
+}
+
+StructuredUncompressedFile::~StructuredUncompressedFile() {
+    abort();
 }
 
 /* iterators */
@@ -216,6 +223,125 @@ void StructuredUncompressedFile::push_back(StructuredUncompressedFile::value_typ
     // @todo
 }
 
+ObjectHeaderBase * StructuredUncompressedFile::read() {
+    /* mutex lock */
+    std::unique_lock<std::mutex> lock(m_mutex);
+
+    /* wait for data */
+    pospChanged.wait(lock, [&] {
+        return
+        m_abort ||
+        (m_posg < m_posp) || // if data available
+        (m_posg >= m_max); // if end reached
+    });
+
+    /* get first entry */
+    ObjectHeaderBase * ohb = nullptr;
+    if (m_posg >= m_posp) {
+        m_rdstate = std::ios_base::eofbit | std::ios_base::failbit;
+    } else {
+        ohb = m_data[m_posg].object;
+        assert(ohb);
+
+        /* set state */
+        m_rdstate = std::ios_base::goodbit;
+
+        /* increase get count */
+        ++m_posg;
+    }
+
+    /* notify */
+    posgChanged.notify_all();
+
+    return ohb;
+}
+
+void StructuredUncompressedFile::setMaxSize(size_type count) {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    /* set object count */
+    m_max = count;
+
+    /* notify */
+    pospChanged.notify_all();
+}
+
+void StructuredUncompressedFile::write(ObjectHeaderBase * value) {
+    assert(value);
+
+    /* mutex lock */
+    std::unique_lock<std::mutex> lock(m_mutex);
+
+    /* wait for free space */
+    posgChanged.wait(lock, [&] {
+        return
+        m_abort ||
+        ((m_posp - m_posg) < m_bufferSize);
+    });
+
+    if (m_posp >= m_data.size()) {
+        m_data.resize(m_posp + 1);
+    }
+
+    /* push data */
+    m_data[m_posp].object = value;
+
+    /* increase put count */
+    ++m_posp;
+
+    /* notify */
+    pospChanged.notify_all();
+}
+
+StructuredUncompressedFile::difference_type StructuredUncompressedFile::tellg() const {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    return m_posg;
+}
+
+StructuredUncompressedFile::difference_type StructuredUncompressedFile::tellp() const {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    return m_posp;
+}
+
+bool StructuredUncompressedFile::good() const {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    return (m_rdstate == std::ios_base::goodbit);
+}
+
+bool StructuredUncompressedFile::eof() const {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    return (m_rdstate & std::ios_base::eofbit);
+}
+
+void StructuredUncompressedFile::abort() {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    /* stop */
+    m_abort = true;
+
+    /* trigger blocked threads */
+    posgChanged.notify_all();
+    pospChanged.notify_all();
+}
+
+void StructuredUncompressedFile::setBufferSize(DWORD bufferSize) {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    /* set max size */
+    m_bufferSize = bufferSize;
+}
+
 void StructuredUncompressedFile::uncompressedFile2ReadWriteQueue() {
     /* identify type */
     ObjectHeaderBase ohb(0, ObjectType::UNKNOWN);
@@ -241,7 +367,7 @@ void StructuredUncompressedFile::uncompressedFile2ReadWriteQueue() {
     }
 
     /* push data into readWriteQueue */
-    m_readWriteQueue.write(obj);
+    write(obj);
 
     /* statistics */
     if (obj->objectType != ObjectType::Unknown115)
@@ -253,7 +379,7 @@ void StructuredUncompressedFile::uncompressedFile2ReadWriteQueue() {
 
 void StructuredUncompressedFile::readWriteQueue2UncompressedFile() {
     /* get from readWriteQueue */
-    ObjectHeaderBase * ohb = m_readWriteQueue.read();
+    ObjectHeaderBase * ohb = read();
 
     /* process data */
     if (ohb == nullptr) {

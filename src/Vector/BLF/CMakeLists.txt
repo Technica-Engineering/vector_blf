@@ -134,7 +134,6 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/ObjectHeader2.h
         ${CMAKE_CURRENT_SOURCE_DIR}/ObjectHeaderBase.h
         ${CMAKE_CURRENT_SOURCE_DIR}/ObjectHeader.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/ObjectQueue.h
         ${CMAKE_CURRENT_SOURCE_DIR}/ObjectType.h
         ${CMAKE_CURRENT_SOURCE_DIR}/platform.h
         ${CMAKE_CURRENT_SOURCE_DIR}/RawFile.h
@@ -275,7 +274,6 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/ObjectHeader2.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/ObjectHeaderBase.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/ObjectHeader.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/ObjectQueue.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/RawCompressedFile.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/RawUncompressedFile.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/RealtimeClock.cpp

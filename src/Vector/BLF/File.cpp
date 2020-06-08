@@ -36,7 +36,7 @@ File::File() :
     m_structuredUncompressedFile(m_rawUncompressedFile)
 {
     /* set performance/memory values */
-    m_structuredUncompressedFile.m_readWriteQueue.setBufferSize(10);
+    m_structuredUncompressedFile.setBufferSize(10);
     m_rawUncompressedFile.setBufferSize(m_structuredCompressedFile.defaultLogContainerSize());
 }
 
@@ -99,23 +99,23 @@ bool File::is_open() const {
 }
 
 bool File::good() const {
-    return m_structuredUncompressedFile.m_readWriteQueue.good();
+    return m_structuredUncompressedFile.good();
 }
 
 bool File::eof() const {
-    return m_structuredUncompressedFile.m_readWriteQueue.eof();
+    return m_structuredUncompressedFile.eof();
 }
 
 ObjectHeaderBase * File::read() {
     /* read object */
-    ObjectHeaderBase * ohb = m_structuredUncompressedFile.m_readWriteQueue.read();
+    ObjectHeaderBase * ohb = m_structuredUncompressedFile.read();
 
     return ohb;
 }
 
 void File::write(ObjectHeaderBase * ohb) {
     /* push to queue */
-    m_structuredUncompressedFile.m_readWriteQueue.write(ohb);
+    m_structuredUncompressedFile.write(ohb);
 }
 
 void File::close() {
@@ -138,13 +138,13 @@ void File::close() {
             m_uncompressedFileThread.join();
 
         /* abort readWriteQueue */
-        m_structuredUncompressedFile.m_readWriteQueue.abort();
+        m_structuredUncompressedFile.abort();
     }
 
     /* write */
     if (m_openMode & std::ios_base::out) {
         /* set eof */
-        m_structuredUncompressedFile.m_readWriteQueue.setFileSize(m_structuredUncompressedFile.m_readWriteQueue.tellp()); // set eof
+        m_structuredUncompressedFile.setMaxSize(m_structuredUncompressedFile.tellp()); // set eof
 
         /* finalize uncompressedFileThread */
         if (m_uncompressedFileThread.joinable())
@@ -163,8 +163,8 @@ void File::close() {
             fileStatistics.fileSizeWithoutUnknown115 = static_cast<ULONGLONG>(m_rawCompressedFile.tellp());
 
             /* write end of file message */
-            auto * unknown115 = new Unknown115;
-            m_structuredUncompressedFile.m_readWriteQueue.write(unknown115);
+            Unknown115 * unknown115 = new Unknown115;
+            m_structuredUncompressedFile.write(unknown115);
 
             /* process once */
             m_structuredUncompressedFile.readWriteQueue2UncompressedFile();
@@ -276,7 +276,7 @@ void File::uncompressedFileReadThread(File * file) {
     }
 
     /* set end of file */
-    file->m_structuredUncompressedFile.m_readWriteQueue.setFileSize(file->m_structuredUncompressedFile.m_readWriteQueue.tellp());
+    file->m_structuredUncompressedFile.setMaxSize(file->m_structuredUncompressedFile.tellp());
 }
 
 void File::uncompressedFileWriteThread(File * file) {
@@ -285,7 +285,7 @@ void File::uncompressedFileWriteThread(File * file) {
         file->m_structuredUncompressedFile.readWriteQueue2UncompressedFile();
 
         /* check for eof */
-        if (!file->m_structuredUncompressedFile.m_readWriteQueue.good())
+        if (!file->m_structuredUncompressedFile.good())
             file->m_uncompressedFileThreadRunning = false;
     }
 

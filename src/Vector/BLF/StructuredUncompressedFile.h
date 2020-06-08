@@ -25,8 +25,9 @@
 
 #include <atomic>
 #include <iterator>
+#include <vector>
 
-#include <Vector/BLF/ObjectQueue.h>
+#include <Vector/BLF/ObjectHeaderBase.h>
 #include <Vector/BLF/RawUncompressedFile.h>
 
 #include <Vector/BLF/vector_blf_export.h>
@@ -40,32 +41,30 @@ namespace BLF {
 class VECTOR_BLF_EXPORT StructuredUncompressedFile {
 public:
     StructuredUncompressedFile(RawUncompressedFile & rawUncompressedFile);
+    ~StructuredUncompressedFile();
 
     /** object reference */
     struct ObjectRef {
-        std::streampos filePosition;
-        DWORD objectSize; // @ref ObjectHeaderBase::objectSize
-        ObjectType objectType;
-
-        std::shared_ptr<ObjectHeaderBase> object();
-
-    private:
-        std::shared_ptr<ObjectHeaderBase> m_object {};
+        std::streampos filePosition{0};
+        DWORD objectSize {0}; // @ref ObjectHeaderBase::objectSize
+        ObjectType objectType {ObjectType::UNKNOWN}; // @ref ObjectHeaderBase::objectType
+        ObjectHeaderBase * object {nullptr};
     };
 
     /* member types */
-    using value_type = ObjectRef;
-    using allocator_type = std::allocator<value_type>;
-    using size_type = std::size_t;
-    using difference_type = std::ptrdiff_t;
-    using reference = value_type&;
-    using const_reference = const value_type&;
-    using pointer = value_type*;
-    using const_pointer = const value_type*;
-    using iterator = std::iterator<std::random_access_iterator_tag, ObjectRef>;
-    using const_iterator = std::iterator<std::random_access_iterator_tag, const ObjectRef>;
-    using reverse_iterator = std::reverse_iterator<iterator>;
-    using const_reverse_iterator = std::reverse_iterator<const_iterator>;
+    using list_type = std::vector<ObjectRef>;
+    using value_type = list_type::value_type;
+    using allocator_type = list_type::allocator_type;
+    using size_type = list_type::size_type;
+    using difference_type = list_type::difference_type;
+    using reference = list_type::reference;
+    using const_reference = list_type::const_reference;
+    using pointer = list_type::pointer;
+    using const_pointer = list_type::const_pointer;
+    using iterator = list_type::iterator;
+    using const_iterator = list_type::const_iterator;
+    using reverse_iterator = list_type::reverse_iterator;
+    using const_reverse_iterator = list_type::const_reverse_iterator;
 
     /* iterators */
     iterator begin() noexcept;
@@ -99,6 +98,33 @@ public:
     void clear() noexcept;
     void push_back(const value_type & value);
     void push_back(value_type && value);
+    ObjectHeaderBase * read();
+    void setMaxSize(size_type count);
+    void write(ObjectHeaderBase * value);
+
+    /** @copydoc AbstractFile::tellg */
+    virtual difference_type tellg() const;
+
+    /** @copydoc AbstractFile::tellp */
+    virtual difference_type tellp() const;
+
+    /** @copydoc AbstractFile::good */
+    virtual bool good() const;
+
+    /** @copydoc AbstractFile::eof */
+    virtual bool eof() const;
+
+    /** @copydoc UncompressedFile::abort */
+    virtual void abort();
+
+    /** @copydoc UncompressedFile::setBufferSize */
+    virtual void setBufferSize(DWORD bufferSize);
+
+    /** data was dequeued */
+    std::condition_variable posgChanged;
+
+    /** data was enqueued */
+    std::condition_variable pospChanged;
 
     /**
      * Current number of objects read
@@ -106,18 +132,6 @@ public:
      * Unknown115 is not counted.
      */
     std::atomic<DWORD> currentObjectCount {};
-
-    /**
-     * read/write queue
-     *
-     * When the write method is called the object is enqueued here, so that it returns quickly to the calling
-     * application. The readWriteThread gets the objects out of the queue and puts them into the compressedFile.
-     *
-     * When the read method is called the object is taken out of the queue, so that it returns quickly to the calling
-     * application. If there are no objects in the queue, the methods waits for the readWriteThread to finish.
-     * The readWriteThread reads objects from the compressedfile and puts them into the queue.
-     */
-    ObjectQueue<ObjectHeaderBase> m_readWriteQueue {};
 
     /**
      * Read data from uncompressedFile into readWriteQueue.
@@ -137,7 +151,25 @@ private:
     mutable std::mutex m_mutex {};
 
     /** data */
-    std::vector<ObjectRef> m_data {};
+    list_type m_data {};
+
+    /** abort further operations */
+    bool m_abort {false};
+
+    /** get position */
+    size_type m_posg {0};
+
+    /** put position */
+    size_type m_posp {0};
+
+    /** max position */
+    size_type m_max {std::numeric_limits<size_type>::max()};
+
+    /** max buffer size (put pos - get pos) */
+    DWORD m_bufferSize {std::numeric_limits<DWORD>::max()};
+
+    /** error state */
+    std::ios_base::iostate m_rdstate {std::ios_base::goodbit};
 };
 
 }

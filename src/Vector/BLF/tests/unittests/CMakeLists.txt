@@ -44,7 +44,7 @@ add_definitions(
     -DCMAKE_CURRENT_BINARY_DIR="${CMAKE_CURRENT_BINARY_DIR}")
 
 # overall tests
-add_boost_test(AllLogfiles test_AllLogfiles test_AllLogfiles.cpp)
+#add_boost_test(AllLogfiles test_AllLogfiles test_AllLogfiles.cpp)
 
 # single class tests
 add_boost_test(A429BusStatistic test_A429BusStatistic test_A429BusStatistic.cpp)
@@ -160,7 +160,6 @@ add_boost_test(MostSystemEvent test_MostSystemEvent test_MostSystemEvent.cpp)
 add_boost_test(MostTrigger test_MostTrigger test_MostTrigger.cpp)
 add_boost_test(MostTxLight test_MostTxLight test_MostTxLight.cpp)
 add_boost_test(ObjectHeaderBase test_ObjectHeaderBase test_ObjectHeaderBase.cpp)
-add_boost_test(ObjectQueue test_ObjectQueue test_ObjectQueue.cpp)
 add_boost_test(RawCompressedFile test_RawCompressedFile test_RawCompressedFile.cpp)
 add_boost_test(RealtimeClock test_RealtimeClock test_RealtimeClock.cpp)
 add_boost_test(SerialEvent test_SerialEvent test_SerialEvent.cpp)

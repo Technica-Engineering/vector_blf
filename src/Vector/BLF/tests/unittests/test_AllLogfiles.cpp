@@ -29,7 +29,7 @@ static void copyFileStatistics(Vector::BLF::File & filein, Vector::BLF::File & f
 /** copy objects and close files */
 static void copyObjects(Vector::BLF::File & filein, Vector::BLF::File & fileout) {
     /* read all objects from input file */
-    Vector::BLF::ObjectQueue<Vector::BLF::ObjectHeaderBase> objectQueue;
+    Vector::BLF::ObjectQueue objectQueue;
     while (!filein.eof()) {
         Vector::BLF::ObjectHeaderBase * ohb = filein.read();
         if (ohb == nullptr)
@@ -40,7 +40,7 @@ static void copyObjects(Vector::BLF::File & filein, Vector::BLF::File & fileout)
     filein.close();
 
     /* write all objects into output file */
-    objectQueue.setFileSize(objectQueue.tellp());
+    objectQueue.setMaxSize(objectQueue.tellp());
     while (!objectQueue.eof()) {
         Vector::BLF::ObjectHeaderBase * ohb = objectQueue.read();
         if (ohb != nullptr)
