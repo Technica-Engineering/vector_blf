@@ -33,6 +33,189 @@ StructuredUncompressedFile::StructuredUncompressedFile(RawUncompressedFile & raw
 {
 }
 
+/* iterators */
+
+StructuredUncompressedFile::iterator StructuredUncompressedFile::begin() noexcept {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    // @todo
+}
+
+StructuredUncompressedFile::const_iterator StructuredUncompressedFile::begin() const noexcept {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    // @todo
+}
+
+StructuredUncompressedFile::const_iterator StructuredUncompressedFile::cbegin() const noexcept {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    // @todo
+}
+
+StructuredUncompressedFile::iterator StructuredUncompressedFile::end() noexcept {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    // @todo
+}
+
+StructuredUncompressedFile::const_iterator StructuredUncompressedFile::end() const noexcept {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    // @todo
+}
+
+StructuredUncompressedFile::const_iterator StructuredUncompressedFile::cend() const noexcept {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    // @todo
+}
+
+StructuredUncompressedFile::reverse_iterator StructuredUncompressedFile::rbegin() noexcept {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    // @todo
+}
+
+StructuredUncompressedFile::const_reverse_iterator StructuredUncompressedFile::rbegin() const noexcept {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    // @todo
+}
+
+StructuredUncompressedFile::const_reverse_iterator StructuredUncompressedFile::crbegin() const noexcept {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    // @todo
+}
+
+StructuredUncompressedFile::reverse_iterator StructuredUncompressedFile::rend() noexcept {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    // @todo
+}
+
+StructuredUncompressedFile::const_reverse_iterator StructuredUncompressedFile::rend() const noexcept {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    // @todo
+}
+
+StructuredUncompressedFile::const_reverse_iterator StructuredUncompressedFile::crend() const noexcept {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    // @todo
+}
+
+/* element access */
+
+StructuredUncompressedFile::reference StructuredUncompressedFile::at(size_type n) {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    // @todo
+}
+
+StructuredUncompressedFile::const_reference StructuredUncompressedFile::at(size_type n) const {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    // @todo
+}
+
+StructuredUncompressedFile::reference StructuredUncompressedFile::operator[] (size_type n) {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    // @todo
+}
+
+StructuredUncompressedFile::const_reference StructuredUncompressedFile::operator[] (size_type n) const {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    // @todo
+}
+
+StructuredUncompressedFile::reference StructuredUncompressedFile::front() {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    // @todo
+}
+
+StructuredUncompressedFile::const_reference StructuredUncompressedFile::front() const {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    // @todo
+}
+
+StructuredUncompressedFile::reference StructuredUncompressedFile::back() {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    // @todo
+}
+
+StructuredUncompressedFile::const_reference StructuredUncompressedFile::back() const {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    // @todo
+}
+
+/* capacity */
+
+bool StructuredUncompressedFile::empty() const {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    // @todo
+}
+
+StructuredUncompressedFile::size_type StructuredUncompressedFile::size() const {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    // @todo
+}
+
+/* modifiers */
+
+void StructuredUncompressedFile::clear() noexcept {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    // @todo
+}
+
+void StructuredUncompressedFile::push_back(const StructuredUncompressedFile::value_type & value) {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    // @todo
+}
+
+void StructuredUncompressedFile::push_back(StructuredUncompressedFile::value_type && value) {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    // @todo
+}
+
 void StructuredUncompressedFile::uncompressedFile2ReadWriteQueue() {
     /* identify type */
     ObjectHeaderBase ohb(0, ObjectType::UNKNOWN);

@@ -44,6 +44,122 @@ void StructuredCompressedFile::setDefaultLogContainerSize(DWORD defaultLogContai
     m_defaultLogContainerSize = defaultLogContainerSize;
 }
 
+/* iterators */
+
+StructuredCompressedFile::iterator StructuredCompressedFile::begin() noexcept {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    // return m_data.begin();
+}
+
+StructuredCompressedFile::const_iterator StructuredCompressedFile::begin() const noexcept {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    // return m_data.begin();
+}
+
+StructuredCompressedFile::const_iterator StructuredCompressedFile::cbegin() const noexcept {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    // return m_data.cbegin();
+}
+
+StructuredCompressedFile::iterator StructuredCompressedFile::end() noexcept {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    // return m_data.end();
+}
+
+StructuredCompressedFile::const_iterator StructuredCompressedFile::end() const noexcept {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    // return m_data.end();
+}
+
+StructuredCompressedFile::const_iterator StructuredCompressedFile::cend() const noexcept {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    //return m_data.cend();
+}
+
+StructuredCompressedFile::reverse_iterator StructuredCompressedFile::rbegin() noexcept {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    //return m_data.rbegin();
+}
+
+StructuredCompressedFile::const_reverse_iterator StructuredCompressedFile::rbegin() const noexcept {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    //return m_data.rbegin();
+}
+
+StructuredCompressedFile::const_reverse_iterator StructuredCompressedFile::crbegin() const noexcept {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    //return m_data.crbegin();
+}
+
+StructuredCompressedFile::reverse_iterator StructuredCompressedFile::rend() noexcept {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    //return m_data.rend();
+}
+
+StructuredCompressedFile::const_reverse_iterator StructuredCompressedFile::rend() const noexcept {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    //return m_data.rend();
+}
+
+StructuredCompressedFile::const_reverse_iterator StructuredCompressedFile::crend() const noexcept {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    //return m_data.crend();
+}
+
+/* element access */
+
+StructuredCompressedFile::reference StructuredCompressedFile::at(size_type n) {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    return m_data.at(n);
+}
+
+StructuredCompressedFile::const_reference StructuredCompressedFile::at(size_type n) const {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    return m_data.at(n);
+}
+
+StructuredCompressedFile::reference StructuredCompressedFile::operator[] (size_type n) {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    return m_data[n];
+}
+
+StructuredCompressedFile::const_reference StructuredCompressedFile::operator[] (size_type n) const {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    return m_data[n];
+}
+
 StructuredCompressedFile::reference StructuredCompressedFile::front() {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
@@ -72,11 +188,29 @@ StructuredCompressedFile::const_reference StructuredCompressedFile::back() const
     return m_data.back();
 }
 
+/* capacity */
+
 bool StructuredCompressedFile::empty() const {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
     return m_data.empty();
+}
+
+StructuredCompressedFile::size_type StructuredCompressedFile::size() const {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    return m_data.size();
+}
+
+/* modifiers */
+
+void StructuredCompressedFile::clear() noexcept {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    m_data.clear();
 }
 
 void StructuredCompressedFile::push_back(const StructuredCompressedFile::value_type & value) {
@@ -93,13 +227,6 @@ void StructuredCompressedFile::push_back(StructuredCompressedFile::value_type &&
     m_data.push_back(value);
 }
 
-void StructuredCompressedFile::pop_front() {
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    m_data.pop_front();
-}
-
 StructuredCompressedFile::value_type StructuredCompressedFile::logContainerContaining(std::streampos pos) {
     /* loop over all logContainers */
     for (std::shared_ptr<LogContainer> logContainer : m_data) {
@@ -114,6 +241,26 @@ StructuredCompressedFile::value_type StructuredCompressedFile::logContainerConta
 
     /* not found, so return nullptr */
     return nullptr;
+}
+
+void StructuredCompressedFile::init(StructuredCompressedFile::reference logContainerRef) {
+//    // logContainerRef.uncompressedFilePosition = 0;
+//    logContainerRef.uncompressedFileSize = m_defaultLogContainerSize;
+//    logContainerRef.uncompressedFile.resize(logContainerRef.uncompressedFileSize);
+}
+
+void StructuredCompressedFile::load(StructuredCompressedFile::reference logContainerRef) {
+//    m_rawCompressedFile.seekg(logContainerRef.compressedFilePosition);
+//    LogContainer logContainer;
+//    logContainer.read(m_rawCompressedFile);
+//    logContainer.uncompress(logContainerRef.uncompressedFile);
+}
+
+void StructuredCompressedFile::save(StructuredCompressedFile::reference logContainerRef) {
+//    LogContainer logContainer;
+//    logContainer.compress(logContainerRef.uncompressedFile); // @todo compressionMethod, compressionLevel
+//    m_rawCompressedFile.seekp(logContainerRef.compressedFilePosition);
+//    logContainer.write(m_rawCompressedFile);
 }
 
 }

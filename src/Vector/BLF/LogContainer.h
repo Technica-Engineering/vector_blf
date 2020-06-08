@@ -94,6 +94,13 @@ struct VECTOR_BLF_EXPORT LogContainer final : ObjectHeaderBase {
     WORD internalHeaderSize() const;
 
     /**
+     * read LogContainer without File
+     *
+     * @param[in] is raw file
+     */
+    virtual void readWithoutFile(RawFile & is);
+
+    /**
      * uncompress data
      */
     virtual void uncompress();

@@ -23,9 +23,10 @@
 
 #include <Vector/BLF/platform.h>
 
-#include <list>
+#include <iterator>
 #include <memory>
 #include <mutex>
+#include <vector>
 
 #include <Vector/BLF/LogContainer.h>
 #include <Vector/BLF/RawCompressedFile.h>
@@ -36,7 +37,7 @@ namespace Vector {
 namespace BLF {
 
 /**
- * This class allows object-wise access to the compressed file.
+ * This class allows std::vector-like access to the compressed file.
  */
 class VECTOR_BLF_EXPORT StructuredCompressedFile {
 public:
@@ -56,40 +57,64 @@ public:
      */
     virtual void setDefaultLogContainerSize(DWORD defaultLogContainerSize);
 
+    /** object reference */
+    struct LogContainerRef {
+        std::streampos filePosition;
+        DWORD objectSize; // @ref ObjectHeaderBase::objectSize
+        ObjectType objectType;
+
+        std::shared_ptr<LogContainer> logContainer();
+
+    private:
+        std::shared_ptr<LogContainer> m_logContainer {};
+    };
+
     /* member types */
-    using value_type = std::shared_ptr<LogContainer>;
+    using value_type = std::shared_ptr<LogContainer>; // @todo change to LogContainerRef
+    using allocator_type = std::allocator<value_type>;
+    using size_type = std::size_t;
+    using difference_type = std::ptrdiff_t;
     using reference = value_type&;
     using const_reference = const value_type&;
     using pointer = value_type*;
     using const_pointer = const value_type*;
-    using size_type = std::size_t;
+    using iterator = std::iterator<std::random_access_iterator_tag, LogContainerRef>;
+    using const_iterator = std::iterator<std::random_access_iterator_tag, const LogContainerRef>;
+    using reverse_iterator = std::reverse_iterator<iterator>;
+    using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
-    /* Element access */
-//    at
-//    operator[]
+    /* iterators */
+    iterator begin() noexcept;
+    const_iterator begin() const noexcept;
+    const_iterator cbegin() const noexcept;
+    iterator end() noexcept;
+    const_iterator end() const noexcept;
+    const_iterator cend() const noexcept;
+    reverse_iterator rbegin() noexcept;
+    const_reverse_iterator rbegin() const noexcept;
+    const_reverse_iterator crbegin() const noexcept;
+    reverse_iterator rend() noexcept;
+    const_reverse_iterator rend() const noexcept;
+    const_reverse_iterator crend() const noexcept;
+
+    /* element access */
+    reference at(size_type n);
+    const_reference at(size_type n) const;
+    reference operator[] (size_type n);
+    const_reference operator[] (size_type n) const;
     reference front();
     const_reference front() const;
     reference back();
     const_reference back() const;
 
-    /* Iterators */
-//    begin();
-//    cbegin();
-//    end();
-//    cend();
-//    rbegin();
-//    crbegin();
-//    rend();
-//    crend();
-
-    /* Capacity */
+    /* capacity */
     bool empty() const;
-//    size_type size() const;
+    size_type size() const;
 
-    /* Modifiers */
+    /* modifiers */
+    void clear() noexcept;
     void push_back(const value_type & value);
     void push_back(value_type && value);
-    void pop_front();
 
     /**
      * Returns the file container, which contains pos.
@@ -111,10 +136,19 @@ private:
     mutable std::mutex m_mutex {};
 
     /** data */
-    std::list<std::shared_ptr<LogContainer>> m_data {};
+    std::vector<value_type> m_data {};
 
     /** default log container size */
     DWORD m_defaultLogContainerSize {0x20000};
+
+    /** prepare a new log container */
+    void init(reference logContainerRef);
+
+    /** load log container from RawUncompressedFile */
+    void load(reference logContainerRef);
+
+    /** save log container to RawUncompressedFile */
+    void save(reference logContainerRef);
 };
 
 }

@@ -24,6 +24,7 @@
 #include <Vector/BLF/platform.h>
 
 #include <atomic>
+#include <iterator>
 
 #include <Vector/BLF/ObjectQueue.h>
 #include <Vector/BLF/RawUncompressedFile.h>
@@ -34,46 +35,70 @@ namespace Vector {
 namespace BLF {
 
 /**
- * This class allows object-wise access to the uncompressed file.
+ * This class allows std::vector-like access to the uncompressed file.
  */
 class VECTOR_BLF_EXPORT StructuredUncompressedFile {
 public:
     StructuredUncompressedFile(RawUncompressedFile & rawUncompressedFile);
 
+    /** object reference */
+    struct ObjectRef {
+        std::streampos filePosition;
+        DWORD objectSize; // @ref ObjectHeaderBase::objectSize
+        ObjectType objectType;
+
+        std::shared_ptr<ObjectHeaderBase> object();
+
+    private:
+        std::shared_ptr<ObjectHeaderBase> m_object {};
+    };
+
     /* member types */
-//    using value_type = std::shared_ptr<LogContainer>;
-//    using reference = value_type&;
-//    using const_reference = const value_type&;
-//    using pointer = value_type*;
-//    using const_pointer = const value_type*;
-//    using size_type = std::size_t;
+    using value_type = ObjectRef;
+    using allocator_type = std::allocator<value_type>;
+    using size_type = std::size_t;
+    using difference_type = std::ptrdiff_t;
+    using reference = value_type&;
+    using const_reference = const value_type&;
+    using pointer = value_type*;
+    using const_pointer = const value_type*;
+    using iterator = std::iterator<std::random_access_iterator_tag, ObjectRef>;
+    using const_iterator = std::iterator<std::random_access_iterator_tag, const ObjectRef>;
+    using reverse_iterator = std::reverse_iterator<iterator>;
+    using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
-    /* Element access */
-//    at
-//    operator[]
-//    reference front();
-//    const_reference front() const;
-//    reference back();
-//    const_reference back() const;
+    /* iterators */
+    iterator begin() noexcept;
+    const_iterator begin() const noexcept;
+    const_iterator cbegin() const noexcept;
+    iterator end() noexcept;
+    const_iterator end() const noexcept;
+    const_iterator cend() const noexcept;
+    reverse_iterator rbegin() noexcept;
+    const_reverse_iterator rbegin() const noexcept;
+    const_reverse_iterator crbegin() const noexcept;
+    reverse_iterator rend() noexcept;
+    const_reverse_iterator rend() const noexcept;
+    const_reverse_iterator crend() const noexcept;
 
-    /* Iterators */
-//    begin();
-//    cbegin();
-//    end();
-//    cend();
-//    rbegin();
-//    crbegin();
-//    rend();
-//    crend();
+    /* element access */
+    reference at(size_type n);
+    const_reference at(size_type n) const;
+    reference operator[] (size_type n);
+    const_reference operator[] (size_type n) const;
+    reference front();
+    const_reference front() const;
+    reference back();
+    const_reference back() const;
 
-    /* Capacity */
-//    bool empty() const;
-//    size_type size() const;
+    /* capacity */
+    bool empty() const;
+    size_type size() const;
 
-    /* Modifiers */
-//    void push_back(const value_type & value);
-//    void push_back(value_type && value);
-//    void pop_front();
+    /* modifiers */
+    void clear() noexcept;
+    void push_back(const value_type & value);
+    void push_back(value_type && value);
 
     /**
      * Current number of objects read
@@ -110,6 +135,9 @@ private:
 
     /** mutex */
     mutable std::mutex m_mutex {};
+
+    /** data */
+    std::vector<ObjectRef> m_data {};
 };
 
 }

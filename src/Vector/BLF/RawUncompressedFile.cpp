@@ -331,7 +331,7 @@ void RawUncompressedFile::dropOldData() {
     }
 
     /* drop data */
-    m_structuredCompressedFile.pop_front();
+    // @todo m_structuredCompressedFile.pop_front();
 }
 
 }

@@ -35,7 +35,7 @@ namespace Vector {
 namespace BLF {
 
 /**
- * This class allows byte-wise access to the uncompressed file.
+ * This class allows std::fstream-like access to the uncompressed file.
  */
 class VECTOR_BLF_EXPORT RawUncompressedFile :
     public RawFile
