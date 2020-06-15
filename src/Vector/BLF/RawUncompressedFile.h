@@ -68,8 +68,6 @@ public:
      * @return file size
      */
     virtual streamsize size() const;
-    /** end-of-file object */
-    Unknown115 unknown115 {};
 
     /**
      * Get default log container size.
@@ -84,6 +82,20 @@ public:
      * @param[in] defaultLogContainerSize default log container size
      */
     virtual void setDefaultLogContainerSize(DWORD defaultLogContainerSize);
+
+    /**
+     * get end-of-file object
+     *
+     * @return end-of-file object
+     */
+    virtual Unknown115 unknown115() const;
+
+    /**
+     * set end-of-file object
+     *
+     * @param[in] unknown115 end-of-file object
+     */
+    virtual void setUnknown115(const Unknown115 unknown115);
 
 private:
     /** log container reference */
@@ -127,6 +139,9 @@ private:
 
     /** default log container size */
     DWORD m_defaultLogContainerSize {0x20000};
+
+    /** end-of-file object */
+    Unknown115 m_unknown115 {};
 
     /**
      * index thread

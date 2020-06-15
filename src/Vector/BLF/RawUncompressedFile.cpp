@@ -294,6 +294,20 @@ void RawUncompressedFile::setDefaultLogContainerSize(DWORD defaultLogContainerSi
     m_defaultLogContainerSize = defaultLogContainerSize;
 }
 
+Unknown115 RawUncompressedFile::unknown115() const {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    return m_unknown115;
+}
+
+void RawUncompressedFile::setUnknown115(const Unknown115 unknown115) {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    m_unknown115 = unknown115;
+}
+
 void RawUncompressedFile::indexThread() {
     // already locked by calling method open
 
