@@ -23,11 +23,11 @@
 
 #include <Vector/BLF/platform.h>
 
-#include <condition_variable>
-#include <limits>
+#include <vector>
 
 #include <Vector/BLF/RawFile.h>
 #include <Vector/BLF/StructuredCompressedFile.h>
+#include <Vector/BLF/Unknown115.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -35,106 +35,111 @@ namespace Vector {
 namespace BLF {
 
 /**
- * This class allows std::fstream-like access to the uncompressed file.
+ * Raw Uncompressed File
+ *
+ * This class is thread-safe.
  */
 class VECTOR_BLF_EXPORT RawUncompressedFile :
     public RawFile
 {
 public:
     RawUncompressedFile(StructuredCompressedFile & structuredCompressedFile);
+    virtual ~RawUncompressedFile();
+
+    using streamoff = std::streamoff;
+    using streamsize = std::streamsize;
+    using streampos = std::streampos;
 
     void open(const char * filename, std::ios_base::openmode mode = std::ios_base::in | std::ios_base::out) override;
     bool is_open() const override;
     void close() override;
-    bool good() const override;
-    bool eof() const override;
-    std::streamsize gcount() const override;
-    void read(char * s, std::streamsize n) override;
-    std::streampos tellg() override;
-    void seekg(const std::streampos pos) override;
-    void seekg(const std::streamoff off, const std::ios_base::seekdir way) override;
-    void write(const char * s, std::streamsize n) override;
-    std::streampos tellp() override;
-    void seekp(const std::streampos pos) override;
-    void seekp(const std::streamoff off, const std::ios_base::seekdir way) override;
+    std::streamsize read(char * s, streamsize n) override;
+    streampos tellg() override;
+    void seekg(const streampos pos) override;
+    void seekg(const streamoff off, const std::ios_base::seekdir way) override;
+    std::streamsize write(const char * s, streamsize n) override;
+    streampos tellp() override;
+    void seekp(const streampos pos) override;
+    void seekp(const streamoff off, const std::ios_base::seekdir way) override;
+
+    /** end-of-file object */
+    Unknown115 unknown115 {};
 
     /**
-     * Stop further operations. Return from waiting reads.
-     */
-    virtual void abort();
-
-    /**
-     * write LogContainer
+     * Get default log container size.
      *
-     * @param[in] logContainer log container
+     * @return default log container size
      */
-    virtual void write(const std::shared_ptr<LogContainer> & logContainer);
+    virtual DWORD defaultLogContainerSize() const;
 
     /**
-     * Close the current logContainer.
-     */
-    virtual void nextLogContainer();
-
-    /**
-     * Return current file size resp. end-of-file position.
+     * Set default log container size.
      *
-     * @return file size
+     * @param[in] defaultLogContainerSize default log container size
      */
-    virtual std::streamsize fileSize() const;
-
-    /**
-     * Set file size resp. end-of-file position.
-     *
-     * @param[in] fileSize file size
-     */
-    virtual void setFileSize(std::streamsize fileSize);
-
-    /**
-     * Sets the maximum file size.
-     * Write operations block, if the size is reached.
-     *
-     * @param[in] bufferSize maximum file size
-     */
-    virtual void setBufferSize(std::streamsize bufferSize);
-
-    /**
-     * drop old log container, if tellg/tellp are beyond it
-     */
-    virtual void dropOldData();
+    virtual void setDefaultLogContainerSize(DWORD defaultLogContainerSize);
 
 private:
-    /** structured compress file */
-    StructuredCompressedFile & m_structuredCompressedFile;
+    /** log container reference */
+    struct LogContainerRef {
+        /** file position */
+        streampos filePosition {0};
+
+        /**
+         * file size
+         *
+         * @secreflist
+         * @refitem LogContainer::uncompressedfileSize
+         * @endsecreflist
+         */
+        streamsize fileSize {0};
+
+        /** uncompressed log container */
+        std::vector<char> uncompressedFile {};
+    };
 
     /** mutex */
     mutable std::mutex m_mutex {};
 
-    /** file size */
-    std::streamsize m_fileSize {std::numeric_limits<std::streamsize>::max()};
+    /** structured compress file */
+    StructuredCompressedFile & m_structuredCompressedFile;
 
-    /** buffer size */
-    std::streamsize m_bufferSize {std::numeric_limits<std::streamsize>::max()};
-
-    /** error state */
-    std::ios_base::iostate m_rdstate {std::ios_base::goodbit};
-
-    /** last read size */
-    std::streamsize m_gcount {};
+    /** open mode */
+    std::ios_base::openmode m_openMode {};
 
     /** get position */
-    std::streampos m_gpos {};
-
-    /** tellg was changed (after read or seekg) */
-    std::condition_variable tellgChanged;
+    streampos m_posg {0};
 
     /** put position */
-    std::streampos m_ppos {};
+    streampos m_posp {0};
 
-    /** tellp was changed (after write or seekp) */
-    std::condition_variable tellpChanged;
+    /** log container references (index is StructuredCompressedFile::streampos) */
+    std::vector<LogContainerRef> m_logContainerRefs {};
 
-    /** abort further operations */
-    bool m_abort {};
+    /** default log container size */
+    DWORD m_defaultLogContainerSize {0x20000};
+
+    /**
+     * index thread
+     *
+     * When opening file for reading, the thread scans the file to find all
+     * LogContainers.
+     */
+    void indexThread();
+
+    /**
+     * read thread
+     *
+     * This reads ahead the next LogContainers.
+     */
+    void readThread();
+
+    /**
+     * write thread
+     *
+     * This writes LogContainers.
+     */
+    void writeThread();
 };
 
 }

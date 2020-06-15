@@ -33,11 +33,31 @@ RawCompressedFile::RawCompressedFile() :
 {
 }
 
+RawCompressedFile::~RawCompressedFile() {
+    close();
+}
+
 void RawCompressedFile::open(const char * filename, std::ios_base::openmode mode) {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
+    /* correct file mode */
+    mode |= std::ios_base::binary;
+    if (mode & std::ios_base::out) {
+        mode |= std::ios_base::app;
+    }
+
+    /* open file */
     m_file.open(filename, mode);
+    if (!m_file.is_open()) {
+        return;
+    }
+    m_openMode = mode;
+
+    /* read file statistics */
+    if (m_openMode & std::ios_base::in) {
+        m_fileStatistics.read(m_file);
+    }
 }
 
 bool RawCompressedFile::is_open() const {
@@ -51,7 +71,89 @@ void RawCompressedFile::close() {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
+    if (!m_file.is_open()) {
+        return;
+    }
+
+    /* write file statistics */
+    if (m_openMode & std::ios_base::out) {
+        m_file.seekg(0);
+        m_fileStatistics.write(m_file);
+    }
+
+    /* close file */
     m_file.close();
+}
+
+std::streamsize RawCompressedFile::read(char * s, RawCompressedFile::streamsize n) {
+    assert(s);
+
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    m_file.read(s, n);
+    return m_file.gcount();
+}
+
+RawCompressedFile::streampos RawCompressedFile::tellg() {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    return m_file.tellg();
+}
+
+void RawCompressedFile::seekg(const RawCompressedFile::streampos pos) {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    m_file.seekg(pos);
+}
+
+void RawCompressedFile::seekg(const RawCompressedFile::streamoff off, const std::ios_base::seekdir way) {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    m_file.seekg(off, way);
+}
+
+std::streamsize RawCompressedFile::write(const char * s, RawCompressedFile::streamsize n) {
+    assert(s);
+
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    std::streampos preWritePos = m_file.tellp();
+    m_file.write(s, n);
+    return m_file.tellp() - preWritePos;
+}
+
+RawCompressedFile::streampos RawCompressedFile::tellp() {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    return m_file.tellp();
+}
+void RawCompressedFile::seekp(const RawCompressedFile::streampos pos) {
+    /* only to be used to write fileStatistics on close */
+    assert(pos == 0);
+
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    m_file.seekp(pos);
+}
+
+void RawCompressedFile::seekp(const RawCompressedFile::streamoff off, const std::ios_base::seekdir way) {
+    /* only to be used to skip padding bytes */
+    assert(off >= 0);
+    assert(way == std::ios_base::cur);
+
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    /* ensure zeros are written */
+    std::vector<char> zero(off);
+    m_file.write(zero.data(), zero.size());
 }
 
 bool RawCompressedFile::good() const {
@@ -68,76 +170,53 @@ bool RawCompressedFile::eof() const {
     return m_file.eof();
 }
 
-std::streamsize RawCompressedFile::gcount() const {
+bool RawCompressedFile::fail() const {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
-    return m_file.gcount();
+    return m_file.fail();
 }
 
-void RawCompressedFile::read(char * s, std::streamsize n) {
+bool RawCompressedFile::bad() const {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
-    m_file.read(s, n);
+    return m_file.bad();
 }
 
-std::streampos RawCompressedFile::tellg() {
+std::ios_base::iostate RawCompressedFile::rdstate() const {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
-    return m_file.tellg();
+    return m_file.rdstate();
 }
 
-void RawCompressedFile::seekg(const std::streampos pos) {
+void RawCompressedFile::setstate(std::ios_base::iostate state) {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
-    m_file.seekg(pos);
+    return m_file.setstate(state);
 }
 
-void RawCompressedFile::seekg(const std::streamoff off, const std::ios_base::seekdir way) {
+void RawCompressedFile::clear(std::ios_base::iostate state) {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
-    m_file.seekg(off, way);
+    return m_file.clear(state);
 }
 
-void RawCompressedFile::write(const char * s, std::streamsize n) {
+FileStatistics RawCompressedFile::fileStatistics() const {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
-    m_file.write(s, n);
+    return m_fileStatistics;
 }
 
-std::streampos RawCompressedFile::tellp() {
+void RawCompressedFile::setFileStatistics(const FileStatistics fileStatistics) {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
-    return m_file.tellp();
-}
-
-void RawCompressedFile::seekp(const std::streampos pos) {
-    /* only to be used to write fileStatistics on close */
-    assert(pos == 0);
-
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    m_file.seekp(pos);
-}
-
-void RawCompressedFile::seekp(const std::streamoff off, const std::ios_base::seekdir way) {
-    /* only to be used to skip padding bytes */
-    assert(off >= 0);
-    assert(way == std::ios_base::cur);
-
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    /* ensure zeros are written */
-    std::vector<char> zero(off);
-    m_file.write(zero.data(), zero.size());
+    m_fileStatistics = fileStatistics;
 }
 
 }

@@ -93,7 +93,7 @@ void LogContainer::readWithoutFile(RawFile & is) {
     is.seekg(objectSize % 4, std::ios_base::cur);
 }
 
-void LogContainer::uncompress() {
+void LogContainer::uncompress(std::vector<char> & uncompressedFile) const {
     switch (compressionMethod) {
     case 0: /* no compression */
         uncompressedFile = compressedFile;
@@ -108,7 +108,7 @@ void LogContainer::uncompress() {
         int retVal = ::uncompress(
                          reinterpret_cast<Byte *>(uncompressedFile.data()),
                          &size,
-                         reinterpret_cast<Byte *>(compressedFile.data()),
+                         reinterpret_cast<const Byte *>(compressedFile.data()),
                          static_cast<uLong>(compressedFileSize));
         if (size != uncompressedFileSize)
             throw Exception("LogContainer::uncompress(): unexpected uncompressedSize");
@@ -122,7 +122,7 @@ void LogContainer::uncompress() {
     }
 }
 
-void LogContainer::compress(const WORD compressionMethod, const int compressionLevel) {
+void LogContainer::compress(const std::vector<char> & uncompressedFile, const WORD compressionMethod, const int compressionLevel) {
     this->compressionMethod = compressionMethod;
 
     switch (compressionMethod) {
@@ -138,7 +138,7 @@ void LogContainer::compress(const WORD compressionMethod, const int compressionL
         int retVal = ::compress2(
                          reinterpret_cast<Byte *>(compressedFile.data()),
                          &compressedBufferSize,
-                         reinterpret_cast<Byte *>(uncompressedFile.data()),
+                         reinterpret_cast<const Byte *>(uncompressedFile.data()),
                          uncompressedFileSize,
                          compressionLevel);
         if (retVal != Z_OK)

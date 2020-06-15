@@ -44,14 +44,9 @@ namespace BLF {
  * File
  */
 class VECTOR_BLF_EXPORT File final {
-  public:
+public:
     File();
     virtual ~File();
-
-    /**
-     * File statistics from file header. contains total counts/sizes
-     */
-    FileStatistics fileStatistics {};
 
     /**
      * Current uncompressed file size
@@ -92,20 +87,6 @@ class VECTOR_BLF_EXPORT File final {
      * @return true if file is open
      */
     virtual bool is_open() const;
-
-    /**
-     * Check whether state of stream is good.
-     *
-     * @return true if no error flags set
-     */
-    virtual bool good() const;
-
-    /**
-     * Check whether eofbit is set.
-     *
-     * @return true if end-of-file reached
-     */
-    virtual bool eof() const;
 
     /**
      * Read object from file.
@@ -150,7 +131,7 @@ class VECTOR_BLF_EXPORT File final {
      */
     virtual void setDefaultLogContainerSize(DWORD defaultLogContainerSize);
 
-  private:
+private:
     /** raw compressed file */
     RawCompressedFile m_rawCompressedFile;
 
@@ -163,66 +144,8 @@ class VECTOR_BLF_EXPORT File final {
     /** structured uncompressed file */
     StructuredUncompressedFile m_structuredUncompressedFile;
 
-    /**
-     * Open mode
-     */
+    /** open mode */
     std::ios_base::openmode m_openMode {};
-
-    /* compressed file */
-
-    /**
-     * thread between uncompressedFile and compressedFile
-     */
-    std::thread m_compressedFileThread {};
-
-    /**
-     * thread still running
-     */
-    std::atomic<bool> m_compressedFileThreadRunning {};
-
-    /* uncompressed file */
-
-    /**
-     * thread between readWriteQueue and uncompressedFile
-     */
-    std::thread m_uncompressedFileThread {};
-
-    /**
-     * thread still running
-     */
-    std::atomic<bool> m_uncompressedFileThreadRunning {};
-
-    /* internal functions */
-
-    /**
-     * Read/inflate/uncompress data from compressedFile into uncompressedFile.
-     */
-    void compressedFile2UncompressedFile();
-
-    /**
-     * Write/deflate/compress data from uncompressedFile into compressedFile.
-     */
-    void uncompressedFile2CompressedFile();
-
-    /**
-     * transfer data from uncompressedFile to readWriteQueue
-     */
-    static void uncompressedFileReadThread(File * file);
-
-    /**
-     * transfer data from readWriteQueue to uncompressedfile
-     */
-    static void uncompressedFileWriteThread(File * file);
-
-    /**
-     * transfer data from compressedFile to uncompressedFile
-     */
-    static void compressedFileReadThread(File * file);
-
-    /**
-     * transfer data from uncompressedfile to compressedFile
-     */
-    static void compressedFileWriteThread(File * file);
 };
 
 }

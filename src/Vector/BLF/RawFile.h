@@ -56,28 +56,7 @@ struct VECTOR_BLF_EXPORT RawFile {
     /** Close file. */
     virtual void close() = 0;
 
-    /**
-     * Check whether state of stream is good.
-     *
-     * @return true if no error flags are set
-     */
-    virtual bool good() const = 0;
-
-    /**
-     * Check whether eofbit is set.
-     *
-     * @return true if eofbit is set
-     */
-    virtual bool eof() const = 0;
-
     /* input methods */
-
-    /**
-     * Get characters returned by last read operation.
-     *
-     * @return Number of characters
-     */
-    virtual std::streamsize gcount() const = 0;
 
     /**
      * Read block of data.
@@ -86,8 +65,9 @@ struct VECTOR_BLF_EXPORT RawFile {
      *
      * @param[out] s Pointer to data
      * @param[in] n Requested size of data
+     * @return Size of data read
      */
-    virtual void read(char * s, std::streamsize n) = 0;
+    virtual std::streamsize read(char * s, std::streamsize n) = 0;
 
     /**
      * Get position in input sequence.
@@ -118,8 +98,9 @@ struct VECTOR_BLF_EXPORT RawFile {
      *
      * @param[in] s Pointer to data
      * @param[in] n Size of data
+     * @return Size of data written
      */
-    virtual void write(const char * s, std::streamsize n) = 0;
+    virtual std::streamsize write(const char * s, std::streamsize n) = 0;
 
     /**
      * Get position in output sequence.

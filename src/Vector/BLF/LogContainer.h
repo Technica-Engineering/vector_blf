@@ -71,18 +71,12 @@ struct VECTOR_BLF_EXPORT LogContainer final : ObjectHeaderBase {
     DWORD reservedLogContainer3 {}; // @todo what is this? 0x0215, 0x9a, 0, 0x0c...
 
     /** compressed file content */
-    std::vector<uint8_t> compressedFile {};
+    std::vector<char> compressedFile {};
 
     /* following data is calculated */
 
-    /** uncompressed file content */
-    std::vector<uint8_t> uncompressedFile {};
-
     /** compressed file size in bytes */
     DWORD compressedFileSize {};
-
-    /** position of this LogContainer::uncompressedFile within UncompressedFile class */
-    std::streampos filePosition {};
 
     /**
      * internalHeaderSize returns the size of all headers.
@@ -102,16 +96,19 @@ struct VECTOR_BLF_EXPORT LogContainer final : ObjectHeaderBase {
 
     /**
      * uncompress data
+     *
+     * @param[out] uncompressedFile uncompressed data
      */
-    virtual void uncompress();
+    virtual void uncompress(std::vector<char> & uncompressedFile) const;
 
     /**
      * compress data
      *
+     * @param[in] uncompressedFile compressed data
      * @param[in] compressionMethod compression method
      * @param[in] compressionLevel compression level (different for each method)
      */
-    virtual void compress(const WORD compressionMethod, const int compressionLevel);
+    virtual void compress(const std::vector<char> & uncompressedFile, const WORD compressionMethod = 2, const int compressionLevel = 6);
 };
 
 }

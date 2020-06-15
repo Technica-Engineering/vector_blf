@@ -1907,9 +1907,9 @@ int main(int argc, char * argv[]) {
         return -1;
     }
 
-    show(&file.fileStatistics);
+    // @todo show(&file.fileStatistics);
 
-    while (file.good()) {
+    for (;;) {
         Vector::BLF::ObjectHeaderBase * ohb = nullptr;
 
         /* read and capture exceptions, e.g. unfinished files */
@@ -1918,8 +1918,9 @@ int main(int argc, char * argv[]) {
         } catch (std::runtime_error & e) {
             std::cout << "Exception: " << e.what() << std::endl;
         }
-        if (ohb == nullptr)
+        if (ohb == nullptr) {
             break;
+        }
 
         /* ObjectHeader */
         auto * oh = dynamic_cast<Vector::BLF::ObjectHeader *>(ohb);
@@ -2460,8 +2461,8 @@ int main(int argc, char * argv[]) {
 
     file.close();
 
-    std::cout << "uncompressedFileSize: " << std::dec << file.fileStatistics.uncompressedFileSize << std::endl;
-    std::cout << "objectCount: " << std::dec << file.fileStatistics.objectCount << std::endl;
+    // @todo std::cout << "uncompressedFileSize: " << std::dec << file.fileStatistics.uncompressedFileSize << std::endl;
+    // @todo std::cout << "objectCount: " << std::dec << file.fileStatistics.objectCount << std::endl;
 
     return 0;
 }

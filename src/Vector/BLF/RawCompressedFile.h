@@ -26,6 +26,7 @@
 #include <fstream>
 #include <mutex>
 
+#include <Vector/BLF/FileStatistics.h>
 #include <Vector/BLF/RawFile.h>
 
 #include <Vector/BLF/vector_blf_export.h>
@@ -34,35 +35,110 @@ namespace Vector {
 namespace BLF {
 
 /**
- * This class allows std::fstream-like access to the compressed file.
+ * Raw Compressed File
+ *
+ * This class is thread-safe.
  */
 class VECTOR_BLF_EXPORT RawCompressedFile :
     public RawFile
 {
 public:
     RawCompressedFile();
+    virtual ~RawCompressedFile();
+
+    using streamoff = std::streamoff;
+    using streamsize = std::streamsize;
+    using streampos = std::streampos;
 
     void open(const char * filename, std::ios_base::openmode mode = std::ios_base::in | std::ios_base::out) override;
     bool is_open() const override;
     void close() override;
-    bool good() const override;
-    bool eof() const override;
-    std::streamsize gcount() const override;
-    void read(char * s, std::streamsize n) override;
-    std::streampos tellg() override;
-    void seekg(const std::streampos pos) override;
-    void seekg(const std::streamoff off, const std::ios_base::seekdir way) override;
-    void write(const char * s, std::streamsize n) override;
-    std::streampos tellp() override;
-    void seekp(const std::streampos pos) override;
-    void seekp(const std::streamoff off, const std::ios_base::seekdir way) override;
+    std::streamsize read(char * s, streamsize n) override;
+    streampos tellg() override;
+    void seekg(const streampos pos) override;
+    void seekg(const streamoff off, const std::ios_base::seekdir way) override;
+    std::streamsize write(const char * s, streamsize n) override;
+    streampos tellp() override;
+    void seekp(const streampos pos) override;
+    void seekp(const streamoff off, const std::ios_base::seekdir way) override;
+
+    /**
+     * Check whether state of stream is good.
+     *
+     * @return true if no error flags are set
+     */
+    virtual bool good() const;
+
+    /**
+     * Check whether eofbit is set.
+     *
+     * @return true if eofbit is set
+     */
+    virtual bool eof() const;
+
+    /**
+     * Check whether either failbit or badbit is set.
+     *
+     * @return true if failbit or badbit is set
+     */
+    virtual bool fail() const;
+
+    /**
+     * Check whether badbit is set.
+     *
+     * @return true if badbit is set
+     */
+    virtual bool bad() const;
+
+    /**
+     * Get error state flags
+     *
+     * @return Error state flags
+     */
+    virtual std::ios_base::iostate rdstate() const;
+
+    /**
+     * Set error state flag
+     *
+     * @param[in] state state
+     */
+    virtual void setstate(std::ios_base::iostate state);
+
+    /**
+     * Set error state flags
+     *
+     * @param[in] state state
+     */
+    virtual void clear(std::ios_base::iostate state = std::ios_base::goodbit);
+
+    /**
+     * get file statistics
+     *
+     * @todo rename to statistics, omit file?
+     * @return file statistics
+     */
+    virtual FileStatistics fileStatistics() const;
+
+    /**
+     * set file statistics
+     *
+     * @todo rename to setStatistics, omit file?
+     * @param[in] fileStatistics file statistics
+     */
+    virtual void setFileStatistics(const FileStatistics fileStatistics);
 
 private:
+    /** mutex */
+    mutable std::mutex m_mutex {};
+
     /** actual file on disk */
     std::fstream m_file;
 
-    /** mutex */
-    mutable std::mutex m_mutex {};
+    /** open mode */
+    std::ios_base::openmode m_openMode {};
+
+    /** file statistics */
+    FileStatistics m_fileStatistics {};
 };
 
 }

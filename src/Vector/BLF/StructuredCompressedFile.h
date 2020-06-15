@@ -23,7 +23,6 @@
 
 #include <Vector/BLF/platform.h>
 
-#include <iterator>
 #include <memory>
 #include <mutex>
 #include <vector>
@@ -37,118 +36,82 @@ namespace Vector {
 namespace BLF {
 
 /**
- * This class allows std::vector-like access to the compressed file.
+ * Structured Compressed File
+ *
+ * This class is thread-safe.
  */
 class VECTOR_BLF_EXPORT StructuredCompressedFile {
 public:
     StructuredCompressedFile(RawCompressedFile & rawCompressedFile);
+    virtual ~StructuredCompressedFile();
 
-    /**
-     * Get default log container size.
-     *
-     * @return default log container size
-     */
-    virtual DWORD defaultLogContainerSize() const;
+    using streamoff = int32_t;
+    using streamsize = uint32_t;
+    using streampos = uint32_t;
 
-    /**
-     * Set default log container size.
-     *
-     * @param[in] defaultLogContainerSize default log container size
-     */
-    virtual void setDefaultLogContainerSize(DWORD defaultLogContainerSize);
-
-    /** object reference */
-    struct LogContainerRef {
-        std::streampos filePosition;
-        DWORD objectSize; // @ref ObjectHeaderBase::objectSize
-        ObjectType objectType;
-
-        std::shared_ptr<LogContainer> logContainer();
-
-    private:
-        std::shared_ptr<LogContainer> m_logContainer {};
-    };
-
-    /* member types */
-    using value_type = std::shared_ptr<LogContainer>; // @todo change to LogContainerRef
-    using allocator_type = std::allocator<value_type>;
-    using size_type = std::size_t;
-    using difference_type = std::ptrdiff_t;
-    using reference = value_type&;
-    using const_reference = const value_type&;
-    using pointer = value_type*;
-    using const_pointer = const value_type*;
-    using iterator = std::iterator<std::random_access_iterator_tag, LogContainerRef>;
-    using const_iterator = std::iterator<std::random_access_iterator_tag, const LogContainerRef>;
-    using reverse_iterator = std::reverse_iterator<iterator>;
-    using const_reverse_iterator = std::reverse_iterator<const_iterator>;
-
-    /* iterators */
-    iterator begin() noexcept;
-    const_iterator begin() const noexcept;
-    const_iterator cbegin() const noexcept;
-    iterator end() noexcept;
-    const_iterator end() const noexcept;
-    const_iterator cend() const noexcept;
-    reverse_iterator rbegin() noexcept;
-    const_reverse_iterator rbegin() const noexcept;
-    const_reverse_iterator crbegin() const noexcept;
-    reverse_iterator rend() noexcept;
-    const_reverse_iterator rend() const noexcept;
-    const_reverse_iterator crend() const noexcept;
-
-    /* element access */
-    reference at(size_type n);
-    const_reference at(size_type n) const;
-    reference operator[] (size_type n);
-    const_reference operator[] (size_type n) const;
-    reference front();
-    const_reference front() const;
-    reference back();
-    const_reference back() const;
-
-    /* capacity */
-    bool empty() const;
-    size_type size() const;
-
-    /* modifiers */
-    void clear() noexcept;
-    void push_back(const value_type & value);
-    void push_back(value_type && value);
-
-    /**
-     * Returns the file container, which contains pos.
-     *
-     * Searches through the data vector to find the logContainer, which contains the position.
-     * If the position is behind the last logContainer, return nullptr to indicate a new
-     * LogContainer need to be appended.
-     *
-     * @param[in] pos position
-     * @return log container or nullptr
-     */
-    value_type logContainerContaining(std::streampos pos);
+    virtual void open(const char * filename, std::ios_base::openmode mode = std::ios_base::in | std::ios_base::out);
+    virtual bool is_open() const;
+    virtual void close();
+    virtual LogContainer * read();
+    virtual streampos tellg();
+    virtual void seekg(const streampos pos);
+    virtual void seekg(const streamoff off, const std::ios_base::seekdir way);
+    virtual bool write(LogContainer * logContainer);
+    virtual streampos tellp();
 
 private:
-    /** raw compressed file */
-    RawCompressedFile & m_rawCompressedFile;
+    /** log container reference */
+    struct LogContainerRef {
+        /** file position */
+        RawCompressedFile::streampos filePosition {0};
+
+        /** log container */
+        std::shared_ptr<LogContainer> logContainer {nullptr};
+    };
 
     /** mutex */
     mutable std::mutex m_mutex {};
 
-    /** data */
-    std::vector<value_type> m_data {};
+    /** raw compressed file */
+    RawCompressedFile & m_rawCompressedFile;
 
-    /** default log container size */
-    DWORD m_defaultLogContainerSize {0x20000};
+    /** open mode */
+    std::ios_base::openmode m_openMode {};
 
-    /** prepare a new log container */
-    void init(reference logContainerRef);
+    /** get position */
+    streampos m_posg{0};
 
-    /** load log container from RawUncompressedFile */
-    void load(reference logContainerRef);
+    /**
+     * put position
+     *
+     * @todo remove this. LogContainers can just be appended, so posp is always one beyond the last
+     */
+    streampos m_posp{0};
 
-    /** save log container to RawUncompressedFile */
-    void save(reference logContainerRef);
+    /** log container references (index is streampos) */
+    std::vector<LogContainerRef> m_logContainerRefs {};
+
+    /**
+     * index thread
+     *
+     * When opening file for reading, the thread scans the file to find all
+     * LogContainers.
+     */
+    void indexThread();
+
+    /**
+     * read thread
+     *
+     * This reads ahead the next LogContainers.
+     */
+    void readThread();
+
+    /**
+     * write thread
+     *
+     * This writes LogContainers.
+     */
+    void writeThread();
 };
 
 }

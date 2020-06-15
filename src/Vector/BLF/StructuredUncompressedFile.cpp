@@ -23,10 +23,10 @@
 
 #undef NDEBUG
 #include <cassert>
+#include <iostream>
 
 #include <Vector/BLF/Exceptions.h>
 #include <Vector/BLF/File.h>
-#include <Vector/BLF/ObjectHeaderBase.h>
 
 namespace Vector {
 namespace BLF {
@@ -37,365 +37,200 @@ StructuredUncompressedFile::StructuredUncompressedFile(RawUncompressedFile & raw
 }
 
 StructuredUncompressedFile::~StructuredUncompressedFile() {
-    abort();
+    close();
 }
 
-/* iterators */
-
-StructuredUncompressedFile::iterator StructuredUncompressedFile::begin() noexcept {
+void StructuredUncompressedFile::open(const char * filename, std::ios_base::openmode mode) {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
-    // @todo
+    /* open file */
+    m_rawUncompressedFile.open(filename, mode);
+    if (!m_rawUncompressedFile.is_open()) {
+        return;
+    }
+    m_openMode = mode;
+
+    /* start index/read thread */
+    if (m_openMode & std::ios_base::in) {
+        indexThread(); // @todo make this a thread
+        // @todo start normal read thread
+    }
+
+    /* start write thread */
+    if (m_openMode & std::ios_base::out) {
+        // @todo write thread
+    }
 }
 
-StructuredUncompressedFile::const_iterator StructuredUncompressedFile::begin() const noexcept {
+bool StructuredUncompressedFile::is_open() const {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
-    // @todo
+    return m_rawUncompressedFile.is_open();
 }
 
-StructuredUncompressedFile::const_iterator StructuredUncompressedFile::cbegin() const noexcept {
+void StructuredUncompressedFile::close() {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
-    // @todo
-}
+    // @todo abort read thread
+    // @todo wait till read/write threads finished
 
-StructuredUncompressedFile::iterator StructuredUncompressedFile::end() noexcept {
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    // @todo
-}
-
-StructuredUncompressedFile::const_iterator StructuredUncompressedFile::end() const noexcept {
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    // @todo
-}
-
-StructuredUncompressedFile::const_iterator StructuredUncompressedFile::cend() const noexcept {
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    // @todo
-}
-
-StructuredUncompressedFile::reverse_iterator StructuredUncompressedFile::rbegin() noexcept {
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    // @todo
-}
-
-StructuredUncompressedFile::const_reverse_iterator StructuredUncompressedFile::rbegin() const noexcept {
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    // @todo
-}
-
-StructuredUncompressedFile::const_reverse_iterator StructuredUncompressedFile::crbegin() const noexcept {
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    // @todo
-}
-
-StructuredUncompressedFile::reverse_iterator StructuredUncompressedFile::rend() noexcept {
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    // @todo
-}
-
-StructuredUncompressedFile::const_reverse_iterator StructuredUncompressedFile::rend() const noexcept {
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    // @todo
-}
-
-StructuredUncompressedFile::const_reverse_iterator StructuredUncompressedFile::crend() const noexcept {
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    // @todo
-}
-
-/* element access */
-
-StructuredUncompressedFile::reference StructuredUncompressedFile::at(size_type n) {
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    // @todo
-}
-
-StructuredUncompressedFile::const_reference StructuredUncompressedFile::at(size_type n) const {
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    // @todo
-}
-
-StructuredUncompressedFile::reference StructuredUncompressedFile::operator[] (size_type n) {
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    // @todo
-}
-
-StructuredUncompressedFile::const_reference StructuredUncompressedFile::operator[] (size_type n) const {
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    // @todo
-}
-
-StructuredUncompressedFile::reference StructuredUncompressedFile::front() {
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    // @todo
-}
-
-StructuredUncompressedFile::const_reference StructuredUncompressedFile::front() const {
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    // @todo
-}
-
-StructuredUncompressedFile::reference StructuredUncompressedFile::back() {
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    // @todo
-}
-
-StructuredUncompressedFile::const_reference StructuredUncompressedFile::back() const {
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    // @todo
-}
-
-/* capacity */
-
-bool StructuredUncompressedFile::empty() const {
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    // @todo
-}
-
-StructuredUncompressedFile::size_type StructuredUncompressedFile::size() const {
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    // @todo
-}
-
-/* modifiers */
-
-void StructuredUncompressedFile::clear() noexcept {
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    // @todo
-}
-
-void StructuredUncompressedFile::push_back(const StructuredUncompressedFile::value_type & value) {
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    // @todo
-}
-
-void StructuredUncompressedFile::push_back(StructuredUncompressedFile::value_type && value) {
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    // @todo
+    return m_rawUncompressedFile.close();
 }
 
 ObjectHeaderBase * StructuredUncompressedFile::read() {
     /* mutex lock */
-    std::unique_lock<std::mutex> lock(m_mutex);
+    std::lock_guard<std::mutex> lock(m_mutex);
 
-    /* wait for data */
-    pospChanged.wait(lock, [&] {
-        return
-        m_abort ||
-        (m_posg < m_posp) || // if data available
-        (m_posg >= m_max); // if end reached
-    });
-
-    /* get first entry */
-    ObjectHeaderBase * ohb = nullptr;
-    if (m_posg >= m_posp) {
-        m_rdstate = std::ios_base::eofbit | std::ios_base::failbit;
-    } else {
-        ohb = m_data[m_posg].object;
-        assert(ohb);
-
-        /* set state */
-        m_rdstate = std::ios_base::goodbit;
-
-        /* increase get count */
-        ++m_posg;
+    /* check if read position is valid */
+    if (m_posg >= m_objectRefs.size()) {
+        return nullptr;
     }
 
-    /* notify */
-    posgChanged.notify_all();
+    /* seek to object */
+    RawUncompressedFile::streampos rawFilePosition = m_objectRefs[m_posg].filePosition;
+    m_rawUncompressedFile.seekg(rawFilePosition);
+
+    /* read object header (not via read function as this would block) */
+    DWORD signature;
+    WORD headerSize;
+    WORD headerVersion;
+    DWORD objectSize;
+    ObjectType objectType;
+    if (m_rawUncompressedFile.read(reinterpret_cast<char *>(&signature), sizeof(signature)) != sizeof(signature)) {
+        return nullptr;
+    }
+    if (signature != ObjectSignature)
+        throw Exception("StructuredCompressedFile::indexThread(): Object signature doesn't match at this position.");
+    m_rawUncompressedFile.read(reinterpret_cast<char *>(&headerSize), sizeof(headerSize));
+    m_rawUncompressedFile.read(reinterpret_cast<char *>(&headerVersion), sizeof(headerVersion));
+    m_rawUncompressedFile.read(reinterpret_cast<char *>(&objectSize), sizeof(objectSize));
+    m_rawUncompressedFile.read(reinterpret_cast<char *>(&objectType), sizeof(objectType));
+    m_rawUncompressedFile.seekg(rawFilePosition);
+
+    /* read object */
+    ObjectHeaderBase * ohb = makeObject(objectType);
+    ohb->read(m_rawUncompressedFile);
+
+    /* update status variables */
+    m_posg++;
 
     return ohb;
 }
 
-void StructuredUncompressedFile::setMaxSize(size_type count) {
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    /* set object count */
-    m_max = count;
-
-    /* notify */
-    pospChanged.notify_all();
-}
-
-void StructuredUncompressedFile::write(ObjectHeaderBase * value) {
-    assert(value);
-
-    /* mutex lock */
-    std::unique_lock<std::mutex> lock(m_mutex);
-
-    /* wait for free space */
-    posgChanged.wait(lock, [&] {
-        return
-        m_abort ||
-        ((m_posp - m_posg) < m_bufferSize);
-    });
-
-    if (m_posp >= m_data.size()) {
-        m_data.resize(m_posp + 1);
-    }
-
-    /* push data */
-    m_data[m_posp].object = value;
-
-    /* increase put count */
-    ++m_posp;
-
-    /* notify */
-    pospChanged.notify_all();
-}
-
-StructuredUncompressedFile::difference_type StructuredUncompressedFile::tellg() const {
+StructuredUncompressedFile::streampos StructuredUncompressedFile::tellg() {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
     return m_posg;
 }
 
-StructuredUncompressedFile::difference_type StructuredUncompressedFile::tellp() const {
+void StructuredUncompressedFile::seekg(const StructuredUncompressedFile::streampos pos) {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    m_posg = pos;
+}
+
+void StructuredUncompressedFile::seekg(const StructuredUncompressedFile::streamoff off, const std::ios_base::seekdir way) {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    /* calculate new position */
+    StructuredCompressedFile::streampos pos;
+    switch(way) {
+    case std::ios_base::beg:
+        pos = 0;
+        break;
+    case std::ios_base::cur:
+        pos = m_posg;
+        break;
+    case std::ios_base::end:
+        pos = m_objectRefs.size();
+        break;
+    default:
+        assert(false);
+    }
+    pos += off;
+
+    m_posg = pos;
+}
+
+bool StructuredUncompressedFile::write(ObjectHeaderBase * objectHeaderBase) {
+    assert(objectHeaderBase);
+
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    // @todo
+
+    return false;
+}
+
+StructuredUncompressedFile::streampos StructuredUncompressedFile::tellp() {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
     return m_posp;
 }
 
-bool StructuredUncompressedFile::good() const {
+void StructuredUncompressedFile::indexThread() {
+    std::cout << __PRETTY_FUNCTION__ << ": IndexThread starts" << std::endl;
+    // already locked by calling method open
+
+    /* create index of all objects */
+    assert(m_rawUncompressedFile.tellg() == 0);
+    for(;;) {
+        /* prepare ObjectRef */
+        ObjectRef objectRef;
+        objectRef.filePosition = m_rawUncompressedFile.tellg();
+        std::cout << __PRETTY_FUNCTION__ << ": Checking file position 0x" << std::hex << m_rawUncompressedFile.tellg() << std::endl;
+
+        /* read object header (not via read function as this would potentially throw an exception) */
+        DWORD signature;
+        WORD headerSize;
+        WORD headerVersion;
+        DWORD objectSize;
+        ObjectType objectType;
+        if (m_rawUncompressedFile.read(reinterpret_cast<char *>(&signature), sizeof(signature)) != sizeof(signature)) {
+            break;
+        }
+        if (signature != ObjectSignature)
+            throw Exception("StructuredUncompressedFile::indexThread(): Object signature doesn't match at this position.");
+        m_rawUncompressedFile.read(reinterpret_cast<char *>(&headerSize), sizeof(headerSize));
+        m_rawUncompressedFile.read(reinterpret_cast<char *>(&headerVersion), sizeof(headerVersion));
+        m_rawUncompressedFile.read(reinterpret_cast<char *>(&objectSize), sizeof(objectSize));
+        m_rawUncompressedFile.read(reinterpret_cast<char *>(&objectType), sizeof(objectType));
+
+        /* add object reference */
+        objectRef.objectSize = objectSize;
+        objectRef.objectType = objectType;
+        m_objectRefs.push_back(objectRef);
+        std::cout << __PRETTY_FUNCTION__ << ": Object at 0x" << std::hex << objectRef.filePosition << " size 0x" << std::hex << objectRef.objectSize << std::endl;
+
+        /* jump to next object */
+        m_rawUncompressedFile.seekg(objectRef.filePosition + RawUncompressedFile::streamsize(objectSize));
+    }
+
+    /* seek back to first log container */
+    RawUncompressedFile::streampos rawFilePosition = m_objectRefs.front().filePosition;
+    m_rawUncompressedFile.seekg(rawFilePosition);
+}
+
+void StructuredUncompressedFile::readThread() {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
-    return (m_rdstate == std::ios_base::goodbit);
+    // @todo
 }
 
-bool StructuredUncompressedFile::eof() const {
+void StructuredUncompressedFile::writeThread() {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
-    return (m_rdstate & std::ios_base::eofbit);
-}
-
-void StructuredUncompressedFile::abort() {
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    /* stop */
-    m_abort = true;
-
-    /* trigger blocked threads */
-    posgChanged.notify_all();
-    pospChanged.notify_all();
-}
-
-void StructuredUncompressedFile::setBufferSize(DWORD bufferSize) {
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    /* set max size */
-    m_bufferSize = bufferSize;
-}
-
-void StructuredUncompressedFile::uncompressedFile2ReadWriteQueue() {
-    /* identify type */
-    ObjectHeaderBase ohb(0, ObjectType::UNKNOWN);
-    ohb.read(m_rawUncompressedFile);
-    if (!m_rawUncompressedFile.good()) {
-        /* This is a normal eof. No objects ended abruptly. */
-        return;
-    }
-    m_rawUncompressedFile.seekg(-ohb.calculateHeaderSize(), std::ios_base::cur);
-
-    /* create object */
-    ObjectHeaderBase * obj = makeObject(ohb.objectType);
-    if (obj == nullptr) {
-        /* in case of unknown objectType */
-        throw Exception("StructuredUncompressedFile::uncompressedFile2ReadWriteQueue(): Unknown object.");
-    }
-
-    /* read object */
-    obj->read(m_rawUncompressedFile);
-    if (!m_rawUncompressedFile.good()) {
-        delete obj;
-        throw Exception("StructuredUncompressedFile::uncompressedFile2ReadWriteQueue(): Read beyond end of file.");
-    }
-
-    /* push data into readWriteQueue */
-    write(obj);
-
-    /* statistics */
-    if (obj->objectType != ObjectType::Unknown115)
-        currentObjectCount++;
-
-    /* drop old data */
-    m_rawUncompressedFile.dropOldData();
-}
-
-void StructuredUncompressedFile::readWriteQueue2UncompressedFile() {
-    /* get from readWriteQueue */
-    ObjectHeaderBase * ohb = read();
-
-    /* process data */
-    if (ohb == nullptr) {
-        // Read intentionally returns, when the thread is aborted.
-        return;
-    }
-
-    /* write into uncompressedFile */
-    ohb->write(m_rawUncompressedFile);
-
-    /* statistics */
-    if (ohb->objectType != ObjectType::Unknown115)
-        currentObjectCount++;
-
-    /* delete object */
-    delete ohb;
+    // @todo
 }
 
 }
