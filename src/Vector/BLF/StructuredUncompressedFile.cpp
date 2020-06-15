@@ -176,6 +176,13 @@ StructuredUncompressedFile::streampos StructuredUncompressedFile::tellp() {
     return m_posp;
 }
 
+StructuredUncompressedFile::streamsize StructuredUncompressedFile::size() const {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    return m_objectRefs.size();
+}
+
 void StructuredUncompressedFile::indexThread() {
     std::cout << __PRETTY_FUNCTION__ << ": IndexThread starts" << std::endl;
     // already locked by calling method open

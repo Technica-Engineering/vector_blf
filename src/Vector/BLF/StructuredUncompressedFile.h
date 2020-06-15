@@ -60,6 +60,13 @@ public:
     virtual streampos tellp();
 
     /**
+     * Get file size
+     *
+     * @return file size
+     */
+    virtual streamsize size() const;
+
+    /**
      * Current number of objects read
      *
      * Unknown115 is not counted.

@@ -54,6 +54,11 @@ void RawCompressedFile::open(const char * filename, std::ios_base::openmode mode
     }
     m_openMode = mode;
 
+    /* set file size */
+    m_file.seekg(0, std::ios_base::end);
+    m_size = m_file.tellg();
+    m_file.seekg(0);
+
     /* read file statistics */
     if (m_openMode & std::ios_base::in) {
         m_fileStatistics.read(m_file);
@@ -133,6 +138,7 @@ RawCompressedFile::streampos RawCompressedFile::tellp() {
 
     return m_file.tellp();
 }
+
 void RawCompressedFile::seekp(const RawCompressedFile::streampos pos) {
     /* only to be used to write fileStatistics on close */
     assert(pos == 0);
@@ -203,6 +209,13 @@ void RawCompressedFile::clear(std::ios_base::iostate state) {
     std::lock_guard<std::mutex> lock(m_mutex);
 
     return m_file.clear(state);
+}
+
+RawCompressedFile::streamsize RawCompressedFile::size() const {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    return m_size;
 }
 
 FileStatistics RawCompressedFile::fileStatistics() const {

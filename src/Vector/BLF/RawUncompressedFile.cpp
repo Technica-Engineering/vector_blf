@@ -272,6 +272,13 @@ void RawUncompressedFile::seekp(const std::streamoff off, const std::ios_base::s
     write(zero.data(), zero.size()); // write does the lock
 }
 
+RawUncompressedFile::streamsize RawUncompressedFile::size() const {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    return m_size;
+}
+
 DWORD RawUncompressedFile::defaultLogContainerSize() const {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
@@ -307,6 +314,9 @@ void RawUncompressedFile::indexThread() {
 
         filePosition += logContainer->uncompressedFileSize;
     }
+
+    /* set file size */
+    m_size = filePosition;
 
     /* seek back to first log container */
     m_structuredCompressedFile.seekg(0);

@@ -62,6 +62,12 @@ public:
     void seekp(const streampos pos) override;
     void seekp(const streamoff off, const std::ios_base::seekdir way) override;
 
+    /**
+     * Get file size
+     *
+     * @return file size
+     */
+    virtual streamsize size() const;
     /** end-of-file object */
     Unknown115 unknown115 {};
 
@@ -112,6 +118,9 @@ private:
 
     /** put position */
     streampos m_posp {0};
+
+    /** file size */
+    streamsize m_size {0};
 
     /** log container references (index is StructuredCompressedFile::streampos) */
     std::vector<LogContainerRef> m_logContainerRefs {};

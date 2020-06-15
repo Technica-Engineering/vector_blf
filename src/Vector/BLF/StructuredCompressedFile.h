@@ -59,6 +59,13 @@ public:
     virtual bool write(LogContainer * logContainer);
     virtual streampos tellp();
 
+    /**
+     * Get file size
+     *
+     * @return file size
+     */
+    virtual streamsize size() const;
+
 private:
     /** log container reference */
     struct LogContainerRef {

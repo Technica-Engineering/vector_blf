@@ -175,6 +175,13 @@ StructuredCompressedFile::streampos StructuredCompressedFile::tellp() {
     return m_posp;
 }
 
+StructuredCompressedFile::streamsize StructuredCompressedFile::size() const {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    return m_logContainerRefs.size();
+}
+
 void StructuredCompressedFile::indexThread() {
     // already locked by calling method open
 

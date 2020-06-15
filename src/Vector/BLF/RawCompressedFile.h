@@ -112,6 +112,13 @@ public:
     virtual void clear(std::ios_base::iostate state = std::ios_base::goodbit);
 
     /**
+     * Get file size
+     *
+     * @return file size
+     */
+    virtual streamsize size() const;
+
+    /**
      * get file statistics
      *
      * @todo rename to statistics, omit file?
@@ -136,6 +143,9 @@ private:
 
     /** open mode */
     std::ios_base::openmode m_openMode {};
+
+    /** file size */
+    streamsize m_size {0};
 
     /** file statistics */
     FileStatistics m_fileStatistics {};
