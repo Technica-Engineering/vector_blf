@@ -55,7 +55,7 @@ void File::open(const char * filename, const std::ios_base::openmode mode) {
     /* read */
     if (mode & std::ios_base::in) {
         /* fileStatistics done */
-        currentUncompressedFileSize += m_rawCompressedFile.fileStatistics().statisticsSize;
+        currentUncompressedFileSize += m_rawCompressedFile.statistics().statisticsSize;
 
         // @todo read threads
     } else
@@ -63,7 +63,7 @@ void File::open(const char * filename, const std::ios_base::openmode mode) {
         /* write */
         if (mode & std::ios_base::out) {
             /* fileStatistics done */
-            currentUncompressedFileSize += m_rawCompressedFile.fileStatistics().statisticsSize;
+            currentUncompressedFileSize += m_rawCompressedFile.statistics().statisticsSize;
 
             // @todo write threads
         }

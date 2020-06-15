@@ -37,7 +37,7 @@ BOOST_AUTO_TEST_CASE(ReadTest) {
     BOOST_CHECK_EQUAL(rawCompressedFile.tellg(), 0x90); // as FileStatistics was read already
 
     /* check file statistics */
-    Vector::BLF::FileStatistics fileStatistics = rawCompressedFile.fileStatistics();
+    Vector::BLF::FileStatistics fileStatistics = rawCompressedFile.statistics();
     BOOST_CHECK_EQUAL(fileStatistics.signature, Vector::BLF::FileSignature);
     BOOST_CHECK_EQUAL(fileStatistics.statisticsSize, 0x90);
     BOOST_CHECK_EQUAL(fileStatistics.applicationId, 0xd4);

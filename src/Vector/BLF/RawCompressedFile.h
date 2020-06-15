@@ -121,18 +121,16 @@ public:
     /**
      * get file statistics
      *
-     * @todo rename to statistics, omit file?
      * @return file statistics
      */
-    virtual FileStatistics fileStatistics() const;
+    virtual FileStatistics statistics() const;
 
     /**
      * set file statistics
      *
-     * @todo rename to setStatistics, omit file?
-     * @param[in] fileStatistics file statistics
+     * @param[in] statistics file statistics
      */
-    virtual void setFileStatistics(const FileStatistics fileStatistics);
+    virtual void setStatistics(const FileStatistics statistics);
 
 private:
     /** mutex */
@@ -148,7 +146,7 @@ private:
     streamsize m_size {0};
 
     /** file statistics */
-    FileStatistics m_fileStatistics {};
+    FileStatistics m_statistics {};
 };
 
 }

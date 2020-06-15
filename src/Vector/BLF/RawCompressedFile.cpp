@@ -61,7 +61,7 @@ void RawCompressedFile::open(const char * filename, std::ios_base::openmode mode
 
     /* read file statistics */
     if (m_openMode & std::ios_base::in) {
-        m_fileStatistics.read(m_file);
+        m_statistics.read(m_file);
     }
 }
 
@@ -83,7 +83,7 @@ void RawCompressedFile::close() {
     /* write file statistics */
     if (m_openMode & std::ios_base::out) {
         m_file.seekg(0);
-        m_fileStatistics.write(m_file);
+        m_statistics.write(m_file);
     }
 
     /* close file */
@@ -218,18 +218,18 @@ RawCompressedFile::streamsize RawCompressedFile::size() const {
     return m_size;
 }
 
-FileStatistics RawCompressedFile::fileStatistics() const {
+FileStatistics RawCompressedFile::statistics() const {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
-    return m_fileStatistics;
+    return m_statistics;
 }
 
-void RawCompressedFile::setFileStatistics(const FileStatistics fileStatistics) {
+void RawCompressedFile::setStatistics(const FileStatistics statistics) {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
-    m_fileStatistics = fileStatistics;
+    m_statistics = statistics;
 }
 
 }
