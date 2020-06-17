@@ -79,6 +79,12 @@ public:
      */
     virtual streamsize statisticsSize() const;
 
+    /** @copydoc RawCompressedFile::statistics */
+    virtual FileStatistics statistics() const;
+
+    /** @copydoc RawCompressedFile::setStatistics */
+    virtual void setStatistics(const FileStatistics & statistics);
+
     /**
      * Get default log container size.
      *

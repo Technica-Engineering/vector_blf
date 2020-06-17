@@ -271,6 +271,16 @@ RawUncompressedFile::streamsize RawUncompressedFile::statisticsSize() const {
     return m_statisticsSize;
 }
 
+FileStatistics RawUncompressedFile::statistics() const {
+    // no lock needed as just pass-thru
+    return m_structuredCompressedFile.statistics();
+}
+
+void RawUncompressedFile::setStatistics(const Vector::BLF::FileStatistics & statistics) {
+    // no lock needed as just pass-thru
+    m_structuredCompressedFile.setStatistics(statistics);
+}
+
 DWORD RawUncompressedFile::defaultLogContainerSize() const {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
@@ -305,7 +315,7 @@ void RawUncompressedFile::indexThread() {
 
     /* create index of all log containers */
     streampos filePosition = 0;
-    m_statisticsSize = 0x90; // size of FileStatistics
+    m_statisticsSize = m_structuredCompressedFile.statistics().statisticsSize;
     for(;;) {
         LogContainer * logContainer;
         if (!m_structuredCompressedFile.read(&logContainer)) {

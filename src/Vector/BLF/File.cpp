@@ -67,11 +67,11 @@ void File::close() {
 }
 
 FileStatistics File::statistics() const {
-    return m_rawCompressedFile.statistics();
+    return m_structuredUncompressedFile.statistics();
 }
 
 void File::setStatistics(const FileStatistics & statistics) {
-    m_rawCompressedFile.setStatistics(statistics);
+    m_structuredUncompressedFile.setStatistics(statistics);
 }
 
 DWORD File::defaultLogContainerSize() const {

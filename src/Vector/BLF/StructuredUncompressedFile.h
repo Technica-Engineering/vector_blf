@@ -66,6 +66,12 @@ public:
      */
     virtual streamsize size() const;
 
+    /** @copydoc RawCompressedFile::statistics */
+    virtual FileStatistics statistics() const;
+
+    /** @copydoc RawCompressedFile::setStatistics */
+    virtual void setStatistics(const FileStatistics & statistics);
+
     /**
      * Current number of objects read
      *

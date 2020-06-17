@@ -184,6 +184,16 @@ StructuredCompressedFile::streamsize StructuredCompressedFile::size() const {
     return m_logContainerRefs.size();
 }
 
+FileStatistics StructuredCompressedFile::statistics() const {
+    // no lock needed as just pass-thru
+    return m_rawCompressedFile.statistics();
+}
+
+void StructuredCompressedFile::setStatistics(const Vector::BLF::FileStatistics & statistics) {
+    // no lock needed as just pass-thru
+    m_rawCompressedFile.setStatistics(statistics);
+}
+
 void StructuredCompressedFile::indexThread() {
     // already locked by calling method open
 

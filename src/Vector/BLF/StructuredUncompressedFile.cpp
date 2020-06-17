@@ -166,6 +166,16 @@ StructuredUncompressedFile::streamsize StructuredUncompressedFile::size() const 
     return m_objectRefs.size();
 }
 
+FileStatistics StructuredUncompressedFile::statistics() const {
+    // no lock needed as just pass-thru
+    return m_rawUncompressedFile.statistics();
+}
+
+void StructuredUncompressedFile::setStatistics(const Vector::BLF::FileStatistics & statistics) {
+    // no lock needed as just pass-thru
+    m_rawUncompressedFile.setStatistics(statistics);
+}
+
 void StructuredUncompressedFile::indexThread() {
     // already locked by calling method open
 
