@@ -53,17 +53,11 @@ public:
     virtual bool is_open() const;
     virtual void close();
     virtual streamsize read(ObjectHeaderBase ** objectHeaderBase);
-    virtual streampos tellg();
+    virtual streampos tellg() const;
     virtual void seekg(const streampos pos);
     virtual void seekg(const streamoff off, const std::ios_base::seekdir way);
     virtual bool write(ObjectHeaderBase * objectHeaderBase);
-    virtual streampos tellp();
-
-    /**
-     * Get file size
-     *
-     * @return file size
-     */
+    virtual streampos tellp() const;
     virtual streamsize size() const;
 
     /** @copydoc RawCompressedFile::statistics */
@@ -71,19 +65,6 @@ public:
 
     /** @copydoc RawCompressedFile::setStatistics */
     virtual void setStatistics(const FileStatistics & statistics);
-
-    /**
-     * Current number of objects read
-     *
-     * Unknown115 is not counted.
-     *
-     * @todo isn't this the file size?
-     *
-     * @secreflist
-     * @refitem FileStatistics::objectCount
-     * @endsecreflist
-     */
-    //std::atomic<DWORD> currentObjectCount {};
 
 private:
     /** object reference */
@@ -109,8 +90,7 @@ private:
          */
         ObjectType objectType {ObjectType::UNKNOWN};
 
-        /** object */
-        //std::shared_ptr<ObjectHeaderBase> object {nullptr};
+        // @todo cache object here
     };
 
     /** mutex */

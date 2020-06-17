@@ -53,13 +53,13 @@ void StructuredUncompressedFile::open(const char * filename, std::ios_base::open
 
     /* start index/read thread */
     if (m_openMode & std::ios_base::in) {
-        indexThread(); // @todo make this a thread
-        // @todo start normal read thread
+        indexThread(); // @todo start index thread
+        // @todo start read thread
     }
 
     /* start write thread */
     if (m_openMode & std::ios_base::out) {
-        // @todo write thread
+        // @todo start write thread
     }
 }
 
@@ -74,8 +74,7 @@ void StructuredUncompressedFile::close() {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
-    // @todo abort read thread
-    // @todo wait till read/write threads finished
+    // @todo abort threads and wait to join
 
     return m_rawUncompressedFile.close();
 }
@@ -106,7 +105,7 @@ StructuredUncompressedFile::streamsize StructuredUncompressedFile::read(ObjectHe
     return 1;
 }
 
-StructuredUncompressedFile::streampos StructuredUncompressedFile::tellg() {
+StructuredUncompressedFile::streampos StructuredUncompressedFile::tellg() const {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
@@ -156,7 +155,7 @@ bool StructuredUncompressedFile::write(ObjectHeaderBase * objectHeaderBase) {
     return false;
 }
 
-StructuredUncompressedFile::streampos StructuredUncompressedFile::tellp() {
+StructuredUncompressedFile::streampos StructuredUncompressedFile::tellp() const {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 

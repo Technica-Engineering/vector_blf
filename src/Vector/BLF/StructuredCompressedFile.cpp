@@ -52,8 +52,8 @@ void StructuredCompressedFile::open(const char *filename, std::ios_base::openmod
 
     /* start index/read thread */
     if (m_openMode & std::ios_base::in) {
-        indexThread(); // @todo make this a thread
-        // @todo start normal read thread
+        indexThread(); // @todo start index thread
+        // @todo start read thread
     }
 
     /* start write thread */
@@ -73,8 +73,7 @@ void StructuredCompressedFile::close() {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
-    // @todo abort read thread
-    // @todo wait till read/write threads finished
+    // @todo abort threads and wait to join
 
     m_rawCompressedFile.close();
 }
@@ -106,7 +105,7 @@ StructuredCompressedFile::streamsize StructuredCompressedFile::read(LogContainer
     return 1;
 }
 
-StructuredCompressedFile::streampos StructuredCompressedFile::tellg() {
+StructuredCompressedFile::streampos StructuredCompressedFile::tellg() const {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
@@ -165,16 +164,15 @@ bool StructuredCompressedFile::write(LogContainer * logContainer) {
     /* prepare LogContainerRef */
     LogContainerRef logContainerRef;
     logContainerRef.filePosition = m_rawCompressedFile.tellp();
-    // @todo logContainerRef.logContainer = std::make_shared<LogContainer>(logContainer);
     m_logContainerRefs.push_back(logContainerRef);
 
     /* write log container */
-    logContainer->write(m_rawCompressedFile); // @todo do this in thread
+    logContainer->write(m_rawCompressedFile); // @todo do this in writeThread
 
     return true;
 }
 
-StructuredCompressedFile::streampos StructuredCompressedFile::tellp() {
+StructuredCompressedFile::streampos StructuredCompressedFile::tellp() const {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
@@ -253,14 +251,14 @@ void StructuredCompressedFile::readThread() {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
-    // @todo read containers from m_rawCompressedFile to m_logContainerRefs
+    // @todo StructuredCompressedFile::readThread
 }
 
 void StructuredCompressedFile::writeThread() {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
-    // @todo write containers from m_logContainerRefs to m_rawCompressedFile
+    // @todo StructuredCompressedFile::writeThread
 }
 
 }

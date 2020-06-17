@@ -61,12 +61,6 @@ public:
     streampos tellp() override;
     void seekp(const streampos pos) override;
     void seekp(const streamoff off, const std::ios_base::seekdir way) override;
-
-    /**
-     * Get file size
-     *
-     * @return file size
-     */
     virtual streamsize size() const;
 
     /**
@@ -103,6 +97,8 @@ public:
      * get end-of-file object
      *
      * @return end-of-file object
+     *
+     * @todo see if this is handled right
      */
     virtual Unknown115 unknown115() const;
 
@@ -110,6 +106,8 @@ public:
      * set end-of-file object
      *
      * @param[in] unknown115 end-of-file object
+     *
+     * @todo see if this is handled right
      */
     virtual void setUnknown115(const Unknown115 & unknown115);
 

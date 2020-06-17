@@ -51,8 +51,8 @@ void RawUncompressedFile::open(const char * filename, std::ios_base::openmode mo
 
     /* start index/read thread */
     if (m_openMode & std::ios_base::in) {
-        indexThread(); // @todo make this a thread
-        // @todo start normal read thread
+        indexThread(); // @todo start index thread
+        // @todo start read thread
     }
 
     /* start write thread */
@@ -76,8 +76,7 @@ void RawUncompressedFile::close() {
         return;
     }
 
-    // @todo abort read thread
-    // @todo wait till read/write threads finished
+    // @todo abort threads and wait to join
 
     /* write unknown115 */
     if (m_openMode & std::ios_base::out) {
@@ -114,8 +113,7 @@ RawUncompressedFile::streamsize RawUncompressedFile::read(char * s, const RawUnc
             m_structuredCompressedFile.seekg(containerIndex);
             LogContainer * logContainer = nullptr;
             if (m_structuredCompressedFile.read(&logContainer)) {
-                logContainer->uncompress(logContainerRef->uncompressedFile);
-                // @todo this should be done by the read ahead thread
+                logContainer->uncompress(logContainerRef->uncompressedFile); // @todo do this in readThread
                 delete logContainer;
             } else {
                 assert(!logContainer); // no delete necessary
@@ -340,14 +338,14 @@ void RawUncompressedFile::readThread() {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
-    // @todo read thread
+    // @todo RawUncompressedFile::readThread
 }
 
 void RawUncompressedFile::writeThread() {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
-    // @todo write thread
+    // @todo RawUncompressedFile::writeThread
 }
 
 }

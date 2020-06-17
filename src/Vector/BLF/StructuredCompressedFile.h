@@ -53,17 +53,11 @@ public:
     virtual bool is_open() const;
     virtual void close();
     virtual streamsize read(LogContainer ** logContainer);
-    virtual streampos tellg();
+    virtual streampos tellg() const;
     virtual void seekg(const streampos pos);
     virtual void seekg(const streamoff off, const std::ios_base::seekdir way);
     virtual bool write(LogContainer * logContainer);
-    virtual streampos tellp();
-
-    /**
-     * Get file size
-     *
-     * @return file size
-     */
+    virtual streampos tellp() const;
     virtual streamsize size() const;
 
     /** @copydoc RawCompressedFile::statistics */
@@ -78,8 +72,7 @@ private:
         /** file position */
         RawCompressedFile::streampos filePosition {0};
 
-        /** log container */
-        //std::unique_ptr<LogContainer> logContainer {nullptr};
+        // @todo cache logContainer here
     };
 
     /** mutex */
