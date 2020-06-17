@@ -58,7 +58,7 @@ void File::close() {
     m_structuredUncompressedFile.close();
 }
 
-File::streamsize File::read(ObjectHeaderBase ** objectHeaderBase) {
+StructuredUncompressedFile::streamsize File::read(ObjectHeaderBase ** objectHeaderBase) {
     return m_structuredUncompressedFile.read(objectHeaderBase);
 }
 
@@ -68,15 +68,15 @@ ObjectHeaderBase * File::read() {
     return objectHeaderBase;
 }
 
-File::streampos File::tellg() {
+StructuredUncompressedFile::streampos File::tellg() {
     return m_structuredUncompressedFile.tellg();
 }
 
-void File::seekg(const streampos pos) {
+void File::seekg(const StructuredUncompressedFile::streampos pos) {
     m_structuredUncompressedFile.seekg(pos);
 }
 
-void File::seekg(const streamoff off, const std::ios_base::seekdir way) {
+void File::seekg(const StructuredUncompressedFile::streamoff off, const std::ios_base::seekdir way) {
     m_structuredUncompressedFile.seekg(off, way);
 }
 
@@ -84,11 +84,23 @@ bool File::write(ObjectHeaderBase * ohb) {
     return m_structuredUncompressedFile.write(ohb);
 }
 
-File::streampos File::tellp() {
+StructuredUncompressedFile::streampos File::tellp() {
     return m_structuredUncompressedFile.tellp();
 }
 
+StructuredUncompressedFile::streamsize File::size() const {
+    return m_structuredUncompressedFile.size();
+}
+
 /* RawUncompressedFile methods */
+
+RawUncompressedFile::streamsize File::rawUncompressedFileSize() const {
+    return m_rawUncompressedFile.size();
+}
+
+RawUncompressedFile::streamsize File::rawUncompressedFileStatisticsSize() const {
+    return m_rawUncompressedFile.statisticsSize();
+}
 
 DWORD File::defaultLogContainerSize() const {
     return m_rawUncompressedFile.defaultLogContainerSize();
@@ -100,7 +112,15 @@ void File::setDefaultLogContainerSize(DWORD defaultLogContainerSize) {
 
 /* StructuredCompressedFile methods */
 
+StructuredCompressedFile::streamsize File::structuredCompressedFileSize() const {
+    return m_structuredCompressedFile.size();
+}
+
 /* RawCompressedFile methods */
+
+RawCompressedFile::streamsize File::rawCompressedFileSize() const {
+    return m_rawCompressedFile.size();
+}
 
 FileStatistics File::statistics() const {
     return m_rawCompressedFile.statistics();

@@ -48,10 +48,6 @@ public:
     File();
     virtual ~File();
 
-    using streamoff = int32_t;
-    using streamsize = uint32_t;
-    using streampos = uint32_t;
-
     /**
      * zlib compression level (0=no compression, 1=best speed, 9=best compression, -1=default compression
      *
@@ -86,7 +82,7 @@ public:
     virtual void close();
 
     /** @copydoc StructuredUncompressedfile::read */
-    virtual streamsize read(ObjectHeaderBase ** objectHeaderBase);
+    virtual StructuredUncompressedFile::streamsize read(ObjectHeaderBase ** objectHeaderBase);
 
     /**
      * Read object from file.
@@ -101,21 +97,30 @@ public:
     virtual ObjectHeaderBase * read();
 
     /** @copydoc StructuredUncompressedFile::tellg */
-    virtual streampos tellg();
+    virtual StructuredUncompressedFile::streampos tellg();
 
     /** @copydoc StructuredUncompressedFile::seekg */
-    virtual void seekg(const streampos pos);
+    virtual void seekg(const StructuredUncompressedFile::streampos pos);
 
     /** @copydoc StructuredUncompressedFile::seekg */
-    virtual void seekg(const streamoff off, const std::ios_base::seekdir way);
+    virtual void seekg(const StructuredUncompressedFile::streamoff off, const std::ios_base::seekdir way);
 
     /** @copydoc StructuredUncompressedFile::write */
     virtual bool write(ObjectHeaderBase * objectHeaderBase);
 
     /** @copydoc StructuredUncompressedFile::tellp */
-    virtual streampos tellp();
+    virtual StructuredUncompressedFile::streampos tellp();
+
+    /** @copydoc StructuredUncompressedFile::size */
+    virtual StructuredUncompressedFile::streamsize size() const;
 
     /* RawUncompressedFile methods */
+
+    /** @copydoc RawUncompressedFile::size */
+    virtual RawUncompressedFile::streamsize rawUncompressedFileSize() const;
+
+    /** @copydoc RawUncompressedFile::statisticsSize */
+    virtual RawUncompressedFile::streamsize rawUncompressedFileStatisticsSize() const;
 
     /** @copydoc RawUncompressedFile::defaultLogContainerSize */
     virtual DWORD defaultLogContainerSize() const;
@@ -125,12 +130,18 @@ public:
 
     /* StructuredCompressedFile methods */
 
+    /** @copydoc StructuredCompressedFile::size */
+    virtual StructuredCompressedFile::streamsize structuredCompressedFileSize() const;
+
     /* RawCompressedFile methods */
+
+    /** @copydoc RawCompressedFile::size */
+    virtual RawCompressedFile::streamsize rawCompressedFileSize() const;
 
     /** @copydoc RawCompressedFile::statistics */
     virtual FileStatistics statistics() const;
 
-// @todo private:
+private:
     /** raw compressed file */
     RawCompressedFile m_rawCompressedFile;
 

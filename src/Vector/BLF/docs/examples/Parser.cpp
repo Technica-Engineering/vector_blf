@@ -2462,11 +2462,11 @@ int main(int argc, char * argv[]) {
 
     file.close();
 
-    std::cout << "RawCompressedFile.size: " << std::dec << file.m_rawCompressedFile.size() << std::endl;;
-    std::cout << "StructuredCompressedFile.size: " << std::dec << file.m_structuredCompressedFile.size() << std::endl;;
-    std::cout << "RawUncompressedFile.size: " << std::dec << file.m_rawUncompressedFile.size() << std::endl;;
-    std::cout << "RawUncompressedFile.statisticsSize: " << std::dec << file.m_rawUncompressedFile.statisticsSize() << std::endl;;
-    std::cout << "StructuredUncompressedFile.size: " << std::dec << file.m_structuredUncompressedFile.size() << std::endl;;
+    std::cout << "RawCompressedFile.size: " << std::dec << file.rawCompressedFileSize() << std::endl;;
+    std::cout << "StructuredCompressedFile.size: " << std::dec << file.structuredCompressedFileSize() << std::endl;;
+    std::cout << "RawUncompressedFile.size: " << std::dec << file.rawUncompressedFileSize() << std::endl;;
+    std::cout << "RawUncompressedFile.statisticsSize: " << std::dec << file.rawUncompressedFileStatisticsSize() << std::endl;;
+    std::cout << "StructuredUncompressedFile.size: " << std::dec << file.size() << std::endl;;
 
     return 0;
 }
