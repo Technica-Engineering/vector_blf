@@ -79,7 +79,7 @@ private:
         RawCompressedFile::streampos filePosition {0};
 
         /** log container */
-        std::shared_ptr<LogContainer> logContainer {nullptr};
+        //std::unique_ptr<LogContainer> logContainer {nullptr};
     };
 
     /** mutex */

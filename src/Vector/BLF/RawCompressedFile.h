@@ -43,7 +43,7 @@ class VECTOR_BLF_EXPORT RawCompressedFile :
     public RawFile
 {
 public:
-    RawCompressedFile();
+    RawCompressedFile() = default;
     virtual ~RawCompressedFile();
 
     using streamoff = std::streamoff;

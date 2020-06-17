@@ -28,9 +28,6 @@
 namespace Vector {
 namespace BLF {
 
-RawCompressedFile::RawCompressedFile() {
-}
-
 RawCompressedFile::~RawCompressedFile() {
     close();
 }
@@ -89,7 +86,7 @@ void RawCompressedFile::close() {
 }
 
 RawCompressedFile::streamsize RawCompressedFile::read(char * s, RawCompressedFile::streamsize n) {
-    assert(s);
+    assert(s || !n); // if n>0, then s!=nullptr
 
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
@@ -136,8 +133,7 @@ RawCompressedFile::streampos RawCompressedFile::tellp() {
 }
 
 void RawCompressedFile::seekp(const RawCompressedFile::streampos pos) {
-    /* only to be used to write fileStatistics on close */
-    assert(pos == 0);
+    assert(pos == 0); // only to be used to write fileStatistics on close
 
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
@@ -146,9 +142,7 @@ void RawCompressedFile::seekp(const RawCompressedFile::streampos pos) {
 }
 
 void RawCompressedFile::seekp(const RawCompressedFile::streamoff off, const std::ios_base::seekdir way) {
-    /* only to be used to skip padding bytes */
-    assert(off >= 0);
-    assert(way == std::ios_base::cur);
+    assert((off >= 0) && (way == std::ios_base::cur)); // only to be used to skip padding bytes
 
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);

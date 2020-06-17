@@ -88,6 +88,8 @@ void RawUncompressedFile::close() {
 }
 
 RawUncompressedFile::streamsize RawUncompressedFile::read(char * s, const RawUncompressedFile::streamsize n) {
+    assert(s || !n); // if n>0, then s!=nullptr
+
     /* mutex lock */
     std::unique_lock<std::mutex> lock(m_mutex);
 
@@ -100,43 +102,40 @@ RawUncompressedFile::streamsize RawUncompressedFile::read(char * s, const RawUnc
                 return (logContainerRef.filePosition <= m_posg) &&
                        (logContainerRef.filePosition + logContainerRef.fileSize > m_posg);
             });
+        /* not found */
         if (logContainerRef == m_logContainerRefs.end()) {
             return totalSize;
         }
 
-        /* load data */
+        /* load data if needed */
         if (logContainerRef->uncompressedFile.empty()) {
             /* read log container */
             StructuredCompressedFile::streampos containerIndex = logContainerRef - m_logContainerRefs.begin();
             m_structuredCompressedFile.seekg(containerIndex);
-            LogContainer * logContainer;
+            LogContainer * logContainer = nullptr;
             if (m_structuredCompressedFile.read(&logContainer)) {
                 logContainer->uncompress(logContainerRef->uncompressedFile);
                 // @todo this should be done by the read ahead thread
-            } else {
                 delete logContainer;
-                logContainer = nullptr;
+            } else {
+                assert(!logContainer); // no delete necessary
                 return totalSize;
             }
         }
 
-        /* offset to read */
-        streamoff offset = m_posg - logContainerRef->filePosition;
-
         /* copy data */
-        streamsize gcount = std::min(n, logContainerRef->fileSize - offset);
+        streamoff offset = m_posg - logContainerRef->filePosition;
+        streamsize size = std::min(n - totalSize, logContainerRef->fileSize - offset);
+        assert(size); // logContainerRef would be wrong otherwise
+        assert(logContainerRef->uncompressedFile.cbegin() + offset + size <= logContainerRef->uncompressedFile.cend()); // check source size
         std::copy(logContainerRef->uncompressedFile.cbegin() + offset,
-                  logContainerRef->uncompressedFile.cbegin() + offset + gcount,
+                  logContainerRef->uncompressedFile.cbegin() + offset + size,
                   s);
 
-        /* new get position */
-        m_posg += gcount;
-
-        /* advance */
-        s += gcount;
-
-        /* calculate remaining data to copy */
-        totalSize += gcount;
+        /* update counters */
+        m_posg += size;
+        s += size;
+        totalSize += size;
     }
 
     return totalSize;
@@ -165,46 +164,39 @@ void RawUncompressedFile::seekg(const RawUncompressedFile::streamoff off, const 
     std::lock_guard<std::mutex> lock(m_mutex);
 
     /* calculate new position */
-    streampos pos;
+    streampos ref;
     switch(way) {
     case std::ios_base::beg:
-        pos = 0;
+        ref = 0;
         break;
     case std::ios_base::cur:
-        pos = m_posg;
+        ref = m_posg;
         break;
     case std::ios_base::end:
-        pos = m_posp; // posp is always at the end
+        ref = m_posp; // posp is always at the end
         break;
     default:
-        assert(false);
+        assert(false); // other cases should not happen
     }
-    pos += off;
-
-    /* new get position */
-    m_posg = pos;
+    m_posg = ref + off;
 }
 
 RawUncompressedFile::streamsize RawUncompressedFile::write(const char * s, const RawUncompressedFile::streamsize n) {
-    assert(s);
+    assert(s || !n); // if n>0, then s!=nullptr
 
     /* mutex lock */
     std::unique_lock<std::mutex> lock(m_mutex);
 
     /* write data */
-    streamsize totalPcount = 0;
-    while (totalPcount < n) {
-        std::vector<LogContainerRef>::iterator logContainerRef = m_logContainerRefs.begin();
-        while (logContainerRef != m_logContainerRefs.end()) {
-            if ((logContainerRef->filePosition <= m_posg) &&
-                (logContainerRef->filePosition + logContainerRef->fileSize > m_posg)) {
-                break;
-            }
-
-            ++logContainerRef;
-        }
-
-        /* append new log container */
+    streamsize totalSize = 0;
+    while (totalSize < n) {
+        /* find starting log container */
+        std::vector<LogContainerRef>::iterator logContainerRef =
+            std::find_if(m_logContainerRefs.begin(), m_logContainerRefs.end(), [&](const LogContainerRef & logContainerRef) {
+                return (logContainerRef.filePosition <= m_posp) &&
+                       (logContainerRef.filePosition + logContainerRef.fileSize > m_posp);
+            });
+        /* not found, so append new log container */
         if (logContainerRef == m_logContainerRefs.end()) {
             /* append new log container */
             LogContainerRef newLogContainerRef;
@@ -219,24 +211,21 @@ RawUncompressedFile::streamsize RawUncompressedFile::write(const char * s, const
             logContainerRef = m_logContainerRefs.end() - 1;
         }
 
-        /* offset to write */
-        streamoff offset = m_posp - logContainerRef->filePosition;
-
         /* copy data */
-        streamsize pcount = std::min(n, logContainerRef->fileSize - offset);
-        std::copy(s, s + pcount, logContainerRef->uncompressedFile.begin() + offset);
+        streamoff offset = m_posp - logContainerRef->filePosition;
+        streamsize size = std::min(n - totalSize, logContainerRef->fileSize - offset);
+        assert(logContainerRef->uncompressedFile.begin() + offset + size <= logContainerRef->uncompressedFile.end()); // check destination size
+        std::copy(s,
+                  s + size,
+                  logContainerRef->uncompressedFile.begin() + offset);
 
-        /* new put position */
-        m_posp += pcount;
-
-        /* advance */
-        s += pcount;
-
-        /* calculate remaining data to copy */
-        totalPcount += pcount;
+        /* update counters */
+        m_posp += size;
+        s += size;
+        totalSize += size;
     }
 
-    return totalPcount;
+    return totalSize;
 }
 
 RawUncompressedFile::streampos RawUncompressedFile::tellp() {
@@ -255,9 +244,7 @@ void RawUncompressedFile::seekp(const RawUncompressedFile::streampos /*pos*/) {
 }
 
 void RawUncompressedFile::seekp(const RawUncompressedFile::streamoff off, const std::ios_base::seekdir way) {
-    /* only to be used to skip padding bytes */
-    assert(off >= 0);
-    assert(way == std::ios_base::cur);
+    assert((off >= 0) && (way == std::ios_base::cur)); // only to be used to skip padding bytes
 
     std::vector<char> zero(off);
     write(zero.data(), zero.size()); // write does the lock
@@ -309,7 +296,7 @@ Unknown115 RawUncompressedFile::unknown115() const {
     return m_unknown115;
 }
 
-void RawUncompressedFile::setUnknown115(const Unknown115 unknown115) {
+void RawUncompressedFile::setUnknown115(const Unknown115 & unknown115) {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
@@ -323,7 +310,7 @@ void RawUncompressedFile::indexThread() {
     streampos filePosition = 0;
     m_statisticsSize = m_structuredCompressedFile.statistics().statisticsSize;
     for(;;) {
-        LogContainer * logContainer;
+        LogContainer * logContainer = nullptr;
         if (!m_structuredCompressedFile.read(&logContainer)) {
             break;
         }
@@ -338,6 +325,8 @@ void RawUncompressedFile::indexThread() {
         filePosition += logContainer->uncompressedFileSize;
         m_statisticsSize += logContainer->internalHeaderSize();
         m_statisticsSize += logContainer->uncompressedFileSize;
+
+        delete logContainer;
     }
 
     /* set file size */

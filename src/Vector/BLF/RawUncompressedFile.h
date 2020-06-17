@@ -111,7 +111,7 @@ public:
      *
      * @param[in] unknown115 end-of-file object
      */
-    virtual void setUnknown115(const Unknown115 unknown115);
+    virtual void setUnknown115(const Unknown115 & unknown115);
 
 private:
     /** log container reference */

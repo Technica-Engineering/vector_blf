@@ -110,7 +110,7 @@ private:
         ObjectType objectType {ObjectType::UNKNOWN};
 
         /** object */
-        std::shared_ptr<ObjectHeaderBase> object {nullptr};
+        //std::shared_ptr<ObjectHeaderBase> object {nullptr};
     };
 
     /** mutex */

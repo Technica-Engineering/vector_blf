@@ -90,14 +90,15 @@ StructuredCompressedFile::streamsize StructuredCompressedFile::read(LogContainer
     }
 
     /* seek to log container */
-    assert(m_posg < m_logContainerRefs.size());
+    assert(m_posg < m_logContainerRefs.size()); // ensured by if above
     m_rawCompressedFile.seekg(m_logContainerRefs[m_posg].filePosition);
 
     /* read log container */
     *logContainer = new LogContainer;
-    assert(*logContainer);
+    assert(*logContainer); // ensure memory is reserved
     (*logContainer)->read(m_rawCompressedFile);
-    assert(m_rawCompressedFile.good());
+    assert((*logContainer)->objectType == ObjectType::LOG_CONTAINER); // ensure this is a log container
+    assert(m_rawCompressedFile.good()); // ensure read is successful, otherwise index is wrong
 
     /* update status variables */
     m_posg++;
@@ -120,7 +121,7 @@ void StructuredCompressedFile::seekg(const StructuredCompressedFile::streampos p
     std::lock_guard<std::mutex> lock(m_mutex);
 
     /* get raw file position and seek there */
-    assert(pos < m_logContainerRefs.size());
+    assert(pos < m_logContainerRefs.size()); // pos should not be out of index
     RawCompressedFile::streampos rawFilePosition = m_logContainerRefs[pos].filePosition;
     m_rawCompressedFile.seekg(rawFilePosition);
 
@@ -133,30 +134,30 @@ void StructuredCompressedFile::seekg(const StructuredCompressedFile::streamoff o
     std::lock_guard<std::mutex> lock(m_mutex);
 
     /* calculate new position */
-    StructuredCompressedFile::streampos pos;
+    streampos ref;
     switch(way) {
     case std::ios_base::beg:
-        pos = 0;
+        ref = 0;
         break;
     case std::ios_base::cur:
-        pos = m_posg;
+        ref = m_posg;
         break;
     case std::ios_base::end:
-        pos = m_logContainerRefs.size();
+        ref = m_logContainerRefs.size();
         break;
     default:
-        assert(false);
+        assert(false); // other cases should not happen
     }
-    m_posg = pos + off;
+    m_posg = ref + off;
 
     /* get raw file position and seek there */
-    assert(m_posg < m_logContainerRefs.size());
+    assert(m_posg < m_logContainerRefs.size()); // ensure posg is within index
     RawCompressedFile::streampos rawFilePosition = m_logContainerRefs[m_posg].filePosition;
     m_rawCompressedFile.seekg(rawFilePosition);
 }
 
 bool StructuredCompressedFile::write(LogContainer * logContainer) {
-    assert(logContainer);
+    assert(logContainer); // write no LogContainer doesn't make sense
 
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
@@ -205,7 +206,7 @@ void StructuredCompressedFile::indexThread() {
 
     /* create index of all log containers */
     while(!m_rawCompressedFile.eof()) {
-        /* prepare LogContainerRef */
+        /* prepare log container reference */
         LogContainerRef logContainerRef;
         logContainerRef.filePosition = m_rawCompressedFile.tellg();
 
@@ -215,16 +216,20 @@ void StructuredCompressedFile::indexThread() {
         WORD headerVersion;
         DWORD objectSize;
         ObjectType objectType;
-        m_rawCompressedFile.read(reinterpret_cast<char *>(&signature), sizeof(signature));
-        if (m_rawCompressedFile.eof()) {
+        if (m_rawCompressedFile.read(reinterpret_cast<char *>(&signature), sizeof(signature)) != sizeof(signature)) {
+            // end-of-file reached
             break;
         }
-        if (signature != ObjectSignature)
+        if (signature != ObjectSignature) {
             throw Exception("StructuredCompressedFile::indexThread(): Object signature doesn't match at this position.");
-        m_rawCompressedFile.read(reinterpret_cast<char *>(&headerSize), sizeof(headerSize));
-        m_rawCompressedFile.read(reinterpret_cast<char *>(&headerVersion), sizeof(headerVersion));
-        m_rawCompressedFile.read(reinterpret_cast<char *>(&objectSize), sizeof(objectSize));
-        m_rawCompressedFile.read(reinterpret_cast<char *>(&objectType), sizeof(objectType));
+        }
+        if (m_rawCompressedFile.read(reinterpret_cast<char *>(&headerSize), sizeof(headerSize)) +
+            m_rawCompressedFile.read(reinterpret_cast<char *>(&headerVersion), sizeof(headerVersion)) +
+            m_rawCompressedFile.read(reinterpret_cast<char *>(&objectSize), sizeof(objectSize)) +
+            m_rawCompressedFile.read(reinterpret_cast<char *>(&objectType), sizeof(objectType)) !=
+            sizeof(headerSize) + sizeof(headerVersion) + sizeof(objectSize) + sizeof(objectType)) {
+            throw Exception("StructuredCompressedFile::indexThread(): Object Header cannot be read.");
+        }
         if (objectType != ObjectType::LOG_CONTAINER) {
             throw Exception("StructuredCompressedFile::indexThread(): Object is not a LogContainer.");
         }
@@ -233,7 +238,9 @@ void StructuredCompressedFile::indexThread() {
         m_logContainerRefs.push_back(logContainerRef);
 
         /* jump to next log container */
-        m_rawCompressedFile.seekg(logContainerRef.filePosition + RawCompressedFile::streamsize(objectSize + objectSize % 4));
+        RawCompressedFile::streamsize offset = objectSize;
+        offset += objectSize % 4; // for ObjectType::LOG_CONTAINER;
+        m_rawCompressedFile.seekg(logContainerRef.filePosition + offset);
     }
     m_rawCompressedFile.clear();
 
