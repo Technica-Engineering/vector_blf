@@ -28,35 +28,36 @@ BOOST_AUTO_TEST_CASE(ReadTest) {
     BOOST_CHECK_EQUAL(structuredUncompressedFile.size(), 4);
 
     /* read object 0/4 */
-    Vector::BLF::ObjectHeaderBase * ohb = structuredUncompressedFile.read();
+    Vector::BLF::ObjectHeaderBase * ohb;
+    BOOST_CHECK_EQUAL(structuredUncompressedFile.read(&ohb), 1);
     BOOST_CHECK(ohb);
     BOOST_CHECK_EQUAL(structuredUncompressedFile.tellg(), 1);
     BOOST_CHECK_EQUAL(structuredUncompressedFile.tellp(), 4);
     delete ohb;
 
     /* read object 1/4 */
-    ohb = structuredUncompressedFile.read();
+    BOOST_CHECK_EQUAL(structuredUncompressedFile.read(&ohb), 1);
     BOOST_CHECK(ohb);
     BOOST_CHECK_EQUAL(structuredUncompressedFile.tellg(), 2);
     BOOST_CHECK_EQUAL(structuredUncompressedFile.tellp(), 4);
     delete ohb;
 
     /* read object 2/4 */
-    ohb = structuredUncompressedFile.read();
+    BOOST_CHECK_EQUAL(structuredUncompressedFile.read(&ohb), 1);
     BOOST_CHECK(ohb);
     BOOST_CHECK_EQUAL(structuredUncompressedFile.tellg(), 3);
     BOOST_CHECK_EQUAL(structuredUncompressedFile.tellp(), 4);
     delete ohb;
 
     /* read object 3/4 */
-    ohb = structuredUncompressedFile.read();
+    BOOST_CHECK_EQUAL(structuredUncompressedFile.read(&ohb), 1);
     BOOST_CHECK(ohb);
     BOOST_CHECK_EQUAL(structuredUncompressedFile.tellg(), 4);
     BOOST_CHECK_EQUAL(structuredUncompressedFile.tellp(), 4);
     delete ohb;
 
     /* read object 4/4 (not existing) */
-    ohb = structuredUncompressedFile.read();
+    BOOST_CHECK_EQUAL(structuredUncompressedFile.read(&ohb), 0);
     BOOST_CHECK(!ohb);
     BOOST_CHECK_EQUAL(structuredUncompressedFile.tellg(), 4);
     BOOST_CHECK_EQUAL(structuredUncompressedFile.tellp(), 4);

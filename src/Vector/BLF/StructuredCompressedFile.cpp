@@ -79,13 +79,14 @@ void StructuredCompressedFile::close() {
     m_rawCompressedFile.close();
 }
 
-LogContainer * StructuredCompressedFile::read() {
+StructuredCompressedFile::streamsize StructuredCompressedFile::read(LogContainer ** logContainer) {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
     /* check if read position is valid */
     if (m_posg >= m_logContainerRefs.size()) {
-        return nullptr;
+        *logContainer = nullptr;
+        return 0;
     }
 
     /* seek to log container */
@@ -93,15 +94,15 @@ LogContainer * StructuredCompressedFile::read() {
     m_rawCompressedFile.seekg(m_logContainerRefs[m_posg].filePosition);
 
     /* read log container */
-    LogContainer * logContainer = new LogContainer;
-    assert(logContainer);
-    logContainer->read(m_rawCompressedFile);
+    *logContainer = new LogContainer;
+    assert(*logContainer);
+    (*logContainer)->read(m_rawCompressedFile);
     assert(m_rawCompressedFile.good());
 
     /* update status variables */
     m_posg++;
 
-    return logContainer;
+    return 1;
 }
 
 StructuredCompressedFile::streampos StructuredCompressedFile::tellg() {

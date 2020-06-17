@@ -80,13 +80,14 @@ void StructuredUncompressedFile::close() {
     return m_rawUncompressedFile.close();
 }
 
-ObjectHeaderBase * StructuredUncompressedFile::read() {
+StructuredUncompressedFile::streamsize StructuredUncompressedFile::read(ObjectHeaderBase ** objectHeaderBase) {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
     /* check if read position is valid */
     if (m_posg >= m_objectRefs.size()) {
-        return nullptr;
+        *objectHeaderBase = nullptr;
+        return 0;
     }
 
     /* seek to object */
@@ -94,14 +95,14 @@ ObjectHeaderBase * StructuredUncompressedFile::read() {
     m_rawUncompressedFile.seekg(m_objectRefs[m_posg].filePosition);
 
     /* read object */
-    ObjectHeaderBase * ohb = makeObject(m_objectRefs[m_posg].objectType);
-    assert(ohb);
-    ohb->read(m_rawUncompressedFile);
+    *objectHeaderBase = makeObject(m_objectRefs[m_posg].objectType);
+    assert(*objectHeaderBase);
+    (*objectHeaderBase)->read(m_rawUncompressedFile);
 
     /* update status variables */
     m_posg++;
 
-    return ohb;
+    return 1;
 }
 
 StructuredUncompressedFile::streampos StructuredUncompressedFile::tellg() {

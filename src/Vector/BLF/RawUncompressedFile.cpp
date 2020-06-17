@@ -87,12 +87,12 @@ void RawUncompressedFile::close() {
     m_structuredCompressedFile.close();
 }
 
-std::streamsize RawUncompressedFile::read(char * s, const RawUncompressedFile::streamsize n) {
+RawUncompressedFile::streamsize RawUncompressedFile::read(char * s, const RawUncompressedFile::streamsize n) {
     /* mutex lock */
     std::unique_lock<std::mutex> lock(m_mutex);
 
     /* read data */
-    std::streamsize totalSize = 0;
+    streamsize totalSize = 0;
     while (totalSize < n) {
         /* find starting log container */
         std::vector<LogContainerRef>::iterator logContainerRef =
@@ -109,8 +109,8 @@ std::streamsize RawUncompressedFile::read(char * s, const RawUncompressedFile::s
             /* read log container */
             StructuredCompressedFile::streampos containerIndex = logContainerRef - m_logContainerRefs.begin();
             m_structuredCompressedFile.seekg(containerIndex);
-            LogContainer * logContainer = m_structuredCompressedFile.read();
-            if (logContainer) {
+            LogContainer * logContainer;
+            if (m_structuredCompressedFile.read(&logContainer)) {
                 logContainer->uncompress(logContainerRef->uncompressedFile);
                 // @todo this should be done by the read ahead thread
             } else {
@@ -124,7 +124,7 @@ std::streamsize RawUncompressedFile::read(char * s, const RawUncompressedFile::s
         streamoff offset = m_posg - logContainerRef->filePosition;
 
         /* copy data */
-        std::streamsize gcount = std::min(n, logContainerRef->fileSize - offset);
+        streamsize gcount = std::min(n, logContainerRef->fileSize - offset);
         std::copy(logContainerRef->uncompressedFile.cbegin() + offset,
                   logContainerRef->uncompressedFile.cbegin() + offset + gcount,
                   s);
@@ -142,14 +142,14 @@ std::streamsize RawUncompressedFile::read(char * s, const RawUncompressedFile::s
     return totalSize;
 }
 
-std::streampos RawUncompressedFile::tellg() {
+RawUncompressedFile::streampos RawUncompressedFile::tellg() {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
     return m_posg;
 }
 
-void RawUncompressedFile::seekg(const std::streampos pos) {
+void RawUncompressedFile::seekg(const RawUncompressedFile::streampos pos) {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
@@ -157,7 +157,7 @@ void RawUncompressedFile::seekg(const std::streampos pos) {
     m_posg = pos;
 }
 
-void RawUncompressedFile::seekg(const std::streamoff off, const std::ios_base::seekdir way) {
+void RawUncompressedFile::seekg(const RawUncompressedFile::streamoff off, const std::ios_base::seekdir way) {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
@@ -182,14 +182,14 @@ void RawUncompressedFile::seekg(const std::streamoff off, const std::ios_base::s
     m_posg = pos;
 }
 
-std::streamsize RawUncompressedFile::write(const char * s, const std::streamsize n) {
+RawUncompressedFile::streamsize RawUncompressedFile::write(const char * s, const RawUncompressedFile::streamsize n) {
     assert(s);
 
     /* mutex lock */
     std::unique_lock<std::mutex> lock(m_mutex);
 
     /* write data */
-    std::streamsize totalPcount = 0;
+    streamsize totalPcount = 0;
     while (totalPcount < n) {
         std::vector<LogContainerRef>::iterator logContainerRef = m_logContainerRefs.begin();
         while (logContainerRef != m_logContainerRefs.end()) {
@@ -217,10 +217,10 @@ std::streamsize RawUncompressedFile::write(const char * s, const std::streamsize
         }
 
         /* offset to write */
-        std::streamoff offset = m_posp - logContainerRef->filePosition;
+        streamoff offset = m_posp - logContainerRef->filePosition;
 
         /* copy data */
-        std::streamsize pcount = std::min(n, logContainerRef->fileSize - offset);
+        streamsize pcount = std::min(n, logContainerRef->fileSize - offset);
         std::copy(s, s + pcount, logContainerRef->uncompressedFile.begin() + offset);
 
         /* new put position */
@@ -236,19 +236,19 @@ std::streamsize RawUncompressedFile::write(const char * s, const std::streamsize
     return totalPcount;
 }
 
-std::streampos RawUncompressedFile::tellp() {
+RawUncompressedFile::streampos RawUncompressedFile::tellp() {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
     return m_posp;
 }
 
-void RawUncompressedFile::seekp(const std::streampos /*pos*/) {
+void RawUncompressedFile::seekp(const RawUncompressedFile::streampos /*pos*/) {
     /* should not be used */
     assert(false);
 }
 
-void RawUncompressedFile::seekp(const std::streamoff off, const std::ios_base::seekdir way) {
+void RawUncompressedFile::seekp(const RawUncompressedFile::streamoff off, const std::ios_base::seekdir way) {
     /* only to be used to skip padding bytes */
     assert(off >= 0);
     assert(way == std::ios_base::cur);
@@ -307,8 +307,8 @@ void RawUncompressedFile::indexThread() {
     streampos filePosition = 0;
     m_statisticsSize = 0x90; // size of FileStatistics
     for(;;) {
-        LogContainer * logContainer = m_structuredCompressedFile.read();
-        if (!logContainer) {
+        LogContainer * logContainer;
+        if (!m_structuredCompressedFile.read(&logContainer)) {
             break;
         }
 

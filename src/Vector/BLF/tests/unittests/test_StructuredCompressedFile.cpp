@@ -25,21 +25,22 @@ BOOST_AUTO_TEST_CASE(ReadTest) {
     BOOST_CHECK_EQUAL(structuredCompressedFile.size(), 2);
 
     /* read log container 0/2 */
-    Vector::BLF::LogContainer * logContainer = structuredCompressedFile.read();
+    Vector::BLF::LogContainer * logContainer;
+    BOOST_CHECK_EQUAL(structuredCompressedFile.read(&logContainer), 1);
     BOOST_CHECK(logContainer);
     BOOST_CHECK_EQUAL(structuredCompressedFile.tellg(), 1);
     BOOST_CHECK_EQUAL(structuredCompressedFile.tellp(), 2);
     delete logContainer;
 
     /* read log container 1/2 */
-    logContainer = structuredCompressedFile.read();
+    BOOST_CHECK_EQUAL(structuredCompressedFile.read(&logContainer), 1);
     BOOST_CHECK(logContainer);
     BOOST_CHECK_EQUAL(structuredCompressedFile.tellg(), 2);
     BOOST_CHECK_EQUAL(structuredCompressedFile.tellp(), 2);
     delete logContainer;
 
     /* read log container 2/2 (not existing) */
-    logContainer = structuredCompressedFile.read();
+    BOOST_CHECK_EQUAL(structuredCompressedFile.read(&logContainer), 0);
     BOOST_CHECK(!logContainer);
     BOOST_CHECK_EQUAL(structuredCompressedFile.tellg(), 2);
     BOOST_CHECK_EQUAL(structuredCompressedFile.tellp(), 2);

@@ -88,7 +88,7 @@ void RawCompressedFile::close() {
     m_file.close();
 }
 
-std::streamsize RawCompressedFile::read(char * s, RawCompressedFile::streamsize n) {
+RawCompressedFile::streamsize RawCompressedFile::read(char * s, RawCompressedFile::streamsize n) {
     assert(s);
 
     /* mutex lock */
@@ -119,7 +119,7 @@ void RawCompressedFile::seekg(const RawCompressedFile::streamoff off, const std:
     m_file.seekg(off, way);
 }
 
-std::streamsize RawCompressedFile::write(const char * s, RawCompressedFile::streamsize n) {
+RawCompressedFile::streamsize RawCompressedFile::write(const char * s, RawCompressedFile::streamsize n) {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 

@@ -53,7 +53,9 @@ bool File::is_open() const {
 }
 
 ObjectHeaderBase * File::read() {
-    return m_structuredUncompressedFile.read();
+    ObjectHeaderBase * objectHeaderBase;
+    m_structuredUncompressedFile.read(&objectHeaderBase);
+    return objectHeaderBase;
 }
 
 bool File::write(ObjectHeaderBase * ohb) {

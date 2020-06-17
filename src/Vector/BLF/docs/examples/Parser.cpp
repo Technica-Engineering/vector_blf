@@ -1925,7 +1925,7 @@ int main(int argc, char * argv[]) {
 
         /* ObjectHeader */
         auto * oh = dynamic_cast<Vector::BLF::ObjectHeader *>(ohb);
-        if (oh != nullptr) {
+        if (oh) {
             std::cout << std::dec << oh->objectTimeStamp;
             switch (oh->objectFlags) {
             case Vector::BLF::ObjectHeader::ObjectFlags::TimeTenMics:
@@ -1939,7 +1939,7 @@ int main(int argc, char * argv[]) {
 
         /* ObjectHeader2 */
         auto * oh2 = dynamic_cast<Vector::BLF::ObjectHeader2 *>(ohb);
-        if (oh2 != nullptr) {
+        if (oh2) {
             std::cout << std::dec << oh2->objectTimeStamp;
             switch (oh2->objectFlags) {
             case Vector::BLF::ObjectHeader2::ObjectFlags::TimeTenMics:

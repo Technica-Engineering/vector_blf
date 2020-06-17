@@ -52,7 +52,7 @@ public:
     virtual void open(const char * filename, std::ios_base::openmode mode = std::ios_base::in | std::ios_base::out);
     virtual bool is_open() const;
     virtual void close();
-    virtual ObjectHeaderBase * read();
+    virtual streamsize read(ObjectHeaderBase ** objectHeaderBase);
     virtual streampos tellg();
     virtual void seekg(const streampos pos);
     virtual void seekg(const streamoff off, const std::ios_base::seekdir way);
