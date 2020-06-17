@@ -37,11 +37,11 @@ void DiagRequestInterpretation::read(RawFile & is) {
     is.read(reinterpret_cast<char *>(&variantQualifierLength), sizeof(variantQualifierLength));
     is.read(reinterpret_cast<char *>(&serviceQualifierLength), sizeof(serviceQualifierLength));
     ecuQualifier.resize(ecuQualifierLength);
-    is.read(const_cast<char *>(ecuQualifier.data()), ecuQualifierLength);
+    is.read(&ecuQualifier[0], ecuQualifierLength);
     variantQualifier.resize(variantQualifierLength);
-    is.read(const_cast<char *>(variantQualifier.data()), variantQualifierLength);
+    is.read(&variantQualifier[0], variantQualifierLength);
     serviceQualifier.resize(serviceQualifierLength);
-    is.read(const_cast<char *>(serviceQualifier.data()), serviceQualifierLength);
+    is.read(&serviceQualifier[0], serviceQualifierLength);
 }
 
 void DiagRequestInterpretation::write(RawFile & os) {
@@ -57,9 +57,9 @@ void DiagRequestInterpretation::write(RawFile & os) {
     os.write(reinterpret_cast<char *>(&ecuQualifierLength), sizeof(ecuQualifierLength));
     os.write(reinterpret_cast<char *>(&variantQualifierLength), sizeof(variantQualifierLength));
     os.write(reinterpret_cast<char *>(&serviceQualifierLength), sizeof(serviceQualifierLength));
-    os.write(const_cast<char *>(ecuQualifier.data()), ecuQualifierLength);
-    os.write(const_cast<char *>(variantQualifier.data()), variantQualifierLength);
-    os.write(const_cast<char *>(serviceQualifier.data()), serviceQualifierLength);
+    os.write(&ecuQualifier[0], ecuQualifierLength);
+    os.write(&variantQualifier[0], variantQualifierLength);
+    os.write(&serviceQualifier[0], serviceQualifierLength);
 }
 
 DWORD DiagRequestInterpretation::calculateObjectSize() const {

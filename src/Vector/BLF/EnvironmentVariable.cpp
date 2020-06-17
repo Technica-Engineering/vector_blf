@@ -42,7 +42,7 @@ void EnvironmentVariable::read(RawFile & is) {
     is.read(reinterpret_cast<char *>(&dataLength), sizeof(dataLength));
     is.read(reinterpret_cast<char *>(&reservedEnvironmentVariable), sizeof(reservedEnvironmentVariable));
     name.resize(nameLength);
-    is.read(const_cast<char *>(name.data()), nameLength);
+    is.read(&name[0], nameLength);
     data.resize(dataLength);
     is.read(reinterpret_cast<char *>(data.data()), dataLength);
 
@@ -59,7 +59,7 @@ void EnvironmentVariable::write(RawFile & os) {
     os.write(reinterpret_cast<char *>(&nameLength), sizeof(nameLength));
     os.write(reinterpret_cast<char *>(&dataLength), sizeof(dataLength));
     os.write(reinterpret_cast<char *>(&reservedEnvironmentVariable), sizeof(reservedEnvironmentVariable));
-    os.write(const_cast<char *>(name.data()), nameLength);
+    os.write(&name[0], nameLength);
     os.write(reinterpret_cast<char *>(data.data()), dataLength);
 
     /* skip padding */

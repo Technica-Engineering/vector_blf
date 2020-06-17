@@ -37,7 +37,7 @@ void AppText::read(RawFile & is) {
     is.read(reinterpret_cast<char *>(&textLength), sizeof(textLength));
     is.read(reinterpret_cast<char *>(&reservedAppText2), sizeof(reservedAppText2));
     text.resize(textLength);
-    is.read(const_cast<char *>(text.data()), textLength);
+    is.read(&text[0], textLength);
 
     /* skip padding */
     is.seekg(objectSize % 4, std::ios_base::cur);
@@ -52,7 +52,7 @@ void AppText::write(RawFile & os) {
     os.write(reinterpret_cast<char *>(&reservedAppText1), sizeof(reservedAppText1));
     os.write(reinterpret_cast<char *>(&textLength), sizeof(textLength));
     os.write(reinterpret_cast<char *>(&reservedAppText2), sizeof(reservedAppText2));
-    os.write(const_cast<char *>(text.data()), textLength);
+    os.write(&text[0], textLength);
 
     /* skip padding */
     os.seekp(objectSize % 4, std::ios_base::cur);

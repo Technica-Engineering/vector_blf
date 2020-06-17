@@ -36,7 +36,7 @@ void EventComment::read(RawFile & is) {
     is.read(reinterpret_cast<char *>(&textLength), sizeof(textLength));
     is.read(reinterpret_cast<char *>(&reservedEventComment), sizeof(reservedEventComment));
     text.resize(textLength);
-    is.read(const_cast<char *>(text.data()), textLength);
+    is.read(&text[0], textLength);
 
     /* skip padding */
     is.seekg(objectSize % 4, std::ios_base::cur);
@@ -50,7 +50,7 @@ void EventComment::write(RawFile & os) {
     os.write(reinterpret_cast<char *>(&commentedEventType), sizeof(commentedEventType));
     os.write(reinterpret_cast<char *>(&textLength), sizeof(textLength));
     os.write(reinterpret_cast<char *>(&reservedEventComment), sizeof(reservedEventComment));
-    os.write(const_cast<char *>(text.data()), textLength);
+    os.write(&text[0], textLength);
 
     /* skip padding */
     os.seekp(objectSize % 4, std::ios_base::cur);

@@ -40,11 +40,11 @@ void TestStructure::read(RawFile & is) {
     is.read(reinterpret_cast<char *>(&nameLength), sizeof(nameLength));
     is.read(reinterpret_cast<char *>(&textLength), sizeof(textLength));
     executingObjectName.resize(executingObjectNameLength);
-    is.read(const_cast<char *>(reinterpret_cast<const char *>(executingObjectName.data())), executingObjectNameLength * sizeof(char16_t));
+    is.read(const_cast<char *>(reinterpret_cast<const char *>(&executingObjectName[0])), executingObjectNameLength * sizeof(char16_t));
     name.resize(nameLength);
-    is.read(const_cast<char *>(reinterpret_cast<const char *>(name.data())), nameLength * sizeof(char16_t));
+    is.read(const_cast<char *>(reinterpret_cast<const char *>(&name[0])), nameLength * sizeof(char16_t));
     text.resize(textLength);
-    is.read(const_cast<char *>(reinterpret_cast<const char *>(text.data())), textLength * sizeof(char16_t));
+    is.read(const_cast<char *>(reinterpret_cast<const char *>(&text[0])), textLength * sizeof(char16_t));
 }
 
 void TestStructure::write(RawFile & os) {
@@ -63,9 +63,9 @@ void TestStructure::write(RawFile & os) {
     os.write(reinterpret_cast<char *>(&executingObjectNameLength), sizeof(executingObjectNameLength));
     os.write(reinterpret_cast<char *>(&nameLength), sizeof(nameLength));
     os.write(reinterpret_cast<char *>(&textLength), sizeof(textLength));
-    os.write(const_cast<char *>(reinterpret_cast<const char *>(executingObjectName.data())), executingObjectNameLength * sizeof(char16_t));
-    os.write(const_cast<char *>(reinterpret_cast<const char *>(name.data())), nameLength * sizeof(char16_t));
-    os.write(const_cast<char *>(reinterpret_cast<const char *>(text.data())), textLength * sizeof(char16_t));
+    os.write(const_cast<char *>(reinterpret_cast<const char *>(&executingObjectName[0])), executingObjectNameLength * sizeof(char16_t));
+    os.write(const_cast<char *>(reinterpret_cast<const char *>(&name[0])), nameLength * sizeof(char16_t));
+    os.write(const_cast<char *>(reinterpret_cast<const char *>(&text[0])), textLength * sizeof(char16_t));
 }
 
 DWORD TestStructure::calculateObjectSize() const {

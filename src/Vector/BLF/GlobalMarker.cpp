@@ -44,11 +44,11 @@ void GlobalMarker::read(RawFile & is) {
     is.read(reinterpret_cast<char *>(&reservedGlobalMarker3), sizeof(reservedGlobalMarker3));
     is.read(reinterpret_cast<char *>(&reservedGlobalMarker4), sizeof(reservedGlobalMarker4));
     groupName.resize(groupNameLength);
-    is.read(const_cast<char *>(groupName.data()), groupNameLength);
+    is.read(&groupName[0], groupNameLength);
     markerName.resize(markerNameLength);
-    is.read(const_cast<char *>(markerName.data()), markerNameLength);
+    is.read(&markerName[0], markerNameLength);
     description.resize(descriptionLength);
-    is.read(const_cast<char *>(description.data()), descriptionLength);
+    is.read(&description[0], descriptionLength);
 
     /* skip padding */
     is.seekg(objectSize % 4, std::ios_base::cur);
@@ -67,9 +67,9 @@ void GlobalMarker::write(RawFile & os) {
     os.write(reinterpret_cast<char *>(&descriptionLength), sizeof(descriptionLength));
     os.write(reinterpret_cast<char *>(&reservedGlobalMarker3), sizeof(reservedGlobalMarker3));
     os.write(reinterpret_cast<char *>(&reservedGlobalMarker4), sizeof(reservedGlobalMarker4));
-    os.write(const_cast<char *>(groupName.data()), groupNameLength);
-    os.write(const_cast<char *>(markerName.data()), markerNameLength);
-    os.write(const_cast<char *>(description.data()), descriptionLength);
+    os.write(&groupName[0], groupNameLength);
+    os.write(&markerName[0], markerNameLength);
+    os.write(&description[0], descriptionLength);
 
     /* skip padding */
     os.seekp(objectSize % 4, std::ios_base::cur);

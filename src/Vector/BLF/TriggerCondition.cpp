@@ -34,9 +34,9 @@ void TriggerCondition::read(RawFile & is) {
     is.read(reinterpret_cast<char *>(&triggerBlockNameLength), sizeof(triggerBlockNameLength));
     is.read(reinterpret_cast<char *>(&triggerConditionLength), sizeof(triggerConditionLength));
     triggerBlockName.resize(triggerBlockNameLength);
-    is.read(const_cast<char *>(triggerBlockName.data()), triggerBlockNameLength);
+    is.read(&triggerBlockName[0], triggerBlockNameLength);
     triggerCondition.resize(triggerConditionLength);
-    is.read(const_cast<char *>(triggerCondition.data()), triggerConditionLength);
+    is.read(&triggerCondition[0], triggerConditionLength);
 }
 
 void TriggerCondition::write(RawFile & os) {
@@ -48,8 +48,8 @@ void TriggerCondition::write(RawFile & os) {
     os.write(reinterpret_cast<char *>(&state), sizeof(state));
     os.write(reinterpret_cast<char *>(&triggerBlockNameLength), sizeof(triggerBlockNameLength));
     os.write(reinterpret_cast<char *>(&triggerConditionLength), sizeof(triggerConditionLength));
-    os.write(const_cast<char *>(triggerBlockName.data()), triggerBlockNameLength);
-    os.write(const_cast<char *>(triggerCondition.data()), triggerConditionLength);
+    os.write(&triggerBlockName[0], triggerBlockNameLength);
+    os.write(&triggerCondition[0], triggerConditionLength);
 }
 
 DWORD TriggerCondition::calculateObjectSize() const {
