@@ -40,6 +40,8 @@ File::~File() {
     close();
 }
 
+/* StructuredUncompressedFile methods */
+
 void File::open(const char * filename, const std::ios_base::openmode mode) {
     m_structuredUncompressedFile.open(filename, mode);
 }
@@ -52,27 +54,41 @@ bool File::is_open() const {
     return m_structuredUncompressedFile.is_open();
 }
 
+void File::close() {
+    m_structuredUncompressedFile.close();
+}
+
+File::streamsize File::read(ObjectHeaderBase ** objectHeaderBase) {
+    return m_structuredUncompressedFile.read(objectHeaderBase);
+}
+
 ObjectHeaderBase * File::read() {
     ObjectHeaderBase * objectHeaderBase;
-    m_structuredUncompressedFile.read(&objectHeaderBase);
+    read(&objectHeaderBase);
     return objectHeaderBase;
+}
+
+File::streampos File::tellg() {
+    return m_structuredUncompressedFile.tellg();
+}
+
+void File::seekg(const streampos pos) {
+    m_structuredUncompressedFile.seekg(pos);
+}
+
+void File::seekg(const streamoff off, const std::ios_base::seekdir way) {
+    m_structuredUncompressedFile.seekg(off, way);
 }
 
 bool File::write(ObjectHeaderBase * ohb) {
     return m_structuredUncompressedFile.write(ohb);
 }
 
-void File::close() {
-    m_structuredUncompressedFile.close();
+File::streampos File::tellp() {
+    return m_structuredUncompressedFile.tellp();
 }
 
-FileStatistics File::statistics() const {
-    return m_structuredUncompressedFile.statistics();
-}
-
-void File::setStatistics(const FileStatistics & statistics) {
-    m_structuredUncompressedFile.setStatistics(statistics);
-}
+/* RawUncompressedFile methods */
 
 DWORD File::defaultLogContainerSize() const {
     return m_rawUncompressedFile.defaultLogContainerSize();
@@ -80,6 +96,14 @@ DWORD File::defaultLogContainerSize() const {
 
 void File::setDefaultLogContainerSize(DWORD defaultLogContainerSize) {
     m_rawUncompressedFile.setDefaultLogContainerSize(defaultLogContainerSize);
+}
+
+/* StructuredCompressedFile methods */
+
+/* RawCompressedFile methods */
+
+FileStatistics File::statistics() const {
+    return m_rawCompressedFile.statistics();
 }
 
 }

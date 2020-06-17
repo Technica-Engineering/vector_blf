@@ -48,14 +48,9 @@ public:
     File();
     virtual ~File();
 
-    /**
-     * Current uncompressed file size
-     *
-     * This includes the LogContainer headers, and the uncompressed content.
-     *
-     * @todo this need to be a function that returns the fileSize.
-     */
-    ULONGLONG currentUncompressedFileSize {};
+    using streamoff = int32_t;
+    using streamsize = uint32_t;
+    using streampos = uint32_t;
 
     /**
      * zlib compression level (0=no compression, 1=best speed, 9=best compression, -1=default compression
@@ -71,12 +66,9 @@ public:
      */
     bool writeUnknown115 {true};
 
-    /**
-     * open file
-     *
-     * @param[in] filename file name
-     * @param[in] mode open mode, either in (read) or out (write)
-     */
+    /* StructuredUncompressedFile methods */
+
+    /** @copydoc StructuredUncompressedFile::open */
     virtual void open(const char * filename, const std::ios_base::openmode mode = std::ios_base::in);
 
     /**
@@ -87,12 +79,14 @@ public:
      */
     virtual void open(const std::string & filename, const std::ios_base::openmode mode = std::ios_base::in);
 
-    /**
-     * is file open?
-     *
-     * @return true if file is open
-     */
+    /** @copydoc StructuredUncompressedFile::is_open */
     virtual bool is_open() const;
+
+    /** @copydoc StructuredUncompressedfile::close */
+    virtual void close();
+
+    /** @copydoc StructuredUncompressedfile::read */
+    virtual streamsize read(ObjectHeaderBase ** objectHeaderBase);
 
     /**
      * Read object from file.
@@ -100,39 +94,41 @@ public:
      * Ownership is taken over from the library to the user.
      * The user has to take care to delete the object.
      *
-     * @todo Use std::unique_ptr in future versions.
-     *
      * @return read object or nullptr
+     *
+     * @deprecated Use new read method instead.
      */
     virtual ObjectHeaderBase * read();
 
-    /**
-     * Write object to file.
-     *
-     * Ownership is taken over from the user to the library.
-     * The object should not be further accessed any more.
-     *
-     * @todo Use std::unique_ptr in future versions.
-     *
-     * @param[in] ohb write object
-     * @return true, if write was successful
-     */
-    virtual bool write(ObjectHeaderBase * ohb);
+    /** @copydoc StructuredUncompressedFile::tellg */
+    virtual streampos tellg();
 
-    /** @copydoc StructuredCompressedfile::close */
-    virtual void close();
+    /** @copydoc StructuredUncompressedFile::seekg */
+    virtual void seekg(const streampos pos);
 
-    /** @copydoc RawCompressedFile::statistics */
-    virtual FileStatistics statistics() const;
+    /** @copydoc StructuredUncompressedFile::seekg */
+    virtual void seekg(const streamoff off, const std::ios_base::seekdir way);
 
-    /** @copydoc RawCompressedFile::setStatistics */
-    virtual void setStatistics(const FileStatistics & statistics);
+    /** @copydoc StructuredUncompressedFile::write */
+    virtual bool write(ObjectHeaderBase * objectHeaderBase);
+
+    /** @copydoc StructuredUncompressedFile::tellp */
+    virtual streampos tellp();
+
+    /* RawUncompressedFile methods */
 
     /** @copydoc RawUncompressedFile::defaultLogContainerSize */
     virtual DWORD defaultLogContainerSize() const;
 
     /** @copydoc RawUncompressedFile::setDefaultLogContainerSize */
     virtual void setDefaultLogContainerSize(DWORD defaultLogContainerSize);
+
+    /* StructuredCompressedFile methods */
+
+    /* RawCompressedFile methods */
+
+    /** @copydoc RawCompressedFile::statistics */
+    virtual FileStatistics statistics() const;
 
 // @todo private:
     /** raw compressed file */
