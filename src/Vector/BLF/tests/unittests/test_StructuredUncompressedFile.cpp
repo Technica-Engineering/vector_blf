@@ -18,28 +18,48 @@ BOOST_AUTO_TEST_CASE(ReadTest) {
     BOOST_CHECK(!structuredUncompressedFile.is_open());
     BOOST_CHECK_EQUAL(structuredUncompressedFile.tellg(), 0); // @todo should be -1
     BOOST_CHECK_EQUAL(structuredUncompressedFile.tellp(), 0); // @todo should be -1
+    BOOST_CHECK_EQUAL(structuredUncompressedFile.size(), 0);
 
     /* open file */
     structuredUncompressedFile.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_CanMessage.blf", std::ios_base::in);
     BOOST_CHECK(structuredUncompressedFile.is_open());
     BOOST_CHECK_EQUAL(structuredUncompressedFile.tellg(), 0);
-    BOOST_CHECK_EQUAL(structuredUncompressedFile.tellp(), 0);
+    BOOST_CHECK_EQUAL(structuredUncompressedFile.tellp(), 4);
+    BOOST_CHECK_EQUAL(structuredUncompressedFile.size(), 4);
 
-    /* read object 0/1 */
+    /* read object 0/4 */
     Vector::BLF::ObjectHeaderBase * ohb = structuredUncompressedFile.read();
     BOOST_CHECK(ohb);
-    BOOST_CHECK(structuredUncompressedFile.is_open());
     BOOST_CHECK_EQUAL(structuredUncompressedFile.tellg(), 1);
-    BOOST_CHECK_EQUAL(structuredUncompressedFile.tellp(), 0);
+    BOOST_CHECK_EQUAL(structuredUncompressedFile.tellp(), 4);
     delete ohb;
 
-    /* read object 1/1 */
+    /* read object 1/4 */
     ohb = structuredUncompressedFile.read();
     BOOST_CHECK(ohb);
-    BOOST_CHECK(structuredUncompressedFile.is_open());
     BOOST_CHECK_EQUAL(structuredUncompressedFile.tellg(), 2);
-    BOOST_CHECK_EQUAL(structuredUncompressedFile.tellp(), 0);
+    BOOST_CHECK_EQUAL(structuredUncompressedFile.tellp(), 4);
     delete ohb;
+
+    /* read object 2/4 */
+    ohb = structuredUncompressedFile.read();
+    BOOST_CHECK(ohb);
+    BOOST_CHECK_EQUAL(structuredUncompressedFile.tellg(), 3);
+    BOOST_CHECK_EQUAL(structuredUncompressedFile.tellp(), 4);
+    delete ohb;
+
+    /* read object 3/4 */
+    ohb = structuredUncompressedFile.read();
+    BOOST_CHECK(ohb);
+    BOOST_CHECK_EQUAL(structuredUncompressedFile.tellg(), 4);
+    BOOST_CHECK_EQUAL(structuredUncompressedFile.tellp(), 4);
+    delete ohb;
+
+    /* read object 4/4 (not existing) */
+    ohb = structuredUncompressedFile.read();
+    BOOST_CHECK(!ohb);
+    BOOST_CHECK_EQUAL(structuredUncompressedFile.tellg(), 4);
+    BOOST_CHECK_EQUAL(structuredUncompressedFile.tellp(), 4);
 
     /* rewind to beginning of file */
     structuredUncompressedFile.seekg(0, std::ios_base::beg);

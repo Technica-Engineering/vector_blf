@@ -90,28 +90,12 @@ ObjectHeaderBase * StructuredUncompressedFile::read() {
     }
 
     /* seek to object */
-    RawUncompressedFile::streampos rawFilePosition = m_objectRefs[m_posg].filePosition;
-    m_rawUncompressedFile.seekg(rawFilePosition);
-
-    /* read object header (not via read function as this would block) */
-    DWORD signature;
-    WORD headerSize;
-    WORD headerVersion;
-    DWORD objectSize;
-    ObjectType objectType;
-    if (m_rawUncompressedFile.read(reinterpret_cast<char *>(&signature), sizeof(signature)) != sizeof(signature)) {
-        return nullptr;
-    }
-    if (signature != ObjectSignature)
-        throw Exception("StructuredCompressedFile::indexThread(): Object signature doesn't match at this position.");
-    m_rawUncompressedFile.read(reinterpret_cast<char *>(&headerSize), sizeof(headerSize));
-    m_rawUncompressedFile.read(reinterpret_cast<char *>(&headerVersion), sizeof(headerVersion));
-    m_rawUncompressedFile.read(reinterpret_cast<char *>(&objectSize), sizeof(objectSize));
-    m_rawUncompressedFile.read(reinterpret_cast<char *>(&objectType), sizeof(objectType));
-    m_rawUncompressedFile.seekg(rawFilePosition);
+    assert(m_posg < m_objectRefs.size());
+    m_rawUncompressedFile.seekg(m_objectRefs[m_posg].filePosition);
 
     /* read object */
-    ObjectHeaderBase * ohb = makeObject(objectType);
+    ObjectHeaderBase * ohb = makeObject(m_objectRefs[m_posg].objectType);
+    assert(ohb);
     ohb->read(m_rawUncompressedFile);
 
     /* update status variables */
@@ -153,9 +137,7 @@ void StructuredUncompressedFile::seekg(const StructuredUncompressedFile::streamo
     default:
         assert(false);
     }
-    pos += off;
-
-    m_posg = pos;
+    m_posg = pos + off;
 }
 
 bool StructuredUncompressedFile::write(ObjectHeaderBase * objectHeaderBase) {
@@ -173,7 +155,7 @@ StructuredUncompressedFile::streampos StructuredUncompressedFile::tellp() {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
-    return m_posp;
+    return m_objectRefs.size();
 }
 
 StructuredUncompressedFile::streamsize StructuredUncompressedFile::size() const {
@@ -184,7 +166,6 @@ StructuredUncompressedFile::streamsize StructuredUncompressedFile::size() const 
 }
 
 void StructuredUncompressedFile::indexThread() {
-    std::cout << __PRETTY_FUNCTION__ << ": IndexThread starts" << std::endl;
     // already locked by calling method open
 
     /* create index of all objects */
@@ -193,7 +174,6 @@ void StructuredUncompressedFile::indexThread() {
         /* prepare ObjectRef */
         ObjectRef objectRef;
         objectRef.filePosition = m_rawUncompressedFile.tellg();
-        std::cout << __PRETTY_FUNCTION__ << ": Checking file position 0x" << std::hex << m_rawUncompressedFile.tellg() << std::endl;
 
         /* read object header (not via read function as this would potentially throw an exception) */
         DWORD signature;
@@ -215,10 +195,9 @@ void StructuredUncompressedFile::indexThread() {
         objectRef.objectSize = objectSize;
         objectRef.objectType = objectType;
         m_objectRefs.push_back(objectRef);
-        std::cout << __PRETTY_FUNCTION__ << ": Object at 0x" << std::hex << objectRef.filePosition << " size 0x" << std::hex << objectRef.objectSize << std::endl;
 
         /* jump to next object */
-        m_rawUncompressedFile.seekg(objectRef.filePosition + RawUncompressedFile::streamsize(objectSize));
+        m_rawUncompressedFile.seekg(objectRef.filePosition + RawUncompressedFile::streamsize(objectSize + objectSize % 4));
     }
 
     /* seek back to first log container */

@@ -52,16 +52,22 @@ public:
      * Current uncompressed file size
      *
      * This includes the LogContainer headers, and the uncompressed content.
+     *
+     * @todo this need to be a function that returns the fileSize.
      */
     ULONGLONG currentUncompressedFileSize {};
 
     /**
      * zlib compression level (0=no compression, 1=best speed, 9=best compression, -1=default compression
+     *
+     * @todo shift to where compression happens and just provide a proxy function here
      */
     int compressionLevel {6};
 
     /**
      * Write Unknown115 message at file close
+     *
+     * @todo always write
      */
     bool writeUnknown115 {true};
 
@@ -109,29 +115,26 @@ public:
      * @todo Use std::unique_ptr in future versions.
      *
      * @param[in] ohb write object
+     * @return true, if write was successful
      */
-    virtual void write(ObjectHeaderBase * ohb);
+    virtual bool write(ObjectHeaderBase * ohb);
 
-    /**
-     * close file
-     */
+    /** @copydoc StructuredCompressedfile::close */
     virtual void close();
 
-    /**
-     * Get default log container size.
-     *
-     * @return default log container size
-     */
+    /** @copydoc RawCompressedFile::statistics */
+    virtual FileStatistics statistics() const;
+
+    /** @copydoc RawCompressedFile::setStatistics */
+    virtual void setStatistics(const FileStatistics & statistics);
+
+    /** @copydoc RawUncompressedFile::defaultLogContainerSize */
     virtual DWORD defaultLogContainerSize() const;
 
-    /**
-     * Set default log container size.
-     *
-     * @param[in] defaultLogContainerSize default log container size
-     */
+    /** @copydoc RawUncompressedFile::setDefaultLogContainerSize */
     virtual void setDefaultLogContainerSize(DWORD defaultLogContainerSize);
 
-private:
+// @todo private:
     /** raw compressed file */
     RawCompressedFile m_rawCompressedFile;
 
@@ -143,9 +146,6 @@ private:
 
     /** structured uncompressed file */
     StructuredUncompressedFile m_structuredUncompressedFile;
-
-    /** open mode */
-    std::ios_base::openmode m_openMode {};
 };
 
 }

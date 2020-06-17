@@ -53,11 +53,11 @@ public:
     void open(const char * filename, std::ios_base::openmode mode = std::ios_base::in | std::ios_base::out) override;
     bool is_open() const override;
     void close() override;
-    std::streamsize read(char * s, streamsize n) override;
+    streamsize read(char * s, streamsize n) override;
     streampos tellg() override;
     void seekg(const streampos pos) override;
     void seekg(const streamoff off, const std::ios_base::seekdir way) override;
-    std::streamsize write(const char * s, streamsize n) override;
+    streamsize write(const char * s, streamsize n) override;
     streampos tellp() override;
     void seekp(const streampos pos) override;
     void seekp(const streamoff off, const std::ios_base::seekdir way) override;
@@ -130,14 +130,14 @@ public:
      *
      * @param[in] statistics file statistics
      */
-    virtual void setStatistics(const FileStatistics statistics);
+    virtual void setStatistics(const FileStatistics & statistics);
 
 private:
     /** mutex */
     mutable std::mutex m_mutex {};
 
     /** actual file on disk */
-    std::fstream m_file;
+    std::fstream m_file {};
 
     /** open mode */
     std::ios_base::openmode m_openMode {};

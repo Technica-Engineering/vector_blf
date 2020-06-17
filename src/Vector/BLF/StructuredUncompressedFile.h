@@ -70,6 +70,12 @@ public:
      * Current number of objects read
      *
      * Unknown115 is not counted.
+     *
+     * @todo isn't this the file size?
+     *
+     * @secreflist
+     * @refitem FileStatistics::objectCount
+     * @endsecreflist
      */
     //std::atomic<DWORD> currentObjectCount {};
 
@@ -112,9 +118,6 @@ private:
 
     /** get position */
     streampos m_posg{0};
-
-    /** put position */
-    streampos m_posp{0};
 
     /** object references (index is streampos) */
     std::vector<ObjectRef> m_objectRefs {};

@@ -15,36 +15,34 @@ BOOST_AUTO_TEST_CASE(ReadTest) {
     BOOST_CHECK(!structuredCompressedFile.is_open());
     BOOST_CHECK_EQUAL(structuredCompressedFile.tellg(), 0); // @todo should be -1
     BOOST_CHECK_EQUAL(structuredCompressedFile.tellp(), 0); // @todo should be -1
+    BOOST_CHECK_EQUAL(structuredCompressedFile.size(), 0);
 
     /* open file */
     structuredCompressedFile.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_CanMessage.blf", std::ios_base::in);
     BOOST_CHECK(structuredCompressedFile.is_open());
     BOOST_CHECK_EQUAL(structuredCompressedFile.tellg(), 0);
-    BOOST_CHECK_EQUAL(structuredCompressedFile.tellp(), 0);
+    BOOST_CHECK_EQUAL(structuredCompressedFile.tellp(), 2);
+    BOOST_CHECK_EQUAL(structuredCompressedFile.size(), 2);
 
     /* read log container 0/2 */
     Vector::BLF::LogContainer * logContainer = structuredCompressedFile.read();
     BOOST_CHECK(logContainer);
-    BOOST_CHECK(structuredCompressedFile.is_open());
     BOOST_CHECK_EQUAL(structuredCompressedFile.tellg(), 1);
-    BOOST_CHECK_EQUAL(structuredCompressedFile.tellp(), 0);
+    BOOST_CHECK_EQUAL(structuredCompressedFile.tellp(), 2);
     delete logContainer;
 
     /* read log container 1/2 */
     logContainer = structuredCompressedFile.read();
     BOOST_CHECK(logContainer);
-    BOOST_CHECK(structuredCompressedFile.is_open());
     BOOST_CHECK_EQUAL(structuredCompressedFile.tellg(), 2);
-    BOOST_CHECK_EQUAL(structuredCompressedFile.tellp(), 0);
+    BOOST_CHECK_EQUAL(structuredCompressedFile.tellp(), 2);
     delete logContainer;
 
-    /* read log container 2/2 */
+    /* read log container 2/2 (not existing) */
     logContainer = structuredCompressedFile.read();
     BOOST_CHECK(!logContainer);
-    BOOST_CHECK(structuredCompressedFile.is_open());
     BOOST_CHECK_EQUAL(structuredCompressedFile.tellg(), 2);
-    BOOST_CHECK_EQUAL(structuredCompressedFile.tellp(), 0);
-    delete logContainer;
+    BOOST_CHECK_EQUAL(structuredCompressedFile.tellp(), 2);
 
     /* rewind to beginning of file */
     structuredCompressedFile.seekg(0, std::ios_base::beg);

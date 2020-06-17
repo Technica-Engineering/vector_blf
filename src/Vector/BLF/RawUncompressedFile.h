@@ -53,11 +53,11 @@ public:
     void open(const char * filename, std::ios_base::openmode mode = std::ios_base::in | std::ios_base::out) override;
     bool is_open() const override;
     void close() override;
-    std::streamsize read(char * s, streamsize n) override;
+    streamsize read(char * s, const streamsize n) override;
     streampos tellg() override;
     void seekg(const streampos pos) override;
     void seekg(const streamoff off, const std::ios_base::seekdir way) override;
-    std::streamsize write(const char * s, streamsize n) override;
+    streamsize write(const char * s, const streamsize n) override;
     streampos tellp() override;
     void seekp(const streampos pos) override;
     void seekp(const streamoff off, const std::ios_base::seekdir way) override;
@@ -68,6 +68,16 @@ public:
      * @return file size
      */
     virtual streamsize size() const;
+
+    /**
+     * Get file size for FileStatistics::uncompressedFileSize
+     *
+     * This file size is similar to CompressedFile, but counts LogContainers
+     * as they are all uncompressed.
+     *
+     * @return file size
+     */
+    virtual streamsize statisticsSize() const;
 
     /**
      * Get default log container size.
@@ -133,6 +143,14 @@ private:
 
     /** file size */
     streamsize m_size {0};
+
+    /**
+     * file size for FileStatistics::uncompressedFileSize
+     *
+     * This file size is similar to CompressedFile, but counts LogContainers
+     * as they are all uncompressed.
+     */
+    streamsize m_statisticsSize {0};
 
     /** log container references (index is StructuredCompressedFile::streampos) */
     std::vector<LogContainerRef> m_logContainerRefs {};

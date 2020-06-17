@@ -89,10 +89,10 @@ LogContainer * StructuredCompressedFile::read() {
     }
 
     /* seek to log container */
+    assert(m_posg < m_logContainerRefs.size());
     m_rawCompressedFile.seekg(m_logContainerRefs[m_posg].filePosition);
 
     /* read log container */
-    std::cout << __PRETTY_FUNCTION__ << ": Read log container at 0x" << m_rawCompressedFile.tellg() << std::endl;
     LogContainer * logContainer = new LogContainer;
     assert(logContainer);
     logContainer->read(m_rawCompressedFile);
@@ -115,10 +115,8 @@ void StructuredCompressedFile::seekg(const StructuredCompressedFile::streampos p
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
-    /* check if available */
-    assert(pos < m_logContainerRefs.size());
-
     /* get raw file position and seek there */
+    assert(pos < m_logContainerRefs.size());
     RawCompressedFile::streampos rawFilePosition = m_logContainerRefs[pos].filePosition;
     m_rawCompressedFile.seekg(rawFilePosition);
 
@@ -146,9 +144,9 @@ void StructuredCompressedFile::seekg(const StructuredCompressedFile::streamoff o
         assert(false);
     }
     m_posg = pos + off;
-    assert(m_posg < m_logContainerRefs.size());
 
     /* get raw file position and seek there */
+    assert(m_posg < m_logContainerRefs.size());
     RawCompressedFile::streampos rawFilePosition = m_logContainerRefs[m_posg].filePosition;
     m_rawCompressedFile.seekg(rawFilePosition);
 }
@@ -159,11 +157,14 @@ bool StructuredCompressedFile::write(LogContainer * logContainer) {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
-    /* write log container */
-    logContainer->write(m_rawCompressedFile);
+    /* prepare LogContainerRef */
+    LogContainerRef logContainerRef;
+    logContainerRef.filePosition = m_rawCompressedFile.tellp();
+    // @todo logContainerRef.logContainer = std::make_shared<LogContainer>(logContainer);
+    m_logContainerRefs.push_back(logContainerRef);
 
-    /* update status variables */
-    m_posp++;
+    /* write log container */
+    logContainer->write(m_rawCompressedFile); // @todo do this in thread
 
     return true;
 }
@@ -172,7 +173,7 @@ StructuredCompressedFile::streampos StructuredCompressedFile::tellp() {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
-    return m_posp;
+    return m_logContainerRefs.size();
 }
 
 StructuredCompressedFile::streamsize StructuredCompressedFile::size() const {
@@ -213,16 +214,14 @@ void StructuredCompressedFile::indexThread() {
 
         /* add log container reference */
         m_logContainerRefs.push_back(logContainerRef);
-        std::cout << __PRETTY_FUNCTION__ << ": LogContainer at 0x" << std::hex << logContainerRef.filePosition << std::endl;
 
         /* jump to next log container */
-        m_rawCompressedFile.seekg(logContainerRef.filePosition + RawCompressedFile::streamsize(objectSize));
+        m_rawCompressedFile.seekg(logContainerRef.filePosition + RawCompressedFile::streamsize(objectSize + objectSize % 4));
     }
     m_rawCompressedFile.clear();
 
     /* seek back to first log container */
     RawCompressedFile::streampos rawFilePosition = m_logContainerRefs.front().filePosition;
-    std::cout << __PRETTY_FUNCTION__ << ": Seek back to 0x" << std::hex << rawFilePosition << std::endl;
     m_rawCompressedFile.seekg(rawFilePosition);
 }
 
@@ -230,14 +229,14 @@ void StructuredCompressedFile::readThread() {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
-    // @todo
+    // @todo read containers from m_rawCompressedFile to m_logContainerRefs
 }
 
 void StructuredCompressedFile::writeThread() {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
-    // @todo
+    // @todo write containers from m_logContainerRefs to m_rawCompressedFile
 }
 
 }

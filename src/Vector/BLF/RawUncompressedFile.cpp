@@ -21,6 +21,7 @@
 
 #include <Vector/BLF/RawUncompressedFile.h>
 
+#include <algorithm>
 #undef NDEBUG
 #include <cassert>
 #include <iostream>
@@ -86,40 +87,27 @@ void RawUncompressedFile::close() {
     m_structuredCompressedFile.close();
 }
 
-std::streamsize RawUncompressedFile::read(char * s, RawUncompressedFile::streamsize n) {
-    assert(s);
-
+std::streamsize RawUncompressedFile::read(char * s, const RawUncompressedFile::streamsize n) {
     /* mutex lock */
     std::unique_lock<std::mutex> lock(m_mutex);
 
     /* read data */
-    std::streamsize totalGcount = 0;
-    while (n > 0) {
+    std::streamsize totalSize = 0;
+    while (totalSize < n) {
         /* find starting log container */
-        std::vector<LogContainerRef>::iterator logContainerRef = m_logContainerRefs.begin();
-        while (logContainerRef != m_logContainerRefs.end()) {
-            //std::cout << __PRETTY_FUNCTION__ << ": LogContainer 0x" << std::hex << logContainerRef->filePosition << " + 0x" << std::hex << logContainerRef->fileSize << std::endl;
-            if ((logContainerRef->filePosition <= m_posg) &&
-                (logContainerRef->filePosition + logContainerRef->fileSize > m_posg)) {
-                //std::cout << __PRETTY_FUNCTION__ << ":... that's the one" << std::endl;
-                break;
-            }
-
-            ++logContainerRef;
-        }
+        std::vector<LogContainerRef>::iterator logContainerRef =
+            std::find_if(m_logContainerRefs.begin(), m_logContainerRefs.end(), [&](const LogContainerRef & logContainerRef) {
+                return (logContainerRef.filePosition <= m_posg) &&
+                       (logContainerRef.filePosition + logContainerRef.fileSize > m_posg);
+            });
         if (logContainerRef == m_logContainerRefs.end()) {
-            //std::cout << __PRETTY_FUNCTION__ << ":... no container found" << std::endl;
-            return totalGcount;
+            return totalSize;
         }
-
-        /* offset to read */
-        streamoff offset = m_posg - logContainerRef->filePosition;
 
         /* load data */
         if (logContainerRef->uncompressedFile.empty()) {
             /* read log container */
             StructuredCompressedFile::streampos containerIndex = logContainerRef - m_logContainerRefs.begin();
-            std::cout << __PRETTY_FUNCTION__ << ":index is " << std::dec << containerIndex << std::endl;
             m_structuredCompressedFile.seekg(containerIndex);
             LogContainer * logContainer = m_structuredCompressedFile.read();
             if (logContainer) {
@@ -128,9 +116,12 @@ std::streamsize RawUncompressedFile::read(char * s, RawUncompressedFile::streams
             } else {
                 delete logContainer;
                 logContainer = nullptr;
-                return totalGcount;
+                return totalSize;
             }
         }
+
+        /* offset to read */
+        streamoff offset = m_posg - logContainerRef->filePosition;
 
         /* copy data */
         std::streamsize gcount = std::min(n, logContainerRef->fileSize - offset);
@@ -145,12 +136,10 @@ std::streamsize RawUncompressedFile::read(char * s, RawUncompressedFile::streams
         s += gcount;
 
         /* calculate remaining data to copy */
-        n -= gcount;
-
-        totalGcount += gcount;
+        totalSize += gcount;
     }
 
-    return totalGcount;
+    return totalSize;
 }
 
 std::streampos RawUncompressedFile::tellg() {
@@ -193,7 +182,7 @@ void RawUncompressedFile::seekg(const std::streamoff off, const std::ios_base::s
     m_posg = pos;
 }
 
-std::streamsize RawUncompressedFile::write(const char * s, std::streamsize n) {
+std::streamsize RawUncompressedFile::write(const char * s, const std::streamsize n) {
     assert(s);
 
     /* mutex lock */
@@ -201,7 +190,7 @@ std::streamsize RawUncompressedFile::write(const char * s, std::streamsize n) {
 
     /* write data */
     std::streamsize totalPcount = 0;
-    while (n > 0) {
+    while (totalPcount < n) {
         std::vector<LogContainerRef>::iterator logContainerRef = m_logContainerRefs.begin();
         while (logContainerRef != m_logContainerRefs.end()) {
             if ((logContainerRef->filePosition <= m_posg) &&
@@ -232,20 +221,16 @@ std::streamsize RawUncompressedFile::write(const char * s, std::streamsize n) {
 
         /* copy data */
         std::streamsize pcount = std::min(n, logContainerRef->fileSize - offset);
-        if (pcount > 0) {
-            std::copy(s, s + pcount, logContainerRef->uncompressedFile.begin() + offset);
+        std::copy(s, s + pcount, logContainerRef->uncompressedFile.begin() + offset);
 
-            /* new put position */
-            m_posp += pcount;
+        /* new put position */
+        m_posp += pcount;
 
-            /* advance */
-            s += pcount;
+        /* advance */
+        s += pcount;
 
-            /* calculate remaining data to copy */
-            n -= pcount;
-
-            totalPcount += pcount;
-        }
+        /* calculate remaining data to copy */
+        totalPcount += pcount;
     }
 
     return totalPcount;
@@ -277,6 +262,13 @@ RawUncompressedFile::streamsize RawUncompressedFile::size() const {
     std::lock_guard<std::mutex> lock(m_mutex);
 
     return m_size;
+}
+
+RawUncompressedFile::streamsize RawUncompressedFile::statisticsSize() const {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    return m_statisticsSize;
 }
 
 DWORD RawUncompressedFile::defaultLogContainerSize() const {
@@ -313,6 +305,7 @@ void RawUncompressedFile::indexThread() {
 
     /* create index of all log containers */
     streampos filePosition = 0;
+    m_statisticsSize = 0x90; // size of FileStatistics
     for(;;) {
         LogContainer * logContainer = m_structuredCompressedFile.read();
         if (!logContainer) {
@@ -324,9 +317,11 @@ void RawUncompressedFile::indexThread() {
         logContainerRef.filePosition = filePosition;
         logContainerRef.fileSize = logContainer->uncompressedFileSize;
         m_logContainerRefs.push_back(logContainerRef);
-        std::cout << __PRETTY_FUNCTION__ << ": LogContainer at 0x" << std::hex << logContainerRef.filePosition << " + 0x" << std::hex << logContainerRef.fileSize << std::endl;
 
+        /* update statistics */
         filePosition += logContainer->uncompressedFileSize;
+        m_statisticsSize += logContainer->internalHeaderSize();
+        m_statisticsSize += logContainer->uncompressedFileSize;
     }
 
     /* set file size */

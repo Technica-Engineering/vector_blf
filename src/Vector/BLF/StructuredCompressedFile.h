@@ -88,13 +88,6 @@ private:
     /** get position */
     streampos m_posg{0};
 
-    /**
-     * put position
-     *
-     * @todo remove this. LogContainers can just be appended, so posp is always one beyond the last
-     */
-    streampos m_posp{0};
-
     /** log container references (index is streampos) */
     std::vector<LogContainerRef> m_logContainerRefs {};
 

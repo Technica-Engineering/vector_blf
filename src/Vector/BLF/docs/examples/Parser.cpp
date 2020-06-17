@@ -1907,7 +1907,8 @@ int main(int argc, char * argv[]) {
         return -1;
     }
 
-    // @todo show(&file.fileStatistics);
+    Vector::BLF::FileStatistics fileStatistics = file.statistics();
+    show(&fileStatistics);
 
     for (;;) {
         Vector::BLF::ObjectHeaderBase * ohb = nullptr;
@@ -1918,7 +1919,7 @@ int main(int argc, char * argv[]) {
         } catch (std::runtime_error & e) {
             std::cout << "Exception: " << e.what() << std::endl;
         }
-        if (ohb == nullptr) {
+        if (!ohb) {
             break;
         }
 
@@ -2461,8 +2462,11 @@ int main(int argc, char * argv[]) {
 
     file.close();
 
-    // @todo std::cout << "uncompressedFileSize: " << std::dec << file.fileStatistics.uncompressedFileSize << std::endl;
-    // @todo std::cout << "objectCount: " << std::dec << file.fileStatistics.objectCount << std::endl;
+    std::cout << "RawCompressedFile.size: " << std::dec << file.m_rawCompressedFile.size() << std::endl;;
+    std::cout << "StructuredCompressedFile.size: " << std::dec << file.m_structuredCompressedFile.size() << std::endl;;
+    std::cout << "RawUncompressedFile.size: " << std::dec << file.m_rawUncompressedFile.size() << std::endl;;
+    std::cout << "RawUncompressedFile.statisticsSize: " << std::dec << file.m_rawUncompressedFile.statisticsSize() << std::endl;;
+    std::cout << "StructuredUncompressedFile.size: " << std::dec << file.m_structuredUncompressedFile.size() << std::endl;;
 
     return 0;
 }

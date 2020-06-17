@@ -17,12 +17,14 @@ BOOST_AUTO_TEST_CASE(ReadTest) {
     BOOST_CHECK(!rawUncompressedFile.is_open());
     BOOST_CHECK_EQUAL(rawUncompressedFile.tellg(), 0); // @todo should be -1
     BOOST_CHECK_EQUAL(rawUncompressedFile.tellp(), 0); // @todo should be -1
+    BOOST_CHECK_EQUAL(rawUncompressedFile.size(), 0);
 
     /* open file */
     rawUncompressedFile.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_CanMessage.blf", std::ios_base::in);
     BOOST_CHECK(rawUncompressedFile.is_open());
     BOOST_CHECK_EQUAL(rawUncompressedFile.tellg(), 0);
     BOOST_CHECK_EQUAL(rawUncompressedFile.tellp(), 0);
+    BOOST_CHECK_EQUAL(rawUncompressedFile.size(), 212);
 
     /* read some data */
     char signature[5] = { 0, 0, 0, 0, 0 }; // including null termination

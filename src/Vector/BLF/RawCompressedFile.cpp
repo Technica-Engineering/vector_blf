@@ -28,9 +28,7 @@
 namespace Vector {
 namespace BLF {
 
-RawCompressedFile::RawCompressedFile() :
-    m_file()
-{
+RawCompressedFile::RawCompressedFile() {
 }
 
 RawCompressedFile::~RawCompressedFile() {
@@ -122,8 +120,6 @@ void RawCompressedFile::seekg(const RawCompressedFile::streamoff off, const std:
 }
 
 std::streamsize RawCompressedFile::write(const char * s, RawCompressedFile::streamsize n) {
-    assert(s);
-
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
@@ -225,7 +221,7 @@ FileStatistics RawCompressedFile::statistics() const {
     return m_statistics;
 }
 
-void RawCompressedFile::setStatistics(const FileStatistics statistics) {
+void RawCompressedFile::setStatistics(const Vector::BLF::FileStatistics & statistics) {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 

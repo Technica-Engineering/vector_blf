@@ -30,7 +30,6 @@ namespace Vector {
 namespace BLF {
 
 File::File() :
-    m_rawCompressedFile(),
     m_structuredCompressedFile(m_rawCompressedFile),
     m_rawUncompressedFile(m_structuredCompressedFile),
     m_structuredUncompressedFile(m_rawUncompressedFile)
@@ -42,31 +41,7 @@ File::~File() {
 }
 
 void File::open(const char * filename, const std::ios_base::openmode mode) {
-    /* check */
-    if (is_open())
-        return;
-
-    /* try to open file */
-    m_rawCompressedFile.open(filename, mode | std::ios_base::binary);
-    if (!m_rawCompressedFile.is_open())
-        return;
-    m_openMode = mode;
-
-    /* read */
-    if (mode & std::ios_base::in) {
-        /* fileStatistics done */
-        currentUncompressedFileSize += m_rawCompressedFile.statistics().statisticsSize;
-
-        // @todo read threads
-    } else
-
-        /* write */
-        if (mode & std::ios_base::out) {
-            /* fileStatistics done */
-            currentUncompressedFileSize += m_rawCompressedFile.statistics().statisticsSize;
-
-            // @todo write threads
-        }
+    m_structuredUncompressedFile.open(filename, mode);
 }
 
 void File::open(const std::string & filename, std::ios_base::openmode mode) {
@@ -74,39 +49,35 @@ void File::open(const std::string & filename, std::ios_base::openmode mode) {
 }
 
 bool File::is_open() const {
-    return m_rawCompressedFile.is_open();
+    return m_structuredUncompressedFile.is_open();
 }
 
 ObjectHeaderBase * File::read() {
-    /* read object */
-    ObjectHeaderBase * ohb = m_structuredUncompressedFile.read();
-
-    return ohb;
+    return m_structuredUncompressedFile.read();
 }
 
-void File::write(ObjectHeaderBase * ohb) {
-    /* push to queue */
-    m_structuredUncompressedFile.write(ohb);
+bool File::write(ObjectHeaderBase * ohb) {
+    return m_structuredUncompressedFile.write(ohb);
 }
 
 void File::close() {
-    /* check if file is open */
-    if (!is_open())
-        return;
+    m_structuredUncompressedFile.close();
+}
 
-    /* read */
-    if (m_openMode & std::ios_base::in) {
-    }
+FileStatistics File::statistics() const {
+    return m_rawCompressedFile.statistics();
+}
 
-    /* write */
-    if (m_openMode & std::ios_base::out) {
-    }
+void File::setStatistics(const FileStatistics & statistics) {
+    m_rawCompressedFile.setStatistics(statistics);
 }
 
 DWORD File::defaultLogContainerSize() const {
+    return m_rawUncompressedFile.defaultLogContainerSize();
 }
 
 void File::setDefaultLogContainerSize(DWORD defaultLogContainerSize) {
+    m_rawUncompressedFile.setDefaultLogContainerSize(defaultLogContainerSize);
 }
 
 }
