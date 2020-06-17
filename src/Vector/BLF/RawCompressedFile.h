@@ -50,7 +50,7 @@ public:
     using streamsize = std::streamsize;
     using streampos = std::streampos;
 
-    void open(const char * filename, std::ios_base::openmode mode = std::ios_base::in | std::ios_base::out) override;
+    void open(const char * filename, std::ios_base::openmode mode = std::ios_base::in) override;
     bool is_open() const override;
     void close() override;
     streamsize read(char * s, streamsize n) override;
