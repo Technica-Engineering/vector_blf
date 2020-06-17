@@ -36,6 +36,11 @@ BOOST_AUTO_TEST_CASE(ReadTest) {
     rawUncompressedFile.seekg(0, std::ios_base::beg);
     BOOST_CHECK_EQUAL(rawUncompressedFile.tellg(), 0);
 
+    /* read data again */
+    BOOST_CHECK_EQUAL(rawUncompressedFile.read(signature, 4), 4);
+    BOOST_CHECK_EQUAL(signature, "LOBJ");
+    BOOST_CHECK_EQUAL(rawUncompressedFile.tellg(), 4);
+
     /* close file */
     rawUncompressedFile.close();
     BOOST_CHECK(!rawUncompressedFile.is_open());

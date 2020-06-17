@@ -49,6 +49,13 @@ BOOST_AUTO_TEST_CASE(ReadTest) {
     structuredCompressedFile.seekg(0, std::ios_base::beg);
     BOOST_CHECK_EQUAL(structuredCompressedFile.tellg(), 0);
 
+    /* read log container 0/2 again */
+    BOOST_CHECK_EQUAL(structuredCompressedFile.read(&logContainer), 1);
+    BOOST_CHECK(logContainer);
+    BOOST_CHECK_EQUAL(structuredCompressedFile.tellg(), 1);
+    BOOST_CHECK_EQUAL(structuredCompressedFile.tellp(), 2);
+    delete logContainer;
+
     /* close file */
     structuredCompressedFile.close();
     BOOST_CHECK(!structuredCompressedFile.is_open());

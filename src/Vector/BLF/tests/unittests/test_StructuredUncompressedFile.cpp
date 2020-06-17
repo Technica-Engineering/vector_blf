@@ -66,6 +66,13 @@ BOOST_AUTO_TEST_CASE(ReadTest) {
     structuredUncompressedFile.seekg(0, std::ios_base::beg);
     BOOST_CHECK_EQUAL(structuredUncompressedFile.tellg(), 0);
 
+    /* read object 0/4 again */
+    BOOST_CHECK_EQUAL(structuredUncompressedFile.read(&ohb), 1);
+    BOOST_CHECK(ohb);
+    BOOST_CHECK_EQUAL(structuredUncompressedFile.tellg(), 1);
+    BOOST_CHECK_EQUAL(structuredUncompressedFile.tellp(), 4);
+    delete ohb;
+
     /* close file */
     structuredUncompressedFile.close();
     BOOST_CHECK(!structuredUncompressedFile.is_open());
