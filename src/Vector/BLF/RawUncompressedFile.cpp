@@ -146,6 +146,9 @@ RawUncompressedFile::streampos RawUncompressedFile::tellg() {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
+    if (!m_structuredCompressedFile.is_open()) {
+        return -1;
+    }
     return m_posg;
 }
 
@@ -240,6 +243,9 @@ RawUncompressedFile::streampos RawUncompressedFile::tellp() {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
+    if (!m_structuredCompressedFile.is_open()) {
+        return -1;
+    }
     return m_posp;
 }
 

@@ -13,8 +13,8 @@ BOOST_AUTO_TEST_CASE(ReadTest) {
 
     /* checks after initialize */
     BOOST_CHECK(!structuredCompressedFile.is_open());
-    BOOST_CHECK_EQUAL(structuredCompressedFile.tellg(), 0); // @todo should be -1
-    BOOST_CHECK_EQUAL(structuredCompressedFile.tellp(), 0); // @todo should be -1
+    BOOST_CHECK_EQUAL(structuredCompressedFile.tellg(), -1);
+    BOOST_CHECK_EQUAL(structuredCompressedFile.tellp(), -1);
     BOOST_CHECK_EQUAL(structuredCompressedFile.size(), 0);
 
     /* open file */

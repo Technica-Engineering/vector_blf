@@ -109,6 +109,9 @@ StructuredUncompressedFile::streampos StructuredUncompressedFile::tellg() {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
+    if (!m_rawUncompressedFile.is_open()) {
+        return -1;
+    }
     return m_posg;
 }
 
@@ -156,6 +159,9 @@ StructuredUncompressedFile::streampos StructuredUncompressedFile::tellp() {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
+    if (!m_rawUncompressedFile.is_open()) {
+        return -1;
+    }
     return m_objectRefs.size();
 }
 

@@ -109,6 +109,9 @@ StructuredCompressedFile::streampos StructuredCompressedFile::tellg() {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
+    if (!m_rawCompressedFile.is_open()) {
+        return -1;
+    }
     return m_posg;
 }
 
@@ -174,6 +177,9 @@ StructuredCompressedFile::streampos StructuredCompressedFile::tellp() {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
+    if (!m_rawCompressedFile.is_open()) {
+        return -1;
+    }
     return m_logContainerRefs.size();
 }
 

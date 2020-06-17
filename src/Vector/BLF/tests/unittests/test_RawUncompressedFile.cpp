@@ -15,8 +15,8 @@ BOOST_AUTO_TEST_CASE(ReadTest) {
 
     /* checks after initialize */
     BOOST_CHECK(!rawUncompressedFile.is_open());
-    BOOST_CHECK_EQUAL(rawUncompressedFile.tellg(), 0); // @todo should be -1
-    BOOST_CHECK_EQUAL(rawUncompressedFile.tellp(), 0); // @todo should be -1
+    BOOST_CHECK_EQUAL(rawUncompressedFile.tellg(), -1);
+    BOOST_CHECK_EQUAL(rawUncompressedFile.tellp(), -1);
     BOOST_CHECK_EQUAL(rawUncompressedFile.size(), 0);
 
     /* open file */
