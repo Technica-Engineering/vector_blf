@@ -135,13 +135,31 @@ struct VECTOR_BLF_EXPORT FileStatistics final {
     /** BL API patch number */
     BYTE apiPatch {0};
 
-    /** (compressed) file size in bytes */
+    /**
+     * (compressed) file size in bytes
+     *
+     * @secreflist
+     * @refitem RawCompressedFile::size
+     * @endsecreflist
+     */
     ULONGLONG fileSize {};
 
-    /** uncompressed file size in bytes */
+    /**
+     * uncompressed file size in bytes
+     *
+     * @secreflist
+     * @refitem RawUncompressedFile::statisticsSize
+     * @endsecreflist
+     */
     ULONGLONG uncompressedFileSize {};
 
-    /** number of objects */
+    /**
+     * number of objects
+     *
+     * @secreflist
+     * @refitem StructuredCompressedFile::size
+     * @endsecreflist
+     */
     DWORD objectCount {};
 
     /** number of objects read */
@@ -153,7 +171,13 @@ struct VECTOR_BLF_EXPORT FileStatistics final {
     /** last object time */
     SYSTEMTIME lastObjectTime {};
 
-    /** (compressed) file size without LogContainer+Unknown115 at end-of-file */
+    /**
+     * (compressed) file size without LogContainer+Unknown115 at end-of-file
+     *
+     * @secreflist
+     * @refitem RawCompressedFile::size
+     * @endsecreflist
+     */
     ULONGLONG fileSizeWithoutUnknown115 {};
 
     /** reserved */

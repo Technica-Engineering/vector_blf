@@ -76,6 +76,15 @@ void StructuredUncompressedFile::close() {
 
     // @todo abort threads and wait to join
 
+    /* close actions */
+    if (m_openMode & std::ios_base::out) {
+        /* force RawUncompressedFile to finish last log container */
+        m_rawUncompressedFile.shrinkLastLogContainer();
+
+        /* write unknown115 */
+        m_unknown115.write(m_rawUncompressedFile);
+    }
+
     return m_rawUncompressedFile.close();
 }
 
@@ -150,9 +159,17 @@ bool StructuredUncompressedFile::write(ObjectHeaderBase * objectHeaderBase) {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
-    // @todo StructuredUncompressedFile::write
+    /* add object reference */
+    ObjectRef objectRef;
+    objectRef.filePosition = m_rawUncompressedFile.tellp();
+    objectRef.objectSize = objectHeaderBase->objectSize;
+    objectRef.objectType = objectHeaderBase->objectType;
+    m_objectRefs.push_back(objectRef);
 
-    return false;
+    /* write object */
+    objectHeaderBase->write(m_rawUncompressedFile); // @todo do this in writeThread
+
+    return true;
 }
 
 StructuredUncompressedFile::streampos StructuredUncompressedFile::tellp() const {
@@ -180,6 +197,20 @@ FileStatistics StructuredUncompressedFile::statistics() const {
 void StructuredUncompressedFile::setStatistics(const Vector::BLF::FileStatistics & statistics) {
     // no lock needed as just pass-thru
     m_rawUncompressedFile.setStatistics(statistics);
+}
+
+Unknown115 StructuredUncompressedFile::unknown115() const {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    return m_unknown115;
+}
+
+void StructuredUncompressedFile::setUnknown115(const Unknown115 & unknown115) {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    m_unknown115 = unknown115;
 }
 
 void StructuredUncompressedFile::indexThread() {

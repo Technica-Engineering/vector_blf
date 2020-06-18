@@ -127,6 +127,7 @@ void LogContainer::uncompress(std::vector<char> & uncompressedFile) const {
 
 void LogContainer::compress(const std::vector<char> & uncompressedFile, const WORD compressionMethod, const int compressionLevel) {
     this->compressionMethod = compressionMethod;
+    this->uncompressedFileSize = uncompressedFile.size();
 
     switch (compressionMethod) {
     case 0: /* no compression */
@@ -147,7 +148,7 @@ void LogContainer::compress(const std::vector<char> & uncompressedFile, const WO
         if (retVal != Z_OK)
             throw Exception("File::uncompressedFile2CompressedFile(): compress2 error");
         compressedFileSize = static_cast<DWORD>(compressedBufferSize);
-        compressedFile.resize(compressedFileSize); // shrink
+        compressedFile.resize(compressedFileSize); // shrink_to_fit
     }
     break;
 

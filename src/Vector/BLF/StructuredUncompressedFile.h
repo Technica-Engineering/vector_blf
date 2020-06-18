@@ -29,6 +29,7 @@
 
 #include <Vector/BLF/ObjectHeaderBase.h>
 #include <Vector/BLF/RawUncompressedFile.h>
+#include <Vector/BLF/Unknown115.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -65,6 +66,24 @@ public:
 
     /** @copydoc RawCompressedFile::setStatistics */
     virtual void setStatistics(const FileStatistics & statistics);
+
+    /**
+     * get end-of-file object
+     *
+     * @return end-of-file object
+     *
+     * @todo see if this is handled right
+     */
+    virtual Unknown115 unknown115() const;
+
+    /**
+     * set end-of-file object
+     *
+     * @param[in] unknown115 end-of-file object
+     *
+     * @todo see if this is handled right
+     */
+    virtual void setUnknown115(const Unknown115 & unknown115);
 
 private:
     /** object reference */
@@ -107,6 +126,9 @@ private:
 
     /** object references (index is streampos) */
     std::vector<ObjectRef> m_objectRefs {};
+
+    /** end-of-file object */
+    Unknown115 m_unknown115 {};
 
     /**
      * index thread

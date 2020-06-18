@@ -49,13 +49,6 @@ public:
     virtual ~File();
 
     /**
-     * zlib compression level (0=no compression, 1=best speed, 9=best compression, -1=default compression
-     *
-     * @todo shift to where compression happens and just provide a proxy function here
-     */
-    int compressionLevel {6};
-
-    /**
      * Write Unknown115 message at file close
      *
      * @todo always write
@@ -127,6 +120,18 @@ public:
 
     /** @copydoc RawUncompressedFile::setDefaultLogContainerSize */
     virtual void setDefaultLogContainerSize(DWORD defaultLogContainerSize);
+
+    /** @copydoc RawUncompresedFile::compressionMethod */
+    virtual int compressionMethod() const;
+
+    /** @copydoc RawUncompresedFile::setCompressionMethod */
+    virtual void setCompressionMethod(const int compressionMethod = 2);
+
+    /** @copydoc RawUncompresedFile::compressionLevel */
+    virtual int compressionLevel() const;
+
+    /** @copydoc RawUncompresedFile::setCompressionLevel */
+    virtual void setCompressionLevel(const int compressionLevel = 6);
 
     /* StructuredCompressedFile methods */
 

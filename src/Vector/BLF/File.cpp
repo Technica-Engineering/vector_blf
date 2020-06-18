@@ -110,6 +110,22 @@ void File::setDefaultLogContainerSize(DWORD defaultLogContainerSize) {
     m_rawUncompressedFile.setDefaultLogContainerSize(defaultLogContainerSize);
 }
 
+int File::compressionMethod() const {
+    return m_rawUncompressedFile.compressionMethod();
+}
+
+void File::setCompressionMethod(const int compressionMethod) {
+    m_rawUncompressedFile.setCompressionMethod(compressionMethod);
+}
+
+int File::compressionLevel() const {
+    return m_rawUncompressedFile.compressionLevel();
+}
+
+void File::setCompressionLevel(const int compressionLevel) {
+    m_rawUncompressedFile.setCompressionLevel(compressionLevel);
+}
+
 /* StructuredCompressedFile methods */
 
 StructuredCompressedFile::streamsize File::structuredCompressedFileSize() const {

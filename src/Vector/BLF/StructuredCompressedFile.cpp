@@ -161,13 +161,14 @@ bool StructuredCompressedFile::write(LogContainer * logContainer) {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
-    /* prepare LogContainerRef */
+    /* add log container reference */
     LogContainerRef logContainerRef;
     logContainerRef.filePosition = m_rawCompressedFile.tellp();
     m_logContainerRefs.push_back(logContainerRef);
 
     /* write log container */
     logContainer->write(m_rawCompressedFile); // @todo do this in writeThread
+    delete logContainer;
 
     return true;
 }

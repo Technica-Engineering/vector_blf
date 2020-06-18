@@ -27,7 +27,6 @@
 
 #include <Vector/BLF/RawFile.h>
 #include <Vector/BLF/StructuredCompressedFile.h>
-#include <Vector/BLF/Unknown115.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -94,22 +93,60 @@ public:
     virtual void setDefaultLogContainerSize(DWORD defaultLogContainerSize);
 
     /**
-     * get end-of-file object
+     * get compression method
      *
-     * @return end-of-file object
+     *   - 0: no compression
+     *   - 2: zlib deflate
      *
-     * @todo see if this is handled right
+     * @return compression method
      */
-    virtual Unknown115 unknown115() const;
+    virtual int compressionMethod() const;
 
     /**
-     * set end-of-file object
+     * set compression method
      *
-     * @param[in] unknown115 end-of-file object
+     *   - 0: no compression
+     *   - 2: zlib deflate
      *
-     * @todo see if this is handled right
+     * @param[in] compressionMethod compression method
      */
-    virtual void setUnknown115(const Unknown115 & unknown115);
+    virtual void setCompressionMethod(const int compressionMethod = 2);
+
+    /**
+     * get compression level
+     *
+     * zlib compression level:
+     *
+     *   - -1: default compression
+     *   - 0: no compression
+     *   - 1: best speed
+     *   - 6: Vector BLF default
+     *   - 9: best compression
+     *
+     * @return compression level
+     */
+    virtual int compressionLevel() const;
+
+    /**
+     * set compression level
+     *
+     * zlib compression level:
+     *
+     *   - -1: default compression
+     *   - 0: no compression
+     *   - 1: best speed
+     *   - 6: Vector BLF default
+     *   - 9: best compression
+     *
+     * @param[in] compressionLevel compression level
+     */
+    virtual void setCompressionLevel(const int compressionLevel = 6);
+
+    /**
+     * Shrink the last log container to fit content.
+     * Compress and write it.
+     */
+    virtual void shrinkLastLogContainer();
 
 private:
     /** log container reference */
@@ -162,8 +199,13 @@ private:
     /** default log container size */
     DWORD m_defaultLogContainerSize {0x20000};
 
-    /** end-of-file object */
-    Unknown115 m_unknown115 {};
+    /** @copydoc LogContainer::compressionMethod */
+    int m_compressionMethod {2};
+
+    /**
+     * zlib compression level (0=no compression, 1=best speed, 9=best compression, -1=default compression
+     */
+    int m_compressionLevel {6};
 
     /**
      * index thread

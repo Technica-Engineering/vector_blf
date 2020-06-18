@@ -78,9 +78,16 @@ void RawUncompressedFile::close() {
 
     // @todo abort threads and wait to join
 
-    /* write unknown115 */
+    /* close actions */
     if (m_openMode & std::ios_base::out) {
-        // @todo write unknown115
+        /* last log container shrink_to_fit */
+        streamsize size = m_posg - m_logContainerRefs.back().filePosition;
+        m_logContainerRefs.back().uncompressedFile.resize(size);
+
+        /* compress and write log container */
+        LogContainer * logContainer = new LogContainer;
+        logContainer->compress(m_logContainerRefs.back().uncompressedFile, m_compressionMethod, m_compressionLevel);
+        m_structuredCompressedFile.write(logContainer);
     }
 
     m_structuredCompressedFile.close();
@@ -287,18 +294,41 @@ void RawUncompressedFile::setDefaultLogContainerSize(DWORD defaultLogContainerSi
     m_defaultLogContainerSize = defaultLogContainerSize;
 }
 
-Unknown115 RawUncompressedFile::unknown115() const {
+int RawUncompressedFile::compressionMethod() const {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
-    return m_unknown115;
+    return m_compressionMethod;
 }
 
-void RawUncompressedFile::setUnknown115(const Unknown115 & unknown115) {
+void RawUncompressedFile::setCompressionMethod(const int compressionMethod) {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
-    m_unknown115 = unknown115;
+    m_compressionMethod = compressionMethod;
+}
+
+int RawUncompressedFile::compressionLevel() const {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    return m_compressionLevel;
+}
+
+void RawUncompressedFile::setCompressionLevel(const int compressionLevel) {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    m_compressionLevel = compressionLevel;
+}
+
+void RawUncompressedFile::shrinkLastLogContainer() {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    /* last log container shrink_to_fit */
+    streamsize size = m_posg - m_logContainerRefs.back().filePosition;
+    m_logContainerRefs.back().uncompressedFile.resize(size);
 }
 
 void RawUncompressedFile::indexThread() {

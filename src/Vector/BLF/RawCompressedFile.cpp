@@ -38,9 +38,6 @@ void RawCompressedFile::open(const char * filename, std::ios_base::openmode mode
 
     /* correct file mode */
     mode |= std::ios_base::binary;
-    if (mode & std::ios_base::out) {
-        mode |= std::ios_base::app;
-    }
 
     /* open file */
     m_file.open(filename, mode);
@@ -54,9 +51,14 @@ void RawCompressedFile::open(const char * filename, std::ios_base::openmode mode
     m_size = m_file.tellg();
     m_file.seekg(0);
 
-    /* read file statistics */
+    /* file statistics */
     if (m_openMode & std::ios_base::in) {
         m_statistics.read(m_file);
+    }
+    if (m_openMode & std::ios_base::out) {
+        if (m_size == 0) {
+            m_statistics.write(m_file);
+        }
     }
 }
 
