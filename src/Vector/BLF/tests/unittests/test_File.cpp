@@ -61,14 +61,13 @@ BOOST_AUTO_TEST_CASE(defaultContainerSize) {
 /** Test file with only two CanMessages, but no LogContainers. */
 BOOST_AUTO_TEST_CASE(fileWithoutLogContainers) {
     Vector::BLF::File file;
-    file.open(CMAKE_CURRENT_SOURCE_DIR "/errors/FileWithoutLogContainers.blf", std::ios_base::in);
+    BOOST_CHECK_THROW(file.open(CMAKE_CURRENT_SOURCE_DIR "/errors/FileWithoutLogContainers.blf", std::ios_base::in), Vector::BLF::Exception);
     BOOST_REQUIRE(file.is_open());
 
     /* No LogContainer */
     Vector::BLF::ObjectHeaderBase * ohb;
     ohb = file.read();
     BOOST_CHECK(ohb == nullptr);
-    BOOST_CHECK(!file.good());
     delete ohb;
 
     file.close();
@@ -84,7 +83,6 @@ BOOST_AUTO_TEST_CASE(fileWithTruncatedCompressedLogContainer) {
     Vector::BLF::ObjectHeaderBase * ohb;
     ohb = file.read();
     BOOST_CHECK(ohb == nullptr);
-    BOOST_CHECK(!file.good());
     delete ohb;
 
     file.close();
@@ -100,7 +98,6 @@ BOOST_AUTO_TEST_CASE(fileWithTruncatedUncompressedLogContainer) {
     Vector::BLF::ObjectHeaderBase * ohb;
     ohb = file.read();
     BOOST_CHECK(ohb == nullptr);
-    BOOST_CHECK(!file.good());
     delete ohb;
 
     file.close();
@@ -118,13 +115,11 @@ BOOST_AUTO_TEST_CASE(fileWithTruncatedCanMessage) {
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_CHECK(ohb->objectType == Vector::BLF::ObjectType::CAN_MESSAGE);
-    BOOST_CHECK(file.good());
     delete ohb;
 
     /* second CanMessage is truncated */
     ohb = file.read();
     BOOST_CHECK(ohb == nullptr);
-    BOOST_CHECK(!file.good());
     delete ohb;
 
     file.close();
@@ -142,13 +137,11 @@ BOOST_AUTO_TEST_CASE(fileWithUnknownObjectType) {
     ohb = file.read();
     BOOST_REQUIRE(ohb != nullptr);
     BOOST_CHECK(ohb->objectType == Vector::BLF::ObjectType::CAN_MESSAGE);
-    BOOST_CHECK(file.good());
     delete ohb;
 
     /* second CanMessage has objectType set to 0xA0 */
     ohb = file.read();
     BOOST_CHECK(ohb == nullptr);
-    BOOST_CHECK(!file.good());
     delete ohb;
 
     file.close();
