@@ -27,6 +27,7 @@
 
 #include <Vector/BLF/Exceptions.h>
 #include <Vector/BLF/File.h>
+#include <Vector/BLF/GlobalMarker.h>
 
 namespace Vector {
 namespace BLF {
@@ -242,6 +243,20 @@ void StructuredUncompressedFile::indexThread() {
             m_rawUncompressedFile.read(reinterpret_cast<char *>(&objectRef.objectType), sizeof(objectRef.objectType)) !=
             sizeof(headerSize) + sizeof(headerVersion) + sizeof(objectRef.objectSize) + sizeof(objectRef.objectType)) {
             throw Exception("StructuredUncompressedFile::indexThread(): Object Header cannot be read.");
+        }
+
+        /* fix object size */
+        switch(objectRef.objectType) {
+        case ObjectType::GLOBAL_MARKER: // 96
+        {
+            m_rawUncompressedFile.seekg(objectRef.filePosition);
+            GlobalMarker globalMarker;
+            globalMarker.read(m_rawUncompressedFile);
+            objectRef.objectSize = globalMarker.calculateObjectSize();
+        }
+            break;
+        default:
+            break;
         }
 
         /* add object reference */
