@@ -14,11 +14,11 @@ BOOST_AUTO_TEST_CASE(WrongSignature) {
         Vector::BLF::RawCompressedFile file;
         file.open(CMAKE_CURRENT_BINARY_DIR "/test_ObjectHeaderBase.blf", std::ios_base::out);
         Vector::BLF::ObjectHeaderBase ohb1(1, Vector::BLF::ObjectType::UNKNOWN);
-        ohb1.signature = Vector::BLF::ObjectSignature - 1;
+        ohb1.signature = Vector::BLF::ObjectSignature - 1; // alter signature
         ohb1.write(file);
     }
 
-    /* read back data */
+    /* read back data, should throw an exception already during indexing */
     {
         Vector::BLF::RawCompressedFile file;
         file.open(CMAKE_CURRENT_BINARY_DIR "/test_ObjectHeaderBase.blf", std::ios_base::in);

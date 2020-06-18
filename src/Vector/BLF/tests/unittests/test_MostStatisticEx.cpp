@@ -63,10 +63,8 @@ BOOST_AUTO_TEST_CASE(MostStatisticEx_1) {
     delete ohb;
 
     /* read eof */
-    BOOST_REQUIRE(!file.eof());
     ohb = file.read();
     BOOST_REQUIRE(ohb == nullptr);
-    BOOST_CHECK(file.eof());
     file.close();
 }
 
@@ -105,9 +103,7 @@ BOOST_AUTO_TEST_CASE(MostStatisticEx_2) {
     delete ohb;
 
     /* read eof */
-    BOOST_REQUIRE(!file.eof());
     ohb = file.read();
     BOOST_REQUIRE(ohb == nullptr);
-    BOOST_CHECK(file.eof());
     file.close();
 }

@@ -63,9 +63,7 @@ BOOST_AUTO_TEST_CASE(LinSyncError) {
     delete ohb;
 
     /* read eof */
-    BOOST_REQUIRE(!file.eof());
     ohb = file.read();
     BOOST_REQUIRE(ohb == nullptr);
-    BOOST_CHECK(file.eof());
     file.close();
 }
