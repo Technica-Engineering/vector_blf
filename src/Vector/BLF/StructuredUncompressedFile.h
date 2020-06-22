@@ -28,6 +28,7 @@
 #include <vector>
 
 #include <Vector/BLF/RawUncompressedFile.h>
+#include <Vector/BLF/StructuredFile.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -43,59 +44,21 @@ namespace BLF {
  *
  * This class is thread-safe.
  */
-class VECTOR_BLF_EXPORT StructuredUncompressedFile {
+class VECTOR_BLF_EXPORT StructuredUncompressedFile :
+    public StructuredFile
+{
 public:
     ~StructuredUncompressedFile();
 
-    /** stream offset */
-    using streamoff = int32_t;
-
-    /** stream size */
-    using streamsize = uint32_t;
-
-    /** stream position */
-    using streampos = uint32_t;
-
-    /** @copydoc RawFile::open() */
     virtual void open(const char * filename, std::ios_base::openmode mode = std::ios_base::in);
-
-    /** @copydoc RawFile::is_open() */
     virtual bool is_open() const;
-
-    /** @copydoc RawFile::close() */
     virtual void close();
-
-    /**
-     * Read object.
-     *
-     * This operation blocks until the object is available.
-     *
-     * @param[out] objectHeaderBase object
-     * @return Number of objects read (0 or 1)
-     */
     virtual streamsize read(ObjectHeaderBase ** objectHeaderBase);
-
-    /** @copydoc RawFile::tellg() */
     virtual streampos tellg() const;
-
-    /** @copydoc RawFile::seekg(std::streampos) */
     virtual void seekg(const streampos pos);
-
-    /** @copydoc RawFile::seekg(std::streamoff, std::ios_base::seekdir) */
     virtual void seekg(const streamoff off, const std::ios_base::seekdir way);
-
-    /**
-     * Write object.
-     *
-     * @param[in] objectHeaderBase object
-     * @return Number of objects written (0 or 1)
-     */
     virtual streamsize write(ObjectHeaderBase * objectHeaderBase);
-
-    /** @copydoc RawFile::tellp() */
     virtual streampos tellp() const;
-
-    /** @copydoc RawFile::size() */
     virtual streamsize size() const;
 
     /* RawUncompressedFile pass-thru methods */

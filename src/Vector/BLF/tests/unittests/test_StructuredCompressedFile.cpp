@@ -24,22 +24,25 @@ BOOST_AUTO_TEST_CASE(ReadTest) {
     BOOST_CHECK_EQUAL(structuredCompressedFile.size(), 2);
 
     /* read log container 0/2 */
-    Vector::BLF::LogContainer * logContainer;
-    BOOST_CHECK_EQUAL(structuredCompressedFile.read(&logContainer), 1);
+    Vector::BLF::ObjectHeaderBase * objectHeaderBase;
+    BOOST_CHECK_EQUAL(structuredCompressedFile.read(&objectHeaderBase), 1);
+    Vector::BLF::LogContainer * logContainer = dynamic_cast<Vector::BLF::LogContainer *>(objectHeaderBase);
     BOOST_CHECK(logContainer);
     BOOST_CHECK_EQUAL(structuredCompressedFile.tellg(), 1);
     BOOST_CHECK_EQUAL(structuredCompressedFile.tellp(), 2);
     delete logContainer;
 
     /* read log container 1/2 */
-    BOOST_CHECK_EQUAL(structuredCompressedFile.read(&logContainer), 1);
+    BOOST_CHECK_EQUAL(structuredCompressedFile.read(&objectHeaderBase), 1);
+    logContainer = dynamic_cast<Vector::BLF::LogContainer *>(objectHeaderBase);
     BOOST_CHECK(logContainer);
     BOOST_CHECK_EQUAL(structuredCompressedFile.tellg(), 2);
     BOOST_CHECK_EQUAL(structuredCompressedFile.tellp(), 2);
     delete logContainer;
 
     /* read log container 2/2 (not existing) */
-    BOOST_CHECK_EQUAL(structuredCompressedFile.read(&logContainer), 0);
+    BOOST_CHECK_EQUAL(structuredCompressedFile.read(&objectHeaderBase), 0);
+    logContainer = dynamic_cast<Vector::BLF::LogContainer *>(objectHeaderBase);
     BOOST_CHECK(!logContainer);
     BOOST_CHECK_EQUAL(structuredCompressedFile.tellg(), 2);
     BOOST_CHECK_EQUAL(structuredCompressedFile.tellp(), 2);
@@ -49,7 +52,8 @@ BOOST_AUTO_TEST_CASE(ReadTest) {
     BOOST_CHECK_EQUAL(structuredCompressedFile.tellg(), 0);
 
     /* read log container 0/2 again */
-    BOOST_CHECK_EQUAL(structuredCompressedFile.read(&logContainer), 1);
+    BOOST_CHECK_EQUAL(structuredCompressedFile.read(&objectHeaderBase), 1);
+    logContainer = dynamic_cast<Vector::BLF::LogContainer *>(objectHeaderBase);
     BOOST_CHECK(logContainer);
     BOOST_CHECK_EQUAL(structuredCompressedFile.tellg(), 1);
     BOOST_CHECK_EQUAL(structuredCompressedFile.tellp(), 2);

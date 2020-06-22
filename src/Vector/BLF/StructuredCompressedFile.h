@@ -27,8 +27,8 @@
 #include <mutex>
 #include <vector>
 
-#include <Vector/BLF/LogContainer.h>
 #include <Vector/BLF/RawCompressedFile.h>
+#include <Vector/BLF/StructuredFile.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -40,65 +40,25 @@ namespace BLF {
  *
  * The StructuredCompressedFile is the 2. layer in the file architecture.
  *
- * It's structured as it provides structure-wise access to the data.
- *
- * The structures on this level are LogContainers.
+ * It provides structure-wise access to the objects in RawCompressedFile.
  *
  * This class is thread-safe.
  */
-class VECTOR_BLF_EXPORT StructuredCompressedFile {
+class VECTOR_BLF_EXPORT StructuredCompressedFile :
+    public StructuredFile
+{
 public:
     virtual ~StructuredCompressedFile();
 
-    /** stream offset */
-    using streamoff = int32_t;
-
-    /** stream size */
-    using streamsize = uint32_t;
-
-    /** stream position */
-    using streampos = uint32_t;
-
-    /** @copydoc RawFile::open() */
     virtual void open(const char * filename, std::ios_base::openmode mode = std::ios_base::in);
-
-    /** @copydoc RawFile::is_open() */
     virtual bool is_open() const;
-
-    /** @copydoc RawFile::close() */
     virtual void close();
-
-    /**
-     * Read log container.
-     *
-     * This operation blocks until the log container is available.
-     *
-     * @param[out] logContainer log container
-     * @return Number of log containers read (0 or 1)
-     */
-    virtual streamsize read(LogContainer ** logContainer);
-
-    /** @copydoc RawFile::tellg() */
+    virtual streamsize read(ObjectHeaderBase ** objectHeaderBase);
     virtual streampos tellg() const;
-
-    /** @copydoc RawFile::seekg(std::streampos) */
     virtual void seekg(const streampos pos);
-
-    /** @copydoc RawFile::seekg(std::streamoff, std::ios_base::seekdir) */
     virtual void seekg(const streamoff off, const std::ios_base::seekdir way);
-
-    /**
-     * Write log container.
-     *
-     * @param[in] logContainer log container
-     * @return Number of log containers written (0 or 1)
-     */
-    virtual streamsize write(LogContainer * logContainer);
-
-    /** @copydoc RawFile::tellp() */
+    virtual streamsize write(ObjectHeaderBase * objectHeaderBase);
     virtual streampos tellp() const;
-
-    /** @copydoc RawFile::size() */
     virtual streamsize size() const;
 
     /* RawCompressedFile pass-thru methods */
@@ -131,12 +91,26 @@ public:
     virtual void setLastObjectTime(const SYSTEMTIME lastObjectTime);
 
 private:
-    /** log container reference */
-    struct LogContainerRef {
+    /** object reference */
+    struct ObjectRef {
         /** file position */
         RawCompressedFile::streampos filePosition {0};
 
-        // @todo cache logContainer here
+        /**
+         * object size
+         *
+         * @see ObjectHeaderBase::objectSize
+         */
+        DWORD objectSize {0};
+
+        /**
+         * object type
+         *
+         * @see ObjectHeaderBase::objectType
+         */
+        ObjectType objectType {ObjectType::UNKNOWN};
+
+        // @todo cache object here
     };
 
     /** mutex */
@@ -151,8 +125,8 @@ private:
     /** get position */
     streampos m_posg{0};
 
-    /** log container references (index is streampos) */
-    std::vector<LogContainerRef> m_logContainerRefs {};
+    /** object references (index is streampos) */
+    std::vector<ObjectRef> m_objectRefs {};
 
     /* threads */
 

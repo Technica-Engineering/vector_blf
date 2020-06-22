@@ -178,8 +178,8 @@ public:
     virtual void setLastObjectTime(const SYSTEMTIME lastObjectTime);
 
 private:
-    /** log container reference */
-    struct LogContainerRef {
+    /** object reference */
+    struct ObjectRef {
         /** file position */
         streampos filePosition {0};
 
@@ -220,8 +220,8 @@ private:
      */
     streamsize m_statisticsSize {0};
 
-    /** log container references (index is StructuredCompressedFile::streampos) */
-    std::vector<LogContainerRef> m_logContainerRefs {};
+    /** object references (index is StructuredCompressedFile::streampos) */
+    std::vector<ObjectRef> m_objectRefs {};
 
     /** default log container size */
     DWORD m_defaultLogContainerSize {0x20000};

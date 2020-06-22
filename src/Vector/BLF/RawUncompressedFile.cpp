@@ -26,6 +26,8 @@
 #include <cassert>
 #include <iostream>
 
+#include <Vector/BLF/LogContainer.h>
+
 namespace Vector {
 namespace BLF {
 
@@ -96,39 +98,40 @@ RawUncompressedFile::streamsize RawUncompressedFile::read(char * s, const RawUnc
     streamsize totalSize = 0;
     while (totalSize < n) {
         /* find starting log container */
-        std::vector<LogContainerRef>::iterator logContainerRef =
-            std::find_if(m_logContainerRefs.begin(), m_logContainerRefs.end(), [&](const LogContainerRef & logContainerRef) {
-                return (logContainerRef.filePosition <= m_posg) &&
-                       (m_posg < logContainerRef.filePosition + logContainerRef.fileSize);
+        std::vector<ObjectRef>::iterator objectRef =
+            std::find_if(m_objectRefs.begin(), m_objectRefs.end(), [&](const ObjectRef & objectRef) {
+                return (objectRef.filePosition <= m_posg) &&
+                       (m_posg < objectRef.filePosition + objectRef.fileSize);
             });
 
         /* not found, so abort read here */
-        if (logContainerRef == m_logContainerRefs.end()) {
+        if (objectRef == m_objectRefs.end()) {
             return totalSize;
         }
 
         /* load data if needed */
-        if (logContainerRef->uncompressedFile.empty()) {
+        if (objectRef->uncompressedFile.empty()) {
             /* read log container */
-            StructuredCompressedFile::streampos containerIndex = logContainerRef - m_logContainerRefs.begin();
+            StructuredCompressedFile::streampos containerIndex = objectRef - m_objectRefs.begin();
             m_structuredCompressedFile.seekg(containerIndex);
-            LogContainer * logContainer = nullptr;
-            if (m_structuredCompressedFile.read(&logContainer)) {
-                logContainer->uncompress(logContainerRef->uncompressedFile); // @todo do this in readThread
+            ObjectHeaderBase * objectHeaderBase = nullptr;
+            if (m_structuredCompressedFile.read(&objectHeaderBase)) {
+                LogContainer * logContainer = dynamic_cast<LogContainer *>(objectHeaderBase);
+                logContainer->uncompress(objectRef->uncompressedFile); // @todo do this in readThread
                 delete logContainer;
             } else {
-                assert(!logContainer); // no delete necessary
+                assert(!objectHeaderBase); // no delete necessary
                 return totalSize;
             }
         }
 
         /* copy data */
-        streamoff offset = m_posg - logContainerRef->filePosition;
-        streamsize size = std::min(n - totalSize, logContainerRef->fileSize - offset);
+        streamoff offset = m_posg - objectRef->filePosition;
+        streamsize size = std::min(n - totalSize, objectRef->fileSize - offset);
         assert(size); // logContainerRef would be wrong otherwise
-        assert(logContainerRef->uncompressedFile.cbegin() + offset + size <= logContainerRef->uncompressedFile.cend()); // check source size
-        std::copy(logContainerRef->uncompressedFile.cbegin() + offset,
-                  logContainerRef->uncompressedFile.cbegin() + offset + size,
+        assert(objectRef->uncompressedFile.cbegin() + offset + size <= objectRef->uncompressedFile.cend()); // check source size
+        std::copy(objectRef->uncompressedFile.cbegin() + offset,
+                  objectRef->uncompressedFile.cbegin() + offset + size,
                   s);
 
         /* update counters */
@@ -190,47 +193,47 @@ RawUncompressedFile::streamsize RawUncompressedFile::write(const char * s, const
     streamsize totalSize = 0;
     while (totalSize < n) {
         /* find starting log container */
-        std::vector<LogContainerRef>::iterator logContainerRef =
-            std::find_if(m_logContainerRefs.begin(), m_logContainerRefs.end(), [&](const LogContainerRef & logContainerRef) {
-                return (logContainerRef.filePosition <= m_posp) &&
-                       (m_posp < logContainerRef.filePosition + logContainerRef.fileSize);
+        std::vector<ObjectRef>::iterator objectRef =
+            std::find_if(m_objectRefs.begin(), m_objectRefs.end(), [&](const ObjectRef & objectRef) {
+                return (objectRef.filePosition <= m_posp) &&
+                       (m_posp < objectRef.filePosition + objectRef.fileSize);
             });
 
         /* not found, so append new log container */
-        if (logContainerRef == m_logContainerRefs.end()) {
+        if (objectRef == m_objectRefs.end()) {
             /* prepare log container reference */
-            LogContainerRef newLogContainerRef;
+            ObjectRef newObjectRef;
 
             /* write the current log container */
-            if (!m_logContainerRefs.empty()) {
-                newLogContainerRef.filePosition = m_logContainerRefs.back().filePosition + m_logContainerRefs.back().fileSize;
+            if (!m_objectRefs.empty()) {
+                newObjectRef.filePosition = m_objectRefs.back().filePosition + m_objectRefs.back().fileSize;
 
                 /* compress and write log container */
                 writeLogContainer();
             }
 
             /* append log container reference */
-            newLogContainerRef.fileSize = m_defaultLogContainerSize;
-            newLogContainerRef.uncompressedFile.resize(m_defaultLogContainerSize);
-            assert(newLogContainerRef.uncompressedFile.size() == m_defaultLogContainerSize);
-            m_logContainerRefs.push_back(newLogContainerRef);
-            logContainerRef = std::prev(m_logContainerRefs.end());
+            newObjectRef.fileSize = m_defaultLogContainerSize;
+            newObjectRef.uncompressedFile.resize(m_defaultLogContainerSize);
+            assert(newObjectRef.uncompressedFile.size() == m_defaultLogContainerSize);
+            m_objectRefs.push_back(newObjectRef);
+            objectRef = std::prev(m_objectRefs.end());
         }
-        assert(logContainerRef != m_logContainerRefs.end());
-        if (logContainerRef->uncompressedFile.empty()) {
-            std::cout << "LogContainerRef is empty: position=0x" << std::hex << logContainerRef->filePosition << " size=0x" << std::hex << logContainerRef->fileSize << std::endl;
-            assert(!logContainerRef->uncompressedFile.empty());
+        assert(objectRef != m_objectRefs.end());
+        if (objectRef->uncompressedFile.empty()) {
+            std::cout << "LogContainerRef is empty: position=0x" << std::hex << objectRef->filePosition << " size=0x" << std::hex << objectRef->fileSize << std::endl;
+            assert(!objectRef->uncompressedFile.empty());
         }
-        assert(logContainerRef->fileSize == std::streamsize(logContainerRef->uncompressedFile.size()));
+        assert(objectRef->fileSize == std::streamsize(objectRef->uncompressedFile.size()));
 
         /* copy data */
-        streamoff offset = m_posp - logContainerRef->filePosition;
-        streamsize size = std::min(n - totalSize, logContainerRef->fileSize - offset);
+        streamoff offset = m_posp - objectRef->filePosition;
+        streamsize size = std::min(n - totalSize, objectRef->fileSize - offset);
         assert(size); // logContainerRef would be wrong otherwise
-        assert(logContainerRef->uncompressedFile.begin() + offset + size <= logContainerRef->uncompressedFile.end()); // check destination size
+        assert(objectRef->uncompressedFile.begin() + offset + size <= objectRef->uncompressedFile.end()); // check destination size
         std::copy(s,
                   s + size,
-                  logContainerRef->uncompressedFile.begin() + offset);
+                  objectRef->uncompressedFile.begin() + offset);
 
         /* update counters */
         m_posp += size;
@@ -370,32 +373,32 @@ void RawUncompressedFile::setLastObjectTime(const SYSTEMTIME lastObjectTime) {
 /* private methods */
 
 void RawUncompressedFile::shrinkLogContainer() {
-    if (m_logContainerRefs.empty()) {
+    if (m_objectRefs.empty()) {
         return;
     }
 
     /* shrink_to_fit last log container */
-    streamsize size = m_posp - m_logContainerRefs.back().filePosition;
+    streamsize size = m_posp - m_objectRefs.back().filePosition;
     assert(size >= 0);
     if (size == 0) {
-        m_logContainerRefs.pop_back();
+        m_objectRefs.pop_back();
     } else {
-        m_logContainerRefs.back().uncompressedFile.resize(size);
-        m_logContainerRefs.back().fileSize = size;
+        m_objectRefs.back().uncompressedFile.resize(size);
+        m_objectRefs.back().fileSize = size;
     }
 }
 
 void RawUncompressedFile::writeLogContainer() {
-    if (m_logContainerRefs.empty()) {
+    if (m_objectRefs.empty()) {
         return;
     }
-    if (m_logContainerRefs.back().uncompressedFile.empty()) {
+    if (m_objectRefs.back().uncompressedFile.empty()) {
         return;
     }
 
     /* compress and write log container */
     LogContainer * logContainer = new LogContainer;
-    logContainer->compress(m_logContainerRefs.back().uncompressedFile, m_compressionMethod, m_compressionLevel);
+    logContainer->compress(m_objectRefs.back().uncompressedFile, m_compressionMethod, m_compressionLevel);
     m_structuredCompressedFile.write(logContainer);
 
     /* update statistics */
@@ -412,16 +415,17 @@ void RawUncompressedFile::indexThread() {
     streampos filePosition = 0;
     m_statisticsSize = 0;
     for(;;) {
-        LogContainer * logContainer = nullptr;
-        if (!m_structuredCompressedFile.read(&logContainer)) {
+        ObjectHeaderBase * objectHeaderBase = nullptr;
+        if (!m_structuredCompressedFile.read(&objectHeaderBase)) {
             break;
         }
+        LogContainer * logContainer = dynamic_cast<LogContainer *>(objectHeaderBase);
 
         /* add log container reference */
-        LogContainerRef logContainerRef;
-        logContainerRef.filePosition = filePosition;
-        logContainerRef.fileSize = logContainer->uncompressedFileSize;
-        m_logContainerRefs.push_back(logContainerRef);
+        ObjectRef objectRef;
+        objectRef.filePosition = filePosition;
+        objectRef.fileSize = logContainer->uncompressedFileSize;
+        m_objectRefs.push_back(objectRef);
 
         /* update statistics */
         filePosition += logContainer->uncompressedFileSize;

@@ -143,6 +143,7 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/SerialEvent.h
         ${CMAKE_CURRENT_SOURCE_DIR}/SingleByteSerialEvent.h
         ${CMAKE_CURRENT_SOURCE_DIR}/StructuredCompressedFile.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/StructuredFile.h
         ${CMAKE_CURRENT_SOURCE_DIR}/StructuredUncompressedFile.h
         ${CMAKE_CURRENT_SOURCE_DIR}/SystemVariable.h
         ${CMAKE_CURRENT_SOURCE_DIR}/TestStructure.h
