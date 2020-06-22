@@ -31,10 +31,22 @@ namespace Vector {
 namespace BLF {
 
 /**
- * Generic interface to access RawCompressedFile and RawUncompressedFile in the same way.
+ * Generic interface to access RawCompressedFile and RawUncompressedFile in the
+ * same way.
  */
 struct VECTOR_BLF_EXPORT RawFile {
     virtual ~RawFile() = default;
+
+    /* types */
+
+    /** stream offset */
+    using streamoff = std::streamoff;
+
+    /** stream size */
+    using streamsize = std::streamsize;
+
+    /** stream position */
+    using streampos = std::streampos;
 
     /* general methods */
 
@@ -44,7 +56,7 @@ struct VECTOR_BLF_EXPORT RawFile {
      * @param[in] filename file name
      * @param[in] mode open in read or write mode
      */
-    virtual void open(const char * filename, std::ios_base::openmode mode = std::ios_base::in | std::ios_base::out) = 0;
+    virtual void open(const char * filename, std::ios_base::openmode mode = std::ios_base::in) = 0;
 
     /**
      * is file open?
@@ -67,21 +79,21 @@ struct VECTOR_BLF_EXPORT RawFile {
      * @param[in] n Requested size of data
      * @return Size of data read
      */
-    virtual std::streamsize read(char * s, std::streamsize n) = 0;
+    virtual streamsize read(char * s, streamsize n) = 0;
 
     /**
      * Get position in input sequence.
      *
      * @return Read position
      */
-    virtual std::streampos tellg() = 0;
+    virtual streampos tellg() = 0;
 
     /**
      * Set position in input sequence.
      *
      * @param[in] pos Position
      */
-    virtual void seekg(const std::streampos pos) = 0;
+    virtual void seekg(const streampos pos) = 0;
 
     /**
      * Set position in input sequence.
@@ -89,7 +101,7 @@ struct VECTOR_BLF_EXPORT RawFile {
      * @param[in] off Offset
      * @param[in] way Direction
      */
-    virtual void seekg(const std::streamoff off, const std::ios_base::seekdir way) = 0;
+    virtual void seekg(const streamoff off, const std::ios_base::seekdir way) = 0;
 
     /* output methods */
 
@@ -100,14 +112,14 @@ struct VECTOR_BLF_EXPORT RawFile {
      * @param[in] n Size of data
      * @return Size of data written
      */
-    virtual std::streamsize write(const char * s, std::streamsize n) = 0;
+    virtual streamsize write(const char * s, streamsize n) = 0;
 
     /**
      * Get position in output sequence.
      *
      * @return Write position
      */
-    virtual std::streampos tellp() = 0;
+    virtual streampos tellp() = 0;
 
     /**
      * Set position in output sequence.
@@ -116,7 +128,7 @@ struct VECTOR_BLF_EXPORT RawFile {
      *
      * @param[in] pos Position
      */
-    virtual void seekp(const std::streampos pos) = 0;
+    virtual void seekp(const streampos pos) = 0;
 
     /**
      * Set position in output sequence.
@@ -126,14 +138,14 @@ struct VECTOR_BLF_EXPORT RawFile {
      * @param[in] off Offset
      * @param[in] way Direction
      */
-    virtual void seekp(const std::streamoff off, const std::ios_base::seekdir way) = 0;
+    virtual void seekp(const streamoff off, const std::ios_base::seekdir way) = 0;
 
     /**
      * Get file size
      *
      * @return file size
      */
-    virtual std::streamsize size() const = 0;
+    virtual streamsize size() const = 0;
 };
 
 }

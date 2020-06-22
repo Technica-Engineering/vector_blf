@@ -49,15 +49,6 @@ class VECTOR_BLF_EXPORT RawUncompressedFile :
 public:
     virtual ~RawUncompressedFile();
 
-    /** stream offset */
-    using streamoff = std::streamoff;
-
-    /** stream size */
-    using streamsize = std::streamsize;
-
-    /** stream position */
-    using streampos = std::streampos;
-
     void open(const char * filename, std::ios_base::openmode mode = std::ios_base::in) override;
     bool is_open() const override;
     void close() override;

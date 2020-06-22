@@ -136,8 +136,8 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/ObjectHeader.h
         ${CMAKE_CURRENT_SOURCE_DIR}/ObjectType.h
         ${CMAKE_CURRENT_SOURCE_DIR}/platform.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/RawFile.h
         ${CMAKE_CURRENT_SOURCE_DIR}/RawCompressedFile.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/RawFile.h
         ${CMAKE_CURRENT_SOURCE_DIR}/RawUncompressedFile.h
         ${CMAKE_CURRENT_SOURCE_DIR}/RealtimeClock.h
         ${CMAKE_CURRENT_SOURCE_DIR}/SerialEvent.h
