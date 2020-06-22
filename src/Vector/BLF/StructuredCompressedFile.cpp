@@ -30,11 +30,6 @@
 namespace Vector {
 namespace BLF {
 
-StructuredCompressedFile::StructuredCompressedFile(RawCompressedFile & rawCompressedFile) :
-    m_rawCompressedFile(rawCompressedFile)
-{
-}
-
 StructuredCompressedFile::~StructuredCompressedFile() {
     close();
 }
@@ -155,7 +150,7 @@ void StructuredCompressedFile::seekg(const StructuredCompressedFile::streamoff o
     m_rawCompressedFile.seekg(rawFilePosition);
 }
 
-bool StructuredCompressedFile::write(LogContainer * logContainer) {
+StructuredCompressedFile::streamsize StructuredCompressedFile::write(LogContainer * logContainer) {
     assert(logContainer); // write no LogContainer doesn't make sense
 
     /* mutex lock */
@@ -170,7 +165,7 @@ bool StructuredCompressedFile::write(LogContainer * logContainer) {
     logContainer->write(m_rawCompressedFile); // @todo do this in writeThread
     delete logContainer;
 
-    return true;
+    return 1;
 }
 
 StructuredCompressedFile::streampos StructuredCompressedFile::tellp() const {
@@ -190,15 +185,45 @@ StructuredCompressedFile::streamsize StructuredCompressedFile::size() const {
     return m_logContainerRefs.size();
 }
 
+/* RawUncompressedFile pass-thru methods */
+
+RawCompressedFile::streamsize StructuredCompressedFile::rawCompressedFileSize() const {
+    return m_rawCompressedFile.size();
+}
+
 FileStatistics StructuredCompressedFile::statistics() const {
-    // no lock needed as just pass-thru
     return m_rawCompressedFile.statistics();
 }
 
-void StructuredCompressedFile::setStatistics(const Vector::BLF::FileStatistics & statistics) {
-    // no lock needed as just pass-thru
-    m_rawCompressedFile.setStatistics(statistics);
+void StructuredCompressedFile::setApplication(const BYTE id, const BYTE major, const BYTE minor, const BYTE build) {
+    m_rawCompressedFile.setApplication(id, major, minor, build);
 }
+
+void StructuredCompressedFile::setApi(const BYTE major, const BYTE minor, const BYTE build, const BYTE patch) {
+    m_rawCompressedFile.setApi(major, minor, build, patch);
+}
+
+void StructuredCompressedFile::setUncompressedFileSize(const ULONGLONG uncompressedFileSize) {
+    m_rawCompressedFile.setUncompressedFileSize(uncompressedFileSize);
+}
+
+void StructuredCompressedFile::setObjectCount(const DWORD objectCount) {
+    m_rawCompressedFile.setObjectCount(objectCount);
+}
+
+void StructuredCompressedFile::setObjectsRead(const DWORD objectsRead) {
+    m_rawCompressedFile.setObjectsRead(objectsRead);
+}
+
+void StructuredCompressedFile::setMeasurementStartTime(const SYSTEMTIME measurementStartTime) {
+    m_rawCompressedFile.setMeasurementStartTime(measurementStartTime);
+}
+
+void StructuredCompressedFile::setLastObjectTime(const SYSTEMTIME lastObjectTime) {
+    m_rawCompressedFile.setLastObjectTime(lastObjectTime);
+}
+
+/* threads */
 
 void StructuredCompressedFile::indexThread() {
     // already locked by calling method open

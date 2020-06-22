@@ -43,7 +43,6 @@ class VECTOR_BLF_EXPORT RawCompressedFile :
     public RawFile
 {
 public:
-    RawCompressedFile() = default;
     virtual ~RawCompressedFile();
 
     using streamoff = std::streamoff;
@@ -61,6 +60,7 @@ public:
     streampos tellp() override;
     void seekp(const streampos pos) override;
     void seekp(const streamoff off, const std::ios_base::seekdir way) override;
+    streamsize size() const override;
 
     /**
      * Check whether state of stream is good.
@@ -112,13 +112,6 @@ public:
     virtual void clear(std::ios_base::iostate state = std::ios_base::goodbit);
 
     /**
-     * Get file size
-     *
-     * @return file size
-     */
-    virtual streamsize size() const;
-
-    /**
      * get file statistics
      *
      * @return file statistics
@@ -126,11 +119,66 @@ public:
     virtual FileStatistics statistics() const;
 
     /**
-     * set file statistics
+     * Set application in file statistics.
      *
-     * @param[in] statistics file statistics
+     * @param[in] id application ID (usually CANoe)
+     * @param[in] major application major number (usually 0)
+     * @param[in] minor application minor number (usually 0)
+     * @param[in] build application build number (usually 0)
      */
-    virtual void setStatistics(const FileStatistics & statistics);
+    virtual void setApplication(const BYTE id, const BYTE major = 0, const BYTE minor = 0, const BYTE build = 0);
+
+    /**
+     * Set BL API in file statistics.
+     *
+     * @param[in] major BL API major number
+     * @param[in] minor BL API minor number
+     * @param[in] build BL API build number
+     * @param[in] patch BL API patch number
+     */
+    virtual void setApi(const BYTE major, const BYTE minor, const BYTE build, const BYTE patch);
+
+    /**
+     * Set (compressed) file size in file statistics.
+     *
+     * @param[in] fileSize (compressed) file size in bytes
+     */
+    virtual void setFileSize(const ULONGLONG fileSize);
+
+    /**
+     * Set uncompressed file size in file statistics.
+     *
+     * @param[in] uncompressedFileSize uncompressed file size in bytes
+     */
+    virtual void setUncompressedFileSize(const ULONGLONG uncompressedFileSize);
+
+    /**
+     * Set number of objects in file statistics.
+     *
+     * @param[in] objectCount number of objects
+     */
+    virtual void setObjectCount(const DWORD objectCount);
+
+    /**
+     * Set number of objects read in file statistics.
+     *
+     * @param[in] objectsRead number of objects read
+     */
+    virtual void setObjectsRead(const DWORD objectsRead);
+
+    /**
+     * Set measurement start time in file statistics.
+     *
+     * @param[in] measurementStartTime measurement start time
+     */
+    virtual void setMeasurementStartTime(const SYSTEMTIME measurementStartTime);
+
+    /**
+     * Set last object time in file statistics.
+     *
+     * @param[in] lastObjectTime last object time
+     */
+    virtual void setLastObjectTime(const SYSTEMTIME lastObjectTime);
 
 private:
     /** mutex */

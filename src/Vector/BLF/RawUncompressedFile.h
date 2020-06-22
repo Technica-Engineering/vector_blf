@@ -42,7 +42,6 @@ class VECTOR_BLF_EXPORT RawUncompressedFile :
     public RawFile
 {
 public:
-    RawUncompressedFile(StructuredCompressedFile & structuredCompressedFile);
     virtual ~RawUncompressedFile();
 
     using streamoff = std::streamoff;
@@ -60,7 +59,7 @@ public:
     streampos tellp() override;
     void seekp(const streampos pos) override;
     void seekp(const streamoff off, const std::ios_base::seekdir way) override;
-    virtual streamsize size() const;
+    streamsize size() const override;
 
     /**
      * Get file size for FileStatistics::uncompressedFileSize
@@ -68,15 +67,11 @@ public:
      * This file size is similar to CompressedFile, but counts LogContainers
      * as they are all uncompressed.
      *
+     * @note FileStatistics::statisticsSize is not included here.
+     *
      * @return file size
      */
     virtual streamsize statisticsSize() const;
-
-    /** @copydoc RawCompressedFile::statistics */
-    virtual FileStatistics statistics() const;
-
-    /** @copydoc RawCompressedFile::setStatistics */
-    virtual void setStatistics(const FileStatistics & statistics);
 
     /**
      * Get default log container size.
@@ -122,6 +117,7 @@ public:
      *   - 1: best speed
      *   - 6: Vector BLF default
      *   - 9: best compression
+     *   - 10: maximum compression
      *
      * @return compression level
      */
@@ -137,16 +133,51 @@ public:
      *   - 1: best speed
      *   - 6: Vector BLF default
      *   - 9: best compression
+     *   - 10: maximum compression
      *
      * @param[in] compressionLevel compression level
      */
     virtual void setCompressionLevel(const int compressionLevel = 6);
 
     /**
-     * Shrink the last log container to fit content.
-     * Compress and write it.
+     * Finish the current log container by shrinking it to fit content,
+     * compress and write it.
      */
-    virtual void shrinkLastLogContainer();
+    virtual void finishLogContainer();
+
+    /* StructuredCompressedFile pass-thru methods */
+
+    /** @copydoc StructuredCompressedFile::size */
+    virtual StructuredCompressedFile::streamsize structuredCompressedFileSize() const;
+
+    /* RawCompressedFile pass-thru methods */
+
+    /** @copydoc RawCompressedFile::size */
+    virtual RawCompressedFile::streamsize rawCompressedFileSize() const;
+
+    /** @copydoc RawCompressedFile::statistics */
+    virtual FileStatistics statistics() const;
+
+    /** @copydoc RawCompressedFile::setApplication */
+    virtual void setApplication(const BYTE id, const BYTE major = 0, const BYTE minor = 0, const BYTE build = 0);
+
+    /** @copydoc RawCompressedFile::setApi */
+    virtual void setApi(const BYTE major, const BYTE minor, const BYTE build, const BYTE patch);
+
+    /** @copydoc RawCompressedFile::setObjectCount */
+    virtual void setObjectCount(const DWORD objectCount);
+
+    /** @copydoc RawCompressedFile::setObjectsRead */
+    virtual void setObjectsRead(const DWORD objectsRead);
+
+    /** @copydoc RawCompressedFile::setMeasurementStartTime */
+    virtual void setMeasurementStartTime(const SYSTEMTIME measurementStartTime);
+
+    /** @copydoc RawCompressedFile::setLastObjectTime */
+    virtual void setLastObjectTime(const SYSTEMTIME lastObjectTime);
+
+    /** @copydoc RawCompressedFile::setFileSizeWithoutUnknown115 */
+    virtual void setFileSizeWithoutUnknown115(const ULONGLONG fileSizeWithoutUnknown115);
 
 private:
     /** log container reference */
@@ -171,7 +202,7 @@ private:
     mutable std::mutex m_mutex {};
 
     /** structured compress file */
-    StructuredCompressedFile & m_structuredCompressedFile;
+    StructuredCompressedFile m_structuredCompressedFile {};
 
     /** open mode */
     std::ios_base::openmode m_openMode {};
@@ -189,7 +220,7 @@ private:
      * file size for FileStatistics::uncompressedFileSize
      *
      * This file size is similar to CompressedFile, but counts LogContainers
-     * as they are all uncompressed.
+     * as they are would all be uncompressed.
      */
     streamsize m_statisticsSize {0};
 
@@ -206,6 +237,18 @@ private:
      * zlib compression level (0=no compression, 1=best speed, 9=best compression, -1=default compression
      */
     int m_compressionLevel {6};
+
+    /**
+     * Shrink current log container to fit content.
+     */
+    void shrinkLogContainer();
+
+    /**
+     * Compress and write current log container.
+     */
+    void writeLogContainer();
+
+    /* threads */
 
     /**
      * index thread

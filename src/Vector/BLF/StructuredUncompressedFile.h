@@ -27,9 +27,7 @@
 #include <mutex>
 #include <vector>
 
-#include <Vector/BLF/ObjectHeaderBase.h>
 #include <Vector/BLF/RawUncompressedFile.h>
-#include <Vector/BLF/Unknown115.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -43,7 +41,6 @@ namespace BLF {
  */
 class VECTOR_BLF_EXPORT StructuredUncompressedFile {
 public:
-    StructuredUncompressedFile(RawUncompressedFile & rawUncompressedFile);
     ~StructuredUncompressedFile();
 
     using streamoff = int32_t;
@@ -57,33 +54,63 @@ public:
     virtual streampos tellg() const;
     virtual void seekg(const streampos pos);
     virtual void seekg(const streamoff off, const std::ios_base::seekdir way);
-    virtual bool write(ObjectHeaderBase * objectHeaderBase);
+    virtual streamsize write(ObjectHeaderBase * objectHeaderBase);
     virtual streampos tellp() const;
     virtual streamsize size() const;
+
+    /* RawUncompressedFile pass-thru methods */
+
+    /** @copydoc RawUncompressedFile::size */
+    virtual RawUncompressedFile::streamsize rawUncompressedFileSize() const;
+
+    /** @copydoc RawUncompressedFile::statisticsSize */
+    virtual RawUncompressedFile::streamsize rawUncompressedFileStatisticsSize() const;
+
+    /** @copydoc RawUncompressedFile::defaultLogContainerSize */
+    virtual DWORD defaultLogContainerSize() const;
+
+    /** @copydoc RawUncompressedFile::setDefaultLogContainerSize */
+    virtual void setDefaultLogContainerSize(DWORD defaultLogContainerSize);
+
+    /** @copydoc RawUncompressedFile::compressionMethod */
+    virtual int compressionMethod() const;
+
+    /** @copydoc RawUncompressedFile::setCompressionMethod */
+    virtual void setCompressionMethod(const int compressionMethod = 2);
+
+    /** @copydoc RawUncompressedFile::compressionLevel */
+    virtual int compressionLevel() const;
+
+    /** @copydoc RawUncompressedFile::setCompressionLevel */
+    virtual void setCompressionLevel(const int compressionLevel = 6);
+
+    /* StructuredCompressedFile pass-thru methods */
+
+    /** @copydoc StructuredCompressedFile::size */
+    virtual StructuredCompressedFile::streamsize structuredCompressedFileSize() const;
+
+    /* RawCompressedFile pass-thru methods */
+
+    /** @copydoc RawCompressedFile::size */
+    virtual RawCompressedFile::streamsize rawCompressedFileSize() const;
 
     /** @copydoc RawCompressedFile::statistics */
     virtual FileStatistics statistics() const;
 
-    /** @copydoc RawCompressedFile::setStatistics */
-    virtual void setStatistics(const FileStatistics & statistics);
+    /** @copydoc RawUncompressedFile::setApplication */
+    virtual void setApplication(const BYTE id, const BYTE major = 0, const BYTE minor = 0, const BYTE build = 0);
 
-    /**
-     * get end-of-file object
-     *
-     * @return end-of-file object
-     *
-     * @todo see if this is handled right
-     */
-    virtual Unknown115 unknown115() const;
+    /** @copydoc RawUncompressedFile::setApi */
+    virtual void setApi(const BYTE major, const BYTE minor, const BYTE build, const BYTE patch);
 
-    /**
-     * set end-of-file object
-     *
-     * @param[in] unknown115 end-of-file object
-     *
-     * @todo see if this is handled right
-     */
-    virtual void setUnknown115(const Unknown115 & unknown115);
+    /** @copydoc RawUncompressedFile::setObjectsRead */
+    virtual void setObjectsRead(const DWORD objectsRead);
+
+    /** @copydoc RawUncompressedFile::setMeasurementStartTime */
+    virtual void setMeasurementStartTime(const SYSTEMTIME measurementStartTime);
+
+    /** @copydoc RawUncompressedFile::setLastObjectTime */
+    virtual void setLastObjectTime(const SYSTEMTIME lastObjectTime);
 
 private:
     /** object reference */
@@ -116,7 +143,7 @@ private:
     mutable std::mutex m_mutex {};
 
     /** raw uncompressed file */
-    RawUncompressedFile & m_rawUncompressedFile;
+    RawUncompressedFile m_rawUncompressedFile {};
 
     /** open mode */
     std::ios_base::openmode m_openMode {};
@@ -127,8 +154,7 @@ private:
     /** object references (index is streampos) */
     std::vector<ObjectRef> m_objectRefs {};
 
-    /** end-of-file object */
-    Unknown115 m_unknown115 {};
+    /* threads */
 
     /**
      * index thread

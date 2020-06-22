@@ -9,9 +9,7 @@
 
 /** Test read operations on a blf file. */
 BOOST_AUTO_TEST_CASE(ReadTest) {
-    Vector::BLF::RawCompressedFile rawCompressedFile;
-    Vector::BLF::StructuredCompressedFile structuredCompressedFile(rawCompressedFile);
-    Vector::BLF::RawUncompressedFile rawUncompressedFile(structuredCompressedFile);
+    Vector::BLF::RawUncompressedFile rawUncompressedFile;
 
     /* checks after initialize */
     BOOST_CHECK(!rawUncompressedFile.is_open());

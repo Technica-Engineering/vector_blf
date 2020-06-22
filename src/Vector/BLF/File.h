@@ -45,20 +45,7 @@ namespace BLF {
  */
 class VECTOR_BLF_EXPORT File final {
 public:
-    File();
     virtual ~File();
-
-    /**
-     * Write Unknown115 message at file close
-     *
-     * @todo always write
-     */
-    bool writeUnknown115 {true};
-
-    /* StructuredUncompressedFile methods */
-
-    /** @copydoc StructuredUncompressedFile::open */
-    virtual void open(const char * filename, const std::ios_base::openmode mode = std::ios_base::in);
 
     /**
      * open file
@@ -68,15 +55,6 @@ public:
      */
     virtual void open(const std::string & filename, const std::ios_base::openmode mode = std::ios_base::in);
 
-    /** @copydoc StructuredUncompressedFile::is_open */
-    virtual bool is_open() const;
-
-    /** @copydoc StructuredUncompressedfile::close */
-    virtual void close();
-
-    /** @copydoc StructuredUncompressedfile::read */
-    virtual StructuredUncompressedFile::streamsize read(ObjectHeaderBase ** objectHeaderBase);
-
     /**
      * Read object from file.
      *
@@ -85,9 +63,23 @@ public:
      *
      * @return read object or nullptr
      *
-     * @deprecated Use new read method instead.
+     * @deprecated Use new "streamsize read(ObjectHeaderBase **)" method instead.
      */
     virtual ObjectHeaderBase * read();
+
+    /* StructuredUncompressedFile pass-thru methods */
+
+    /** @copydoc StructuredUncompressedFile::open() */
+    virtual void open(const char * filename, const std::ios_base::openmode mode = std::ios_base::in);
+
+    /** @copydoc StructuredUncompressedFile::is_open() */
+    virtual bool is_open() const;
+
+    /** @copydoc StructuredUncompressedFile::close() */
+    virtual void close();
+
+    /** @copydoc StructuredUncompressedFile::read() */
+    virtual StructuredUncompressedFile::streamsize read(ObjectHeaderBase ** objectHeaderBase);
 
     /** @copydoc StructuredUncompressedFile::tellg */
     virtual StructuredUncompressedFile::streampos tellg();
@@ -107,7 +99,22 @@ public:
     /** @copydoc StructuredUncompressedFile::size */
     virtual StructuredUncompressedFile::streamsize size() const;
 
-    /* RawUncompressedFile methods */
+    /** @copydoc StructuredUncompressedFile::setApplication */
+    virtual void setApplication(const BYTE id, const BYTE major = 0, const BYTE minor = 0, const BYTE build = 0);
+
+    /** @copydoc StructuredUncompressedFile::setApi */
+    virtual void setApi(const BYTE major, const BYTE minor, const BYTE build, const BYTE patch);
+
+    /** @copydoc StructuredUncompressedFile::setObjectsRead */
+    virtual void setObjectsRead(const DWORD objectsRead);
+
+    /** @copydoc StructuredUncompressedFile::setMeasurementStartTime */
+    virtual void setMeasurementStartTime(const SYSTEMTIME measurementStartTime);
+
+    /** @copydoc StructuredUncompressedFile::setLastObjectTime */
+    virtual void setLastObjectTime(const SYSTEMTIME lastObjectTime);
+
+    /* RawUncompressedFile pass-thru methods */
 
     /** @copydoc RawUncompressedFile::size */
     virtual RawUncompressedFile::streamsize rawUncompressedFileSize() const;
@@ -133,12 +140,12 @@ public:
     /** @copydoc RawUncompresedFile::setCompressionLevel */
     virtual void setCompressionLevel(const int compressionLevel = 6);
 
-    /* StructuredCompressedFile methods */
+    /* StructuredCompressedFile pass-thru methods */
 
     /** @copydoc StructuredCompressedFile::size */
     virtual StructuredCompressedFile::streamsize structuredCompressedFileSize() const;
 
-    /* RawCompressedFile methods */
+    /* RawCompressedFile pass-thru methods */
 
     /** @copydoc RawCompressedFile::size */
     virtual RawCompressedFile::streamsize rawCompressedFileSize() const;
@@ -147,17 +154,11 @@ public:
     virtual FileStatistics statistics() const;
 
 private:
-    /** raw compressed file */
-    RawCompressedFile m_rawCompressedFile;
-
-    /** structured compressed file */
-    StructuredCompressedFile m_structuredCompressedFile;
-
-    /** raw uncompressed file */
-    RawUncompressedFile m_rawUncompressedFile;
+    /** open mode */
+    std::ios_base::openmode m_openMode {};
 
     /** structured uncompressed file */
-    StructuredUncompressedFile m_structuredUncompressedFile;
+    StructuredUncompressedFile m_structuredUncompressedFile {};
 };
 
 }

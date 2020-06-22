@@ -8,8 +8,7 @@
 #include <Vector/BLF.h>
 
 BOOST_AUTO_TEST_CASE(ReadTest) {
-    Vector::BLF::RawCompressedFile rawCompressedFile;
-    Vector::BLF::StructuredCompressedFile structuredCompressedFile(rawCompressedFile);
+    Vector::BLF::StructuredCompressedFile structuredCompressedFile;
 
     /* checks after initialize */
     BOOST_CHECK(!structuredCompressedFile.is_open());

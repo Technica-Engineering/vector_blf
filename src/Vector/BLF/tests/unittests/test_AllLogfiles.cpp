@@ -8,43 +8,53 @@
 #include <fstream>
 #include <iterator>
 #include <string>
+#include <vector>
 
 #include <Vector/BLF.h>
 
 /** copy file statistics */
 static void copyFileStatistics(Vector::BLF::File & filein, Vector::BLF::File & fileout) {
     /* copy non-generated filein statistics to fileout statistics */
-    fileout.fileStatistics.applicationId = filein.fileStatistics.applicationId;
-    fileout.fileStatistics.applicationMajor = filein.fileStatistics.applicationMajor;
-    fileout.fileStatistics.applicationMinor = filein.fileStatistics.applicationMinor;
-    fileout.fileStatistics.applicationBuild = filein.fileStatistics.applicationBuild;
-    fileout.fileStatistics.apiMajor = filein.fileStatistics.apiMajor;
-    fileout.fileStatistics.apiMinor = filein.fileStatistics.apiMinor;
-    fileout.fileStatistics.apiBuild = filein.fileStatistics.apiBuild;
-    fileout.fileStatistics.apiPatch = filein.fileStatistics.apiPatch;
-    fileout.fileStatistics.objectsRead = filein.fileStatistics.objectsRead;
+    Vector::BLF::FileStatistics fileStatisticsIn;
+    fileStatisticsIn = filein.statistics();
+    Vector::BLF::FileStatistics fileStatisticsOut;
+    fileStatisticsOut.applicationId = fileStatisticsIn.applicationId;
+    fileStatisticsOut.applicationMajor = fileStatisticsIn.applicationMajor;
+    fileStatisticsOut.applicationMinor = fileStatisticsIn.applicationMinor;
+    fileStatisticsOut.applicationBuild = fileStatisticsIn.applicationBuild;
+    fileStatisticsOut.apiMajor = fileStatisticsIn.apiMajor;
+    fileStatisticsOut.apiMinor = fileStatisticsIn.apiMinor;
+    fileStatisticsOut.apiBuild = fileStatisticsIn.apiBuild;
+    fileStatisticsOut.apiPatch = fileStatisticsIn.apiPatch;
+    fileStatisticsOut.objectsRead = fileStatisticsIn.objectsRead;
+    // @todo fileout.setStatistics(fileStatisticsOut);
+    fileout.setApplication(
+                fileStatisticsIn.applicationId,
+                fileStatisticsIn.applicationMajor,
+                fileStatisticsIn.applicationMinor,
+                fileStatisticsIn.applicationBuild);
     // all others should be set on close
 }
 
 /** copy objects and close files */
 static void copyObjects(Vector::BLF::File & filein, Vector::BLF::File & fileout) {
     /* read all objects from input file */
-    Vector::BLF::ObjectQueue objectQueue;
-    while (!filein.eof()) {
+    std::vector<Vector::BLF::ObjectHeaderBase *> objects;
+    for(;;) {
         Vector::BLF::ObjectHeaderBase * ohb = filein.read();
-        if (ohb == nullptr)
+        if (!ohb) {
             break;
-        if (ohb->objectType != Vector::BLF::ObjectType::Unknown115)
-            objectQueue.write(ohb);
+        }
+
+        if (ohb->objectType != Vector::BLF::ObjectType::Unknown115) {
+            objects.push_back(ohb);
+        }
     }
     filein.close();
 
     /* write all objects into output file */
-    objectQueue.setMaxSize(objectQueue.tellp());
-    while (!objectQueue.eof()) {
-        Vector::BLF::ObjectHeaderBase * ohb = objectQueue.read();
-        if (ohb != nullptr)
-            fileout.write(ohb);
+    for(Vector::BLF::ObjectHeaderBase * ohb: objects) {
+        fileout.write(ohb);
     }
     fileout.close();
 }
@@ -109,7 +119,7 @@ BOOST_AUTO_TEST_CASE(AllBinlogLogfiles) {
 
         /* open output file */
         Vector::BLF::File fileout;
-        fileout.compressionLevel = 0;
+        fileout.setCompressionLevel(0);
         boost::filesystem::path outfile(outdir.string() + eventFile);
         fileout.open(outfile.string(), std::ios_base::out);
         BOOST_REQUIRE(fileout.is_open());
@@ -124,8 +134,8 @@ BOOST_AUTO_TEST_CASE(AllBinlogLogfiles) {
         BOOST_REQUIRE_MESSAGE(
             compareFiles(
                 infile.c_str(), outfile.c_str(),
-                static_cast<uint64_t>(fileout.fileStatistics.statisticsSize),
-                fileout.fileStatistics.fileSizeWithoutUnknown115),
+                static_cast<uint64_t>(fileout.statistics().statisticsSize),
+                fileout.statistics().fileSizeWithoutUnknown115),
             eventFile + " is different");
     }
 }
@@ -154,7 +164,7 @@ BOOST_AUTO_TEST_CASE(AllConvertedLogfiles) {
 
         /* open output file */
         Vector::BLF::File fileout;
-        fileout.writeUnknown115 = false;
+        // @todo fileout.writeUnknown115 = false;
         boost::filesystem::path outfile(outdir.string() + eventFile);
         fileout.open(outfile.string(), std::ios_base::out);
         BOOST_REQUIRE(fileout.is_open());
@@ -173,8 +183,8 @@ BOOST_AUTO_TEST_CASE(AllConvertedLogfiles) {
         BOOST_CHECK_MESSAGE(
             compareFiles(
                 infile.c_str(), outfile.c_str(),
-                static_cast<uint64_t>(fileout.fileStatistics.statisticsSize),
-                fileout.fileStatistics.fileSizeWithoutUnknown115),
+                static_cast<uint64_t>(fileout.statistics().statisticsSize),
+                fileout.statistics().fileSizeWithoutUnknown115),
             eventFile + " is different");
     }
 }

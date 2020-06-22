@@ -157,7 +157,7 @@ struct VECTOR_BLF_EXPORT FileStatistics final {
      * number of objects
      *
      * @secreflist
-     * @refitem StructuredCompressedFile::size
+     * @refitem StructuredUncompressedFile::size
      * @endsecreflist
      */
     DWORD objectCount {};

@@ -38,6 +38,8 @@ namespace BLF {
  * @brief UNKNOWN_115
  *
  * This always comes at the end of a file.
+ *
+ * @note It's not clear yet what this is. RestorePoint? Metadata?
  */
 struct VECTOR_BLF_EXPORT Unknown115 final : public ObjectHeader {
     Unknown115();

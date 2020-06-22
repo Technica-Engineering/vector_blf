@@ -127,6 +127,13 @@ struct VECTOR_BLF_EXPORT RawFile {
      * @param[in] way Direction
      */
     virtual void seekp(const std::streamoff off, const std::ios_base::seekdir way) = 0;
+
+    /**
+     * Get file size
+     *
+     * @return file size
+     */
+    virtual std::streamsize size() const = 0;
 };
 
 }

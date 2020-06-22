@@ -42,7 +42,6 @@ namespace BLF {
  */
 class VECTOR_BLF_EXPORT StructuredCompressedFile {
 public:
-    StructuredCompressedFile(RawCompressedFile & rawCompressedFile);
     virtual ~StructuredCompressedFile();
 
     using streamoff = int32_t;
@@ -56,15 +55,38 @@ public:
     virtual streampos tellg() const;
     virtual void seekg(const streampos pos);
     virtual void seekg(const streamoff off, const std::ios_base::seekdir way);
-    virtual bool write(LogContainer * logContainer);
+    virtual streamsize write(LogContainer * logContainer);
     virtual streampos tellp() const;
     virtual streamsize size() const;
+
+    /* RawCompressedFile pass-thru methods */
+
+    /** @copydoc RawCompressedFile::size */
+    virtual RawCompressedFile::streamsize rawCompressedFileSize() const;
 
     /** @copydoc RawCompressedFile::statistics */
     virtual FileStatistics statistics() const;
 
-    /** @copydoc RawCompressedFile::setStatistics */
-    virtual void setStatistics(const FileStatistics & statistics);
+    /** @copydoc RawCompressedFile::setApplication */
+    virtual void setApplication(const BYTE id, const BYTE major = 0, const BYTE minor = 0, const BYTE build = 0);
+
+    /** @copydoc RawCompressedFile::setApi */
+    virtual void setApi(const BYTE major, const BYTE minor, const BYTE build, const BYTE patch);
+
+    /** @copydoc RawCompressedFile::setUncompressedFileSize */
+    virtual void setUncompressedFileSize(const ULONGLONG uncompressedFileSize);
+
+    /** @copydoc RawCompressedFile::setObjectCount */
+    virtual void setObjectCount(const DWORD objectCount);
+
+    /** @copydoc RawCompressedFile::setObjectsRead */
+    virtual void setObjectsRead(const DWORD objectsRead);
+
+    /** @copydoc RawCompressedFile::setMeasurementStartTime */
+    virtual void setMeasurementStartTime(const SYSTEMTIME measurementStartTime);
+
+    /** @copydoc RawCompressedFile::setLastObjectTime */
+    virtual void setLastObjectTime(const SYSTEMTIME lastObjectTime);
 
 private:
     /** log container reference */
@@ -79,7 +101,7 @@ private:
     mutable std::mutex m_mutex {};
 
     /** raw compressed file */
-    RawCompressedFile & m_rawCompressedFile;
+    RawCompressedFile m_rawCompressedFile {};
 
     /** open mode */
     std::ios_base::openmode m_openMode {};
@@ -89,6 +111,8 @@ private:
 
     /** log container references (index is streampos) */
     std::vector<LogContainerRef> m_logContainerRefs {};
+
+    /* threads */
 
     /**
      * index thread

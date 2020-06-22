@@ -29,25 +29,19 @@
 namespace Vector {
 namespace BLF {
 
-File::File() :
-    m_structuredCompressedFile(m_rawCompressedFile),
-    m_rawUncompressedFile(m_structuredCompressedFile),
-    m_structuredUncompressedFile(m_rawUncompressedFile)
-{
-}
-
 File::~File() {
     close();
 }
 
-/* StructuredUncompressedFile methods */
+void File::open(const std::string & filename, std::ios_base::openmode mode) {
+    open(filename.c_str(), mode);
+}
+
+
+/* StructuredUncompressedFile pass-thru methods */
 
 void File::open(const char * filename, const std::ios_base::openmode mode) {
     m_structuredUncompressedFile.open(filename, mode);
-}
-
-void File::open(const std::string & filename, std::ios_base::openmode mode) {
-    open(filename.c_str(), mode);
 }
 
 bool File::is_open() const {
@@ -60,12 +54,6 @@ void File::close() {
 
 StructuredUncompressedFile::streamsize File::read(ObjectHeaderBase ** objectHeaderBase) {
     return m_structuredUncompressedFile.read(objectHeaderBase);
-}
-
-ObjectHeaderBase * File::read() {
-    ObjectHeaderBase * objectHeaderBase;
-    read(&objectHeaderBase);
-    return objectHeaderBase;
 }
 
 StructuredUncompressedFile::streampos File::tellg() {
@@ -92,54 +80,80 @@ StructuredUncompressedFile::streamsize File::size() const {
     return m_structuredUncompressedFile.size();
 }
 
-/* RawUncompressedFile methods */
+void File::setApplication(const BYTE id, const BYTE major, const BYTE minor, const BYTE build) {
+    m_structuredUncompressedFile.setApplication(id, major, minor, build);
+}
+
+void File::setApi(const BYTE major, const BYTE minor, const BYTE build, const BYTE patch) {
+    m_structuredUncompressedFile.setApi(major, minor, build, patch);
+}
+
+void File::setObjectsRead(const DWORD objectsRead) {
+    m_structuredUncompressedFile.setObjectsRead(objectsRead);
+}
+
+void File::setMeasurementStartTime(const SYSTEMTIME measurementStartTime) {
+    m_structuredUncompressedFile.setMeasurementStartTime(measurementStartTime);
+}
+
+void File::setLastObjectTime(const SYSTEMTIME lastObjectTime) {
+    m_structuredUncompressedFile.setLastObjectTime(lastObjectTime);
+}
+
+/* RawUncompressedFile pass-thru methods */
 
 RawUncompressedFile::streamsize File::rawUncompressedFileSize() const {
-    return m_rawUncompressedFile.size();
+    return m_structuredUncompressedFile.rawUncompressedFileSize();
 }
 
 RawUncompressedFile::streamsize File::rawUncompressedFileStatisticsSize() const {
-    return m_rawUncompressedFile.statisticsSize();
+    return m_structuredUncompressedFile.rawUncompressedFileStatisticsSize();
 }
 
 DWORD File::defaultLogContainerSize() const {
-    return m_rawUncompressedFile.defaultLogContainerSize();
+    return m_structuredUncompressedFile.defaultLogContainerSize();
 }
 
 void File::setDefaultLogContainerSize(DWORD defaultLogContainerSize) {
-    m_rawUncompressedFile.setDefaultLogContainerSize(defaultLogContainerSize);
+    m_structuredUncompressedFile.setDefaultLogContainerSize(defaultLogContainerSize);
 }
 
 int File::compressionMethod() const {
-    return m_rawUncompressedFile.compressionMethod();
+    return m_structuredUncompressedFile.compressionMethod();
 }
 
 void File::setCompressionMethod(const int compressionMethod) {
-    m_rawUncompressedFile.setCompressionMethod(compressionMethod);
+    m_structuredUncompressedFile.setCompressionMethod(compressionMethod);
 }
 
 int File::compressionLevel() const {
-    return m_rawUncompressedFile.compressionLevel();
+    return m_structuredUncompressedFile.compressionLevel();
 }
 
 void File::setCompressionLevel(const int compressionLevel) {
-    m_rawUncompressedFile.setCompressionLevel(compressionLevel);
+    m_structuredUncompressedFile.setCompressionLevel(compressionLevel);
 }
 
-/* StructuredCompressedFile methods */
+/* StructuredCompressedFile pass-thru methods */
 
 StructuredCompressedFile::streamsize File::structuredCompressedFileSize() const {
-    return m_structuredCompressedFile.size();
+    return m_structuredUncompressedFile.structuredCompressedFileSize();
 }
 
-/* RawCompressedFile methods */
+/* RawCompressedFile pass-thru methods */
 
 RawCompressedFile::streamsize File::rawCompressedFileSize() const {
-    return m_rawCompressedFile.size();
+    return m_structuredUncompressedFile.rawCompressedFileSize();
 }
 
 FileStatistics File::statistics() const {
-    return m_rawCompressedFile.statistics();
+    return m_structuredUncompressedFile.statistics();
+}
+
+ObjectHeaderBase * File::read() {
+    ObjectHeaderBase * objectHeaderBase;
+    read(&objectHeaderBase);
+    return objectHeaderBase;
 }
 
 }

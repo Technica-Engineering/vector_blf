@@ -9,10 +9,7 @@
 
 /** Open a file, read/write on it, close it again. */
 BOOST_AUTO_TEST_CASE(ReadTest) {
-    Vector::BLF::RawCompressedFile rawCompressedFile;
-    Vector::BLF::StructuredCompressedFile structuredCompressedFile(rawCompressedFile);
-    Vector::BLF::RawUncompressedFile rawUncompressedFile(structuredCompressedFile);
-    Vector::BLF::StructuredUncompressedFile structuredUncompressedFile(rawUncompressedFile);
+    Vector::BLF::StructuredUncompressedFile structuredUncompressedFile;
 
     /* checks after initialize */
     BOOST_CHECK(!structuredUncompressedFile.is_open());

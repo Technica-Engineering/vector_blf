@@ -32,11 +32,6 @@
 namespace Vector {
 namespace BLF {
 
-StructuredUncompressedFile::StructuredUncompressedFile(RawUncompressedFile & rawUncompressedFile) :
-    m_rawUncompressedFile(rawUncompressedFile)
-{
-}
-
 StructuredUncompressedFile::~StructuredUncompressedFile() {
     close();
 }
@@ -75,18 +70,20 @@ void StructuredUncompressedFile::close() {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
+    if (!m_rawUncompressedFile.is_open()) {
+        return;
+    }
+
     // @todo abort threads and wait to join
 
     /* close actions */
     if (m_openMode & std::ios_base::out) {
-        /* force RawUncompressedFile to finish last log container */
-        m_rawUncompressedFile.shrinkLastLogContainer();
-
-        /* write unknown115 */
-        m_unknown115.write(m_rawUncompressedFile);
+        /* set FileStatistics::objectCount */
+        m_rawUncompressedFile.setObjectCount(m_objectRefs.size());
     }
 
-    return m_rawUncompressedFile.close();
+    /* close file */
+    m_rawUncompressedFile.close();
 }
 
 StructuredUncompressedFile::streamsize StructuredUncompressedFile::read(ObjectHeaderBase ** objectHeaderBase) {
@@ -154,7 +151,7 @@ void StructuredUncompressedFile::seekg(const StructuredUncompressedFile::streamo
     m_posg = ref + off;
 }
 
-bool StructuredUncompressedFile::write(ObjectHeaderBase * objectHeaderBase) {
+StructuredUncompressedFile::streamsize StructuredUncompressedFile::write(ObjectHeaderBase * objectHeaderBase) {
     assert(objectHeaderBase); // write no object doesn't make sense
 
     /* mutex lock */
@@ -169,8 +166,9 @@ bool StructuredUncompressedFile::write(ObjectHeaderBase * objectHeaderBase) {
 
     /* write object */
     objectHeaderBase->write(m_rawUncompressedFile); // @todo do this in writeThread
+    delete(objectHeaderBase);
 
-    return true;
+    return 1;
 }
 
 StructuredUncompressedFile::streampos StructuredUncompressedFile::tellp() const {
@@ -190,28 +188,74 @@ StructuredUncompressedFile::streamsize StructuredUncompressedFile::size() const 
     return m_objectRefs.size();
 }
 
+/* RawUncompressedFile pass-thru methods */
+
+RawUncompressedFile::streamsize StructuredUncompressedFile::rawUncompressedFileSize() const {
+    return m_rawUncompressedFile.size();
+}
+
+RawUncompressedFile::streamsize StructuredUncompressedFile::rawUncompressedFileStatisticsSize() const {
+    return m_rawUncompressedFile.statisticsSize();
+}
+
+DWORD StructuredUncompressedFile::defaultLogContainerSize() const {
+    return m_rawUncompressedFile.defaultLogContainerSize();
+}
+
+void StructuredUncompressedFile::setDefaultLogContainerSize(DWORD defaultLogContainerSize) {
+    m_rawUncompressedFile.setDefaultLogContainerSize(defaultLogContainerSize);
+}
+
+int StructuredUncompressedFile::compressionMethod() const {
+    return m_rawUncompressedFile.compressionMethod();
+}
+
+void StructuredUncompressedFile::setCompressionMethod(const int compressionMethod) {
+    m_rawUncompressedFile.setCompressionMethod(compressionMethod);
+}
+
+int StructuredUncompressedFile::compressionLevel() const {
+    return m_rawUncompressedFile.compressionLevel();
+}
+
+void StructuredUncompressedFile::setCompressionLevel(const int compressionLevel) {
+    m_rawUncompressedFile.setCompressionLevel(compressionLevel);
+}
+
+/* StructuredCompressedFile pass-thru methods */
+
+StructuredCompressedFile::streamsize StructuredUncompressedFile::structuredCompressedFileSize() const {
+    return m_rawUncompressedFile.structuredCompressedFileSize();
+}
+
+/* RawCompressedFile pass-thru methods */
+
+RawCompressedFile::streamsize StructuredUncompressedFile::rawCompressedFileSize() const {
+    return m_rawUncompressedFile.rawCompressedFileSize();
+}
+
 FileStatistics StructuredUncompressedFile::statistics() const {
-    // no lock needed as just pass-thru
     return m_rawUncompressedFile.statistics();
 }
 
-void StructuredUncompressedFile::setStatistics(const Vector::BLF::FileStatistics & statistics) {
-    // no lock needed as just pass-thru
-    m_rawUncompressedFile.setStatistics(statistics);
+void StructuredUncompressedFile::setApplication(const BYTE id, const BYTE major, const BYTE minor, const BYTE build) {
+    m_rawUncompressedFile.setApplication(id, major, minor, build);
 }
 
-Unknown115 StructuredUncompressedFile::unknown115() const {
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    return m_unknown115;
+void StructuredUncompressedFile::setApi(const BYTE major, const BYTE minor, const BYTE build, const BYTE patch) {
+    m_rawUncompressedFile.setApi(major, minor, build, patch);
 }
 
-void StructuredUncompressedFile::setUnknown115(const Unknown115 & unknown115) {
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
+void StructuredUncompressedFile::setObjectsRead(const DWORD objectsRead) {
+    m_rawUncompressedFile.setObjectsRead(objectsRead);
+}
 
-    m_unknown115 = unknown115;
+void StructuredUncompressedFile::setMeasurementStartTime(const SYSTEMTIME measurementStartTime) {
+    m_rawUncompressedFile.setMeasurementStartTime(measurementStartTime);
+}
+
+void StructuredUncompressedFile::setLastObjectTime(const SYSTEMTIME lastObjectTime) {
+    m_rawUncompressedFile.setLastObjectTime(lastObjectTime);
 }
 
 void StructuredUncompressedFile::indexThread() {

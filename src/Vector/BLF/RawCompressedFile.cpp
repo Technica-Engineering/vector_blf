@@ -21,6 +21,7 @@
 
 #include <Vector/BLF/RawUncompressedFile.h>
 
+#include <algorithm>
 #undef NDEBUG
 #include <cassert>
 #include <vector>
@@ -79,6 +80,19 @@ void RawCompressedFile::close() {
 
     /* write file statistics */
     if (m_openMode & std::ios_base::out) {
+        /* write Unknown115 */
+        // @todo write Unknown115
+        // m_statistics.fileSizeWithoutUnknown115 = m_size;
+        // create Unknown115
+        // create LogContainer logContainer;
+        // write Unknown115 into LogContainer
+        // write LogContainer
+        // update m_size
+
+        /* update file statistics */
+        m_statistics.fileSize = m_size;
+
+        /* write it */
         m_file.seekg(0);
         m_statistics.write(m_file);
     }
@@ -122,8 +136,14 @@ RawCompressedFile::streamsize RawCompressedFile::write(const char * s, RawCompre
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
+    /* write */
     std::streampos preWritePos = m_file.tellp();
     m_file.write(s, n);
+
+    /* update file size */
+    m_size = std::max(m_size, std::streamsize(m_file.tellp()));
+
+    /* calc pcount */
     return m_file.tellp() - preWritePos;
 }
 
@@ -152,6 +172,9 @@ void RawCompressedFile::seekp(const RawCompressedFile::streamoff off, const std:
     /* ensure zeros are written */
     std::vector<char> zero(off);
     m_file.write(zero.data(), zero.size());
+
+    /* update file size */
+    m_size = std::max(m_size, std::streamsize(m_file.tellp()));
 }
 
 bool RawCompressedFile::good() const {
@@ -217,11 +240,66 @@ FileStatistics RawCompressedFile::statistics() const {
     return m_statistics;
 }
 
-void RawCompressedFile::setStatistics(const Vector::BLF::FileStatistics & statistics) {
+void RawCompressedFile::setApplication(const BYTE id, const BYTE major, const BYTE minor, const BYTE build) {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
-    m_statistics = statistics;
+    m_statistics.applicationId = id;
+    m_statistics.applicationMajor = major;
+    m_statistics.applicationMinor = minor;
+    m_statistics.applicationBuild = build;
+}
+
+void RawCompressedFile::setApi(const BYTE major, const BYTE minor, const BYTE build, const BYTE patch) {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    m_statistics.apiMajor = major;
+    m_statistics.apiMinor = minor;
+    m_statistics.apiBuild = build;
+    m_statistics.apiPatch = patch;
+}
+
+void RawCompressedFile::setFileSize(const ULONGLONG fileSize) {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    m_statistics.fileSize = fileSize;
+}
+
+void RawCompressedFile::setUncompressedFileSize(const ULONGLONG uncompressedFileSize) {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    m_statistics.uncompressedFileSize = m_statistics.statisticsSize + uncompressedFileSize;
+}
+
+void RawCompressedFile::setObjectCount(const DWORD objectCount) {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    m_statistics.objectCount = objectCount;
+}
+
+void RawCompressedFile::setObjectsRead(const DWORD objectsRead) {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    m_statistics.objectsRead = objectsRead;
+}
+
+void RawCompressedFile::setMeasurementStartTime(const SYSTEMTIME measurementStartTime) {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    m_statistics.measurementStartTime = measurementStartTime;
+}
+
+void RawCompressedFile::setLastObjectTime(const SYSTEMTIME lastObjectTime) {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    m_statistics.lastObjectTime = lastObjectTime;
 }
 
 }
