@@ -55,6 +55,7 @@ struct VECTOR_BLF_EXPORT FunctionBus final : ObjectHeader {
     /** type of system variable */
     DWORD functionBusObjectType {};
 
+    /** @todo VEType unknown */
     DWORD veType {};
 
     /** length of variable name in bytes */

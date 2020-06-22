@@ -37,79 +37,119 @@ namespace BLF {
 /**
  * Structured Uncompressed File
  *
+ * The StructuredUncompressedFile is the 4. layer in the file architecture.
+ *
+ * It provides structure-wise access to the objects in the RawUncompressedFile.
+ *
  * This class is thread-safe.
  */
 class VECTOR_BLF_EXPORT StructuredUncompressedFile {
 public:
     ~StructuredUncompressedFile();
 
+    /** stream offset */
     using streamoff = int32_t;
+
+    /** stream size */
     using streamsize = uint32_t;
+
+    /** stream position */
     using streampos = uint32_t;
 
+    /** @copydoc RawFile::open() */
     virtual void open(const char * filename, std::ios_base::openmode mode = std::ios_base::in);
+
+    /** @copydoc RawFile::is_open() */
     virtual bool is_open() const;
+
+    /** @copydoc RawFile::close() */
     virtual void close();
+
+    /**
+     * Read object.
+     *
+     * This operation blocks until the object is available.
+     *
+     * @param[out] objectHeaderBase object
+     * @return Number of objects read (0 or 1)
+     */
     virtual streamsize read(ObjectHeaderBase ** objectHeaderBase);
+
+    /** @copydoc RawFile::tellg() */
     virtual streampos tellg() const;
+
+    /** @copydoc RawFile::seekg(std::streampos) */
     virtual void seekg(const streampos pos);
+
+    /** @copydoc RawFile::seekg(std::streamoff, std::ios_base::seekdir) */
     virtual void seekg(const streamoff off, const std::ios_base::seekdir way);
+
+    /**
+     * Write object.
+     *
+     * @param[in] objectHeaderBase object
+     * @return Number of objects written (0 or 1)
+     */
     virtual streamsize write(ObjectHeaderBase * objectHeaderBase);
+
+    /** @copydoc RawFile::tellp() */
     virtual streampos tellp() const;
+
+    /** @copydoc RawFile::size() */
     virtual streamsize size() const;
 
     /* RawUncompressedFile pass-thru methods */
 
-    /** @copydoc RawUncompressedFile::size */
+    /** @copydoc RawUncompressedFile::size() */
     virtual RawUncompressedFile::streamsize rawUncompressedFileSize() const;
 
-    /** @copydoc RawUncompressedFile::statisticsSize */
+    /** @copydoc RawUncompressedFile::statisticsSize() */
     virtual RawUncompressedFile::streamsize rawUncompressedFileStatisticsSize() const;
 
-    /** @copydoc RawUncompressedFile::defaultLogContainerSize */
+    /** @copydoc RawUncompressedFile::defaultLogContainerSize() */
     virtual DWORD defaultLogContainerSize() const;
 
-    /** @copydoc RawUncompressedFile::setDefaultLogContainerSize */
+    /** @copydoc RawUncompressedFile::setDefaultLogContainerSize() */
     virtual void setDefaultLogContainerSize(DWORD defaultLogContainerSize);
 
-    /** @copydoc RawUncompressedFile::compressionMethod */
+    /** @copydoc RawUncompressedFile::compressionMethod() */
     virtual int compressionMethod() const;
 
-    /** @copydoc RawUncompressedFile::setCompressionMethod */
+    /** @copydoc RawUncompressedFile::setCompressionMethod() */
     virtual void setCompressionMethod(const int compressionMethod = 2);
 
-    /** @copydoc RawUncompressedFile::compressionLevel */
+    /** @copydoc RawUncompressedFile::compressionLevel() */
     virtual int compressionLevel() const;
 
-    /** @copydoc RawUncompressedFile::setCompressionLevel */
+    /** @copydoc RawUncompressedFile::setCompressionLevel() */
     virtual void setCompressionLevel(const int compressionLevel = 6);
 
     /* StructuredCompressedFile pass-thru methods */
 
-    /** @copydoc StructuredCompressedFile::size */
+    /** @copydoc StructuredCompressedFile::size() */
     virtual StructuredCompressedFile::streamsize structuredCompressedFileSize() const;
 
     /* RawCompressedFile pass-thru methods */
 
-    /** @copydoc RawCompressedFile::size */
+    /** @copydoc RawCompressedFile::size() */
     virtual RawCompressedFile::streamsize rawCompressedFileSize() const;
 
-    /** @copydoc RawCompressedFile::statistics */
+    /** @copydoc RawCompressedFile::statistics() */
     virtual FileStatistics statistics() const;
 
-    /** @copydoc RawUncompressedFile::setApplication */
+    /** @copydoc RawUncompressedFile::setApplication() */
     virtual void setApplication(const BYTE id, const BYTE major = 0, const BYTE minor = 0, const BYTE build = 0);
 
-    /** @copydoc RawUncompressedFile::setApi */
+    /** @copydoc RawUncompressedFile::setApi() */
     virtual void setApi(const BYTE major, const BYTE minor, const BYTE build, const BYTE patch);
 
-    /** @copydoc RawUncompressedFile::setObjectsRead */
+    /** @copydoc RawUncompressedFile::setObjectsRead() */
     virtual void setObjectsRead(const DWORD objectsRead);
 
-    /** @copydoc RawUncompressedFile::setMeasurementStartTime */
+    /** @copydoc RawUncompressedFile::setMeasurementStartTime() */
     virtual void setMeasurementStartTime(const SYSTEMTIME measurementStartTime);
 
-    /** @copydoc RawUncompressedFile::setLastObjectTime */
+    /** @copydoc RawUncompressedFile::setLastObjectTime() */
     virtual void setLastObjectTime(const SYSTEMTIME lastObjectTime);
 
 private:
@@ -121,18 +161,14 @@ private:
         /**
          * object size
          *
-         * @secreflist
-         * @refitem ObjectHeaderBase::objectSize
-         * @endsecreflist
+         * @see ObjectHeaderBase::objectSize
          */
         DWORD objectSize {0};
 
         /**
          * object type
          *
-         * @secreflist
-         * @refitem ObjectHeaderBase::objectType
-         * @endsecreflist
+         * @see ObjectHeaderBase::objectType
          */
         ObjectType objectType {ObjectType::UNKNOWN};
 

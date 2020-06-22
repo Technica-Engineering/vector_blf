@@ -36,6 +36,11 @@ namespace BLF {
 /**
  * Raw Uncompressed File
  *
+ * The RawUncompressedFile is the 3. layer in the file architecture.
+ *
+ * When the data in the LogContainers is uncompressed, it builds up another
+ * file stream. The RawUncompressedFile provides byte-wise access to it.
+ *
  * This class is thread-safe.
  */
 class VECTOR_BLF_EXPORT RawUncompressedFile :
@@ -44,8 +49,13 @@ class VECTOR_BLF_EXPORT RawUncompressedFile :
 public:
     virtual ~RawUncompressedFile();
 
+    /** stream offset */
     using streamoff = std::streamoff;
+
+    /** stream size */
     using streamsize = std::streamsize;
+
+    /** stream position */
     using streampos = std::streampos;
 
     void open(const char * filename, std::ios_base::openmode mode = std::ios_base::in) override;
@@ -147,37 +157,34 @@ public:
 
     /* StructuredCompressedFile pass-thru methods */
 
-    /** @copydoc StructuredCompressedFile::size */
+    /** @copydoc StructuredCompressedFile::size() */
     virtual StructuredCompressedFile::streamsize structuredCompressedFileSize() const;
 
     /* RawCompressedFile pass-thru methods */
 
-    /** @copydoc RawCompressedFile::size */
+    /** @copydoc RawCompressedFile::size() */
     virtual RawCompressedFile::streamsize rawCompressedFileSize() const;
 
-    /** @copydoc RawCompressedFile::statistics */
+    /** @copydoc RawCompressedFile::statistics() */
     virtual FileStatistics statistics() const;
 
-    /** @copydoc RawCompressedFile::setApplication */
+    /** @copydoc RawCompressedFile::setApplication() */
     virtual void setApplication(const BYTE id, const BYTE major = 0, const BYTE minor = 0, const BYTE build = 0);
 
-    /** @copydoc RawCompressedFile::setApi */
+    /** @copydoc RawCompressedFile::setApi() */
     virtual void setApi(const BYTE major, const BYTE minor, const BYTE build, const BYTE patch);
 
-    /** @copydoc RawCompressedFile::setObjectCount */
+    /** @copydoc RawCompressedFile::setObjectCount() */
     virtual void setObjectCount(const DWORD objectCount);
 
-    /** @copydoc RawCompressedFile::setObjectsRead */
+    /** @copydoc RawCompressedFile::setObjectsRead() */
     virtual void setObjectsRead(const DWORD objectsRead);
 
-    /** @copydoc RawCompressedFile::setMeasurementStartTime */
+    /** @copydoc RawCompressedFile::setMeasurementStartTime() */
     virtual void setMeasurementStartTime(const SYSTEMTIME measurementStartTime);
 
-    /** @copydoc RawCompressedFile::setLastObjectTime */
+    /** @copydoc RawCompressedFile::setLastObjectTime() */
     virtual void setLastObjectTime(const SYSTEMTIME lastObjectTime);
-
-    /** @copydoc RawCompressedFile::setFileSizeWithoutUnknown115 */
-    virtual void setFileSizeWithoutUnknown115(const ULONGLONG fileSizeWithoutUnknown115);
 
 private:
     /** log container reference */
@@ -188,9 +195,7 @@ private:
         /**
          * file size
          *
-         * @secreflist
-         * @refitem LogContainer::uncompressedfileSize
-         * @endsecreflist
+         * @see LogContainer::uncompressedfileSize
          */
         streamsize fileSize {0};
 
@@ -230,7 +235,7 @@ private:
     /** default log container size */
     DWORD m_defaultLogContainerSize {0x20000};
 
-    /** @copydoc LogContainer::compressionMethod */
+    /** @copydoc LogContainer::compressionMethod() */
     int m_compressionMethod {2};
 
     /**

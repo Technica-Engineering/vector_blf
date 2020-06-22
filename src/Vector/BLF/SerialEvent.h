@@ -46,10 +46,6 @@ namespace BLF {
 struct VECTOR_BLF_EXPORT SerialEvent final : ObjectHeader {
     SerialEvent();
     virtual ~SerialEvent() noexcept = default;
-    SerialEvent(const SerialEvent &) = default;
-    SerialEvent & operator=(const SerialEvent &) = default;
-    SerialEvent(SerialEvent &&) = default;
-    SerialEvent & operator=(SerialEvent &&) = default;
 
     void read(RawFile & is) override;
     void write(RawFile & os) override;

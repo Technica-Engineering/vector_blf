@@ -13,4 +13,5 @@ HAVE_DOT               = @GRAPHVIZ_DOT_FOUND@
 UML_LOOK               = YES
 INTERACTIVE_SVG        = YES
 DOT_PATH               = "@GRAPHVIZ_DOT_PATH@"
+DOT_GRAPH_MAX_NODES    = 200
 DOT_MULTI_TARGETS      = YES

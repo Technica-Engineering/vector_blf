@@ -42,7 +42,7 @@ struct VECTOR_BLF_EXPORT RawFile {
      * open file
      *
      * @param[in] filename file name
-     * @param[in] openMode open in read or write mode
+     * @param[in] mode open in read or write mode
      */
     virtual void open(const char * filename, std::ios_base::openmode mode = std::ios_base::in | std::ios_base::out) = 0;
 

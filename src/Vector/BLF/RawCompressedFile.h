@@ -28,6 +28,7 @@
 
 #include <Vector/BLF/FileStatistics.h>
 #include <Vector/BLF/RawFile.h>
+#include <Vector/BLF/Unknown115.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -37,6 +38,12 @@ namespace BLF {
 /**
  * Raw Compressed File
  *
+ * The RawCompressed File is the 1. layer in the file architecture.
+ * It provides nothing more than an abstracted std::fstream. And it handles
+ * the FileStatistics.
+ *
+ * It's raw as it provides byte-wise access to the raw data.
+ *
  * This class is thread-safe.
  */
 class VECTOR_BLF_EXPORT RawCompressedFile :
@@ -45,8 +52,13 @@ class VECTOR_BLF_EXPORT RawCompressedFile :
 public:
     virtual ~RawCompressedFile();
 
+    /** stream offset */
     using streamoff = std::streamoff;
+
+    /** stream size */
     using streamsize = std::streamsize;
+
+    /** stream position */
     using streampos = std::streampos;
 
     void open(const char * filename, std::ios_base::openmode mode = std::ios_base::in) override;

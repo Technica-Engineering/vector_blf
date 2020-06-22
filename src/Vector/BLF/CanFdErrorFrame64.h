@@ -47,6 +47,11 @@ struct VECTOR_BLF_EXPORT CanFdErrorFrame64 final : ObjectHeader, CanFdExtFrameDa
     void write(RawFile & os) override;
     DWORD calculateObjectSize() const override;
 
+    /**
+     * Frame has external data
+     *
+     * @return true, if it has external data
+     */
     virtual bool hasExtData() const;
 
     /**

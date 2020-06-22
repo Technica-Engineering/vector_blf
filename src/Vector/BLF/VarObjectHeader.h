@@ -36,6 +36,11 @@ namespace BLF {
  * @brief Extended base object header type definition with dynamic extendible objects
  */
 struct VECTOR_BLF_EXPORT VarObjectHeader : ObjectHeaderBase {
+    /**
+     * Constructor
+     *
+     * @param[in] objectType object type
+     */
     VarObjectHeader(const ObjectType objectType);
 
     void read(RawFile & is) override;

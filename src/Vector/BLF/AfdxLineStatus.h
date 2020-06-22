@@ -34,20 +34,15 @@ namespace BLF {
 
 /** line A/B information in AfdxStatus class */
 struct VECTOR_BLF_EXPORT AfdxLineStatus final {
-    AfdxLineStatus() noexcept = default;
     virtual ~AfdxLineStatus() noexcept = default;
-    AfdxLineStatus(const AfdxLineStatus &) = default;
-    AfdxLineStatus & operator=(const AfdxLineStatus &) = default;
-    AfdxLineStatus(AfdxLineStatus &&) = default;
-    AfdxLineStatus & operator=(AfdxLineStatus &&) = default;
 
-    /** @copydoc ObjectHeader::read */
+    /** @copydoc ObjectHeader::read() */
     virtual void read(RawFile & is);
 
-    /** @copydoc ObjectHeader::write */
+    /** @copydoc ObjectHeader::write() */
     virtual void write(RawFile & os);
 
-    /** @copydoc ObjectHeader::calculateObjectSize */
+    /** @copydoc ObjectHeader::calculateObjectSize() */
     virtual DWORD calculateObjectSize() const;
 
     /**

@@ -38,54 +38,96 @@ namespace BLF {
 /**
  * Structured Compressed File
  *
+ * The StructuredCompressedFile is the 2. layer in the file architecture.
+ *
+ * It's structured as it provides structure-wise access to the data.
+ *
+ * The structures on this level are LogContainers.
+ *
  * This class is thread-safe.
  */
 class VECTOR_BLF_EXPORT StructuredCompressedFile {
 public:
     virtual ~StructuredCompressedFile();
 
+    /** stream offset */
     using streamoff = int32_t;
+
+    /** stream size */
     using streamsize = uint32_t;
+
+    /** stream position */
     using streampos = uint32_t;
 
+    /** @copydoc RawFile::open() */
     virtual void open(const char * filename, std::ios_base::openmode mode = std::ios_base::in);
+
+    /** @copydoc RawFile::is_open() */
     virtual bool is_open() const;
+
+    /** @copydoc RawFile::close() */
     virtual void close();
+
+    /**
+     * Read log container.
+     *
+     * This operation blocks until the log container is available.
+     *
+     * @param[out] logContainer log container
+     * @return Number of log containers read (0 or 1)
+     */
     virtual streamsize read(LogContainer ** logContainer);
+
+    /** @copydoc RawFile::tellg() */
     virtual streampos tellg() const;
+
+    /** @copydoc RawFile::seekg(std::streampos) */
     virtual void seekg(const streampos pos);
+
+    /** @copydoc RawFile::seekg(std::streamoff, std::ios_base::seekdir) */
     virtual void seekg(const streamoff off, const std::ios_base::seekdir way);
+
+    /**
+     * Write log container.
+     *
+     * @param[in] logContainer log container
+     * @return Number of log containers written (0 or 1)
+     */
     virtual streamsize write(LogContainer * logContainer);
+
+    /** @copydoc RawFile::tellp() */
     virtual streampos tellp() const;
+
+    /** @copydoc RawFile::size() */
     virtual streamsize size() const;
 
     /* RawCompressedFile pass-thru methods */
 
-    /** @copydoc RawCompressedFile::size */
+    /** @copydoc RawCompressedFile::size() */
     virtual RawCompressedFile::streamsize rawCompressedFileSize() const;
 
-    /** @copydoc RawCompressedFile::statistics */
+    /** @copydoc RawCompressedFile::statistics() */
     virtual FileStatistics statistics() const;
 
-    /** @copydoc RawCompressedFile::setApplication */
+    /** @copydoc RawCompressedFile::setApplication() */
     virtual void setApplication(const BYTE id, const BYTE major = 0, const BYTE minor = 0, const BYTE build = 0);
 
-    /** @copydoc RawCompressedFile::setApi */
+    /** @copydoc RawCompressedFile::setApi() */
     virtual void setApi(const BYTE major, const BYTE minor, const BYTE build, const BYTE patch);
 
-    /** @copydoc RawCompressedFile::setUncompressedFileSize */
+    /** @copydoc RawCompressedFile::setUncompressedFileSize() */
     virtual void setUncompressedFileSize(const ULONGLONG uncompressedFileSize);
 
-    /** @copydoc RawCompressedFile::setObjectCount */
+    /** @copydoc RawCompressedFile::setObjectCount() */
     virtual void setObjectCount(const DWORD objectCount);
 
-    /** @copydoc RawCompressedFile::setObjectsRead */
+    /** @copydoc RawCompressedFile::setObjectsRead() */
     virtual void setObjectsRead(const DWORD objectsRead);
 
-    /** @copydoc RawCompressedFile::setMeasurementStartTime */
+    /** @copydoc RawCompressedFile::setMeasurementStartTime() */
     virtual void setMeasurementStartTime(const SYSTEMTIME measurementStartTime);
 
-    /** @copydoc RawCompressedFile::setLastObjectTime */
+    /** @copydoc RawCompressedFile::setLastObjectTime() */
     virtual void setLastObjectTime(const SYSTEMTIME lastObjectTime);
 
 private:

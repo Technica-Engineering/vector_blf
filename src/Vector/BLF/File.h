@@ -23,17 +23,7 @@
 
 #include <Vector/BLF/platform.h>
 
-#include <atomic>
-#include <thread>
-
-#include <Vector/BLF/FileStatistics.h>
-#include <Vector/BLF/ObjectHeaderBase.h>
-#include <Vector/BLF/RawCompressedFile.h>
-#include <Vector/BLF/RawUncompressedFile.h>
-#include <Vector/BLF/StructuredCompressedFile.h>
 #include <Vector/BLF/StructuredUncompressedFile.h>
-#include <Vector/BLF/VectorTypes.h>
-
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -42,6 +32,9 @@ namespace BLF {
 
 /**
  * File
+ *
+ * This is just a top-level class that abstracts the internal architecture.
+ * It also provides compatibility for some deprecated functions.
  */
 class VECTOR_BLF_EXPORT File final {
 public:
@@ -81,76 +74,76 @@ public:
     /** @copydoc StructuredUncompressedFile::read() */
     virtual StructuredUncompressedFile::streamsize read(ObjectHeaderBase ** objectHeaderBase);
 
-    /** @copydoc StructuredUncompressedFile::tellg */
+    /** @copydoc StructuredUncompressedFile::tellg() */
     virtual StructuredUncompressedFile::streampos tellg();
 
-    /** @copydoc StructuredUncompressedFile::seekg */
+    /** @copydoc StructuredUncompressedFile::seekg(StructuredUncompressedFile::streampos) */
     virtual void seekg(const StructuredUncompressedFile::streampos pos);
 
-    /** @copydoc StructuredUncompressedFile::seekg */
+    /** @copydoc StructuredUncompressedFile::seekg(StructuredUncompressedFile::streamoff, std::ios_base::seekdir) */
     virtual void seekg(const StructuredUncompressedFile::streamoff off, const std::ios_base::seekdir way);
 
-    /** @copydoc StructuredUncompressedFile::write */
+    /** @copydoc StructuredUncompressedFile::write() */
     virtual bool write(ObjectHeaderBase * objectHeaderBase);
 
-    /** @copydoc StructuredUncompressedFile::tellp */
+    /** @copydoc StructuredUncompressedFile::tellp() */
     virtual StructuredUncompressedFile::streampos tellp();
 
-    /** @copydoc StructuredUncompressedFile::size */
+    /** @copydoc StructuredUncompressedFile::size() */
     virtual StructuredUncompressedFile::streamsize size() const;
 
-    /** @copydoc StructuredUncompressedFile::setApplication */
+    /** @copydoc StructuredUncompressedFile::setApplication() */
     virtual void setApplication(const BYTE id, const BYTE major = 0, const BYTE minor = 0, const BYTE build = 0);
 
-    /** @copydoc StructuredUncompressedFile::setApi */
+    /** @copydoc StructuredUncompressedFile::setApi() */
     virtual void setApi(const BYTE major, const BYTE minor, const BYTE build, const BYTE patch);
 
-    /** @copydoc StructuredUncompressedFile::setObjectsRead */
+    /** @copydoc StructuredUncompressedFile::setObjectsRead() */
     virtual void setObjectsRead(const DWORD objectsRead);
 
-    /** @copydoc StructuredUncompressedFile::setMeasurementStartTime */
+    /** @copydoc StructuredUncompressedFile::setMeasurementStartTime() */
     virtual void setMeasurementStartTime(const SYSTEMTIME measurementStartTime);
 
-    /** @copydoc StructuredUncompressedFile::setLastObjectTime */
+    /** @copydoc StructuredUncompressedFile::setLastObjectTime() */
     virtual void setLastObjectTime(const SYSTEMTIME lastObjectTime);
 
     /* RawUncompressedFile pass-thru methods */
 
-    /** @copydoc RawUncompressedFile::size */
+    /** @copydoc RawUncompressedFile::size() */
     virtual RawUncompressedFile::streamsize rawUncompressedFileSize() const;
 
-    /** @copydoc RawUncompressedFile::statisticsSize */
+    /** @copydoc RawUncompressedFile::statisticsSize() */
     virtual RawUncompressedFile::streamsize rawUncompressedFileStatisticsSize() const;
 
-    /** @copydoc RawUncompressedFile::defaultLogContainerSize */
+    /** @copydoc RawUncompressedFile::defaultLogContainerSize() */
     virtual DWORD defaultLogContainerSize() const;
 
-    /** @copydoc RawUncompressedFile::setDefaultLogContainerSize */
+    /** @copydoc RawUncompressedFile::setDefaultLogContainerSize() */
     virtual void setDefaultLogContainerSize(DWORD defaultLogContainerSize);
 
-    /** @copydoc RawUncompresedFile::compressionMethod */
+    /** @copydoc RawUncompressedFile::compressionMethod() */
     virtual int compressionMethod() const;
 
-    /** @copydoc RawUncompresedFile::setCompressionMethod */
+    /** @copydoc RawUncompressedFile::setCompressionMethod() */
     virtual void setCompressionMethod(const int compressionMethod = 2);
 
-    /** @copydoc RawUncompresedFile::compressionLevel */
+    /** @copydoc RawUncompressedFile::compressionLevel() */
     virtual int compressionLevel() const;
 
-    /** @copydoc RawUncompresedFile::setCompressionLevel */
+    /** @copydoc RawUncompressedFile::setCompressionLevel() */
     virtual void setCompressionLevel(const int compressionLevel = 6);
 
     /* StructuredCompressedFile pass-thru methods */
 
-    /** @copydoc StructuredCompressedFile::size */
+    /** @copydoc StructuredCompressedFile::size() */
     virtual StructuredCompressedFile::streamsize structuredCompressedFileSize() const;
 
     /* RawCompressedFile pass-thru methods */
 
-    /** @copydoc RawCompressedFile::size */
+    /** @copydoc RawCompressedFile::size() */
     virtual RawCompressedFile::streamsize rawCompressedFileSize() const;
 
-    /** @copydoc RawCompressedFile::statistics */
+    /** @copydoc RawCompressedFile::statistics() */
     virtual FileStatistics statistics() const;
 
 private:

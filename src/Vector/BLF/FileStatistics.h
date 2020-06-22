@@ -77,12 +77,7 @@ enum ApplicationId : BYTE {
  * File statistics
  */
 struct VECTOR_BLF_EXPORT FileStatistics final {
-    FileStatistics() = default;
     virtual ~FileStatistics() noexcept = default;
-    FileStatistics(const FileStatistics &) = default;
-    FileStatistics & operator=(const FileStatistics &) = default;
-    FileStatistics(FileStatistics &&) = default;
-    FileStatistics & operator=(FileStatistics &&) = default;
 
     /**
      * read file statistics
@@ -138,27 +133,21 @@ struct VECTOR_BLF_EXPORT FileStatistics final {
     /**
      * (compressed) file size in bytes
      *
-     * @secreflist
-     * @refitem RawCompressedFile::size
-     * @endsecreflist
+     * @see RawCompressedFile::size()
      */
     ULONGLONG fileSize {};
 
     /**
      * uncompressed file size in bytes
      *
-     * @secreflist
-     * @refitem RawUncompressedFile::statisticsSize
-     * @endsecreflist
+     * @see RawUncompressedFile::statisticsSize()
      */
     ULONGLONG uncompressedFileSize {};
 
     /**
      * number of objects
      *
-     * @secreflist
-     * @refitem StructuredUncompressedFile::size
-     * @endsecreflist
+     * @see StructuredUncompressedFile::size()
      */
     DWORD objectCount {};
 
@@ -174,9 +163,7 @@ struct VECTOR_BLF_EXPORT FileStatistics final {
     /**
      * (compressed) file size without LogContainer+Unknown115 at end-of-file
      *
-     * @secreflist
-     * @refitem RawCompressedFile::size
-     * @endsecreflist
+     * @see RawCompressedFile::size()
      */
     ULONGLONG fileSizeWithoutUnknown115 {};
 

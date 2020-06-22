@@ -41,12 +41,16 @@ const DWORD ObjectSignature = 0x4A424F4C; /* LOBJ */
  * Object header base structure.
  */
 struct VECTOR_BLF_EXPORT ObjectHeaderBase {
-    ObjectHeaderBase(const WORD headerVersion, const ObjectType objectType);
+    /* standard methods */
     virtual ~ObjectHeaderBase() noexcept = default;
-    ObjectHeaderBase(const ObjectHeaderBase &) = default;
-    ObjectHeaderBase & operator=(const ObjectHeaderBase &) = default;
-    ObjectHeaderBase(ObjectHeaderBase &&) = default;
-    ObjectHeaderBase & operator=(ObjectHeaderBase &&) = default;
+
+    /**
+     * Constructor
+     *
+     * @param[in] headerVersion header version
+     * @param[in] objectType object type
+     */
+    ObjectHeaderBase(const WORD headerVersion, const ObjectType objectType);
 
     /**
      * Read the data of this object

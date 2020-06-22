@@ -39,20 +39,15 @@ namespace BLF {
  * single byte serial event
  */
 struct VECTOR_BLF_EXPORT SingleByteSerialEvent final {
-    SingleByteSerialEvent() = default;
     virtual ~SingleByteSerialEvent() noexcept = default;
-    SingleByteSerialEvent(const SingleByteSerialEvent &) = default;
-    SingleByteSerialEvent & operator=(const SingleByteSerialEvent &) = default;
-    SingleByteSerialEvent(SingleByteSerialEvent &&) = default;
-    SingleByteSerialEvent & operator=(SingleByteSerialEvent &&) = default;
 
-    /** @copydoc ObjectHeader::read */
+    /** @copydoc ObjectHeader::read() */
     virtual void read(RawFile & is);
 
-    /** @copydoc ObjectHeader::write */
+    /** @copydoc ObjectHeader::write() */
     virtual void write(RawFile & os);
 
-    /** @copydoc ObjectHeader::calculateObjectSize */
+    /** @copydoc ObjectHeader::calculateObjectSize() */
     virtual DWORD calculateObjectSize() const;
 
     /** single byte */

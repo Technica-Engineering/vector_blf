@@ -36,20 +36,15 @@ namespace BLF {
  * Common header of LIN bus events
  */
 struct VECTOR_BLF_EXPORT LinBusEvent {
-    LinBusEvent() = default;
     virtual ~LinBusEvent() noexcept = default;
-    LinBusEvent(const LinBusEvent &) = default;
-    LinBusEvent & operator=(const LinBusEvent &) = default;
-    LinBusEvent(LinBusEvent &&) = default;
-    LinBusEvent & operator=(LinBusEvent &&) = default;
 
-    /** @copydoc ObjectHeader::read */
+    /** @copydoc ObjectHeader::read() */
     virtual void read(RawFile & is);
 
-    /** @copydoc ObjectHeader::write */
+    /** @copydoc ObjectHeader::write() */
     virtual void write(RawFile & os);
 
-    /** @copydoc ObjectHeader::calculateObjectSize */
+    /** @copydoc ObjectHeader::calculateObjectSize() */
     virtual DWORD calculateObjectSize() const;
 
     /**

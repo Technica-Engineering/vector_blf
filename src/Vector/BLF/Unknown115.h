@@ -48,21 +48,37 @@ struct VECTOR_BLF_EXPORT Unknown115 final : public ObjectHeader {
     void write(RawFile & os) override;
     DWORD calculateObjectSize() const override;
 
-    /* @todo unclear what the following values mean */
+    /** Unknown 64-bit value */
     uint64_t unknown0{};
+
+    /** Unknown 64-bit value */
     uint64_t unknown1{};
+
+    /** Unknown 64-bit value */
     uint64_t unknown2{};
 
+    /** Data Block */
     struct UnknownDataBlock {
-        uint64_t timeStamp; // unit: ns
-        uint64_t uncompressedFileSize; // unit: bytes
-        uint32_t value; // @todo unknown value
-        uint32_t flags; // @todo looks like some kind of flags field
+        /** time stamp (in ns) */
+        uint64_t timeStamp;
 
+        /** uncompressed file size (in bytes) */
+        uint64_t uncompressedFileSize;
+
+        /** @todo unknown value */
+        uint32_t value;
+
+        /** @todo looks like some kind of flags field */
+        uint32_t flags;
+
+        /** @copydoc ObjectHeaderBase::calculateObjectSize() */
         static DWORD calculateObjectSize();
     };
+
+    /** @copydoc UnknownDataBlock */
     std::vector<UnknownDataBlock> unknownData {};
 
+    /** reserved */
     std::vector<uint8_t> reservedUnknown115 {};
 };
 

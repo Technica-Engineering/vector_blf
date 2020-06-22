@@ -36,20 +36,15 @@ namespace BLF {
 
 /** optional information in CanFdMessage64 and CanFdErrorFrame64 classes */
 struct VECTOR_BLF_EXPORT CanFdExtFrameData {
-    CanFdExtFrameData() = default;
     virtual ~CanFdExtFrameData() noexcept = default;
-    CanFdExtFrameData(const CanFdExtFrameData &) = default;
-    CanFdExtFrameData & operator=(const CanFdExtFrameData &) = default;
-    CanFdExtFrameData(CanFdExtFrameData &&) = default;
-    CanFdExtFrameData & operator=(CanFdExtFrameData &&) = default;
 
-    /** @copydoc ObjectHeader::read */
+    /** @copydoc ObjectHeader::read() */
     virtual void read(RawFile & is);
 
-    /** @copydoc ObjectHeader::write */
+    /** @copydoc ObjectHeader::write() */
     virtual void write(RawFile & os);
 
-    /** @copydoc ObjectHeader::calculateObjectSize */
+    /** @copydoc ObjectHeader::calculateObjectSize() */
     virtual DWORD calculateObjectSize() const;
 
     /**

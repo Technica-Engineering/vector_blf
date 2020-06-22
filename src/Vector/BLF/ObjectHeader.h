@@ -38,6 +38,12 @@ namespace BLF {
  * Object header. Version 1.
  */
 struct VECTOR_BLF_EXPORT ObjectHeader : ObjectHeaderBase {
+    /**
+     * Constructor
+     *
+     * @param[in] objectType object type
+     * @param[in] objectVersion object version
+     */
     ObjectHeader(const ObjectType objectType, const WORD objectVersion = 0);
 
     void read(RawFile & is) override;
