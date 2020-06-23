@@ -50,16 +50,16 @@ class VECTOR_BLF_EXPORT StructuredUncompressedFile :
 public:
     ~StructuredUncompressedFile();
 
-    virtual void open(const char * filename, std::ios_base::openmode mode = std::ios_base::in);
-    virtual bool is_open() const;
-    virtual void close();
-    virtual indexsize read(ObjectHeaderBase ** objectHeaderBase);
-    virtual indexpos tellg() const;
-    virtual void seekg(const indexpos pos);
-    virtual void seekg(const indexoff off, const std::ios_base::seekdir way);
-    virtual indexsize write(ObjectHeaderBase * objectHeaderBase);
-    virtual indexpos tellp() const;
-    virtual indexsize size() const;
+    void open(const char * filename, std::ios_base::openmode mode = std::ios_base::in) override;
+    bool is_open() const override;
+    void close() override;
+    indexsize read(ObjectHeaderBase ** objectHeaderBase) override;
+    indexpos tellg() const override;
+    void seekg(const indexpos pos) override;
+    void seekg(const indexoff off, const std::ios_base::seekdir way) override;
+    indexsize write(ObjectHeaderBase * objectHeaderBase) override;
+    indexpos tellp() const override;
+    indexsize size() const override;
 
     /* RawUncompressedFile pass-thru methods */
 
