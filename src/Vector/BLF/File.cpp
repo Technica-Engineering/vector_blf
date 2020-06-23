@@ -52,19 +52,19 @@ void File::close() {
     m_structuredUncompressedFile.close();
 }
 
-StructuredUncompressedFile::streamsize File::read(ObjectHeaderBase ** objectHeaderBase) {
+StructuredUncompressedFile::indexsize File::read(ObjectHeaderBase ** objectHeaderBase) {
     return m_structuredUncompressedFile.read(objectHeaderBase);
 }
 
-StructuredUncompressedFile::streampos File::tellg() {
+StructuredUncompressedFile::indexpos File::tellg() {
     return m_structuredUncompressedFile.tellg();
 }
 
-void File::seekg(const StructuredUncompressedFile::streampos pos) {
+void File::seekg(const StructuredUncompressedFile::indexpos pos) {
     m_structuredUncompressedFile.seekg(pos);
 }
 
-void File::seekg(const StructuredUncompressedFile::streamoff off, const std::ios_base::seekdir way) {
+void File::seekg(const StructuredUncompressedFile::indexoff off, const std::ios_base::seekdir way) {
     m_structuredUncompressedFile.seekg(off, way);
 }
 
@@ -72,11 +72,11 @@ bool File::write(ObjectHeaderBase * ohb) {
     return m_structuredUncompressedFile.write(ohb);
 }
 
-StructuredUncompressedFile::streampos File::tellp() {
+StructuredUncompressedFile::indexpos File::tellp() {
     return m_structuredUncompressedFile.tellp();
 }
 
-StructuredUncompressedFile::streamsize File::size() const {
+StructuredUncompressedFile::indexsize File::size() const {
     return m_structuredUncompressedFile.size();
 }
 
@@ -136,7 +136,7 @@ void File::setCompressionLevel(const int compressionLevel) {
 
 /* StructuredCompressedFile pass-thru methods */
 
-StructuredCompressedFile::streamsize File::structuredCompressedFileSize() const {
+StructuredCompressedFile::indexsize File::structuredCompressedFileSize() const {
     return m_structuredUncompressedFile.structuredCompressedFileSize();
 }
 

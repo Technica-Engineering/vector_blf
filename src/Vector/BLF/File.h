@@ -72,25 +72,25 @@ public:
     virtual void close();
 
     /** @copydoc StructuredUncompressedFile::read() */
-    virtual StructuredUncompressedFile::streamsize read(ObjectHeaderBase ** objectHeaderBase);
+    virtual StructuredUncompressedFile::indexsize read(ObjectHeaderBase ** objectHeaderBase);
 
     /** @copydoc StructuredUncompressedFile::tellg() */
-    virtual StructuredUncompressedFile::streampos tellg();
+    virtual StructuredUncompressedFile::indexpos tellg();
 
     /** @copydoc StructuredUncompressedFile::seekg(StructuredUncompressedFile::streampos) */
-    virtual void seekg(const StructuredUncompressedFile::streampos pos);
+    virtual void seekg(const StructuredUncompressedFile::indexpos pos);
 
     /** @copydoc StructuredUncompressedFile::seekg(StructuredUncompressedFile::streamoff, std::ios_base::seekdir) */
-    virtual void seekg(const StructuredUncompressedFile::streamoff off, const std::ios_base::seekdir way);
+    virtual void seekg(const StructuredUncompressedFile::indexoff off, const std::ios_base::seekdir way);
 
     /** @copydoc StructuredUncompressedFile::write() */
     virtual bool write(ObjectHeaderBase * objectHeaderBase);
 
     /** @copydoc StructuredUncompressedFile::tellp() */
-    virtual StructuredUncompressedFile::streampos tellp();
+    virtual StructuredUncompressedFile::indexpos tellp();
 
     /** @copydoc StructuredUncompressedFile::size() */
-    virtual StructuredUncompressedFile::streamsize size() const;
+    virtual StructuredUncompressedFile::indexsize size() const;
 
     /** @copydoc StructuredUncompressedFile::setApplication() */
     virtual void setApplication(const BYTE id, const BYTE major = 0, const BYTE minor = 0, const BYTE build = 0);
@@ -136,7 +136,7 @@ public:
     /* StructuredCompressedFile pass-thru methods */
 
     /** @copydoc StructuredCompressedFile::size() */
-    virtual StructuredCompressedFile::streamsize structuredCompressedFileSize() const;
+    virtual StructuredCompressedFile::indexsize structuredCompressedFileSize() const;
 
     /* RawCompressedFile pass-thru methods */
 

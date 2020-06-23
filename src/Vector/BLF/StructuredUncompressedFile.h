@@ -53,13 +53,13 @@ public:
     virtual void open(const char * filename, std::ios_base::openmode mode = std::ios_base::in);
     virtual bool is_open() const;
     virtual void close();
-    virtual streamsize read(ObjectHeaderBase ** objectHeaderBase);
-    virtual streampos tellg() const;
-    virtual void seekg(const streampos pos);
-    virtual void seekg(const streamoff off, const std::ios_base::seekdir way);
-    virtual streamsize write(ObjectHeaderBase * objectHeaderBase);
-    virtual streampos tellp() const;
-    virtual streamsize size() const;
+    virtual indexsize read(ObjectHeaderBase ** objectHeaderBase);
+    virtual indexpos tellg() const;
+    virtual void seekg(const indexpos pos);
+    virtual void seekg(const indexoff off, const std::ios_base::seekdir way);
+    virtual indexsize write(ObjectHeaderBase * objectHeaderBase);
+    virtual indexpos tellp() const;
+    virtual indexsize size() const;
 
     /* RawUncompressedFile pass-thru methods */
 
@@ -90,7 +90,7 @@ public:
     /* StructuredCompressedFile pass-thru methods */
 
     /** @copydoc StructuredCompressedFile::size() */
-    virtual StructuredCompressedFile::streamsize structuredCompressedFileSize() const;
+    virtual StructuredCompressedFile::indexsize structuredCompressedFileSize() const;
 
     /* RawCompressedFile pass-thru methods */
 
@@ -148,7 +148,7 @@ private:
     std::ios_base::openmode m_openMode {};
 
     /** get position */
-    streampos m_posg{0};
+    indexpos m_posg{0};
 
     /** object references (index is streampos) */
     std::vector<ObjectRef> m_objectRefs {};

@@ -86,7 +86,7 @@ void StructuredUncompressedFile::close() {
     m_rawUncompressedFile.close();
 }
 
-StructuredUncompressedFile::streamsize StructuredUncompressedFile::read(ObjectHeaderBase ** objectHeaderBase) {
+StructuredUncompressedFile::indexsize StructuredUncompressedFile::read(ObjectHeaderBase ** objectHeaderBase) {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
@@ -102,7 +102,7 @@ StructuredUncompressedFile::streamsize StructuredUncompressedFile::read(ObjectHe
 
     /* read object */
     *objectHeaderBase = makeObject(m_objectRefs[m_posg].objectType);
-    assert(*objectHeaderBase); // ensure object is initialized
+    assert(*objectHeaderBase); // ensure memory is reserved
     (*objectHeaderBase)->read(m_rawUncompressedFile);
     assert((*objectHeaderBase)->objectType == m_objectRefs[m_posg].objectType); // type should match, otherwise index is wrong
 
@@ -112,7 +112,7 @@ StructuredUncompressedFile::streamsize StructuredUncompressedFile::read(ObjectHe
     return 1;
 }
 
-StructuredUncompressedFile::streampos StructuredUncompressedFile::tellg() const {
+StructuredUncompressedFile::indexpos StructuredUncompressedFile::tellg() const {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
@@ -122,19 +122,19 @@ StructuredUncompressedFile::streampos StructuredUncompressedFile::tellg() const 
     return m_posg;
 }
 
-void StructuredUncompressedFile::seekg(const StructuredUncompressedFile::streampos pos) {
+void StructuredUncompressedFile::seekg(const StructuredUncompressedFile::indexpos pos) {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
     m_posg = pos;
 }
 
-void StructuredUncompressedFile::seekg(const StructuredUncompressedFile::streamoff off, const std::ios_base::seekdir way) {
+void StructuredUncompressedFile::seekg(const StructuredUncompressedFile::indexoff off, const std::ios_base::seekdir way) {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
     /* calculate new position */
-    streampos ref;
+    indexpos ref;
     switch(way) {
     case std::ios_base::beg:
         ref = 0;
@@ -151,7 +151,7 @@ void StructuredUncompressedFile::seekg(const StructuredUncompressedFile::streamo
     m_posg = ref + off;
 }
 
-StructuredUncompressedFile::streamsize StructuredUncompressedFile::write(ObjectHeaderBase * objectHeaderBase) {
+StructuredUncompressedFile::indexsize StructuredUncompressedFile::write(ObjectHeaderBase * objectHeaderBase) {
     assert(objectHeaderBase); // write no object doesn't make sense
 
     /* mutex lock */
@@ -171,7 +171,7 @@ StructuredUncompressedFile::streamsize StructuredUncompressedFile::write(ObjectH
     return 1;
 }
 
-StructuredUncompressedFile::streampos StructuredUncompressedFile::tellp() const {
+StructuredUncompressedFile::indexpos StructuredUncompressedFile::tellp() const {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
@@ -181,7 +181,7 @@ StructuredUncompressedFile::streampos StructuredUncompressedFile::tellp() const 
     return m_objectRefs.size();
 }
 
-StructuredUncompressedFile::streamsize StructuredUncompressedFile::size() const {
+StructuredUncompressedFile::indexsize StructuredUncompressedFile::size() const {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
@@ -224,7 +224,7 @@ void StructuredUncompressedFile::setCompressionLevel(const int compressionLevel)
 
 /* StructuredCompressedFile pass-thru methods */
 
-StructuredCompressedFile::streamsize StructuredUncompressedFile::structuredCompressedFileSize() const {
+StructuredCompressedFile::indexsize StructuredUncompressedFile::structuredCompressedFileSize() const {
     return m_rawUncompressedFile.structuredCompressedFileSize();
 }
 

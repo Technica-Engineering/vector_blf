@@ -75,7 +75,7 @@ void StructuredCompressedFile::close() {
     m_rawCompressedFile.close();
 }
 
-StructuredCompressedFile::streamsize StructuredCompressedFile::read(ObjectHeaderBase ** objectHeaderBase) {
+StructuredCompressedFile::indexsize StructuredCompressedFile::read(ObjectHeaderBase ** objectHeaderBase) {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
@@ -103,7 +103,7 @@ StructuredCompressedFile::streamsize StructuredCompressedFile::read(ObjectHeader
     return 1;
 }
 
-StructuredCompressedFile::streampos StructuredCompressedFile::tellg() const {
+StructuredCompressedFile::indexpos StructuredCompressedFile::tellg() const {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
@@ -113,7 +113,7 @@ StructuredCompressedFile::streampos StructuredCompressedFile::tellg() const {
     return m_posg;
 }
 
-void StructuredCompressedFile::seekg(const StructuredCompressedFile::streampos pos) {
+void StructuredCompressedFile::seekg(const StructuredCompressedFile::indexpos pos) {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
@@ -126,12 +126,12 @@ void StructuredCompressedFile::seekg(const StructuredCompressedFile::streampos p
     m_posg = pos;
 }
 
-void StructuredCompressedFile::seekg(const StructuredCompressedFile::streamoff off, const std::ios_base::seekdir way) {
+void StructuredCompressedFile::seekg(const StructuredCompressedFile::indexoff off, const std::ios_base::seekdir way) {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
     /* calculate new position */
-    streampos ref;
+    indexpos ref;
     switch(way) {
     case std::ios_base::beg:
         ref = 0;
@@ -153,7 +153,7 @@ void StructuredCompressedFile::seekg(const StructuredCompressedFile::streamoff o
     m_rawCompressedFile.seekg(rawFilePosition);
 }
 
-StructuredCompressedFile::streamsize StructuredCompressedFile::write(ObjectHeaderBase * objectHeaderBase) {
+StructuredCompressedFile::indexsize StructuredCompressedFile::write(ObjectHeaderBase * objectHeaderBase) {
     LogContainer * logContainer = dynamic_cast<LogContainer *>(objectHeaderBase);
     assert(logContainer); // write no LogContainer doesn't make sense
 
@@ -172,7 +172,7 @@ StructuredCompressedFile::streamsize StructuredCompressedFile::write(ObjectHeade
     return 1;
 }
 
-StructuredCompressedFile::streampos StructuredCompressedFile::tellp() const {
+StructuredCompressedFile::indexpos StructuredCompressedFile::tellp() const {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
@@ -182,7 +182,7 @@ StructuredCompressedFile::streampos StructuredCompressedFile::tellp() const {
     return m_objectRefs.size();
 }
 
-StructuredCompressedFile::streamsize StructuredCompressedFile::size() const {
+StructuredCompressedFile::indexsize StructuredCompressedFile::size() const {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 

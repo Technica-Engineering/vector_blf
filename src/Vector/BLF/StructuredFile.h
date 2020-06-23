@@ -41,14 +41,14 @@ struct VECTOR_BLF_EXPORT StructuredFile {
 
     /* types */
 
-    /** stream offset */
-    using streamoff = int32_t;
+    /** index offset */
+    using indexoff = int32_t;
 
-    /** stream size */
-    using streamsize = uint32_t;
+    /** index size */
+    using indexsize = uint32_t;
 
-    /** stream position */
-    using streampos = uint32_t;
+    /** index position */
+    using indexpos = uint32_t;
 
     /* general methods */
 
@@ -80,21 +80,21 @@ struct VECTOR_BLF_EXPORT StructuredFile {
      * @param[out] objectHeaderBase object
      * @return Number of objects read (0 or 1)
      */
-    virtual streamsize read(ObjectHeaderBase ** objectHeaderBase) = 0;
+    virtual indexsize read(ObjectHeaderBase ** objectHeaderBase) = 0;
 
     /**
      * Get position in input sequence.
      *
      * @return Read position
      */
-    virtual streampos tellg() const = 0;
+    virtual indexpos tellg() const = 0;
 
     /**
      * Set position in input sequence.
      *
      * @param[in] pos Position
      */
-    virtual void seekg(const streampos pos) = 0;
+    virtual void seekg(const indexpos pos) = 0;
 
     /**
      * Set position in input sequence.
@@ -102,7 +102,7 @@ struct VECTOR_BLF_EXPORT StructuredFile {
      * @param[in] off Offset
      * @param[in] way Direction
      */
-    virtual void seekg(const streamoff off, const std::ios_base::seekdir way) = 0;
+    virtual void seekg(const indexoff off, const std::ios_base::seekdir way) = 0;
 
     /* output methods */
 
@@ -112,21 +112,21 @@ struct VECTOR_BLF_EXPORT StructuredFile {
      * @param[in] objectHeaderBase object
      * @return Number of objects written (0 or 1)
      */
-    virtual streamsize write(ObjectHeaderBase * objectHeaderBase) = 0;
+    virtual indexsize write(ObjectHeaderBase * objectHeaderBase) = 0;
 
     /**
      * Get position in output sequence.
      *
      * @return Write position
      */
-    virtual streampos tellp() const = 0;
+    virtual indexpos tellp() const = 0;
 
     /**
      * Get file size
      *
      * @return file size
      */
-    virtual streamsize size() const = 0;
+    virtual indexsize size() const = 0;
 };
 
 }

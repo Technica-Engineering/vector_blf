@@ -112,7 +112,7 @@ RawUncompressedFile::streamsize RawUncompressedFile::read(char * s, const RawUnc
         /* load data if needed */
         if (objectRef->uncompressedFile.empty()) {
             /* read log container */
-            StructuredCompressedFile::streampos containerIndex = objectRef - m_objectRefs.begin();
+            StructuredCompressedFile::indexpos containerIndex = objectRef - m_objectRefs.begin();
             m_structuredCompressedFile.seekg(containerIndex);
             ObjectHeaderBase * objectHeaderBase = nullptr;
             if (m_structuredCompressedFile.read(&objectHeaderBase)) {
@@ -332,7 +332,7 @@ void RawUncompressedFile::finishLogContainer() {
 
 /* StructuredCompressedFile pass-thru methods */
 
-StructuredCompressedFile::streamsize RawUncompressedFile::structuredCompressedFileSize() const {
+StructuredCompressedFile::indexsize RawUncompressedFile::structuredCompressedFileSize() const {
     return m_structuredCompressedFile.size();
 }
 

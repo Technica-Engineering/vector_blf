@@ -149,7 +149,7 @@ public:
     /* StructuredCompressedFile pass-thru methods */
 
     /** @copydoc StructuredCompressedFile::size() */
-    virtual StructuredCompressedFile::streamsize structuredCompressedFileSize() const;
+    virtual StructuredCompressedFile::indexsize structuredCompressedFileSize() const;
 
     /* RawCompressedFile pass-thru methods */
 
