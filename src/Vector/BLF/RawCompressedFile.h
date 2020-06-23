@@ -66,55 +66,6 @@ public:
     streamsize size() const override;
 
     /**
-     * Check whether state of stream is good.
-     *
-     * @return true if no error flags are set
-     */
-    virtual bool good() const;
-
-    /**
-     * Check whether eofbit is set.
-     *
-     * @return true if eofbit is set
-     */
-    virtual bool eof() const;
-
-    /**
-     * Check whether either failbit or badbit is set.
-     *
-     * @return true if failbit or badbit is set
-     */
-    virtual bool fail() const;
-
-    /**
-     * Check whether badbit is set.
-     *
-     * @return true if badbit is set
-     */
-    virtual bool bad() const;
-
-    /**
-     * Get error state flags
-     *
-     * @return Error state flags
-     */
-    virtual std::ios_base::iostate rdstate() const;
-
-    /**
-     * Set error state flag
-     *
-     * @param[in] state state
-     */
-    virtual void setstate(std::ios_base::iostate state);
-
-    /**
-     * Set error state flags
-     *
-     * @param[in] state state
-     */
-    virtual void clear(std::ios_base::iostate state = std::ios_base::goodbit);
-
-    /**
      * get file statistics
      *
      * @return file statistics

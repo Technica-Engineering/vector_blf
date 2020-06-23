@@ -126,7 +126,10 @@ void StructuredUncompressedFile::seekg(const StructuredUncompressedFile::indexpo
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
+    /* set new file position */
     m_posg = pos;
+    assert(m_posg < m_objectRefs.size()); // ensure posg is within index
+    m_rawUncompressedFile.seekg(m_objectRefs[pos].filePosition);
 }
 
 void StructuredUncompressedFile::seekg(const StructuredUncompressedFile::indexoff off, const std::ios_base::seekdir way) {
@@ -148,7 +151,11 @@ void StructuredUncompressedFile::seekg(const StructuredUncompressedFile::indexof
     default:
         assert(false); // other cases should not happen
     }
+
+    /* set new file position */
     m_posg = ref + off;
+    assert(m_posg < m_objectRefs.size()); // ensure posg is within index
+    m_rawUncompressedFile.seekg(m_objectRefs[m_posg].filePosition);
 }
 
 StructuredUncompressedFile::indexsize StructuredUncompressedFile::write(ObjectHeaderBase * objectHeaderBase) {
@@ -162,7 +169,7 @@ StructuredUncompressedFile::indexsize StructuredUncompressedFile::write(ObjectHe
     objectRef.filePosition = m_rawUncompressedFile.tellp();
     objectRef.objectSize = objectHeaderBase->objectSize;
     objectRef.objectType = objectHeaderBase->objectType;
-    m_objectRefs.push_back(objectRef);
+    m_objectRefs[m_objectRefs.size()] = objectRef;
 
     /* write object */
     objectHeaderBase->write(m_rawUncompressedFile); // @todo do this in writeThread
@@ -258,17 +265,19 @@ void StructuredUncompressedFile::setLastObjectTime(const SYSTEMTIME lastObjectTi
     m_rawUncompressedFile.setLastObjectTime(lastObjectTime);
 }
 
+/* threads */
+
 void StructuredUncompressedFile::indexThread() {
     // already locked by calling method open
 
     /* create index of all objects */
     assert(m_rawUncompressedFile.tellg() == 0); // ensure index starts at 0
-    for(;;) {
+    for(indexpos index = 0; ; ++index) {
         /* prepare object reference */
         ObjectRef objectRef;
         objectRef.filePosition = m_rawUncompressedFile.tellg();
 
-        /* read object header (not via read function as this would potentially throw an exception) */
+        /* read object header (not via read function as this would block or throw an exception) */
         DWORD signature;
         WORD headerSize;
         WORD headerVersion;
@@ -281,12 +290,17 @@ void StructuredUncompressedFile::indexThread() {
         if (signature != ObjectSignature) {
             throw Exception("StructuredUncompressedFile::indexThread(): Object signature doesn't match at this position.");
         }
-        if (m_rawUncompressedFile.read(reinterpret_cast<char *>(&headerSize), sizeof(headerSize)) +
-            m_rawUncompressedFile.read(reinterpret_cast<char *>(&headerVersion), sizeof(headerVersion)) +
-            m_rawUncompressedFile.read(reinterpret_cast<char *>(&objectRef.objectSize), sizeof(objectRef.objectSize)) +
-            m_rawUncompressedFile.read(reinterpret_cast<char *>(&objectRef.objectType), sizeof(objectRef.objectType)) !=
-            sizeof(headerSize) + sizeof(headerVersion) + sizeof(objectRef.objectSize) + sizeof(objectRef.objectType)) {
-            throw Exception("StructuredUncompressedFile::indexThread(): Object Header cannot be read.");
+        if (m_rawUncompressedFile.read(reinterpret_cast<char *>(&headerSize), sizeof(headerSize)) != sizeof(headerSize)) {
+            throw Exception("StructuredUncompressedFile::indexThread(): Header size cannot be read.");
+        }
+        if (m_rawUncompressedFile.read(reinterpret_cast<char *>(&headerVersion), sizeof(headerVersion)) != sizeof(headerVersion)) {
+            throw Exception("StructuredUncompressedFile::indexThread(): Header version cannot be read.");
+        }
+        if (m_rawUncompressedFile.read(reinterpret_cast<char *>(&objectRef.objectSize), sizeof(objectRef.objectSize)) != sizeof(objectRef.objectSize)) {
+            throw Exception("StructuredUncompressedFile::indexThread(): Object size cannot be read.");
+        }
+        if (m_rawUncompressedFile.read(reinterpret_cast<char *>(&objectRef.objectType), sizeof(objectRef.objectType)) != sizeof(objectRef.objectType)) {
+            throw Exception("StructuredUncompressedFile::indexThread(): Object type cannot be read.");
         }
 
         /* fix object size */
@@ -304,7 +318,7 @@ void StructuredUncompressedFile::indexThread() {
         }
 
         /* add object reference */
-        m_objectRefs.push_back(objectRef);
+        m_objectRefs[index] = objectRef;
 
         /* jump to next object */
         RawUncompressedFile::streamsize offset = objectRef.objectSize;
@@ -342,8 +356,8 @@ void StructuredUncompressedFile::indexThread() {
         m_rawUncompressedFile.seekg(objectRef.filePosition + offset);
     }
 
-    /* seek back to first log container */
-    RawUncompressedFile::streampos rawFilePosition = m_objectRefs.front().filePosition;
+    /* seek back to first object */
+    RawUncompressedFile::streampos rawFilePosition = m_objectRefs[0].filePosition;
     m_rawUncompressedFile.seekg(rawFilePosition);
 }
 

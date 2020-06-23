@@ -24,7 +24,6 @@
 #include <algorithm>
 #undef NDEBUG
 #include <cassert>
-#include <iostream>
 
 #include <Vector/BLF/LogContainer.h>
 
@@ -97,12 +96,12 @@ RawUncompressedFile::streamsize RawUncompressedFile::read(char * s, const RawUnc
     /* read data */
     streamsize totalSize = 0;
     while (totalSize < n) {
-        /* find starting log container */
-        std::vector<ObjectRef>::iterator objectRef =
-            std::find_if(m_objectRefs.begin(), m_objectRefs.end(), [&](const ObjectRef & objectRef) {
-                return (objectRef.filePosition <= m_posg) &&
-                       (m_posg < objectRef.filePosition + objectRef.fileSize);
-            });
+        /* find starting object */
+        std::map<streampos, ObjectRef>::iterator objectRef =
+                std::find_if(m_objectRefs.begin(), m_objectRefs.end(), [&](const std::pair<streampos, ObjectRef> & objectRef) {
+            return (objectRef.first <= m_posg) &&
+                   (m_posg < objectRef.first + objectRef.second.fileSize);
+        });
 
         /* not found, so abort read here */
         if (objectRef == m_objectRefs.end()) {
@@ -110,15 +109,21 @@ RawUncompressedFile::streamsize RawUncompressedFile::read(char * s, const RawUnc
         }
 
         /* load data if needed */
-        if (objectRef->uncompressedFile.empty()) {
-            /* read log container */
-            StructuredCompressedFile::indexpos containerIndex = objectRef - m_objectRefs.begin();
-            m_structuredCompressedFile.seekg(containerIndex);
+        if (objectRef->second.uncompressedFile.empty()) {
+            /* read object */
+            StructuredCompressedFile::indexpos index = std::distance(m_objectRefs.begin(), objectRef);
+            m_structuredCompressedFile.seekg(index);
             ObjectHeaderBase * objectHeaderBase = nullptr;
             if (m_structuredCompressedFile.read(&objectHeaderBase)) {
+                assert(objectHeaderBase);
                 LogContainer * logContainer = dynamic_cast<LogContainer *>(objectHeaderBase);
-                logContainer->uncompress(objectRef->uncompressedFile); // @todo do this in readThread
-                delete logContainer;
+                if (logContainer) {
+                    logContainer->uncompress(objectRef->second.uncompressedFile); // @todo do this in readThread
+                } else {
+                    assert(false); // not implemented yet
+                    // @todo copy if this is not a log container
+                }
+                delete objectHeaderBase;
             } else {
                 assert(!objectHeaderBase); // no delete necessary
                 return totalSize;
@@ -126,12 +131,13 @@ RawUncompressedFile::streamsize RawUncompressedFile::read(char * s, const RawUnc
         }
 
         /* copy data */
-        streamoff offset = m_posg - objectRef->filePosition;
-        streamsize size = std::min(n - totalSize, objectRef->fileSize - offset);
-        assert(size); // logContainerRef would be wrong otherwise
-        assert(objectRef->uncompressedFile.cbegin() + offset + size <= objectRef->uncompressedFile.cend()); // check source size
-        std::copy(objectRef->uncompressedFile.cbegin() + offset,
-                  objectRef->uncompressedFile.cbegin() + offset + size,
+        streamoff offset = m_posg - objectRef->first;
+        assert(offset >= 0);
+        streamsize size = std::min(n - totalSize, objectRef->second.fileSize - offset);
+        assert(size); // an empty objectRef doesn't make sense
+        assert(objectRef->second.uncompressedFile.cbegin() + offset + size <= objectRef->second.uncompressedFile.cend()); // check source size
+        std::copy(objectRef->second.uncompressedFile.cbegin() + offset,
+                  objectRef->second.uncompressedFile.cbegin() + offset + size,
                   s);
 
         /* update counters */
@@ -193,21 +199,16 @@ RawUncompressedFile::streamsize RawUncompressedFile::write(const char * s, const
     streamsize totalSize = 0;
     while (totalSize < n) {
         /* find starting log container */
-        std::vector<ObjectRef>::iterator objectRef =
-            std::find_if(m_objectRefs.begin(), m_objectRefs.end(), [&](const ObjectRef & objectRef) {
-                return (objectRef.filePosition <= m_posp) &&
-                       (m_posp < objectRef.filePosition + objectRef.fileSize);
-            });
+        std::map<streampos, ObjectRef>::iterator objectRef = m_objectRefs.find(m_posp);
 
         /* not found, so append new log container */
         if (objectRef == m_objectRefs.end()) {
             /* prepare log container reference */
+            streampos newFilePosition = m_size;
             ObjectRef newObjectRef;
 
             /* write the current log container */
             if (!m_objectRefs.empty()) {
-                newObjectRef.filePosition = m_objectRefs.back().filePosition + m_objectRefs.back().fileSize;
-
                 /* compress and write log container */
                 writeLogContainer();
             }
@@ -216,24 +217,23 @@ RawUncompressedFile::streamsize RawUncompressedFile::write(const char * s, const
             newObjectRef.fileSize = m_defaultLogContainerSize;
             newObjectRef.uncompressedFile.resize(m_defaultLogContainerSize);
             assert(newObjectRef.uncompressedFile.size() == m_defaultLogContainerSize);
-            m_objectRefs.push_back(newObjectRef);
+            m_objectRefs[newFilePosition] = newObjectRef;
             objectRef = std::prev(m_objectRefs.end());
         }
         assert(objectRef != m_objectRefs.end());
-        if (objectRef->uncompressedFile.empty()) {
-            std::cout << "LogContainerRef is empty: position=0x" << std::hex << objectRef->filePosition << " size=0x" << std::hex << objectRef->fileSize << std::endl;
-            assert(!objectRef->uncompressedFile.empty());
+        if (objectRef->second.uncompressedFile.empty()) {
+            assert(!objectRef->second.uncompressedFile.empty());
         }
-        assert(objectRef->fileSize == std::streamsize(objectRef->uncompressedFile.size()));
+        assert(objectRef->second.fileSize == std::streamsize(objectRef->second.uncompressedFile.size()));
 
         /* copy data */
-        streamoff offset = m_posp - objectRef->filePosition;
-        streamsize size = std::min(n - totalSize, objectRef->fileSize - offset);
+        streamoff offset = m_posp - objectRef->first;
+        streamsize size = std::min(n - totalSize, objectRef->second.fileSize - offset);
         assert(size); // logContainerRef would be wrong otherwise
-        assert(objectRef->uncompressedFile.begin() + offset + size <= objectRef->uncompressedFile.end()); // check destination size
+        assert(objectRef->second.uncompressedFile.begin() + offset + size <= objectRef->second.uncompressedFile.end()); // check destination size
         std::copy(s,
                   s + size,
-                  objectRef->uncompressedFile.begin() + offset);
+                  objectRef->second.uncompressedFile.begin() + offset);
 
         /* update counters */
         m_posp += size;
@@ -377,14 +377,17 @@ void RawUncompressedFile::shrinkLogContainer() {
         return;
     }
 
+    /* last log container */
+    std::map<streampos, ObjectRef>::iterator objectRef = std::prev(m_objectRefs.end(), 1);
+
     /* shrink_to_fit last log container */
-    streamsize size = m_posp - m_objectRefs.back().filePosition;
+    streamsize size = m_posp - objectRef->first;
     assert(size >= 0);
     if (size == 0) {
-        m_objectRefs.pop_back();
+        m_objectRefs.erase(objectRef);
     } else {
-        m_objectRefs.back().uncompressedFile.resize(size);
-        m_objectRefs.back().fileSize = size;
+        objectRef->second.uncompressedFile.resize(size);
+        objectRef->second.fileSize = size;
     }
 }
 
@@ -392,13 +395,16 @@ void RawUncompressedFile::writeLogContainer() {
     if (m_objectRefs.empty()) {
         return;
     }
-    if (m_objectRefs.back().uncompressedFile.empty()) {
+
+    /* last log container */
+    std::map<streampos, ObjectRef>::iterator objectRef = std::prev(m_objectRefs.end(), 1);
+    if (objectRef->second.uncompressedFile.empty()) {
         return;
     }
 
     /* compress and write log container */
     LogContainer * logContainer = new LogContainer;
-    logContainer->compress(m_objectRefs.back().uncompressedFile, m_compressionMethod, m_compressionLevel);
+    logContainer->compress(objectRef->second.uncompressedFile, m_compressionMethod, m_compressionLevel);
     m_structuredCompressedFile.write(logContainer);
 
     /* update statistics */
@@ -419,20 +425,34 @@ void RawUncompressedFile::indexThread() {
         if (!m_structuredCompressedFile.read(&objectHeaderBase)) {
             break;
         }
-        LogContainer * logContainer = dynamic_cast<LogContainer *>(objectHeaderBase);
 
-        /* add log container reference */
+        /* prepare object reference */
         ObjectRef objectRef;
-        objectRef.filePosition = filePosition;
-        objectRef.fileSize = logContainer->uncompressedFileSize;
-        m_objectRefs.push_back(objectRef);
 
-        /* update statistics */
-        filePosition += logContainer->uncompressedFileSize;
-        m_statisticsSize += logContainer->internalHeaderSize();
-        m_statisticsSize += logContainer->uncompressedFileSize;
+        /* get log container */
+        LogContainer * logContainer = dynamic_cast<LogContainer *>(objectHeaderBase);
+        if (logContainer) {
+            objectRef.fileSize = logContainer->uncompressedFileSize;
 
-        delete logContainer;
+            /* add object reference */
+            m_objectRefs[filePosition] = objectRef;
+
+            /* update statistics */
+            filePosition += logContainer->uncompressedFileSize;
+            m_statisticsSize += logContainer->internalHeaderSize();
+            m_statisticsSize += logContainer->uncompressedFileSize;
+        } else {
+            objectRef.fileSize = objectHeaderBase->objectSize;
+
+            /* add object reference */
+            m_objectRefs[filePosition] = objectRef;
+
+            /* update statistics */
+            filePosition += objectHeaderBase->objectSize;
+            m_statisticsSize += objectHeaderBase->objectSize;
+        }
+
+        delete objectHeaderBase;
     }
 
     /* set file size */

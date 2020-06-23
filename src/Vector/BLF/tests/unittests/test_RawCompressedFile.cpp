@@ -18,11 +18,6 @@ BOOST_AUTO_TEST_CASE(ReadTest) {
 
     /* checks after initialize */
     BOOST_CHECK(!rawCompressedFile.is_open());
-    BOOST_CHECK(rawCompressedFile.good());
-    BOOST_CHECK(!rawCompressedFile.eof());
-    BOOST_CHECK(!rawCompressedFile.fail());
-    BOOST_CHECK(!rawCompressedFile.bad());
-    BOOST_CHECK(rawCompressedFile.rdstate() == std::ios_base::goodbit);
     BOOST_CHECK_EQUAL(rawCompressedFile.tellg(), -1);
     BOOST_CHECK_EQUAL(rawCompressedFile.tellp(), -1);
     BOOST_CHECK_EQUAL(rawCompressedFile.size(), 0);
@@ -30,11 +25,6 @@ BOOST_AUTO_TEST_CASE(ReadTest) {
     /* open file */
     rawCompressedFile.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_CanMessage.blf", std::ios_base::in);
     BOOST_CHECK(rawCompressedFile.is_open());
-    BOOST_CHECK(rawCompressedFile.good());
-    BOOST_CHECK(!rawCompressedFile.eof());
-    BOOST_CHECK(!rawCompressedFile.fail());
-    BOOST_CHECK(!rawCompressedFile.bad());
-    BOOST_CHECK(rawCompressedFile.rdstate() == std::ios_base::goodbit);
     BOOST_CHECK_EQUAL(rawCompressedFile.tellg(), 0x90); // as FileStatistics was read already
     BOOST_CHECK_EQUAL(rawCompressedFile.size(), 420);
 

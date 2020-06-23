@@ -39,6 +39,20 @@ BOOST_AUTO_TEST_CASE(ReadTest) {
     BOOST_CHECK_EQUAL(signature, "LOBJ");
     BOOST_CHECK_EQUAL(rawUncompressedFile.tellg(), 4);
 
+    /* read further on */
+    Vector::BLF::WORD headerSize;
+    BOOST_CHECK_EQUAL(rawUncompressedFile.read(reinterpret_cast<char *>(&headerSize), sizeof(headerSize)), sizeof(headerSize));
+    BOOST_CHECK_EQUAL(rawUncompressedFile.tellg(), 6);
+    Vector::BLF::WORD headerVersion;
+    BOOST_CHECK_EQUAL(rawUncompressedFile.read(reinterpret_cast<char *>(&headerVersion), sizeof(headerVersion)), sizeof(headerVersion));
+    BOOST_CHECK_EQUAL(rawUncompressedFile.tellg(), 8);
+    Vector::BLF::DWORD objectSize;
+    BOOST_CHECK_EQUAL(rawUncompressedFile.read(reinterpret_cast<char *>(&objectSize), sizeof(objectSize)), sizeof(objectSize));
+    BOOST_CHECK_EQUAL(rawUncompressedFile.tellg(), 12);
+    Vector::BLF::ObjectType objectType;
+    BOOST_CHECK_EQUAL(rawUncompressedFile.read(reinterpret_cast<char *>(&objectType), sizeof(objectType)), sizeof(objectType));
+    BOOST_CHECK_EQUAL(rawUncompressedFile.tellg(), 16);
+
     /* close file */
     rawUncompressedFile.close();
     BOOST_CHECK(!rawUncompressedFile.is_open());

@@ -108,6 +108,7 @@ RawCompressedFile::streamsize RawCompressedFile::read(char * s, RawCompressedFil
     std::lock_guard<std::mutex> lock(m_mutex);
 
     m_file.read(s, n);
+    m_file.clear(); // especially when read beyond eof
     return m_file.gcount();
 }
 
@@ -175,55 +176,6 @@ void RawCompressedFile::seekp(const RawCompressedFile::streamoff off, const std:
 
     /* update file size */
     m_size = std::max(m_size, std::streamsize(m_file.tellp()));
-}
-
-bool RawCompressedFile::good() const {
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    return m_file.good();
-}
-
-bool RawCompressedFile::eof() const {
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    return m_file.eof();
-}
-
-bool RawCompressedFile::fail() const {
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    return m_file.fail();
-}
-
-bool RawCompressedFile::bad() const {
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    return m_file.bad();
-}
-
-std::ios_base::iostate RawCompressedFile::rdstate() const {
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    return m_file.rdstate();
-}
-
-void RawCompressedFile::setstate(std::ios_base::iostate state) {
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    return m_file.setstate(state);
-}
-
-void RawCompressedFile::clear(std::ios_base::iostate state) {
-    /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
-
-    return m_file.clear(state);
 }
 
 RawCompressedFile::streamsize RawCompressedFile::size() const {

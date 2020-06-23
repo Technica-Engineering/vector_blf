@@ -23,9 +23,9 @@
 
 #include <Vector/BLF/platform.h>
 
+#include <map>
 #include <memory>
 #include <mutex>
-#include <vector>
 
 #include <Vector/BLF/RawCompressedFile.h>
 #include <Vector/BLF/StructuredFile.h>
@@ -125,8 +125,8 @@ private:
     /** get position */
     indexpos m_posg{0};
 
-    /** object references (index is streampos) */
-    std::vector<ObjectRef> m_objectRefs {};
+    /** object references */
+    std::map<indexpos, ObjectRef> m_objectRefs {};
 
     /* threads */
 

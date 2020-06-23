@@ -25,6 +25,7 @@
 #include <cassert>
 #include <iostream>
 
+#include <Vector/BLF/GlobalMarker.h>
 #include <Vector/BLF/LogContainer.h>
 
 #include <Vector/BLF/Exceptions.h>
@@ -89,13 +90,12 @@ StructuredCompressedFile::indexsize StructuredCompressedFile::read(ObjectHeaderB
     assert(m_posg < m_objectRefs.size()); // ensured by if above
     m_rawCompressedFile.seekg(m_objectRefs[m_posg].filePosition);
 
-    /* read log container */
-    LogContainer * logContainer = new LogContainer;
-    assert(logContainer); // ensure memory is reserved
-    (logContainer)->read(m_rawCompressedFile);
-    assert((logContainer)->objectType == ObjectType::LOG_CONTAINER); // ensure this is a log container
-    *objectHeaderBase = logContainer;
-    assert(m_rawCompressedFile.good()); // ensure read is successful, otherwise index is wrong
+    /* read object */
+    assert(m_objectRefs[m_posg].objectType != ObjectType::UNKNOWN);
+    *objectHeaderBase = makeObject(m_objectRefs[m_posg].objectType);
+    assert(*objectHeaderBase); // ensure memory is reserved
+    (*objectHeaderBase)->read(m_rawCompressedFile);
+    assert((*objectHeaderBase)->signature == ObjectSignature);
 
     /* update status variables */
     m_posg++;
@@ -117,13 +117,10 @@ void StructuredCompressedFile::seekg(const StructuredCompressedFile::indexpos po
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
-    /* get raw file position and seek there */
-    assert(pos < m_objectRefs.size()); // pos should not be out of index
-    RawCompressedFile::streampos rawFilePosition = m_objectRefs[pos].filePosition;
-    m_rawCompressedFile.seekg(rawFilePosition);
-
-    /* set get pointer */
+    /* seek to new file position */
     m_posg = pos;
+    assert(m_posg < m_objectRefs.size()); // ensure posg is within index
+    m_rawCompressedFile.seekg(m_objectRefs[pos].filePosition);
 }
 
 void StructuredCompressedFile::seekg(const StructuredCompressedFile::indexoff off, const std::ios_base::seekdir way) {
@@ -145,29 +142,29 @@ void StructuredCompressedFile::seekg(const StructuredCompressedFile::indexoff of
     default:
         assert(false); // other cases should not happen
     }
-    m_posg = ref + off;
 
-    /* get raw file position and seek there */
+    /* seek to new file position */
+    m_posg = ref + off;
     assert(m_posg < m_objectRefs.size()); // ensure posg is within index
-    RawCompressedFile::streampos rawFilePosition = m_objectRefs[m_posg].filePosition;
-    m_rawCompressedFile.seekg(rawFilePosition);
+    m_rawCompressedFile.seekg(m_objectRefs[m_posg].filePosition);
 }
 
 StructuredCompressedFile::indexsize StructuredCompressedFile::write(ObjectHeaderBase * objectHeaderBase) {
-    LogContainer * logContainer = dynamic_cast<LogContainer *>(objectHeaderBase);
-    assert(logContainer); // write no LogContainer doesn't make sense
+    assert(objectHeaderBase);
 
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
-    /* add log container reference */
+    /* add object reference */
     ObjectRef objectRef;
     objectRef.filePosition = m_rawCompressedFile.tellp();
-    m_objectRefs.push_back(objectRef);
+    objectRef.objectSize = objectHeaderBase->objectSize;
+    objectRef.objectType = objectHeaderBase->objectType;
+    m_objectRefs[m_objectRefs.size()] = objectRef;
 
     /* write log container */
-    logContainer->write(m_rawCompressedFile); // @todo do this in writeThread
-    delete logContainer;
+    objectHeaderBase->write(m_rawCompressedFile); // @todo do this in writeThread
+    delete objectHeaderBase;
 
     return 1;
 }
@@ -232,18 +229,19 @@ void StructuredCompressedFile::setLastObjectTime(const SYSTEMTIME lastObjectTime
 void StructuredCompressedFile::indexThread() {
     // already locked by calling method open
 
-    /* create index of all log containers */
-    while(!m_rawCompressedFile.eof()) {
-        /* prepare log container reference */
+    /* create index of all objects */
+    assert(m_rawCompressedFile.tellg() == m_rawCompressedFile.statistics().statisticsSize); // ensure index starts at 0
+    for(indexpos index = 0; ; ++index) {
+        /* prepare object reference */
         ObjectRef objectRef;
         objectRef.filePosition = m_rawCompressedFile.tellg();
 
-        /* read object header (not via read function as this would block) */
+        /* read object header (not via read function as this would block or throw an exception) */
         DWORD signature;
         WORD headerSize;
         WORD headerVersion;
-        DWORD objectSize;
-        ObjectType objectType;
+        //DWORD objectSize => objectRef.objectSize
+        //ObjectType objectType => objectRef.objectType
         if (m_rawCompressedFile.read(reinterpret_cast<char *>(&signature), sizeof(signature)) != sizeof(signature)) {
             // end-of-file reached
             break;
@@ -251,29 +249,74 @@ void StructuredCompressedFile::indexThread() {
         if (signature != ObjectSignature) {
             throw Exception("StructuredCompressedFile::indexThread(): Object signature doesn't match at this position.");
         }
-        if (m_rawCompressedFile.read(reinterpret_cast<char *>(&headerSize), sizeof(headerSize)) +
-            m_rawCompressedFile.read(reinterpret_cast<char *>(&headerVersion), sizeof(headerVersion)) +
-            m_rawCompressedFile.read(reinterpret_cast<char *>(&objectSize), sizeof(objectSize)) +
-            m_rawCompressedFile.read(reinterpret_cast<char *>(&objectType), sizeof(objectType)) !=
-            sizeof(headerSize) + sizeof(headerVersion) + sizeof(objectSize) + sizeof(objectType)) {
-            throw Exception("StructuredCompressedFile::indexThread(): Object Header cannot be read.");
+        if (m_rawCompressedFile.read(reinterpret_cast<char *>(&headerSize), sizeof(headerSize)) != sizeof(headerSize)) {
+            throw Exception("StructuredCompressedFile::indexThread(): Header size cannot be read.");
         }
-        if (objectType != ObjectType::LOG_CONTAINER) {
-            throw Exception("StructuredCompressedFile::indexThread(): Object is not a LogContainer.");
+        if (m_rawCompressedFile.read(reinterpret_cast<char *>(&headerVersion), sizeof(headerVersion)) != sizeof(headerVersion)) {
+            throw Exception("StructuredCompressedFile::indexThread(): Header version cannot be read.");
+        }
+        if (m_rawCompressedFile.read(reinterpret_cast<char *>(&objectRef.objectSize), sizeof(objectRef.objectSize)) != sizeof(objectRef.objectSize)) {
+            throw Exception("StructuredCompressedFile::indexThread(): Object size cannot be read.");
+        }
+        if (m_rawCompressedFile.read(reinterpret_cast<char *>(&objectRef.objectType), sizeof(objectRef.objectType)) != sizeof(objectRef.objectType)) {
+            throw Exception("StructuredCompressedFile::indexThread(): Object type cannot be read.");
         }
 
-        /* add log container reference */
-        m_objectRefs.push_back(objectRef);
+        /* fix object size */
+        switch(objectRef.objectType) {
+        case ObjectType::GLOBAL_MARKER: // 96
+        {
+            m_rawCompressedFile.seekg(objectRef.filePosition);
+            GlobalMarker globalMarker;
+            globalMarker.read(m_rawCompressedFile);
+            objectRef.objectSize = globalMarker.calculateObjectSize();
+        }
+            break;
+        default:
+            break;
+        }
 
-        /* jump to next log container */
-        RawCompressedFile::streamsize offset = objectSize;
-        offset += objectSize % 4; // for ObjectType::LOG_CONTAINER;
+        /* add object reference */
+        m_objectRefs[index] = objectRef;
+
+        /* jump to next object */
+        RawCompressedFile::streamsize offset = objectRef.objectSize;
+        switch(objectRef.objectType) {
+        case ObjectType::ENV_INTEGER: // 6
+        case ObjectType::ENV_DOUBLE: // 7
+        case ObjectType::ENV_STRING: // 8
+        case ObjectType::ENV_DATA: // 9
+        case ObjectType::LOG_CONTAINER: // 10
+        case ObjectType::MOST_PKT: // 32
+        case ObjectType::MOST_PKT2: // 33
+        case ObjectType::APP_TEXT: // 65
+        case ObjectType::MOST_ALLOCTAB: // 69
+        case ObjectType::ETHERNET_FRAME: // 71
+        case ObjectType::SYS_VARIABLE: // 72
+        case ObjectType::MOST_150_MESSAGE: // 76
+        case ObjectType::MOST_150_PKT: // 77
+        case ObjectType::MOST_ETHERNET_PKT: // 78
+        case ObjectType::MOST_150_MESSAGE_FRAGMENT: // 79
+        case ObjectType::MOST_150_PKT_FRAGMENT: // 80
+        case ObjectType::MOST_ETHERNET_PKT_FRAGMENT: // 81
+        case ObjectType::MOST_150_ALLOCTAB: // 83
+        case ObjectType::MOST_50_MESSAGE: // 84
+        case ObjectType::MOST_50_PKT: // 85
+        case ObjectType::SERIAL_EVENT: // 90
+        case ObjectType::EVENT_COMMENT: // 92
+        case ObjectType::WLAN_FRAME: // 93
+        case ObjectType::GLOBAL_MARKER: // 96
+        case ObjectType::AFDX_FRAME: // 97
+        case ObjectType::ETHERNET_RX_ERROR: // 102
+            offset += objectRef.objectSize % 4;
+        default:
+            break;
+        }
         m_rawCompressedFile.seekg(objectRef.filePosition + offset);
     }
-    m_rawCompressedFile.clear();
 
-    /* seek back to first log container */
-    RawCompressedFile::streampos rawFilePosition = m_objectRefs.front().filePosition;
+    /* seek back to first object */
+    RawCompressedFile::streampos rawFilePosition = m_objectRefs[0].filePosition;
     m_rawCompressedFile.seekg(rawFilePosition);
 }
 

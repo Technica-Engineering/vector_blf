@@ -23,7 +23,7 @@
 
 #include <Vector/BLF/platform.h>
 
-#include <vector>
+#include <map>
 
 #include <Vector/BLF/RawFile.h>
 #include <Vector/BLF/StructuredCompressedFile.h>
@@ -180,9 +180,6 @@ public:
 private:
     /** object reference */
     struct ObjectRef {
-        /** file position */
-        streampos filePosition {0};
-
         /**
          * file size
          *
@@ -220,8 +217,8 @@ private:
      */
     streamsize m_statisticsSize {0};
 
-    /** object references (index is StructuredCompressedFile::streampos) */
-    std::vector<ObjectRef> m_objectRefs {};
+    /** object references (key: streampos) */
+    std::map<streampos, ObjectRef> m_objectRefs {};
 
     /** default log container size */
     DWORD m_defaultLogContainerSize {0x20000};
