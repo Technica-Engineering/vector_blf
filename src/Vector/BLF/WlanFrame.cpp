@@ -28,40 +28,63 @@ WlanFrame::WlanFrame() :
     ObjectHeader(ObjectType::WLAN_FRAME) {
 }
 
-void WlanFrame::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
-    is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
-    is.read(reinterpret_cast<char *>(&radioChannel), sizeof(radioChannel));
-    is.read(reinterpret_cast<char *>(&signalStrength), sizeof(signalStrength));
-    is.read(reinterpret_cast<char *>(&signalQuality), sizeof(signalQuality));
-    is.read(reinterpret_cast<char *>(&frameLength), sizeof(frameLength));
-    is.read(reinterpret_cast<char *>(&reservedWlanFrame), sizeof(reservedWlanFrame));
-    frameData.resize(frameLength);
-    is.read(reinterpret_cast<char *>(frameData.data()), frameLength);
+std::vector<uint8_t>::iterator WlanFrame::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
 
-    /* skip padding */
-    is.seekg(objectSize % 4, std::ios_base::cur);
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    flags =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    dir =
+            (static_cast<BYTE>(*it++) <<  0);
+    radioChannel =
+            (static_cast<BYTE>(*it++) <<  0);
+    signalStrength =
+            (static_cast<SHORT>(*it++) <<  0) |
+            (static_cast<SHORT>(*it++) <<  8);
+    signalQuality =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    frameLength =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    reservedWlanFrame =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    frameData.resize(frameLength);
+    std::copy(it, it + frameData.size(), std::begin(frameData));
+    it += frameData.size();
+
+    return it;
 }
 
-void WlanFrame::write(RawFile & os) {
+void WlanFrame::toData(std::vector<uint8_t> & data) {
     /* pre processing */
     frameLength = static_cast<WORD>(frameData.size());
 
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&flags), sizeof(flags));
-    os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
-    os.write(reinterpret_cast<char *>(&radioChannel), sizeof(radioChannel));
-    os.write(reinterpret_cast<char *>(&signalStrength), sizeof(signalStrength));
-    os.write(reinterpret_cast<char *>(&signalQuality), sizeof(signalQuality));
-    os.write(reinterpret_cast<char *>(&frameLength), sizeof(frameLength));
-    os.write(reinterpret_cast<char *>(&reservedWlanFrame), sizeof(reservedWlanFrame));
-    os.write(reinterpret_cast<char *>(frameData.data()), frameLength);
+    ObjectHeader::toData(data);
 
-    /* skip padding */
-    os.seekp(objectSize % 4, std::ios_base::cur);
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((flags >>  0) & 0xff);
+    data.push_back((flags >>  8) & 0xff);
+    data.push_back((dir >>  0) & 0xff);
+    data.push_back((radioChannel >>  0) & 0xff);
+    data.push_back((signalStrength >>  0) & 0xff);
+    data.push_back((signalStrength >>  8) & 0xff);
+    data.push_back((signalQuality >>  0) & 0xff);
+    data.push_back((signalQuality >>  8) & 0xff);
+    data.push_back((frameLength >>  0) & 0xff);
+    data.push_back((frameLength >>  8) & 0xff);
+    data.push_back((reservedWlanFrame >>  0) & 0xff);
+    data.push_back((reservedWlanFrame >>  8) & 0xff);
+    data.push_back((reservedWlanFrame >> 16) & 0xff);
+    data.push_back((reservedWlanFrame >> 24) & 0xff);
+    data.insert(std::end(data), std::begin(frameData), std::end(frameData));
 }
 
 DWORD WlanFrame::calculateObjectSize() const {

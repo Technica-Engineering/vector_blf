@@ -21,6 +21,8 @@
 
 #include <Vector/BLF/FlexRayStatusEvent.h>
 
+#include <algorithm>
+
 namespace Vector {
 namespace BLF {
 
@@ -28,26 +30,55 @@ FlexRayStatusEvent::FlexRayStatusEvent() :
     ObjectHeader(ObjectType::FLEXRAY_STATUS) {
 }
 
-void FlexRayStatusEvent::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&version), sizeof(version));
-    is.read(reinterpret_cast<char *>(&statusType), sizeof(statusType));
-    is.read(reinterpret_cast<char *>(&infoMask1), sizeof(infoMask1));
-    is.read(reinterpret_cast<char *>(&infoMask2), sizeof(infoMask2));
-    is.read(reinterpret_cast<char *>(&infoMask3), sizeof(infoMask3));
-    is.read(reinterpret_cast<char *>(reservedFlexRayStatusEvent.data()), static_cast<std::streamsize>(reservedFlexRayStatusEvent.size() * sizeof(WORD)));
+std::vector<uint8_t>::iterator FlexRayStatusEvent::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    version =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    statusType =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    infoMask1 =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    infoMask2 =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    infoMask3 =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    std::generate(reservedFlexRayStatusEvent.begin(), reservedFlexRayStatusEvent.end(), [&it]() {
+        return
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    });
+
+    return it;
 }
 
-void FlexRayStatusEvent::write(RawFile & os) {
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&version), sizeof(version));
-    os.write(reinterpret_cast<char *>(&statusType), sizeof(statusType));
-    os.write(reinterpret_cast<char *>(&infoMask1), sizeof(infoMask1));
-    os.write(reinterpret_cast<char *>(&infoMask2), sizeof(infoMask2));
-    os.write(reinterpret_cast<char *>(&infoMask3), sizeof(infoMask3));
-    os.write(reinterpret_cast<char *>(reservedFlexRayStatusEvent.data()), static_cast<std::streamsize>(reservedFlexRayStatusEvent.size() * sizeof(WORD)));
+void FlexRayStatusEvent::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
+
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((version >>  0) & 0xff);
+    data.push_back((version >>  8) & 0xff);
+    data.push_back((statusType >>  0) & 0xff);
+    data.push_back((statusType >>  8) & 0xff);
+    data.push_back((infoMask1 >>  0) & 0xff);
+    data.push_back((infoMask1 >>  8) & 0xff);
+    data.push_back((infoMask2 >>  0) & 0xff);
+    data.push_back((infoMask2 >>  8) & 0xff);
+    data.push_back((infoMask3 >>  0) & 0xff);
+    data.push_back((infoMask3 >>  8) & 0xff);
+    std::for_each(reservedFlexRayStatusEvent.begin(), reservedFlexRayStatusEvent.end(), [&data](const WORD & d) {
+        data.push_back((d >>  0) & 0xff);
+        data.push_back((d >>  8) & 0xff);
+    });
 }
 
 DWORD FlexRayStatusEvent::calculateObjectSize() const {

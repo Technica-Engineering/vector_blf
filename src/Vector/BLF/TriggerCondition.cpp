@@ -28,28 +28,55 @@ TriggerCondition::TriggerCondition() :
     ObjectHeader(ObjectType::TRIGGER_CONDITION) {
 }
 
-void TriggerCondition::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&state), sizeof(state));
-    is.read(reinterpret_cast<char *>(&triggerBlockNameLength), sizeof(triggerBlockNameLength));
-    is.read(reinterpret_cast<char *>(&triggerConditionLength), sizeof(triggerConditionLength));
+std::vector<uint8_t>::iterator TriggerCondition::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+
+    state =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    triggerBlockNameLength =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    triggerConditionLength =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
     triggerBlockName.resize(triggerBlockNameLength);
-    is.read(&triggerBlockName[0], triggerBlockNameLength);
+    std::copy(it, it + triggerBlockName.size(), std::begin(triggerBlockName));
+    it += triggerBlockName.size();
     triggerCondition.resize(triggerConditionLength);
-    is.read(&triggerCondition[0], triggerConditionLength);
+    std::copy(it, it + triggerCondition.size(), std::begin(triggerCondition));
+    it += triggerCondition.size();
+
+    return it;
 }
 
-void TriggerCondition::write(RawFile & os) {
+void TriggerCondition::toData(std::vector<uint8_t> & data) {
     /* pre processing */
     triggerBlockNameLength = static_cast<DWORD>(triggerBlockName.size());
     triggerConditionLength = static_cast<DWORD>(triggerCondition.size());
 
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&state), sizeof(state));
-    os.write(reinterpret_cast<char *>(&triggerBlockNameLength), sizeof(triggerBlockNameLength));
-    os.write(reinterpret_cast<char *>(&triggerConditionLength), sizeof(triggerConditionLength));
-    os.write(&triggerBlockName[0], triggerBlockNameLength);
-    os.write(&triggerCondition[0], triggerConditionLength);
+    ObjectHeader::toData(data);
+
+    data.push_back((state >>  0) & 0xff);
+    data.push_back((state >>  8) & 0xff);
+    data.push_back((state >> 16) & 0xff);
+    data.push_back((state >> 24) & 0xff);
+    data.push_back((triggerBlockNameLength >>  0) & 0xff);
+    data.push_back((triggerBlockNameLength >>  8) & 0xff);
+    data.push_back((triggerBlockNameLength >> 16) & 0xff);
+    data.push_back((triggerBlockNameLength >> 24) & 0xff);
+    data.push_back((triggerConditionLength >>  0) & 0xff);
+    data.push_back((triggerConditionLength >>  8) & 0xff);
+    data.push_back((triggerConditionLength >> 16) & 0xff);
+    data.push_back((triggerConditionLength >> 24) & 0xff);
+    data.insert(std::end(data), std::begin(triggerBlockName), std::end(triggerBlockName));
+    data.insert(std::end(data), std::begin(triggerCondition), std::end(triggerCondition));
 }
 
 DWORD TriggerCondition::calculateObjectSize() const {

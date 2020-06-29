@@ -28,39 +28,98 @@ EthernetFrameForwarded::EthernetFrameForwarded() :
     ObjectHeader(ObjectType::ETHERNET_FRAME_FORWARDED) {
 }
 
-void EthernetFrameForwarded::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&structLength), sizeof(structLength));
-    is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&hardwareChannel), sizeof(hardwareChannel));
-    is.read(reinterpret_cast<char *>(&frameDuration), sizeof(frameDuration));
-    is.read(reinterpret_cast<char *>(&frameChecksum), sizeof(frameChecksum));
-    is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
-    is.read(reinterpret_cast<char *>(&frameLength), sizeof(frameLength));
-    is.read(reinterpret_cast<char *>(&frameHandle), sizeof(frameHandle));
-    is.read(reinterpret_cast<char *>(&reservedEthernetFrameForwarded), sizeof(reservedEthernetFrameForwarded));
+std::vector<uint8_t>::iterator EthernetFrameForwarded::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+
+    structLength =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    flags =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    hardwareChannel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    frameDuration =
+            (static_cast<UINT64>(*it++) <<  0) |
+            (static_cast<UINT64>(*it++) <<  8) |
+            (static_cast<UINT64>(*it++) << 16) |
+            (static_cast<UINT64>(*it++) << 24) |
+            (static_cast<UINT64>(*it++) << 32) |
+            (static_cast<UINT64>(*it++) << 40) |
+            (static_cast<UINT64>(*it++) << 48) |
+            (static_cast<UINT64>(*it++) << 56);
+    frameChecksum =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    dir =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    frameLength =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    frameHandle =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    reservedEthernetFrameForwarded =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
     frameData.resize(frameLength);
-    is.read(reinterpret_cast<char *>(frameData.data()), frameLength);
+    std::copy(it, it + frameData.size(), std::begin(frameData));
+    it += frameData.size();
+
+    return it;
 }
 
-void EthernetFrameForwarded::write(RawFile & os) {
+void EthernetFrameForwarded::toData(std::vector<uint8_t> & data) {
     /* pre processing */
     structLength = calculateStructLength();
     frameLength = static_cast<WORD>(frameData.size());
 
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&structLength), sizeof(structLength));
-    os.write(reinterpret_cast<char *>(&flags), sizeof(flags));
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&hardwareChannel), sizeof(hardwareChannel));
-    os.write(reinterpret_cast<char *>(&frameDuration), sizeof(frameDuration));
-    os.write(reinterpret_cast<char *>(&frameChecksum), sizeof(frameChecksum));
-    os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
-    os.write(reinterpret_cast<char *>(&frameLength), sizeof(frameLength));
-    os.write(reinterpret_cast<char *>(&frameHandle), sizeof(frameHandle));
-    os.write(reinterpret_cast<char *>(&reservedEthernetFrameForwarded), sizeof(reservedEthernetFrameForwarded));
-    os.write(reinterpret_cast<char *>(frameData.data()), frameLength);
+    ObjectHeader::toData(data);
+
+    data.push_back((structLength >>  0) & 0xff);
+    data.push_back((structLength >>  8) & 0xff);
+    data.push_back((flags >>  0) & 0xff);
+    data.push_back((flags >>  8) & 0xff);
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((hardwareChannel >>  0) & 0xff);
+    data.push_back((hardwareChannel >>  8) & 0xff);
+    data.push_back((frameDuration >>  0) & 0xff);
+    data.push_back((frameDuration >>  8) & 0xff);
+    data.push_back((frameDuration >> 16) & 0xff);
+    data.push_back((frameDuration >> 24) & 0xff);
+    data.push_back((frameDuration >> 32) & 0xff);
+    data.push_back((frameDuration >> 40) & 0xff);
+    data.push_back((frameDuration >> 48) & 0xff);
+    data.push_back((frameDuration >> 56) & 0xff);
+    data.push_back((frameChecksum >>  0) & 0xff);
+    data.push_back((frameChecksum >>  8) & 0xff);
+    data.push_back((frameChecksum >> 16) & 0xff);
+    data.push_back((frameChecksum >> 24) & 0xff);
+    data.push_back((dir >>  0) & 0xff);
+    data.push_back((dir >>  8) & 0xff);
+    data.push_back((frameLength >>  0) & 0xff);
+    data.push_back((frameLength >>  8) & 0xff);
+    data.push_back((frameHandle >>  0) & 0xff);
+    data.push_back((frameHandle >>  8) & 0xff);
+    data.push_back((frameHandle >> 16) & 0xff);
+    data.push_back((frameHandle >> 24) & 0xff);
+    data.push_back((reservedEthernetFrameForwarded >>  0) & 0xff);
+    data.push_back((reservedEthernetFrameForwarded >>  8) & 0xff);
+    data.push_back((reservedEthernetFrameForwarded >> 16) & 0xff);
+    data.push_back((reservedEthernetFrameForwarded >> 24) & 0xff);
+    data.insert(std::end(data), std::begin(frameData), std::end(frameData));
 }
 
 DWORD EthernetFrameForwarded::calculateObjectSize() const {

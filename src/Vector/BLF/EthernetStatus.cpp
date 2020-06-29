@@ -28,34 +28,58 @@ EthernetStatus::EthernetStatus() :
     ObjectHeader(ObjectType::ETHERNET_STATUS) {
 }
 
-void EthernetStatus::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
-    is.read(reinterpret_cast<char *>(&linkStatus), sizeof(linkStatus));
-    is.read(reinterpret_cast<char *>(&ethernetPhy), sizeof(ethernetPhy));
-    is.read(reinterpret_cast<char *>(&duplex), sizeof(duplex));
-    is.read(reinterpret_cast<char *>(&mdi), sizeof(mdi));
-    is.read(reinterpret_cast<char *>(&connector), sizeof(connector));
-    is.read(reinterpret_cast<char *>(&clockMode), sizeof(clockMode));
-    is.read(reinterpret_cast<char *>(&pairs), sizeof(pairs));
-    is.read(reinterpret_cast<char *>(&hardwareChannel), sizeof(hardwareChannel));
-    is.read(reinterpret_cast<char *>(&bitrate), sizeof(bitrate));
+std::vector<uint8_t>::iterator EthernetStatus::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    flags =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    linkStatus =
+            (static_cast<BYTE>(*it++) <<  0);
+    ethernetPhy =
+            (static_cast<BYTE>(*it++) <<  0);
+    duplex =
+            (static_cast<BYTE>(*it++) <<  0);
+    mdi =
+            (static_cast<BYTE>(*it++) <<  0);
+    connector =
+            (static_cast<BYTE>(*it++) <<  0);
+    clockMode =
+            (static_cast<BYTE>(*it++) <<  0);
+    pairs =
+            (static_cast<BYTE>(*it++) <<  0);
+    hardwareChannel =
+            (static_cast<BYTE>(*it++) <<  0);
+    bitrate =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+
+    return it;
 }
 
-void EthernetStatus::write(RawFile & os) {
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&flags), sizeof(flags));
-    os.write(reinterpret_cast<char *>(&linkStatus), sizeof(linkStatus));
-    os.write(reinterpret_cast<char *>(&ethernetPhy), sizeof(ethernetPhy));
-    os.write(reinterpret_cast<char *>(&duplex), sizeof(duplex));
-    os.write(reinterpret_cast<char *>(&mdi), sizeof(mdi));
-    os.write(reinterpret_cast<char *>(&connector), sizeof(connector));
-    os.write(reinterpret_cast<char *>(&clockMode), sizeof(clockMode));
-    os.write(reinterpret_cast<char *>(&pairs), sizeof(pairs));
-    os.write(reinterpret_cast<char *>(&hardwareChannel), sizeof(hardwareChannel));
-    os.write(reinterpret_cast<char *>(&bitrate), sizeof(bitrate));
+void EthernetStatus::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
+
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((flags >>  0) & 0xff);
+    data.push_back((flags >>  8) & 0xff);
+    data.push_back((linkStatus >>  0) & 0xff);
+    data.push_back((ethernetPhy >>  0) & 0xff);
+    data.push_back((duplex >>  0) & 0xff);
+    data.push_back((mdi >>  0) & 0xff);
+    data.push_back((clockMode >>  0) & 0xff);
+    data.push_back((pairs >>  0) & 0xff);
+    data.push_back((hardwareChannel >>  0) & 0xff);
+    data.push_back((bitrate >>  0) & 0xff);
+    data.push_back((bitrate >>  8) & 0xff);
+    data.push_back((bitrate >> 16) & 0xff);
+    data.push_back((bitrate >> 24) & 0xff);
 }
 
 DWORD EthernetStatus::calculateObjectSize() const {

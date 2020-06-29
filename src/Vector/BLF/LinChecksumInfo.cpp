@@ -28,20 +28,36 @@ LinChecksumInfo::LinChecksumInfo() :
     ObjectHeader(ObjectType::LIN_CHECKSUM_INFO) {
 }
 
-void LinChecksumInfo::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&id), sizeof(id));
-    is.read(reinterpret_cast<char *>(&checksumModel), sizeof(checksumModel));
-    is.read(reinterpret_cast<char *>(&reservedLinChecksumInfo), sizeof(reservedLinChecksumInfo));
+std::vector<uint8_t>::iterator LinChecksumInfo::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    id =
+            (static_cast<BYTE>(*it++) <<  0);
+    checksumModel =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedLinChecksumInfo =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+
+    return it;
 }
 
-void LinChecksumInfo::write(RawFile & os) {
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&id), sizeof(id));
-    os.write(reinterpret_cast<char *>(&checksumModel), sizeof(checksumModel));
-    os.write(reinterpret_cast<char *>(&reservedLinChecksumInfo), sizeof(reservedLinChecksumInfo));
+void LinChecksumInfo::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
+
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((id >>  0) & 0xff);
+    data.push_back((checksumModel >>  0) & 0xff);
+    data.push_back((reservedLinChecksumInfo >>  0) & 0xff);
+    data.push_back((reservedLinChecksumInfo >>  8) & 0xff);
+    data.push_back((reservedLinChecksumInfo >> 16) & 0xff);
+    data.push_back((reservedLinChecksumInfo >> 24) & 0xff);
 }
 
 DWORD LinChecksumInfo::calculateObjectSize() const {

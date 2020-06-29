@@ -28,26 +28,87 @@ MostDataLost::MostDataLost() :
     ObjectHeader2(ObjectType::MOST_DATALOST) {
 }
 
-void MostDataLost::read(RawFile & is) {
-    ObjectHeader2::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&reservedMostDataLost), sizeof(reservedMostDataLost));
-    is.read(reinterpret_cast<char *>(&info), sizeof(info));
-    is.read(reinterpret_cast<char *>(&lostMsgsCtrl), sizeof(lostMsgsCtrl));
-    is.read(reinterpret_cast<char *>(&lostMsgsAsync), sizeof(lostMsgsAsync));
-    is.read(reinterpret_cast<char *>(&lastGoodTimeStampNs), sizeof(lastGoodTimeStampNs));
-    is.read(reinterpret_cast<char *>(&nextGoodTimeStampNs), sizeof(nextGoodTimeStampNs));
+std::vector<uint8_t>::iterator MostDataLost::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader2::fromData(it);
+
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    reservedMostDataLost =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    info =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    lostMsgsCtrl =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    lostMsgsAsync =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    lastGoodTimeStampNs =
+            (static_cast<ULONGLONG>(*it++) <<  0) |
+            (static_cast<ULONGLONG>(*it++) <<  8) |
+            (static_cast<ULONGLONG>(*it++) << 16) |
+            (static_cast<ULONGLONG>(*it++) << 24) |
+            (static_cast<ULONGLONG>(*it++) << 32) |
+            (static_cast<ULONGLONG>(*it++) << 40) |
+            (static_cast<ULONGLONG>(*it++) << 48) |
+            (static_cast<ULONGLONG>(*it++) << 56);
+    nextGoodTimeStampNs =
+            (static_cast<ULONGLONG>(*it++) <<  0) |
+            (static_cast<ULONGLONG>(*it++) <<  8) |
+            (static_cast<ULONGLONG>(*it++) << 16) |
+            (static_cast<ULONGLONG>(*it++) << 24) |
+            (static_cast<ULONGLONG>(*it++) << 32) |
+            (static_cast<ULONGLONG>(*it++) << 40) |
+            (static_cast<ULONGLONG>(*it++) << 48) |
+            (static_cast<ULONGLONG>(*it++) << 56);
+
+    return it;
 }
 
-void MostDataLost::write(RawFile & os) {
-    ObjectHeader2::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&reservedMostDataLost), sizeof(reservedMostDataLost));
-    os.write(reinterpret_cast<char *>(&info), sizeof(info));
-    os.write(reinterpret_cast<char *>(&lostMsgsCtrl), sizeof(lostMsgsCtrl));
-    os.write(reinterpret_cast<char *>(&lostMsgsAsync), sizeof(lostMsgsAsync));
-    os.write(reinterpret_cast<char *>(&lastGoodTimeStampNs), sizeof(lastGoodTimeStampNs));
-    os.write(reinterpret_cast<char *>(&nextGoodTimeStampNs), sizeof(nextGoodTimeStampNs));
+void MostDataLost::toData(std::vector<uint8_t> & data) {
+    ObjectHeader2::toData(data);
+
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((reservedMostDataLost >>  0) & 0xff);
+    data.push_back((reservedMostDataLost >>  8) & 0xff);
+    data.push_back((info >>  0) & 0xff);
+    data.push_back((info >>  8) & 0xff);
+    data.push_back((info >> 16) & 0xff);
+    data.push_back((info >> 24) & 0xff);
+    data.push_back((lostMsgsCtrl >>  0) & 0xff);
+    data.push_back((lostMsgsCtrl >>  8) & 0xff);
+    data.push_back((lostMsgsCtrl >> 16) & 0xff);
+    data.push_back((lostMsgsCtrl >> 24) & 0xff);
+    data.push_back((lostMsgsAsync >>  0) & 0xff);
+    data.push_back((lostMsgsAsync >>  8) & 0xff);
+    data.push_back((lostMsgsAsync >> 16) & 0xff);
+    data.push_back((lostMsgsAsync >> 24) & 0xff);
+    data.push_back((lastGoodTimeStampNs >>  0) & 0xff);
+    data.push_back((lastGoodTimeStampNs >>  8) & 0xff);
+    data.push_back((lastGoodTimeStampNs >> 16) & 0xff);
+    data.push_back((lastGoodTimeStampNs >> 24) & 0xff);
+    data.push_back((lastGoodTimeStampNs >> 32) & 0xff);
+    data.push_back((lastGoodTimeStampNs >> 40) & 0xff);
+    data.push_back((lastGoodTimeStampNs >> 48) & 0xff);
+    data.push_back((lastGoodTimeStampNs >> 56) & 0xff);
+    data.push_back((nextGoodTimeStampNs >>  0) & 0xff);
+    data.push_back((nextGoodTimeStampNs >>  8) & 0xff);
+    data.push_back((nextGoodTimeStampNs >> 16) & 0xff);
+    data.push_back((nextGoodTimeStampNs >> 24) & 0xff);
+    data.push_back((nextGoodTimeStampNs >> 32) & 0xff);
+    data.push_back((nextGoodTimeStampNs >> 40) & 0xff);
+    data.push_back((nextGoodTimeStampNs >> 48) & 0xff);
+    data.push_back((nextGoodTimeStampNs >> 56) & 0xff);
 }
 
 DWORD MostDataLost::calculateObjectSize() const {

@@ -30,30 +30,58 @@ EventComment::EventComment() :
     ObjectHeader(ObjectType::EVENT_COMMENT) {
 }
 
-void EventComment::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&commentedEventType), sizeof(commentedEventType));
-    is.read(reinterpret_cast<char *>(&textLength), sizeof(textLength));
-    is.read(reinterpret_cast<char *>(&reservedEventComment), sizeof(reservedEventComment));
-    text.resize(textLength);
-    is.read(&text[0], textLength);
+std::vector<uint8_t>::iterator EventComment::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
 
-    /* skip padding */
-    is.seekg(objectSize % 4, std::ios_base::cur);
+    commentedEventType =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    textLength =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    reservedEventComment =
+            (static_cast<ULONGLONG>(*it++) <<  0) |
+            (static_cast<ULONGLONG>(*it++) <<  8) |
+            (static_cast<ULONGLONG>(*it++) << 16) |
+            (static_cast<ULONGLONG>(*it++) << 24) |
+            (static_cast<ULONGLONG>(*it++) << 32) |
+            (static_cast<ULONGLONG>(*it++) << 40) |
+            (static_cast<ULONGLONG>(*it++) << 48) |
+            (static_cast<ULONGLONG>(*it++) << 56);
+    text.resize(textLength);
+    std::copy(it, it + text.size(), std::begin(text));
+    it += text.size();
+
+    return it;
 }
 
-void EventComment::write(RawFile & os) {
+void EventComment::toData(std::vector<uint8_t> & data) {
     /* pre processing */
     textLength = static_cast<DWORD>(text.size());
 
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&commentedEventType), sizeof(commentedEventType));
-    os.write(reinterpret_cast<char *>(&textLength), sizeof(textLength));
-    os.write(reinterpret_cast<char *>(&reservedEventComment), sizeof(reservedEventComment));
-    os.write(&text[0], textLength);
+    ObjectHeader::toData(data);
 
-    /* skip padding */
-    os.seekp(objectSize % 4, std::ios_base::cur);
+    data.push_back((commentedEventType >>  0) & 0xff);
+    data.push_back((commentedEventType >>  8) & 0xff);
+    data.push_back((commentedEventType >> 16) & 0xff);
+    data.push_back((commentedEventType >> 24) & 0xff);
+    data.push_back((textLength >>  0) & 0xff);
+    data.push_back((textLength >>  8) & 0xff);
+    data.push_back((textLength >> 16) & 0xff);
+    data.push_back((textLength >> 24) & 0xff);
+    data.push_back((reservedEventComment >>  0) & 0xff);
+    data.push_back((reservedEventComment >>  8) & 0xff);
+    data.push_back((reservedEventComment >> 16) & 0xff);
+    data.push_back((reservedEventComment >> 24) & 0xff);
+    data.push_back((reservedEventComment >> 32) & 0xff);
+    data.push_back((reservedEventComment >> 40) & 0xff);
+    data.push_back((reservedEventComment >> 48) & 0xff);
+    data.push_back((reservedEventComment >> 56) & 0xff);
+    data.insert(std::end(data), std::begin(text), std::end(text));
 }
 
 DWORD EventComment::calculateObjectSize() const {

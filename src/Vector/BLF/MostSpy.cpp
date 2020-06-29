@@ -28,38 +28,77 @@ MostSpy::MostSpy() :
     ObjectHeader(ObjectType::MOST_SPY) {
 }
 
-void MostSpy::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
-    is.read(reinterpret_cast<char *>(&reservedMostSpy1), sizeof(reservedMostSpy1));
-    is.read(reinterpret_cast<char *>(&sourceAdr), sizeof(sourceAdr));
-    is.read(reinterpret_cast<char *>(&destAdr), sizeof(destAdr));
-    is.read(reinterpret_cast<char *>(msg.data()), static_cast<std::streamsize>(msg.size()));
-    is.read(reinterpret_cast<char *>(&reservedMostSpy2), sizeof(reservedMostSpy2));
-    is.read(reinterpret_cast<char *>(&rTyp), sizeof(rTyp));
-    is.read(reinterpret_cast<char *>(&rTypAdr), sizeof(rTypAdr));
-    is.read(reinterpret_cast<char *>(&state), sizeof(state));
-    is.read(reinterpret_cast<char *>(&reservedMostSpy3), sizeof(reservedMostSpy3));
-    is.read(reinterpret_cast<char *>(&ackNack), sizeof(ackNack));
-    is.read(reinterpret_cast<char *>(&crc), sizeof(crc));
+std::vector<uint8_t>::iterator MostSpy::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    dir =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedMostSpy1 =
+            (static_cast<BYTE>(*it++) <<  0);
+    sourceAdr =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    destAdr =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    std::copy(it, it + msg.size(), std::begin(msg));
+    it += msg.size();
+    reservedMostSpy2 =
+            (static_cast<BYTE>(*it++) <<  0);
+    rTyp =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    rTypAdr =
+            (static_cast<BYTE>(*it++) <<  0);
+    state =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedMostSpy3 =
+            (static_cast<BYTE>(*it++) <<  0);
+    ackNack =
+            (static_cast<BYTE>(*it++) <<  0);
+    crc =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+
+    return it;
 }
 
-void MostSpy::write(RawFile & os) {
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
-    os.write(reinterpret_cast<char *>(&reservedMostSpy1), sizeof(reservedMostSpy1));
-    os.write(reinterpret_cast<char *>(&sourceAdr), sizeof(sourceAdr));
-    os.write(reinterpret_cast<char *>(&destAdr), sizeof(destAdr));
-    os.write(reinterpret_cast<char *>(msg.data()), static_cast<std::streamsize>(msg.size()));
-    os.write(reinterpret_cast<char *>(&reservedMostSpy2), sizeof(reservedMostSpy2));
-    os.write(reinterpret_cast<char *>(&rTyp), sizeof(rTyp));
-    os.write(reinterpret_cast<char *>(&rTypAdr), sizeof(rTypAdr));
-    os.write(reinterpret_cast<char *>(&state), sizeof(state));
-    os.write(reinterpret_cast<char *>(&reservedMostSpy3), sizeof(reservedMostSpy3));
-    os.write(reinterpret_cast<char *>(&ackNack), sizeof(ackNack));
-    os.write(reinterpret_cast<char *>(&crc), sizeof(crc));
+void MostSpy::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
+
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((dir >>  0) & 0xff);
+    data.push_back((reservedMostSpy1 >>  0) & 0xff);
+    data.push_back((sourceAdr >>  0) & 0xff);
+    data.push_back((sourceAdr >>  8) & 0xff);
+    data.push_back((sourceAdr >> 16) & 0xff);
+    data.push_back((sourceAdr >> 24) & 0xff);
+    data.push_back((destAdr >>  0) & 0xff);
+    data.push_back((destAdr >>  8) & 0xff);
+    data.push_back((destAdr >> 16) & 0xff);
+    data.push_back((destAdr >> 24) & 0xff);
+    data.insert(std::end(data), std::begin(msg), std::end(msg));
+    data.push_back((reservedMostSpy2 >>  0) & 0xff);
+    data.push_back((rTyp >>  0) & 0xff);
+    data.push_back((rTyp >>  8) & 0xff);
+    data.push_back((rTypAdr >>  0) & 0xff);
+    data.push_back((state >>  0) & 0xff);
+    data.push_back((reservedMostSpy3 >>  0) & 0xff);
+    data.push_back((ackNack >>  0) & 0xff);
+    data.push_back((crc >>  0) & 0xff);
+    data.push_back((crc >>  8) & 0xff);
+    data.push_back((crc >> 16) & 0xff);
+    data.push_back((crc >> 24) & 0xff);
 }
 
 DWORD MostSpy::calculateObjectSize() const {

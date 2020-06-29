@@ -28,30 +28,75 @@ LinShortOrSlowResponse2::LinShortOrSlowResponse2() :
     ObjectHeader(ObjectType::LIN_SHORT_OR_SLOW_RESPONSE2) {
 }
 
-void LinShortOrSlowResponse2::read(RawFile & is) {
-    ObjectHeader::read(is);
-    LinDatabyteTimestampEvent::read(is);
-    is.read(reinterpret_cast<char *>(&numberOfRespBytes), sizeof(numberOfRespBytes));
-    is.read(reinterpret_cast<char *>(respBytes.data()), static_cast<std::streamsize>(respBytes.size()));
-    is.read(reinterpret_cast<char *>(&slowResponse), sizeof(slowResponse));
-    is.read(reinterpret_cast<char *>(&interruptedByBreak), sizeof(interruptedByBreak));
-    is.read(reinterpret_cast<char *>(&reservedLinShortOrSlowResponse1), sizeof(reservedLinShortOrSlowResponse1));
-    is.read(reinterpret_cast<char *>(&exactHeaderBaudrate), sizeof(exactHeaderBaudrate));
-    is.read(reinterpret_cast<char *>(&earlyStopbitOffset), sizeof(earlyStopbitOffset));
-    is.read(reinterpret_cast<char *>(&reservedLinShortOrSlowResponse2), sizeof(reservedLinShortOrSlowResponse2));
+std::vector<uint8_t>::iterator LinShortOrSlowResponse2::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+    it = LinDatabyteTimestampEvent::fromData(it);
+
+    numberOfRespBytes =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
+    std::copy(it, it + respBytes.size(), std::begin(respBytes));
+    it += respBytes.size();
+    slowResponse =
+            (static_cast<BYTE>(*it++) <<  0);
+    interruptedByBreak =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedLinShortOrSlowResponse1 =
+            (static_cast<BYTE>(*it++) <<  0);
+    exactHeaderBaudrate =
+            (static_cast<uint64_t>(*it++) <<  0) |
+            (static_cast<uint64_t>(*it++) <<  8) |
+            (static_cast<uint64_t>(*it++) << 16) |
+            (static_cast<uint64_t>(*it++) << 24) |
+            (static_cast<uint64_t>(*it++) << 32) |
+            (static_cast<uint64_t>(*it++) << 40) |
+            (static_cast<uint64_t>(*it++) << 48) |
+            (static_cast<uint64_t>(*it++) << 56);
+    earlyStopbitOffset =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    reservedLinShortOrSlowResponse2 =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+
+    return it;
 }
 
-void LinShortOrSlowResponse2::write(RawFile & os) {
-    ObjectHeader::write(os);
-    LinDatabyteTimestampEvent::write(os);
-    os.write(reinterpret_cast<char *>(&numberOfRespBytes), sizeof(numberOfRespBytes));
-    os.write(reinterpret_cast<char *>(respBytes.data()), static_cast<std::streamsize>(respBytes.size()));
-    os.write(reinterpret_cast<char *>(&slowResponse), sizeof(slowResponse));
-    os.write(reinterpret_cast<char *>(&interruptedByBreak), sizeof(interruptedByBreak));
-    os.write(reinterpret_cast<char *>(&reservedLinShortOrSlowResponse1), sizeof(reservedLinShortOrSlowResponse1));
-    os.write(reinterpret_cast<char *>(&exactHeaderBaudrate), sizeof(exactHeaderBaudrate));
-    os.write(reinterpret_cast<char *>(&earlyStopbitOffset), sizeof(earlyStopbitOffset));
-    os.write(reinterpret_cast<char *>(&reservedLinShortOrSlowResponse2), sizeof(reservedLinShortOrSlowResponse2));
+void LinShortOrSlowResponse2::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
+    LinDatabyteTimestampEvent::toData(data);
+
+    data.push_back((numberOfRespBytes >>  0) & 0xff);
+    data.push_back((numberOfRespBytes >>  8) & 0xff);
+    data.push_back((numberOfRespBytes >> 16) & 0xff);
+    data.push_back((numberOfRespBytes >> 24) & 0xff);
+    data.insert(std::end(data), std::begin(respBytes), std::end(respBytes));
+    data.push_back((slowResponse >>  0) & 0xff);
+    data.push_back((interruptedByBreak >>  0) & 0xff);
+    data.push_back((reservedLinShortOrSlowResponse1 >>  0) & 0xff);
+    data.push_back((static_cast<uint64_t>(exactHeaderBaudrate) >>  0) & 0xff);
+    data.push_back((static_cast<uint64_t>(exactHeaderBaudrate) >>  8) & 0xff);
+    data.push_back((static_cast<uint64_t>(exactHeaderBaudrate) >> 16) & 0xff);
+    data.push_back((static_cast<uint64_t>(exactHeaderBaudrate) >> 24) & 0xff);
+    data.push_back((static_cast<uint64_t>(exactHeaderBaudrate) >> 32) & 0xff);
+    data.push_back((static_cast<uint64_t>(exactHeaderBaudrate) >> 40) & 0xff);
+    data.push_back((static_cast<uint64_t>(exactHeaderBaudrate) >> 48) & 0xff);
+    data.push_back((static_cast<uint64_t>(exactHeaderBaudrate) >> 56) & 0xff);
+    data.push_back((earlyStopbitOffset >>  0) & 0xff);
+    data.push_back((earlyStopbitOffset >>  8) & 0xff);
+    data.push_back((earlyStopbitOffset >> 16) & 0xff);
+    data.push_back((earlyStopbitOffset >> 24) & 0xff);
+    data.push_back((reservedLinShortOrSlowResponse2 >>  0) & 0xff);
+    data.push_back((reservedLinShortOrSlowResponse2 >>  8) & 0xff);
+    data.push_back((reservedLinShortOrSlowResponse2 >> 16) & 0xff);
+    data.push_back((reservedLinShortOrSlowResponse2 >> 24) & 0xff);
+
 }
 
 DWORD LinShortOrSlowResponse2::calculateObjectSize() const {

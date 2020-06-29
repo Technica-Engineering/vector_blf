@@ -28,31 +28,65 @@ WlanStatistic::WlanStatistic() :
     ObjectHeader(ObjectType::WLAN_STATISTIC) {
 }
 
-void WlanStatistic::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
-    is.read(reinterpret_cast<char *>(&rxPacketCount), sizeof(rxPacketCount));
-    is.read(reinterpret_cast<char *>(&rxByteCount), sizeof(rxByteCount));
-    is.read(reinterpret_cast<char *>(&txPacketCount), sizeof(txPacketCount));
-    is.read(reinterpret_cast<char *>(&txByteCount), sizeof(txByteCount));
-    is.read(reinterpret_cast<char *>(&collisionCount), sizeof(collisionCount));
-    is.read(reinterpret_cast<char *>(&errorCount), sizeof(errorCount));
-    is.read(reinterpret_cast<char *>(&reservedWlanStatistic), sizeof(reservedWlanStatistic));
-    // @note might be extended in future versions
+std::vector<uint8_t>::iterator WlanStatistic::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    flags =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    rxPacketCount =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8);
+    rxByteCount =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8);
+    txPacketCount =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8);
+    txByteCount =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8);
+    collisionCount =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8);
+    errorCount =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8);
+    reservedWlanStatistic =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+
+    return it;
 }
 
-void WlanStatistic::write(RawFile & os) {
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&flags), sizeof(flags));
-    os.write(reinterpret_cast<char *>(&rxPacketCount), sizeof(rxPacketCount));
-    os.write(reinterpret_cast<char *>(&rxByteCount), sizeof(rxByteCount));
-    os.write(reinterpret_cast<char *>(&txPacketCount), sizeof(txPacketCount));
-    os.write(reinterpret_cast<char *>(&txByteCount), sizeof(txByteCount));
-    os.write(reinterpret_cast<char *>(&collisionCount), sizeof(collisionCount));
-    os.write(reinterpret_cast<char *>(&errorCount), sizeof(errorCount));
-    os.write(reinterpret_cast<char *>(&reservedWlanStatistic), sizeof(reservedWlanStatistic));
+void WlanStatistic::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
+
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((flags >>  0) & 0xff);
+    data.push_back((flags >>  8) & 0xff);
+    data.push_back((rxPacketCount >>  0) & 0xff);
+    data.push_back((rxPacketCount >>  8) & 0xff);
+    data.push_back((rxByteCount >>  0) & 0xff);
+    data.push_back((rxByteCount >>  8) & 0xff);
+    data.push_back((txPacketCount >>  0) & 0xff);
+    data.push_back((txPacketCount >>  8) & 0xff);
+    data.push_back((txByteCount >>  0) & 0xff);
+    data.push_back((txByteCount >>  8) & 0xff);
+    data.push_back((collisionCount >>  0) & 0xff);
+    data.push_back((collisionCount >>  8) & 0xff);
+    data.push_back((errorCount >>  0) & 0xff);
+    data.push_back((errorCount >>  8) & 0xff);
+    data.push_back((reservedWlanStatistic >>  0) & 0xff);
+    data.push_back((reservedWlanStatistic >>  8) & 0xff);
+    data.push_back((reservedWlanStatistic >> 16) & 0xff);
+    data.push_back((reservedWlanStatistic >> 24) & 0xff);
 }
 
 DWORD WlanStatistic::calculateObjectSize() const {

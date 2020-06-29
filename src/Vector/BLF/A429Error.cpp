@@ -28,26 +28,59 @@ A429Error::A429Error() :
     ObjectHeader(ObjectType::A429_ERROR) {
 }
 
-void A429Error::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&errorType), sizeof(errorType));
-    is.read(reinterpret_cast<char *>(&sourceIdentifier), sizeof(sourceIdentifier));
-    is.read(reinterpret_cast<char *>(&errReason), sizeof(errReason));
-    is.read(reinterpret_cast<char *>(errorText.data()), static_cast<std::streamsize>(errorText.size()));
-    is.read(reinterpret_cast<char *>(errorAttributes.data()), static_cast<std::streamsize>(errorAttributes.size()));
-    is.read(reinterpret_cast<char *>(&reservedA429Error), sizeof(reservedA429Error));
+std::vector<uint8_t>::iterator A429Error::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    errorType =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    sourceIdentifier =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
+    errReason =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
+    std::copy(it, it + errorText.size(), std::begin(errorText));
+    it += errorText.size();
+    std::copy(it, it + errorAttributes.size(), std::begin(errorAttributes));
+    it += errorAttributes.size();
+    reservedA429Error =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
+
+    return it;
 }
 
-void A429Error::write(RawFile & os) {
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&errorType), sizeof(errorType));
-    os.write(reinterpret_cast<char *>(&sourceIdentifier), sizeof(sourceIdentifier));
-    os.write(reinterpret_cast<char *>(&errReason), sizeof(errReason));
-    os.write(reinterpret_cast<char *>(errorText.data()), static_cast<std::streamsize>(errorText.size()));
-    os.write(reinterpret_cast<char *>(errorAttributes.data()), static_cast<std::streamsize>(errorAttributes.size()));
-    os.write(reinterpret_cast<char *>(&reservedA429Error), sizeof(reservedA429Error));
+void A429Error::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
+
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((errorType >>  0) & 0xff);
+    data.push_back((errorType >>  8) & 0xff);
+    data.push_back((sourceIdentifier >>  0) & 0xff);
+    data.push_back((sourceIdentifier >>  8) & 0xff);
+    data.push_back((sourceIdentifier >> 16) & 0xff);
+    data.push_back((sourceIdentifier >> 24) & 0xff);
+    data.push_back((errReason >>  0) & 0xff);
+    data.push_back((errReason >>  8) & 0xff);
+    data.push_back((errReason >> 16) & 0xff);
+    data.push_back((errReason >> 24) & 0xff);
+    data.insert(std::end(data), std::begin(errorText), std::end(errorText));
+    data.insert(std::end(data), std::begin(errorAttributes), std::end(errorAttributes));
+    data.push_back((reservedA429Error >>  0) & 0xff);
+    data.push_back((reservedA429Error >>  8) & 0xff);
+    data.push_back((reservedA429Error >> 16) & 0xff);
+    data.push_back((reservedA429Error >> 24) & 0xff);
 }
 
 DWORD A429Error::calculateObjectSize() const {

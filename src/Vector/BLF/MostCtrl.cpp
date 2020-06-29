@@ -28,38 +28,77 @@ MostCtrl::MostCtrl() :
     ObjectHeader(ObjectType::MOST_CTRL) {
 }
 
-void MostCtrl::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
-    is.read(reinterpret_cast<char *>(&reservedMostCtrl1), sizeof(reservedMostCtrl1));
-    is.read(reinterpret_cast<char *>(&sourceAdr), sizeof(sourceAdr));
-    is.read(reinterpret_cast<char *>(&destAdr), sizeof(destAdr));
-    is.read(reinterpret_cast<char *>(msg.data()), static_cast<std::streamsize>(msg.size()));
-    is.read(reinterpret_cast<char *>(&reservedMostCtrl2), sizeof(reservedMostCtrl2));
-    is.read(reinterpret_cast<char *>(&rTyp), sizeof(rTyp));
-    is.read(reinterpret_cast<char *>(&rTypAdr), sizeof(rTypAdr));
-    is.read(reinterpret_cast<char *>(&state), sizeof(state));
-    is.read(reinterpret_cast<char *>(&reservedMostCtrl3), sizeof(reservedMostCtrl3));
-    is.read(reinterpret_cast<char *>(&ackNack), sizeof(ackNack));
-    is.read(reinterpret_cast<char *>(&reservedMostCtrl4), sizeof(reservedMostCtrl4));
+std::vector<uint8_t>::iterator MostCtrl::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    dir =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedMostCtrl1 =
+            (static_cast<BYTE>(*it++) <<  0);
+    sourceAdr =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    destAdr =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    std::copy(it, it + msg.size(), std::begin(msg));
+    it += msg.size();
+    reservedMostCtrl2 =
+            (static_cast<BYTE>(*it++) <<  0);
+    rTyp =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    rTypAdr =
+            (static_cast<BYTE>(*it++) <<  0);
+    state =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedMostCtrl3 =
+            (static_cast<BYTE>(*it++) <<  0);
+    ackNack =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedMostCtrl4 =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+
+    return it;
 }
 
-void MostCtrl::write(RawFile & os) {
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
-    os.write(reinterpret_cast<char *>(&reservedMostCtrl1), sizeof(reservedMostCtrl1));
-    os.write(reinterpret_cast<char *>(&sourceAdr), sizeof(sourceAdr));
-    os.write(reinterpret_cast<char *>(&destAdr), sizeof(destAdr));
-    os.write(reinterpret_cast<char *>(msg.data()), static_cast<std::streamsize>(msg.size()));
-    os.write(reinterpret_cast<char *>(&reservedMostCtrl2), sizeof(reservedMostCtrl2));
-    os.write(reinterpret_cast<char *>(&rTyp), sizeof(rTyp));
-    os.write(reinterpret_cast<char *>(&rTypAdr), sizeof(rTypAdr));
-    os.write(reinterpret_cast<char *>(&state), sizeof(state));
-    os.write(reinterpret_cast<char *>(&reservedMostCtrl3), sizeof(reservedMostCtrl3));
-    os.write(reinterpret_cast<char *>(&ackNack), sizeof(ackNack));
-    os.write(reinterpret_cast<char *>(&reservedMostCtrl4), sizeof(reservedMostCtrl4));
+void MostCtrl::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
+
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((dir >>  0) & 0xff);
+    data.push_back((reservedMostCtrl1 >>  0) & 0xff);
+    data.push_back((sourceAdr >>  0) & 0xff);
+    data.push_back((sourceAdr >>  8) & 0xff);
+    data.push_back((sourceAdr >> 16) & 0xff);
+    data.push_back((sourceAdr >> 24) & 0xff);
+    data.push_back((destAdr >>  0) & 0xff);
+    data.push_back((destAdr >>  8) & 0xff);
+    data.push_back((destAdr >> 16) & 0xff);
+    data.push_back((destAdr >> 24) & 0xff);
+    data.insert(std::end(data), std::begin(msg), std::end(msg));
+    data.push_back((reservedMostCtrl2 >>  0) & 0xff);
+    data.push_back((rTyp >>  0) & 0xff);
+    data.push_back((rTyp >>  8) & 0xff);
+    data.push_back((rTypAdr >>  0) & 0xff);
+    data.push_back((state >>  0) & 0xff);
+    data.push_back((reservedMostCtrl3 >>  0) & 0xff);
+    data.push_back((ackNack >>  0) & 0xff);
+    data.push_back((reservedMostCtrl4 >>  0) & 0xff);
+    data.push_back((reservedMostCtrl4 >>  8) & 0xff);
+    data.push_back((reservedMostCtrl4 >> 16) & 0xff);
+    data.push_back((reservedMostCtrl4 >> 24) & 0xff);
 }
 
 DWORD MostCtrl::calculateObjectSize() const {

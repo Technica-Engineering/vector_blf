@@ -28,38 +28,87 @@ DiagRequestInterpretation::DiagRequestInterpretation() :
     ObjectHeader(ObjectType::DIAG_REQUEST_INTERPRETATION) {
 }
 
-void DiagRequestInterpretation::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&diagDescriptionHandle), sizeof(diagDescriptionHandle));
-    is.read(reinterpret_cast<char *>(&diagVariantHandle), sizeof(diagVariantHandle));
-    is.read(reinterpret_cast<char *>(&diagServiceHandle), sizeof(diagServiceHandle));
-    is.read(reinterpret_cast<char *>(&ecuQualifierLength), sizeof(ecuQualifierLength));
-    is.read(reinterpret_cast<char *>(&variantQualifierLength), sizeof(variantQualifierLength));
-    is.read(reinterpret_cast<char *>(&serviceQualifierLength), sizeof(serviceQualifierLength));
+std::vector<uint8_t>::iterator DiagRequestInterpretation::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+
+    diagDescriptionHandle =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    diagVariantHandle =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    diagServiceHandle =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    ecuQualifierLength =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    variantQualifierLength =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    serviceQualifierLength =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
     ecuQualifier.resize(ecuQualifierLength);
-    is.read(&ecuQualifier[0], ecuQualifierLength);
+    std::copy(it, it + this->ecuQualifier.size(), std::begin(ecuQualifier));
+    it += this->ecuQualifier.size();
     variantQualifier.resize(variantQualifierLength);
-    is.read(&variantQualifier[0], variantQualifierLength);
+    std::copy(it, it + this->variantQualifier.size(), std::begin(variantQualifier));
+    it += this->variantQualifier.size();
     serviceQualifier.resize(serviceQualifierLength);
-    is.read(&serviceQualifier[0], serviceQualifierLength);
+    std::copy(it, it + this->serviceQualifier.size(), std::begin(serviceQualifier));
+    it += this->serviceQualifier.size();
+
+    return it;
 }
 
-void DiagRequestInterpretation::write(RawFile & os) {
+void DiagRequestInterpretation::toData(std::vector<uint8_t> & data) {
     /* pre processing */
     ecuQualifierLength = static_cast<DWORD>(ecuQualifier.size());
     variantQualifierLength = static_cast<DWORD>(variantQualifier.size());
     serviceQualifierLength = static_cast<DWORD>(serviceQualifier.size());
 
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&diagDescriptionHandle), sizeof(diagDescriptionHandle));
-    os.write(reinterpret_cast<char *>(&diagVariantHandle), sizeof(diagVariantHandle));
-    os.write(reinterpret_cast<char *>(&diagServiceHandle), sizeof(diagServiceHandle));
-    os.write(reinterpret_cast<char *>(&ecuQualifierLength), sizeof(ecuQualifierLength));
-    os.write(reinterpret_cast<char *>(&variantQualifierLength), sizeof(variantQualifierLength));
-    os.write(reinterpret_cast<char *>(&serviceQualifierLength), sizeof(serviceQualifierLength));
-    os.write(&ecuQualifier[0], ecuQualifierLength);
-    os.write(&variantQualifier[0], variantQualifierLength);
-    os.write(&serviceQualifier[0], serviceQualifierLength);
+    ObjectHeader::toData(data);
+
+    data.push_back((diagDescriptionHandle >>  0) & 0xff);
+    data.push_back((diagDescriptionHandle >>  8) & 0xff);
+    data.push_back((diagDescriptionHandle >> 16) & 0xff);
+    data.push_back((diagDescriptionHandle >> 24) & 0xff);
+    data.push_back((diagVariantHandle >>  0) & 0xff);
+    data.push_back((diagVariantHandle >>  8) & 0xff);
+    data.push_back((diagVariantHandle >> 16) & 0xff);
+    data.push_back((diagVariantHandle >> 24) & 0xff);
+    data.push_back((diagServiceHandle >>  0) & 0xff);
+    data.push_back((diagServiceHandle >>  8) & 0xff);
+    data.push_back((diagServiceHandle >> 16) & 0xff);
+    data.push_back((diagServiceHandle >> 24) & 0xff);
+    data.push_back((ecuQualifierLength >>  0) & 0xff);
+    data.push_back((ecuQualifierLength >>  8) & 0xff);
+    data.push_back((ecuQualifierLength >> 16) & 0xff);
+    data.push_back((ecuQualifierLength >> 24) & 0xff);
+    data.push_back((variantQualifierLength >>  0) & 0xff);
+    data.push_back((variantQualifierLength >>  8) & 0xff);
+    data.push_back((variantQualifierLength >> 16) & 0xff);
+    data.push_back((variantQualifierLength >> 24) & 0xff);
+    data.push_back((serviceQualifierLength >>  0) & 0xff);
+    data.push_back((serviceQualifierLength >>  8) & 0xff);
+    data.push_back((serviceQualifierLength >> 16) & 0xff);
+    data.push_back((serviceQualifierLength >> 24) & 0xff);
+    data.insert(std::end(data), std::begin(ecuQualifier), std::end(ecuQualifier));
+    data.insert(std::end(data), std::begin(variantQualifier), std::end(variantQualifier));
+    data.insert(std::end(data), std::begin(serviceQualifier), std::end(serviceQualifier));
 }
 
 DWORD DiagRequestInterpretation::calculateObjectSize() const {

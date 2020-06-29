@@ -28,20 +28,36 @@ LinWakeupEvent::LinWakeupEvent() :
     ObjectHeader(ObjectType::LIN_WAKEUP) {
 }
 
-void LinWakeupEvent::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&signal), sizeof(signal));
-    is.read(reinterpret_cast<char *>(&external), sizeof(external));
-    is.read(reinterpret_cast<char *>(&reservedLinWakeupEvent), sizeof(reservedLinWakeupEvent));
+std::vector<uint8_t>::iterator LinWakeupEvent::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    signal =
+            (static_cast<BYTE>(*it++) <<  0);
+    external =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedLinWakeupEvent =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+
+    return it;
 }
 
-void LinWakeupEvent::write(RawFile & os) {
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&signal), sizeof(signal));
-    os.write(reinterpret_cast<char *>(&external), sizeof(external));
-    os.write(reinterpret_cast<char *>(&reservedLinWakeupEvent), sizeof(reservedLinWakeupEvent));
+void LinWakeupEvent::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
+
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((signal >>  0) & 0xff);
+    data.push_back((external >>  0) & 0xff);
+    data.push_back((reservedLinWakeupEvent >>  0) & 0xff);
+    data.push_back((reservedLinWakeupEvent >>  8) & 0xff);
+    data.push_back((reservedLinWakeupEvent >> 16) & 0xff);
+    data.push_back((reservedLinWakeupEvent >> 24) & 0xff);
 }
 
 DWORD LinWakeupEvent::calculateObjectSize() const {

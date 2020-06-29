@@ -28,32 +28,106 @@ LinStatisticEvent::LinStatisticEvent() :
     ObjectHeader(ObjectType::LIN_STATISTIC) {
 }
 
-void LinStatisticEvent::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&reservedLinStatisticEvent1), sizeof(reservedLinStatisticEvent1));
-    is.read(reinterpret_cast<char *>(&reservedLinStatisticEvent2), sizeof(reservedLinStatisticEvent2));
-    is.read(reinterpret_cast<char *>(&busLoad), sizeof(busLoad));
-    is.read(reinterpret_cast<char *>(&burstsTotal), sizeof(burstsTotal));
-    is.read(reinterpret_cast<char *>(&burstsOverrun), sizeof(burstsOverrun));
-    is.read(reinterpret_cast<char *>(&framesSent), sizeof(framesSent));
-    is.read(reinterpret_cast<char *>(&framesReceived), sizeof(framesReceived));
-    is.read(reinterpret_cast<char *>(&framesUnanswered), sizeof(framesUnanswered));
-    is.read(reinterpret_cast<char *>(&reservedLinStatisticEvent3), sizeof(reservedLinStatisticEvent3));
+std::vector<uint8_t>::iterator LinStatisticEvent::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    reservedLinStatisticEvent1 =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    reservedLinStatisticEvent2 =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    busLoad =
+            (static_cast<uint64_t>(*it++) <<  0) |
+            (static_cast<uint64_t>(*it++) <<  8) |
+            (static_cast<uint64_t>(*it++) << 16) |
+            (static_cast<uint64_t>(*it++) << 24) |
+            (static_cast<uint64_t>(*it++) << 32) |
+            (static_cast<uint64_t>(*it++) << 40) |
+            (static_cast<uint64_t>(*it++) << 48) |
+            (static_cast<uint64_t>(*it++) << 56);
+    burstsTotal =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
+    burstsOverrun =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
+    framesSent =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
+    framesReceived =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
+    framesUnanswered =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
+    reservedLinStatisticEvent3 =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+
+    return it;
 }
 
-void LinStatisticEvent::write(RawFile & os) {
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&reservedLinStatisticEvent1), sizeof(reservedLinStatisticEvent1));
-    os.write(reinterpret_cast<char *>(&reservedLinStatisticEvent2), sizeof(reservedLinStatisticEvent2));
-    os.write(reinterpret_cast<char *>(&busLoad), sizeof(busLoad));
-    os.write(reinterpret_cast<char *>(&burstsTotal), sizeof(burstsTotal));
-    os.write(reinterpret_cast<char *>(&burstsOverrun), sizeof(burstsOverrun));
-    os.write(reinterpret_cast<char *>(&framesSent), sizeof(framesSent));
-    os.write(reinterpret_cast<char *>(&framesReceived), sizeof(framesReceived));
-    os.write(reinterpret_cast<char *>(&framesUnanswered), sizeof(framesUnanswered));
-    os.write(reinterpret_cast<char *>(&reservedLinStatisticEvent3), sizeof(reservedLinStatisticEvent3));
+void LinStatisticEvent::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
+
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((reservedLinStatisticEvent1 >>  0) & 0xff);
+    data.push_back((reservedLinStatisticEvent1 >>  8) & 0xff);
+    data.push_back((reservedLinStatisticEvent2 >>  0) & 0xff);
+    data.push_back((reservedLinStatisticEvent2 >>  8) & 0xff);
+    data.push_back((reservedLinStatisticEvent2 >> 16) & 0xff);
+    data.push_back((reservedLinStatisticEvent2 >> 24) & 0xff);
+    data.push_back((static_cast<uint64_t>(busLoad) >>  0) & 0xff);
+    data.push_back((static_cast<uint64_t>(busLoad) >>  8) & 0xff);
+    data.push_back((static_cast<uint64_t>(busLoad) >> 16) & 0xff);
+    data.push_back((static_cast<uint64_t>(busLoad) >> 24) & 0xff);
+    data.push_back((static_cast<uint64_t>(busLoad) >> 32) & 0xff);
+    data.push_back((static_cast<uint64_t>(busLoad) >> 40) & 0xff);
+    data.push_back((static_cast<uint64_t>(busLoad) >> 48) & 0xff);
+    data.push_back((static_cast<uint64_t>(busLoad) >> 56) & 0xff);
+    data.push_back((burstsTotal >>  0) & 0xff);
+    data.push_back((burstsTotal >>  8) & 0xff);
+    data.push_back((burstsTotal >> 16) & 0xff);
+    data.push_back((burstsTotal >> 24) & 0xff);
+    data.push_back((burstsOverrun >>  0) & 0xff);
+    data.push_back((burstsOverrun >>  8) & 0xff);
+    data.push_back((burstsOverrun >> 16) & 0xff);
+    data.push_back((burstsOverrun >> 24) & 0xff);
+    data.push_back((framesSent >>  0) & 0xff);
+    data.push_back((framesSent >>  8) & 0xff);
+    data.push_back((framesSent >> 16) & 0xff);
+    data.push_back((framesSent >> 24) & 0xff);
+    data.push_back((framesReceived >>  0) & 0xff);
+    data.push_back((framesReceived >>  8) & 0xff);
+    data.push_back((framesReceived >> 16) & 0xff);
+    data.push_back((framesReceived >> 24) & 0xff);
+    data.push_back((framesUnanswered >>  0) & 0xff);
+    data.push_back((framesUnanswered >>  8) & 0xff);
+    data.push_back((framesUnanswered >> 16) & 0xff);
+    data.push_back((framesUnanswered >> 24) & 0xff);
+    data.push_back((reservedLinStatisticEvent3 >>  0) & 0xff);
+    data.push_back((reservedLinStatisticEvent3 >>  8) & 0xff);
+    data.push_back((reservedLinStatisticEvent3 >> 16) & 0xff);
+    data.push_back((reservedLinStatisticEvent3 >> 24) & 0xff);
 }
 
 DWORD LinStatisticEvent::calculateObjectSize() const {

@@ -28,54 +28,98 @@ AfdxFrame::AfdxFrame() :
     ObjectHeader(ObjectType::AFDX_FRAME) {
 }
 
-void AfdxFrame::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(sourceAddress.data()), static_cast<std::streamsize>(sourceAddress.size()));
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(destinationAddress.data()), static_cast<std::streamsize>(destinationAddress.size()));
-    is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
-    is.read(reinterpret_cast<char *>(&type), sizeof(type));
-    is.read(reinterpret_cast<char *>(&tpid), sizeof(tpid));
-    is.read(reinterpret_cast<char *>(&tci), sizeof(tci));
-    is.read(reinterpret_cast<char *>(&ethChannel), sizeof(ethChannel));
-    is.read(reinterpret_cast<char *>(&reservedAfdxFrame1), sizeof(reservedAfdxFrame1));
-    is.read(reinterpret_cast<char *>(&afdxFlags), sizeof(afdxFlags));
-    is.read(reinterpret_cast<char *>(&reservedAfdxFrame2), sizeof(reservedAfdxFrame2));
-    is.read(reinterpret_cast<char *>(&bagUsec), sizeof(bagUsec));
-    is.read(reinterpret_cast<char *>(&payLoadLength), sizeof(payLoadLength));
-    is.read(reinterpret_cast<char *>(&reservedAfdxFrame3), sizeof(reservedAfdxFrame3));
-    is.read(reinterpret_cast<char *>(&reservedAfdxFrame4), sizeof(reservedAfdxFrame4));
-    payLoad.resize(payLoadLength);
-    is.read(reinterpret_cast<char *>(payLoad.data()), payLoadLength);
+std::vector<uint8_t>::iterator AfdxFrame::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
 
-    /* skip padding */
-    is.seekg(objectSize % 4, std::ios_base::cur);
+    std::copy(it, it + sourceAddress.size(), std::begin(sourceAddress));
+    it += sourceAddress.size();
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    std::copy(it, it + destinationAddress.size(), std::begin(destinationAddress));
+    it += destinationAddress.size();
+    dir =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    type =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    tpid =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    tci =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    ethChannel =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedAfdxFrame1 =
+            (static_cast<BYTE>(*it++) <<  0);
+    afdxFlags =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    reservedAfdxFrame2 =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    bagUsec =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
+    payLoadLength =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    reservedAfdxFrame3 =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    reservedAfdxFrame4 =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    payLoad.resize(payLoadLength);
+    std::copy(it, it + payLoad.size(), std::begin(payLoad));
+    it += payLoad.size();
+
+    return it;
 }
 
-void AfdxFrame::write(RawFile & os) {
+void AfdxFrame::toData(std::vector<uint8_t> & data) {
     /* pre processing */
     payLoadLength = static_cast<WORD>(payLoad.size());
 
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(sourceAddress.data()), static_cast<std::streamsize>(sourceAddress.size()));
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(destinationAddress.data()), static_cast<std::streamsize>(destinationAddress.size()));
-    os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
-    os.write(reinterpret_cast<char *>(&type), sizeof(type));
-    os.write(reinterpret_cast<char *>(&tpid), sizeof(tpid));
-    os.write(reinterpret_cast<char *>(&tci), sizeof(tci));
-    os.write(reinterpret_cast<char *>(&ethChannel), sizeof(ethChannel));
-    os.write(reinterpret_cast<char *>(&reservedAfdxFrame1), sizeof(reservedAfdxFrame1));
-    os.write(reinterpret_cast<char *>(&afdxFlags), sizeof(afdxFlags));
-    os.write(reinterpret_cast<char *>(&reservedAfdxFrame2), sizeof(reservedAfdxFrame2));
-    os.write(reinterpret_cast<char *>(&bagUsec), sizeof(bagUsec));
-    os.write(reinterpret_cast<char *>(&payLoadLength), sizeof(payLoadLength));
-    os.write(reinterpret_cast<char *>(&reservedAfdxFrame3), sizeof(reservedAfdxFrame3));
-    os.write(reinterpret_cast<char *>(&reservedAfdxFrame4), sizeof(reservedAfdxFrame4));
-    os.write(reinterpret_cast<char *>(payLoad.data()), payLoadLength);
+    ObjectHeader::toData(data);
 
-    /* skip padding */
-    os.seekp(objectSize % 4, std::ios_base::cur);
+    data.insert(std::end(data), std::begin(sourceAddress), std::end(sourceAddress));
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.insert(std::end(data), std::begin(destinationAddress), std::end(destinationAddress));
+    data.push_back((dir >>  0) & 0xff);
+    data.push_back((dir >>  8) & 0xff);
+    data.push_back((type >>  0) & 0xff);
+    data.push_back((type >>  8) & 0xff);
+    data.push_back((tpid >>  0) & 0xff);
+    data.push_back((tpid >>  8) & 0xff);
+    data.push_back((tci >>  0) & 0xff);
+    data.push_back((tci >>  8) & 0xff);
+    data.push_back((ethChannel >>  0) & 0xff);
+    data.push_back((reservedAfdxFrame1 >>  0) & 0xff);
+    data.push_back((afdxFlags >>  0) & 0xff);
+    data.push_back((afdxFlags >>  8) & 0xff);
+    data.push_back((reservedAfdxFrame2 >>  0) & 0xff);
+    data.push_back((reservedAfdxFrame2 >>  8) & 0xff);
+    data.push_back((bagUsec >>  0) & 0xff);
+    data.push_back((bagUsec >>  8) & 0xff);
+    data.push_back((bagUsec >> 16) & 0xff);
+    data.push_back((bagUsec >> 24) & 0xff);
+    data.push_back((payLoadLength >>  0) & 0xff);
+    data.push_back((payLoadLength >>  8) & 0xff);
+    data.push_back((reservedAfdxFrame3 >>  0) & 0xff);
+    data.push_back((reservedAfdxFrame3 >>  8) & 0xff);
+    data.push_back((reservedAfdxFrame4 >>  0) & 0xff);
+    data.push_back((reservedAfdxFrame4 >>  8) & 0xff);
+    data.push_back((reservedAfdxFrame4 >> 16) & 0xff);
+    data.push_back((reservedAfdxFrame4 >> 24) & 0xff);
+    data.insert(std::end(data), std::begin(payLoad), std::end(payLoad));
 }
 
 DWORD AfdxFrame::calculateObjectSize() const {

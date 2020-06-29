@@ -28,20 +28,35 @@ CanErrorFrame::CanErrorFrame() :
     ObjectHeader(ObjectType::CAN_ERROR) {
 }
 
-void CanErrorFrame::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&length), sizeof(length));
-    if (length > 0)
-        is.read(reinterpret_cast<char *>(&reservedCanErrorFrame), sizeof(reservedCanErrorFrame));
+std::vector<uint8_t>::iterator CanErrorFrame::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    length =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    reservedCanErrorFrame =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+
+    return it;
 }
 
-void CanErrorFrame::write(RawFile & os) {
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&length), sizeof(length));
-    if (length > 0)
-        os.write(reinterpret_cast<char *>(&reservedCanErrorFrame), sizeof(reservedCanErrorFrame));
+void CanErrorFrame::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
+
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((length >>  0) & 0xff);
+    data.push_back((length >>  8) & 0xff);
+    data.push_back((reservedCanErrorFrame >>  0) & 0xff);
+    data.push_back((reservedCanErrorFrame >>  8) & 0xff);
+    data.push_back((reservedCanErrorFrame >> 16) & 0xff);
+    data.push_back((reservedCanErrorFrame >> 24) & 0xff);
 }
 
 DWORD CanErrorFrame::calculateObjectSize() const {

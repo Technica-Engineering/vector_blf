@@ -28,28 +28,72 @@ MostGenReg::MostGenReg() :
     ObjectHeader2(ObjectType::MOST_GENREG) {
 }
 
-void MostGenReg::read(RawFile & is) {
-    ObjectHeader2::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&subType), sizeof(subType));
-    is.read(reinterpret_cast<char *>(&reservedMostGenReg1), sizeof(reservedMostGenReg1));
-    is.read(reinterpret_cast<char *>(&handle), sizeof(handle));
-    is.read(reinterpret_cast<char *>(&regId), sizeof(regId));
-    is.read(reinterpret_cast<char *>(&reservedMostGenReg2), sizeof(reservedMostGenReg2));
-    is.read(reinterpret_cast<char *>(&reservedMostGenReg3), sizeof(reservedMostGenReg3));
-    is.read(reinterpret_cast<char *>(&regValue), sizeof(regValue));
+std::vector<uint8_t>::iterator MostGenReg::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader2::fromData(it);
+
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    subType =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedMostGenReg1 =
+            (static_cast<BYTE>(*it++) <<  0);
+    handle =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    regId =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    reservedMostGenReg2 =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    reservedMostGenReg3 =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    regValue =
+            (static_cast<ULONGLONG>(*it++) <<  0) |
+            (static_cast<ULONGLONG>(*it++) <<  8) |
+            (static_cast<ULONGLONG>(*it++) << 16) |
+            (static_cast<ULONGLONG>(*it++) << 24) |
+            (static_cast<ULONGLONG>(*it++) << 32) |
+            (static_cast<ULONGLONG>(*it++) << 40) |
+            (static_cast<ULONGLONG>(*it++) << 48) |
+            (static_cast<ULONGLONG>(*it++) << 56);
+
+    return it;
 }
 
-void MostGenReg::write(RawFile & os) {
-    ObjectHeader2::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&subType), sizeof(subType));
-    os.write(reinterpret_cast<char *>(&reservedMostGenReg1), sizeof(reservedMostGenReg1));
-    os.write(reinterpret_cast<char *>(&handle), sizeof(handle));
-    os.write(reinterpret_cast<char *>(&regId), sizeof(regId));
-    os.write(reinterpret_cast<char *>(&reservedMostGenReg2), sizeof(reservedMostGenReg2));
-    os.write(reinterpret_cast<char *>(&reservedMostGenReg3), sizeof(reservedMostGenReg3));
-    os.write(reinterpret_cast<char *>(&regValue), sizeof(regValue));
+void MostGenReg::toData(std::vector<uint8_t> & data) {
+    ObjectHeader2::toData(data);
+
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((subType >>  0) & 0xff);
+    data.push_back((reservedMostGenReg1 >>  0) & 0xff);
+    data.push_back((handle >>  0) & 0xff);
+    data.push_back((handle >>  8) & 0xff);
+    data.push_back((handle >> 16) & 0xff);
+    data.push_back((handle >> 24) & 0xff);
+    data.push_back((regId >>  0) & 0xff);
+    data.push_back((regId >>  8) & 0xff);
+    data.push_back((reservedMostGenReg2 >>  0) & 0xff);
+    data.push_back((reservedMostGenReg2 >>  8) & 0xff);
+    data.push_back((reservedMostGenReg3 >>  0) & 0xff);
+    data.push_back((reservedMostGenReg3 >>  8) & 0xff);
+    data.push_back((reservedMostGenReg3 >> 16) & 0xff);
+    data.push_back((reservedMostGenReg3 >> 24) & 0xff);
+    data.push_back((regValue >>  0) & 0xff);
+    data.push_back((regValue >>  8) & 0xff);
+    data.push_back((regValue >> 16) & 0xff);
+    data.push_back((regValue >> 24) & 0xff);
+    data.push_back((regValue >> 32) & 0xff);
+    data.push_back((regValue >> 40) & 0xff);
+    data.push_back((regValue >> 48) & 0xff);
+    data.push_back((regValue >> 56) & 0xff);
 }
 
 DWORD MostGenReg::calculateObjectSize() const {

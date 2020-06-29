@@ -28,14 +28,25 @@ DataLostBegin::DataLostBegin() :
     ObjectHeader(ObjectType::DATA_LOST_BEGIN) {
 }
 
-void DataLostBegin::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&queueIdentifier), sizeof(queueIdentifier));
+std::vector<uint8_t>::iterator DataLostBegin::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+
+    queueIdentifier =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+
+    return it;
 }
 
-void DataLostBegin::write(RawFile & os) {
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&queueIdentifier), sizeof(queueIdentifier));
+void DataLostBegin::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
+
+    data.push_back((queueIdentifier >>  0) & 0xff);
+    data.push_back((queueIdentifier >>  8) & 0xff);
+    data.push_back((queueIdentifier >> 16) & 0xff);
+    data.push_back((queueIdentifier >> 24) & 0xff);
 }
 
 DWORD DataLostBegin::calculateObjectSize() const {

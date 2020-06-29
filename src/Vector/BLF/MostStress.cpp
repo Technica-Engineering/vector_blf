@@ -28,20 +28,36 @@ MostStress::MostStress() :
     ObjectHeader2(ObjectType::MOST_STRESS) {
 }
 
-void MostStress::read(RawFile & is) {
-    ObjectHeader2::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&state), sizeof(state));
-    is.read(reinterpret_cast<char *>(&mode), sizeof(mode));
-    is.read(reinterpret_cast<char *>(&reservedMostStress), sizeof(reservedMostStress));
+std::vector<uint8_t>::iterator MostStress::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader2::fromData(it);
+
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    state =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    mode =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    reservedMostStress =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+
+    return it;
 }
 
-void MostStress::write(RawFile & os) {
-    ObjectHeader2::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&state), sizeof(state));
-    os.write(reinterpret_cast<char *>(&mode), sizeof(mode));
-    os.write(reinterpret_cast<char *>(&reservedMostStress), sizeof(reservedMostStress));
+void MostStress::toData(std::vector<uint8_t> & data) {
+    ObjectHeader2::toData(data);
+
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((state >>  0) & 0xff);
+    data.push_back((state >>  8) & 0xff);
+    data.push_back((mode >>  0) & 0xff);
+    data.push_back((mode >>  8) & 0xff);
+    data.push_back((reservedMostStress >>  0) & 0xff);
+    data.push_back((reservedMostStress >>  8) & 0xff);
 }
 
 DWORD MostStress::calculateObjectSize() const {

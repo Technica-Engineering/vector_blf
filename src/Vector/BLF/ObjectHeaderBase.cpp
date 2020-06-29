@@ -161,26 +161,55 @@ ObjectHeaderBase::ObjectHeaderBase(const WORD headerVersion, const ObjectType ob
     objectType(objectType) {
 }
 
-void ObjectHeaderBase::read(RawFile & is) {
-    is.read(reinterpret_cast<char *>(&signature), sizeof(signature));
+std::vector<uint8_t>::iterator ObjectHeaderBase::fromData(std::vector<uint8_t>::iterator it) {
+    signature =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
     if (signature != ObjectSignature)
-        throw Exception("ObjectHeaderBase::read(): Object signature doesn't match at this position.");
-    is.read(reinterpret_cast<char *>(&headerSize), sizeof(headerSize));
-    is.read(reinterpret_cast<char *>(&headerVersion), sizeof(headerVersion));
-    is.read(reinterpret_cast<char *>(&objectSize), sizeof(objectSize));
-    is.read(reinterpret_cast<char *>(&objectType), sizeof(objectType));
+        throw Exception("ObjectHeaderBase::fromData(): Object signature doesn't match.");
+    headerSize =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    headerVersion =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    objectSize =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    objectType = static_cast<ObjectType>(
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24));
+
+    return it;
 }
 
-void ObjectHeaderBase::write(RawFile & os) {
+void ObjectHeaderBase::toData(std::vector<uint8_t> & data) {
     /* pre processing */
     headerSize = calculateHeaderSize();
     objectSize = calculateObjectSize();
 
-    os.write(reinterpret_cast<char *>(&signature), sizeof(signature));
-    os.write(reinterpret_cast<char *>(&headerSize), sizeof(headerSize));
-    os.write(reinterpret_cast<char *>(&headerVersion), sizeof(headerVersion));
-    os.write(reinterpret_cast<char *>(&objectSize), sizeof(objectSize));
-    os.write(reinterpret_cast<char *>(&objectType), sizeof(objectType));
+    data.push_back((signature >>  0) & 0xff);
+    data.push_back((signature >>  8) & 0xff);
+    data.push_back((signature >> 16) & 0xff);
+    data.push_back((signature >> 24) & 0xff);
+    data.push_back((headerSize >>  0) & 0xff);
+    data.push_back((headerSize >>  8) & 0xff);
+    data.push_back((headerVersion >>  0) & 0xff);
+    data.push_back((headerVersion >>  8) & 0xff);
+    data.push_back((objectSize >>  0) & 0xff);
+    data.push_back((objectSize >>  8) & 0xff);
+    data.push_back((objectSize >> 16) & 0xff);
+    data.push_back((objectSize >> 24) & 0xff);
+    data.push_back((static_cast<DWORD>(objectType) >>  0) & 0xff);
+    data.push_back((static_cast<DWORD>(objectType) >>  8) & 0xff);
+    data.push_back((static_cast<DWORD>(objectType) >> 16) & 0xff);
+    data.push_back((static_cast<DWORD>(objectType) >> 24) & 0xff);
 }
 
 WORD ObjectHeaderBase::calculateHeaderSize() const {

@@ -21,6 +21,8 @@
 
 #include <Vector/BLF/FlexRayVFrReceiveMsgEx.h>
 
+#include <algorithm>
+
 namespace Vector {
 namespace BLF {
 
@@ -28,62 +30,168 @@ FlexRayVFrReceiveMsgEx::FlexRayVFrReceiveMsgEx() :
     ObjectHeader(ObjectType::FR_RCVMESSAGE_EX) {
 }
 
-void FlexRayVFrReceiveMsgEx::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&version), sizeof(version));
-    is.read(reinterpret_cast<char *>(&channelMask), sizeof(channelMask));
-    is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
-    is.read(reinterpret_cast<char *>(&clientIndexFlexRayVFrReceiveMsgEx), sizeof(clientIndexFlexRayVFrReceiveMsgEx));
-    is.read(reinterpret_cast<char *>(&clusterNo), sizeof(clusterNo));
-    is.read(reinterpret_cast<char *>(&frameId), sizeof(frameId));
-    is.read(reinterpret_cast<char *>(&headerCrc1), sizeof(headerCrc1));
-    is.read(reinterpret_cast<char *>(&headerCrc2), sizeof(headerCrc2));
-    is.read(reinterpret_cast<char *>(&byteCount), sizeof(byteCount));
-    is.read(reinterpret_cast<char *>(&dataCount), sizeof(dataCount));
-    is.read(reinterpret_cast<char *>(&cycle), sizeof(cycle));
-    is.read(reinterpret_cast<char *>(&tag), sizeof(tag));
-    is.read(reinterpret_cast<char *>(&data), sizeof(data));
-    is.read(reinterpret_cast<char *>(&frameFlags), sizeof(frameFlags));
-    is.read(reinterpret_cast<char *>(&appParameter), sizeof(appParameter));
-    is.read(reinterpret_cast<char *>(&frameCrc), sizeof(frameCrc));
-    is.read(reinterpret_cast<char *>(&frameLengthNs), sizeof(frameLengthNs));
-    is.read(reinterpret_cast<char *>(&frameId1), sizeof(frameId1));
-    is.read(reinterpret_cast<char *>(&pduOffset), sizeof(pduOffset));
-    is.read(reinterpret_cast<char *>(&blfLogMask), sizeof(blfLogMask));
-    is.read(reinterpret_cast<char *>(reservedFlexRayVFrReceiveMsgEx.data()), static_cast<std::streamsize>(reservedFlexRayVFrReceiveMsgEx.size() * sizeof(WORD)));
-    dataBytes.resize(dataCount);
-    is.read(reinterpret_cast<char *>(dataBytes.data()), static_cast<std::streamsize>(dataCount));
+std::vector<uint8_t>::iterator FlexRayVFrReceiveMsgEx::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    version =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    channelMask =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    dir =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    clientIndexFlexRayVFrReceiveMsgEx =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    clusterNo =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    frameId =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    headerCrc1 =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    headerCrc2 =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    byteCount =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    dataCount =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    cycle =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    tag =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    this->data =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    frameFlags =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    appParameter =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    frameCrc =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    frameLengthNs =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    frameId1 =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    pduOffset =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    blfLogMask =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    std::generate(reservedFlexRayVFrReceiveMsgEx.begin(), reservedFlexRayVFrReceiveMsgEx.end(), [&it]() {
+        return
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    });
+    std::copy(it, it + dataBytes.size(), std::begin(dataBytes));
+    it += dataBytes.size();
+
+    return it;
 }
 
-void FlexRayVFrReceiveMsgEx::write(RawFile & os) {
+void FlexRayVFrReceiveMsgEx::toData(std::vector<uint8_t> & data) {
     /* pre processing */
     dataCount = static_cast<WORD>(dataBytes.size());
 
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&version), sizeof(version));
-    os.write(reinterpret_cast<char *>(&channelMask), sizeof(channelMask));
-    os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
-    os.write(reinterpret_cast<char *>(&clientIndexFlexRayVFrReceiveMsgEx), sizeof(clientIndexFlexRayVFrReceiveMsgEx));
-    os.write(reinterpret_cast<char *>(&clusterNo), sizeof(clusterNo));
-    os.write(reinterpret_cast<char *>(&frameId), sizeof(frameId));
-    os.write(reinterpret_cast<char *>(&headerCrc1), sizeof(headerCrc1));
-    os.write(reinterpret_cast<char *>(&headerCrc2), sizeof(headerCrc2));
-    os.write(reinterpret_cast<char *>(&byteCount), sizeof(byteCount));
-    os.write(reinterpret_cast<char *>(&dataCount), sizeof(dataCount));
-    os.write(reinterpret_cast<char *>(&cycle), sizeof(cycle));
-    os.write(reinterpret_cast<char *>(&tag), sizeof(tag));
-    os.write(reinterpret_cast<char *>(&data), sizeof(data));
-    os.write(reinterpret_cast<char *>(&frameFlags), sizeof(frameFlags));
-    os.write(reinterpret_cast<char *>(&appParameter), sizeof(appParameter));
-    os.write(reinterpret_cast<char *>(&frameCrc), sizeof(frameCrc));
-    os.write(reinterpret_cast<char *>(&frameLengthNs), sizeof(frameLengthNs));
-    os.write(reinterpret_cast<char *>(&frameId1), sizeof(frameId1));
-    os.write(reinterpret_cast<char *>(&pduOffset), sizeof(pduOffset));
-    os.write(reinterpret_cast<char *>(&blfLogMask), sizeof(blfLogMask));
-    os.write(reinterpret_cast<char *>(reservedFlexRayVFrReceiveMsgEx.data()), static_cast<std::streamsize>(reservedFlexRayVFrReceiveMsgEx.size() * sizeof(WORD)));
-    os.write(reinterpret_cast<char *>(dataBytes.data()), static_cast<std::streamsize>(dataCount));
+    ObjectHeader::toData(data);
+
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((version >>  0) & 0xff);
+    data.push_back((version >>  8) & 0xff);
+    data.push_back((channelMask >>  0) & 0xff);
+    data.push_back((channelMask >>  8) & 0xff);
+    data.push_back((dir >>  0) & 0xff);
+    data.push_back((dir >>  8) & 0xff);
+    data.push_back((clientIndexFlexRayVFrReceiveMsgEx >>  0) & 0xff);
+    data.push_back((clientIndexFlexRayVFrReceiveMsgEx >>  8) & 0xff);
+    data.push_back((clientIndexFlexRayVFrReceiveMsgEx >> 16) & 0xff);
+    data.push_back((clientIndexFlexRayVFrReceiveMsgEx >> 24) & 0xff);
+    data.push_back((clusterNo >>  0) & 0xff);
+    data.push_back((clusterNo >>  8) & 0xff);
+    data.push_back((clusterNo >> 16) & 0xff);
+    data.push_back((clusterNo >> 24) & 0xff);
+    data.push_back((frameId >>  0) & 0xff);
+    data.push_back((frameId >>  8) & 0xff);
+    data.push_back((headerCrc1 >>  0) & 0xff);
+    data.push_back((headerCrc1 >>  8) & 0xff);
+    data.push_back((headerCrc2 >>  0) & 0xff);
+    data.push_back((headerCrc2 >>  8) & 0xff);
+    data.push_back((byteCount >>  0) & 0xff);
+    data.push_back((byteCount >>  8) & 0xff);
+    data.push_back((dataCount >>  0) & 0xff);
+    data.push_back((dataCount >>  8) & 0xff);
+    data.push_back((cycle >>  0) & 0xff);
+    data.push_back((cycle >>  8) & 0xff);
+    data.push_back((tag >>  0) & 0xff);
+    data.push_back((tag >>  8) & 0xff);
+    data.push_back((tag >> 16) & 0xff);
+    data.push_back((tag >> 24) & 0xff);
+    data.push_back((this->data >>  0) & 0xff);
+    data.push_back((this->data >>  8) & 0xff);
+    data.push_back((this->data >> 16) & 0xff);
+    data.push_back((this->data >> 24) & 0xff);
+    data.push_back((frameFlags >>  0) & 0xff);
+    data.push_back((frameFlags >>  8) & 0xff);
+    data.push_back((frameFlags >> 16) & 0xff);
+    data.push_back((frameFlags >> 24) & 0xff);
+    data.push_back((appParameter >>  0) & 0xff);
+    data.push_back((appParameter >>  8) & 0xff);
+    data.push_back((appParameter >> 16) & 0xff);
+    data.push_back((appParameter >> 24) & 0xff);
+    data.push_back((frameCrc >>  0) & 0xff);
+    data.push_back((frameCrc >>  8) & 0xff);
+    data.push_back((frameCrc >> 16) & 0xff);
+    data.push_back((frameCrc >> 24) & 0xff);
+    data.push_back((frameLengthNs >>  0) & 0xff);
+    data.push_back((frameLengthNs >>  8) & 0xff);
+    data.push_back((frameLengthNs >> 16) & 0xff);
+    data.push_back((frameLengthNs >> 24) & 0xff);
+    data.push_back((frameId1 >>  0) & 0xff);
+    data.push_back((frameId1 >>  8) & 0xff);
+    data.push_back((pduOffset >>  0) & 0xff);
+    data.push_back((pduOffset >>  8) & 0xff);
+    data.push_back((blfLogMask >>  0) & 0xff);
+    data.push_back((blfLogMask >>  8) & 0xff);
+    std::for_each(reservedFlexRayVFrReceiveMsgEx.begin(), reservedFlexRayVFrReceiveMsgEx.end(), [&data](const WORD & d) {
+        data.push_back((d >>  0) & 0xff);
+        data.push_back((d >>  8) & 0xff);
+    });
+    data.insert(std::end(data), std::begin(dataBytes), std::end(dataBytes));
 }
 
 DWORD FlexRayVFrReceiveMsgEx::calculateObjectSize() const {

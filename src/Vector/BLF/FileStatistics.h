@@ -24,7 +24,7 @@
 #include <Vector/BLF/platform.h>
 
 #include <array>
-#include <fstream>
+#include <vector>
 
 #include <Vector/BLF/VectorTypes.h>
 
@@ -79,19 +79,11 @@ enum ApplicationId : BYTE {
 struct VECTOR_BLF_EXPORT FileStatistics final {
     virtual ~FileStatistics() noexcept = default;
 
-    /**
-     * read file statistics
-     *
-     * @param[in] is input stream
-     */
-    virtual void read(std::fstream & is);
+    /** @copydoc ObjectHeaderBase::fromData */
+    virtual std::vector<uint8_t>::iterator fromData(std::vector<uint8_t>::iterator it);
 
-    /**
-     * write file statistics
-     *
-     * @param[in] os output stream
-     */
-    virtual void write(std::fstream & os);
+    /** @copydoc ObjectHeaderBase::toData */
+    virtual void toData(std::vector<uint8_t> & data);
 
     /**
      * Calculates the statisticsSize

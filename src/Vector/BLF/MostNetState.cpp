@@ -28,20 +28,36 @@ MostNetState::MostNetState() :
     ObjectHeader2(ObjectType::MOST_NETSTATE) {
 }
 
-void MostNetState::read(RawFile & is) {
-    ObjectHeader2::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&stateNew), sizeof(stateNew));
-    is.read(reinterpret_cast<char *>(&stateOld), sizeof(stateOld));
-    is.read(reinterpret_cast<char *>(&reservedMostNetState), sizeof(reservedMostNetState));
+std::vector<uint8_t>::iterator MostNetState::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader2::fromData(it);
+
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    stateNew =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    stateOld =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    reservedMostNetState =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+
+    return it;
 }
 
-void MostNetState::write(RawFile & os) {
-    ObjectHeader2::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&stateNew), sizeof(stateNew));
-    os.write(reinterpret_cast<char *>(&stateOld), sizeof(stateOld));
-    os.write(reinterpret_cast<char *>(&reservedMostNetState), sizeof(reservedMostNetState));
+void MostNetState::toData(std::vector<uint8_t> & data) {
+    ObjectHeader2::toData(data);
+
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((stateNew >>  0) & 0xff);
+    data.push_back((stateNew >>  8) & 0xff);
+    data.push_back((stateOld >>  0) & 0xff);
+    data.push_back((stateOld >>  8) & 0xff);
+    data.push_back((reservedMostNetState >>  0) & 0xff);
+    data.push_back((reservedMostNetState >>  8) & 0xff);
 }
 
 DWORD MostNetState::calculateObjectSize() const {

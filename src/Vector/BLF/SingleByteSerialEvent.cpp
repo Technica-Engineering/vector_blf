@@ -24,16 +24,15 @@
 namespace Vector {
 namespace BLF {
 
+std::vector<uint8_t>::iterator SingleByteSerialEvent::fromData(std::vector<uint8_t>::iterator it) {
+    byte =
+            (static_cast<BYTE>(*it++) <<  0);
 
-void SingleByteSerialEvent::read(RawFile & is) {
-    is.read(reinterpret_cast<char *>(&byte), sizeof(byte));
-    is.seekg(15, std::ios_base::cur); // due to union
-    // @note might be extended in future versions
+    return it;
 }
 
-void SingleByteSerialEvent::write(RawFile & os) {
-    os.write(reinterpret_cast<char *>(&byte), sizeof(byte));
-    os.seekp(15, std::ios_base::cur); // due to union
+void SingleByteSerialEvent::toData(std::vector<uint8_t> & data) {
+    data.push_back((byte >>  0) & 0xff);
 }
 
 DWORD SingleByteSerialEvent::calculateObjectSize() const {

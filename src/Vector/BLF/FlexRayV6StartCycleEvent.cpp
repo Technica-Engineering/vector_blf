@@ -28,30 +28,71 @@ FlexRayV6StartCycleEvent::FlexRayV6StartCycleEvent() :
     ObjectHeader(ObjectType::FLEXRAY_CYCLE) {
 }
 
-void FlexRayV6StartCycleEvent::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
-    is.read(reinterpret_cast<char *>(&lowTime), sizeof(lowTime));
-    is.read(reinterpret_cast<char *>(&fpgaTick), sizeof(fpgaTick));
-    is.read(reinterpret_cast<char *>(&fpgaTickOverflow), sizeof(fpgaTickOverflow));
-    is.read(reinterpret_cast<char *>(&clientIndexFlexRayV6StartCycleEvent), sizeof(clientIndexFlexRayV6StartCycleEvent));
-    is.read(reinterpret_cast<char *>(&clusterTime), sizeof(clusterTime));
-    is.read(reinterpret_cast<char *>(dataBytes.data()), static_cast<std::streamsize>(dataBytes.size()));
-    is.read(reinterpret_cast<char *>(&reservedFlexRayV6StartCycleEvent), sizeof(reservedFlexRayV6StartCycleEvent));
+std::vector<uint8_t>::iterator FlexRayV6StartCycleEvent::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    dir =
+            (static_cast<BYTE>(*it++) <<  0);
+    lowTime =
+            (static_cast<BYTE>(*it++) <<  0);
+    fpgaTick =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    fpgaTickOverflow =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    clientIndexFlexRayV6StartCycleEvent =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    clusterTime =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    std::copy(it, it + dataBytes.size(), std::begin(dataBytes));
+    it += dataBytes.size();
+    reservedFlexRayV6StartCycleEvent =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+
+    return it;
 }
 
-void FlexRayV6StartCycleEvent::write(RawFile & os) {
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
-    os.write(reinterpret_cast<char *>(&lowTime), sizeof(lowTime));
-    os.write(reinterpret_cast<char *>(&fpgaTick), sizeof(fpgaTick));
-    os.write(reinterpret_cast<char *>(&fpgaTickOverflow), sizeof(fpgaTickOverflow));
-    os.write(reinterpret_cast<char *>(&clientIndexFlexRayV6StartCycleEvent), sizeof(clientIndexFlexRayV6StartCycleEvent));
-    os.write(reinterpret_cast<char *>(&clusterTime), sizeof(clusterTime));
-    os.write(reinterpret_cast<char *>(dataBytes.data()), static_cast<std::streamsize>(dataBytes.size()));
-    os.write(reinterpret_cast<char *>(&reservedFlexRayV6StartCycleEvent), sizeof(reservedFlexRayV6StartCycleEvent));
+void FlexRayV6StartCycleEvent::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
+
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((dir >>  0) & 0xff);
+    data.push_back((lowTime >>  0) & 0xff);
+    data.push_back((fpgaTick >>  0) & 0xff);
+    data.push_back((fpgaTick >>  8) & 0xff);
+    data.push_back((fpgaTick >> 16) & 0xff);
+    data.push_back((fpgaTick >> 24) & 0xff);
+    data.push_back((fpgaTickOverflow >>  0) & 0xff);
+    data.push_back((fpgaTickOverflow >>  8) & 0xff);
+    data.push_back((fpgaTickOverflow >> 16) & 0xff);
+    data.push_back((fpgaTickOverflow >> 24) & 0xff);
+    data.push_back((clientIndexFlexRayV6StartCycleEvent >>  0) & 0xff);
+    data.push_back((clientIndexFlexRayV6StartCycleEvent >>  8) & 0xff);
+    data.push_back((clientIndexFlexRayV6StartCycleEvent >> 16) & 0xff);
+    data.push_back((clientIndexFlexRayV6StartCycleEvent >> 24) & 0xff);
+    data.push_back((clusterTime >>  0) & 0xff);
+    data.push_back((clusterTime >>  8) & 0xff);
+    data.push_back((clusterTime >> 16) & 0xff);
+    data.push_back((clusterTime >> 24) & 0xff);
+    data.insert(std::end(data), std::begin(dataBytes), std::end(dataBytes));
+    data.push_back((reservedFlexRayV6StartCycleEvent >>  0) & 0xff);
+    data.push_back((reservedFlexRayV6StartCycleEvent >>  8) & 0xff);
 }
 
 DWORD FlexRayV6StartCycleEvent::calculateObjectSize() const {

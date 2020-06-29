@@ -21,6 +21,8 @@
 
 #include <Vector/BLF/Unknown115.h>
 
+#include <algorithm>
+
 namespace Vector {
 namespace BLF {
 
@@ -36,48 +38,135 @@ Unknown115::Unknown115() :
     ObjectHeader(ObjectType::Unknown115) {
 }
 
-void Unknown115::read(RawFile & is) {
-    ObjectHeader::read(is);
+std::vector<uint8_t>::iterator Unknown115::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
 
-    is.read(reinterpret_cast<char *>(&unknown0), sizeof(unknown0));
-    is.read(reinterpret_cast<char *>(&unknown1), sizeof(unknown1));
-    is.read(reinterpret_cast<char *>(&unknown2), sizeof(unknown2));
-
+    unknown0 =
+            (static_cast<uint64_t>(*it++) <<  0) |
+            (static_cast<uint64_t>(*it++) <<  8) |
+            (static_cast<uint64_t>(*it++) << 16) |
+            (static_cast<uint64_t>(*it++) << 24) |
+            (static_cast<uint64_t>(*it++) << 32) |
+            (static_cast<uint64_t>(*it++) << 40) |
+            (static_cast<uint64_t>(*it++) << 48) |
+            (static_cast<uint64_t>(*it++) << 56);
+    unknown1 =
+            (static_cast<uint64_t>(*it++) <<  0) |
+            (static_cast<uint64_t>(*it++) <<  8) |
+            (static_cast<uint64_t>(*it++) << 16) |
+            (static_cast<uint64_t>(*it++) << 24) |
+            (static_cast<uint64_t>(*it++) << 32) |
+            (static_cast<uint64_t>(*it++) << 40) |
+            (static_cast<uint64_t>(*it++) << 48) |
+            (static_cast<uint64_t>(*it++) << 56);
+    unknown2 =
+            (static_cast<uint64_t>(*it++) <<  0) |
+            (static_cast<uint64_t>(*it++) <<  8) |
+            (static_cast<uint64_t>(*it++) << 16) |
+            (static_cast<uint64_t>(*it++) << 24) |
+            (static_cast<uint64_t>(*it++) << 32) |
+            (static_cast<uint64_t>(*it++) << 40) |
+            (static_cast<uint64_t>(*it++) << 48) |
+            (static_cast<uint64_t>(*it++) << 56);
     DWORD size = objectSize
-            - ObjectHeader::calculateObjectSize()
-            - sizeof(unknown0)
-            - sizeof(unknown1)
-            - sizeof(unknown2);
-
+        - ObjectHeader::calculateObjectSize()
+        - sizeof(unknown0)
+        - sizeof(unknown1)
+        - sizeof(unknown2);
     while(size >= UnknownDataBlock::calculateObjectSize()) {
         UnknownDataBlock dataBlock;
-        is.read(reinterpret_cast<char *>(&dataBlock.timeStamp), sizeof(dataBlock.timeStamp));
-        is.read(reinterpret_cast<char *>(&dataBlock.uncompressedFileSize), sizeof(dataBlock.uncompressedFileSize));
-        is.read(reinterpret_cast<char *>(&dataBlock.value), sizeof(dataBlock.value));
-        is.read(reinterpret_cast<char *>(&dataBlock.flags), sizeof(dataBlock.flags));
+        dataBlock.timeStamp =
+                (static_cast<uint64_t>(*it++) <<  0) |
+                (static_cast<uint64_t>(*it++) <<  8) |
+                (static_cast<uint64_t>(*it++) << 16) |
+                (static_cast<uint64_t>(*it++) << 24) |
+                (static_cast<uint64_t>(*it++) << 32) |
+                (static_cast<uint64_t>(*it++) << 40) |
+                (static_cast<uint64_t>(*it++) << 48) |
+                (static_cast<uint64_t>(*it++) << 56);
+        dataBlock.uncompressedFileSize =
+                (static_cast<uint64_t>(*it++) <<  0) |
+                (static_cast<uint64_t>(*it++) <<  8) |
+                (static_cast<uint64_t>(*it++) << 16) |
+                (static_cast<uint64_t>(*it++) << 24) |
+                (static_cast<uint64_t>(*it++) << 32) |
+                (static_cast<uint64_t>(*it++) << 40) |
+                (static_cast<uint64_t>(*it++) << 48) |
+                (static_cast<uint64_t>(*it++) << 56);
+        dataBlock.value =
+                (static_cast<uint64_t>(*it++) <<  0) |
+                (static_cast<uint64_t>(*it++) <<  8) |
+                (static_cast<uint64_t>(*it++) << 16) |
+                (static_cast<uint64_t>(*it++) << 24);
+        dataBlock.flags =
+                (static_cast<uint64_t>(*it++) <<  0) |
+                (static_cast<uint64_t>(*it++) <<  8) |
+                (static_cast<uint64_t>(*it++) << 16) |
+                (static_cast<uint64_t>(*it++) << 24);
         unknownData.push_back(dataBlock);
         size -= UnknownDataBlock::calculateObjectSize();
     }
-
     reservedUnknown115.resize(size);
-    is.read(reinterpret_cast<char *>(reservedUnknown115.data()), static_cast<std::streamsize>(reservedUnknown115.size()));
+    std::copy(it, it + reservedUnknown115.size(), std::begin(reservedUnknown115));
+    it += reservedUnknown115.size();
+
+    return it;
 }
 
-void Unknown115::write(RawFile & os) {
-    ObjectHeader::write(os);
+void Unknown115::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
 
-    os.write(reinterpret_cast<char *>(&unknown0), sizeof(unknown0));
-    os.write(reinterpret_cast<char *>(&unknown1), sizeof(unknown1));
-    os.write(reinterpret_cast<char *>(&unknown2), sizeof(unknown2));
-
-    for (const UnknownDataBlock & dataBlock: unknownData) {
-        os.write(reinterpret_cast<char *>(dataBlock.timeStamp), sizeof(dataBlock.timeStamp));
-        os.write(reinterpret_cast<char *>(dataBlock.uncompressedFileSize), sizeof(dataBlock.uncompressedFileSize));
-        os.write(reinterpret_cast<char *>(dataBlock.value), sizeof(dataBlock.value));
-        os.write(reinterpret_cast<char *>(dataBlock.flags), sizeof(dataBlock.flags));
-    }
-
-    os.write(reinterpret_cast<char *>(reservedUnknown115.data()), static_cast<std::streamsize>(reservedUnknown115.size()));
+    data.push_back((unknown0 >>  0) & 0xff);
+    data.push_back((unknown0 >>  8) & 0xff);
+    data.push_back((unknown0 >> 16) & 0xff);
+    data.push_back((unknown0 >> 24) & 0xff);
+    data.push_back((unknown0 >> 32) & 0xff);
+    data.push_back((unknown0 >> 40) & 0xff);
+    data.push_back((unknown0 >> 48) & 0xff);
+    data.push_back((unknown0 >> 56) & 0xff);
+    data.push_back((unknown1 >>  0) & 0xff);
+    data.push_back((unknown1 >>  8) & 0xff);
+    data.push_back((unknown1 >> 16) & 0xff);
+    data.push_back((unknown1 >> 24) & 0xff);
+    data.push_back((unknown1 >> 32) & 0xff);
+    data.push_back((unknown1 >> 40) & 0xff);
+    data.push_back((unknown1 >> 48) & 0xff);
+    data.push_back((unknown1 >> 56) & 0xff);
+    data.push_back((unknown2 >>  0) & 0xff);
+    data.push_back((unknown2 >>  8) & 0xff);
+    data.push_back((unknown2 >> 16) & 0xff);
+    data.push_back((unknown2 >> 24) & 0xff);
+    data.push_back((unknown2 >> 32) & 0xff);
+    data.push_back((unknown2 >> 40) & 0xff);
+    data.push_back((unknown2 >> 48) & 0xff);
+    data.push_back((unknown2 >> 56) & 0xff);
+    std::for_each(unknownData.begin(), unknownData.end(), [&data](const UnknownDataBlock & d) {
+        data.push_back((d.timeStamp >>  0) & 0xff);
+        data.push_back((d.timeStamp >>  8) & 0xff);
+        data.push_back((d.timeStamp >> 16) & 0xff);
+        data.push_back((d.timeStamp >> 24) & 0xff);
+        data.push_back((d.timeStamp >> 32) & 0xff);
+        data.push_back((d.timeStamp >> 40) & 0xff);
+        data.push_back((d.timeStamp >> 48) & 0xff);
+        data.push_back((d.timeStamp >> 56) & 0xff);
+        data.push_back((d.uncompressedFileSize >>  0) & 0xff);
+        data.push_back((d.uncompressedFileSize >>  8) & 0xff);
+        data.push_back((d.uncompressedFileSize >> 16) & 0xff);
+        data.push_back((d.uncompressedFileSize >> 24) & 0xff);
+        data.push_back((d.uncompressedFileSize >> 32) & 0xff);
+        data.push_back((d.uncompressedFileSize >> 40) & 0xff);
+        data.push_back((d.uncompressedFileSize >> 48) & 0xff);
+        data.push_back((d.uncompressedFileSize >> 56) & 0xff);
+        data.push_back((d.value >>  0) & 0xff);
+        data.push_back((d.value >>  8) & 0xff);
+        data.push_back((d.value >> 16) & 0xff);
+        data.push_back((d.value >> 24) & 0xff);
+        data.push_back((d.flags >>  0) & 0xff);
+        data.push_back((d.flags >>  8) & 0xff);
+        data.push_back((d.flags >> 16) & 0xff);
+        data.push_back((d.flags >> 24) & 0xff);
+    });
+    data.insert(std::end(data), std::begin(reservedUnknown115), std::end(reservedUnknown115));
 }
 
 DWORD Unknown115::calculateObjectSize() const {

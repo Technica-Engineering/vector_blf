@@ -28,23 +28,41 @@ AfdxErrorEvent::AfdxErrorEvent() :
     ObjectHeader(ObjectType::AFDX_ERROR_EVENT) {
 }
 
-void AfdxErrorEvent::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&errorLevel), sizeof(errorLevel));
-    is.read(reinterpret_cast<char *>(&sourceIdentifier), sizeof(sourceIdentifier));
-    is.read(reinterpret_cast<char *>(errorText.data()), static_cast<std::streamsize>(errorText.size()));
-    is.read(reinterpret_cast<char *>(errorAttributes.data()), static_cast<std::streamsize>(errorAttributes.size()));
-    // @note might be extended in future versions
+std::vector<uint8_t>::iterator AfdxErrorEvent::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    errorLevel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    sourceIdentifier =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
+    std::copy(it, it + errorText.size(), std::begin(errorText));
+    it += errorText.size();
+    std::copy(it, it + errorAttributes.size(), std::begin(errorAttributes));
+    it += errorAttributes.size();
+
+    return it;
 }
 
-void AfdxErrorEvent::write(RawFile & os) {
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&errorLevel), sizeof(errorLevel));
-    os.write(reinterpret_cast<char *>(&sourceIdentifier), sizeof(sourceIdentifier));
-    os.write(reinterpret_cast<char *>(errorText.data()), static_cast<std::streamsize>(errorText.size()));
-    os.write(reinterpret_cast<char *>(errorAttributes.data()), static_cast<std::streamsize>(errorAttributes.size()));
+void AfdxErrorEvent::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
+
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((errorLevel >>  0) & 0xff);
+    data.push_back((errorLevel >>  8) & 0xff);
+    data.push_back((sourceIdentifier >>  0) & 0xff);
+    data.push_back((sourceIdentifier >>  8) & 0xff);
+    data.push_back((sourceIdentifier >> 16) & 0xff);
+    data.push_back((sourceIdentifier >> 24) & 0xff);
+    data.insert(std::end(data), std::begin(errorText), std::end(errorText));
+    data.insert(std::end(data), std::begin(errorAttributes), std::end(errorAttributes));
 }
 
 DWORD AfdxErrorEvent::calculateObjectSize() const {

@@ -28,16 +28,34 @@ WaterMarkEvent::WaterMarkEvent() :
     ObjectHeader(ObjectType::WATER_MARK_EVENT) {
 }
 
-void WaterMarkEvent::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&queueState), sizeof(queueState));
-    is.read(reinterpret_cast<char *>(&reservedWaterMarkEvent), sizeof(reservedWaterMarkEvent));
+std::vector<uint8_t>::iterator WaterMarkEvent::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+
+    queueState =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    reservedWaterMarkEvent =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+
+    return it;
 }
 
-void WaterMarkEvent::write(RawFile & os) {
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&queueState), sizeof(queueState));
-    os.write(reinterpret_cast<char *>(&reservedWaterMarkEvent), sizeof(reservedWaterMarkEvent));
+void WaterMarkEvent::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
+
+    data.push_back((queueState >>  0) & 0xff);
+    data.push_back((queueState >>  8) & 0xff);
+    data.push_back((queueState >> 16) & 0xff);
+    data.push_back((queueState >> 24) & 0xff);
+    data.push_back((reservedWaterMarkEvent >>  0) & 0xff);
+    data.push_back((reservedWaterMarkEvent >>  8) & 0xff);
+    data.push_back((reservedWaterMarkEvent >> 16) & 0xff);
+    data.push_back((reservedWaterMarkEvent >> 24) & 0xff);
 }
 
 DWORD WaterMarkEvent::calculateObjectSize() const {

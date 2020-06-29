@@ -28,56 +28,103 @@ Most150Pkt::Most150Pkt() :
     ObjectHeader2(ObjectType::MOST_150_PKT) {
 }
 
-void Most150Pkt::read(RawFile & is) {
-    ObjectHeader2::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
-    is.read(reinterpret_cast<char *>(&reservedMost150Pkt1), sizeof(reservedMost150Pkt1));
-    is.read(reinterpret_cast<char *>(&sourceAdr), sizeof(sourceAdr));
-    is.read(reinterpret_cast<char *>(&destAdr), sizeof(destAdr));
-    is.read(reinterpret_cast<char *>(&transferType), sizeof(transferType));
-    is.read(reinterpret_cast<char *>(&state), sizeof(state));
-    is.read(reinterpret_cast<char *>(&ackNack), sizeof(ackNack));
-    is.read(reinterpret_cast<char *>(&reservedMost150Pkt2), sizeof(reservedMost150Pkt2));
-    is.read(reinterpret_cast<char *>(&crc), sizeof(crc));
-    is.read(reinterpret_cast<char *>(&pAck), sizeof(pAck));
-    is.read(reinterpret_cast<char *>(&cAck), sizeof(cAck));
-    is.read(reinterpret_cast<char *>(&priority), sizeof(priority));
-    is.read(reinterpret_cast<char *>(&pIndex), sizeof(pIndex));
-    is.read(reinterpret_cast<char *>(&pktDataLength), sizeof(pktDataLength));
-    is.read(reinterpret_cast<char *>(&reservedMost150Pkt3), sizeof(reservedMost150Pkt3));
-    pktData.resize(pktDataLength);
-    is.read(reinterpret_cast<char *>(pktData.data()), pktDataLength);
+std::vector<uint8_t>::iterator Most150Pkt::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader2::fromData(it);
 
-    /* skip padding */
-    is.seekg(objectSize % 4, std::ios_base::cur);
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    dir =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedMost150Pkt1 =
+            (static_cast<BYTE>(*it++) <<  0);
+    sourceAdr =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    destAdr =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    transferType =
+            (static_cast<BYTE>(*it++) <<  0);
+    state =
+            (static_cast<BYTE>(*it++) <<  0);
+    ackNack =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedMost150Pkt2 =
+            (static_cast<BYTE>(*it++) <<  0);
+    crc =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    pAck =
+            (static_cast<BYTE>(*it++) <<  0);
+    cAck =
+            (static_cast<BYTE>(*it++) <<  0);
+    priority =
+            (static_cast<BYTE>(*it++) <<  0);
+    pIndex =
+            (static_cast<BYTE>(*it++) <<  0);
+    pktDataLength =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    reservedMost150Pkt3 =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    pktData.resize(pktDataLength);
+    std::copy(it, it + pktData.size(), std::begin(pktData));
+    it += pktData.size();
+
+    return it;
 }
 
-void Most150Pkt::write(RawFile & os) {
+void Most150Pkt::toData(std::vector<uint8_t> & data) {
     /* pre processing */
     pktDataLength = static_cast<DWORD>(pktData.size());
 
-    ObjectHeader2::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
-    os.write(reinterpret_cast<char *>(&reservedMost150Pkt1), sizeof(reservedMost150Pkt1));
-    os.write(reinterpret_cast<char *>(&sourceAdr), sizeof(sourceAdr));
-    os.write(reinterpret_cast<char *>(&destAdr), sizeof(destAdr));
-    os.write(reinterpret_cast<char *>(&transferType), sizeof(transferType));
-    os.write(reinterpret_cast<char *>(&state), sizeof(state));
-    os.write(reinterpret_cast<char *>(&ackNack), sizeof(ackNack));
-    os.write(reinterpret_cast<char *>(&reservedMost150Pkt2), sizeof(reservedMost150Pkt2));
-    os.write(reinterpret_cast<char *>(&crc), sizeof(crc));
-    os.write(reinterpret_cast<char *>(&pAck), sizeof(pAck));
-    os.write(reinterpret_cast<char *>(&cAck), sizeof(cAck));
-    os.write(reinterpret_cast<char *>(&priority), sizeof(priority));
-    os.write(reinterpret_cast<char *>(&pIndex), sizeof(pIndex));
-    os.write(reinterpret_cast<char *>(&pktDataLength), sizeof(pktDataLength));
-    os.write(reinterpret_cast<char *>(&reservedMost150Pkt3), sizeof(reservedMost150Pkt3));
-    os.write(reinterpret_cast<char *>(pktData.data()), pktDataLength);
+    ObjectHeader2::toData(data);
 
-    /* skip padding */
-    os.seekp(objectSize % 4, std::ios_base::cur);
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((dir >>  0) & 0xff);
+    data.push_back((reservedMost150Pkt1 >>  0) & 0xff);
+    data.push_back((sourceAdr >>  0) & 0xff);
+    data.push_back((sourceAdr >>  8) & 0xff);
+    data.push_back((sourceAdr >> 16) & 0xff);
+    data.push_back((sourceAdr >> 24) & 0xff);
+    data.push_back((destAdr >>  0) & 0xff);
+    data.push_back((destAdr >>  8) & 0xff);
+    data.push_back((destAdr >> 16) & 0xff);
+    data.push_back((destAdr >> 24) & 0xff);
+    data.push_back((transferType >>  0) & 0xff);
+    data.push_back((state >>  0) & 0xff);
+    data.push_back((ackNack >>  0) & 0xff);
+    data.push_back((reservedMost150Pkt2 >>  0) & 0xff);
+    data.push_back((crc >>  0) & 0xff);
+    data.push_back((crc >>  8) & 0xff);
+    data.push_back((crc >> 16) & 0xff);
+    data.push_back((crc >> 24) & 0xff);
+    data.push_back((pAck >>  0) & 0xff);
+    data.push_back((cAck >>  0) & 0xff);
+    data.push_back((priority >>  0) & 0xff);
+    data.push_back((pIndex >>  0) & 0xff);
+    data.push_back((pktDataLength >>  0) & 0xff);
+    data.push_back((pktDataLength >>  8) & 0xff);
+    data.push_back((pktDataLength >> 16) & 0xff);
+    data.push_back((pktDataLength >> 24) & 0xff);
+    data.push_back((reservedMost150Pkt3 >>  0) & 0xff);
+    data.push_back((reservedMost150Pkt3 >>  8) & 0xff);
+    data.push_back((reservedMost150Pkt3 >> 16) & 0xff);
+    data.push_back((reservedMost150Pkt3 >> 24) & 0xff);
+    data.insert(std::end(data), std::begin(pktData), std::end(pktData));
 }
 
 DWORD Most150Pkt::calculateObjectSize() const {

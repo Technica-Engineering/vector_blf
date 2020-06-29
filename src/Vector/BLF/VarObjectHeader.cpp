@@ -28,20 +28,52 @@ VarObjectHeader::VarObjectHeader(const ObjectType objectType) :
     ObjectHeaderBase(1, objectType) {
 }
 
-void VarObjectHeader::read(RawFile & is) {
-    ObjectHeaderBase::read(is);
-    is.read(reinterpret_cast<char *>(&objectFlags), sizeof(objectFlags));
-    is.read(reinterpret_cast<char *>(&objectStaticSize), sizeof(objectStaticSize));
-    is.read(reinterpret_cast<char *>(&objectVersion), sizeof(objectVersion));
-    is.read(reinterpret_cast<char *>(&objectTimeStamp), sizeof(objectTimeStamp));
+std::vector<uint8_t>::iterator VarObjectHeader::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeaderBase::fromData(it);
+
+    objectFlags =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    objectStaticSize =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    objectVersion =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    objectTimeStamp =
+            (static_cast<ULONGLONG>(*it++) <<  0) |
+            (static_cast<ULONGLONG>(*it++) <<  8) |
+            (static_cast<ULONGLONG>(*it++) << 16) |
+            (static_cast<ULONGLONG>(*it++) << 24) |
+            (static_cast<ULONGLONG>(*it++) << 32) |
+            (static_cast<ULONGLONG>(*it++) << 40) |
+            (static_cast<ULONGLONG>(*it++) << 48) |
+            (static_cast<ULONGLONG>(*it++) << 56);
+
+    return it;
 }
 
-void VarObjectHeader::write(RawFile & os) {
-    ObjectHeaderBase::write(os);
-    os.write(reinterpret_cast<char *>(&objectFlags), sizeof(objectFlags));
-    os.write(reinterpret_cast<char *>(&objectStaticSize), sizeof(objectStaticSize));
-    os.write(reinterpret_cast<char *>(&objectVersion), sizeof(objectVersion));
-    os.write(reinterpret_cast<char *>(&objectTimeStamp), sizeof(objectTimeStamp));
+void VarObjectHeader::toData(std::vector<uint8_t> & data) {
+    ObjectHeaderBase::toData(data);
+
+    data.push_back((objectFlags >>  0) & 0xff);
+    data.push_back((objectFlags >>  8) & 0xff);
+    data.push_back((objectFlags >> 16) & 0xff);
+    data.push_back((objectFlags >> 24) & 0xff);
+    data.push_back((objectStaticSize >>  0) & 0xff);
+    data.push_back((objectStaticSize >>  8) & 0xff);
+    data.push_back((objectVersion >>  0) & 0xff);
+    data.push_back((objectVersion >>  8) & 0xff);
+    data.push_back((objectTimeStamp >>  0) & 0xff);
+    data.push_back((objectTimeStamp >>  8) & 0xff);
+    data.push_back((objectTimeStamp >> 16) & 0xff);
+    data.push_back((objectTimeStamp >> 24) & 0xff);
+    data.push_back((objectTimeStamp >> 32) & 0xff);
+    data.push_back((objectTimeStamp >> 40) & 0xff);
+    data.push_back((objectTimeStamp >> 48) & 0xff);
+    data.push_back((objectTimeStamp >> 56) & 0xff);
 }
 
 WORD VarObjectHeader::calculateHeaderSize() const {

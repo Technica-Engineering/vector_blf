@@ -28,30 +28,73 @@ A429Status::A429Status() :
     ObjectHeader(ObjectType::A429_STATUS) {
 }
 
-void A429Status::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
-    is.read(reinterpret_cast<char *>(&reservedA429Status1), sizeof(reservedA429Status1));
-    is.read(reinterpret_cast<char *>(&parity), sizeof(parity));
-    is.read(reinterpret_cast<char *>(&reservedA429Status2), sizeof(reservedA429Status2));
-    is.read(reinterpret_cast<char *>(&minGap), sizeof(minGap));
-    is.read(reinterpret_cast<char *>(&bitrate), sizeof(bitrate));
-    is.read(reinterpret_cast<char *>(&minBitrate), sizeof(minBitrate));
-    is.read(reinterpret_cast<char *>(&maxBitrate), sizeof(maxBitrate));
+std::vector<uint8_t>::iterator A429Status::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    dir =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedA429Status1 =
+            (static_cast<BYTE>(*it++) <<  0);
+    parity =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    reservedA429Status2 =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    minGap =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
+    bitrate =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
+    minBitrate =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
+    maxBitrate =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
+
+    return it;
 }
 
-void A429Status::write(RawFile & os) {
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
-    os.write(reinterpret_cast<char *>(&reservedA429Status1), sizeof(reservedA429Status1));
-    os.write(reinterpret_cast<char *>(&parity), sizeof(parity));
-    os.write(reinterpret_cast<char *>(&reservedA429Status2), sizeof(reservedA429Status2));
-    os.write(reinterpret_cast<char *>(&minGap), sizeof(minGap));
-    os.write(reinterpret_cast<char *>(&bitrate), sizeof(bitrate));
-    os.write(reinterpret_cast<char *>(&minBitrate), sizeof(minBitrate));
-    os.write(reinterpret_cast<char *>(&maxBitrate), sizeof(maxBitrate));
+void A429Status::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
+
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((dir >>  0) & 0xff);
+    data.push_back((reservedA429Status1 >>  0) & 0xff);
+    data.push_back((parity >>  0) & 0xff);
+    data.push_back((parity >>  8) & 0xff);
+    data.push_back((reservedA429Status2 >>  0) & 0xff);
+    data.push_back((reservedA429Status2 >>  8) & 0xff);
+    data.push_back((minGap >>  0) & 0xff);
+    data.push_back((minGap >>  8) & 0xff);
+    data.push_back((minGap >> 16) & 0xff);
+    data.push_back((minGap >> 24) & 0xff);
+    data.push_back((bitrate >>  0) & 0xff);
+    data.push_back((bitrate >>  8) & 0xff);
+    data.push_back((bitrate >> 16) & 0xff);
+    data.push_back((bitrate >> 24) & 0xff);
+    data.push_back((minBitrate >>  0) & 0xff);
+    data.push_back((minBitrate >>  8) & 0xff);
+    data.push_back((minBitrate >> 16) & 0xff);
+    data.push_back((minBitrate >> 24) & 0xff);
+    data.push_back((maxBitrate >>  0) & 0xff);
+    data.push_back((maxBitrate >>  8) & 0xff);
+    data.push_back((maxBitrate >> 16) & 0xff);
+    data.push_back((maxBitrate >> 24) & 0xff);
 }
 
 DWORD A429Status::calculateObjectSize() const {

@@ -28,36 +28,62 @@ LinCrcError::LinCrcError() :
     ObjectHeader(ObjectType::LIN_CRC_ERROR) {
 }
 
-void LinCrcError::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&id), sizeof(id));
-    is.read(reinterpret_cast<char *>(&dlc), sizeof(dlc));
-    is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
-    is.read(reinterpret_cast<char *>(&fsmId), sizeof(fsmId));
-    is.read(reinterpret_cast<char *>(&fsmState), sizeof(fsmState));
-    is.read(reinterpret_cast<char *>(&headerTime), sizeof(headerTime));
-    is.read(reinterpret_cast<char *>(&fullTime), sizeof(fullTime));
-    is.read(reinterpret_cast<char *>(&crc), sizeof(crc));
-    is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
-    is.read(reinterpret_cast<char *>(&reservedLinCrcError1), sizeof(reservedLinCrcError1));
-    is.read(reinterpret_cast<char *>(&reservedLinCrcError2), sizeof(reservedLinCrcError2));
+std::vector<uint8_t>::iterator LinCrcError::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    id =
+            (static_cast<BYTE>(*it++) <<  0);
+    dlc =
+            (static_cast<BYTE>(*it++) <<  0);
+    std::copy(it, it + this->data.size(), std::begin(this->data));
+    it += this->data.size();
+    fsmId =
+            (static_cast<BYTE>(*it++) <<  0);
+    fsmState =
+            (static_cast<BYTE>(*it++) <<  0);
+    headerTime =
+            (static_cast<BYTE>(*it++) <<  0);
+    fullTime =
+            (static_cast<BYTE>(*it++) <<  0);
+    crc =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    dir =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedLinCrcError1 =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedLinCrcError2 =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+
+    return it;
 }
 
-void LinCrcError::write(RawFile & os) {
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&id), sizeof(id));
-    os.write(reinterpret_cast<char *>(&dlc), sizeof(dlc));
-    os.write(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
-    os.write(reinterpret_cast<char *>(&fsmId), sizeof(fsmId));
-    os.write(reinterpret_cast<char *>(&fsmState), sizeof(fsmState));
-    os.write(reinterpret_cast<char *>(&headerTime), sizeof(headerTime));
-    os.write(reinterpret_cast<char *>(&fullTime), sizeof(fullTime));
-    os.write(reinterpret_cast<char *>(&crc), sizeof(crc));
-    os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
-    os.write(reinterpret_cast<char *>(&reservedLinCrcError1), sizeof(reservedLinCrcError1));
-    os.write(reinterpret_cast<char *>(&reservedLinCrcError2), sizeof(reservedLinCrcError2));
+void LinCrcError::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
+
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((id >>  0) & 0xff);
+    data.push_back((dlc >>  0) & 0xff);
+    data.insert(std::end(data), std::begin(this->data), std::end(this->data));
+    data.push_back((fsmId >>  0) & 0xff);
+    data.push_back((fsmState >>  0) & 0xff);
+    data.push_back((headerTime >>  0) & 0xff);
+    data.push_back((fullTime >>  0) & 0xff);
+    data.push_back((crc >>  0) & 0xff);
+    data.push_back((crc >>  8) & 0xff);
+    data.push_back((dir >>  0) & 0xff);
+    data.push_back((reservedLinCrcError1 >>  0) & 0xff);
+    data.push_back((reservedLinCrcError2 >>  0) & 0xff);
+    data.push_back((reservedLinCrcError2 >>  8) & 0xff);
+    data.push_back((reservedLinCrcError2 >> 16) & 0xff);
+    data.push_back((reservedLinCrcError2 >> 24) & 0xff);
 }
 
 DWORD LinCrcError::calculateObjectSize() const {

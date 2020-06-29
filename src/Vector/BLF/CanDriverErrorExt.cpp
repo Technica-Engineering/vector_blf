@@ -21,6 +21,8 @@
 
 #include <Vector/BLF/CanDriverErrorExt.h>
 
+#include <algorithm>
+
 namespace Vector {
 namespace BLF {
 
@@ -28,30 +30,69 @@ CanDriverErrorExt::CanDriverErrorExt() :
     ObjectHeader(ObjectType::CAN_DRIVER_ERROR_EXT) {
 }
 
-void CanDriverErrorExt::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&txErrors), sizeof(txErrors));
-    is.read(reinterpret_cast<char *>(&rxErrors), sizeof(rxErrors));
-    is.read(reinterpret_cast<char *>(&errorCode), sizeof(errorCode));
-    is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
-    is.read(reinterpret_cast<char *>(&state), sizeof(state));
-    is.read(reinterpret_cast<char *>(&reservedCanDriverErrorExt1), sizeof(reservedCanDriverErrorExt1));
-    is.read(reinterpret_cast<char *>(&reservedCanDriverErrorExt2), sizeof(reservedCanDriverErrorExt2));
-    is.read(reinterpret_cast<char *>(reservedCanDriverErrorExt3.data()), static_cast<std::streamsize>(reservedCanDriverErrorExt3.size() * sizeof(DWORD)));
+std::vector<uint8_t>::iterator CanDriverErrorExt::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    txErrors =
+            (static_cast<BYTE>(*it++) <<  0);
+    rxErrors =
+            (static_cast<BYTE>(*it++) <<  0);
+    errorCode =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    flags =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    state =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedCanDriverErrorExt1 =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedCanDriverErrorExt2 =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    std::generate(reservedCanDriverErrorExt3.begin(), reservedCanDriverErrorExt3.end(), [&it]() {
+        return
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    });
+
+    return it;
 }
 
-void CanDriverErrorExt::write(RawFile & os) {
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&txErrors), sizeof(txErrors));
-    os.write(reinterpret_cast<char *>(&rxErrors), sizeof(rxErrors));
-    os.write(reinterpret_cast<char *>(&errorCode), sizeof(errorCode));
-    os.write(reinterpret_cast<char *>(&flags), sizeof(flags));
-    os.write(reinterpret_cast<char *>(&state), sizeof(state));
-    os.write(reinterpret_cast<char *>(&reservedCanDriverErrorExt1), sizeof(reservedCanDriverErrorExt1));
-    os.write(reinterpret_cast<char *>(&reservedCanDriverErrorExt2), sizeof(reservedCanDriverErrorExt2));
-    os.write(reinterpret_cast<char *>(reservedCanDriverErrorExt3.data()), static_cast<std::streamsize>(reservedCanDriverErrorExt3.size() * sizeof(DWORD)));
+void CanDriverErrorExt::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
+
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((txErrors >>  0) & 0xff);
+    data.push_back((rxErrors >>  0) & 0xff);
+    data.push_back((errorCode >>  0) & 0xff);
+    data.push_back((errorCode >>  8) & 0xff);
+    data.push_back((errorCode >> 16) & 0xff);
+    data.push_back((errorCode >> 24) & 0xff);
+    data.push_back((flags >>  0) & 0xff);
+    data.push_back((flags >>  8) & 0xff);
+    data.push_back((flags >> 16) & 0xff);
+    data.push_back((flags >> 24) & 0xff);
+    data.push_back((state >>  0) & 0xff);
+    data.push_back((reservedCanDriverErrorExt1 >>  0) & 0xff);
+    data.push_back((reservedCanDriverErrorExt2 >>  0) & 0xff);
+    data.push_back((reservedCanDriverErrorExt2 >>  8) & 0xff);
+    std::for_each(reservedCanDriverErrorExt3.begin(), reservedCanDriverErrorExt3.end(), [&data](const DWORD & d) {
+        data.push_back((d >>  0) & 0xff);
+        data.push_back((d >>  8) & 0xff);
+        data.push_back((d >> 16) & 0xff);
+        data.push_back((d >> 24) & 0xff);
+    });
 }
 
 DWORD CanDriverErrorExt::calculateObjectSize() const {

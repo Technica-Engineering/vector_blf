@@ -28,25 +28,55 @@ LinLongDomSignalEvent2::LinLongDomSignalEvent2() :
     ObjectHeader(ObjectType::LIN_LONG_DOM_SIG2) {
 }
 
-void LinLongDomSignalEvent2::read(RawFile & is) {
-    ObjectHeader::read(is);
-    LinBusEvent::read(is);
-    is.read(reinterpret_cast<char *>(&type), sizeof(type));
-    is.read(reinterpret_cast<char *>(&reservedLinLongDomSignalEvent1), sizeof(reservedLinLongDomSignalEvent1));
-    is.read(reinterpret_cast<char *>(&reservedLinLongDomSignalEvent2), sizeof(reservedLinLongDomSignalEvent2));
-    is.read(reinterpret_cast<char *>(&reservedLinLongDomSignalEvent3), sizeof(reservedLinLongDomSignalEvent3));
-    is.read(reinterpret_cast<char *>(&length), sizeof(length));
-    // @note might be extended in future versions
+std::vector<uint8_t>::iterator LinLongDomSignalEvent2::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+    it = LinBusEvent::fromData(it);
+
+    type =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedLinLongDomSignalEvent1 =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedLinLongDomSignalEvent2 =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    reservedLinLongDomSignalEvent3 =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    length =
+            (static_cast<ULONGLONG>(*it++) <<  0) |
+            (static_cast<ULONGLONG>(*it++) <<  8) |
+            (static_cast<ULONGLONG>(*it++) << 16) |
+            (static_cast<ULONGLONG>(*it++) << 24) |
+            (static_cast<ULONGLONG>(*it++) << 32) |
+            (static_cast<ULONGLONG>(*it++) << 40) |
+            (static_cast<ULONGLONG>(*it++) << 48) |
+            (static_cast<ULONGLONG>(*it++) << 56);
+
+    return it;
 }
 
-void LinLongDomSignalEvent2::write(RawFile & os) {
-    ObjectHeader::write(os);
-    LinBusEvent::write(os);
-    os.write(reinterpret_cast<char *>(&type), sizeof(type));
-    os.write(reinterpret_cast<char *>(&reservedLinLongDomSignalEvent1), sizeof(reservedLinLongDomSignalEvent1));
-    os.write(reinterpret_cast<char *>(&reservedLinLongDomSignalEvent2), sizeof(reservedLinLongDomSignalEvent2));
-    os.write(reinterpret_cast<char *>(&reservedLinLongDomSignalEvent3), sizeof(reservedLinLongDomSignalEvent3));
-    os.write(reinterpret_cast<char *>(&length), sizeof(length));
+void LinLongDomSignalEvent2::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
+    LinBusEvent::toData(data);
+
+    data.push_back((type >>  0) & 0xff);
+    data.push_back((reservedLinLongDomSignalEvent1 >>  0) & 0xff);
+    data.push_back((reservedLinLongDomSignalEvent2 >>  0) & 0xff);
+    data.push_back((reservedLinLongDomSignalEvent2 >>  8) & 0xff);
+    data.push_back((reservedLinLongDomSignalEvent3 >>  0) & 0xff);
+    data.push_back((reservedLinLongDomSignalEvent3 >>  8) & 0xff);
+    data.push_back((reservedLinLongDomSignalEvent3 >> 16) & 0xff);
+    data.push_back((reservedLinLongDomSignalEvent3 >> 24) & 0xff);
+    data.push_back((length >>  0) & 0xff);
+    data.push_back((length >>  8) & 0xff);
+    data.push_back((length >> 16) & 0xff);
+    data.push_back((length >> 24) & 0xff);
+    data.push_back((length >>  0) & 0xff);
+    data.push_back((length >>  8) & 0xff);
+    data.push_back((length >> 16) & 0xff);
+    data.push_back((length >> 24) & 0xff);
 }
 
 DWORD LinLongDomSignalEvent2::calculateObjectSize() const {

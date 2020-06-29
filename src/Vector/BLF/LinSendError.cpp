@@ -28,26 +28,39 @@ LinSendError::LinSendError() :
     ObjectHeader(ObjectType::LIN_SND_ERROR) {
 }
 
-void LinSendError::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&id), sizeof(id));
-    is.read(reinterpret_cast<char *>(&dlc), sizeof(dlc));
-    is.read(reinterpret_cast<char *>(&fsmId), sizeof(fsmId));
-    is.read(reinterpret_cast<char *>(&fsmState), sizeof(fsmState));
-    is.read(reinterpret_cast<char *>(&headerTime), sizeof(headerTime));
-    is.read(reinterpret_cast<char *>(&fullTime), sizeof(fullTime));
+std::vector<uint8_t>::iterator LinSendError::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    id =
+            (static_cast<BYTE>(*it++) <<  0);
+    dlc =
+            (static_cast<BYTE>(*it++) <<  0);
+    fsmId =
+            (static_cast<BYTE>(*it++) <<  0);
+    fsmState =
+            (static_cast<BYTE>(*it++) <<  0);
+    headerTime =
+            (static_cast<BYTE>(*it++) <<  0);
+    fullTime =
+            (static_cast<BYTE>(*it++) <<  0);
+
+    return it;
 }
 
-void LinSendError::write(RawFile & os) {
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&id), sizeof(id));
-    os.write(reinterpret_cast<char *>(&dlc), sizeof(dlc));
-    os.write(reinterpret_cast<char *>(&fsmId), sizeof(fsmId));
-    os.write(reinterpret_cast<char *>(&fsmState), sizeof(fsmState));
-    os.write(reinterpret_cast<char *>(&headerTime), sizeof(headerTime));
-    os.write(reinterpret_cast<char *>(&fullTime), sizeof(fullTime));
+void LinSendError::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
+
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((id >>  8) & 0xff);
+    data.push_back((dlc >>  0) & 0xff);
+    data.push_back((fsmId >>  0) & 0xff);
+    data.push_back((fsmState >>  0) & 0xff);
+    data.push_back((headerTime >>  0) & 0xff);
+    data.push_back((fullTime >>  8) & 0xff);
 }
 
 DWORD LinSendError::calculateObjectSize() const {

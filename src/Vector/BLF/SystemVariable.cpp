@@ -28,40 +28,98 @@ SystemVariable::SystemVariable() :
     ObjectHeader(ObjectType::SYS_VARIABLE) {
 }
 
-void SystemVariable::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&type), sizeof(type));
-    is.read(reinterpret_cast<char *>(&representation), sizeof(representation));
-    is.read(reinterpret_cast<char *>(&reservedSystemVariable1), sizeof(reservedSystemVariable1));
-    is.read(reinterpret_cast<char *>(&nameLength), sizeof(nameLength));
-    is.read(reinterpret_cast<char *>(&dataLength), sizeof(dataLength));
-    is.read(reinterpret_cast<char *>(&reservedSystemVariable2), sizeof(reservedSystemVariable2));
-    name.resize(nameLength);
-    is.read(&name[0], nameLength);
-    data.resize(dataLength);
-    is.read(reinterpret_cast<char *>(data.data()), dataLength);
+std::vector<uint8_t>::iterator SystemVariable::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
 
-    /* skip padding */
-    is.seekg(objectSize % 4, std::ios_base::cur);
+    type =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    representation =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    reservedSystemVariable1 =
+            (static_cast<ULONGLONG>(*it++) <<  0) |
+            (static_cast<ULONGLONG>(*it++) <<  8) |
+            (static_cast<ULONGLONG>(*it++) << 16) |
+            (static_cast<ULONGLONG>(*it++) << 24) |
+            (static_cast<ULONGLONG>(*it++) << 32) |
+            (static_cast<ULONGLONG>(*it++) << 40) |
+            (static_cast<ULONGLONG>(*it++) << 48) |
+            (static_cast<ULONGLONG>(*it++) << 56);
+    nameLength =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    dataLength =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    reservedSystemVariable2 =
+            (static_cast<ULONGLONG>(*it++) <<  0) |
+            (static_cast<ULONGLONG>(*it++) <<  8) |
+            (static_cast<ULONGLONG>(*it++) << 16) |
+            (static_cast<ULONGLONG>(*it++) << 24) |
+            (static_cast<ULONGLONG>(*it++) << 32) |
+            (static_cast<ULONGLONG>(*it++) << 40) |
+            (static_cast<ULONGLONG>(*it++) << 48) |
+            (static_cast<ULONGLONG>(*it++) << 56);
+    name.resize(nameLength);
+    std::copy(it, it + name.size(), std::begin(name));
+    it += name.size();
+    this->data.resize(dataLength);
+    std::copy(it, it + this->data.size(), std::begin(this->data));
+    it += this->data.size();
+
+    return it;
 }
 
-void SystemVariable::write(RawFile & os) {
+void SystemVariable::toData(std::vector<uint8_t> & data) {
     /* pre processing */
     nameLength = static_cast<DWORD>(name.size());
-    dataLength = static_cast<DWORD>(data.size());
+    dataLength = static_cast<DWORD>(this->data.size());
 
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&type), sizeof(type));
-    os.write(reinterpret_cast<char *>(&representation), sizeof(representation));
-    os.write(reinterpret_cast<char *>(&reservedSystemVariable1), sizeof(reservedSystemVariable1));
-    os.write(reinterpret_cast<char *>(&nameLength), sizeof(nameLength));
-    os.write(reinterpret_cast<char *>(&dataLength), sizeof(dataLength));
-    os.write(reinterpret_cast<char *>(&reservedSystemVariable2), sizeof(reservedSystemVariable2));
-    os.write(&name[0], nameLength);
-    os.write(reinterpret_cast<char *>(data.data()), dataLength);
+    ObjectHeader::toData(data);
 
-    /* skip padding */
-    os.seekp(objectSize % 4, std::ios_base::cur);
+    data.push_back((type >>  0) & 0xff);
+    data.push_back((type >>  8) & 0xff);
+    data.push_back((type >> 16) & 0xff);
+    data.push_back((type >> 24) & 0xff);
+    data.push_back((representation >>  0) & 0xff);
+    data.push_back((representation >>  8) & 0xff);
+    data.push_back((representation >> 16) & 0xff);
+    data.push_back((representation >> 24) & 0xff);
+    data.push_back((reservedSystemVariable1 >>  0) & 0xff);
+    data.push_back((reservedSystemVariable1 >>  8) & 0xff);
+    data.push_back((reservedSystemVariable1 >> 16) & 0xff);
+    data.push_back((reservedSystemVariable1 >> 24) & 0xff);
+    data.push_back((reservedSystemVariable1 >> 32) & 0xff);
+    data.push_back((reservedSystemVariable1 >> 40) & 0xff);
+    data.push_back((reservedSystemVariable1 >> 48) & 0xff);
+    data.push_back((reservedSystemVariable1 >> 56) & 0xff);
+    data.push_back((nameLength >>  0) & 0xff);
+    data.push_back((nameLength >>  8) & 0xff);
+    data.push_back((nameLength >> 16) & 0xff);
+    data.push_back((nameLength >> 24) & 0xff);
+    data.push_back((dataLength >>  0) & 0xff);
+    data.push_back((dataLength >>  8) & 0xff);
+    data.push_back((dataLength >> 16) & 0xff);
+    data.push_back((dataLength >> 24) & 0xff);
+    data.push_back((reservedSystemVariable2 >>  0) & 0xff);
+    data.push_back((reservedSystemVariable2 >>  8) & 0xff);
+    data.push_back((reservedSystemVariable2 >> 16) & 0xff);
+    data.push_back((reservedSystemVariable2 >> 24) & 0xff);
+    data.push_back((reservedSystemVariable2 >> 32) & 0xff);
+    data.push_back((reservedSystemVariable2 >> 40) & 0xff);
+    data.push_back((reservedSystemVariable2 >> 48) & 0xff);
+    data.push_back((reservedSystemVariable2 >> 56) & 0xff);
+    data.insert(std::end(data), std::begin(name), std::end(name));
+    data.insert(std::end(data), std::begin(this->data), std::end(this->data));
 }
 
 DWORD SystemVariable::calculateObjectSize() const {

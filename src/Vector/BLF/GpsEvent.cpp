@@ -28,28 +28,120 @@ GpsEvent::GpsEvent() :
     ObjectHeader(ObjectType::GPS_EVENT) {
 }
 
-void GpsEvent::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&reservedGpsEvent), sizeof(reservedGpsEvent));
-    is.read(reinterpret_cast<char *>(&latitude), sizeof(latitude));
-    is.read(reinterpret_cast<char *>(&longitude), sizeof(longitude));
-    is.read(reinterpret_cast<char *>(&altitude), sizeof(altitude));
-    is.read(reinterpret_cast<char *>(&speed), sizeof(speed));
-    is.read(reinterpret_cast<char *>(&course), sizeof(course));
+std::vector<uint8_t>::iterator GpsEvent::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+
+    flags =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    reservedGpsEvent =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    latitude =
+            (static_cast<uint64_t>(*it++) <<  0) |
+            (static_cast<uint64_t>(*it++) <<  8) |
+            (static_cast<uint64_t>(*it++) << 16) |
+            (static_cast<uint64_t>(*it++) << 24) |
+            (static_cast<uint64_t>(*it++) << 32) |
+            (static_cast<uint64_t>(*it++) << 40) |
+            (static_cast<uint64_t>(*it++) << 48) |
+            (static_cast<uint64_t>(*it++) << 56);
+    longitude =
+            (static_cast<uint64_t>(*it++) <<  0) |
+            (static_cast<uint64_t>(*it++) <<  8) |
+            (static_cast<uint64_t>(*it++) << 16) |
+            (static_cast<uint64_t>(*it++) << 24) |
+            (static_cast<uint64_t>(*it++) << 32) |
+            (static_cast<uint64_t>(*it++) << 40) |
+            (static_cast<uint64_t>(*it++) << 48) |
+            (static_cast<uint64_t>(*it++) << 56);
+    altitude =
+            (static_cast<uint64_t>(*it++) <<  0) |
+            (static_cast<uint64_t>(*it++) <<  8) |
+            (static_cast<uint64_t>(*it++) << 16) |
+            (static_cast<uint64_t>(*it++) << 24) |
+            (static_cast<uint64_t>(*it++) << 32) |
+            (static_cast<uint64_t>(*it++) << 40) |
+            (static_cast<uint64_t>(*it++) << 48) |
+            (static_cast<uint64_t>(*it++) << 56);
+    speed =
+            (static_cast<uint64_t>(*it++) <<  0) |
+            (static_cast<uint64_t>(*it++) <<  8) |
+            (static_cast<uint64_t>(*it++) << 16) |
+            (static_cast<uint64_t>(*it++) << 24) |
+            (static_cast<uint64_t>(*it++) << 32) |
+            (static_cast<uint64_t>(*it++) << 40) |
+            (static_cast<uint64_t>(*it++) << 48) |
+            (static_cast<uint64_t>(*it++) << 56);
+    course =
+            (static_cast<uint64_t>(*it++) <<  0) |
+            (static_cast<uint64_t>(*it++) <<  8) |
+            (static_cast<uint64_t>(*it++) << 16) |
+            (static_cast<uint64_t>(*it++) << 24) |
+            (static_cast<uint64_t>(*it++) << 32) |
+            (static_cast<uint64_t>(*it++) << 40) |
+            (static_cast<uint64_t>(*it++) << 48) |
+            (static_cast<uint64_t>(*it++) << 56);
+
+    return it;
 }
 
-void GpsEvent::write(RawFile & os) {
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&flags), sizeof(flags));
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&reservedGpsEvent), sizeof(reservedGpsEvent));
-    os.write(reinterpret_cast<char *>(&latitude), sizeof(latitude));
-    os.write(reinterpret_cast<char *>(&longitude), sizeof(longitude));
-    os.write(reinterpret_cast<char *>(&altitude), sizeof(altitude));
-    os.write(reinterpret_cast<char *>(&speed), sizeof(speed));
-    os.write(reinterpret_cast<char *>(&course), sizeof(course));
+void GpsEvent::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
+
+    data.push_back((flags >>  0) & 0xff);
+    data.push_back((flags >>  8) & 0xff);
+    data.push_back((flags >> 16) & 0xff);
+    data.push_back((flags >> 24) & 0xff);
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((reservedGpsEvent >>  0) & 0xff);
+    data.push_back((reservedGpsEvent >>  8) & 0xff);
+    data.push_back((static_cast<uint64_t>(latitude) >>  0) & 0xff);
+    data.push_back((static_cast<uint64_t>(latitude) >>  8) & 0xff);
+    data.push_back((static_cast<uint64_t>(latitude) >> 16) & 0xff);
+    data.push_back((static_cast<uint64_t>(latitude) >> 24) & 0xff);
+    data.push_back((static_cast<uint64_t>(latitude) >> 32) & 0xff);
+    data.push_back((static_cast<uint64_t>(latitude) >> 40) & 0xff);
+    data.push_back((static_cast<uint64_t>(latitude) >> 48) & 0xff);
+    data.push_back((static_cast<uint64_t>(latitude) >> 56) & 0xff);
+    data.push_back((static_cast<uint64_t>(longitude) >>  0) & 0xff);
+    data.push_back((static_cast<uint64_t>(longitude) >>  8) & 0xff);
+    data.push_back((static_cast<uint64_t>(longitude) >> 16) & 0xff);
+    data.push_back((static_cast<uint64_t>(longitude) >> 24) & 0xff);
+    data.push_back((static_cast<uint64_t>(longitude) >> 32) & 0xff);
+    data.push_back((static_cast<uint64_t>(longitude) >> 40) & 0xff);
+    data.push_back((static_cast<uint64_t>(longitude) >> 48) & 0xff);
+    data.push_back((static_cast<uint64_t>(longitude) >> 56) & 0xff);
+    data.push_back((static_cast<uint64_t>(altitude) >>  0) & 0xff);
+    data.push_back((static_cast<uint64_t>(altitude) >>  8) & 0xff);
+    data.push_back((static_cast<uint64_t>(altitude) >> 16) & 0xff);
+    data.push_back((static_cast<uint64_t>(altitude) >> 24) & 0xff);
+    data.push_back((static_cast<uint64_t>(altitude) >> 32) & 0xff);
+    data.push_back((static_cast<uint64_t>(altitude) >> 40) & 0xff);
+    data.push_back((static_cast<uint64_t>(altitude) >> 48) & 0xff);
+    data.push_back((static_cast<uint64_t>(altitude) >> 56) & 0xff);
+    data.push_back((static_cast<uint64_t>(speed) >>  0) & 0xff);
+    data.push_back((static_cast<uint64_t>(speed) >>  8) & 0xff);
+    data.push_back((static_cast<uint64_t>(speed) >> 16) & 0xff);
+    data.push_back((static_cast<uint64_t>(speed) >> 24) & 0xff);
+    data.push_back((static_cast<uint64_t>(speed) >> 32) & 0xff);
+    data.push_back((static_cast<uint64_t>(speed) >> 40) & 0xff);
+    data.push_back((static_cast<uint64_t>(speed) >> 48) & 0xff);
+    data.push_back((static_cast<uint64_t>(speed) >> 56) & 0xff);
+    data.push_back((static_cast<uint64_t>(course) >>  0) & 0xff);
+    data.push_back((static_cast<uint64_t>(course) >>  8) & 0xff);
+    data.push_back((static_cast<uint64_t>(course) >> 16) & 0xff);
+    data.push_back((static_cast<uint64_t>(course) >> 24) & 0xff);
+    data.push_back((static_cast<uint64_t>(course) >> 32) & 0xff);
+    data.push_back((static_cast<uint64_t>(course) >> 40) & 0xff);
+    data.push_back((static_cast<uint64_t>(course) >> 48) & 0xff);
+    data.push_back((static_cast<uint64_t>(course) >> 56) & 0xff);
 }
 
 DWORD GpsEvent::calculateObjectSize() const {

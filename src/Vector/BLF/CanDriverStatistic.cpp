@@ -28,30 +28,89 @@ CanDriverStatistic::CanDriverStatistic() :
     ObjectHeader(ObjectType::CAN_STATISTIC) {
 }
 
-void CanDriverStatistic::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&busLoad), sizeof(busLoad));
-    is.read(reinterpret_cast<char *>(&standardDataFrames), sizeof(standardDataFrames));
-    is.read(reinterpret_cast<char *>(&extendedDataFrames), sizeof(extendedDataFrames));
-    is.read(reinterpret_cast<char *>(&standardRemoteFrames), sizeof(standardRemoteFrames));
-    is.read(reinterpret_cast<char *>(&extendedRemoteFrames), sizeof(extendedRemoteFrames));
-    is.read(reinterpret_cast<char *>(&errorFrames), sizeof(errorFrames));
-    is.read(reinterpret_cast<char *>(&overloadFrames), sizeof(overloadFrames));
-    is.read(reinterpret_cast<char *>(&reservedCanDriverStatistic), sizeof(reservedCanDriverStatistic));
+std::vector<uint8_t>::iterator CanDriverStatistic::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    busLoad =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    standardDataFrames =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    extendedDataFrames =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    standardRemoteFrames =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    extendedRemoteFrames =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    errorFrames =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    overloadFrames =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    reservedCanDriverStatistic =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+
+    return it;
 }
 
-void CanDriverStatistic::write(RawFile & os) {
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&busLoad), sizeof(busLoad));
-    os.write(reinterpret_cast<char *>(&standardDataFrames), sizeof(standardDataFrames));
-    os.write(reinterpret_cast<char *>(&extendedDataFrames), sizeof(extendedDataFrames));
-    os.write(reinterpret_cast<char *>(&standardRemoteFrames), sizeof(standardRemoteFrames));
-    os.write(reinterpret_cast<char *>(&extendedRemoteFrames), sizeof(extendedRemoteFrames));
-    os.write(reinterpret_cast<char *>(&errorFrames), sizeof(errorFrames));
-    os.write(reinterpret_cast<char *>(&overloadFrames), sizeof(overloadFrames));
-    os.write(reinterpret_cast<char *>(&reservedCanDriverStatistic), sizeof(reservedCanDriverStatistic));
+void CanDriverStatistic::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
+
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((busLoad >>  0) & 0xff);
+    data.push_back((busLoad >>  8) & 0xff);
+    data.push_back((standardDataFrames >>  0) & 0xff);
+    data.push_back((standardDataFrames >>  8) & 0xff);
+    data.push_back((standardDataFrames >> 16) & 0xff);
+    data.push_back((standardDataFrames >> 24) & 0xff);
+    data.push_back((extendedDataFrames >>  0) & 0xff);
+    data.push_back((extendedDataFrames >>  8) & 0xff);
+    data.push_back((extendedDataFrames >> 16) & 0xff);
+    data.push_back((extendedDataFrames >> 24) & 0xff);
+    data.push_back((standardRemoteFrames >>  0) & 0xff);
+    data.push_back((standardRemoteFrames >>  8) & 0xff);
+    data.push_back((standardRemoteFrames >> 16) & 0xff);
+    data.push_back((standardRemoteFrames >> 24) & 0xff);
+    data.push_back((extendedRemoteFrames >>  0) & 0xff);
+    data.push_back((extendedRemoteFrames >>  8) & 0xff);
+    data.push_back((extendedRemoteFrames >> 16) & 0xff);
+    data.push_back((extendedRemoteFrames >> 24) & 0xff);
+    data.push_back((errorFrames >>  0) & 0xff);
+    data.push_back((errorFrames >>  8) & 0xff);
+    data.push_back((errorFrames >> 16) & 0xff);
+    data.push_back((errorFrames >> 24) & 0xff);
+    data.push_back((overloadFrames >>  0) & 0xff);
+    data.push_back((overloadFrames >>  8) & 0xff);
+    data.push_back((overloadFrames >> 16) & 0xff);
+    data.push_back((overloadFrames >> 24) & 0xff);
+    data.push_back((reservedCanDriverStatistic >>  0) & 0xff);
+    data.push_back((reservedCanDriverStatistic >>  8) & 0xff);
+    data.push_back((reservedCanDriverStatistic >> 16) & 0xff);
+    data.push_back((reservedCanDriverStatistic >> 24) & 0xff);
 }
 
 DWORD CanDriverStatistic::calculateObjectSize() const {

@@ -28,24 +28,54 @@ MostTrigger::MostTrigger() :
     ObjectHeader2(ObjectType::MOST_TRIGGER) {
 }
 
-void MostTrigger::read(RawFile & is) {
-    ObjectHeader2::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&reservedMostTrigger), sizeof(reservedMostTrigger));
-    is.read(reinterpret_cast<char *>(&mode), sizeof(mode));
-    is.read(reinterpret_cast<char *>(&hw), sizeof(hw));
-    is.read(reinterpret_cast<char *>(&previousTriggerValue), sizeof(previousTriggerValue));
-    is.read(reinterpret_cast<char *>(&currentTriggerValue), sizeof(currentTriggerValue));
+std::vector<uint8_t>::iterator MostTrigger::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader2::fromData(it);
+
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    reservedMostTrigger =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    mode =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    hw =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    previousTriggerValue =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    currentTriggerValue =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+
+    return it;
 }
 
-void MostTrigger::write(RawFile & os) {
-    ObjectHeader2::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&reservedMostTrigger), sizeof(reservedMostTrigger));
-    os.write(reinterpret_cast<char *>(&mode), sizeof(mode));
-    os.write(reinterpret_cast<char *>(&hw), sizeof(hw));
-    os.write(reinterpret_cast<char *>(&previousTriggerValue), sizeof(previousTriggerValue));
-    os.write(reinterpret_cast<char *>(&currentTriggerValue), sizeof(currentTriggerValue));
+void MostTrigger::toData(std::vector<uint8_t> & data) {
+    ObjectHeader2::toData(data);
+
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((reservedMostTrigger >>  0) & 0xff);
+    data.push_back((reservedMostTrigger >>  8) & 0xff);
+    data.push_back((mode >>  0) & 0xff);
+    data.push_back((mode >>  8) & 0xff);
+    data.push_back((hw >>  0) & 0xff);
+    data.push_back((hw >>  8) & 0xff);
+    data.push_back((previousTriggerValue >>  0) & 0xff);
+    data.push_back((previousTriggerValue >>  8) & 0xff);
+    data.push_back((previousTriggerValue >> 16) & 0xff);
+    data.push_back((previousTriggerValue >> 24) & 0xff);
+    data.push_back((currentTriggerValue >>  0) & 0xff);
+    data.push_back((currentTriggerValue >>  8) & 0xff);
+    data.push_back((currentTriggerValue >> 16) & 0xff);
+    data.push_back((currentTriggerValue >> 24) & 0xff);
 }
 
 DWORD MostTrigger::calculateObjectSize() const {

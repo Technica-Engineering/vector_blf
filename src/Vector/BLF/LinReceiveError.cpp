@@ -28,36 +28,60 @@ LinReceiveError::LinReceiveError() :
     ObjectHeader(ObjectType::LIN_RCV_ERROR) {
 }
 
-void LinReceiveError::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&id), sizeof(id));
-    is.read(reinterpret_cast<char *>(&dlc), sizeof(dlc));
-    is.read(reinterpret_cast<char *>(&fsmId), sizeof(fsmId));
-    is.read(reinterpret_cast<char *>(&fsmState), sizeof(fsmState));
-    is.read(reinterpret_cast<char *>(&headerTime), sizeof(headerTime));
-    is.read(reinterpret_cast<char *>(&fullTime), sizeof(fullTime));
-    is.read(reinterpret_cast<char *>(&stateReason), sizeof(stateReason));
-    is.read(reinterpret_cast<char *>(&offendingByte), sizeof(offendingByte));
-    is.read(reinterpret_cast<char *>(&shortError), sizeof(shortError));
-    is.read(reinterpret_cast<char *>(&timeoutDuringDlcDetection), sizeof(timeoutDuringDlcDetection));
-    is.read(reinterpret_cast<char *>(&reservedLinReceiveError), sizeof(reservedLinReceiveError));
+std::vector<uint8_t>::iterator LinReceiveError::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    id =
+            (static_cast<BYTE>(*it++) <<  0);
+    dlc =
+            (static_cast<BYTE>(*it++) <<  0);
+    fsmId =
+            (static_cast<BYTE>(*it++) <<  0);
+    fsmState =
+            (static_cast<BYTE>(*it++) <<  0);
+    headerTime =
+            (static_cast<BYTE>(*it++) <<  0);
+    fullTime =
+            (static_cast<BYTE>(*it++) <<  0);
+    stateReason =
+            (static_cast<BYTE>(*it++) <<  0);
+    offendingByte =
+            (static_cast<BYTE>(*it++) <<  0);
+    shortError =
+            (static_cast<BYTE>(*it++) <<  0);
+    timeoutDuringDlcDetection =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedLinReceiveError =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+
+    return it;
 }
 
-void LinReceiveError::write(RawFile & os) {
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&id), sizeof(id));
-    os.write(reinterpret_cast<char *>(&dlc), sizeof(dlc));
-    os.write(reinterpret_cast<char *>(&fsmId), sizeof(fsmId));
-    os.write(reinterpret_cast<char *>(&fsmState), sizeof(fsmState));
-    os.write(reinterpret_cast<char *>(&headerTime), sizeof(headerTime));
-    os.write(reinterpret_cast<char *>(&fullTime), sizeof(fullTime));
-    os.write(reinterpret_cast<char *>(&stateReason), sizeof(stateReason));
-    os.write(reinterpret_cast<char *>(&offendingByte), sizeof(offendingByte));
-    os.write(reinterpret_cast<char *>(&shortError), sizeof(shortError));
-    os.write(reinterpret_cast<char *>(&timeoutDuringDlcDetection), sizeof(timeoutDuringDlcDetection));
-    os.write(reinterpret_cast<char *>(&reservedLinReceiveError), sizeof(reservedLinReceiveError));
+void LinReceiveError::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
+
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((id >>  8) & 0xff);
+    data.push_back((dlc >>  0) & 0xff);
+    data.push_back((fsmId >>  0) & 0xff);
+    data.push_back((fsmState >>  0) & 0xff);
+    data.push_back((headerTime >>  0) & 0xff);
+    data.push_back((fullTime >>  8) & 0xff);
+    data.push_back((stateReason >>  0) & 0xff);
+    data.push_back((offendingByte >>  0) & 0xff);
+    data.push_back((shortError >>  0) & 0xff);
+    data.push_back((timeoutDuringDlcDetection >>  0) & 0xff);
+    data.push_back((reservedLinReceiveError >>  0) & 0xff);
+    data.push_back((reservedLinReceiveError >>  8) & 0xff);
+    data.push_back((reservedLinReceiveError >> 16) & 0xff);
+    data.push_back((reservedLinReceiveError >> 24) & 0xff);
 }
 
 DWORD LinReceiveError::calculateObjectSize() const {

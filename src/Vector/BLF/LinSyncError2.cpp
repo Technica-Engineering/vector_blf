@@ -21,6 +21,8 @@
 
 #include <Vector/BLF/LinSyncError2.h>
 
+#include <algorithm>
+
 namespace Vector {
 namespace BLF {
 
@@ -28,17 +30,27 @@ LinSyncError2::LinSyncError2() :
     ObjectHeader(ObjectType::LIN_SYN_ERROR2) {
 }
 
-void LinSyncError2::read(RawFile & is) {
-    ObjectHeader::read(is);
-    LinSynchFieldEvent::read(is);
-    is.read(reinterpret_cast<char *>(timeDiff.data()), static_cast<std::streamsize>(timeDiff.size() * sizeof(WORD)));
-    // @note might be extended in future versions
+std::vector<uint8_t>::iterator LinSyncError2::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+    it = LinSynchFieldEvent::fromData(it);
+
+    std::generate(timeDiff.begin(), timeDiff.end(), [&it]() {
+        return
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    });
+
+    return it;
 }
 
-void LinSyncError2::write(RawFile & os) {
-    ObjectHeader::write(os);
-    LinSynchFieldEvent::write(os);
-    os.write(reinterpret_cast<char *>(timeDiff.data()), static_cast<std::streamsize>(timeDiff.size() * sizeof(WORD)));
+void LinSyncError2::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
+    LinSynchFieldEvent::toData(data);
+
+    std::for_each(timeDiff.begin(), timeDiff.end(), [&data](const WORD & d) {
+        data.push_back((d >>  0) & 0xff);
+        data.push_back((d >>  8) & 0xff);
+    });
 }
 
 DWORD LinSyncError2::calculateObjectSize() const {

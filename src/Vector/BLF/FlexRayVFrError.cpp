@@ -21,6 +21,8 @@
 
 #include <Vector/BLF/FlexRayVFrError.h>
 
+#include <algorithm>
+
 namespace Vector {
 namespace BLF {
 
@@ -28,32 +30,86 @@ FlexRayVFrError::FlexRayVFrError() :
     ObjectHeader(ObjectType::FR_ERROR) {
 }
 
-void FlexRayVFrError::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&version), sizeof(version));
-    is.read(reinterpret_cast<char *>(&channelMask), sizeof(channelMask));
-    is.read(reinterpret_cast<char *>(&cycle), sizeof(cycle));
-    is.read(reinterpret_cast<char *>(&reservedFlexRayVFrError1), sizeof(reservedFlexRayVFrError1));
-    is.read(reinterpret_cast<char *>(&clientIndexFlexRayVFrError), sizeof(clientIndexFlexRayVFrError));
-    is.read(reinterpret_cast<char *>(&clusterNo), sizeof(clusterNo));
-    is.read(reinterpret_cast<char *>(&tag), sizeof(tag));
-    is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size() * sizeof(DWORD)));
-    is.read(reinterpret_cast<char *>(&reservedFlexRayVFrError2), sizeof(reservedFlexRayVFrError2));
+std::vector<uint8_t>::iterator FlexRayVFrError::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    version =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    channelMask =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    cycle =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedFlexRayVFrError1 =
+            (static_cast<BYTE>(*it++) <<  0);
+    clientIndexFlexRayVFrError =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    clusterNo =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    tag =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    std::generate(this->data.begin(), this->data.end(), [&it]() {
+        return
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    });
+    reservedFlexRayVFrError2 =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+
+    return it;
 }
 
-void FlexRayVFrError::write(RawFile & os) {
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&version), sizeof(version));
-    os.write(reinterpret_cast<char *>(&channelMask), sizeof(channelMask));
-    os.write(reinterpret_cast<char *>(&cycle), sizeof(cycle));
-    os.write(reinterpret_cast<char *>(&reservedFlexRayVFrError1), sizeof(reservedFlexRayVFrError1));
-    os.write(reinterpret_cast<char *>(&clientIndexFlexRayVFrError), sizeof(clientIndexFlexRayVFrError));
-    os.write(reinterpret_cast<char *>(&clusterNo), sizeof(clusterNo));
-    os.write(reinterpret_cast<char *>(&tag), sizeof(tag));
-    os.write(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size() * sizeof(DWORD)));
-    os.write(reinterpret_cast<char *>(&reservedFlexRayVFrError2), sizeof(reservedFlexRayVFrError2));
+void FlexRayVFrError::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
+
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((version >>  0) & 0xff);
+    data.push_back((version >>  8) & 0xff);
+    data.push_back((channelMask >>  0) & 0xff);
+    data.push_back((channelMask >>  8) & 0xff);
+    data.push_back((cycle >>  0) & 0xff);
+    data.push_back((reservedFlexRayVFrError1 >>  0) & 0xff);
+    data.push_back((clientIndexFlexRayVFrError >>  0) & 0xff);
+    data.push_back((clientIndexFlexRayVFrError >>  8) & 0xff);
+    data.push_back((clientIndexFlexRayVFrError >> 16) & 0xff);
+    data.push_back((clientIndexFlexRayVFrError >> 24) & 0xff);
+    data.push_back((clusterNo >>  0) & 0xff);
+    data.push_back((clusterNo >>  8) & 0xff);
+    data.push_back((clusterNo >> 16) & 0xff);
+    data.push_back((clusterNo >> 24) & 0xff);
+    data.push_back((tag >>  0) & 0xff);
+    data.push_back((tag >>  8) & 0xff);
+    data.push_back((tag >> 16) & 0xff);
+    data.push_back((tag >> 24) & 0xff);
+    std::for_each(this->data.begin(), this->data.end(), [&data](const DWORD & d) {
+        data.push_back((d >>  0) & 0xff);
+        data.push_back((d >>  8) & 0xff);
+        data.push_back((d >> 16) & 0xff);
+        data.push_back((d >> 24) & 0xff);
+    });
+    data.push_back((reservedFlexRayVFrError2 >>  0) & 0xff);
+    data.push_back((reservedFlexRayVFrError2 >>  8) & 0xff);
+    data.push_back((reservedFlexRayVFrError2 >> 16) & 0xff);
+    data.push_back((reservedFlexRayVFrError2 >> 24) & 0xff);
 }
 
 DWORD FlexRayVFrError::calculateObjectSize() const {

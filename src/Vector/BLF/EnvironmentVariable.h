@@ -27,8 +27,6 @@
 #include <vector>
 
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/RawFile.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -41,10 +39,15 @@ namespace BLF {
  * Environment variable that can be used with CANoe.
  */
 struct VECTOR_BLF_EXPORT EnvironmentVariable final : ObjectHeader {
-    EnvironmentVariable(/*const ObjectType objectType*/);
+    /**
+     * Constructor
+     *
+     * @param[in] objectType one of ObjectType::ENV_INTEGER, ObjectType::ENV_DOUBLE, ObjectType::ENV_STRING, or ObjectType::ENV_DATA
+     */
+    EnvironmentVariable(const ObjectType objectType = ObjectType::UNKNOWN);
 
-    void read(RawFile & is) override;
-    void write(RawFile & os) override;
+    std::vector<uint8_t>::iterator fromData(std::vector<uint8_t>::iterator it) override;
+    void toData(std::vector<uint8_t> & data) override;
     DWORD calculateObjectSize() const override;
 
     /**

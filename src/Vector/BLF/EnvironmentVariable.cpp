@@ -26,8 +26,8 @@
 namespace Vector {
 namespace BLF {
 
-EnvironmentVariable::EnvironmentVariable(/*const ObjectType objectType*/) :
-    ObjectHeader(ObjectType::UNKNOWN) {
+EnvironmentVariable::EnvironmentVariable(const ObjectType objectType) :
+    ObjectHeader(objectType) {
     /* can be one of:
      *   - objectType = ObjectType::ENV_INTEGER;
      *   - objectType = ObjectType::ENV_DOUBLE;
@@ -36,34 +36,63 @@ EnvironmentVariable::EnvironmentVariable(/*const ObjectType objectType*/) :
      */
 }
 
-void EnvironmentVariable::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&nameLength), sizeof(nameLength));
-    is.read(reinterpret_cast<char *>(&dataLength), sizeof(dataLength));
-    is.read(reinterpret_cast<char *>(&reservedEnvironmentVariable), sizeof(reservedEnvironmentVariable));
-    name.resize(nameLength);
-    is.read(&name[0], nameLength);
-    data.resize(dataLength);
-    is.read(reinterpret_cast<char *>(data.data()), dataLength);
+std::vector<uint8_t>::iterator EnvironmentVariable::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
 
-    /* skip padding */
-    is.seekg(objectSize % 4, std::ios_base::cur);
+    nameLength =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    dataLength =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    reservedEnvironmentVariable =
+            (static_cast<ULONGLONG>(*it++) <<  0) |
+            (static_cast<ULONGLONG>(*it++) <<  8) |
+            (static_cast<ULONGLONG>(*it++) << 16) |
+            (static_cast<ULONGLONG>(*it++) << 24) |
+            (static_cast<ULONGLONG>(*it++) << 32) |
+            (static_cast<ULONGLONG>(*it++) << 40) |
+            (static_cast<ULONGLONG>(*it++) << 48) |
+            (static_cast<ULONGLONG>(*it++) << 56);
+    name.resize(nameLength);
+    std::copy(it, it + name.size(), std::begin(name));
+    it += this->data.size();
+    this->data.resize(dataLength);
+    std::copy(it, it + this->data.size(), std::begin(this->data));
+    it += this->data.size();
+
+    return it;
 }
 
-void EnvironmentVariable::write(RawFile & os) {
+void EnvironmentVariable::toData(std::vector<uint8_t> & data) {
     /* pre processing */
     nameLength = static_cast<DWORD>(name.size());
     dataLength = static_cast<DWORD>(data.size());
 
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&nameLength), sizeof(nameLength));
-    os.write(reinterpret_cast<char *>(&dataLength), sizeof(dataLength));
-    os.write(reinterpret_cast<char *>(&reservedEnvironmentVariable), sizeof(reservedEnvironmentVariable));
-    os.write(&name[0], nameLength);
-    os.write(reinterpret_cast<char *>(data.data()), dataLength);
+    ObjectHeader::toData(data);
 
-    /* skip padding */
-    os.seekp(objectSize % 4, std::ios_base::cur);
+    data.push_back((nameLength >>  0) & 0xff);
+    data.push_back((nameLength >>  8) & 0xff);
+    data.push_back((nameLength >> 16) & 0xff);
+    data.push_back((nameLength >> 24) & 0xff);
+    data.push_back((dataLength >>  0) & 0xff);
+    data.push_back((dataLength >>  8) & 0xff);
+    data.push_back((dataLength >> 16) & 0xff);
+    data.push_back((dataLength >> 24) & 0xff);
+    data.push_back((reservedEnvironmentVariable >>  0) & 0xff);
+    data.push_back((reservedEnvironmentVariable >>  8) & 0xff);
+    data.push_back((reservedEnvironmentVariable >> 16) & 0xff);
+    data.push_back((reservedEnvironmentVariable >> 24) & 0xff);
+    data.push_back((reservedEnvironmentVariable >> 32) & 0xff);
+    data.push_back((reservedEnvironmentVariable >> 40) & 0xff);
+    data.push_back((reservedEnvironmentVariable >> 48) & 0xff);
+    data.push_back((reservedEnvironmentVariable >> 56) & 0xff);
+    data.insert(std::end(data), std::begin(name), std::end(name));
+    data.insert(std::end(data), std::begin(this->data), std::end(this->data));
 }
 
 DWORD EnvironmentVariable::calculateObjectSize() const {

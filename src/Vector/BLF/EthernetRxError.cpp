@@ -28,41 +28,72 @@ EthernetRxError::EthernetRxError() :
     ObjectHeader(ObjectType::ETHERNET_RX_ERROR) {
 }
 
-void EthernetRxError::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&structLength), sizeof(structLength));
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
-    is.read(reinterpret_cast<char *>(&hardwareChannel), sizeof(hardwareChannel));
-    is.read(reinterpret_cast<char *>(&fcs), sizeof(fcs));
-    is.read(reinterpret_cast<char *>(&frameDataLength), sizeof(frameDataLength));
-    is.read(reinterpret_cast<char *>(&reservedEthernetRxError), sizeof(reservedEthernetRxError));
-    is.read(reinterpret_cast<char *>(&error), sizeof(error));
-    frameData.resize(frameDataLength);
-    is.read(reinterpret_cast<char *>(frameData.data()), frameDataLength);
+std::vector<uint8_t>::iterator EthernetRxError::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
 
-    /* skip padding */
-    is.seekg(objectSize % 4, std::ios_base::cur);
+    structLength =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    dir =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    hardwareChannel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    fcs =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    frameDataLength =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    reservedEthernetRxError =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    error =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    frameData.resize(frameDataLength);
+    std::copy(it, it + frameData.size(), std::begin(frameData));
+    it += frameData.size();
+
+    return it;
 }
 
-void EthernetRxError::write(RawFile & os) {
+void EthernetRxError::toData(std::vector<uint8_t> & data) {
     /* pre processing */
     structLength = calculateStructLength();
     frameDataLength = static_cast<WORD>(frameData.size());
 
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&structLength), sizeof(structLength));
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
-    os.write(reinterpret_cast<char *>(&hardwareChannel), sizeof(hardwareChannel));
-    os.write(reinterpret_cast<char *>(&fcs), sizeof(fcs));
-    os.write(reinterpret_cast<char *>(&frameDataLength), sizeof(frameDataLength));
-    os.write(reinterpret_cast<char *>(&reservedEthernetRxError), sizeof(reservedEthernetRxError));
-    os.write(reinterpret_cast<char *>(&error), sizeof(error));
-    os.write(reinterpret_cast<char *>(frameData.data()), frameDataLength);
+    ObjectHeader::toData(data);
 
-    /* skip padding */
-    os.seekp(objectSize % 4, std::ios_base::cur);
+    data.push_back((structLength >>  0) & 0xff);
+    data.push_back((structLength >>  8) & 0xff);
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((dir >>  0) & 0xff);
+    data.push_back((dir >>  8) & 0xff);
+    data.push_back((hardwareChannel >>  0) & 0xff);
+    data.push_back((hardwareChannel >>  8) & 0xff);
+    data.push_back((fcs >>  0) & 0xff);
+    data.push_back((fcs >>  8) & 0xff);
+    data.push_back((fcs >> 16) & 0xff);
+    data.push_back((fcs >> 24) & 0xff);
+    data.push_back((frameDataLength >>  0) & 0xff);
+    data.push_back((frameDataLength >>  8) & 0xff);
+    data.push_back((reservedEthernetRxError >>  0) & 0xff);
+    data.push_back((reservedEthernetRxError >>  8) & 0xff);
+    data.push_back((error >>  0) & 0xff);
+    data.push_back((error >>  8) & 0xff);
+    data.push_back((error >> 16) & 0xff);
+    data.push_back((error >> 24) & 0xff);
+    data.insert(std::end(data), std::begin(frameData), std::end(frameData));
 }
 
 DWORD EthernetRxError::calculateObjectSize() const {

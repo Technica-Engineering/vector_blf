@@ -28,22 +28,53 @@ MostStatisticEx::MostStatisticEx() :
     ObjectHeader2(ObjectType::MOST_STATISTICEX) {
 }
 
-void MostStatisticEx::read(RawFile & is) {
-    ObjectHeader2::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&reservedMostStatisticEx1), sizeof(reservedMostStatisticEx1));
-    is.read(reinterpret_cast<char *>(&codingErrors), sizeof(codingErrors));
-    is.read(reinterpret_cast<char *>(&frameCounter), sizeof(frameCounter));
-    is.read(reinterpret_cast<char *>(&reservedMostStatisticEx2), sizeof(reservedMostStatisticEx2));
+std::vector<uint8_t>::iterator MostStatisticEx::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader2::fromData(it);
+
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    reservedMostStatisticEx1 =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    codingErrors =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    frameCounter =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    reservedMostStatisticEx2 =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+
+    return it;
 }
 
-void MostStatisticEx::write(RawFile & os) {
-    ObjectHeader2::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&reservedMostStatisticEx1), sizeof(reservedMostStatisticEx1));
-    os.write(reinterpret_cast<char *>(&codingErrors), sizeof(codingErrors));
-    os.write(reinterpret_cast<char *>(&frameCounter), sizeof(frameCounter));
-    os.write(reinterpret_cast<char *>(&reservedMostStatisticEx2), sizeof(reservedMostStatisticEx2));
+void MostStatisticEx::toData(std::vector<uint8_t> & data) {
+    ObjectHeader2::toData(data);
+
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((reservedMostStatisticEx1 >>  0) & 0xff);
+    data.push_back((reservedMostStatisticEx1 >>  8) & 0xff);
+    data.push_back((codingErrors >>  0) & 0xff);
+    data.push_back((codingErrors >>  8) & 0xff);
+    data.push_back((codingErrors >> 16) & 0xff);
+    data.push_back((codingErrors >> 24) & 0xff);
+    data.push_back((frameCounter >>  0) & 0xff);
+    data.push_back((frameCounter >>  8) & 0xff);
+    data.push_back((frameCounter >> 16) & 0xff);
+    data.push_back((frameCounter >> 24) & 0xff);
+    data.push_back((reservedMostStatisticEx2 >>  0) & 0xff);
+    data.push_back((reservedMostStatisticEx2 >>  8) & 0xff);
+    data.push_back((reservedMostStatisticEx2 >> 16) & 0xff);
+    data.push_back((reservedMostStatisticEx2 >> 24) & 0xff);
 }
 
 DWORD MostStatisticEx::calculateObjectSize() const {

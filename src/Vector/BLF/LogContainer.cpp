@@ -34,35 +34,61 @@ LogContainer::LogContainer() :
     ObjectHeaderBase(1, ObjectType::LOG_CONTAINER) {
 }
 
-void LogContainer::read(RawFile & is) {
-    ObjectHeaderBase::read(is);
-    is.read(reinterpret_cast<char *>(&compressionMethod), sizeof(compressionMethod));
-    is.read(reinterpret_cast<char *>(&reservedLogContainer1), sizeof(reservedLogContainer1));
-    is.read(reinterpret_cast<char *>(&reservedLogContainer2), sizeof(reservedLogContainer2));
-    is.read(reinterpret_cast<char *>(&uncompressedFileSize), sizeof(uncompressedFileSize));
-    is.read(reinterpret_cast<char *>(&reservedLogContainer3), sizeof(reservedLogContainer3));
+std::vector<uint8_t>::iterator LogContainer::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeaderBase::fromData(it);
+
+    compressionMethod =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    reservedLogContainer1 =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    reservedLogContainer2 =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    uncompressedFileSize =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    reservedLogContainer3 =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
     compressedFileSize = objectSize - internalHeaderSize();
     compressedFile.resize(compressedFileSize);
-    is.read(reinterpret_cast<char *>(compressedFile.data()), compressedFileSize);
+    std::copy(it, it + compressedFile.size(), std::begin(compressedFile));
+    it += compressedFile.size();
 
-    /* skip padding */
-    is.seekg(objectSize % 4, std::ios_base::cur);
+    return it;
 }
 
-void LogContainer::write(RawFile & os) {
+void LogContainer::toData(std::vector<uint8_t> & data) {
     /* pre processing */
     compressedFileSize = static_cast<DWORD>(compressedFile.size());
 
-    ObjectHeaderBase::write(os);
-    os.write(reinterpret_cast<char *>(&compressionMethod), sizeof(compressionMethod));
-    os.write(reinterpret_cast<char *>(&reservedLogContainer1), sizeof(reservedLogContainer1));
-    os.write(reinterpret_cast<char *>(&reservedLogContainer2), sizeof(reservedLogContainer2));
-    os.write(reinterpret_cast<char *>(&uncompressedFileSize), sizeof(uncompressedFileSize));
-    os.write(reinterpret_cast<char *>(&reservedLogContainer3), sizeof(reservedLogContainer3));
-    os.write(reinterpret_cast<char *>(compressedFile.data()), compressedFileSize);
+    ObjectHeaderBase::toData(data);
 
-    /* skip padding */
-    os.seekp(objectSize % 4, std::ios_base::cur);
+    data.push_back((compressionMethod >>  0) & 0xff);
+    data.push_back((compressionMethod >>  8) & 0xff);
+    data.push_back((reservedLogContainer1 >>  0) & 0xff);
+    data.push_back((reservedLogContainer1 >>  8) & 0xff);
+    data.push_back((reservedLogContainer2 >>  0) & 0xff);
+    data.push_back((reservedLogContainer2 >>  8) & 0xff);
+    data.push_back((reservedLogContainer2 >> 16) & 0xff);
+    data.push_back((reservedLogContainer2 >> 24) & 0xff);
+    data.push_back((uncompressedFileSize >>  0) & 0xff);
+    data.push_back((uncompressedFileSize >>  8) & 0xff);
+    data.push_back((uncompressedFileSize >> 16) & 0xff);
+    data.push_back((uncompressedFileSize >> 24) & 0xff);
+    data.push_back((reservedLogContainer3 >>  0) & 0xff);
+    data.push_back((reservedLogContainer3 >>  8) & 0xff);
+    data.push_back((reservedLogContainer3 >> 16) & 0xff);
+    data.push_back((reservedLogContainer3 >> 24) & 0xff);
+    data.insert(std::end(data), std::begin(compressedFile), std::end(compressedFile));
 }
 
 DWORD LogContainer::calculateObjectSize() const {

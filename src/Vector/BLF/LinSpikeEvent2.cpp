@@ -28,23 +28,38 @@ LinSpikeEvent2::LinSpikeEvent2() :
     ObjectHeader(ObjectType::LIN_SPIKE_EVENT2) {
 }
 
-void LinSpikeEvent2::read(RawFile & is) {
-    ObjectHeader::read(is);
-    LinBusEvent::read(is);
-    is.read(reinterpret_cast<char *>(&width), sizeof(width));
-    is.read(reinterpret_cast<char *>(&internal), sizeof(internal));
-    is.read(reinterpret_cast<char *>(&reservedLinSpikeEvent1), sizeof(reservedLinSpikeEvent1));
-    is.read(reinterpret_cast<char *>(&reservedLinSpikeEvent2), sizeof(reservedLinSpikeEvent2));
-    // @note might be extended in future versions
+std::vector<uint8_t>::iterator LinSpikeEvent2::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+    it = LinBusEvent::fromData(it);
+
+    width =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
+    internal =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedLinSpikeEvent1 =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedLinSpikeEvent2 =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+
+    return it;
 }
 
-void LinSpikeEvent2::write(RawFile & os) {
-    ObjectHeader::write(os);
-    LinBusEvent::write(os);
-    os.write(reinterpret_cast<char *>(&width), sizeof(width));
-    os.write(reinterpret_cast<char *>(&internal), sizeof(internal));
-    os.write(reinterpret_cast<char *>(&reservedLinSpikeEvent1), sizeof(reservedLinSpikeEvent1));
-    os.write(reinterpret_cast<char *>(&reservedLinSpikeEvent2), sizeof(reservedLinSpikeEvent2));
+void LinSpikeEvent2::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
+    LinBusEvent::toData(data);
+
+    data.push_back((width >>  0) & 0xff);
+    data.push_back((width >>  8) & 0xff);
+    data.push_back((width >> 16) & 0xff);
+    data.push_back((width >> 24) & 0xff);
+    data.push_back((internal >>  0) & 0xff);
+    data.push_back((reservedLinSpikeEvent1 >>  0) & 0xff);
+    data.push_back((reservedLinSpikeEvent2 >>  0) & 0xff);
+    data.push_back((reservedLinSpikeEvent2 >>  8) & 0xff);
 }
 
 DWORD LinSpikeEvent2::calculateObjectSize() const {

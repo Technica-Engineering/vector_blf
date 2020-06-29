@@ -28,18 +28,35 @@ LinSpikeEvent::LinSpikeEvent() :
     ObjectHeader(ObjectType::LIN_SPIKE_EVENT) {
 }
 
-void LinSpikeEvent::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&reservedLinSpikeEvent), sizeof(reservedLinSpikeEvent));
-    is.read(reinterpret_cast<char *>(&width), sizeof(width));
+std::vector<uint8_t>::iterator LinSpikeEvent::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    reservedLinSpikeEvent =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    width =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
+
+    return it;
 }
 
-void LinSpikeEvent::write(RawFile & os) {
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&reservedLinSpikeEvent), sizeof(reservedLinSpikeEvent));
-    os.write(reinterpret_cast<char *>(&width), sizeof(width));
+void LinSpikeEvent::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
+
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((reservedLinSpikeEvent >>  0) & 0xff);
+    data.push_back((reservedLinSpikeEvent >>  8) & 0xff);
+    data.push_back((width >>  0) & 0xff);
+    data.push_back((width >>  8) & 0xff);
+    data.push_back((width >> 16) & 0xff);
+    data.push_back((width >> 24) & 0xff);
 }
 
 DWORD LinSpikeEvent::calculateObjectSize() const {

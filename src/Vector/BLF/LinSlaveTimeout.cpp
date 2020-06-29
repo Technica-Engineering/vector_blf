@@ -28,20 +28,36 @@ LinSlaveTimeout::LinSlaveTimeout() :
     ObjectHeader(ObjectType::LIN_SLV_TIMEOUT) {
 }
 
-void LinSlaveTimeout::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&slaveId), sizeof(slaveId));
-    is.read(reinterpret_cast<char *>(&stateId), sizeof(stateId));
-    is.read(reinterpret_cast<char *>(&followStateId), sizeof(followStateId));
+std::vector<uint8_t>::iterator LinSlaveTimeout::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    slaveId =
+            (static_cast<BYTE>(*it++) <<  0);
+    stateId =
+            (static_cast<BYTE>(*it++) <<  0);
+    followStateId =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+
+    return it;
 }
 
-void LinSlaveTimeout::write(RawFile & os) {
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&slaveId), sizeof(slaveId));
-    os.write(reinterpret_cast<char *>(&stateId), sizeof(stateId));
-    os.write(reinterpret_cast<char *>(&followStateId), sizeof(followStateId));
+void LinSlaveTimeout::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
+
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((slaveId >>  0) & 0xff);
+    data.push_back((stateId >>  0) & 0xff);
+    data.push_back((followStateId >>  0) & 0xff);
+    data.push_back((followStateId >>  8) & 0xff);
+    data.push_back((followStateId >> 16) & 0xff);
+    data.push_back((followStateId >> 24) & 0xff);
 }
 
 DWORD LinSlaveTimeout::calculateObjectSize() const {

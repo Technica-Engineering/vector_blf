@@ -28,66 +28,119 @@ LinMessage2::LinMessage2() :
     ObjectHeader(ObjectType::LIN_MESSAGE2, 1) {
 }
 
-void LinMessage2::read(RawFile & is) {
-    ObjectHeader::read(is);
-    LinDatabyteTimestampEvent::read(is);
-    is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
-    is.read(reinterpret_cast<char *>(&crc), sizeof(crc));
-    is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
-    is.read(reinterpret_cast<char *>(&simulated), sizeof(simulated));
-    is.read(reinterpret_cast<char *>(&isEtf), sizeof(isEtf));
-    is.read(reinterpret_cast<char *>(&etfAssocIndex), sizeof(etfAssocIndex));
-    is.read(reinterpret_cast<char *>(&etfAssocEtfId), sizeof(etfAssocEtfId));
-    is.read(reinterpret_cast<char *>(&fsmId), sizeof(fsmId));
-    is.read(reinterpret_cast<char *>(&fsmState), sizeof(fsmState));
-    is.read(reinterpret_cast<char *>(&reservedLinMessage1), sizeof(reservedLinMessage1));
-    is.read(reinterpret_cast<char *>(&reservedLinMessage2), sizeof(reservedLinMessage2));
+std::vector<uint8_t>::iterator LinMessage2::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+    it = LinDatabyteTimestampEvent::fromData(it);
+
+    std::copy(it, it + this->data.size(), std::begin(data));
+    it += this->data.size();
+    crc =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    dir =
+            (static_cast<BYTE>(*it++) <<  0);
+    simulated =
+            (static_cast<BYTE>(*it++) <<  0);
+    isEtf =
+            (static_cast<BYTE>(*it++) <<  0);
+    etfAssocIndex =
+            (static_cast<BYTE>(*it++) <<  0);
+    etfAssocEtfId =
+            (static_cast<BYTE>(*it++) <<  0);
+    fsmId =
+            (static_cast<BYTE>(*it++) <<  0);
+    fsmState =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedLinMessage1 =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedLinMessage2 =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
 
     /* the following variables are only available in Version 2 and above */
     /*if (objectVersion < 0)*/ // Vector bug: Shouldn't this be < 1?
-    /*    return;*/
+    /*    return it;*/
 
-    is.read(reinterpret_cast<char *>(&respBaudrate), sizeof(respBaudrate));
+    respBaudrate =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
 
     /* the following variables are only available in Version 3 and above */
     if (objectVersion < 1)   // Vector bug: Shouldn't this be < 2?
-        return;
+        return it;
 
-    is.read(reinterpret_cast<char *>(&exactHeaderBaudrate), sizeof(exactHeaderBaudrate));
-    is.read(reinterpret_cast<char *>(&earlyStopbitOffset), sizeof(earlyStopbitOffset));
-    is.read(reinterpret_cast<char *>(&earlyStopbitOffsetResponse), sizeof(earlyStopbitOffsetResponse));
+    exactHeaderBaudrate =
+            (static_cast<uint64_t>(*it++) <<  0) |
+            (static_cast<uint64_t>(*it++) <<  8) |
+            (static_cast<uint64_t>(*it++) << 16) |
+            (static_cast<uint64_t>(*it++) << 24) |
+            (static_cast<uint64_t>(*it++) << 32) |
+            (static_cast<uint64_t>(*it++) << 40) |
+            (static_cast<uint64_t>(*it++) << 48) |
+            (static_cast<uint64_t>(*it++) << 56);
+    earlyStopbitOffset =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    earlyStopbitOffsetResponse =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
 
-    // @note might be extended in future versions
+    return it;
 }
 
-void LinMessage2::write(RawFile & os) {
-    ObjectHeader::write(os);
-    LinDatabyteTimestampEvent::write(os);
-    os.write(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
-    os.write(reinterpret_cast<char *>(&crc), sizeof(crc));
-    os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
-    os.write(reinterpret_cast<char *>(&simulated), sizeof(simulated));
-    os.write(reinterpret_cast<char *>(&isEtf), sizeof(isEtf));
-    os.write(reinterpret_cast<char *>(&etfAssocIndex), sizeof(etfAssocIndex));
-    os.write(reinterpret_cast<char *>(&etfAssocEtfId), sizeof(etfAssocEtfId));
-    os.write(reinterpret_cast<char *>(&fsmId), sizeof(fsmId));
-    os.write(reinterpret_cast<char *>(&fsmState), sizeof(fsmState));
-    os.write(reinterpret_cast<char *>(&reservedLinMessage1), sizeof(reservedLinMessage1));
-    os.write(reinterpret_cast<char *>(&reservedLinMessage2), sizeof(reservedLinMessage2));
+void LinMessage2::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
+    LinDatabyteTimestampEvent::toData(data);
+
+    data.insert(std::end(data), std::begin(this->data), std::end(this->data));
+    data.push_back((crc >>  0) & 0xff);
+    data.push_back((crc >>  8) & 0xff);
+    data.push_back((dir >>  0) & 0xff);
+    data.push_back((simulated >>  0) & 0xff);
+    data.push_back((isEtf >>  0) & 0xff);
+    data.push_back((etfAssocIndex >>  0) & 0xff);
+    data.push_back((etfAssocEtfId >>  0) & 0xff);
+    data.push_back((fsmId >>  0) & 0xff);
+    data.push_back((fsmState >>  0) & 0xff);
+    data.push_back((reservedLinMessage1 >>  0) & 0xff);
+    data.push_back((reservedLinMessage2 >>  0) & 0xff);
+    data.push_back((reservedLinMessage2 >>  8) & 0xff);
 
     /* the following variables are only available in Version 2 and above */
     /*if (objectVersion < 0)*/ // Vector bug: Shouldn't this be < 1?
     /*    return;*/
 
-    os.write(reinterpret_cast<char *>(&respBaudrate), sizeof(respBaudrate));
+    data.push_back((respBaudrate >>  0) & 0xff);
+    data.push_back((respBaudrate >>  8) & 0xff);
+    data.push_back((respBaudrate >> 16) & 0xff);
+    data.push_back((respBaudrate >> 24) & 0xff);
 
     /* the following variables are only available in Version 3 and above */
     if (objectVersion < 1)   // Vector bug: Shouldn't this be < 2?
         return;
 
-    os.write(reinterpret_cast<char *>(&exactHeaderBaudrate), sizeof(exactHeaderBaudrate));
-    os.write(reinterpret_cast<char *>(&earlyStopbitOffset), sizeof(earlyStopbitOffset));
-    os.write(reinterpret_cast<char *>(&earlyStopbitOffsetResponse), sizeof(earlyStopbitOffsetResponse));
+    data.push_back((static_cast<uint64_t>(exactHeaderBaudrate) >>  0) & 0xff);
+    data.push_back((static_cast<uint64_t>(exactHeaderBaudrate) >>  8) & 0xff);
+    data.push_back((static_cast<uint64_t>(exactHeaderBaudrate) >> 16) & 0xff);
+    data.push_back((static_cast<uint64_t>(exactHeaderBaudrate) >> 24) & 0xff);
+    data.push_back((static_cast<uint64_t>(exactHeaderBaudrate) >> 32) & 0xff);
+    data.push_back((static_cast<uint64_t>(exactHeaderBaudrate) >> 40) & 0xff);
+    data.push_back((static_cast<uint64_t>(exactHeaderBaudrate) >> 48) & 0xff);
+    data.push_back((static_cast<uint64_t>(exactHeaderBaudrate) >> 56) & 0xff);
+    data.push_back((earlyStopbitOffset >>  0) & 0xff);
+    data.push_back((earlyStopbitOffset >>  8) & 0xff);
+    data.push_back((earlyStopbitOffset >> 16) & 0xff);
+    data.push_back((earlyStopbitOffset >> 24) & 0xff);
+    data.push_back((earlyStopbitOffsetResponse >>  0) & 0xff);
+    data.push_back((earlyStopbitOffsetResponse >>  8) & 0xff);
+    data.push_back((earlyStopbitOffsetResponse >> 16) & 0xff);
+    data.push_back((earlyStopbitOffsetResponse >> 24) & 0xff);
 }
 
 DWORD LinMessage2::calculateObjectSize() const {

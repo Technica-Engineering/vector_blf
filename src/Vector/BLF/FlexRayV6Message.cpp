@@ -28,44 +28,98 @@ FlexRayV6Message::FlexRayV6Message() :
     ObjectHeader(ObjectType::FLEXRAY_MESSAGE) {
 }
 
-void FlexRayV6Message::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
-    is.read(reinterpret_cast<char *>(&lowTime), sizeof(lowTime));
-    is.read(reinterpret_cast<char *>(&fpgaTick), sizeof(fpgaTick));
-    is.read(reinterpret_cast<char *>(&fpgaTickOverflow), sizeof(fpgaTickOverflow));
-    is.read(reinterpret_cast<char *>(&clientIndexFlexRayV6Message), sizeof(clientIndexFlexRayV6Message));
-    is.read(reinterpret_cast<char *>(&clusterTime), sizeof(clusterTime));
-    is.read(reinterpret_cast<char *>(&frameId), sizeof(frameId));
-    is.read(reinterpret_cast<char *>(&headerCrc), sizeof(headerCrc));
-    is.read(reinterpret_cast<char *>(&frameState), sizeof(frameState));
-    is.read(reinterpret_cast<char *>(&length), sizeof(length));
-    is.read(reinterpret_cast<char *>(&cycle), sizeof(cycle));
-    is.read(reinterpret_cast<char *>(&headerBitMask), sizeof(headerBitMask));
-    is.read(reinterpret_cast<char *>(&reservedFlexRayV6Message1), sizeof(reservedFlexRayV6Message1));
-    is.read(reinterpret_cast<char *>(&reservedFlexRayV6Message2), sizeof(reservedFlexRayV6Message2));
-    is.read(reinterpret_cast<char *>(dataBytes.data()), static_cast<std::streamsize>(dataBytes.size()));
+std::vector<uint8_t>::iterator FlexRayV6Message::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    dir =
+            (static_cast<BYTE>(*it++) <<  0);
+    lowTime =
+            (static_cast<BYTE>(*it++) <<  0);
+    fpgaTick =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    fpgaTickOverflow =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    clientIndexFlexRayV6Message =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    clusterTime =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    frameId =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    headerCrc =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    frameState =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    length =
+            (static_cast<BYTE>(*it++) <<  0);
+    cycle =
+            (static_cast<BYTE>(*it++) <<  0);
+    headerBitMask =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedFlexRayV6Message1 =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedFlexRayV6Message2 =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    std::copy(it, it + dataBytes.size(), std::begin(dataBytes));
+    it += dataBytes.size();
+
+    return it;
 }
 
-void FlexRayV6Message::write(RawFile & os) {
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
-    os.write(reinterpret_cast<char *>(&lowTime), sizeof(lowTime));
-    os.write(reinterpret_cast<char *>(&fpgaTick), sizeof(fpgaTick));
-    os.write(reinterpret_cast<char *>(&fpgaTickOverflow), sizeof(fpgaTickOverflow));
-    os.write(reinterpret_cast<char *>(&clientIndexFlexRayV6Message), sizeof(clientIndexFlexRayV6Message));
-    os.write(reinterpret_cast<char *>(&clusterTime), sizeof(clusterTime));
-    os.write(reinterpret_cast<char *>(&frameId), sizeof(frameId));
-    os.write(reinterpret_cast<char *>(&headerCrc), sizeof(headerCrc));
-    os.write(reinterpret_cast<char *>(&frameState), sizeof(frameState));
-    os.write(reinterpret_cast<char *>(&length), sizeof(length));
-    os.write(reinterpret_cast<char *>(&cycle), sizeof(cycle));
-    os.write(reinterpret_cast<char *>(&headerBitMask), sizeof(headerBitMask));
-    os.write(reinterpret_cast<char *>(&reservedFlexRayV6Message1), sizeof(reservedFlexRayV6Message1));
-    os.write(reinterpret_cast<char *>(&reservedFlexRayV6Message2), sizeof(reservedFlexRayV6Message2));
-    os.write(reinterpret_cast<char *>(dataBytes.data()), static_cast<std::streamsize>(dataBytes.size()));
+void FlexRayV6Message::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
+
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((dir >>  0) & 0xff);
+    data.push_back((lowTime >>  0) & 0xff);
+    data.push_back((fpgaTick >>  0) & 0xff);
+    data.push_back((fpgaTick >>  8) & 0xff);
+    data.push_back((fpgaTick >> 16) & 0xff);
+    data.push_back((fpgaTick >> 24) & 0xff);
+    data.push_back((fpgaTickOverflow >>  0) & 0xff);
+    data.push_back((fpgaTickOverflow >>  8) & 0xff);
+    data.push_back((fpgaTickOverflow >> 16) & 0xff);
+    data.push_back((fpgaTickOverflow >> 24) & 0xff);
+    data.push_back((clientIndexFlexRayV6Message >>  0) & 0xff);
+    data.push_back((clientIndexFlexRayV6Message >>  8) & 0xff);
+    data.push_back((clientIndexFlexRayV6Message >> 16) & 0xff);
+    data.push_back((clientIndexFlexRayV6Message >> 24) & 0xff);
+    data.push_back((clusterTime >>  0) & 0xff);
+    data.push_back((clusterTime >>  8) & 0xff);
+    data.push_back((clusterTime >> 16) & 0xff);
+    data.push_back((clusterTime >> 24) & 0xff);
+    data.push_back((frameId >>  0) & 0xff);
+    data.push_back((frameId >>  8) & 0xff);
+    data.push_back((headerCrc >>  0) & 0xff);
+    data.push_back((headerCrc >>  8) & 0xff);
+    data.push_back((frameState >>  0) & 0xff);
+    data.push_back((frameState >>  8) & 0xff);
+    data.push_back((length >>  0) & 0xff);
+    data.push_back((cycle >>  0) & 0xff);
+    data.push_back((headerBitMask >>  0) & 0xff);
+    data.push_back((reservedFlexRayV6Message1 >>  0) & 0xff);
+    data.push_back((reservedFlexRayV6Message2 >>  0) & 0xff);
+    data.push_back((reservedFlexRayV6Message2 >>  8) & 0xff);
+    data.insert(std::end(data), std::begin(dataBytes), std::end(dataBytes));
 }
 
 DWORD FlexRayV6Message::calculateObjectSize() const {

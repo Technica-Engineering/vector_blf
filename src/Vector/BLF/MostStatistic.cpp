@@ -28,22 +28,53 @@ MostStatistic::MostStatistic() :
     ObjectHeader(ObjectType::MOST_STATISTIC) {
 }
 
-void MostStatistic::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&pktCnt), sizeof(pktCnt));
-    is.read(reinterpret_cast<char *>(&frmCnt), sizeof(frmCnt));
-    is.read(reinterpret_cast<char *>(&lightCnt), sizeof(lightCnt));
-    is.read(reinterpret_cast<char *>(&bufferLevel), sizeof(bufferLevel));
+std::vector<uint8_t>::iterator MostStatistic::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    pktCnt =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    frmCnt =
+            (static_cast<LONG>(*it++) <<  0) |
+            (static_cast<LONG>(*it++) <<  8) |
+            (static_cast<LONG>(*it++) << 16) |
+            (static_cast<LONG>(*it++) << 24);
+    lightCnt =
+            (static_cast<LONG>(*it++) <<  0) |
+            (static_cast<LONG>(*it++) <<  8) |
+            (static_cast<LONG>(*it++) << 16) |
+            (static_cast<LONG>(*it++) << 24);
+    bufferLevel =
+            (static_cast<LONG>(*it++) <<  0) |
+            (static_cast<LONG>(*it++) <<  8) |
+            (static_cast<LONG>(*it++) << 16) |
+            (static_cast<LONG>(*it++) << 24);
+
+    return it;
 }
 
-void MostStatistic::write(RawFile & os) {
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&pktCnt), sizeof(pktCnt));
-    os.write(reinterpret_cast<char *>(&frmCnt), sizeof(frmCnt));
-    os.write(reinterpret_cast<char *>(&lightCnt), sizeof(lightCnt));
-    os.write(reinterpret_cast<char *>(&bufferLevel), sizeof(bufferLevel));
+void MostStatistic::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
+
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((pktCnt >>  0) & 0xff);
+    data.push_back((pktCnt >>  8) & 0xff);
+    data.push_back((frmCnt >>  0) & 0xff);
+    data.push_back((frmCnt >>  8) & 0xff);
+    data.push_back((frmCnt >> 16) & 0xff);
+    data.push_back((frmCnt >> 24) & 0xff);
+    data.push_back((lightCnt >>  0) & 0xff);
+    data.push_back((lightCnt >>  8) & 0xff);
+    data.push_back((lightCnt >> 16) & 0xff);
+    data.push_back((lightCnt >> 24) & 0xff);
+    data.push_back((bufferLevel >>  0) & 0xff);
+    data.push_back((bufferLevel >>  8) & 0xff);
+    data.push_back((bufferLevel >> 16) & 0xff);
+    data.push_back((bufferLevel >> 24) & 0xff);
 }
 
 DWORD MostStatistic::calculateObjectSize() const {

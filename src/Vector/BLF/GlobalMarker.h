@@ -41,8 +41,8 @@ namespace BLF {
 struct VECTOR_BLF_EXPORT GlobalMarker final : ObjectHeader {
     GlobalMarker();
 
-    void read(RawFile & is) override;
-    void write(RawFile & os) override;
+    std::vector<uint8_t>::iterator fromData(std::vector<uint8_t>::iterator it) override;
+    void toData(std::vector<uint8_t> & data) override;
     DWORD calculateObjectSize() const override;
 
     /**

@@ -28,41 +28,82 @@ CanFdMessage::CanFdMessage() :
     ObjectHeader(ObjectType::CAN_FD_MESSAGE) {
 }
 
-void CanFdMessage::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
-    is.read(reinterpret_cast<char *>(&dlc), sizeof(dlc));
-    is.read(reinterpret_cast<char *>(&id), sizeof(id));
-    is.read(reinterpret_cast<char *>(&frameLength), sizeof(frameLength));
-    is.read(reinterpret_cast<char *>(&arbBitCount), sizeof(arbBitCount));
-    is.read(reinterpret_cast<char *>(&canFdFlags), sizeof(canFdFlags));
-    is.read(reinterpret_cast<char *>(&validDataBytes), sizeof(validDataBytes));
-    is.read(reinterpret_cast<char *>(&reservedCanFdMessage1), sizeof(reservedCanFdMessage1));
-    is.read(reinterpret_cast<char *>(&reservedCanFdMessage2), sizeof(reservedCanFdMessage2));
-    data.resize(validDataBytes);
-    is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
-    is.read(reinterpret_cast<char *>(&reservedCanFdMessage3), sizeof(reservedCanFdMessage3));
-    // @note might be extended in future versions
+std::vector<uint8_t>::iterator CanFdMessage::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    flags =
+            (static_cast<BYTE>(*it++) <<  0);
+    dlc =
+            (static_cast<BYTE>(*it++) <<  0);
+    id =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    frameLength =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    arbBitCount =
+            (static_cast<BYTE>(*it++) <<  0);
+    canFdFlags =
+            (static_cast<BYTE>(*it++) <<  0);
+    validDataBytes =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedCanFdMessage1 =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedCanFdMessage2 =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    this->data.resize(validDataBytes);
+    std::copy(it, it + this->data.size(), std::begin(this->data));
+    it += this->data.size();
+    reservedCanFdMessage3 =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+
+    return it;
 }
 
-void CanFdMessage::write(RawFile & os) {
+void CanFdMessage::toData(std::vector<uint8_t> & data) {
     /* pre processing */
     validDataBytes = static_cast<WORD>(data.size());
 
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&flags), sizeof(flags));
-    os.write(reinterpret_cast<char *>(&dlc), sizeof(dlc));
-    os.write(reinterpret_cast<char *>(&id), sizeof(id));
-    os.write(reinterpret_cast<char *>(&frameLength), sizeof(frameLength));
-    os.write(reinterpret_cast<char *>(&arbBitCount), sizeof(arbBitCount));
-    os.write(reinterpret_cast<char *>(&canFdFlags), sizeof(canFdFlags));
-    os.write(reinterpret_cast<char *>(&validDataBytes), sizeof(validDataBytes));
-    os.write(reinterpret_cast<char *>(&reservedCanFdMessage1), sizeof(reservedCanFdMessage1));
-    os.write(reinterpret_cast<char *>(&reservedCanFdMessage2), sizeof(reservedCanFdMessage2));
-    os.write(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
-    os.write(reinterpret_cast<char *>(&reservedCanFdMessage3), sizeof(reservedCanFdMessage3));
+    ObjectHeader::toData(data);
+
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((flags >>  0) & 0xff);
+    data.push_back((dlc >>  0) & 0xff);
+    data.push_back((id >>  0) & 0xff);
+    data.push_back((id >>  8) & 0xff);
+    data.push_back((id >> 16) & 0xff);
+    data.push_back((id >> 24) & 0xff);
+    data.push_back((frameLength >>  0) & 0xff);
+    data.push_back((frameLength >>  8) & 0xff);
+    data.push_back((frameLength >> 16) & 0xff);
+    data.push_back((frameLength >> 24) & 0xff);
+    data.push_back((arbBitCount >>  0) & 0xff);
+    data.push_back((canFdFlags >>  0) & 0xff);
+    data.push_back((validDataBytes >>  0) & 0xff);
+    data.push_back((reservedCanFdMessage1 >>  0) & 0xff);
+    data.push_back((reservedCanFdMessage2 >>  0) & 0xff);
+    data.push_back((reservedCanFdMessage2 >>  8) & 0xff);
+    data.push_back((reservedCanFdMessage2 >> 16) & 0xff);
+    data.push_back((reservedCanFdMessage2 >> 24) & 0xff);
+    data.insert(std::end(data), std::begin(this->data), std::end(this->data));
+    data.push_back((reservedCanFdMessage3 >>  0) & 0xff);
+    data.push_back((reservedCanFdMessage3 >>  8) & 0xff);
+    data.push_back((reservedCanFdMessage3 >> 16) & 0xff);
+    data.push_back((reservedCanFdMessage3 >> 24) & 0xff);
 }
 
 DWORD CanFdMessage::calculateObjectSize() const {

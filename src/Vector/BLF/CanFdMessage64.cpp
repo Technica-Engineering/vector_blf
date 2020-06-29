@@ -28,55 +28,128 @@ CanFdMessage64::CanFdMessage64() :
     ObjectHeader(ObjectType::CAN_FD_MESSAGE_64) {
 }
 
-void CanFdMessage64::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&dlc), sizeof(dlc));
-    is.read(reinterpret_cast<char *>(&validDataBytes), sizeof(validDataBytes));
-    is.read(reinterpret_cast<char *>(&txCount), sizeof(txCount));
-    is.read(reinterpret_cast<char *>(&id), sizeof(id));
-    is.read(reinterpret_cast<char *>(&frameLength), sizeof(frameLength));
-    is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
-    is.read(reinterpret_cast<char *>(&btrCfgArb), sizeof(btrCfgArb));
-    is.read(reinterpret_cast<char *>(&btrCfgData), sizeof(btrCfgData));
-    is.read(reinterpret_cast<char *>(&timeOffsetBrsNs), sizeof(timeOffsetBrsNs));
-    is.read(reinterpret_cast<char *>(&timeOffsetCrcDelNs), sizeof(timeOffsetCrcDelNs));
-    is.read(reinterpret_cast<char *>(&bitCount), sizeof(bitCount));
-    is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
-    is.read(reinterpret_cast<char *>(&extDataOffset), sizeof(extDataOffset));
-    is.read(reinterpret_cast<char *>(&crc), sizeof(crc));
-    data.resize(validDataBytes);
-    is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
-    if (hasExtData())
-        CanFdExtFrameData::read(is);
+std::vector<uint8_t>::iterator CanFdMessage64::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+
+    channel =
+            (static_cast<BYTE>(*it++) <<  0);
+    dlc =
+            (static_cast<BYTE>(*it++) <<  0);
+    validDataBytes =
+            (static_cast<BYTE>(*it++) <<  0);
+    txCount =
+            (static_cast<BYTE>(*it++) <<  0);
+    id =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    frameLength =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    flags =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    btrCfgArb =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    btrCfgData =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    timeOffsetBrsNs =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    timeOffsetCrcDelNs =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    bitCount =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    dir =
+            (static_cast<BYTE>(*it++) <<  0);
+    extDataOffset =
+            (static_cast<BYTE>(*it++) <<  0);
+    crc =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    this->data.resize(validDataBytes);
+    std::copy(it, it + this->data.size(), std::begin(this->data));
+    it += this->data.size();
+    if (hasExtData()) {
+        it = CanFdExtFrameData::fromData(it);
+    }
     // @note reservedCanFdExtFrameData is read here as CanFdExtFrameData doesn't know the objectSize
     reservedCanFdExtFrameData.resize(objectSize - calculateObjectSize());
-    is.read(reinterpret_cast<char *>(reservedCanFdExtFrameData.data()), static_cast<std::streamsize>(reservedCanFdExtFrameData.size()));
+    std::copy(it, it + reservedCanFdExtFrameData.size(), std::begin(reservedCanFdExtFrameData));
+    it += reservedCanFdExtFrameData.size();
+
+    return it;
 }
 
-void CanFdMessage64::write(RawFile & os) {
+void CanFdMessage64::toData(std::vector<uint8_t> & data) {
     /* pre processing */
     validDataBytes = static_cast<WORD>(data.size());
 
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&dlc), sizeof(dlc));
-    os.write(reinterpret_cast<char *>(&validDataBytes), sizeof(validDataBytes));
-    os.write(reinterpret_cast<char *>(&txCount), sizeof(txCount));
-    os.write(reinterpret_cast<char *>(&id), sizeof(id));
-    os.write(reinterpret_cast<char *>(&frameLength), sizeof(frameLength));
-    os.write(reinterpret_cast<char *>(&flags), sizeof(flags));
-    os.write(reinterpret_cast<char *>(&btrCfgArb), sizeof(btrCfgArb));
-    os.write(reinterpret_cast<char *>(&btrCfgData), sizeof(btrCfgData));
-    os.write(reinterpret_cast<char *>(&timeOffsetBrsNs), sizeof(timeOffsetBrsNs));
-    os.write(reinterpret_cast<char *>(&timeOffsetCrcDelNs), sizeof(timeOffsetCrcDelNs));
-    os.write(reinterpret_cast<char *>(&bitCount), sizeof(bitCount));
-    os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
-    os.write(reinterpret_cast<char *>(&extDataOffset), sizeof(extDataOffset));
-    os.write(reinterpret_cast<char *>(&crc), sizeof(crc));
-    os.write(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
-    if (hasExtData())
-        CanFdExtFrameData::write(os);
+    ObjectHeader::toData(data);
+
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((dlc >>  0) & 0xff);
+    data.push_back((validDataBytes >>  0) & 0xff);
+    data.push_back((txCount >>  0) & 0xff);
+    data.push_back((id >>  0) & 0xff);
+    data.push_back((id >>  8) & 0xff);
+    data.push_back((id >> 16) & 0xff);
+    data.push_back((id >> 24) & 0xff);
+    data.push_back((frameLength >>  0) & 0xff);
+    data.push_back((frameLength >>  8) & 0xff);
+    data.push_back((frameLength >> 16) & 0xff);
+    data.push_back((frameLength >> 24) & 0xff);
+    data.push_back((flags >>  0) & 0xff);
+    data.push_back((flags >>  8) & 0xff);
+    data.push_back((flags >> 16) & 0xff);
+    data.push_back((flags >> 24) & 0xff);
+    data.push_back((btrCfgArb >>  0) & 0xff);
+    data.push_back((btrCfgArb >>  8) & 0xff);
+    data.push_back((btrCfgArb >> 16) & 0xff);
+    data.push_back((btrCfgArb >> 24) & 0xff);
+    data.push_back((btrCfgData >>  0) & 0xff);
+    data.push_back((btrCfgData >>  8) & 0xff);
+    data.push_back((btrCfgData >> 16) & 0xff);
+    data.push_back((btrCfgData >> 24) & 0xff);
+    data.push_back((timeOffsetBrsNs >>  0) & 0xff);
+    data.push_back((timeOffsetBrsNs >>  8) & 0xff);
+    data.push_back((timeOffsetBrsNs >> 16) & 0xff);
+    data.push_back((timeOffsetBrsNs >> 24) & 0xff);
+    data.push_back((timeOffsetCrcDelNs >>  0) & 0xff);
+    data.push_back((timeOffsetCrcDelNs >>  8) & 0xff);
+    data.push_back((timeOffsetCrcDelNs >> 16) & 0xff);
+    data.push_back((timeOffsetCrcDelNs >> 24) & 0xff);
+    data.push_back((bitCount >>  0) & 0xff);
+    data.push_back((bitCount >>  8) & 0xff);
+    data.push_back((dir >>  0) & 0xff);
+    data.push_back((extDataOffset >>  0) & 0xff);
+    data.push_back((crc >>  0) & 0xff);
+    data.push_back((crc >>  8) & 0xff);
+    data.push_back((crc >> 16) & 0xff);
+    data.push_back((crc >> 24) & 0xff);
+    data.insert(std::end(data), std::begin(this->data), std::end(this->data));
+    if (hasExtData()) {
+        CanFdExtFrameData::toData(data);
+    }
 }
 
 bool CanFdMessage64::hasExtData() const {

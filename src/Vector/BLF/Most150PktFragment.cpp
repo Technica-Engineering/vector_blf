@@ -28,54 +28,118 @@ Most150PktFragment::Most150PktFragment() :
     ObjectHeader2(ObjectType::MOST_150_PKT_FRAGMENT) {
 }
 
-void Most150PktFragment::read(RawFile & is) {
-    ObjectHeader2::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&reservedMost150PktFragment1), sizeof(reservedMost150PktFragment1));
-    is.read(reinterpret_cast<char *>(&ackNack), sizeof(ackNack));
-    is.read(reinterpret_cast<char *>(&validMask), sizeof(validMask));
-    is.read(reinterpret_cast<char *>(&sourceAdr), sizeof(sourceAdr));
-    is.read(reinterpret_cast<char *>(&destAdr), sizeof(destAdr));
-    is.read(reinterpret_cast<char *>(&pAck), sizeof(pAck));
-    is.read(reinterpret_cast<char *>(&cAck), sizeof(cAck));
-    is.read(reinterpret_cast<char *>(&priority), sizeof(priority));
-    is.read(reinterpret_cast<char *>(&pIndex), sizeof(pIndex));
-    is.read(reinterpret_cast<char *>(&crc), sizeof(crc));
-    is.read(reinterpret_cast<char *>(&dataLen), sizeof(dataLen));
-    is.read(reinterpret_cast<char *>(&dataLenAnnounced), sizeof(dataLenAnnounced));
-    is.read(reinterpret_cast<char *>(&firstDataLen), sizeof(firstDataLen));
-    is.read(reinterpret_cast<char *>(&reservedMost150PktFragment2), sizeof(reservedMost150PktFragment2));
-    firstData.resize(firstDataLen);
-    is.read(reinterpret_cast<char *>(firstData.data()), firstDataLen);
+std::vector<uint8_t>::iterator Most150PktFragment::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader2::fromData(it);
 
-    /* skip padding */
-    is.seekg(objectSize % 4, std::ios_base::cur);
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    reservedMost150PktFragment1 =
+            (static_cast<BYTE>(*it++) <<  0);
+    ackNack =
+            (static_cast<BYTE>(*it++) <<  0);
+    validMask =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    sourceAdr =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    destAdr =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    pAck =
+            (static_cast<BYTE>(*it++) <<  0);
+    cAck =
+            (static_cast<BYTE>(*it++) <<  0);
+    priority =
+            (static_cast<BYTE>(*it++) <<  0);
+    pIndex =
+            (static_cast<BYTE>(*it++) <<  0);
+    crc =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    dataLen =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    dataLenAnnounced =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    firstDataLen =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    reservedMost150PktFragment2 =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    firstData.resize(firstDataLen);
+    std::copy(it, it + firstData.size(), std::begin(firstData));
+    it += firstData.size();
+
+    return it;
 }
 
-void Most150PktFragment::write(RawFile & os) {
+void Most150PktFragment::toData(std::vector<uint8_t> & data) {
     /* pre processing */
     firstDataLen = static_cast<DWORD>(firstData.size());
 
-    ObjectHeader2::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&reservedMost150PktFragment1), sizeof(reservedMost150PktFragment1));
-    os.write(reinterpret_cast<char *>(&ackNack), sizeof(ackNack));
-    os.write(reinterpret_cast<char *>(&validMask), sizeof(validMask));
-    os.write(reinterpret_cast<char *>(&sourceAdr), sizeof(sourceAdr));
-    os.write(reinterpret_cast<char *>(&destAdr), sizeof(destAdr));
-    os.write(reinterpret_cast<char *>(&pAck), sizeof(pAck));
-    os.write(reinterpret_cast<char *>(&cAck), sizeof(cAck));
-    os.write(reinterpret_cast<char *>(&priority), sizeof(priority));
-    os.write(reinterpret_cast<char *>(&pIndex), sizeof(pIndex));
-    os.write(reinterpret_cast<char *>(&crc), sizeof(crc));
-    os.write(reinterpret_cast<char *>(&dataLen), sizeof(dataLen));
-    os.write(reinterpret_cast<char *>(&dataLenAnnounced), sizeof(dataLenAnnounced));
-    os.write(reinterpret_cast<char *>(&firstDataLen), sizeof(firstDataLen));
-    os.write(reinterpret_cast<char *>(&reservedMost150PktFragment2), sizeof(reservedMost150PktFragment2));
-    os.write(reinterpret_cast<char *>(firstData.data()), firstDataLen);
+    ObjectHeader2::toData(data);
 
-    /* skip padding */
-    os.seekp(objectSize % 4, std::ios_base::cur);
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((reservedMost150PktFragment1 >>  0) & 0xff);
+    data.push_back((ackNack >>  0) & 0xff);
+    data.push_back((validMask >>  0) & 0xff);
+    data.push_back((validMask >>  8) & 0xff);
+    data.push_back((validMask >> 16) & 0xff);
+    data.push_back((validMask >> 24) & 0xff);
+    data.push_back((sourceAdr >>  0) & 0xff);
+    data.push_back((sourceAdr >>  8) & 0xff);
+    data.push_back((sourceAdr >> 16) & 0xff);
+    data.push_back((sourceAdr >> 24) & 0xff);
+    data.push_back((destAdr >>  0) & 0xff);
+    data.push_back((destAdr >>  8) & 0xff);
+    data.push_back((destAdr >> 16) & 0xff);
+    data.push_back((destAdr >> 24) & 0xff);
+    data.push_back((pAck >>  0) & 0xff);
+    data.push_back((cAck >>  0) & 0xff);
+    data.push_back((priority >>  0) & 0xff);
+    data.push_back((pIndex >>  0) & 0xff);
+    data.push_back((crc >>  0) & 0xff);
+    data.push_back((crc >>  8) & 0xff);
+    data.push_back((crc >> 16) & 0xff);
+    data.push_back((crc >> 24) & 0xff);
+    data.push_back((dataLen >>  0) & 0xff);
+    data.push_back((dataLen >>  8) & 0xff);
+    data.push_back((dataLen >> 16) & 0xff);
+    data.push_back((dataLen >> 24) & 0xff);
+    data.push_back((dataLenAnnounced >>  0) & 0xff);
+    data.push_back((dataLenAnnounced >>  8) & 0xff);
+    data.push_back((dataLenAnnounced >> 16) & 0xff);
+    data.push_back((dataLenAnnounced >> 24) & 0xff);
+    data.push_back((firstDataLen >>  0) & 0xff);
+    data.push_back((firstDataLen >>  8) & 0xff);
+    data.push_back((firstDataLen >> 16) & 0xff);
+    data.push_back((firstDataLen >> 24) & 0xff);
+    data.push_back((reservedMost150PktFragment2 >>  0) & 0xff);
+    data.push_back((reservedMost150PktFragment2 >>  8) & 0xff);
+    data.push_back((reservedMost150PktFragment2 >> 16) & 0xff);
+    data.push_back((reservedMost150PktFragment2 >> 24) & 0xff);
+    data.insert(std::end(data), std::begin(firstData), std::end(firstData));
 }
 
 DWORD Most150PktFragment::calculateObjectSize() const {

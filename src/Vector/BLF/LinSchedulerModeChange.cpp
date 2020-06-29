@@ -28,20 +28,36 @@ LinSchedulerModeChange::LinSchedulerModeChange() :
     ObjectHeader(ObjectType::LIN_SCHED_MODCH) {
 }
 
-void LinSchedulerModeChange::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&oldMode), sizeof(oldMode));
-    is.read(reinterpret_cast<char *>(&newMode), sizeof(newMode));
-    is.read(reinterpret_cast<char *>(&reservedLinSchedulerModeChange), sizeof(reservedLinSchedulerModeChange));
+std::vector<uint8_t>::iterator LinSchedulerModeChange::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    oldMode =
+            (static_cast<BYTE>(*it++) <<  0);
+    newMode =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedLinSchedulerModeChange =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+
+    return it;
 }
 
-void LinSchedulerModeChange::write(RawFile & os) {
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&oldMode), sizeof(oldMode));
-    os.write(reinterpret_cast<char *>(&newMode), sizeof(newMode));
-    os.write(reinterpret_cast<char *>(&reservedLinSchedulerModeChange), sizeof(reservedLinSchedulerModeChange));
+void LinSchedulerModeChange::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
+
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((oldMode >>  8) & 0xff);
+    data.push_back((newMode >>  0) & 0xff);
+    data.push_back((reservedLinSchedulerModeChange >>  0) & 0xff);
+    data.push_back((reservedLinSchedulerModeChange >>  8) & 0xff);
+    data.push_back((reservedLinSchedulerModeChange >> 16) & 0xff);
+    data.push_back((reservedLinSchedulerModeChange >> 24) & 0xff);
 }
 
 DWORD LinSchedulerModeChange::calculateObjectSize() const {

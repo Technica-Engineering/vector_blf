@@ -24,17 +24,32 @@
 namespace Vector {
 namespace BLF {
 
-void CanFdExtFrameData::read(RawFile & is) {
-    is.read(reinterpret_cast<char *>(&btrExtArb), sizeof(btrExtArb));
-    is.read(reinterpret_cast<char *>(&btrExtData), sizeof(btrExtData));
-    // @note might be extended in future versions
-    // reservedCanFdExtFrameData is read by CanFdMessage64/CanFdErrorFrame64 due to objectSize known there.
+std::vector<uint8_t>::iterator CanFdExtFrameData::fromData(std::vector<uint8_t>::iterator it) {
+    btrExtArb =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    btrExtData =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    // @note reservedCanFdExtFrameData is read by CanFdMessage64/CanFdErrorFrame64 due to objectSize known there.
+
+    return it;
 }
 
-void CanFdExtFrameData::write(RawFile & os) {
-    os.write(reinterpret_cast<char *>(&btrExtArb), sizeof(btrExtArb));
-    os.write(reinterpret_cast<char *>(&btrExtData), sizeof(btrExtData));
-    os.write(reinterpret_cast<char *>(reservedCanFdExtFrameData.data()), static_cast<std::streamsize>(reservedCanFdExtFrameData.size()));
+void CanFdExtFrameData::toData(std::vector<uint8_t> & data) {
+    data.push_back((btrExtArb >>  0) & 0xff);
+    data.push_back((btrExtArb >>  8) & 0xff);
+    data.push_back((btrExtArb >> 16) & 0xff);
+    data.push_back((btrExtArb >> 24) & 0xff);
+    data.push_back((btrExtData >>  0) & 0xff);
+    data.push_back((btrExtData >>  8) & 0xff);
+    data.push_back((btrExtData >> 16) & 0xff);
+    data.push_back((btrExtData >> 24) & 0xff);
+    data.insert(std::end(data), std::begin(reservedCanFdExtFrameData), std::end(reservedCanFdExtFrameData));
 }
 
 DWORD CanFdExtFrameData::calculateObjectSize() const {

@@ -28,32 +28,54 @@ FlexRaySync::FlexRaySync() :
     ObjectHeader(ObjectType::FLEXRAY_SYNC) {
 }
 
-void FlexRaySync::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&mux), sizeof(mux));
-    is.read(reinterpret_cast<char *>(&len), sizeof(len));
-    is.read(reinterpret_cast<char *>(&messageId), sizeof(messageId));
-    is.read(reinterpret_cast<char *>(&crc), sizeof(crc));
-    is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
-    is.read(reinterpret_cast<char *>(&reservedFlexRaySync1), sizeof(reservedFlexRaySync1));
-    is.read(reinterpret_cast<char *>(&reservedFlexRaySync2), sizeof(reservedFlexRaySync2));
-    is.read(reinterpret_cast<char *>(dataBytes.data()), static_cast<std::streamsize>(dataBytes.size()));
-    is.read(reinterpret_cast<char *>(&cycle), sizeof(cycle));
+std::vector<uint8_t>::iterator FlexRaySync::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    mux =
+            (static_cast<BYTE>(*it++) <<  0);
+    len =
+            (static_cast<BYTE>(*it++) <<  0);
+    messageId =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    crc =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    dir =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedFlexRaySync1 =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedFlexRaySync2 =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    std::copy(it, it + dataBytes.size(), std::begin(dataBytes));
+    it += dataBytes.size();
+    cycle =
+            (static_cast<BYTE>(*it++) <<  0);
+
+    return it;
 }
 
-void FlexRaySync::write(RawFile & os) {
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&mux), sizeof(mux));
-    os.write(reinterpret_cast<char *>(&len), sizeof(len));
-    os.write(reinterpret_cast<char *>(&messageId), sizeof(messageId));
-    os.write(reinterpret_cast<char *>(&crc), sizeof(crc));
-    os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
-    os.write(reinterpret_cast<char *>(&reservedFlexRaySync1), sizeof(reservedFlexRaySync1));
-    os.write(reinterpret_cast<char *>(&reservedFlexRaySync2), sizeof(reservedFlexRaySync2));
-    os.write(reinterpret_cast<char *>(dataBytes.data()), static_cast<std::streamsize>(dataBytes.size()));
-    os.write(reinterpret_cast<char *>(&cycle), sizeof(cycle));
+void FlexRaySync::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
+
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((mux >>  0) & 0xff);
+    data.push_back((len >>  0) & 0xff);
+    data.push_back((messageId >>  0) & 0xff);
+    data.push_back((messageId >>  8) & 0xff);
+    data.push_back((crc >>  0) & 0xff);
+    data.push_back((crc >>  8) & 0xff);
+    data.push_back((dir >>  0) & 0xff);
+    data.push_back((reservedFlexRaySync1 >>  0) & 0xff);
+    data.push_back((reservedFlexRaySync2 >>  0) & 0xff);
+    data.push_back((reservedFlexRaySync2 >>  8) & 0xff);
+    data.insert(std::end(data), std::begin(dataBytes), std::end(dataBytes));
+    data.push_back((cycle >>  0) & 0xff);
 }
 
 DWORD FlexRaySync::calculateObjectSize() const {

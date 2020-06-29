@@ -23,8 +23,9 @@
 
 #include <Vector/BLF/platform.h>
 
+#include <vector>
+
 #include <Vector/BLF/ObjectType.h>
-#include <Vector/BLF/RawFile.h>
 #include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
@@ -53,18 +54,19 @@ struct VECTOR_BLF_EXPORT ObjectHeaderBase {
     ObjectHeaderBase(const WORD headerVersion, const ObjectType objectType);
 
     /**
-     * Read the data of this object
+     * from data
      *
-     * @param[in] is input stream
+     * @param[in] it iterator to start of data
+     * @return iterator after data read
      */
-    virtual void read(RawFile & is);
+    virtual std::vector<uint8_t>::iterator fromData(std::vector<uint8_t>::iterator it);
 
     /**
-     * Write the data of this object
+     * to data
      *
-     * @param[in] os output stream
+     * @param[out] data data
      */
-    virtual void write(RawFile & os);
+    virtual void toData(std::vector<uint8_t> & data);
 
     /**
      * Calculates the headerSize

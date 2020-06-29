@@ -28,24 +28,70 @@ ObjectHeader2::ObjectHeader2(const ObjectType objectType) :
     ObjectHeaderBase(2, objectType) {
 }
 
-void ObjectHeader2::read(RawFile & is) {
-    ObjectHeaderBase::read(is);
-    is.read(reinterpret_cast<char *>(&objectFlags), sizeof(objectFlags));
-    is.read(reinterpret_cast<char *>(&timeStampStatus), sizeof(timeStampStatus));
-    is.read(reinterpret_cast<char *>(&reservedObjectHeader), sizeof(reservedObjectHeader));
-    is.read(reinterpret_cast<char *>(&objectVersion), sizeof(objectVersion));
-    is.read(reinterpret_cast<char *>(&objectTimeStamp), sizeof(objectTimeStamp));
-    is.read(reinterpret_cast<char *>(&originalTimeStamp), sizeof(originalTimeStamp));
+std::vector<uint8_t>::iterator ObjectHeader2::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeaderBase::fromData(it);
+
+    objectFlags =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    timeStampStatus =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedObjectHeader =
+            (static_cast<BYTE>(*it++) <<  0);
+    objectVersion =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    objectTimeStamp =
+            (static_cast<ULONGLONG>(*it++) <<  0) |
+            (static_cast<ULONGLONG>(*it++) <<  8) |
+            (static_cast<ULONGLONG>(*it++) << 16) |
+            (static_cast<ULONGLONG>(*it++) << 24) |
+            (static_cast<ULONGLONG>(*it++) << 32) |
+            (static_cast<ULONGLONG>(*it++) << 40) |
+            (static_cast<ULONGLONG>(*it++) << 48) |
+            (static_cast<ULONGLONG>(*it++) << 56);
+    originalTimeStamp =
+            (static_cast<ULONGLONG>(*it++) <<  0) |
+            (static_cast<ULONGLONG>(*it++) <<  8) |
+            (static_cast<ULONGLONG>(*it++) << 16) |
+            (static_cast<ULONGLONG>(*it++) << 24) |
+            (static_cast<ULONGLONG>(*it++) << 32) |
+            (static_cast<ULONGLONG>(*it++) << 40) |
+            (static_cast<ULONGLONG>(*it++) << 48) |
+            (static_cast<ULONGLONG>(*it++) << 56);
+
+    return it;
 }
 
-void ObjectHeader2::write(RawFile & os) {
-    ObjectHeaderBase::write(os);
-    os.write(reinterpret_cast<char *>(&objectFlags), sizeof(objectFlags));
-    os.write(reinterpret_cast<char *>(&timeStampStatus), sizeof(timeStampStatus));
-    os.write(reinterpret_cast<char *>(&reservedObjectHeader), sizeof(reservedObjectHeader));
-    os.write(reinterpret_cast<char *>(&objectVersion), sizeof(objectVersion));
-    os.write(reinterpret_cast<char *>(&objectTimeStamp), sizeof(objectTimeStamp));
-    os.write(reinterpret_cast<char *>(&originalTimeStamp), sizeof(originalTimeStamp));
+void ObjectHeader2::toData(std::vector<uint8_t> & data) {
+    ObjectHeaderBase::toData(data);
+
+    data.push_back((objectFlags >>  0) & 0xff);
+    data.push_back((objectFlags >>  8) & 0xff);
+    data.push_back((objectFlags >> 16) & 0xff);
+    data.push_back((objectFlags >> 24) & 0xff);
+    data.push_back((timeStampStatus >>  0) & 0xff);
+    data.push_back((reservedObjectHeader >>  0) & 0xff);
+    data.push_back((objectVersion >>  0) & 0xff);
+    data.push_back((objectVersion >>  8) & 0xff);
+    data.push_back((objectTimeStamp >>  0) & 0xff);
+    data.push_back((objectTimeStamp >>  8) & 0xff);
+    data.push_back((objectTimeStamp >> 16) & 0xff);
+    data.push_back((objectTimeStamp >> 24) & 0xff);
+    data.push_back((objectTimeStamp >> 32) & 0xff);
+    data.push_back((objectTimeStamp >> 40) & 0xff);
+    data.push_back((objectTimeStamp >> 48) & 0xff);
+    data.push_back((objectTimeStamp >> 56) & 0xff);
+    data.push_back((originalTimeStamp >>  0) & 0xff);
+    data.push_back((originalTimeStamp >>  8) & 0xff);
+    data.push_back((originalTimeStamp >> 16) & 0xff);
+    data.push_back((originalTimeStamp >> 24) & 0xff);
+    data.push_back((originalTimeStamp >> 32) & 0xff);
+    data.push_back((originalTimeStamp >> 40) & 0xff);
+    data.push_back((originalTimeStamp >> 48) & 0xff);
+    data.push_back((originalTimeStamp >> 56) & 0xff);
 }
 
 WORD ObjectHeader2::calculateHeaderSize() const {

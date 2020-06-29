@@ -28,21 +28,36 @@ MostEcl::MostEcl() :
     ObjectHeader2(ObjectType::MOST_ECL) {
 }
 
-void MostEcl::read(RawFile & is) {
-    ObjectHeader2::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&mode), sizeof(mode));
-    is.read(reinterpret_cast<char *>(&eclState), sizeof(eclState));
-    is.read(reinterpret_cast<char *>(&reservedMostEcl), sizeof(reservedMostEcl));
-    // @note might be extended in future versions
+std::vector<uint8_t>::iterator MostEcl::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader2::fromData(it);
+
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    mode =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    eclState =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    reservedMostEcl =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+
+    return it;
 }
 
-void MostEcl::write(RawFile & os) {
-    ObjectHeader2::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&mode), sizeof(mode));
-    os.write(reinterpret_cast<char *>(&eclState), sizeof(eclState));
-    os.write(reinterpret_cast<char *>(&reservedMostEcl), sizeof(reservedMostEcl));
+void MostEcl::toData(std::vector<uint8_t> & data) {
+    ObjectHeader2::toData(data);
+
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((mode >>  0) & 0xff);
+    data.push_back((mode >>  8) & 0xff);
+    data.push_back((eclState >>  0) & 0xff);
+    data.push_back((eclState >>  8) & 0xff);
+    data.push_back((reservedMostEcl >>  0) & 0xff);
+    data.push_back((reservedMostEcl >>  8) & 0xff);
 }
 
 DWORD MostEcl::calculateObjectSize() const {

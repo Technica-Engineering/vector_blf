@@ -28,44 +28,98 @@ TestStructure::TestStructure() :
     ObjectHeader(ObjectType::TEST_STRUCTURE) {
 }
 
-void TestStructure::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&executionObjectIdentify), sizeof(executionObjectIdentify));
-    is.read(reinterpret_cast<char *>(&type), sizeof(type));
-    is.read(reinterpret_cast<char *>(&reservedTestStructure), sizeof(reservedTestStructure));
-    is.read(reinterpret_cast<char *>(&uniqueNo), sizeof(uniqueNo));
-    is.read(reinterpret_cast<char *>(&action), sizeof(action));
-    is.read(reinterpret_cast<char *>(&result), sizeof(result));
-    is.read(reinterpret_cast<char *>(&executingObjectNameLength), sizeof(executingObjectNameLength));
-    is.read(reinterpret_cast<char *>(&nameLength), sizeof(nameLength));
-    is.read(reinterpret_cast<char *>(&textLength), sizeof(textLength));
+std::vector<uint8_t>::iterator TestStructure::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+
+    executionObjectIdentify =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    type =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    reservedTestStructure =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    uniqueNo =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    action =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    result =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    executingObjectNameLength =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    nameLength =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    textLength =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
     executingObjectName.resize(executingObjectNameLength);
-    is.read(const_cast<char *>(reinterpret_cast<const char *>(&executingObjectName[0])), executingObjectNameLength * sizeof(char16_t));
+    std::copy(it, it + executingObjectName.size(), std::begin(executingObjectName));
+    it += executingObjectName.size();
     name.resize(nameLength);
-    is.read(const_cast<char *>(reinterpret_cast<const char *>(&name[0])), nameLength * sizeof(char16_t));
+    std::copy(it, it + name.size(), std::begin(name));
+    it += name.size();
     text.resize(textLength);
-    is.read(const_cast<char *>(reinterpret_cast<const char *>(&text[0])), textLength * sizeof(char16_t));
+    std::copy(it, it + text.size(), std::begin(text));
+    it += text.size();
+
+    return it;
 }
 
-void TestStructure::write(RawFile & os) {
+void TestStructure::toData(std::vector<uint8_t> & data) {
     /* pre processing */
     executingObjectNameLength = static_cast<DWORD>(executingObjectName.size());
     nameLength = static_cast<DWORD>(name.size());
     textLength = static_cast<DWORD>(text.size());
 
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&executionObjectIdentify), sizeof(executionObjectIdentify));
-    os.write(reinterpret_cast<char *>(&type), sizeof(type));
-    os.write(reinterpret_cast<char *>(&reservedTestStructure), sizeof(reservedTestStructure));
-    os.write(reinterpret_cast<char *>(&uniqueNo), sizeof(uniqueNo));
-    os.write(reinterpret_cast<char *>(&action), sizeof(action));
-    os.write(reinterpret_cast<char *>(&result), sizeof(result));
-    os.write(reinterpret_cast<char *>(&executingObjectNameLength), sizeof(executingObjectNameLength));
-    os.write(reinterpret_cast<char *>(&nameLength), sizeof(nameLength));
-    os.write(reinterpret_cast<char *>(&textLength), sizeof(textLength));
-    os.write(const_cast<char *>(reinterpret_cast<const char *>(&executingObjectName[0])), executingObjectNameLength * sizeof(char16_t));
-    os.write(const_cast<char *>(reinterpret_cast<const char *>(&name[0])), nameLength * sizeof(char16_t));
-    os.write(const_cast<char *>(reinterpret_cast<const char *>(&text[0])), textLength * sizeof(char16_t));
+    ObjectHeader::toData(data);
+
+    data.push_back((executionObjectIdentify >>  0) & 0xff);
+    data.push_back((executionObjectIdentify >>  8) & 0xff);
+    data.push_back((executionObjectIdentify >> 16) & 0xff);
+    data.push_back((executionObjectIdentify >> 24) & 0xff);
+    data.push_back((type >>  0) & 0xff);
+    data.push_back((type >>  8) & 0xff);
+    data.push_back((reservedTestStructure >>  0) & 0xff);
+    data.push_back((reservedTestStructure >>  8) & 0xff);
+    data.push_back((uniqueNo >>  0) & 0xff);
+    data.push_back((uniqueNo >>  8) & 0xff);
+    data.push_back((uniqueNo >> 16) & 0xff);
+    data.push_back((uniqueNo >> 24) & 0xff);
+    data.push_back((action >>  0) & 0xff);
+    data.push_back((action >>  8) & 0xff);
+    data.push_back((result >>  0) & 0xff);
+    data.push_back((result >>  8) & 0xff);
+    data.push_back((executingObjectNameLength >>  0) & 0xff);
+    data.push_back((executingObjectNameLength >>  8) & 0xff);
+    data.push_back((executingObjectNameLength >> 16) & 0xff);
+    data.push_back((executingObjectNameLength >> 24) & 0xff);
+    data.push_back((nameLength >>  0) & 0xff);
+    data.push_back((nameLength >>  8) & 0xff);
+    data.push_back((nameLength >> 16) & 0xff);
+    data.push_back((nameLength >> 24) & 0xff);
+    data.push_back((textLength >>  0) & 0xff);
+    data.push_back((textLength >>  8) & 0xff);
+    data.push_back((textLength >> 16) & 0xff);
+    data.push_back((textLength >> 24) & 0xff);
+    data.insert(std::end(data), std::begin(executingObjectName), std::end(executingObjectName));
+    data.insert(std::end(data), std::begin(name), std::end(name));
+    data.insert(std::end(data), std::begin(text), std::end(text));
 }
 
 DWORD TestStructure::calculateObjectSize() const {

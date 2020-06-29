@@ -24,8 +24,6 @@
 #include <Vector/BLF/platform.h>
 
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/RawFile.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -52,8 +50,8 @@ namespace BLF {
 struct VECTOR_BLF_EXPORT MostLightLock final : ObjectHeader {
     MostLightLock();
 
-    void read(RawFile & is) override;
-    void write(RawFile & os) override;
+    std::vector<uint8_t>::iterator fromData(std::vector<uint8_t>::iterator it) override;
+    void toData(std::vector<uint8_t> & data) override;
     DWORD calculateObjectSize() const override;
 
     /**

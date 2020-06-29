@@ -28,22 +28,39 @@ AfdxStatus::AfdxStatus() :
     ObjectHeader(ObjectType::AFDX_STATUS) {
 }
 
-void AfdxStatus::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&reservedAfdxStatus1), sizeof(reservedAfdxStatus1));
-    statusA.read(is);
-    statusB.read(is);
-    is.read(reinterpret_cast<char *>(&reservedAfdxStatus2), sizeof(reservedAfdxStatus2));
+std::vector<uint8_t>::iterator AfdxStatus::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    reservedAfdxStatus1 =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    it = statusA.fromData(it);
+    it = statusB.fromData(it);
+    reservedAfdxStatus2 =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+
+    return it;
 }
 
-void AfdxStatus::write(RawFile & os) {
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&reservedAfdxStatus1), sizeof(reservedAfdxStatus1));
-    statusA.write(os);
-    statusB.write(os);
-    os.write(reinterpret_cast<char *>(&reservedAfdxStatus2), sizeof(reservedAfdxStatus2));
+void AfdxStatus::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
+
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((reservedAfdxStatus1 >>  0) & 0xff);
+    data.push_back((reservedAfdxStatus1 >>  8) & 0xff);
+    statusA.toData(data);
+    statusB.toData(data);
+    data.push_back((reservedAfdxStatus2 >>  0) & 0xff);
+    data.push_back((reservedAfdxStatus2 >>  8) & 0xff);
+    data.push_back((reservedAfdxStatus2 >> 16) & 0xff);
+    data.push_back((reservedAfdxStatus2 >> 24) & 0xff);
 }
 
 DWORD AfdxStatus::calculateObjectSize() const {

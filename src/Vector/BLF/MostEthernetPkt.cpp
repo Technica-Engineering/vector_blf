@@ -28,56 +28,135 @@ MostEthernetPkt::MostEthernetPkt() :
     ObjectHeader2(ObjectType::MOST_ETHERNET_PKT) {
 }
 
-void MostEthernetPkt::read(RawFile & is) {
-    ObjectHeader2::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
-    is.read(reinterpret_cast<char *>(&reservedMostEthernetPkt1), sizeof(reservedMostEthernetPkt1));
-    is.read(reinterpret_cast<char *>(&reservedMostEthernetPkt2), sizeof(reservedMostEthernetPkt2));
-    is.read(reinterpret_cast<char *>(&sourceMacAdr), sizeof(sourceMacAdr));
-    is.read(reinterpret_cast<char *>(&destMacAdr), sizeof(destMacAdr));
-    is.read(reinterpret_cast<char *>(&transferType), sizeof(transferType));
-    is.read(reinterpret_cast<char *>(&state), sizeof(state));
-    is.read(reinterpret_cast<char *>(&ackNack), sizeof(ackNack));
-    is.read(reinterpret_cast<char *>(&reservedMostEthernetPkt3), sizeof(reservedMostEthernetPkt3));
-    is.read(reinterpret_cast<char *>(&crc), sizeof(crc));
-    is.read(reinterpret_cast<char *>(&pAck), sizeof(pAck));
-    is.read(reinterpret_cast<char *>(&cAck), sizeof(cAck));
-    is.read(reinterpret_cast<char *>(&reservedMostEthernetPkt4), sizeof(reservedMostEthernetPkt4));
-    is.read(reinterpret_cast<char *>(&pktDataLength), sizeof(pktDataLength));
-    is.read(reinterpret_cast<char *>(&reservedMostEthernetPkt5), sizeof(reservedMostEthernetPkt5));
-    pktData.resize(pktDataLength);
-    is.read(reinterpret_cast<char *>(pktData.data()), pktDataLength);
+std::vector<uint8_t>::iterator MostEthernetPkt::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader2::fromData(it);
 
-    /* skip padding */
-    is.seekg(objectSize % 4, std::ios_base::cur);
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    dir =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedMostEthernetPkt1 =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedMostEthernetPkt2 =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    sourceMacAdr =
+            (static_cast<ULONGLONG>(*it++) <<  0) |
+            (static_cast<ULONGLONG>(*it++) <<  8) |
+            (static_cast<ULONGLONG>(*it++) << 16) |
+            (static_cast<ULONGLONG>(*it++) << 24) |
+            (static_cast<ULONGLONG>(*it++) << 32) |
+            (static_cast<ULONGLONG>(*it++) << 40) |
+            (static_cast<ULONGLONG>(*it++) << 48) |
+            (static_cast<ULONGLONG>(*it++) << 56);
+    destMacAdr =
+            (static_cast<ULONGLONG>(*it++) <<  0) |
+            (static_cast<ULONGLONG>(*it++) <<  8) |
+            (static_cast<ULONGLONG>(*it++) << 16) |
+            (static_cast<ULONGLONG>(*it++) << 24) |
+            (static_cast<ULONGLONG>(*it++) << 32) |
+            (static_cast<ULONGLONG>(*it++) << 40) |
+            (static_cast<ULONGLONG>(*it++) << 48) |
+            (static_cast<ULONGLONG>(*it++) << 56);
+    transferType =
+            (static_cast<BYTE>(*it++) <<  0);
+    state =
+            (static_cast<BYTE>(*it++) <<  0);
+    ackNack =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedMostEthernetPkt3 =
+            (static_cast<BYTE>(*it++) <<  0);
+    crc =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    pAck =
+            (static_cast<BYTE>(*it++) <<  0);
+    cAck =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedMostEthernetPkt4 =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    pktDataLength =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    reservedMostEthernetPkt5 =
+            (static_cast<ULONGLONG>(*it++) <<  0) |
+            (static_cast<ULONGLONG>(*it++) <<  8) |
+            (static_cast<ULONGLONG>(*it++) << 16) |
+            (static_cast<ULONGLONG>(*it++) << 24) |
+            (static_cast<ULONGLONG>(*it++) << 32) |
+            (static_cast<ULONGLONG>(*it++) << 40) |
+            (static_cast<ULONGLONG>(*it++) << 48) |
+            (static_cast<ULONGLONG>(*it++) << 56);
+    pktData.resize(pktDataLength);
+    std::copy(it, it + pktData.size(), std::begin(pktData));
+    it += pktData.size();
+
+    return it;
 }
 
-void MostEthernetPkt::write(RawFile & os) {
+void MostEthernetPkt::toData(std::vector<uint8_t> & data) {
     /* pre processing */
     pktDataLength = static_cast<DWORD>(pktData.size());
 
-    ObjectHeader2::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
-    os.write(reinterpret_cast<char *>(&reservedMostEthernetPkt1), sizeof(reservedMostEthernetPkt1));
-    os.write(reinterpret_cast<char *>(&reservedMostEthernetPkt2), sizeof(reservedMostEthernetPkt2));
-    os.write(reinterpret_cast<char *>(&sourceMacAdr), sizeof(sourceMacAdr));
-    os.write(reinterpret_cast<char *>(&destMacAdr), sizeof(destMacAdr));
-    os.write(reinterpret_cast<char *>(&transferType), sizeof(transferType));
-    os.write(reinterpret_cast<char *>(&state), sizeof(state));
-    os.write(reinterpret_cast<char *>(&ackNack), sizeof(ackNack));
-    os.write(reinterpret_cast<char *>(&reservedMostEthernetPkt3), sizeof(reservedMostEthernetPkt3));
-    os.write(reinterpret_cast<char *>(&crc), sizeof(crc));
-    os.write(reinterpret_cast<char *>(&pAck), sizeof(pAck));
-    os.write(reinterpret_cast<char *>(&cAck), sizeof(cAck));
-    os.write(reinterpret_cast<char *>(&reservedMostEthernetPkt4), sizeof(reservedMostEthernetPkt4));
-    os.write(reinterpret_cast<char *>(&pktDataLength), sizeof(pktDataLength));
-    os.write(reinterpret_cast<char *>(&reservedMostEthernetPkt5), sizeof(reservedMostEthernetPkt5));
-    os.write(reinterpret_cast<char *>(pktData.data()), pktDataLength);
+    ObjectHeader2::toData(data);
 
-    /* skip padding */
-    os.seekp(objectSize % 4, std::ios_base::cur);
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((dir >>  0) & 0xff);
+    data.push_back((reservedMostEthernetPkt1 >>  0) & 0xff);
+    data.push_back((reservedMostEthernetPkt2 >>  0) & 0xff);
+    data.push_back((reservedMostEthernetPkt2 >>  8) & 0xff);
+    data.push_back((reservedMostEthernetPkt2 >> 16) & 0xff);
+    data.push_back((reservedMostEthernetPkt2 >> 24) & 0xff);
+    data.push_back((sourceMacAdr >>  0) & 0xff);
+    data.push_back((sourceMacAdr >>  8) & 0xff);
+    data.push_back((sourceMacAdr >> 16) & 0xff);
+    data.push_back((sourceMacAdr >> 24) & 0xff);
+    data.push_back((sourceMacAdr >> 32) & 0xff);
+    data.push_back((sourceMacAdr >> 40) & 0xff);
+    data.push_back((sourceMacAdr >> 48) & 0xff);
+    data.push_back((sourceMacAdr >> 56) & 0xff);
+    data.push_back((destMacAdr >>  0) & 0xff);
+    data.push_back((destMacAdr >>  8) & 0xff);
+    data.push_back((destMacAdr >> 16) & 0xff);
+    data.push_back((destMacAdr >> 24) & 0xff);
+    data.push_back((destMacAdr >> 32) & 0xff);
+    data.push_back((destMacAdr >> 40) & 0xff);
+    data.push_back((destMacAdr >> 48) & 0xff);
+    data.push_back((destMacAdr >> 56) & 0xff);
+    data.push_back((transferType >>  0) & 0xff);
+    data.push_back((state >>  0) & 0xff);
+    data.push_back((ackNack >>  0) & 0xff);
+    data.push_back((reservedMostEthernetPkt3 >>  0) & 0xff);
+    data.push_back((crc >>  0) & 0xff);
+    data.push_back((crc >>  8) & 0xff);
+    data.push_back((crc >> 16) & 0xff);
+    data.push_back((crc >> 24) & 0xff);
+    data.push_back((pAck >>  0) & 0xff);
+    data.push_back((cAck >>  0) & 0xff);
+    data.push_back((reservedMostEthernetPkt4 >>  0) & 0xff);
+    data.push_back((reservedMostEthernetPkt4 >>  8) & 0xff);
+    data.push_back((pktDataLength >>  0) & 0xff);
+    data.push_back((pktDataLength >>  8) & 0xff);
+    data.push_back((pktDataLength >> 16) & 0xff);
+    data.push_back((pktDataLength >> 24) & 0xff);
+    data.push_back((reservedMostEthernetPkt5 >>  0) & 0xff);
+    data.push_back((reservedMostEthernetPkt5 >>  8) & 0xff);
+    data.push_back((reservedMostEthernetPkt5 >> 16) & 0xff);
+    data.push_back((reservedMostEthernetPkt5 >> 24) & 0xff);
+    data.push_back((reservedMostEthernetPkt5 >> 32) & 0xff);
+    data.push_back((reservedMostEthernetPkt5 >> 40) & 0xff);
+    data.push_back((reservedMostEthernetPkt5 >> 48) & 0xff);
+    data.push_back((reservedMostEthernetPkt5 >> 56) & 0xff);
+    data.insert(std::end(data), std::begin(pktData), std::end(pktData));
 }
 
 DWORD MostEthernetPkt::calculateObjectSize() const {

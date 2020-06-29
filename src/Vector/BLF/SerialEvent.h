@@ -29,9 +29,7 @@
 #include <Vector/BLF/CompactSerialEvent.h>
 #include <Vector/BLF/GeneralSerialEvent.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/RawFile.h>
 #include <Vector/BLF/SingleByteSerialEvent.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -47,8 +45,8 @@ struct VECTOR_BLF_EXPORT SerialEvent final : ObjectHeader {
     SerialEvent();
     virtual ~SerialEvent() noexcept = default;
 
-    void read(RawFile & is) override;
-    void write(RawFile & os) override;
+    std::vector<uint8_t>::iterator fromData(std::vector<uint8_t>::iterator it) override;
+    void toData(std::vector<uint8_t> & data) override;
     DWORD calculateObjectSize() const override;
 
     /** enumeration for flags */

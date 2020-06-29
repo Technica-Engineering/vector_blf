@@ -28,20 +28,36 @@ CanDriverError::CanDriverError() :
     ObjectHeader(ObjectType::CAN_DRIVER_ERROR) {
 }
 
-void CanDriverError::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&txErrors), sizeof(txErrors));
-    is.read(reinterpret_cast<char *>(&rxErrors), sizeof(rxErrors));
-    is.read(reinterpret_cast<char *>(&errorCode), sizeof(errorCode));
+std::vector<uint8_t>::iterator CanDriverError::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    txErrors =
+            (static_cast<BYTE>(*it++) <<  0);
+    rxErrors =
+            (static_cast<BYTE>(*it++) <<  0);
+    errorCode =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+
+    return it;
 }
 
-void CanDriverError::write(RawFile & os) {
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&txErrors), sizeof(txErrors));
-    os.write(reinterpret_cast<char *>(&rxErrors), sizeof(rxErrors));
-    os.write(reinterpret_cast<char *>(&errorCode), sizeof(errorCode));
+void CanDriverError::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
+
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((txErrors >>  0) & 0xff);
+    data.push_back((rxErrors >>  0) & 0xff);
+    data.push_back((errorCode >>  0) & 0xff);
+    data.push_back((errorCode >>  8) & 0xff);
+    data.push_back((errorCode >> 16) & 0xff);
+    data.push_back((errorCode >> 24) & 0xff);
 }
 
 DWORD CanDriverError::calculateObjectSize() const {

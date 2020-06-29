@@ -24,24 +24,38 @@
 namespace Vector {
 namespace BLF {
 
-void LinMessageDescriptor::read(RawFile & is) {
-    LinSynchFieldEvent::read(is);
-    is.read(reinterpret_cast<char *>(&supplierId), sizeof(supplierId));
-    is.read(reinterpret_cast<char *>(&messageId), sizeof(messageId));
-    is.read(reinterpret_cast<char *>(&nad), sizeof(nad));
-    is.read(reinterpret_cast<char *>(&id), sizeof(id));
-    is.read(reinterpret_cast<char *>(&dlc), sizeof(dlc));
-    is.read(reinterpret_cast<char *>(&checksumModel), sizeof(checksumModel));
+std::vector<uint8_t>::iterator LinMessageDescriptor::fromData(std::vector<uint8_t>::iterator it) {
+    it = LinSynchFieldEvent::fromData(it);
+
+    supplierId =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    messageId =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    nad =
+            (static_cast<BYTE>(*it++) <<  0);
+    id =
+            (static_cast<BYTE>(*it++) <<  0);
+    dlc =
+            (static_cast<BYTE>(*it++) <<  0);
+    checksumModel =
+            (static_cast<BYTE>(*it++) <<  0);
+
+    return it;
 }
 
-void LinMessageDescriptor::write(RawFile & os) {
-    LinSynchFieldEvent::write(os);
-    os.write(reinterpret_cast<char *>(&supplierId), sizeof(supplierId));
-    os.write(reinterpret_cast<char *>(&messageId), sizeof(messageId));
-    os.write(reinterpret_cast<char *>(&nad), sizeof(nad));
-    os.write(reinterpret_cast<char *>(&id), sizeof(id));
-    os.write(reinterpret_cast<char *>(&dlc), sizeof(dlc));
-    os.write(reinterpret_cast<char *>(&checksumModel), sizeof(checksumModel));
+void LinMessageDescriptor::toData(std::vector<uint8_t> & data) {
+    LinSynchFieldEvent::toData(data);
+
+    data.push_back((supplierId >>  0) & 0xff);
+    data.push_back((supplierId >>  8) & 0xff);
+    data.push_back((messageId >>  0) & 0xff);
+    data.push_back((messageId >>  8) & 0xff);
+    data.push_back((nad >>  0) & 0xff);
+    data.push_back((id >>  0) & 0xff);
+    data.push_back((dlc >>  0) & 0xff);
+    data.push_back((checksumModel >>  0) & 0xff);
 }
 
 DWORD LinMessageDescriptor::calculateObjectSize() const {

@@ -24,8 +24,6 @@
 #include <Vector/BLF/platform.h>
 
 #include <Vector/BLF/ObjectHeaderBase.h>
-#include <Vector/BLF/RawFile.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -46,8 +44,8 @@ struct VECTOR_BLF_EXPORT ObjectHeader : ObjectHeaderBase {
      */
     ObjectHeader(const ObjectType objectType, const WORD objectVersion = 0);
 
-    void read(RawFile & is) override;
-    void write(RawFile & os) override;
+    std::vector<uint8_t>::iterator fromData(std::vector<uint8_t>::iterator it) override;
+    void toData(std::vector<uint8_t> & data) override;
     WORD calculateHeaderSize() const override;
     DWORD calculateObjectSize() const override;
 

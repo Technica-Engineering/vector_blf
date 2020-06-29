@@ -28,20 +28,36 @@ LinDlcInfo::LinDlcInfo() :
     ObjectHeader(ObjectType::LIN_DLC_INFO) {
 }
 
-void LinDlcInfo::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&id), sizeof(id));
-    is.read(reinterpret_cast<char *>(&dlc), sizeof(dlc));
-    is.read(reinterpret_cast<char *>(&reservedLinDlcInfo), sizeof(reservedLinDlcInfo));
+std::vector<uint8_t>::iterator LinDlcInfo::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    id =
+            (static_cast<BYTE>(*it++) <<  0);
+    dlc =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedLinDlcInfo =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+
+    return it;
 }
 
-void LinDlcInfo::write(RawFile & os) {
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&id), sizeof(id));
-    os.write(reinterpret_cast<char *>(&dlc), sizeof(dlc));
-    os.write(reinterpret_cast<char *>(&reservedLinDlcInfo), sizeof(reservedLinDlcInfo));
+void LinDlcInfo::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
+
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((id >>  0) & 0xff);
+    data.push_back((dlc >>  0) & 0xff);
+    data.push_back((reservedLinDlcInfo >>  0) & 0xff);
+    data.push_back((reservedLinDlcInfo >>  8) & 0xff);
+    data.push_back((reservedLinDlcInfo >> 16) & 0xff);
+    data.push_back((reservedLinDlcInfo >> 24) & 0xff);
 }
 
 DWORD LinDlcInfo::calculateObjectSize() const {

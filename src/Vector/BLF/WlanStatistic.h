@@ -24,8 +24,6 @@
 #include <Vector/BLF/platform.h>
 
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/RawFile.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -40,8 +38,8 @@ namespace BLF {
 struct VECTOR_BLF_EXPORT WlanStatistic final : ObjectHeader {
     WlanStatistic();
 
-    void read(RawFile & is) override;
-    void write(RawFile & os) override;
+    std::vector<uint8_t>::iterator fromData(std::vector<uint8_t>::iterator it) override;
+    void toData(std::vector<uint8_t> & data) override;
     DWORD calculateObjectSize() const override;
 
     /**
@@ -95,6 +93,8 @@ struct VECTOR_BLF_EXPORT WlanStatistic final : ObjectHeader {
 
     /** reserved */
     DWORD reservedWlanStatistic {};
+
+    // @note might be extended in future versions
 };
 
 }

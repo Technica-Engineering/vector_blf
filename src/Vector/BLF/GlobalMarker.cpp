@@ -30,49 +30,124 @@ GlobalMarker::GlobalMarker() :
     ObjectHeader(ObjectType::GLOBAL_MARKER) {
 }
 
-void GlobalMarker::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&commentedEventType), sizeof(commentedEventType));
-    is.read(reinterpret_cast<char *>(&foregroundColor), sizeof(foregroundColor));
-    is.read(reinterpret_cast<char *>(&backgroundColor), sizeof(backgroundColor));
-    is.read(reinterpret_cast<char *>(&isRelocatable), sizeof(isRelocatable));
-    is.read(reinterpret_cast<char *>(&reservedGlobalMarker1), sizeof(reservedGlobalMarker1));
-    is.read(reinterpret_cast<char *>(&reservedGlobalMarker2), sizeof(reservedGlobalMarker2));
-    is.read(reinterpret_cast<char *>(&groupNameLength), sizeof(groupNameLength));
-    is.read(reinterpret_cast<char *>(&markerNameLength), sizeof(markerNameLength));
-    is.read(reinterpret_cast<char *>(&descriptionLength), sizeof(descriptionLength));
-    is.read(reinterpret_cast<char *>(&reservedGlobalMarker3), sizeof(reservedGlobalMarker3));
-    is.read(reinterpret_cast<char *>(&reservedGlobalMarker4), sizeof(reservedGlobalMarker4));
-    groupName.resize(groupNameLength);
-    is.read(&groupName[0], groupNameLength);
-    markerName.resize(markerNameLength);
-    is.read(&markerName[0], markerNameLength);
-    description.resize(descriptionLength);
-    is.read(&description[0], descriptionLength);
+std::vector<uint8_t>::iterator GlobalMarker::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
 
-    /* skip padding */
-    is.seekg(objectSize % 4, std::ios_base::cur);
+    commentedEventType =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    foregroundColor =
+            (static_cast<COLORREF>(*it++) <<  0) |
+            (static_cast<COLORREF>(*it++) <<  8) |
+            (static_cast<COLORREF>(*it++) << 16) |
+            (static_cast<COLORREF>(*it++) << 24);
+    backgroundColor =
+            (static_cast<COLORREF>(*it++) <<  0) |
+            (static_cast<COLORREF>(*it++) <<  8) |
+            (static_cast<COLORREF>(*it++) << 16) |
+            (static_cast<COLORREF>(*it++) << 24);
+    isRelocatable =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedGlobalMarker1 =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedGlobalMarker2 =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    groupNameLength =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    markerNameLength =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    descriptionLength =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    reservedGlobalMarker3 =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    reservedGlobalMarker4 =
+            (static_cast<ULONGLONG>(*it++) <<  0) |
+            (static_cast<ULONGLONG>(*it++) <<  8) |
+            (static_cast<ULONGLONG>(*it++) << 16) |
+            (static_cast<ULONGLONG>(*it++) << 24) |
+            (static_cast<ULONGLONG>(*it++) << 32) |
+            (static_cast<ULONGLONG>(*it++) << 40) |
+            (static_cast<ULONGLONG>(*it++) << 48) |
+            (static_cast<ULONGLONG>(*it++) << 56);
+    groupName.resize(groupNameLength);
+    std::copy(it, it + groupName.size(), std::begin(groupName));
+    it += groupName.size();
+    markerName.resize(markerNameLength);
+    std::copy(it, it + markerName.size(), std::begin(markerName));
+    it += markerName.size();
+    description.resize(descriptionLength);
+    std::copy(it, it + description.size(), std::begin(description));
+    it += description.size();
+
+    return it;
 }
 
-void GlobalMarker::write(RawFile & os) {
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&commentedEventType), sizeof(commentedEventType));
-    os.write(reinterpret_cast<char *>(&foregroundColor), sizeof(foregroundColor));
-    os.write(reinterpret_cast<char *>(&backgroundColor), sizeof(backgroundColor));
-    os.write(reinterpret_cast<char *>(&isRelocatable), sizeof(isRelocatable));
-    os.write(reinterpret_cast<char *>(&reservedGlobalMarker1), sizeof(reservedGlobalMarker1));
-    os.write(reinterpret_cast<char *>(&reservedGlobalMarker2), sizeof(reservedGlobalMarker2));
-    os.write(reinterpret_cast<char *>(&groupNameLength), sizeof(groupNameLength));
-    os.write(reinterpret_cast<char *>(&markerNameLength), sizeof(markerNameLength));
-    os.write(reinterpret_cast<char *>(&descriptionLength), sizeof(descriptionLength));
-    os.write(reinterpret_cast<char *>(&reservedGlobalMarker3), sizeof(reservedGlobalMarker3));
-    os.write(reinterpret_cast<char *>(&reservedGlobalMarker4), sizeof(reservedGlobalMarker4));
-    os.write(&groupName[0], groupNameLength);
-    os.write(&markerName[0], markerNameLength);
-    os.write(&description[0], descriptionLength);
+void GlobalMarker::toData(std::vector<uint8_t> & data) {
+    /* pre processing */
+    groupNameLength = static_cast<DWORD>(groupName.size());
+    markerNameLength = static_cast<DWORD>(markerName.size());
+    descriptionLength = static_cast<DWORD>(description.size());
 
-    /* skip padding */
-    os.seekp(objectSize % 4, std::ios_base::cur);
+    ObjectHeader::toData(data);
+
+    data.push_back((commentedEventType >>  0) & 0xff);
+    data.push_back((commentedEventType >>  8) & 0xff);
+    data.push_back((commentedEventType >> 16) & 0xff);
+    data.push_back((commentedEventType >> 24) & 0xff);
+    data.push_back((foregroundColor >>  0) & 0xff);
+    data.push_back((foregroundColor >>  8) & 0xff);
+    data.push_back((foregroundColor >> 16) & 0xff);
+    data.push_back((foregroundColor >> 24) & 0xff);
+    data.push_back((backgroundColor >>  0) & 0xff);
+    data.push_back((backgroundColor >>  8) & 0xff);
+    data.push_back((backgroundColor >> 16) & 0xff);
+    data.push_back((backgroundColor >> 24) & 0xff);
+    data.push_back((isRelocatable >>  0) & 0xff);
+    data.push_back((reservedGlobalMarker1 >>  0) & 0xff);
+    data.push_back((reservedGlobalMarker2 >>  0) & 0xff);
+    data.push_back((reservedGlobalMarker2 >>  8) & 0xff);
+    data.push_back((groupNameLength >>  0) & 0xff);
+    data.push_back((groupNameLength >>  8) & 0xff);
+    data.push_back((groupNameLength >> 16) & 0xff);
+    data.push_back((groupNameLength >> 24) & 0xff);
+    data.push_back((markerNameLength >>  0) & 0xff);
+    data.push_back((markerNameLength >>  8) & 0xff);
+    data.push_back((markerNameLength >> 16) & 0xff);
+    data.push_back((markerNameLength >> 24) & 0xff);
+    data.push_back((descriptionLength >>  0) & 0xff);
+    data.push_back((descriptionLength >>  8) & 0xff);
+    data.push_back((descriptionLength >> 16) & 0xff);
+    data.push_back((descriptionLength >> 24) & 0xff);
+    data.push_back((reservedGlobalMarker3 >>  0) & 0xff);
+    data.push_back((reservedGlobalMarker3 >>  8) & 0xff);
+    data.push_back((reservedGlobalMarker3 >> 16) & 0xff);
+    data.push_back((reservedGlobalMarker3 >> 24) & 0xff);
+    data.push_back((reservedGlobalMarker4 >>  0) & 0xff);
+    data.push_back((reservedGlobalMarker4 >>  8) & 0xff);
+    data.push_back((reservedGlobalMarker4 >> 16) & 0xff);
+    data.push_back((reservedGlobalMarker4 >> 24) & 0xff);
+    data.push_back((reservedGlobalMarker4 >> 32) & 0xff);
+    data.push_back((reservedGlobalMarker4 >> 40) & 0xff);
+    data.push_back((reservedGlobalMarker4 >> 48) & 0xff);
+    data.push_back((reservedGlobalMarker4 >> 56) & 0xff);
+    data.insert(std::end(data), std::begin(groupName), std::end(groupName));
+    data.insert(std::end(data), std::begin(markerName), std::end(markerName));
+    data.insert(std::end(data), std::begin(description), std::end(description));
 }
 
 DWORD GlobalMarker::calculateObjectSize() const {

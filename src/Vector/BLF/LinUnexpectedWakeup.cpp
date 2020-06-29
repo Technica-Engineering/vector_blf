@@ -28,25 +28,55 @@ LinUnexpectedWakeup::LinUnexpectedWakeup() :
     ObjectHeader(ObjectType::LIN_UNEXPECTED_WAKEUP) {
 }
 
-void LinUnexpectedWakeup::read(RawFile & is) {
-    ObjectHeader::read(is);
-    LinBusEvent::read(is);
-    is.read(reinterpret_cast<char *>(&width), sizeof(width));
-    is.read(reinterpret_cast<char *>(&signal), sizeof(signal));
-    is.read(reinterpret_cast<char *>(&reservedLinUnexpectedWakeup1), sizeof(reservedLinUnexpectedWakeup1));
-    is.read(reinterpret_cast<char *>(&reservedLinUnexpectedWakeup2), sizeof(reservedLinUnexpectedWakeup2));
-    is.read(reinterpret_cast<char *>(&reservedLinUnexpectedWakeup3), sizeof(reservedLinUnexpectedWakeup3));
-    // @note might be extended in future versions
+std::vector<uint8_t>::iterator LinUnexpectedWakeup::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+    it = LinBusEvent::fromData(it);
+
+    width =
+            (static_cast<ULONGLONG>(*it++) <<  0) |
+            (static_cast<ULONGLONG>(*it++) <<  8) |
+            (static_cast<ULONGLONG>(*it++) << 16) |
+            (static_cast<ULONGLONG>(*it++) << 24) |
+            (static_cast<ULONGLONG>(*it++) << 32) |
+            (static_cast<ULONGLONG>(*it++) << 40) |
+            (static_cast<ULONGLONG>(*it++) << 48) |
+            (static_cast<ULONGLONG>(*it++) << 56);
+    signal =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedLinUnexpectedWakeup1 =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedLinUnexpectedWakeup2 =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    reservedLinUnexpectedWakeup3 =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+
+    return it;
 }
 
-void LinUnexpectedWakeup::write(RawFile & os) {
-    ObjectHeader::write(os);
-    LinBusEvent::write(os);
-    os.write(reinterpret_cast<char *>(&width), sizeof(width));
-    os.write(reinterpret_cast<char *>(&signal), sizeof(signal));
-    os.write(reinterpret_cast<char *>(&reservedLinUnexpectedWakeup1), sizeof(reservedLinUnexpectedWakeup1));
-    os.write(reinterpret_cast<char *>(&reservedLinUnexpectedWakeup2), sizeof(reservedLinUnexpectedWakeup2));
-    os.write(reinterpret_cast<char *>(&reservedLinUnexpectedWakeup3), sizeof(reservedLinUnexpectedWakeup3));
+void LinUnexpectedWakeup::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
+    LinBusEvent::toData(data);
+
+    data.push_back((width >>  0) & 0xff);
+    data.push_back((width >>  8) & 0xff);
+    data.push_back((width >> 16) & 0xff);
+    data.push_back((width >> 24) & 0xff);
+    data.push_back((width >> 32) & 0xff);
+    data.push_back((width >> 40) & 0xff);
+    data.push_back((width >> 48) & 0xff);
+    data.push_back((width >> 56) & 0xff);
+    data.push_back((signal >>  0) & 0xff);
+    data.push_back((reservedLinUnexpectedWakeup1 >>  0) & 0xff);
+    data.push_back((reservedLinUnexpectedWakeup2 >>  0) & 0xff);
+    data.push_back((reservedLinUnexpectedWakeup2 >>  8) & 0xff);
+    data.push_back((reservedLinUnexpectedWakeup3 >>  0) & 0xff);
+    data.push_back((reservedLinUnexpectedWakeup3 >>  8) & 0xff);
+    data.push_back((reservedLinUnexpectedWakeup3 >> 16) & 0xff);
+    data.push_back((reservedLinUnexpectedWakeup3 >> 24) & 0xff);
 }
 
 DWORD LinUnexpectedWakeup::calculateObjectSize() const {

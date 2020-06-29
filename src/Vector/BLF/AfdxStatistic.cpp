@@ -28,43 +28,151 @@ AfdxStatistic::AfdxStatistic() :
     ObjectHeader(ObjectType::AFDX_STATISTIC) {
 }
 
-void AfdxStatistic::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
-    is.read(reinterpret_cast<char *>(&rxPacketCount), sizeof(rxPacketCount));
-    is.read(reinterpret_cast<char *>(&rxByteCount), sizeof(rxByteCount));
-    is.read(reinterpret_cast<char *>(&txPacketCount), sizeof(txPacketCount));
-    is.read(reinterpret_cast<char *>(&txByteCount), sizeof(txByteCount));
-    is.read(reinterpret_cast<char *>(&collisionCount), sizeof(collisionCount));
-    is.read(reinterpret_cast<char *>(&errorCount), sizeof(errorCount));
-    is.read(reinterpret_cast<char *>(&statDroppedRedundantPacketCount), sizeof(statDroppedRedundantPacketCount));
-    is.read(reinterpret_cast<char *>(&statRedundantErrorPacketCount), sizeof(statRedundantErrorPacketCount));
-    is.read(reinterpret_cast<char *>(&statIntegrityErrorPacketCount), sizeof(statIntegrityErrorPacketCount));
-    is.read(reinterpret_cast<char *>(&statAvrgPeriodMsec), sizeof(statAvrgPeriodMsec));
-    is.read(reinterpret_cast<char *>(&statAvrgJitterMysec), sizeof(statAvrgJitterMysec));
-    is.read(reinterpret_cast<char *>(&vlid), sizeof(vlid));
-    is.read(reinterpret_cast<char *>(&statDuration), sizeof(statDuration));
-    // @note might be extended in future versions
+std::vector<uint8_t>::iterator AfdxStatistic::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    flags =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    rxPacketCount =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
+    rxByteCount =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
+    txPacketCount =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
+    txByteCount =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
+    collisionCount =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
+    errorCount =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
+    statDroppedRedundantPacketCount =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
+    statRedundantErrorPacketCount =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
+    statIntegrityErrorPacketCount =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
+    statAvrgPeriodMsec =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
+    statAvrgJitterMysec =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
+    vlid =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
+    statDuration =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
+
+    return it;
 }
 
-void AfdxStatistic::write(RawFile & os) {
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&flags), sizeof(flags));
-    os.write(reinterpret_cast<char *>(&rxPacketCount), sizeof(rxPacketCount));
-    os.write(reinterpret_cast<char *>(&rxByteCount), sizeof(rxByteCount));
-    os.write(reinterpret_cast<char *>(&txPacketCount), sizeof(txPacketCount));
-    os.write(reinterpret_cast<char *>(&txByteCount), sizeof(txByteCount));
-    os.write(reinterpret_cast<char *>(&collisionCount), sizeof(collisionCount));
-    os.write(reinterpret_cast<char *>(&errorCount), sizeof(errorCount));
-    os.write(reinterpret_cast<char *>(&statDroppedRedundantPacketCount), sizeof(statDroppedRedundantPacketCount));
-    os.write(reinterpret_cast<char *>(&statRedundantErrorPacketCount), sizeof(statRedundantErrorPacketCount));
-    os.write(reinterpret_cast<char *>(&statIntegrityErrorPacketCount), sizeof(statIntegrityErrorPacketCount));
-    os.write(reinterpret_cast<char *>(&statAvrgPeriodMsec), sizeof(statAvrgPeriodMsec));
-    os.write(reinterpret_cast<char *>(&statAvrgJitterMysec), sizeof(statAvrgJitterMysec));
-    os.write(reinterpret_cast<char *>(&vlid), sizeof(vlid));
-    os.write(reinterpret_cast<char *>(&statDuration), sizeof(statDuration));
+void AfdxStatistic::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
+
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((flags >>  0) & 0xff);
+    data.push_back((flags >>  8) & 0xff);
+    data.push_back((rxPacketCount >>  0) & 0xff);
+    data.push_back((rxPacketCount >>  8) & 0xff);
+    data.push_back((rxPacketCount >> 16) & 0xff);
+    data.push_back((rxPacketCount >> 24) & 0xff);
+    data.push_back((rxByteCount >>  0) & 0xff);
+    data.push_back((rxByteCount >>  8) & 0xff);
+    data.push_back((rxByteCount >> 16) & 0xff);
+    data.push_back((rxByteCount >> 24) & 0xff);
+    data.push_back((txPacketCount >>  0) & 0xff);
+    data.push_back((txPacketCount >>  8) & 0xff);
+    data.push_back((txPacketCount >> 16) & 0xff);
+    data.push_back((txPacketCount >> 24) & 0xff);
+    data.push_back((txByteCount >>  0) & 0xff);
+    data.push_back((txByteCount >>  8) & 0xff);
+    data.push_back((txByteCount >> 16) & 0xff);
+    data.push_back((txByteCount >> 24) & 0xff);
+    data.push_back((collisionCount >>  0) & 0xff);
+    data.push_back((collisionCount >>  8) & 0xff);
+    data.push_back((collisionCount >> 16) & 0xff);
+    data.push_back((collisionCount >> 24) & 0xff);
+    data.push_back((errorCount >>  0) & 0xff);
+    data.push_back((errorCount >>  8) & 0xff);
+    data.push_back((errorCount >> 16) & 0xff);
+    data.push_back((errorCount >> 24) & 0xff);
+    data.push_back((statDroppedRedundantPacketCount >>  0) & 0xff);
+    data.push_back((statDroppedRedundantPacketCount >>  8) & 0xff);
+    data.push_back((statDroppedRedundantPacketCount >> 16) & 0xff);
+    data.push_back((statDroppedRedundantPacketCount >> 24) & 0xff);
+    data.push_back((statRedundantErrorPacketCount >>  0) & 0xff);
+    data.push_back((statRedundantErrorPacketCount >>  8) & 0xff);
+    data.push_back((statRedundantErrorPacketCount >> 16) & 0xff);
+    data.push_back((statRedundantErrorPacketCount >> 24) & 0xff);
+    data.push_back((statIntegrityErrorPacketCount >>  0) & 0xff);
+    data.push_back((statIntegrityErrorPacketCount >>  8) & 0xff);
+    data.push_back((statIntegrityErrorPacketCount >> 16) & 0xff);
+    data.push_back((statIntegrityErrorPacketCount >> 24) & 0xff);
+    data.push_back((statAvrgPeriodMsec >>  0) & 0xff);
+    data.push_back((statAvrgPeriodMsec >>  8) & 0xff);
+    data.push_back((statAvrgPeriodMsec >> 16) & 0xff);
+    data.push_back((statAvrgPeriodMsec >> 24) & 0xff);
+    data.push_back((statAvrgJitterMysec >>  0) & 0xff);
+    data.push_back((statAvrgJitterMysec >>  8) & 0xff);
+    data.push_back((statAvrgJitterMysec >> 16) & 0xff);
+    data.push_back((statAvrgJitterMysec >> 24) & 0xff);
+    data.push_back((statAvrgPeriodMsec >>  0) & 0xff);
+    data.push_back((statAvrgPeriodMsec >>  8) & 0xff);
+    data.push_back((statAvrgPeriodMsec >> 16) & 0xff);
+    data.push_back((statAvrgPeriodMsec >> 24) & 0xff);
+    data.push_back((statAvrgJitterMysec >>  0) & 0xff);
+    data.push_back((statAvrgJitterMysec >>  8) & 0xff);
+    data.push_back((statAvrgJitterMysec >> 16) & 0xff);
+    data.push_back((statAvrgJitterMysec >> 24) & 0xff);
+    data.push_back((vlid >>  0) & 0xff);
+    data.push_back((vlid >>  8) & 0xff);
+    data.push_back((vlid >> 16) & 0xff);
+    data.push_back((vlid >> 24) & 0xff);
+    data.push_back((statDuration >>  0) & 0xff);
+    data.push_back((statDuration >>  8) & 0xff);
+    data.push_back((statDuration >> 16) & 0xff);
+    data.push_back((statDuration >> 24) & 0xff);
 }
 
 DWORD AfdxStatistic::calculateObjectSize() const {

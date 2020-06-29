@@ -30,32 +30,60 @@ AppText::AppText() :
     ObjectHeader(ObjectType::APP_TEXT) {
 }
 
-void AppText::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&source), sizeof(source));
-    is.read(reinterpret_cast<char *>(&reservedAppText1), sizeof(reservedAppText1));
-    is.read(reinterpret_cast<char *>(&textLength), sizeof(textLength));
-    is.read(reinterpret_cast<char *>(&reservedAppText2), sizeof(reservedAppText2));
-    text.resize(textLength);
-    is.read(&text[0], textLength);
+std::vector<uint8_t>::iterator AppText::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
 
-    /* skip padding */
-    is.seekg(objectSize % 4, std::ios_base::cur);
+    source =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    reservedAppText1 =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    textLength =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    reservedAppText2 =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    text.resize(textLength);
+    std::copy(it, it + text.size(), std::begin(text));
+    it += text.size();
+
+    return it;
 }
 
-void AppText::write(RawFile & os) {
+void AppText::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
     /* pre processing */
     textLength = static_cast<DWORD>(text.size());
 
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&source), sizeof(source));
-    os.write(reinterpret_cast<char *>(&reservedAppText1), sizeof(reservedAppText1));
-    os.write(reinterpret_cast<char *>(&textLength), sizeof(textLength));
-    os.write(reinterpret_cast<char *>(&reservedAppText2), sizeof(reservedAppText2));
-    os.write(&text[0], textLength);
+    ObjectHeader::toData(data);
 
-    /* skip padding */
-    os.seekp(objectSize % 4, std::ios_base::cur);
+    data.push_back((source >>  0) & 0xff);
+    data.push_back((source >>  8) & 0xff);
+    data.push_back((source >> 16) & 0xff);
+    data.push_back((source >> 24) & 0xff);
+    data.push_back((reservedAppText1 >>  0) & 0xff);
+    data.push_back((reservedAppText1 >>  8) & 0xff);
+    data.push_back((reservedAppText1 >> 16) & 0xff);
+    data.push_back((reservedAppText1 >> 24) & 0xff);
+    data.push_back((textLength >>  0) & 0xff);
+    data.push_back((textLength >>  8) & 0xff);
+    data.push_back((textLength >> 16) & 0xff);
+    data.push_back((textLength >> 24) & 0xff);
+    data.push_back((reservedAppText2 >>  0) & 0xff);
+    data.push_back((reservedAppText2 >>  8) & 0xff);
+    data.push_back((reservedAppText2 >> 16) & 0xff);
+    data.push_back((reservedAppText2 >> 24) & 0xff);
+    data.insert(std::end(data), std::begin(text), std::end(text));
 }
 
 DWORD AppText::calculateObjectSize() const {

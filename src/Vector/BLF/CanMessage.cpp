@@ -28,22 +28,39 @@ CanMessage::CanMessage() :
     ObjectHeader(ObjectType::CAN_MESSAGE) {
 }
 
-void CanMessage::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
-    is.read(reinterpret_cast<char *>(&dlc), sizeof(dlc));
-    is.read(reinterpret_cast<char *>(&id), sizeof(id));
-    is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
+std::vector<uint8_t>::iterator CanMessage::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    flags =
+            (static_cast<BYTE>(*it++) <<  0);
+    dlc =
+            (static_cast<BYTE>(*it++) <<  0);
+    id =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    std::copy(it, it + this->data.size(), std::begin(this->data));
+    it += this->data.size();
+
+    return it;
 }
 
-void CanMessage::write(RawFile & os) {
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&flags), sizeof(flags));
-    os.write(reinterpret_cast<char *>(&dlc), sizeof(dlc));
-    os.write(reinterpret_cast<char *>(&id), sizeof(id));
-    os.write(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
+void CanMessage::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
+
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((flags >>  0) & 0xff);
+    data.push_back((dlc >>  0) & 0xff);
+    data.push_back((id >>  0) & 0xff);
+    data.push_back((id >>  8) & 0xff);
+    data.push_back((id >> 16) & 0xff);
+    data.push_back((id >> 24) & 0xff);
+    data.insert(std::end(data), std::begin(this->data), std::end(this->data));
 }
 
 DWORD CanMessage::calculateObjectSize() const {

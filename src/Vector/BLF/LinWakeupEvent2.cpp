@@ -28,25 +28,39 @@ LinWakeupEvent2::LinWakeupEvent2() :
     ObjectHeader(ObjectType::LIN_WAKEUP2) {
 }
 
-void LinWakeupEvent2::read(RawFile & is) {
-    ObjectHeader::read(is);
-    LinBusEvent::read(is);
-    is.read(reinterpret_cast<char *>(&lengthInfo), sizeof(lengthInfo));
-    is.read(reinterpret_cast<char *>(&signal), sizeof(signal));
-    is.read(reinterpret_cast<char *>(&external), sizeof(external));
-    is.read(reinterpret_cast<char *>(&reservedLinWakeupEvent1), sizeof(reservedLinWakeupEvent1));
-    is.read(reinterpret_cast<char *>(&reservedLinWakeupEvent2), sizeof(reservedLinWakeupEvent2));
-    // @note might be extended in future versions
+std::vector<uint8_t>::iterator LinWakeupEvent2::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+    it = LinBusEvent::fromData(it);
+
+    lengthInfo =
+            (static_cast<BYTE>(*it++) <<  0);
+    signal =
+            (static_cast<BYTE>(*it++) <<  0);
+    external =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedLinWakeupEvent1 =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedLinWakeupEvent2 =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+
+    return it;
 }
 
-void LinWakeupEvent2::write(RawFile & os) {
-    ObjectHeader::write(os);
-    LinBusEvent::write(os);
-    os.write(reinterpret_cast<char *>(&lengthInfo), sizeof(lengthInfo));
-    os.write(reinterpret_cast<char *>(&signal), sizeof(signal));
-    os.write(reinterpret_cast<char *>(&external), sizeof(external));
-    os.write(reinterpret_cast<char *>(&reservedLinWakeupEvent1), sizeof(reservedLinWakeupEvent1));
-    os.write(reinterpret_cast<char *>(&reservedLinWakeupEvent2), sizeof(reservedLinWakeupEvent2));
+void LinWakeupEvent2::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
+    LinBusEvent::toData(data);
+
+    data.push_back((lengthInfo >>  0) & 0xff);
+    data.push_back((signal >>  0) & 0xff);
+    data.push_back((external >>  0) & 0xff);
+    data.push_back((reservedLinWakeupEvent1 >>  0) & 0xff);
+    data.push_back((reservedLinWakeupEvent2 >>  0) & 0xff);
+    data.push_back((reservedLinWakeupEvent2 >>  8) & 0xff);
+    data.push_back((reservedLinWakeupEvent2 >> 16) & 0xff);
+    data.push_back((reservedLinWakeupEvent2 >> 24) & 0xff);
 }
 
 DWORD LinWakeupEvent2::calculateObjectSize() const {

@@ -28,53 +28,164 @@ AfdxBusStatistic::AfdxBusStatistic() :
     ObjectHeader(ObjectType::A429_BUS_STATISTIC) {
 }
 
-void AfdxBusStatistic::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
-    is.read(reinterpret_cast<char *>(&statDuration), sizeof(statDuration));
-    is.read(reinterpret_cast<char *>(&statRxPacketCountHW), sizeof(statRxPacketCountHW));
-    is.read(reinterpret_cast<char *>(&statTxPacketCountHW), sizeof(statTxPacketCountHW));
-    is.read(reinterpret_cast<char *>(&statRxErrorCountHW), sizeof(statRxErrorCountHW));
-    is.read(reinterpret_cast<char *>(&statTxErrorCountHW), sizeof(statTxErrorCountHW));
-    is.read(reinterpret_cast<char *>(&statRxBytesHW), sizeof(statRxBytesHW));
-    is.read(reinterpret_cast<char *>(&statTxBytesHW), sizeof(statTxBytesHW));
-    is.read(reinterpret_cast<char *>(&statRxPacketCount), sizeof(statRxPacketCount));
-    is.read(reinterpret_cast<char *>(&statTxPacketCount), sizeof(statTxPacketCount));
-    is.read(reinterpret_cast<char *>(&statDroppedPacketCount), sizeof(statDroppedPacketCount));
-    is.read(reinterpret_cast<char *>(&statInvalidPacketCount), sizeof(statInvalidPacketCount));
-    is.read(reinterpret_cast<char *>(&statLostPacketCount), sizeof(statLostPacketCount));
-    is.read(reinterpret_cast<char *>(&line), sizeof(line));
-    is.read(reinterpret_cast<char *>(&linkStatus), sizeof(linkStatus));
-    is.read(reinterpret_cast<char *>(&linkSpeed), sizeof(linkSpeed));
-    is.read(reinterpret_cast<char *>(&linkLost), sizeof(linkLost));
-    is.read(reinterpret_cast<char *>(&reservedAfdxBusStatistic1), sizeof(reservedAfdxBusStatistic1));
-    is.read(reinterpret_cast<char *>(&reservedAfdxBusStatistic2), sizeof(reservedAfdxBusStatistic2));
-    // @note might be extended in future versions
+std::vector<uint8_t>::iterator AfdxBusStatistic::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    flags =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    statDuration =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
+    statRxPacketCountHW =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
+    statTxPacketCountHW =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
+    statRxErrorCountHW =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
+    statTxErrorCountHW =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
+    statRxBytesHW =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
+    statTxBytesHW =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
+    statRxPacketCount =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
+    statTxPacketCount =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
+    statDroppedPacketCount =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
+    statInvalidPacketCount =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
+    statLostPacketCount =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
+    line =
+            (static_cast<BYTE>(*it++) <<  0);
+    linkStatus =
+            (static_cast<BYTE>(*it++) <<  0);
+    linkSpeed =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    linkLost =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    reservedAfdxBusStatistic1 =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    reservedAfdxBusStatistic2 =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+
+    return it;
 }
 
-void AfdxBusStatistic::write(RawFile & os) {
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&flags), sizeof(flags));
-    os.write(reinterpret_cast<char *>(&statDuration), sizeof(statDuration));
-    os.write(reinterpret_cast<char *>(&statRxPacketCountHW), sizeof(statRxPacketCountHW));
-    os.write(reinterpret_cast<char *>(&statTxPacketCountHW), sizeof(statTxPacketCountHW));
-    os.write(reinterpret_cast<char *>(&statRxErrorCountHW), sizeof(statRxErrorCountHW));
-    os.write(reinterpret_cast<char *>(&statTxErrorCountHW), sizeof(statTxErrorCountHW));
-    os.write(reinterpret_cast<char *>(&statRxBytesHW), sizeof(statRxBytesHW));
-    os.write(reinterpret_cast<char *>(&statTxBytesHW), sizeof(statTxBytesHW));
-    os.write(reinterpret_cast<char *>(&statRxPacketCount), sizeof(statRxPacketCount));
-    os.write(reinterpret_cast<char *>(&statTxPacketCount), sizeof(statTxPacketCount));
-    os.write(reinterpret_cast<char *>(&statDroppedPacketCount), sizeof(statDroppedPacketCount));
-    os.write(reinterpret_cast<char *>(&statInvalidPacketCount), sizeof(statInvalidPacketCount));
-    os.write(reinterpret_cast<char *>(&statLostPacketCount), sizeof(statLostPacketCount));
-    os.write(reinterpret_cast<char *>(&line), sizeof(line));
-    os.write(reinterpret_cast<char *>(&linkStatus), sizeof(linkStatus));
-    os.write(reinterpret_cast<char *>(&linkSpeed), sizeof(linkSpeed));
-    os.write(reinterpret_cast<char *>(&linkLost), sizeof(linkLost));
-    os.write(reinterpret_cast<char *>(&reservedAfdxBusStatistic1), sizeof(reservedAfdxBusStatistic1));
-    os.write(reinterpret_cast<char *>(&reservedAfdxBusStatistic2), sizeof(reservedAfdxBusStatistic2));
+void AfdxBusStatistic::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
+
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((flags >>  0) & 0xff);
+    data.push_back((flags >>  8) & 0xff);
+    data.push_back((statDuration >>  0) & 0xff);
+    data.push_back((statDuration >>  8) & 0xff);
+    data.push_back((statDuration >> 16) & 0xff);
+    data.push_back((statDuration >> 24) & 0xff);
+    data.push_back((statRxPacketCountHW >>  0) & 0xff);
+    data.push_back((statRxPacketCountHW >>  8) & 0xff);
+    data.push_back((statRxPacketCountHW >> 16) & 0xff);
+    data.push_back((statRxPacketCountHW >> 24) & 0xff);
+    data.push_back((statTxPacketCountHW >>  0) & 0xff);
+    data.push_back((statTxPacketCountHW >>  8) & 0xff);
+    data.push_back((statTxPacketCountHW >> 16) & 0xff);
+    data.push_back((statTxPacketCountHW >> 24) & 0xff);
+    data.push_back((statRxErrorCountHW >>  0) & 0xff);
+    data.push_back((statRxErrorCountHW >>  8) & 0xff);
+    data.push_back((statRxErrorCountHW >> 16) & 0xff);
+    data.push_back((statRxErrorCountHW >> 24) & 0xff);
+    data.push_back((statTxErrorCountHW >>  0) & 0xff);
+    data.push_back((statTxErrorCountHW >>  8) & 0xff);
+    data.push_back((statTxErrorCountHW >> 16) & 0xff);
+    data.push_back((statTxErrorCountHW >> 24) & 0xff);
+    data.push_back((statRxBytesHW >>  0) & 0xff);
+    data.push_back((statRxBytesHW >>  8) & 0xff);
+    data.push_back((statRxBytesHW >> 16) & 0xff);
+    data.push_back((statRxBytesHW >> 24) & 0xff);
+    data.push_back((statTxBytesHW >>  0) & 0xff);
+    data.push_back((statTxBytesHW >>  8) & 0xff);
+    data.push_back((statTxBytesHW >> 16) & 0xff);
+    data.push_back((statTxBytesHW >> 24) & 0xff);
+    data.push_back((statRxPacketCount >>  0) & 0xff);
+    data.push_back((statRxPacketCount >>  8) & 0xff);
+    data.push_back((statRxPacketCount >> 16) & 0xff);
+    data.push_back((statRxPacketCount >> 24) & 0xff);
+    data.push_back((statTxPacketCount >>  0) & 0xff);
+    data.push_back((statTxPacketCount >>  8) & 0xff);
+    data.push_back((statTxPacketCount >> 16) & 0xff);
+    data.push_back((statTxPacketCount >> 24) & 0xff);
+    data.push_back((statDroppedPacketCount >>  0) & 0xff);
+    data.push_back((statDroppedPacketCount >>  8) & 0xff);
+    data.push_back((statDroppedPacketCount >> 16) & 0xff);
+    data.push_back((statDroppedPacketCount >> 24) & 0xff);
+    data.push_back((statInvalidPacketCount >>  0) & 0xff);
+    data.push_back((statInvalidPacketCount >>  8) & 0xff);
+    data.push_back((statInvalidPacketCount >> 16) & 0xff);
+    data.push_back((statInvalidPacketCount >> 24) & 0xff);
+    data.push_back((statLostPacketCount >>  0) & 0xff);
+    data.push_back((statLostPacketCount >>  8) & 0xff);
+    data.push_back((statLostPacketCount >> 16) & 0xff);
+    data.push_back((statLostPacketCount >> 24) & 0xff);
+    data.push_back((line >>  0) & 0xff);
+    data.push_back((linkStatus >>  0) & 0xff);
+    data.push_back((linkSpeed >>  0) & 0xff);
+    data.push_back((linkSpeed >>  8) & 0xff);
+    data.push_back((linkLost >>  0) & 0xff);
+    data.push_back((linkLost >>  8) & 0xff);
+    data.push_back((reservedAfdxBusStatistic1 >>  0) & 0xff);
+    data.push_back((reservedAfdxBusStatistic1 >>  8) & 0xff);
+    data.push_back((reservedAfdxBusStatistic2 >>  0) & 0xff);
+    data.push_back((reservedAfdxBusStatistic2 >>  8) & 0xff);
+    data.push_back((reservedAfdxBusStatistic2 >> 16) & 0xff);
+    data.push_back((reservedAfdxBusStatistic2 >> 24) & 0xff);
 }
 
 DWORD AfdxBusStatistic::calculateObjectSize() const {

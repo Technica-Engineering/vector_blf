@@ -24,8 +24,6 @@
 #include <Vector/BLF/platform.h>
 
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/RawFile.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -38,13 +36,13 @@ namespace BLF {
 struct VECTOR_BLF_EXPORT LinBusEvent {
     virtual ~LinBusEvent() noexcept = default;
 
-    /** @copydoc ObjectHeader::read() */
-    virtual void read(RawFile & is);
+    /** @copydoc ObjectHeaderBase::fromData() */
+    virtual std::vector<uint8_t>::iterator fromData(std::vector<uint8_t>::iterator it);
 
-    /** @copydoc ObjectHeader::write() */
-    virtual void write(RawFile & os);
+    /** @copydoc ObjectHeaderBase::toData() */
+    virtual void toData(std::vector<uint8_t> & data);
 
-    /** @copydoc ObjectHeader::calculateObjectSize() */
+    /** @copydoc ObjectHeaderBase::calculateObjectSize() */
     virtual DWORD calculateObjectSize() const;
 
     /**

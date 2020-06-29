@@ -28,20 +28,36 @@ CanDriverHwSync::CanDriverHwSync() :
     ObjectHeader(ObjectType::CAN_DRIVER_SYNC) {
 }
 
-void CanDriverHwSync::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
-    is.read(reinterpret_cast<char *>(&reservedCanDriverHwSync1), sizeof(reservedCanDriverHwSync1));
-    is.read(reinterpret_cast<char *>(&reservedCanDriverHwSync2), sizeof(reservedCanDriverHwSync2));
+std::vector<uint8_t>::iterator CanDriverHwSync::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    flags =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedCanDriverHwSync1 =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedCanDriverHwSync2 =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+
+    return it;
 }
 
-void CanDriverHwSync::write(RawFile & os) {
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&flags), sizeof(flags));
-    os.write(reinterpret_cast<char *>(&reservedCanDriverHwSync1), sizeof(reservedCanDriverHwSync1));
-    os.write(reinterpret_cast<char *>(&reservedCanDriverHwSync2), sizeof(reservedCanDriverHwSync2));
+void CanDriverHwSync::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
+
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((flags >>  0) & 0xff);
+    data.push_back((reservedCanDriverHwSync1 >>  0) & 0xff);
+    data.push_back((reservedCanDriverHwSync2 >>  0) & 0xff);
+    data.push_back((reservedCanDriverHwSync2 >>  8) & 0xff);
+    data.push_back((reservedCanDriverHwSync2 >> 16) & 0xff);
+    data.push_back((reservedCanDriverHwSync2 >> 24) & 0xff);
 }
 
 DWORD CanDriverHwSync::calculateObjectSize() const {

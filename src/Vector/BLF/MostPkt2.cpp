@@ -28,58 +28,104 @@ MostPkt2::MostPkt2() :
     ObjectHeader2(ObjectType::MOST_PKT2) {
 }
 
-void MostPkt2::read(RawFile & is) {
-    ObjectHeader2::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
-    is.read(reinterpret_cast<char *>(&reservedMostPkt1), sizeof(reservedMostPkt1));
-    is.read(reinterpret_cast<char *>(&sourceAdr), sizeof(sourceAdr));
-    is.read(reinterpret_cast<char *>(&destAdr), sizeof(destAdr));
-    is.read(reinterpret_cast<char *>(&arbitration), sizeof(arbitration));
-    is.read(reinterpret_cast<char *>(&timeRes), sizeof(timeRes));
-    is.read(reinterpret_cast<char *>(&quadsToFollow), sizeof(quadsToFollow));
-    is.read(reinterpret_cast<char *>(&reservedMostPkt2), sizeof(reservedMostPkt2));
-    is.read(reinterpret_cast<char *>(&crc), sizeof(crc));
-    is.read(reinterpret_cast<char *>(&priority), sizeof(priority));
-    is.read(reinterpret_cast<char *>(&transferType), sizeof(transferType));
-    is.read(reinterpret_cast<char *>(&state), sizeof(state));
-    is.read(reinterpret_cast<char *>(&reservedMostPkt3), sizeof(reservedMostPkt3));
-    is.read(reinterpret_cast<char *>(&reservedMostPkt4), sizeof(reservedMostPkt4));
-    is.read(reinterpret_cast<char *>(&pktDataLength), sizeof(pktDataLength));
-    is.read(reinterpret_cast<char *>(&reservedMostPkt5), sizeof(reservedMostPkt5));
-    pktData.resize(pktDataLength);
-    is.read(reinterpret_cast<char *>(pktData.data()), pktDataLength);
+std::vector<uint8_t>::iterator MostPkt2::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader2::fromData(it);
 
-    /* skip padding */
-    is.seekg(objectSize % 4, std::ios_base::cur);
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    dir =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedMostPkt1 =
+            (static_cast<BYTE>(*it++) <<  0);
+    sourceAdr =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    destAdr =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    arbitration =
+            (static_cast<BYTE>(*it++) <<  0);
+    timeRes =
+            (static_cast<BYTE>(*it++) <<  0);
+    quadsToFollow =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedMostPkt2 =
+            (static_cast<BYTE>(*it++) <<  0);
+    crc =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    priority =
+            (static_cast<BYTE>(*it++) <<  0);
+    transferType =
+            (static_cast<BYTE>(*it++) <<  0);
+    state =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedMostPkt3 =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedMostPkt4 =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    pktDataLength =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    reservedMostPkt5 =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    pktData.resize(pktDataLength);
+    std::copy(it, it + pktData.size(), std::begin(pktData));
+    it += pktData.size();
+
+    return it;
 }
 
-void MostPkt2::write(RawFile & os) {
+void MostPkt2::toData(std::vector<uint8_t> & data) {
     /* pre processing */
     pktDataLength = static_cast<DWORD>(pktData.size());
 
-    ObjectHeader2::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
-    os.write(reinterpret_cast<char *>(&reservedMostPkt1), sizeof(reservedMostPkt1));
-    os.write(reinterpret_cast<char *>(&sourceAdr), sizeof(sourceAdr));
-    os.write(reinterpret_cast<char *>(&destAdr), sizeof(destAdr));
-    os.write(reinterpret_cast<char *>(&arbitration), sizeof(arbitration));
-    os.write(reinterpret_cast<char *>(&timeRes), sizeof(timeRes));
-    os.write(reinterpret_cast<char *>(&quadsToFollow), sizeof(quadsToFollow));
-    os.write(reinterpret_cast<char *>(&reservedMostPkt2), sizeof(reservedMostPkt2));
-    os.write(reinterpret_cast<char *>(&crc), sizeof(crc));
-    os.write(reinterpret_cast<char *>(&priority), sizeof(priority));
-    os.write(reinterpret_cast<char *>(&transferType), sizeof(transferType));
-    os.write(reinterpret_cast<char *>(&state), sizeof(state));
-    os.write(reinterpret_cast<char *>(&reservedMostPkt3), sizeof(reservedMostPkt3));
-    os.write(reinterpret_cast<char *>(&reservedMostPkt4), sizeof(reservedMostPkt4));
-    os.write(reinterpret_cast<char *>(&pktDataLength), sizeof(pktDataLength));
-    os.write(reinterpret_cast<char *>(&reservedMostPkt5), sizeof(reservedMostPkt5));
-    os.write(reinterpret_cast<char *>(pktData.data()), pktDataLength);
+    ObjectHeader2::toData(data);
 
-    /* skip padding */
-    os.seekp(objectSize % 4, std::ios_base::cur);
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((dir >>  0) & 0xff);
+    data.push_back((reservedMostPkt1 >>  0) & 0xff);
+    data.push_back((sourceAdr >>  0) & 0xff);
+    data.push_back((sourceAdr >>  8) & 0xff);
+    data.push_back((sourceAdr >> 16) & 0xff);
+    data.push_back((sourceAdr >> 24) & 0xff);
+    data.push_back((destAdr >>  0) & 0xff);
+    data.push_back((destAdr >>  8) & 0xff);
+    data.push_back((destAdr >> 16) & 0xff);
+    data.push_back((destAdr >> 24) & 0xff);
+    data.push_back((arbitration >>  0) & 0xff);
+    data.push_back((timeRes >>  0) & 0xff);
+    data.push_back((quadsToFollow >>  0) & 0xff);
+    data.push_back((reservedMostPkt2 >>  0) & 0xff);
+    data.push_back((crc >>  0) & 0xff);
+    data.push_back((crc >>  8) & 0xff);
+    data.push_back((priority >>  0) & 0xff);
+    data.push_back((transferType >>  0) & 0xff);
+    data.push_back((state >>  0) & 0xff);
+    data.push_back((reservedMostPkt3 >>  0) & 0xff);
+    data.push_back((reservedMostPkt4 >>  0) & 0xff);
+    data.push_back((reservedMostPkt4 >>  8) & 0xff);
+    data.push_back((pktDataLength >>  0) & 0xff);
+    data.push_back((pktDataLength >>  8) & 0xff);
+    data.push_back((pktDataLength >> 16) & 0xff);
+    data.push_back((pktDataLength >> 24) & 0xff);
+    data.push_back((reservedMostPkt5 >>  0) & 0xff);
+    data.push_back((reservedMostPkt5 >>  8) & 0xff);
+    data.push_back((reservedMostPkt5 >> 16) & 0xff);
+    data.push_back((reservedMostPkt5 >> 24) & 0xff);
+    data.insert(std::end(data), std::begin(pktData), std::end(pktData));
 }
 
 DWORD MostPkt2::calculateObjectSize() const {

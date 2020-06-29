@@ -28,18 +28,35 @@ DriverOverrun::DriverOverrun() :
     ObjectHeader(ObjectType::OVERRUN_ERROR) {
 }
 
-void DriverOverrun::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&busType), sizeof(busType));
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&reservedDriverOverrun), sizeof(reservedDriverOverrun));
+std::vector<uint8_t>::iterator DriverOverrun::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+
+    busType =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    reservedDriverOverrun =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+
+    return it;
 }
 
-void DriverOverrun::write(RawFile & os) {
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&busType), sizeof(busType));
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&reservedDriverOverrun), sizeof(reservedDriverOverrun));
+void DriverOverrun::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
+
+    data.push_back((busType >>  0) & 0xff);
+    data.push_back((busType >>  8) & 0xff);
+    data.push_back((busType >> 16) & 0xff);
+    data.push_back((busType >> 24) & 0xff);
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((reservedDriverOverrun >>  0) & 0xff);
+    data.push_back((reservedDriverOverrun >>  8) & 0xff);
 }
 
 DWORD DriverOverrun::calculateObjectSize() const {

@@ -30,15 +30,18 @@ DWORD CompactSerialEvent::calculateObjectSize() const {
         static_cast<DWORD>(compactData.size());
 }
 
-void CompactSerialEvent::read(RawFile & is) {
-    is.read(reinterpret_cast<char *>(&compactLength), sizeof(compactLength));
-    is.read(reinterpret_cast<char *>(compactData.data()), static_cast<std::streamsize>(compactData.size()));
-    // @note might be extended in future versions
+std::vector<uint8_t>::iterator CompactSerialEvent::fromData(std::vector<uint8_t>::iterator it) {
+    compactLength =
+            (static_cast<BYTE>(*it++) <<  0);
+    std::copy(it, it + compactData.size(), std::begin(compactData));
+    it += compactData.size();
+
+    return it;
 }
 
-void CompactSerialEvent::write(RawFile & os) {
-    os.write(reinterpret_cast<char *>(&compactLength), sizeof(compactLength));
-    os.write(reinterpret_cast<char *>(&compactData), sizeof(compactData));
+void CompactSerialEvent::toData(std::vector<uint8_t> & data) {
+    data.push_back((compactLength >>  0) & 0xff);
+    data.insert(std::end(data), std::begin(this->compactData), std::end(this->compactData));
 }
 
 }

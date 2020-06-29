@@ -28,45 +28,68 @@ SerialEvent::SerialEvent() :
     ObjectHeader(ObjectType::SERIAL_EVENT) {
 }
 
-void SerialEvent::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
-    is.read(reinterpret_cast<char *>(&port), sizeof(port));
-    is.read(reinterpret_cast<char *>(&baudrate), sizeof(baudrate));
-    is.read(reinterpret_cast<char *>(&reservedSerialEvent), sizeof(reservedSerialEvent));
+std::vector<uint8_t>::iterator SerialEvent::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
 
+    flags =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    port =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    baudrate =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    reservedSerialEvent =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
     if (flags & Flags::SingleByte)
-        singleByte.read(is);
+        it = singleByte.fromData(it);
     else {
         if (flags & Flags::CompactByte)
-            compact.read(is);
+            it = compact.fromData(it);
         else
-            general.read(is);
+            it = general.fromData(it);
     }
 
-    /* skip padding */
-    is.seekg(objectSize % 4, std::ios_base::cur);
-    // @note might be extended in future versions
+    return it;
 }
 
-void SerialEvent::write(RawFile & os) {
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&flags), sizeof(flags));
-    os.write(reinterpret_cast<char *>(&port), sizeof(port));
-    os.write(reinterpret_cast<char *>(&baudrate), sizeof(baudrate));
-    os.write(reinterpret_cast<char *>(&reservedSerialEvent), sizeof(reservedSerialEvent));
+void SerialEvent::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
 
+    data.push_back((flags >>  0) & 0xff);
+    data.push_back((flags >>  8) & 0xff);
+    data.push_back((flags >> 16) & 0xff);
+    data.push_back((flags >> 24) & 0xff);
+    data.push_back((port >>  0) & 0xff);
+    data.push_back((port >>  8) & 0xff);
+    data.push_back((port >> 16) & 0xff);
+    data.push_back((port >> 24) & 0xff);
+    data.push_back((baudrate >>  0) & 0xff);
+    data.push_back((baudrate >>  8) & 0xff);
+    data.push_back((baudrate >> 16) & 0xff);
+    data.push_back((baudrate >> 24) & 0xff);
+    data.push_back((reservedSerialEvent >>  0) & 0xff);
+    data.push_back((reservedSerialEvent >>  8) & 0xff);
+    data.push_back((reservedSerialEvent >> 16) & 0xff);
+    data.push_back((reservedSerialEvent >> 24) & 0xff);
     if (flags & Flags::SingleByte)
-        singleByte.write(os);
+        singleByte.toData(data);
     else {
         if (flags & Flags::CompactByte)
-            compact.write(os);
+            compact.toData(data);
         else
-            general.write(os);
+            general.toData(data);
     }
-
-    /* skip padding */
-    os.seekp(objectSize % 4, std::ios_base::cur);
 }
 
 DWORD SerialEvent::calculateObjectSize() const {

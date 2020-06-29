@@ -28,30 +28,64 @@ FunctionBus::FunctionBus() :
     ObjectHeader(ObjectType::FUNCTION_BUS) {
 }
 
-void FunctionBus::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&functionBusObjectType), sizeof(functionBusObjectType));
-    is.read(reinterpret_cast<char *>(&veType), sizeof(veType));
-    is.read(reinterpret_cast<char *>(&nameLength), sizeof(nameLength));
-    is.read(reinterpret_cast<char *>(&dataLength), sizeof(dataLength));
+std::vector<uint8_t>::iterator FunctionBus::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+
+    functionBusObjectType =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    veType =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    nameLength =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    dataLength =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
     name.resize(nameLength);
-    is.read(&name[0], nameLength);
-    data.resize(dataLength);
-    is.read(reinterpret_cast<char *>(data.data()), dataLength);
+    std::copy(it, it + name.size(), std::begin(name));
+    it += name.size();
+    this->data.resize(dataLength);
+    std::copy(it, it + this->data.size(), std::begin(this->data));
+    it += this->data.size();
+
+    return it;
 }
 
-void FunctionBus::write(RawFile & os) {
+void FunctionBus::toData(std::vector<uint8_t> & data) {
     /* pre processing */
     nameLength = static_cast<DWORD>(name.size());
     dataLength = static_cast<DWORD>(data.size());
 
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&functionBusObjectType), sizeof(functionBusObjectType));
-    os.write(reinterpret_cast<char *>(&veType), sizeof(veType));
-    os.write(reinterpret_cast<char *>(&nameLength), sizeof(nameLength));
-    os.write(reinterpret_cast<char *>(&dataLength), sizeof(dataLength));
-    os.write(&name[0], nameLength);
-    os.write(reinterpret_cast<char *>(data.data()), dataLength);
+    ObjectHeader::toData(data);
+
+    data.push_back((functionBusObjectType >>  0) & 0xff);
+    data.push_back((functionBusObjectType >>  8) & 0xff);
+    data.push_back((functionBusObjectType >> 16) & 0xff);
+    data.push_back((functionBusObjectType >> 24) & 0xff);
+    data.push_back((veType >>  0) & 0xff);
+    data.push_back((veType >>  8) & 0xff);
+    data.push_back((veType >> 16) & 0xff);
+    data.push_back((veType >> 24) & 0xff);
+    data.push_back((nameLength >>  0) & 0xff);
+    data.push_back((nameLength >>  8) & 0xff);
+    data.push_back((nameLength >> 16) & 0xff);
+    data.push_back((nameLength >> 24) & 0xff);
+    data.push_back((dataLength >>  0) & 0xff);
+    data.push_back((dataLength >>  8) & 0xff);
+    data.push_back((dataLength >> 16) & 0xff);
+    data.push_back((dataLength >> 24) & 0xff);
+    data.insert(std::end(data), std::begin(name), std::end(name));
+    data.insert(std::end(data), std::begin(this->data), std::end(this->data));
 }
 
 DWORD FunctionBus::calculateObjectSize() const {

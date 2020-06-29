@@ -28,42 +28,76 @@ EthernetFrame::EthernetFrame() :
     ObjectHeader(ObjectType::ETHERNET_FRAME) {
 }
 
-void EthernetFrame::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(sourceAddress.data()), static_cast<std::streamsize>(sourceAddress.size()));
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(destinationAddress.data()), static_cast<std::streamsize>(destinationAddress.size()));
-    is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
-    is.read(reinterpret_cast<char *>(&type), sizeof(type));
-    is.read(reinterpret_cast<char *>(&tpid), sizeof(tpid));
-    is.read(reinterpret_cast<char *>(&tci), sizeof(tci));
-    is.read(reinterpret_cast<char *>(&payLoadLength), sizeof(payLoadLength));
-    is.read(reinterpret_cast<char *>(&reservedEthernetFrame), sizeof(reservedEthernetFrame));
-    payLoad.resize(payLoadLength);
-    is.read(reinterpret_cast<char *>(payLoad.data()), payLoadLength);
+std::vector<uint8_t>::iterator EthernetFrame::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
 
-    /* skip padding */
-    is.seekg(objectSize % 4, std::ios_base::cur);
+    std::copy(it, it + sourceAddress.size(), std::begin(sourceAddress));
+    it += sourceAddress.size();
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    std::copy(it, it + destinationAddress.size(), std::begin(destinationAddress));
+    it += destinationAddress.size();
+    dir =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    type =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    tpid =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    tci =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    payLoadLength =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    reservedEthernetFrame =
+            (static_cast<ULONGLONG>(*it++) <<  0) |
+            (static_cast<ULONGLONG>(*it++) <<  8) |
+            (static_cast<ULONGLONG>(*it++) << 16) |
+            (static_cast<ULONGLONG>(*it++) << 24) |
+            (static_cast<ULONGLONG>(*it++) << 32) |
+            (static_cast<ULONGLONG>(*it++) << 40) |
+            (static_cast<ULONGLONG>(*it++) << 48) |
+            (static_cast<ULONGLONG>(*it++) << 56);
+    payLoad.resize(payLoadLength);
+    std::copy(it, it + payLoad.size(), std::begin(payLoad));
+    it += payLoad.size();
+
+    return it;
 }
 
-void EthernetFrame::write(RawFile & os) {
+void EthernetFrame::toData(std::vector<uint8_t> & data) {
     /* pre processing */
     payLoadLength = static_cast<WORD>(payLoad.size());
 
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(sourceAddress.data()), static_cast<std::streamsize>(sourceAddress.size()));
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(destinationAddress.data()), static_cast<std::streamsize>(destinationAddress.size()));
-    os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
-    os.write(reinterpret_cast<char *>(&type), sizeof(type));
-    os.write(reinterpret_cast<char *>(&tpid), sizeof(tpid));
-    os.write(reinterpret_cast<char *>(&tci), sizeof(tci));
-    os.write(reinterpret_cast<char *>(&payLoadLength), sizeof(payLoadLength));
-    os.write(reinterpret_cast<char *>(&reservedEthernetFrame), sizeof(reservedEthernetFrame));
-    os.write(reinterpret_cast<char *>(payLoad.data()), payLoadLength);
+    ObjectHeader::toData(data);
 
-    /* skip padding */
-    os.seekp(objectSize % 4, std::ios_base::cur);
+    data.insert(std::end(data), std::begin(sourceAddress), std::end(sourceAddress));
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.insert(std::end(data), std::begin(destinationAddress), std::end(destinationAddress));
+    data.push_back((dir >>  0) & 0xff);
+    data.push_back((dir >>  8) & 0xff);
+    data.push_back((type >>  0) & 0xff);
+    data.push_back((type >>  8) & 0xff);
+    data.push_back((tpid >>  0) & 0xff);
+    data.push_back((tpid >>  8) & 0xff);
+    data.push_back((tci >>  0) & 0xff);
+    data.push_back((tci >>  8) & 0xff);
+    data.push_back((payLoadLength >>  0) & 0xff);
+    data.push_back((payLoadLength >>  8) & 0xff);
+    data.push_back((reservedEthernetFrame >>  0) & 0xff);
+    data.push_back((reservedEthernetFrame >>  8) & 0xff);
+    data.push_back((reservedEthernetFrame >> 16) & 0xff);
+    data.push_back((reservedEthernetFrame >> 24) & 0xff);
+    data.push_back((reservedEthernetFrame >> 32) & 0xff);
+    data.push_back((reservedEthernetFrame >> 40) & 0xff);
+    data.push_back((reservedEthernetFrame >> 48) & 0xff);
+    data.push_back((reservedEthernetFrame >> 56) & 0xff);
+    data.insert(std::end(data), std::begin(payLoad), std::end(payLoad));
 }
 
 DWORD EthernetFrame::calculateObjectSize() const {

@@ -28,43 +28,98 @@ LinReceiveError2::LinReceiveError2() :
     ObjectHeader(ObjectType::LIN_RCV_ERROR2, 1) {
 }
 
-void LinReceiveError2::read(RawFile & is) {
-    ObjectHeader::read(is);
-    LinDatabyteTimestampEvent::read(is);
-    is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
-    is.read(reinterpret_cast<char *>(&fsmId), sizeof(fsmId));
-    is.read(reinterpret_cast<char *>(&fsmState), sizeof(fsmState));
-    is.read(reinterpret_cast<char *>(&stateReason), sizeof(stateReason));
-    is.read(reinterpret_cast<char *>(&offendingByte), sizeof(offendingByte));
-    is.read(reinterpret_cast<char *>(&shortError), sizeof(shortError));
-    is.read(reinterpret_cast<char *>(&timeoutDuringDlcDetection), sizeof(timeoutDuringDlcDetection));
-    is.read(reinterpret_cast<char *>(&isEtf), sizeof(isEtf));
-    is.read(reinterpret_cast<char *>(&hasDatabytes), sizeof(hasDatabytes));
-    is.read(reinterpret_cast<char *>(&respBaudrate), sizeof(respBaudrate));
-    is.read(reinterpret_cast<char *>(&reservedLinReceiveError), sizeof(reservedLinReceiveError));
-    is.read(reinterpret_cast<char *>(&exactHeaderBaudrate), sizeof(exactHeaderBaudrate));
-    is.read(reinterpret_cast<char *>(&earlyStopbitOffset), sizeof(earlyStopbitOffset));
-    is.read(reinterpret_cast<char *>(&earlyStopbitOffsetResponse), sizeof(earlyStopbitOffsetResponse));
-    // @note might be extended in future versions
+std::vector<uint8_t>::iterator LinReceiveError2::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+    it = LinDatabyteTimestampEvent::fromData(it);
+
+    std::copy(it, it + this->data.size(), std::begin(data));
+    it += this->data.size();
+    fsmId =
+            (static_cast<BYTE>(*it++) <<  0);
+    fsmState =
+            (static_cast<BYTE>(*it++) <<  0);
+    stateReason =
+            (static_cast<BYTE>(*it++) <<  0);
+    offendingByte =
+            (static_cast<BYTE>(*it++) <<  0);
+    shortError =
+            (static_cast<BYTE>(*it++) <<  0);
+    timeoutDuringDlcDetection =
+            (static_cast<BYTE>(*it++) <<  0);
+    isEtf =
+            (static_cast<BYTE>(*it++) <<  0);
+    hasDatabytes =
+            (static_cast<BYTE>(*it++) <<  0);
+    respBaudrate =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    reservedLinReceiveError =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    exactHeaderBaudrate =
+            (static_cast<uint64_t>(*it++) <<  0) |
+            (static_cast<uint64_t>(*it++) <<  8) |
+            (static_cast<uint64_t>(*it++) << 16) |
+            (static_cast<uint64_t>(*it++) << 24) |
+            (static_cast<uint64_t>(*it++) << 32) |
+            (static_cast<uint64_t>(*it++) << 40) |
+            (static_cast<uint64_t>(*it++) << 48) |
+            (static_cast<uint64_t>(*it++) << 56);
+    earlyStopbitOffset =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    earlyStopbitOffsetResponse =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+
+    return it;
 }
 
-void LinReceiveError2::write(RawFile & os) {
-    ObjectHeader::write(os);
-    LinDatabyteTimestampEvent::write(os);
-    os.write(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
-    os.write(reinterpret_cast<char *>(&fsmId), sizeof(fsmId));
-    os.write(reinterpret_cast<char *>(&fsmState), sizeof(fsmState));
-    os.write(reinterpret_cast<char *>(&stateReason), sizeof(stateReason));
-    os.write(reinterpret_cast<char *>(&offendingByte), sizeof(offendingByte));
-    os.write(reinterpret_cast<char *>(&shortError), sizeof(shortError));
-    os.write(reinterpret_cast<char *>(&timeoutDuringDlcDetection), sizeof(timeoutDuringDlcDetection));
-    os.write(reinterpret_cast<char *>(&isEtf), sizeof(isEtf));
-    os.write(reinterpret_cast<char *>(&hasDatabytes), sizeof(hasDatabytes));
-    os.write(reinterpret_cast<char *>(&respBaudrate), sizeof(respBaudrate));
-    os.write(reinterpret_cast<char *>(&reservedLinReceiveError), sizeof(reservedLinReceiveError));
-    os.write(reinterpret_cast<char *>(&exactHeaderBaudrate), sizeof(exactHeaderBaudrate));
-    os.write(reinterpret_cast<char *>(&earlyStopbitOffset), sizeof(earlyStopbitOffset));
-    os.write(reinterpret_cast<char *>(&earlyStopbitOffsetResponse), sizeof(earlyStopbitOffsetResponse));
+void LinReceiveError2::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
+    LinDatabyteTimestampEvent::toData(data);
+
+    data.insert(std::end(data), std::begin(this->data), std::end(this->data));
+    data.push_back((fsmId >>  0) & 0xff);
+    data.push_back((fsmState >>  0) & 0xff);
+    data.push_back((stateReason >>  0) & 0xff);
+    data.push_back((offendingByte >>  0) & 0xff);
+    data.push_back((shortError >>  0) & 0xff);
+    data.push_back((timeoutDuringDlcDetection >>  0) & 0xff);
+    data.push_back((isEtf >>  0) & 0xff);
+    data.push_back((hasDatabytes >>  0) & 0xff);
+    data.push_back((respBaudrate >>  0) & 0xff);
+    data.push_back((respBaudrate >>  8) & 0xff);
+    data.push_back((respBaudrate >> 16) & 0xff);
+    data.push_back((respBaudrate >> 24) & 0xff);
+    data.push_back((reservedLinReceiveError >>  0) & 0xff);
+    data.push_back((reservedLinReceiveError >>  8) & 0xff);
+    data.push_back((reservedLinReceiveError >> 16) & 0xff);
+    data.push_back((reservedLinReceiveError >> 24) & 0xff);
+    data.push_back((static_cast<uint64_t>(exactHeaderBaudrate) >>  0) & 0xff);
+    data.push_back((static_cast<uint64_t>(exactHeaderBaudrate) >>  8) & 0xff);
+    data.push_back((static_cast<uint64_t>(exactHeaderBaudrate) >> 16) & 0xff);
+    data.push_back((static_cast<uint64_t>(exactHeaderBaudrate) >> 24) & 0xff);
+    data.push_back((static_cast<uint64_t>(exactHeaderBaudrate) >> 32) & 0xff);
+    data.push_back((static_cast<uint64_t>(exactHeaderBaudrate) >> 40) & 0xff);
+    data.push_back((static_cast<uint64_t>(exactHeaderBaudrate) >> 48) & 0xff);
+    data.push_back((static_cast<uint64_t>(exactHeaderBaudrate) >> 56) & 0xff);
+    data.push_back((earlyStopbitOffset >>  0) & 0xff);
+    data.push_back((earlyStopbitOffset >>  8) & 0xff);
+    data.push_back((earlyStopbitOffset >> 16) & 0xff);
+    data.push_back((earlyStopbitOffset >> 24) & 0xff);
+    data.push_back((earlyStopbitOffsetResponse >>  0) & 0xff);
+    data.push_back((earlyStopbitOffsetResponse >>  8) & 0xff);
+    data.push_back((earlyStopbitOffsetResponse >> 16) & 0xff);
+    data.push_back((earlyStopbitOffsetResponse >> 24) & 0xff);
 }
 
 DWORD LinReceiveError2::calculateObjectSize() const {

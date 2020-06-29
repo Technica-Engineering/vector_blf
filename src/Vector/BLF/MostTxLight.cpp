@@ -28,18 +28,35 @@ MostTxLight::MostTxLight() :
     ObjectHeader2(ObjectType::MOST_TXLIGHT) {
 }
 
-void MostTxLight::read(RawFile & is) {
-    ObjectHeader2::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&state), sizeof(state));
-    is.read(reinterpret_cast<char *>(&reservedMostTxLight), sizeof(reservedMostTxLight));
+std::vector<uint8_t>::iterator MostTxLight::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader2::fromData(it);
+
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    state =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    reservedMostTxLight =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+
+    return it;
 }
 
-void MostTxLight::write(RawFile & os) {
-    ObjectHeader2::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&state), sizeof(state));
-    os.write(reinterpret_cast<char *>(&reservedMostTxLight), sizeof(reservedMostTxLight));
+void MostTxLight::toData(std::vector<uint8_t> & data) {
+    ObjectHeader2::toData(data);
+
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((state >>  0) & 0xff);
+    data.push_back((state >>  8) & 0xff);
+    data.push_back((reservedMostTxLight >>  0) & 0xff);
+    data.push_back((reservedMostTxLight >>  8) & 0xff);
+    data.push_back((reservedMostTxLight >> 16) & 0xff);
+    data.push_back((reservedMostTxLight >> 24) & 0xff);
 }
 
 DWORD MostTxLight::calculateObjectSize() const {

@@ -28,20 +28,36 @@ MostHwMode::MostHwMode() :
     ObjectHeader2(ObjectType::MOST_HWMODE) {
 }
 
-void MostHwMode::read(RawFile & is) {
-    ObjectHeader2::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&reservedMostHwMode), sizeof(reservedMostHwMode));
-    is.read(reinterpret_cast<char *>(&hwMode), sizeof(hwMode));
-    is.read(reinterpret_cast<char *>(&hwModeMask), sizeof(hwModeMask));
+std::vector<uint8_t>::iterator MostHwMode::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader2::fromData(it);
+
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    reservedMostHwMode =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    hwMode =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    hwModeMask =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+
+    return it;
 }
 
-void MostHwMode::write(RawFile & os) {
-    ObjectHeader2::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&reservedMostHwMode), sizeof(reservedMostHwMode));
-    os.write(reinterpret_cast<char *>(&hwMode), sizeof(hwMode));
-    os.write(reinterpret_cast<char *>(&hwModeMask), sizeof(hwModeMask));
+void MostHwMode::toData(std::vector<uint8_t> & data) {
+    ObjectHeader2::toData(data);
+
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((reservedMostHwMode >>  0) & 0xff);
+    data.push_back((reservedMostHwMode >>  8) & 0xff);
+    data.push_back((hwMode >>  0) & 0xff);
+    data.push_back((hwMode >>  8) & 0xff);
+    data.push_back((hwModeMask >>  0) & 0xff);
+    data.push_back((hwModeMask >>  8) & 0xff);
 }
 
 DWORD MostHwMode::calculateObjectSize() const {

@@ -54,7 +54,7 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/EthernetStatus.h
         ${CMAKE_CURRENT_SOURCE_DIR}/EventComment.h
         ${CMAKE_CURRENT_SOURCE_DIR}/Exceptions.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/File.h
+        #${CMAKE_CURRENT_SOURCE_DIR}/File.h
         ${CMAKE_CURRENT_SOURCE_DIR}/FileStatistics.h
         ${CMAKE_CURRENT_SOURCE_DIR}/FlexRayData.h
         ${CMAKE_CURRENT_SOURCE_DIR}/FlexRayStatusEvent.h
@@ -136,15 +136,15 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/ObjectHeader.h
         ${CMAKE_CURRENT_SOURCE_DIR}/ObjectType.h
         ${CMAKE_CURRENT_SOURCE_DIR}/platform.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/RawCompressedFile.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/RawFile.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/RawUncompressedFile.h
+        #${CMAKE_CURRENT_SOURCE_DIR}/RawCompressedFile.h
+        #${CMAKE_CURRENT_SOURCE_DIR}/RawFile.h
+        #${CMAKE_CURRENT_SOURCE_DIR}/RawUncompressedFile.h
         ${CMAKE_CURRENT_SOURCE_DIR}/RealtimeClock.h
         ${CMAKE_CURRENT_SOURCE_DIR}/SerialEvent.h
         ${CMAKE_CURRENT_SOURCE_DIR}/SingleByteSerialEvent.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/StructuredCompressedFile.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/StructuredFile.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/StructuredUncompressedFile.h
+        #${CMAKE_CURRENT_SOURCE_DIR}/StructuredCompressedFile.h
+        #${CMAKE_CURRENT_SOURCE_DIR}/StructuredFile.h
+        #${CMAKE_CURRENT_SOURCE_DIR}/StructuredUncompressedFile.h
         ${CMAKE_CURRENT_SOURCE_DIR}/SystemVariable.h
         ${CMAKE_CURRENT_SOURCE_DIR}/TestStructure.h
         ${CMAKE_CURRENT_SOURCE_DIR}/TriggerCondition.h
@@ -195,7 +195,7 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/EthernetStatistic.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/EthernetStatus.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/EventComment.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/File.cpp
+        #${CMAKE_CURRENT_SOURCE_DIR}/File.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/FileStatistics.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/FlexRayData.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/FlexRayStatusEvent.cpp
@@ -275,13 +275,13 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/ObjectHeader2.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/ObjectHeaderBase.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/ObjectHeader.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/RawCompressedFile.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/RawUncompressedFile.cpp
+        #${CMAKE_CURRENT_SOURCE_DIR}/RawCompressedFile.cpp
+        #${CMAKE_CURRENT_SOURCE_DIR}/RawUncompressedFile.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/RealtimeClock.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/SerialEvent.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/SingleByteSerialEvent.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/StructuredCompressedFile.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/StructuredUncompressedFile.cpp
+        #${CMAKE_CURRENT_SOURCE_DIR}/StructuredCompressedFile.cpp
+        #${CMAKE_CURRENT_SOURCE_DIR}/StructuredUncompressedFile.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/SystemVariable.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/TestStructure.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/TriggerCondition.cpp

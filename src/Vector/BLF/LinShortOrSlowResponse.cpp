@@ -28,25 +28,39 @@ LinShortOrSlowResponse::LinShortOrSlowResponse() :
     ObjectHeader(ObjectType::LIN_SHORT_OR_SLOW_RESPONSE) {
 }
 
-void LinShortOrSlowResponse::read(RawFile & is) {
-    ObjectHeader::read(is);
-    LinDatabyteTimestampEvent::read(is);
-    is.read(reinterpret_cast<char *>(&numberOfRespBytes), sizeof(numberOfRespBytes));
-    is.read(reinterpret_cast<char *>(respBytes.data()), static_cast<std::streamsize>(respBytes.size()));
-    is.read(reinterpret_cast<char *>(&slowResponse), sizeof(slowResponse));
-    is.read(reinterpret_cast<char *>(&interruptedByBreak), sizeof(interruptedByBreak));
-    is.read(reinterpret_cast<char *>(&reservedLinShortOrSlowResponse), sizeof(reservedLinShortOrSlowResponse));
-    // @note might be extended in future versions
+std::vector<uint8_t>::iterator LinShortOrSlowResponse::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+    it = LinDatabyteTimestampEvent::fromData(it);
+
+    numberOfRespBytes =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
+    std::copy(it, it + respBytes.size(), std::begin(respBytes));
+    it += respBytes.size();
+    slowResponse =
+            (static_cast<BYTE>(*it++) <<  0);
+    interruptedByBreak =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedLinShortOrSlowResponse =
+            (static_cast<BYTE>(*it++) <<  0);
+
+    return it;
 }
 
-void LinShortOrSlowResponse::write(RawFile & os) {
-    ObjectHeader::write(os);
-    LinDatabyteTimestampEvent::write(os);
-    os.write(reinterpret_cast<char *>(&numberOfRespBytes), sizeof(numberOfRespBytes));
-    os.write(reinterpret_cast<char *>(respBytes.data()), static_cast<std::streamsize>(respBytes.size()));
-    os.write(reinterpret_cast<char *>(&slowResponse), sizeof(slowResponse));
-    os.write(reinterpret_cast<char *>(&interruptedByBreak), sizeof(interruptedByBreak));
-    os.write(reinterpret_cast<char *>(&reservedLinShortOrSlowResponse), sizeof(reservedLinShortOrSlowResponse));
+void LinShortOrSlowResponse::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
+    LinDatabyteTimestampEvent::toData(data);
+
+    data.push_back((numberOfRespBytes >>  0) & 0xff);
+    data.push_back((numberOfRespBytes >>  8) & 0xff);
+    data.push_back((numberOfRespBytes >> 16) & 0xff);
+    data.push_back((numberOfRespBytes >> 24) & 0xff);
+    data.insert(std::end(data), std::begin(respBytes), std::end(respBytes));
+    data.push_back((slowResponse >>  0) & 0xff);
+    data.push_back((interruptedByBreak >>  0) & 0xff);
+    data.push_back((reservedLinShortOrSlowResponse >>  0) & 0xff);
 }
 
 DWORD LinShortOrSlowResponse::calculateObjectSize() const {

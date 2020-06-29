@@ -28,28 +28,58 @@ MostReg::MostReg() :
     ObjectHeader2(ObjectType::MOST_REG) {
 }
 
-void MostReg::read(RawFile & is) {
-    ObjectHeader2::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&subType), sizeof(subType));
-    is.read(reinterpret_cast<char *>(&reservedMostReg), sizeof(reservedMostReg));
-    is.read(reinterpret_cast<char *>(&handle), sizeof(handle));
-    is.read(reinterpret_cast<char *>(&offset), sizeof(offset));
-    is.read(reinterpret_cast<char *>(&chip), sizeof(chip));
-    is.read(reinterpret_cast<char *>(&regDataLen), sizeof(regDataLen));
-    is.read(reinterpret_cast<char *>(regData.data()), static_cast<std::streamsize>(regData.size()));
+std::vector<uint8_t>::iterator MostReg::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader2::fromData(it);
+
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    subType =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedMostReg =
+            (static_cast<BYTE>(*it++) <<  0);
+    handle =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    offset =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    chip =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    regDataLen =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    std::copy(it, it + regData.size(), std::begin(regData));
+    it += regData.size();
+
+    return it;
 }
 
-void MostReg::write(RawFile & os) {
-    ObjectHeader2::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&subType), sizeof(subType));
-    os.write(reinterpret_cast<char *>(&reservedMostReg), sizeof(reservedMostReg));
-    os.write(reinterpret_cast<char *>(&handle), sizeof(handle));
-    os.write(reinterpret_cast<char *>(&offset), sizeof(offset));
-    os.write(reinterpret_cast<char *>(&chip), sizeof(chip));
-    os.write(reinterpret_cast<char *>(&regDataLen), sizeof(regDataLen));
-    os.write(reinterpret_cast<char *>(regData.data()), static_cast<std::streamsize>(regData.size()));
+void MostReg::toData(std::vector<uint8_t> & data) {
+    ObjectHeader2::toData(data);
+
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((subType >>  0) & 0xff);
+    data.push_back((reservedMostReg >>  0) & 0xff);
+    data.push_back((handle >>  0) & 0xff);
+    data.push_back((handle >>  8) & 0xff);
+    data.push_back((handle >> 16) & 0xff);
+    data.push_back((handle >> 24) & 0xff);
+    data.push_back((offset >>  0) & 0xff);
+    data.push_back((offset >>  8) & 0xff);
+    data.push_back((offset >> 16) & 0xff);
+    data.push_back((offset >> 24) & 0xff);
+    data.push_back((chip >>  0) & 0xff);
+    data.push_back((chip >>  8) & 0xff);
+    data.push_back((regDataLen >>  0) & 0xff);
+    data.push_back((regDataLen >>  8) & 0xff);
+    data.insert(std::end(data), std::begin(regData), std::end(regData));
 }
 
 DWORD MostReg::calculateObjectSize() const {

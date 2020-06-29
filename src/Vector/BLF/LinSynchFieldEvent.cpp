@@ -24,16 +24,50 @@
 namespace Vector {
 namespace BLF {
 
-void LinSynchFieldEvent::read(RawFile & is) {
-    LinBusEvent::read(is);
-    is.read(reinterpret_cast<char *>(&synchBreakLength), sizeof(synchBreakLength));
-    is.read(reinterpret_cast<char *>(&synchDelLength), sizeof(synchDelLength));
+std::vector<uint8_t>::iterator LinSynchFieldEvent::fromData(std::vector<uint8_t>::iterator it) {
+    it = LinBusEvent::fromData(it);
+
+    synchBreakLength =
+            (static_cast<ULONGLONG>(*it++) <<  0) |
+            (static_cast<ULONGLONG>(*it++) <<  8) |
+            (static_cast<ULONGLONG>(*it++) << 16) |
+            (static_cast<ULONGLONG>(*it++) << 24) |
+            (static_cast<ULONGLONG>(*it++) << 32) |
+            (static_cast<ULONGLONG>(*it++) << 40) |
+            (static_cast<ULONGLONG>(*it++) << 48) |
+            (static_cast<ULONGLONG>(*it++) << 56);
+    synchDelLength =
+            (static_cast<ULONGLONG>(*it++) <<  0) |
+            (static_cast<ULONGLONG>(*it++) <<  8) |
+            (static_cast<ULONGLONG>(*it++) << 16) |
+            (static_cast<ULONGLONG>(*it++) << 24) |
+            (static_cast<ULONGLONG>(*it++) << 32) |
+            (static_cast<ULONGLONG>(*it++) << 40) |
+            (static_cast<ULONGLONG>(*it++) << 48) |
+            (static_cast<ULONGLONG>(*it++) << 56);
+
+    return it;
 }
 
-void LinSynchFieldEvent::write(RawFile & os) {
-    LinBusEvent::write(os);
-    os.write(reinterpret_cast<char *>(&synchBreakLength), sizeof(synchBreakLength));
-    os.write(reinterpret_cast<char *>(&synchDelLength), sizeof(synchDelLength));
+void LinSynchFieldEvent::toData(std::vector<uint8_t> & data) {
+    LinBusEvent::toData(data);
+
+    data.push_back((synchBreakLength >>  0) & 0xff);
+    data.push_back((synchBreakLength >>  8) & 0xff);
+    data.push_back((synchBreakLength >> 16) & 0xff);
+    data.push_back((synchBreakLength >> 24) & 0xff);
+    data.push_back((synchBreakLength >> 32) & 0xff);
+    data.push_back((synchBreakLength >> 40) & 0xff);
+    data.push_back((synchBreakLength >> 48) & 0xff);
+    data.push_back((synchBreakLength >> 56) & 0xff);
+    data.push_back((synchDelLength >>  0) & 0xff);
+    data.push_back((synchDelLength >>  8) & 0xff);
+    data.push_back((synchDelLength >> 16) & 0xff);
+    data.push_back((synchDelLength >> 24) & 0xff);
+    data.push_back((synchDelLength >> 32) & 0xff);
+    data.push_back((synchDelLength >> 40) & 0xff);
+    data.push_back((synchDelLength >> 48) & 0xff);
+    data.push_back((synchDelLength >> 56) & 0xff);
 }
 
 DWORD LinSynchFieldEvent::calculateObjectSize() const {

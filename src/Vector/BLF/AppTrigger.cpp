@@ -28,22 +28,69 @@ AppTrigger::AppTrigger() :
     ObjectHeader(ObjectType::APP_TRIGGER) {
 }
 
-void AppTrigger::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&preTriggerTime), sizeof(preTriggerTime));
-    is.read(reinterpret_cast<char *>(&postTriggerTime), sizeof(postTriggerTime));
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
-    is.read(reinterpret_cast<char *>(&appSpecific2), sizeof(appSpecific2));
+std::vector<uint8_t>::iterator AppTrigger::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+
+    preTriggerTime =
+            (static_cast<ULONGLONG>(*it++) <<  0) |
+            (static_cast<ULONGLONG>(*it++) <<  8) |
+            (static_cast<ULONGLONG>(*it++) << 16) |
+            (static_cast<ULONGLONG>(*it++) << 24) |
+            (static_cast<ULONGLONG>(*it++) << 32) |
+            (static_cast<ULONGLONG>(*it++) << 40) |
+            (static_cast<ULONGLONG>(*it++) << 48) |
+            (static_cast<ULONGLONG>(*it++) << 56);
+    postTriggerTime =
+            (static_cast<ULONGLONG>(*it++) <<  0) |
+            (static_cast<ULONGLONG>(*it++) <<  8) |
+            (static_cast<ULONGLONG>(*it++) << 16) |
+            (static_cast<ULONGLONG>(*it++) << 24) |
+            (static_cast<ULONGLONG>(*it++) << 32) |
+            (static_cast<ULONGLONG>(*it++) << 40) |
+            (static_cast<ULONGLONG>(*it++) << 48) |
+            (static_cast<ULONGLONG>(*it++) << 56);
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    flags =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    appSpecific2 =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+
+    return it;
 }
 
-void AppTrigger::write(RawFile & os) {
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&preTriggerTime), sizeof(preTriggerTime));
-    os.write(reinterpret_cast<char *>(&postTriggerTime), sizeof(postTriggerTime));
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&flags), sizeof(flags));
-    os.write(reinterpret_cast<char *>(&appSpecific2), sizeof(appSpecific2));
+void AppTrigger::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
+
+    data.push_back((preTriggerTime >>  0) & 0xff);
+    data.push_back((preTriggerTime >>  8) & 0xff);
+    data.push_back((preTriggerTime >> 16) & 0xff);
+    data.push_back((preTriggerTime >> 24) & 0xff);
+    data.push_back((preTriggerTime >> 32) & 0xff);
+    data.push_back((preTriggerTime >> 40) & 0xff);
+    data.push_back((preTriggerTime >> 48) & 0xff);
+    data.push_back((preTriggerTime >> 56) & 0xff);
+    data.push_back((postTriggerTime >>  0) & 0xff);
+    data.push_back((postTriggerTime >>  8) & 0xff);
+    data.push_back((postTriggerTime >> 16) & 0xff);
+    data.push_back((postTriggerTime >> 24) & 0xff);
+    data.push_back((postTriggerTime >> 32) & 0xff);
+    data.push_back((postTriggerTime >> 40) & 0xff);
+    data.push_back((postTriggerTime >> 48) & 0xff);
+    data.push_back((postTriggerTime >> 56) & 0xff);
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((flags >>  0) & 0xff);
+    data.push_back((flags >>  8) & 0xff);
+    data.push_back((appSpecific2 >>  0) & 0xff);
+    data.push_back((appSpecific2 >>  8) & 0xff);
+    data.push_back((appSpecific2 >> 16) & 0xff);
+    data.push_back((appSpecific2 >> 24) & 0xff);
 }
 
 DWORD AppTrigger::calculateObjectSize() const {

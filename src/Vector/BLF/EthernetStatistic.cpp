@@ -28,38 +28,173 @@ EthernetStatistic::EthernetStatistic() :
     ObjectHeader(ObjectType::ETHERNET_STATISTIC) {
 }
 
-void EthernetStatistic::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&reservedEthernetStatistic1), sizeof(reservedEthernetStatistic1));
-    is.read(reinterpret_cast<char *>(&reservedEthernetStatistic2), sizeof(reservedEthernetStatistic2));
-    is.read(reinterpret_cast<char *>(&rcvOk_HW), sizeof(rcvOk_HW));
-    is.read(reinterpret_cast<char *>(&xmitOk_HW), sizeof(xmitOk_HW));
-    is.read(reinterpret_cast<char *>(&rcvError_HW), sizeof(rcvError_HW));
-    is.read(reinterpret_cast<char *>(&xmitError_HW), sizeof(xmitError_HW));
-    is.read(reinterpret_cast<char *>(&rcvBytes_HW), sizeof(rcvBytes_HW));
-    is.read(reinterpret_cast<char *>(&xmitBytes_HW), sizeof(xmitBytes_HW));
-    is.read(reinterpret_cast<char *>(&rcvNoBuffer_HW), sizeof(rcvNoBuffer_HW));
-    is.read(reinterpret_cast<char *>(&sqi), sizeof(sqi));
-    is.read(reinterpret_cast<char *>(&hardwareChannel), sizeof(hardwareChannel));
-    is.read(reinterpret_cast<char *>(&reservedEthernetStatistic3), sizeof(reservedEthernetStatistic3));
+std::vector<uint8_t>::iterator EthernetStatistic::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    reservedEthernetStatistic1 =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    reservedEthernetStatistic2 =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+    rcvOk_HW =
+            (static_cast<UINT64>(*it++) <<  0) |
+            (static_cast<UINT64>(*it++) <<  8) |
+            (static_cast<UINT64>(*it++) << 16) |
+            (static_cast<UINT64>(*it++) << 24) |
+            (static_cast<UINT64>(*it++) << 32) |
+            (static_cast<UINT64>(*it++) << 40) |
+            (static_cast<UINT64>(*it++) << 48) |
+            (static_cast<UINT64>(*it++) << 56);
+    xmitOk_HW =
+            (static_cast<UINT64>(*it++) <<  0) |
+            (static_cast<UINT64>(*it++) <<  8) |
+            (static_cast<UINT64>(*it++) << 16) |
+            (static_cast<UINT64>(*it++) << 24) |
+            (static_cast<UINT64>(*it++) << 32) |
+            (static_cast<UINT64>(*it++) << 40) |
+            (static_cast<UINT64>(*it++) << 48) |
+            (static_cast<UINT64>(*it++) << 56);
+    rcvError_HW =
+            (static_cast<UINT64>(*it++) <<  0) |
+            (static_cast<UINT64>(*it++) <<  8) |
+            (static_cast<UINT64>(*it++) << 16) |
+            (static_cast<UINT64>(*it++) << 24) |
+            (static_cast<UINT64>(*it++) << 32) |
+            (static_cast<UINT64>(*it++) << 40) |
+            (static_cast<UINT64>(*it++) << 48) |
+            (static_cast<UINT64>(*it++) << 56);
+    xmitError_HW =
+            (static_cast<UINT64>(*it++) <<  0) |
+            (static_cast<UINT64>(*it++) <<  8) |
+            (static_cast<UINT64>(*it++) << 16) |
+            (static_cast<UINT64>(*it++) << 24) |
+            (static_cast<UINT64>(*it++) << 32) |
+            (static_cast<UINT64>(*it++) << 40) |
+            (static_cast<UINT64>(*it++) << 48) |
+            (static_cast<UINT64>(*it++) << 56);
+    rcvBytes_HW =
+            (static_cast<UINT64>(*it++) <<  0) |
+            (static_cast<UINT64>(*it++) <<  8) |
+            (static_cast<UINT64>(*it++) << 16) |
+            (static_cast<UINT64>(*it++) << 24) |
+            (static_cast<UINT64>(*it++) << 32) |
+            (static_cast<UINT64>(*it++) << 40) |
+            (static_cast<UINT64>(*it++) << 48) |
+            (static_cast<UINT64>(*it++) << 56);
+    xmitBytes_HW =
+            (static_cast<UINT64>(*it++) <<  0) |
+            (static_cast<UINT64>(*it++) <<  8) |
+            (static_cast<UINT64>(*it++) << 16) |
+            (static_cast<UINT64>(*it++) << 24) |
+            (static_cast<UINT64>(*it++) << 32) |
+            (static_cast<UINT64>(*it++) << 40) |
+            (static_cast<UINT64>(*it++) << 48) |
+            (static_cast<UINT64>(*it++) << 56);
+    rcvNoBuffer_HW =
+            (static_cast<UINT64>(*it++) <<  0) |
+            (static_cast<UINT64>(*it++) <<  8) |
+            (static_cast<UINT64>(*it++) << 16) |
+            (static_cast<UINT64>(*it++) << 24) |
+            (static_cast<UINT64>(*it++) << 32) |
+            (static_cast<UINT64>(*it++) << 40) |
+            (static_cast<UINT64>(*it++) << 48) |
+            (static_cast<UINT64>(*it++) << 56);
+    sqi =
+            (static_cast<SHORT>(*it++) <<  0) |
+            (static_cast<SHORT>(*it++) <<  8);
+    hardwareChannel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    reservedEthernetStatistic3 =
+            (static_cast<DWORD>(*it++) <<  0) |
+            (static_cast<DWORD>(*it++) <<  8) |
+            (static_cast<DWORD>(*it++) << 16) |
+            (static_cast<DWORD>(*it++) << 24);
+
+    return it;
 }
 
-void EthernetStatistic::write(RawFile & os) {
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&reservedEthernetStatistic1), sizeof(reservedEthernetStatistic1));
-    os.write(reinterpret_cast<char *>(&reservedEthernetStatistic2), sizeof(reservedEthernetStatistic2));
-    os.write(reinterpret_cast<char *>(&rcvOk_HW), sizeof(rcvOk_HW));
-    os.write(reinterpret_cast<char *>(&xmitOk_HW), sizeof(xmitOk_HW));
-    os.write(reinterpret_cast<char *>(&rcvError_HW), sizeof(rcvError_HW));
-    os.write(reinterpret_cast<char *>(&xmitError_HW), sizeof(xmitError_HW));
-    os.write(reinterpret_cast<char *>(&rcvBytes_HW), sizeof(rcvBytes_HW));
-    os.write(reinterpret_cast<char *>(&xmitBytes_HW), sizeof(xmitBytes_HW));
-    os.write(reinterpret_cast<char *>(&rcvNoBuffer_HW), sizeof(rcvNoBuffer_HW));
-    os.write(reinterpret_cast<char *>(&sqi), sizeof(sqi));
-    os.write(reinterpret_cast<char *>(&hardwareChannel), sizeof(hardwareChannel));
-    os.write(reinterpret_cast<char *>(&reservedEthernetStatistic3), sizeof(reservedEthernetStatistic3));
+void EthernetStatistic::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
+
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((reservedEthernetStatistic1 >>  0) & 0xff);
+    data.push_back((reservedEthernetStatistic1 >>  8) & 0xff);
+    data.push_back((reservedEthernetStatistic2 >>  0) & 0xff);
+    data.push_back((reservedEthernetStatistic2 >>  8) & 0xff);
+    data.push_back((reservedEthernetStatistic2 >> 16) & 0xff);
+    data.push_back((reservedEthernetStatistic2 >> 24) & 0xff);
+    data.push_back((rcvOk_HW >>  0) & 0xff);
+    data.push_back((rcvOk_HW >>  8) & 0xff);
+    data.push_back((rcvOk_HW >> 16) & 0xff);
+    data.push_back((rcvOk_HW >> 24) & 0xff);
+    data.push_back((rcvOk_HW >> 32) & 0xff);
+    data.push_back((rcvOk_HW >> 40) & 0xff);
+    data.push_back((rcvOk_HW >> 48) & 0xff);
+    data.push_back((rcvOk_HW >> 56) & 0xff);
+    data.push_back((xmitOk_HW >>  0) & 0xff);
+    data.push_back((xmitOk_HW >>  8) & 0xff);
+    data.push_back((xmitOk_HW >> 16) & 0xff);
+    data.push_back((xmitOk_HW >> 24) & 0xff);
+    data.push_back((xmitOk_HW >> 32) & 0xff);
+    data.push_back((xmitOk_HW >> 40) & 0xff);
+    data.push_back((xmitOk_HW >> 48) & 0xff);
+    data.push_back((xmitOk_HW >> 56) & 0xff);
+    data.push_back((rcvError_HW >>  0) & 0xff);
+    data.push_back((rcvError_HW >>  8) & 0xff);
+    data.push_back((rcvError_HW >> 16) & 0xff);
+    data.push_back((rcvError_HW >> 24) & 0xff);
+    data.push_back((rcvError_HW >> 32) & 0xff);
+    data.push_back((rcvError_HW >> 40) & 0xff);
+    data.push_back((rcvError_HW >> 48) & 0xff);
+    data.push_back((rcvError_HW >> 56) & 0xff);
+    data.push_back((xmitError_HW >>  0) & 0xff);
+    data.push_back((xmitError_HW >>  8) & 0xff);
+    data.push_back((xmitError_HW >> 16) & 0xff);
+    data.push_back((xmitError_HW >> 24) & 0xff);
+    data.push_back((xmitError_HW >> 32) & 0xff);
+    data.push_back((xmitError_HW >> 40) & 0xff);
+    data.push_back((xmitError_HW >> 48) & 0xff);
+    data.push_back((xmitError_HW >> 56) & 0xff);
+    data.push_back((rcvBytes_HW >>  0) & 0xff);
+    data.push_back((rcvBytes_HW >>  8) & 0xff);
+    data.push_back((rcvBytes_HW >> 16) & 0xff);
+    data.push_back((rcvBytes_HW >> 24) & 0xff);
+    data.push_back((rcvBytes_HW >> 32) & 0xff);
+    data.push_back((rcvBytes_HW >> 40) & 0xff);
+    data.push_back((rcvBytes_HW >> 48) & 0xff);
+    data.push_back((rcvBytes_HW >> 56) & 0xff);
+    data.push_back((xmitBytes_HW >>  0) & 0xff);
+    data.push_back((xmitBytes_HW >>  8) & 0xff);
+    data.push_back((xmitBytes_HW >> 16) & 0xff);
+    data.push_back((xmitBytes_HW >> 24) & 0xff);
+    data.push_back((xmitBytes_HW >> 32) & 0xff);
+    data.push_back((xmitBytes_HW >> 40) & 0xff);
+    data.push_back((xmitBytes_HW >> 48) & 0xff);
+    data.push_back((xmitBytes_HW >> 56) & 0xff);
+    data.push_back((rcvNoBuffer_HW >>  0) & 0xff);
+    data.push_back((rcvNoBuffer_HW >>  8) & 0xff);
+    data.push_back((rcvNoBuffer_HW >> 16) & 0xff);
+    data.push_back((rcvNoBuffer_HW >> 24) & 0xff);
+    data.push_back((rcvNoBuffer_HW >> 32) & 0xff);
+    data.push_back((rcvNoBuffer_HW >> 40) & 0xff);
+    data.push_back((rcvNoBuffer_HW >> 48) & 0xff);
+    data.push_back((rcvNoBuffer_HW >> 56) & 0xff);
+    data.push_back((sqi >>  0) & 0xff);
+    data.push_back((sqi >>  8) & 0xff);
+    data.push_back((hardwareChannel >>  0) & 0xff);
+    data.push_back((hardwareChannel >>  8) & 0xff);
+    data.push_back((reservedEthernetStatistic3 >>  0) & 0xff);
+    data.push_back((reservedEthernetStatistic3 >>  8) & 0xff);
+    data.push_back((reservedEthernetStatistic3 >> 16) & 0xff);
+    data.push_back((reservedEthernetStatistic3 >> 24) & 0xff);
 }
 
 DWORD EthernetStatistic::calculateObjectSize() const {

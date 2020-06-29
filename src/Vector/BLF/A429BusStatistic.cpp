@@ -21,6 +21,8 @@
 
 #include <Vector/BLF/A429BusStatistic.h>
 
+#include <algorithm>
+
 namespace Vector {
 namespace BLF {
 
@@ -28,48 +30,122 @@ A429BusStatistic::A429BusStatistic() :
     ObjectHeader(ObjectType::A429_BUS_STATISTIC) {
 }
 
-void A429BusStatistic::read(RawFile & is) {
-    ObjectHeader::read(is);
-    is.read(reinterpret_cast<char *>(&channel), sizeof(channel));
-    is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
-    is.read(reinterpret_cast<char *>(&reservedA429BusStatistic), sizeof(reservedA429BusStatistic));
-    is.read(reinterpret_cast<char *>(&busload), sizeof(busload));
-    is.read(reinterpret_cast<char *>(&dataTotal), sizeof(dataTotal));
-    is.read(reinterpret_cast<char *>(&errorTotal), sizeof(errorTotal));
-    is.read(reinterpret_cast<char *>(&bitrate), sizeof(bitrate));
-    is.read(reinterpret_cast<char *>(&parityErrors), sizeof(parityErrors));
-    is.read(reinterpret_cast<char *>(&bitrateErrors), sizeof(bitrateErrors));
-    is.read(reinterpret_cast<char *>(&gapErrors), sizeof(gapErrors));
-    is.read(reinterpret_cast<char *>(&lineErrors), sizeof(lineErrors));
-    is.read(reinterpret_cast<char *>(&formatErrors), sizeof(formatErrors));
-    is.read(reinterpret_cast<char *>(&dutyFactorErrors), sizeof(dutyFactorErrors));
-    is.read(reinterpret_cast<char *>(&wordLenErrors), sizeof(wordLenErrors));
-    is.read(reinterpret_cast<char *>(&codingErrors), sizeof(codingErrors));
-    is.read(reinterpret_cast<char *>(&idleErrors), sizeof(idleErrors));
-    is.read(reinterpret_cast<char *>(&levelErrors), sizeof(levelErrors));
-    is.read(reinterpret_cast<char *>(labelCount.data()), static_cast<std::streamsize>(labelCount.size() * sizeof(USHORT)));
+std::vector<uint8_t>::iterator A429BusStatistic::fromData(std::vector<uint8_t>::iterator it) {
+    it = ObjectHeader::fromData(it);
+
+    channel =
+            (static_cast<WORD>(*it++) <<  0) |
+            (static_cast<WORD>(*it++) <<  8);
+    dir =
+            (static_cast<BYTE>(*it++) <<  0);
+    reservedA429BusStatistic =
+            (static_cast<BYTE>(*it++) <<  0);
+    busload =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
+    dataTotal =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
+    errorTotal =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
+    bitrate =
+            (static_cast<ULONG>(*it++) <<  0) |
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
+    parityErrors =
+            (static_cast<USHORT>(*it++) <<  0) |
+            (static_cast<USHORT>(*it++) <<  8);
+    bitrateErrors =
+            (static_cast<USHORT>(*it++) <<  0) |
+            (static_cast<USHORT>(*it++) <<  8);
+    gapErrors =
+            (static_cast<USHORT>(*it++) <<  0) |
+            (static_cast<USHORT>(*it++) <<  8);
+    lineErrors =
+            (static_cast<USHORT>(*it++) <<  0) |
+            (static_cast<USHORT>(*it++) <<  8);
+    formatErrors =
+            (static_cast<USHORT>(*it++) <<  0) |
+            (static_cast<USHORT>(*it++) <<  8);
+    dutyFactorErrors =
+            (static_cast<USHORT>(*it++) <<  0) |
+            (static_cast<USHORT>(*it++) <<  8);
+    wordLenErrors =
+            (static_cast<USHORT>(*it++) <<  0) |
+            (static_cast<USHORT>(*it++) <<  8);
+    codingErrors =
+            (static_cast<USHORT>(*it++) <<  0) |
+            (static_cast<USHORT>(*it++) <<  8);
+    idleErrors =
+            (static_cast<USHORT>(*it++) <<  0) |
+            (static_cast<USHORT>(*it++) <<  8);
+    levelErrors =
+            (static_cast<USHORT>(*it++) <<  0) |
+            (static_cast<USHORT>(*it++) <<  8);
+    std::generate(labelCount.begin(), labelCount.end(), [&it]() {
+        return
+            (static_cast<USHORT>(*it++) <<  0) |
+            (static_cast<USHORT>(*it++) <<  8);
+    });
+
+    return it;
 }
 
-void A429BusStatistic::write(RawFile & os) {
-    ObjectHeader::write(os);
-    os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
-    os.write(reinterpret_cast<char *>(&dir), sizeof(dir));
-    os.write(reinterpret_cast<char *>(&reservedA429BusStatistic), sizeof(reservedA429BusStatistic));
-    os.write(reinterpret_cast<char *>(&busload), sizeof(busload));
-    os.write(reinterpret_cast<char *>(&dataTotal), sizeof(dataTotal));
-    os.write(reinterpret_cast<char *>(&errorTotal), sizeof(errorTotal));
-    os.write(reinterpret_cast<char *>(&bitrate), sizeof(bitrate));
-    os.write(reinterpret_cast<char *>(&parityErrors), sizeof(parityErrors));
-    os.write(reinterpret_cast<char *>(&bitrateErrors), sizeof(bitrateErrors));
-    os.write(reinterpret_cast<char *>(&gapErrors), sizeof(gapErrors));
-    os.write(reinterpret_cast<char *>(&lineErrors), sizeof(lineErrors));
-    os.write(reinterpret_cast<char *>(&formatErrors), sizeof(formatErrors));
-    os.write(reinterpret_cast<char *>(&dutyFactorErrors), sizeof(dutyFactorErrors));
-    os.write(reinterpret_cast<char *>(&wordLenErrors), sizeof(wordLenErrors));
-    os.write(reinterpret_cast<char *>(&codingErrors), sizeof(codingErrors));
-    os.write(reinterpret_cast<char *>(&idleErrors), sizeof(idleErrors));
-    os.write(reinterpret_cast<char *>(&levelErrors), sizeof(levelErrors));
-    os.write(reinterpret_cast<char *>(labelCount.data()), static_cast<std::streamsize>(labelCount.size() * sizeof(USHORT)));
+void A429BusStatistic::toData(std::vector<uint8_t> & data) {
+    ObjectHeader::toData(data);
+
+    data.push_back((channel >>  0) & 0xff);
+    data.push_back((channel >>  8) & 0xff);
+    data.push_back((dir >>  0) & 0xff);
+    data.push_back((reservedA429BusStatistic >>  0) & 0xff);
+    data.push_back((busload >>  0) & 0xff);
+    data.push_back((busload >>  8) & 0xff);
+    data.push_back((busload >> 16) & 0xff);
+    data.push_back((busload >> 24) & 0xff);
+    data.push_back((dataTotal >>  0) & 0xff);
+    data.push_back((dataTotal >>  8) & 0xff);
+    data.push_back((dataTotal >> 16) & 0xff);
+    data.push_back((dataTotal >> 24) & 0xff);
+    data.push_back((errorTotal >>  0) & 0xff);
+    data.push_back((errorTotal >>  8) & 0xff);
+    data.push_back((errorTotal >> 16) & 0xff);
+    data.push_back((errorTotal >> 24) & 0xff);
+    data.push_back((bitrate >>  0) & 0xff);
+    data.push_back((bitrate >>  8) & 0xff);
+    data.push_back((bitrate >> 16) & 0xff);
+    data.push_back((bitrate >> 24) & 0xff);
+    data.push_back((parityErrors >>  0) & 0xff);
+    data.push_back((parityErrors >>  8) & 0xff);
+    data.push_back((bitrateErrors >>  0) & 0xff);
+    data.push_back((bitrateErrors >>  8) & 0xff);
+    data.push_back((gapErrors >>  0) & 0xff);
+    data.push_back((gapErrors >>  8) & 0xff);
+    data.push_back((lineErrors >>  0) & 0xff);
+    data.push_back((lineErrors >>  8) & 0xff);
+    data.push_back((formatErrors >>  0) & 0xff);
+    data.push_back((formatErrors >>  8) & 0xff);
+    data.push_back((dutyFactorErrors >>  0) & 0xff);
+    data.push_back((dutyFactorErrors >>  8) & 0xff);
+    data.push_back((wordLenErrors >>  0) & 0xff);
+    data.push_back((wordLenErrors >>  8) & 0xff);
+    data.push_back((codingErrors >>  0) & 0xff);
+    data.push_back((codingErrors >>  8) & 0xff);
+    data.push_back((idleErrors >>  0) & 0xff);
+    data.push_back((idleErrors >>  8) & 0xff);
+    data.push_back((levelErrors >>  0) & 0xff);
+    data.push_back((levelErrors >>  8) & 0xff);
+    std::for_each(labelCount.begin(), labelCount.end(), [&data](const USHORT & d) {
+        data.push_back((d >>  0) & 0xff);
+        data.push_back((d >>  8) & 0xff);
+    });
 }
 
 DWORD A429BusStatistic::calculateObjectSize() const {
