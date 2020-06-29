@@ -107,21 +107,7 @@ WORD LogContainer::internalHeaderSize() const {
         sizeof(reservedLogContainer3);
 }
 
-void LogContainer::readWithoutFile(RawFile & is) {
-    ObjectHeaderBase::read(is);
-    is.read(reinterpret_cast<char *>(&compressionMethod), sizeof(compressionMethod));
-    is.read(reinterpret_cast<char *>(&reservedLogContainer1), sizeof(reservedLogContainer1));
-    is.read(reinterpret_cast<char *>(&reservedLogContainer2), sizeof(reservedLogContainer2));
-    is.read(reinterpret_cast<char *>(&uncompressedFileSize), sizeof(uncompressedFileSize));
-    is.read(reinterpret_cast<char *>(&reservedLogContainer3), sizeof(reservedLogContainer3));
-    compressedFileSize = objectSize - internalHeaderSize();
-    is.seekg(compressedFileSize, std::ios_base::cur);
-
-    /* skip padding */
-    is.seekg(objectSize % 4, std::ios_base::cur);
-}
-
-void LogContainer::uncompress(std::vector<char> & uncompressedFile) const {
+void LogContainer::uncompress(std::vector<uint8_t> & uncompressedFile) const {
     switch (compressionMethod) {
     case 0: /* no compression */
         uncompressedFile = compressedFile;
@@ -151,7 +137,7 @@ void LogContainer::uncompress(std::vector<char> & uncompressedFile) const {
     }
 }
 
-void LogContainer::compress(const std::vector<char> & uncompressedFile, const WORD compressionMethod, const int compressionLevel) {
+void LogContainer::compress(const std::vector<uint8_t> & uncompressedFile, const WORD compressionMethod, const int compressionLevel) {
     this->compressionMethod = compressionMethod;
     this->uncompressedFileSize = uncompressedFile.size();
 

@@ -70,7 +70,7 @@ struct VECTOR_BLF_EXPORT LogContainer final : ObjectHeaderBase {
     DWORD reservedLogContainer3 {}; // @todo what is this? 0x0215, 0x9a, 0, 0x0c...
 
     /** compressed file content */
-    std::vector<char> compressedFile {};
+    std::vector<uint8_t> compressedFile {};
 
     /* following data is calculated */
 
@@ -87,18 +87,11 @@ struct VECTOR_BLF_EXPORT LogContainer final : ObjectHeaderBase {
     WORD internalHeaderSize() const;
 
     /**
-     * read LogContainer without File
-     *
-     * @param[in] is raw file
-     */
-    virtual void readWithoutFile(RawFile & is);
-
-    /**
      * uncompress data
      *
      * @param[out] uncompressedFile uncompressed data
      */
-    virtual void uncompress(std::vector<char> & uncompressedFile) const;
+    virtual void uncompress(std::vector<uint8_t> & uncompressedFile) const;
 
     /**
      * compress data
@@ -107,7 +100,7 @@ struct VECTOR_BLF_EXPORT LogContainer final : ObjectHeaderBase {
      * @param[in] compressionMethod compression method
      * @param[in] compressionLevel compression level (different for each method)
      */
-    virtual void compress(const std::vector<char> & uncompressedFile, const WORD compressionMethod = 2, const int compressionLevel = 6);
+    virtual void compress(const std::vector<uint8_t> & uncompressedFile, const WORD compressionMethod = 2, const int compressionLevel = 6);
 };
 
 }
