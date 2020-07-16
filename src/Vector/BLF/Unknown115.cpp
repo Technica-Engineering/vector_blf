@@ -71,10 +71,10 @@ void Unknown115::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&unknown2), sizeof(unknown2));
 
     for (const UnknownDataBlock & dataBlock: unknownData) {
-        os.write(reinterpret_cast<char *>(dataBlock.timeStamp), sizeof(dataBlock.timeStamp));
-        os.write(reinterpret_cast<char *>(dataBlock.uncompressedFileSize), sizeof(dataBlock.uncompressedFileSize));
-        os.write(reinterpret_cast<char *>(dataBlock.value), sizeof(dataBlock.value));
-        os.write(reinterpret_cast<char *>(dataBlock.flags), sizeof(dataBlock.flags));
+        os.write(reinterpret_cast<const char *>(&dataBlock.timeStamp), sizeof(dataBlock.timeStamp));
+        os.write(reinterpret_cast<const char *>(&dataBlock.uncompressedFileSize), sizeof(dataBlock.uncompressedFileSize));
+        os.write(reinterpret_cast<const char *>(&dataBlock.value), sizeof(dataBlock.value));
+        os.write(reinterpret_cast<const char *>(&dataBlock.flags), sizeof(dataBlock.flags));
     }
 
     os.write(reinterpret_cast<char *>(reservedUnknown115.data()), static_cast<std::streamsize>(reservedUnknown115.size()));
