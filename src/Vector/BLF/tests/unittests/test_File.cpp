@@ -7,20 +7,40 @@
 
 #include <Vector/BLF.h>
 
-/** Open and index file */
+/** Open file (includes indexing) and do some simple read/seekg tests. */
 BOOST_AUTO_TEST_CASE(Test1) {
+    /* open file */
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_CanMessage.blf", std::ios_base::in);
-    BOOST_CHECK_GT(file.tellg(), 0);
+    BOOST_CHECK_EQUAL(file.tellg(), 0x90); // as FileStatistics was read already
 
+    /* test file statistics */
     file.seekg(0);
     Vector::BLF::FileStatistics fileStatistics;
     std::vector<uint8_t> data1(fileStatistics.statisticsSize);
     file.read(data1.data(), data1.size());
     fileStatistics.fromData(data1.begin());
     BOOST_CHECK_EQUAL(fileStatistics.signature, Vector::BLF::FileSignature);
+    BOOST_CHECK_EQUAL(fileStatistics.statisticsSize, 0x90);
+    BOOST_CHECK_EQUAL(fileStatistics.applicationId, 0xd4);
+    BOOST_CHECK_EQUAL(fileStatistics.applicationMajor, 0x1a);
+    BOOST_CHECK_EQUAL(fileStatistics.applicationMinor, 0x3e);
+    BOOST_CHECK_EQUAL(fileStatistics.applicationBuild, 0);
+    BOOST_CHECK_EQUAL(fileStatistics.apiMajor, 0);
+    BOOST_CHECK_EQUAL(fileStatistics.apiMinor, 0);
+    BOOST_CHECK_EQUAL(fileStatistics.apiBuild, 0);
+    BOOST_CHECK_EQUAL(fileStatistics.apiPatch, 0);
+    BOOST_CHECK_EQUAL(fileStatistics.fileSize, 420);
+    BOOST_CHECK_EQUAL(fileStatistics.uncompressedFileSize, 420);
+    BOOST_CHECK_EQUAL(fileStatistics.objectCount, 2);
+    BOOST_CHECK_EQUAL(fileStatistics.objectsRead, 0);
+    //BOOST_CHECK_EQUAL(fileStatistics.measurementStartTime, 0);
+    //BOOST_CHECK_EQUAL(fileStatistics.lastObjectTime, 0);
+    BOOST_CHECK_EQUAL(fileStatistics.fileSizeWithoutUnknown115, 272);
+    //BOOST_CHECK_EQUAL(fileStatistics.reservedFileStatistics, 0);
     BOOST_CHECK_EQUAL(file.tellg(), fileStatistics.statisticsSize);
 
+    /* test reading an object */
     Vector::BLF::CanMessage canMessage;
     std::vector<uint8_t> data2(96); // 96 is the known size of the object
     BOOST_CHECK_EQUAL(file.read(data2.data(), data2.size()), 96);
@@ -29,7 +49,23 @@ BOOST_AUTO_TEST_CASE(Test1) {
     BOOST_CHECK_EQUAL(canMessage.objectSize, canMessage.calculateObjectSize());
     BOOST_CHECK(canMessage.objectType == Vector::BLF::ObjectType::CAN_MESSAGE);
 
+    /* seek back */
+    file.seekg(0);
+    BOOST_CHECK_EQUAL(file.tellg(), 0);
+
+    /* read raw data */
+    char signature[5] = { 0, 0, 0, 0, 0 }; // including null termination
+    BOOST_CHECK_EQUAL(file.read(reinterpret_cast<uint8_t *>(&signature), 4), 4);
+    BOOST_CHECK_EQUAL(signature, "LOGG");
+    BOOST_CHECK_EQUAL(file.tellg(), 4);
+
+    /* rewind to beginning of file */
+    file.seekg(0);
+    BOOST_CHECK_EQUAL(file.tellg(), 0);
+
+    /* close file */
     file.close();
+    BOOST_CHECK(!file.is_open());
 }
 
 /** check error conditions in open */
@@ -77,13 +113,24 @@ BOOST_AUTO_TEST_CASE(createUnknownObjects) {
     delete ohb;
 }
 
-/** test getter/setter for defaultContainerSize */
-BOOST_AUTO_TEST_CASE(defaultContainerSize) {
+/** test getters/setters */
+BOOST_AUTO_TEST_CASE(getterSetter) {
     Vector::BLF::File file;
 
-    BOOST_CHECK_EQUAL(file.defaultLogContainerSize(), 0x20000);
+    /* default log container size */
+    BOOST_CHECK_EQUAL(file.defaultLogContainerSize(), 0x20000); // default
     file.setDefaultLogContainerSize(0x30000);
     BOOST_CHECK_EQUAL(file.defaultLogContainerSize(), 0x30000);
+
+    /* compression method */
+    BOOST_CHECK_EQUAL(file.compressionMethod(), 2); // default (zlib)
+    file.setCompressionMethod(0); // no compression
+    BOOST_CHECK_EQUAL(file.compressionMethod(), 0);
+
+    /* compression level */
+    BOOST_CHECK_EQUAL(file.compressionLevel(), 6); // default
+    file.setCompressionLevel(9); // 9 = Z_BEST_COMPRESSION, in case of zlib
+    BOOST_CHECK_EQUAL(file.compressionLevel(), 9);
 }
 
 /** Test file with only two CanMessages, but no LogContainers. */
@@ -103,7 +150,7 @@ BOOST_AUTO_TEST_CASE(fileWithoutLogContainers) {
     BOOST_CHECK(ohb->objectType == Vector::BLF::ObjectType::CAN_MESSAGE);
     delete ohb;
 
-    /* No CanMessage */
+    /* No further messages */
     ohb = file.read();
     BOOST_CHECK(ohb == nullptr);
 

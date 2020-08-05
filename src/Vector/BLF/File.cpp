@@ -15,9 +15,7 @@ namespace Vector {
 namespace BLF {
 
 File::~File() {
-    if (is_open()) {
-        close();
-    }
+    close(); // nothing happens, if the file is already closed
 }
 
 /* general methods */
@@ -118,7 +116,10 @@ void File::close() {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
-    assert(m_file.is_open());
+    /* do nothing, if file is already closed */
+    if (!m_file.is_open()) {
+        return;
+    }
 
     /* sync the buffered data */
     if (m_openMode & std::ios_base::out) {

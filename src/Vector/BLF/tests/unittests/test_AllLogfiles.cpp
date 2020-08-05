@@ -113,7 +113,7 @@ BOOST_AUTO_TEST_CASE(AllBinlogLogfiles) {
         if (!boost::filesystem::is_regular_file(x))
             continue;
         std::string eventFile = x.path().filename().string();
-        std::cout << "/events_from_binlog/" << eventFile << std::endl;
+        //std::cout << "/events_from_binlog/" << eventFile << std::endl;
 
         /* open input file */
         Vector::BLF::File filein;
@@ -165,7 +165,7 @@ BOOST_AUTO_TEST_CASE(AllConvertedLogfiles) {
         if (!boost::filesystem::is_regular_file(x))
             continue;
         std::string eventFile = x.path().filename().string();
-        std::cout << "/events_from_converter/" << eventFile << std::endl;
+        //std::cout << "/events_from_converter/" << eventFile << std::endl;
 
         // Vector bug: sizeof(EventComment) + ...
         if (eventFile == "test_GlobalMarker.blf")
