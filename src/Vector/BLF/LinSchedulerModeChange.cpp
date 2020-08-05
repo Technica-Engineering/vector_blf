@@ -52,7 +52,7 @@ void LinSchedulerModeChange::toData(std::vector<uint8_t> & data) {
 
     data.push_back((channel >>  0) & 0xff);
     data.push_back((channel >>  8) & 0xff);
-    data.push_back((oldMode >>  8) & 0xff);
+    data.push_back((oldMode >>  0) & 0xff);
     data.push_back((newMode >>  0) & 0xff);
     data.push_back((reservedLinSchedulerModeChange >>  0) & 0xff);
     data.push_back((reservedLinSchedulerModeChange >>  8) & 0xff);

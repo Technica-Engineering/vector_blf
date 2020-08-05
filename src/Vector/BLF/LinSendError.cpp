@@ -55,12 +55,12 @@ void LinSendError::toData(std::vector<uint8_t> & data) {
 
     data.push_back((channel >>  0) & 0xff);
     data.push_back((channel >>  8) & 0xff);
-    data.push_back((id >>  8) & 0xff);
+    data.push_back((id >>  0) & 0xff);
     data.push_back((dlc >>  0) & 0xff);
     data.push_back((fsmId >>  0) & 0xff);
     data.push_back((fsmState >>  0) & 0xff);
     data.push_back((headerTime >>  0) & 0xff);
-    data.push_back((fullTime >>  8) & 0xff);
+    data.push_back((fullTime >>  0) & 0xff);
 }
 
 DWORD LinSendError::calculateObjectSize() const {

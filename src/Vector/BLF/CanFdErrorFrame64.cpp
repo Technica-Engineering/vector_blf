@@ -109,7 +109,7 @@ std::vector<uint8_t>::iterator CanFdErrorFrame64::fromData(std::vector<uint8_t>:
 
 void CanFdErrorFrame64::toData(std::vector<uint8_t> & data) {
     /* pre processing */
-    validDataBytes = static_cast<WORD>(data.size());
+    validDataBytes = static_cast<WORD>(this->data.size());
 
     ObjectHeader::toData(data);
 

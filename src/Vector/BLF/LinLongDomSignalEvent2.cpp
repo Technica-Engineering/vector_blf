@@ -73,10 +73,10 @@ void LinLongDomSignalEvent2::toData(std::vector<uint8_t> & data) {
     data.push_back((length >>  8) & 0xff);
     data.push_back((length >> 16) & 0xff);
     data.push_back((length >> 24) & 0xff);
-    data.push_back((length >>  0) & 0xff);
-    data.push_back((length >>  8) & 0xff);
-    data.push_back((length >> 16) & 0xff);
-    data.push_back((length >> 24) & 0xff);
+    data.push_back((length >> 32) & 0xff);
+    data.push_back((length >> 40) & 0xff);
+    data.push_back((length >> 48) & 0xff);
+    data.push_back((length >> 56) & 0xff);
 }
 
 DWORD LinLongDomSignalEvent2::calculateObjectSize() const {

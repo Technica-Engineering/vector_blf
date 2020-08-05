@@ -75,7 +75,7 @@ std::vector<uint8_t>::iterator CanFdMessage::fromData(std::vector<uint8_t>::iter
 
 void CanFdMessage::toData(std::vector<uint8_t> & data) {
     /* pre processing */
-    validDataBytes = static_cast<WORD>(data.size());
+    validDataBytes = static_cast<WORD>(this->data.size());
 
     ObjectHeader::toData(data);
 
