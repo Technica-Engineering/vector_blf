@@ -38,6 +38,8 @@ namespace BLF {
  * @deprecated
  *
  * CAN data or CAN remote frame received or transmitted on a CAN channel.
+ *
+ * @note Frame format is encoded in 31st bit of id: 0=standard, 1=extended.
  */
 struct VECTOR_BLF_EXPORT CanMessage final : ObjectHeader {
     CanMessage();

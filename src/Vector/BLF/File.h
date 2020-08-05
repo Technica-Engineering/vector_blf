@@ -164,6 +164,8 @@ public:
      * Convenience function to read one object.
      *
      * @return Object
+     *
+     * @note Data ownership is passed on from File class to client.
      */
     virtual ObjectHeaderBase * read();
 
@@ -189,6 +191,8 @@ public:
      * Convenience function to write one object.
      *
      * @param[in] ohb Object (ownership is passed)
+     *
+     * @note Data ownership is passed on from client to File class.
      */
     virtual void write(ObjectHeaderBase * ohb);
 
