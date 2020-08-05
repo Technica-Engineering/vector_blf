@@ -23,6 +23,7 @@
 
 /* file load/save operations */
 #include <Vector/BLF/File.h>
+#include <Vector/BLF/FileStatistics.h>
 
 /* exceptions */
 #include <Vector/BLF/Exceptions.h>

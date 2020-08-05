@@ -46,12 +46,10 @@ std::vector<uint8_t>::iterator TriggerCondition::fromData(std::vector<uint8_t>::
             (static_cast<DWORD>(*it++) <<  8) |
             (static_cast<DWORD>(*it++) << 16) |
             (static_cast<DWORD>(*it++) << 24);
-    triggerBlockName.resize(triggerBlockNameLength);
-    std::copy(it, it + triggerBlockName.size(), std::begin(triggerBlockName));
-    it += triggerBlockName.size();
-    triggerCondition.resize(triggerConditionLength);
-    std::copy(it, it + triggerCondition.size(), std::begin(triggerCondition));
-    it += triggerCondition.size();
+    triggerBlockName.assign(it, it + triggerBlockNameLength);
+    it += triggerBlockNameLength;
+    triggerCondition.assign(it, it + triggerConditionLength);
+    it += triggerConditionLength;
 
     return it;
 }

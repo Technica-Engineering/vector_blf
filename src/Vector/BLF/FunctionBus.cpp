@@ -51,12 +51,11 @@ std::vector<uint8_t>::iterator FunctionBus::fromData(std::vector<uint8_t>::itera
             (static_cast<DWORD>(*it++) <<  8) |
             (static_cast<DWORD>(*it++) << 16) |
             (static_cast<DWORD>(*it++) << 24);
-    name.resize(nameLength);
-    std::copy(it, it + name.size(), std::begin(name));
-    it += name.size();
+    name.assign(it, it + nameLength);
+    it += nameLength;
     this->data.resize(dataLength);
     std::copy(it, it + this->data.size(), std::begin(this->data));
-    it += this->data.size();
+    it += dataLength;
 
     return it;
 }
@@ -64,7 +63,7 @@ std::vector<uint8_t>::iterator FunctionBus::fromData(std::vector<uint8_t>::itera
 void FunctionBus::toData(std::vector<uint8_t> & data) {
     /* pre processing */
     nameLength = static_cast<DWORD>(name.size());
-    dataLength = static_cast<DWORD>(data.size());
+    dataLength = static_cast<DWORD>(this->data.size());
 
     ObjectHeader::toData(data);
 

@@ -96,6 +96,8 @@ struct VECTOR_BLF_EXPORT SerialEvent final : ObjectHeader {
     /** reserved */
     DWORD reservedSerialEvent {};
 
+    /* the following is a union */
+
     /** general serial event */
     GeneralSerialEvent general {};
 

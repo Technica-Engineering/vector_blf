@@ -57,7 +57,7 @@ std::vector<uint8_t>::iterator WlanFrame::fromData(std::vector<uint8_t>::iterato
             (static_cast<DWORD>(*it++) << 24);
     frameData.resize(frameLength);
     std::copy(it, it + frameData.size(), std::begin(frameData));
-    it += frameData.size();
+    it += frameLength;
 
     return it;
 }

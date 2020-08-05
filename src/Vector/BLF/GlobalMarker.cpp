@@ -84,15 +84,12 @@ std::vector<uint8_t>::iterator GlobalMarker::fromData(std::vector<uint8_t>::iter
             (static_cast<ULONGLONG>(*it++) << 40) |
             (static_cast<ULONGLONG>(*it++) << 48) |
             (static_cast<ULONGLONG>(*it++) << 56);
-    groupName.resize(groupNameLength);
-    std::copy(it, it + groupName.size(), std::begin(groupName));
-    it += groupName.size();
-    markerName.resize(markerNameLength);
-    std::copy(it, it + markerName.size(), std::begin(markerName));
-    it += markerName.size();
-    description.resize(descriptionLength);
-    std::copy(it, it + description.size(), std::begin(description));
-    it += description.size();
+    groupName.assign(it, it + groupNameLength);
+    it += groupNameLength;
+    markerName.assign(it, it + markerNameLength);
+    it += markerNameLength;
+    description.assign(it, it + descriptionLength);
+    it += descriptionLength;
 
     return it;
 }

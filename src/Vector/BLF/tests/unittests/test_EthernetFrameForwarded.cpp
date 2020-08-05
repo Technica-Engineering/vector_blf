@@ -14,7 +14,7 @@ BOOST_AUTO_TEST_CASE(EthernetFrameForwarded) {
     BOOST_REQUIRE(file.is_open());
 
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
-    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::ETHERNET_FRAME_FORWARDED);
     auto * obj = dynamic_cast<Vector::BLF::EthernetFrameForwarded *>(ohb);
 
@@ -50,21 +50,21 @@ BOOST_AUTO_TEST_CASE(EthernetFrameForwarded) {
 
     /* read next */
     ohb = file.read();
-    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::ETHERNET_FRAME_FORWARDED);
 
     delete ohb;
 
     /* read last */
     ohb = file.read();
-    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::Unknown115);
 
     delete ohb;
 
     /* read last */
     ohb = file.read();
-    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::Unknown115);
 
     delete ohb;

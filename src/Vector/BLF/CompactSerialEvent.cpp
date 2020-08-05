@@ -24,12 +24,6 @@
 namespace Vector {
 namespace BLF {
 
-DWORD CompactSerialEvent::calculateObjectSize() const {
-    return
-        sizeof(compactLength) +
-        static_cast<DWORD>(compactData.size());
-}
-
 std::vector<uint8_t>::iterator CompactSerialEvent::fromData(std::vector<uint8_t>::iterator it) {
     compactLength =
             (static_cast<BYTE>(*it++) <<  0);
@@ -41,7 +35,13 @@ std::vector<uint8_t>::iterator CompactSerialEvent::fromData(std::vector<uint8_t>
 
 void CompactSerialEvent::toData(std::vector<uint8_t> & data) {
     data.push_back((compactLength >>  0) & 0xff);
-    data.insert(std::end(data), std::begin(this->compactData), std::end(this->compactData));
+    data.insert(std::end(data), std::begin(compactData), std::end(compactData));
+}
+
+DWORD CompactSerialEvent::calculateObjectSize() const {
+    return
+        sizeof(compactLength) +
+        static_cast<DWORD>(compactData.size());
 }
 
 }

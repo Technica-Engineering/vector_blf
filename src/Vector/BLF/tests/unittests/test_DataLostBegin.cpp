@@ -15,7 +15,7 @@ BOOST_AUTO_TEST_CASE(DataLostBegin) {
     BOOST_REQUIRE(file.is_open());
 
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
-    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::DATA_LOST_BEGIN);
     auto * obj = dynamic_cast<Vector::BLF::DataLostBegin *>(ohb);
 
@@ -41,21 +41,21 @@ BOOST_AUTO_TEST_CASE(DataLostBegin) {
 
     /* read next */
     ohb = file.read();
-    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::DATA_LOST_BEGIN);
 
     delete ohb;
 
     /* read last */
     ohb = file.read();
-    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::Unknown115);
 
     delete ohb;
 
     /* read last */
     ohb = file.read();
-    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::Unknown115);
 
     delete ohb;

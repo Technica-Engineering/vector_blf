@@ -5,18 +5,7 @@
 #include <boost/test/unit_test.hpp>
 #include <boost/filesystem.hpp>
 
-#include <string>
-#include <locale>
-#include <codecvt>
-
 #include <Vector/BLF.h>
-
-std::string toUtf8String(std::u16string u16str) {
-    using convert_type = std::codecvt_utf8<char16_t>;
-    std::wstring_convert<convert_type, char16_t> converter;
-
-    return converter.to_bytes(u16str);
-}
 
 /* TEST_STRUCTURE = 118 */
 BOOST_AUTO_TEST_CASE(TestStructure) {
@@ -25,7 +14,7 @@ BOOST_AUTO_TEST_CASE(TestStructure) {
     BOOST_REQUIRE(file.is_open());
 
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
-    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::TEST_STRUCTURE);
     auto * obj = dynamic_cast<Vector::BLF::TestStructure *>(ohb);
 
@@ -51,29 +40,29 @@ BOOST_AUTO_TEST_CASE(TestStructure) {
     BOOST_CHECK_EQUAL(obj->executingObjectNameLength, 3);
     BOOST_CHECK_EQUAL(obj->nameLength, 3);
     BOOST_CHECK_EQUAL(obj->textLength, 3);
-    BOOST_CHECK_EQUAL(toUtf8String(obj->executingObjectName), "xyz");
-    BOOST_CHECK_EQUAL(toUtf8String(obj->name), "xyz");
-    BOOST_CHECK_EQUAL(toUtf8String(obj->text), "xyz");
+    BOOST_CHECK(obj->executingObjectName == u"xyz");
+    BOOST_CHECK(obj->name == u"xyz");
+    BOOST_CHECK(obj->text == u"xyz");
 
     delete ohb;
 
     /* read next */
     ohb = file.read();
-    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::TEST_STRUCTURE);
 
     delete ohb;
 
     /* read last */
     ohb = file.read();
-    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::Unknown115);
 
     delete ohb;
 
     /* read last */
     ohb = file.read();
-    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::Unknown115);
 
     delete ohb;

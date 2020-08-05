@@ -78,7 +78,7 @@ std::vector<uint8_t>::iterator AfdxFrame::fromData(std::vector<uint8_t>::iterato
             (static_cast<DWORD>(*it++) << 24);
     payLoad.resize(payLoadLength);
     std::copy(it, it + payLoad.size(), std::begin(payLoad));
-    it += payLoad.size();
+    it += payLoadLength;
 
     return it;
 }

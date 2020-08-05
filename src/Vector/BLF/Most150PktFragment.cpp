@@ -88,7 +88,7 @@ std::vector<uint8_t>::iterator Most150PktFragment::fromData(std::vector<uint8_t>
             (static_cast<DWORD>(*it++) << 24);
     firstData.resize(firstDataLen);
     std::copy(it, it + firstData.size(), std::begin(firstData));
-    it += firstData.size();
+    it += firstDataLen;
 
     return it;
 }

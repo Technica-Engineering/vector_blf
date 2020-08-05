@@ -48,7 +48,7 @@ std::vector<uint8_t>::iterator GeneralSerialEvent::fromData(std::vector<uint8_t>
             (static_cast<ULONGLONG>(*it++) << 56);
     this->data.resize(dataLength);
     std::copy(it, it + this->data.size(), std::begin(this->data));
-    it += this->data.size();
+    it += dataLength;
     timeStamps.resize(timeStampsLength / sizeof(LONGLONG));
     std::generate(timeStamps.begin(), timeStamps.end(), [&it]() {
         return
@@ -67,7 +67,7 @@ std::vector<uint8_t>::iterator GeneralSerialEvent::fromData(std::vector<uint8_t>
 
 void GeneralSerialEvent::toData(std::vector<uint8_t> & data) {
     /* pre processing */
-    dataLength = static_cast<DWORD>(data.size());
+    dataLength = static_cast<DWORD>(this->data.size());
     timeStampsLength = static_cast<DWORD>(timeStamps.size() * sizeof(LONGLONG));
 
     data.push_back((dataLength >>  0) & 0xff);

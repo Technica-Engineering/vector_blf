@@ -157,14 +157,6 @@ void AfdxStatistic::toData(std::vector<uint8_t> & data) {
     data.push_back((statAvrgJitterMysec >>  8) & 0xff);
     data.push_back((statAvrgJitterMysec >> 16) & 0xff);
     data.push_back((statAvrgJitterMysec >> 24) & 0xff);
-    data.push_back((statAvrgPeriodMsec >>  0) & 0xff);
-    data.push_back((statAvrgPeriodMsec >>  8) & 0xff);
-    data.push_back((statAvrgPeriodMsec >> 16) & 0xff);
-    data.push_back((statAvrgPeriodMsec >> 24) & 0xff);
-    data.push_back((statAvrgJitterMysec >>  0) & 0xff);
-    data.push_back((statAvrgJitterMysec >>  8) & 0xff);
-    data.push_back((statAvrgJitterMysec >> 16) & 0xff);
-    data.push_back((statAvrgJitterMysec >> 24) & 0xff);
     data.push_back((vlid >>  0) & 0xff);
     data.push_back((vlid >>  8) & 0xff);
     data.push_back((vlid >> 16) & 0xff);

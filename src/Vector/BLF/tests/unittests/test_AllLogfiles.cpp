@@ -16,6 +16,7 @@
 static void copyFileStatistics(Vector::BLF::File & filein, Vector::BLF::File & fileout) {
     /* copy non-generated filein statistics to fileout statistics */
     Vector::BLF::FileStatistics fileStatisticsIn;
+#if 0
     fileStatisticsIn = filein.statistics();
     fileout.setApplication(
                 fileStatisticsIn.applicationId,
@@ -30,12 +31,14 @@ static void copyFileStatistics(Vector::BLF::File & filein, Vector::BLF::File & f
     fileout.setObjectsRead(fileStatisticsIn.objectsRead);
     fileout.setMeasurementStartTime(fileStatisticsIn.measurementStartTime);
     fileout.setLastObjectTime(fileStatisticsIn.lastObjectTime);
+#endif
 }
 
-/** copy objects and close files */
+/** copy objects */
 static void copyObjects(Vector::BLF::File & filein, Vector::BLF::File & fileout) {
-    /* read all objects from input file */
     std::vector<Vector::BLF::ObjectHeaderBase *> objects;
+
+    /* read all objects from input file */
     for(;;) {
         Vector::BLF::ObjectHeaderBase * ohb = filein.read();
         if (!ohb) {
@@ -51,6 +54,13 @@ static void copyObjects(Vector::BLF::File & filein, Vector::BLF::File & fileout)
     for(Vector::BLF::ObjectHeaderBase * ohb: objects) {
         fileout.write(ohb);
     }
+}
+
+/** get file size independent from fileStatistics */
+static std::streamsize fileSize(const char * fileName) {
+    std::ifstream ifs(fileName);
+    ifs.seekg(0, std::ios_base::end);
+    return ifs.tellg();
 }
 
 /** compare files */
@@ -88,7 +98,6 @@ static bool compareFiles(const char * infileName, const char * outfileName, uint
     return sameFile;
 }
 
-#if 0
 /** Test with uncompressedFiles with Unknown115 ending */
 BOOST_AUTO_TEST_CASE(AllBinlogLogfiles) {
     /* input directory */
@@ -104,18 +113,19 @@ BOOST_AUTO_TEST_CASE(AllBinlogLogfiles) {
         if (!boost::filesystem::is_regular_file(x))
             continue;
         std::string eventFile = x.path().filename().string();
+        std::cout << "/events_from_binlog/" << eventFile << std::endl;
 
         /* open input file */
         Vector::BLF::File filein;
         boost::filesystem::path infile(indir.string() + eventFile);
-        filein.open(infile.string(), std::ios_base::in);
+        filein.open(infile.string().c_str(), std::ios_base::in);
         BOOST_REQUIRE(filein.is_open());
 
         /* open output file */
         Vector::BLF::File fileout;
-        fileout.setCompressionLevel(0); // @todo on compression level 0, data can be written directly to CompressedFile
+        fileout.setCompressionMethod(0);
         boost::filesystem::path outfile(outdir.string() + eventFile);
-        fileout.open(outfile.string(), std::ios_base::out);
+        fileout.open(outfile.string().c_str(), std::ios_base::out);
         BOOST_REQUIRE(fileout.is_open());
 
         /* copy file statistics */
@@ -129,19 +139,16 @@ BOOST_AUTO_TEST_CASE(AllBinlogLogfiles) {
         fileout.close();
 
         /* compare files */
-        Vector::BLF::ULONGLONG fileSize = fileout.statistics().fileSizeWithoutUnknown115;
-        if (fileSize == 0) {
-            fileSize = fileout.statistics().fileSize;
-        }
+        Vector::BLF::ULONGLONG size = fileSize(outfile.string().c_str());
+        BOOST_CHECK_GT(size, 0);
         BOOST_CHECK_MESSAGE(
             compareFiles(
                 infile.c_str(), outfile.c_str(),
-                static_cast<uint64_t>(fileout.statistics().statisticsSize),
-                fileSize),
+                static_cast<uint64_t>(0x90), // 0x90 is the size of fileStatistics
+                size),
             eventFile + " is different");
     }
 }
-#endif
 
 /** Test with compressedFiles without Unknown115 ending */
 BOOST_AUTO_TEST_CASE(AllConvertedLogfiles) {
@@ -158,17 +165,22 @@ BOOST_AUTO_TEST_CASE(AllConvertedLogfiles) {
         if (!boost::filesystem::is_regular_file(x))
             continue;
         std::string eventFile = x.path().filename().string();
+        std::cout << "/events_from_converter/" << eventFile << std::endl;
+
+        // Vector bug: sizeof(EventComment) + ...
+        if (eventFile == "test_GlobalMarker.blf")
+            continue;
 
         /* open input file */
         Vector::BLF::File filein;
         boost::filesystem::path infile(indir.string() + eventFile);
-        filein.open(infile.string(), std::ios_base::in);
+        filein.open(infile.string().c_str(), std::ios_base::in);
         BOOST_REQUIRE(filein.is_open());
 
         /* open output file */
         Vector::BLF::File fileout;
         boost::filesystem::path outfile(outdir.string() + eventFile);
-        fileout.open(outfile.string(), std::ios_base::out);
+        fileout.open(outfile.string().c_str(), std::ios_base::out);
         BOOST_REQUIRE(fileout.is_open());
 
         /* copy file statistics */
@@ -177,24 +189,18 @@ BOOST_AUTO_TEST_CASE(AllConvertedLogfiles) {
         /* copy objects */
         copyObjects(filein, fileout);
 
-        // Vector bug: sizeof(EventComment) + ...
-        if (eventFile == "test_GlobalMarker.blf")
-            continue;
-
         /* close both files */
         filein.close();
         fileout.close();
 
         /* compare files */
-        Vector::BLF::ULONGLONG fileSize = fileout.statistics().fileSizeWithoutUnknown115;
-        if (fileSize == 0) {
-            fileSize = fileout.statistics().fileSize;
-        }
+        Vector::BLF::ULONGLONG size = fileSize(outfile.string().c_str());
+        BOOST_CHECK_GT(size, 0);
         BOOST_CHECK_MESSAGE(
             compareFiles(
                 infile.c_str(), outfile.c_str(),
-                static_cast<uint64_t>(fileout.statistics().statisticsSize),
-                fileout.statistics().fileSize),
+                static_cast<uint64_t>(0x90), // 0x90 is the size of fileStatistics
+                size),
             eventFile + " is different");
     }
 }

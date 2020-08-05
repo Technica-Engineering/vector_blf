@@ -64,6 +64,12 @@ std::vector<uint8_t>::iterator SerialEvent::fromData(std::vector<uint8_t>::itera
 }
 
 void SerialEvent::toData(std::vector<uint8_t> & data) {
+    /* pre processing */
+    if (flags & ~(Flags::SingleByte | Flags::CompactByte)) {
+        general.dataLength = static_cast<DWORD>(general.data.size());
+        general.timeStampsLength = static_cast<DWORD>(general.timeStamps.size() * sizeof(LONGLONG));
+    }
+
     ObjectHeader::toData(data);
 
     data.push_back((flags >>  0) & 0xff);
@@ -99,10 +105,11 @@ DWORD SerialEvent::calculateObjectSize() const {
         sizeof(port) +
         sizeof(baudrate) +
         sizeof(reservedSerialEvent) +
-        16; // size of union of singleByte/compact/general
+        16; // size of union of general/singleByte/compact
 
-    if (flags & ~(Flags::SingleByte | Flags::CompactByte))
+    if (flags & ~(Flags::SingleByte | Flags::CompactByte)) {
         size += general.dataLength + general.timeStampsLength;
+    }
 
     return size;
 }

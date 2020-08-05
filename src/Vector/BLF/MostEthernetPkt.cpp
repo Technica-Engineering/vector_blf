@@ -97,7 +97,7 @@ std::vector<uint8_t>::iterator MostEthernetPkt::fromData(std::vector<uint8_t>::i
             (static_cast<ULONGLONG>(*it++) << 56);
     pktData.resize(pktDataLength);
     std::copy(it, it + pktData.size(), std::begin(pktData));
-    it += pktData.size();
+    it += pktDataLength;
 
     return it;
 }

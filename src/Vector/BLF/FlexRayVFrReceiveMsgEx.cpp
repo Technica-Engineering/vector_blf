@@ -117,8 +117,8 @@ std::vector<uint8_t>::iterator FlexRayVFrReceiveMsgEx::fromData(std::vector<uint
             (static_cast<WORD>(*it++) <<  0) |
             (static_cast<WORD>(*it++) <<  8);
     });
-    std::copy(it, it + dataBytes.size(), std::begin(dataBytes));
-    it += dataBytes.size();
+    dataBytes.assign(it, it + dataCount);
+    it += dataCount;
 
     return it;
 }

@@ -14,7 +14,7 @@ BOOST_AUTO_TEST_CASE(LinMessage2_1) {
     BOOST_REQUIRE(file.is_open());
 
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
-    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_MESSAGE2);
     auto * obj = dynamic_cast<Vector::BLF::LinMessage2 *>(ohb);
 
@@ -88,21 +88,21 @@ BOOST_AUTO_TEST_CASE(LinMessage2_1) {
 
     /* read next */
     ohb = file.read();
-    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_MESSAGE2);
 
     delete ohb;
 
     /* read last */
     ohb = file.read();
-    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::Unknown115);
 
     delete ohb;
 
     /* read last */
     ohb = file.read();
-    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::Unknown115);
 
     delete ohb;
@@ -119,7 +119,7 @@ BOOST_AUTO_TEST_CASE(LinMessage2_2) {
     BOOST_REQUIRE(file.is_open());
 
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
-    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_MESSAGE2);
     auto * obj = dynamic_cast<Vector::BLF::LinMessage2 *>(ohb);
 
@@ -167,6 +167,8 @@ BOOST_AUTO_TEST_CASE(LinMessage2_2) {
     file.close();
 }
 
+// @todo check for all if0
+#if 0
 /** write and read a LinMessage with objectVersion0 */
 BOOST_AUTO_TEST_CASE(LinMessageVersion0) {
     /* write to file */
@@ -191,3 +193,4 @@ BOOST_AUTO_TEST_CASE(LinMessageVersion0) {
         BOOST_CHECK_EQUAL(linMessage2.objectVersion, 0);
     }
 }
+#endif

@@ -44,7 +44,7 @@ std::vector<uint8_t>::iterator MostAllocTab::fromData(std::vector<uint8_t>::iter
             (static_cast<DWORD>(*it++) << 24);
     tableData.resize(length);
     std::copy(it, it + tableData.size(), std::begin(tableData));
-    it += tableData.size();
+    it += length;
 
     return it;
 }

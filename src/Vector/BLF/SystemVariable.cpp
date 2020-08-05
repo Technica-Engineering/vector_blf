@@ -69,12 +69,11 @@ std::vector<uint8_t>::iterator SystemVariable::fromData(std::vector<uint8_t>::it
             (static_cast<ULONGLONG>(*it++) << 40) |
             (static_cast<ULONGLONG>(*it++) << 48) |
             (static_cast<ULONGLONG>(*it++) << 56);
-    name.resize(nameLength);
-    std::copy(it, it + name.size(), std::begin(name));
-    it += name.size();
+    name.assign(it, it + nameLength);
+    it += nameLength;
     this->data.resize(dataLength);
     std::copy(it, it + this->data.size(), std::begin(this->data));
-    it += this->data.size();
+    it += dataLength;
 
     return it;
 }

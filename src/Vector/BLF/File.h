@@ -23,7 +23,16 @@
 
 #include <Vector/BLF/platform.h>
 
-#include <Vector/BLF/StructuredUncompressedFile.h>
+#include <cstdint>
+#include <fstream>
+#include <map>
+#include <mutex>
+#include <vector>
+
+#include <Vector/BLF/FileStatistics.h>
+#include <Vector/BLF/ObjectHeaderBase.h>
+#include <Vector/BLF/ObjectType.h>
+#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -33,125 +42,298 @@ namespace BLF {
 /**
  * File
  *
- * This is just a top-level class that abstracts the internal architecture.
- * It also provides compatibility for some deprecated functions.
+ * This class is thread-safe.
  */
-class VECTOR_BLF_EXPORT File final {
+class VECTOR_BLF_EXPORT File final
+{
 public:
     virtual ~File();
+
+    /* general methods */
 
     /**
      * open file
      *
      * @param[in] filename file name
-     * @param[in] mode open mode, either in (read) or out (write)
+     * @param[in] mode open in read or write mode
      */
-    virtual void open(const std::string & filename, const std::ios_base::openmode mode = std::ios_base::in);
+    virtual void open(const char * filename, std::ios_base::openmode mode = std::ios_base::in);
 
     /**
-     * Read object from file.
+     * is file open?
      *
-     * Ownership is taken over from the library to the user.
-     * The user has to take care to delete the object.
+     * @return true if file is open
+     */
+    virtual bool is_open() const;
+
+    /** Close file. */
+    virtual void close();
+
+    /**
+     * Get compressed file size.
      *
-     * @return read object or nullptr
+     * @return compressed file size
+     */
+    virtual std::streamsize compressedSize();
+
+    /**
+     * Get uncompressed file size.
      *
-     * @deprecated Use new "streamsize read(ObjectHeaderBase **)" method instead.
+     * @return uncompressed file size
+     */
+    virtual std::streamsize uncompressedSize() const;
+
+    /**
+     * Get default log container size.
+     *
+     * @return Default log container size
+     */
+    virtual DWORD defaultLogContainerSize() const;
+
+    /**
+     * Set default log container size.
+     *
+     * @param[in] size default log container size
+     */
+    virtual void setDefaultLogContainerSize(DWORD size = 0x20000);
+
+    /**
+     * Get compression method.
+     *
+     * @return compression method
+     */
+    virtual WORD compressionMethod() const;
+
+    /**
+     * Set compression method.
+     *
+     * @param[in] compressionMethod compression method
+     */
+    virtual void setCompressionMethod(const WORD compressionMethod);
+
+    /**
+     * Get compression level.
+     *
+     * @return compression level
+     */
+    virtual int compressionLevel() const;
+
+    /**
+     * Set compression level.
+     *
+     * @param[in] compressionLevel compression level
+     */
+    virtual void setCompressionLevel(const int compressionLevel);
+
+    /* input methods */
+
+    /**
+     * Read block of data.
+     *
+     * This operation blocks until the data is available.
+     *
+     * @param[out] s Pointer to data
+     * @param[in] n Requested size of data
+     * @return Size of data read
+     */
+    virtual std::streamsize read(uint8_t * s, const std::streamsize n);
+
+    /**
+     * Get position in input sequence.
+     *
+     * @return Read position
+     */
+    virtual std::streampos tellg();
+
+    /**
+     * Set position in input sequence.
+     *
+     * @param[in] pos Position
+     */
+    virtual void seekg(const std::streampos pos);
+
+    /**
+     * Set position in input sequence.
+     *
+     * @param[in] off Offset
+     * @param[in] way Direction
+     */
+    virtual void seekg(const std::streamoff off, const std::ios_base::seekdir way);
+
+    /**
+     * Convenience function to read one object.
+     *
+     * @return Object
      */
     virtual ObjectHeaderBase * read();
 
-    /* StructuredUncompressedFile pass-thru methods */
+    /* output methods */
 
-    /** @copydoc StructuredUncompressedFile::open() */
-    virtual void open(const char * filename, const std::ios_base::openmode mode = std::ios_base::in);
+    /**
+     * Write block of data.
+     *
+     * @param[in] s Pointer to data
+     * @param[in] n Size of data
+     * @return Size of data written
+     */
+    virtual std::streamsize write(uint8_t * s, const std::streamsize n);
 
-    /** @copydoc StructuredUncompressedFile::is_open() */
-    virtual bool is_open() const;
+    /**
+     * Get position in output sequence.
+     *
+     * @return Write position
+     */
+    virtual std::streampos tellp();
 
-    /** @copydoc StructuredUncompressedFile::close() */
-    virtual void close();
-
-    /** @copydoc StructuredUncompressedFile::read() */
-    virtual StructuredUncompressedFile::indexsize read(ObjectHeaderBase ** objectHeaderBase);
-
-    /** @copydoc StructuredUncompressedFile::tellg() */
-    virtual StructuredUncompressedFile::indexpos tellg();
-
-    /** @copydoc StructuredUncompressedFile::seekg(StructuredUncompressedFile::streampos) */
-    virtual void seekg(const StructuredUncompressedFile::indexpos pos);
-
-    /** @copydoc StructuredUncompressedFile::seekg(StructuredUncompressedFile::streamoff, std::ios_base::seekdir) */
-    virtual void seekg(const StructuredUncompressedFile::indexoff off, const std::ios_base::seekdir way);
-
-    /** @copydoc StructuredUncompressedFile::write() */
-    virtual bool write(ObjectHeaderBase * objectHeaderBase);
-
-    /** @copydoc StructuredUncompressedFile::tellp() */
-    virtual StructuredUncompressedFile::indexpos tellp();
-
-    /** @copydoc StructuredUncompressedFile::size() */
-    virtual StructuredUncompressedFile::indexsize size() const;
-
-    /** @copydoc StructuredUncompressedFile::setApplication() */
-    virtual void setApplication(const BYTE id, const BYTE major = 0, const BYTE minor = 0, const BYTE build = 0);
-
-    /** @copydoc StructuredUncompressedFile::setApi() */
-    virtual void setApi(const BYTE major, const BYTE minor, const BYTE build, const BYTE patch);
-
-    /** @copydoc StructuredUncompressedFile::setObjectsRead() */
-    virtual void setObjectsRead(const DWORD objectsRead);
-
-    /** @copydoc StructuredUncompressedFile::setMeasurementStartTime() */
-    virtual void setMeasurementStartTime(const SYSTEMTIME measurementStartTime);
-
-    /** @copydoc StructuredUncompressedFile::setLastObjectTime() */
-    virtual void setLastObjectTime(const SYSTEMTIME lastObjectTime);
-
-    /* RawUncompressedFile pass-thru methods */
-
-    /** @copydoc RawUncompressedFile::size() */
-    virtual RawUncompressedFile::streamsize rawUncompressedFileSize() const;
-
-    /** @copydoc RawUncompressedFile::statisticsSize() */
-    virtual RawUncompressedFile::streamsize rawUncompressedFileStatisticsSize() const;
-
-    /** @copydoc RawUncompressedFile::defaultLogContainerSize() */
-    virtual DWORD defaultLogContainerSize() const;
-
-    /** @copydoc RawUncompressedFile::setDefaultLogContainerSize() */
-    virtual void setDefaultLogContainerSize(DWORD defaultLogContainerSize);
-
-    /** @copydoc RawUncompressedFile::compressionMethod() */
-    virtual int compressionMethod() const;
-
-    /** @copydoc RawUncompressedFile::setCompressionMethod() */
-    virtual void setCompressionMethod(const int compressionMethod = 2);
-
-    /** @copydoc RawUncompressedFile::compressionLevel() */
-    virtual int compressionLevel() const;
-
-    /** @copydoc RawUncompressedFile::setCompressionLevel() */
-    virtual void setCompressionLevel(const int compressionLevel = 6);
-
-    /* StructuredCompressedFile pass-thru methods */
-
-    /** @copydoc StructuredCompressedFile::size() */
-    virtual StructuredCompressedFile::indexsize structuredCompressedFileSize() const;
-
-    /* RawCompressedFile pass-thru methods */
-
-    /** @copydoc RawCompressedFile::size() */
-    virtual RawCompressedFile::streamsize rawCompressedFileSize() const;
-
-    /** @copydoc RawCompressedFile::statistics() */
-    virtual FileStatistics statistics() const;
+    /**
+     * Convenience function to write one object.
+     *
+     * @param[in] ohb Object (ownership is passed)
+     */
+    virtual void write(ObjectHeaderBase * ohb);
 
 private:
+    /** mutex */
+    mutable std::mutex m_mutex {};
+
+    /** actual compressed file on disk */
+    std::fstream m_file {};
+
     /** open mode */
     std::ios_base::openmode m_openMode {};
 
-    /** structured uncompressed file */
-    StructuredUncompressedFile m_structuredUncompressedFile {};
+    /** file statistics */
+    FileStatistics m_fileStatistics {};
+
+    /* compressed file */
+
+    /** size of compressed file */
+    std::streamsize m_compressedFileSize {0}; // @todo use m_fileStatistics instead
+
+    /** get position of compressed file */
+    std::streampos m_compressedFileGetPosition {0};
+
+    /** put position of compressed file */
+    std::streampos m_compressedFilePutPosition {0};
+
+    /** index entry */
+    struct IndexEntry {
+        /** uncompressed file position */
+        std::streampos uncompressedFilePosition {0};
+
+        /**
+         * compressed object size
+         *
+         * @see ObjectHeaderBase::objectSize
+         */
+        DWORD compressedObjectSize {0};
+
+        /**
+         * object type
+         *
+         * for FileStatistics this is set to UNKNOWN
+         *
+         * @see ObjectHeaderBase::objectType
+         */
+        ObjectType objectType {};
+
+        /**
+         * uncompressed object size
+         *
+         * This is used to correctly size the data in cache.
+         *
+         * @see LogContainers::uncompressedFileSize
+         */
+        DWORD uncompressedObjectSize {0};
+    };
+
+    /** maps compressedFilePos to uncompressedFilePos */
+    std::map<std::streampos, IndexEntry> m_index {};
+
+    /* uncompressed file */
+
+    /** size of uncompressed file */
+    std::streamsize m_uncompressedFileSize {0}; // @todo use m_fileStatistics instead
+
+    /** get position within uncompressed file */
+    std::streampos m_uncompressedFileGetPosition {0};
+
+    /** put position within uncompressed file */
+    std::streampos m_uncompressedFilePutPosition {0};
+
+    /**
+     * uncompressed file data (cache)
+     *
+     * maps uncompressedFilePos to cached data
+     *
+     * On read this usually contains the current and following uncompressed
+     * LogContainer data, until it's dropped.
+     *
+     * On write this usually contains the previous and current uncompressed
+     * LogContainer data, unitl it's written/flashed.
+     *
+     * FileStatistics are usually not cached, as only during open/close, access
+     * is needed.
+     */
+    std::map<std::streampos, std::vector<uint8_t>> m_uncompressedFileData {};
+
+    /** default log container size */
+    DWORD m_defaultLogContainerSize {0x20000};
+
+    /** compression method */
+    WORD m_compressionMethod {2};
+
+    /** compression level */
+    int m_compressionLevel {6};
+
+    /**
+     * index
+     *
+     * Scans the file to find FileStatistic, LogContainers and other Objects.
+     */
+    void indexCompressed();
+
+    /**
+     * Calculates padding for a given objectType and objectSize.
+     *
+     * @param[in] objectType object type
+     * @param[in] objectSize object size
+     * @return padding
+     */
+    DWORD padding(const ObjectType objectType, const DWORD objectSize) const;
+
+    /**
+     * get compressedFilePosition that contains uncompressedFilePosition
+     *
+     * @param[in] uncompressedFilePos uncompressed file position
+     * @return compressed file position
+     */
+    std::streampos compressedFilePositionContaining(std::streampos uncompressedFilePos) const;
+
+    /**
+     * Set position in output sequence.
+     *
+     * @note seekp writes zeros if it goes beyond eof.
+     *
+     * @param[in] off Offset
+     * @param[in] way Direction
+     */
+    void seekpCompressed(const std::streamoff off, const std::ios_base::seekdir way);
+
+    /**
+     * drop data that was already read and is not needed any more.
+     */
+    void dropOldData();
+
+    /**
+     * write old data
+     */
+    void writeOldData();
+
+    /**
+     * flush data
+     */
+    void flushOldData();
 };
 
 }

@@ -5,6 +5,8 @@
 #include <boost/test/unit_test.hpp>
 #include <boost/filesystem.hpp>
 
+#include <iostream>
+
 #include <Vector/BLF.h>
 
 /* SERIAL_EVENT = 90 */
@@ -14,7 +16,7 @@ BOOST_AUTO_TEST_CASE(SerialEvent_1) {
     BOOST_REQUIRE(file.is_open());
 
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
-    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::SERIAL_EVENT);
     auto * obj = dynamic_cast<Vector::BLF::SerialEvent *>(ohb);
 
@@ -23,6 +25,7 @@ BOOST_AUTO_TEST_CASE(SerialEvent_1) {
     BOOST_CHECK_EQUAL(obj->headerSize, obj->calculateHeaderSize());
     BOOST_CHECK_EQUAL(obj->headerVersion, 1);
     BOOST_CHECK_EQUAL(obj->objectSize, obj->calculateObjectSize());
+    std::cerr << "GeneralSerialEvent: 0x" << std::hex << obj->objectSize << std::endl;
     BOOST_CHECK(obj->objectType == Vector::BLF::ObjectType::SERIAL_EVENT);
 
     /* ObjectHeader */
@@ -51,10 +54,11 @@ BOOST_AUTO_TEST_CASE(SerialEvent_1) {
 
     /* read next */
     ohb = file.read();
-    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::SERIAL_EVENT);
     obj = static_cast<Vector::BLF::SerialEvent *>(ohb);
     BOOST_CHECK_EQUAL(obj->objectSize, obj->calculateObjectSize());
+    std::cerr << "SingleByteSerialEvent: 0x" << std::hex << obj->objectSize << std::endl;
     BOOST_REQUIRE_EQUAL(obj->flags, Vector::BLF::SerialEvent::Flags::SingleByte);
     /* SingleByteSerialEvent */
     BOOST_CHECK_EQUAL(obj->singleByte.byte, 0x11);
@@ -63,10 +67,11 @@ BOOST_AUTO_TEST_CASE(SerialEvent_1) {
 
     /* read next */
     ohb = file.read();
-    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::SERIAL_EVENT);
     obj = static_cast<Vector::BLF::SerialEvent *>(ohb);
     BOOST_CHECK_EQUAL(obj->objectSize, obj->calculateObjectSize());
+    std::cerr << "CompactSerialEvent: 0x" << std::hex << obj->objectSize << std::endl;
     BOOST_REQUIRE_EQUAL(obj->flags, Vector::BLF::SerialEvent::Flags::CompactByte);
     /* CompactSerialEvent */
     BOOST_CHECK_EQUAL(obj->compact.compactLength, 3);
@@ -78,21 +83,21 @@ BOOST_AUTO_TEST_CASE(SerialEvent_1) {
 
     /* read next */
     ohb = file.read();
-    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::SERIAL_EVENT);
 
     delete ohb;
 
     /* read last */
     ohb = file.read();
-    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::Unknown115);
 
     delete ohb;
 
     /* read last */
     ohb = file.read();
-    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::Unknown115);
 
     delete ohb;
@@ -110,7 +115,7 @@ BOOST_AUTO_TEST_CASE(SerialEvent_2) {
 
 
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
-    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::SERIAL_EVENT);
     auto * obj = dynamic_cast<Vector::BLF::SerialEvent *>(ohb);
 

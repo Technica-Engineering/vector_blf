@@ -81,7 +81,7 @@ std::vector<uint8_t>::iterator Most150Message::fromData(std::vector<uint8_t>::it
             (static_cast<DWORD>(*it++) << 24);
     msg.resize(msgLen);
     std::copy(it, it + msg.size(), std::begin(msg));
-    it += msg.size();
+    it += msgLen;
 
     return it;
 }

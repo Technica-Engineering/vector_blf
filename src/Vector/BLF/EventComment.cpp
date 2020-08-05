@@ -52,9 +52,8 @@ std::vector<uint8_t>::iterator EventComment::fromData(std::vector<uint8_t>::iter
             (static_cast<ULONGLONG>(*it++) << 40) |
             (static_cast<ULONGLONG>(*it++) << 48) |
             (static_cast<ULONGLONG>(*it++) << 56);
-    text.resize(textLength);
-    std::copy(it, it + text.size(), std::begin(text));
-    it += text.size();
+    text.assign(it, it + textLength);
+    it += textLength;
 
     return it;
 }

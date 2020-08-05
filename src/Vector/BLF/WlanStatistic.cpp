@@ -39,22 +39,34 @@ std::vector<uint8_t>::iterator WlanStatistic::fromData(std::vector<uint8_t>::ite
             (static_cast<WORD>(*it++) <<  8);
     rxPacketCount =
             (static_cast<ULONG>(*it++) <<  0) |
-            (static_cast<ULONG>(*it++) <<  8);
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
     rxByteCount =
             (static_cast<ULONG>(*it++) <<  0) |
-            (static_cast<ULONG>(*it++) <<  8);
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
     txPacketCount =
             (static_cast<ULONG>(*it++) <<  0) |
-            (static_cast<ULONG>(*it++) <<  8);
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
     txByteCount =
             (static_cast<ULONG>(*it++) <<  0) |
-            (static_cast<ULONG>(*it++) <<  8);
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
     collisionCount =
             (static_cast<ULONG>(*it++) <<  0) |
-            (static_cast<ULONG>(*it++) <<  8);
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
     errorCount =
             (static_cast<ULONG>(*it++) <<  0) |
-            (static_cast<ULONG>(*it++) <<  8);
+            (static_cast<ULONG>(*it++) <<  8) |
+            (static_cast<ULONG>(*it++) << 16) |
+            (static_cast<ULONG>(*it++) << 24);
     reservedWlanStatistic =
             (static_cast<DWORD>(*it++) <<  0) |
             (static_cast<DWORD>(*it++) <<  8) |
@@ -73,16 +85,28 @@ void WlanStatistic::toData(std::vector<uint8_t> & data) {
     data.push_back((flags >>  8) & 0xff);
     data.push_back((rxPacketCount >>  0) & 0xff);
     data.push_back((rxPacketCount >>  8) & 0xff);
+    data.push_back((rxPacketCount >> 16) & 0xff);
+    data.push_back((rxPacketCount >> 24) & 0xff);
     data.push_back((rxByteCount >>  0) & 0xff);
     data.push_back((rxByteCount >>  8) & 0xff);
+    data.push_back((rxByteCount >> 16) & 0xff);
+    data.push_back((rxByteCount >> 24) & 0xff);
     data.push_back((txPacketCount >>  0) & 0xff);
     data.push_back((txPacketCount >>  8) & 0xff);
+    data.push_back((txPacketCount >> 16) & 0xff);
+    data.push_back((txPacketCount >> 24) & 0xff);
     data.push_back((txByteCount >>  0) & 0xff);
     data.push_back((txByteCount >>  8) & 0xff);
+    data.push_back((txByteCount >> 16) & 0xff);
+    data.push_back((txByteCount >> 24) & 0xff);
     data.push_back((collisionCount >>  0) & 0xff);
     data.push_back((collisionCount >>  8) & 0xff);
+    data.push_back((collisionCount >> 16) & 0xff);
+    data.push_back((collisionCount >> 24) & 0xff);
     data.push_back((errorCount >>  0) & 0xff);
     data.push_back((errorCount >>  8) & 0xff);
+    data.push_back((errorCount >> 16) & 0xff);
+    data.push_back((errorCount >> 24) & 0xff);
     data.push_back((reservedWlanStatistic >>  0) & 0xff);
     data.push_back((reservedWlanStatistic >>  8) & 0xff);
     data.push_back((reservedWlanStatistic >> 16) & 0xff);

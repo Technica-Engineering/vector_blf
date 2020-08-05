@@ -14,7 +14,9 @@ BOOST_AUTO_TEST_CASE(CorrectFileSignature) {
         std::fstream file;
         file.open(CMAKE_CURRENT_BINARY_DIR "/test_FileStatistics.blf", std::ios_base::out);
         Vector::BLF::FileStatistics fileStatistics1;
-        fileStatistics1.write(file);
+        std::vector<uint8_t> data;
+        fileStatistics1.toData(data);
+        file.write(reinterpret_cast<char *>(data.data()), data.size());
     }
 
     /* read fileStatistics */
@@ -22,7 +24,9 @@ BOOST_AUTO_TEST_CASE(CorrectFileSignature) {
         std::fstream file;
         file.open(CMAKE_CURRENT_BINARY_DIR "/test_FileStatistics.blf", std::ios_base::in);
         Vector::BLF::FileStatistics fileStatistics2;
-        fileStatistics2.read(file);
+        std::vector<uint8_t> data(fileStatistics2.statisticsSize);
+        file.read(reinterpret_cast<char *>(data.data()), data.size());
+        fileStatistics2.fromData(std::begin(data));
     }
 }
 
@@ -34,7 +38,9 @@ BOOST_AUTO_TEST_CASE(WrongFileSignature) {
         file.open(CMAKE_CURRENT_BINARY_DIR "/test_FileStatistics.blf", std::ios_base::out);
         Vector::BLF::FileStatistics fileStatistics1;
         fileStatistics1.signature--;
-        fileStatistics1.write(file);
+        std::vector<uint8_t> data;
+        fileStatistics1.toData(data);
+        file.write(reinterpret_cast<char *>(data.data()), data.size());
     }
 
     /* read fileStatistics */
@@ -42,6 +48,8 @@ BOOST_AUTO_TEST_CASE(WrongFileSignature) {
         std::fstream file;
         file.open(CMAKE_CURRENT_BINARY_DIR "/test_FileStatistics.blf", std::ios_base::in);
         Vector::BLF::FileStatistics fileStatistics2;
-        BOOST_CHECK_THROW(fileStatistics2.read(file), Vector::BLF::Exception);
+        std::vector<uint8_t> data(fileStatistics2.statisticsSize);
+        file.read(reinterpret_cast<char *>(data.data()), data.size());
+        BOOST_CHECK_THROW(fileStatistics2.fromData(std::begin(data)), Vector::BLF::Exception);
     }
 }

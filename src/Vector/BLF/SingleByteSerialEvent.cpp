@@ -27,16 +27,21 @@ namespace BLF {
 std::vector<uint8_t>::iterator SingleByteSerialEvent::fromData(std::vector<uint8_t>::iterator it) {
     byte =
             (static_cast<BYTE>(*it++) <<  0);
+    std::copy(it, it + reservedSingleByteSerialEvent.size(), std::begin(reservedSingleByteSerialEvent));
+    it += reservedSingleByteSerialEvent.size();
 
     return it;
 }
 
 void SingleByteSerialEvent::toData(std::vector<uint8_t> & data) {
     data.push_back((byte >>  0) & 0xff);
+    data.insert(std::end(data), std::begin(reservedSingleByteSerialEvent), std::end(reservedSingleByteSerialEvent));
 }
 
 DWORD SingleByteSerialEvent::calculateObjectSize() const {
-    return sizeof(byte);
+    return
+        sizeof(byte) +
+        static_cast<DWORD>(reservedSingleByteSerialEvent.size());
 }
 
 }

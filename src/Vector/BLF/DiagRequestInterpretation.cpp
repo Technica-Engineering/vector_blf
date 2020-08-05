@@ -61,15 +61,12 @@ std::vector<uint8_t>::iterator DiagRequestInterpretation::fromData(std::vector<u
             (static_cast<DWORD>(*it++) <<  8) |
             (static_cast<DWORD>(*it++) << 16) |
             (static_cast<DWORD>(*it++) << 24);
-    ecuQualifier.resize(ecuQualifierLength);
-    std::copy(it, it + this->ecuQualifier.size(), std::begin(ecuQualifier));
-    it += this->ecuQualifier.size();
-    variantQualifier.resize(variantQualifierLength);
-    std::copy(it, it + this->variantQualifier.size(), std::begin(variantQualifier));
-    it += this->variantQualifier.size();
-    serviceQualifier.resize(serviceQualifierLength);
-    std::copy(it, it + this->serviceQualifier.size(), std::begin(serviceQualifier));
-    it += this->serviceQualifier.size();
+    ecuQualifier.assign(it, it + ecuQualifierLength);
+    it += ecuQualifierLength;
+    variantQualifier.assign(it, it + variantQualifierLength);
+    it += variantQualifierLength;
+    serviceQualifier.assign(it, it + serviceQualifierLength);
+    it += serviceQualifierLength;
 
     return it;
 }

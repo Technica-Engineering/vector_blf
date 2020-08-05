@@ -25,8 +25,8 @@
 
 #include <vector>
 
+#include <Vector/BLF/File.h>
 #include <Vector/BLF/ObjectHeaderBase.h>
-#include <Vector/BLF/RawFile.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -73,9 +73,6 @@ struct VECTOR_BLF_EXPORT LogContainer final : ObjectHeaderBase {
     std::vector<uint8_t> compressedFile {};
 
     /* following data is calculated */
-
-    /** compressed file size in bytes */
-    DWORD compressedFileSize {};
 
     /**
      * internalHeaderSize returns the size of all headers.

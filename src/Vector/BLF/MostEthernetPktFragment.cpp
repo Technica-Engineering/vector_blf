@@ -95,7 +95,7 @@ std::vector<uint8_t>::iterator MostEthernetPktFragment::fromData(std::vector<uin
             (static_cast<DWORD>(*it++) << 24);
     firstData.resize(firstDataLen);
     std::copy(it, it + firstData.size(), std::begin(firstData));
-    it += firstData.size();
+    it += firstDataLen;
 
     return it;
 }
@@ -142,6 +142,10 @@ void MostEthernetPktFragment::toData(std::vector<uint8_t> & data) {
     data.push_back((dataLen >>  8) & 0xff);
     data.push_back((dataLen >> 16) & 0xff);
     data.push_back((dataLen >> 24) & 0xff);
+    data.push_back((dataLenAnnounced >>  0) & 0xff);
+    data.push_back((dataLenAnnounced >>  8) & 0xff);
+    data.push_back((dataLenAnnounced >> 16) & 0xff);
+    data.push_back((dataLenAnnounced >> 24) & 0xff);
     data.push_back((firstDataLen >>  0) & 0xff);
     data.push_back((firstDataLen >>  8) & 0xff);
     data.push_back((firstDataLen >> 16) & 0xff);

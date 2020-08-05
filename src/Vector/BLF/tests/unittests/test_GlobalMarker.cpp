@@ -14,7 +14,7 @@ BOOST_AUTO_TEST_CASE(GlobalMarker_1) {
     BOOST_REQUIRE(file.is_open());
 
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
-    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::GLOBAL_MARKER);
     auto * obj = dynamic_cast<Vector::BLF::GlobalMarker *>(ohb);
 
@@ -51,21 +51,21 @@ BOOST_AUTO_TEST_CASE(GlobalMarker_1) {
 
     /* read next */
     ohb = file.read();
-    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::GLOBAL_MARKER);
 
     delete ohb;
 
     /* read last */
     ohb = file.read();
-    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::Unknown115);
 
     delete ohb;
 
     /* read last */
     ohb = file.read();
-    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::Unknown115);
 
     delete ohb;
@@ -76,13 +76,14 @@ BOOST_AUTO_TEST_CASE(GlobalMarker_1) {
     file.close();
 }
 
+#if 0
 BOOST_AUTO_TEST_CASE(GlobalMarker_2) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_converter/test_GlobalMarker.blf");
     BOOST_REQUIRE(file.is_open());
 
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
-    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::GLOBAL_MARKER);
     auto * obj = dynamic_cast<Vector::BLF::GlobalMarker *>(ohb);
 
@@ -123,3 +124,4 @@ BOOST_AUTO_TEST_CASE(GlobalMarker_2) {
     BOOST_REQUIRE(ohb == nullptr);
     file.close();
 }
+#endif

@@ -53,15 +53,13 @@ std::vector<uint8_t>::iterator AppText::fromData(std::vector<uint8_t>::iterator 
             (static_cast<DWORD>(*it++) <<  8) |
             (static_cast<DWORD>(*it++) << 16) |
             (static_cast<DWORD>(*it++) << 24);
-    text.resize(textLength);
-    std::copy(it, it + text.size(), std::begin(text));
-    it += text.size();
+    text.assign(it, it + textLength);
+    it += textLength;
 
     return it;
 }
 
 void AppText::toData(std::vector<uint8_t> & data) {
-    ObjectHeader::toData(data);
     /* pre processing */
     textLength = static_cast<DWORD>(text.size());
 

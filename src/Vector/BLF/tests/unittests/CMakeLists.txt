@@ -45,14 +45,10 @@ add_definitions(
 
 # base functionality
 add_boost_test(Exceptions test_Exceptions test_Exceptions.cpp)
-#add_boost_test(File test_File test_File.cpp)
+add_boost_test(File test_File test_File.cpp)
 add_boost_test(FileStatistics test_FileStatistics test_FileStatistics.cpp)
 add_boost_test(LogContainer test_LogContainer test_LogContainer.cpp)
 add_boost_test(ObjectHeaderBase test_ObjectHeaderBase test_ObjectHeaderBase.cpp)
-add_boost_test(RawCompressedFile test_RawCompressedFile test_RawCompressedFile.cpp)
-add_boost_test(RawUncompressedFile test_RawUncompressedFile test_RawUncompressedFile.cpp)
-add_boost_test(StructuredCompressedFile test_StructuredCompressedFile test_StructuredCompressedFile.cpp)
-add_boost_test(StructuredUncompressedFile test_StructuredUncompressedFile test_StructuredUncompressedFile.cpp)
 
 # object types
 add_boost_test(A429BusStatistic test_A429BusStatistic test_A429BusStatistic.cpp)
@@ -174,7 +170,7 @@ add_boost_test(WlanFrame test_WlanFrame test_WlanFrame.cpp)
 add_boost_test(WlanStatistic test_WlanStatistic test_WlanStatistic.cpp)
 
 # all logs read/write test
-#add_boost_test(AllLogfiles test_AllLogfiles test_AllLogfiles.cpp)
+add_boost_test(AllLogfiles test_AllLogfiles test_AllLogfiles.cpp)
 
 # coverage
 if(OPTION_USE_GCOV)

@@ -88,14 +88,14 @@ std::vector<uint8_t>::iterator CanFdMessage64::fromData(std::vector<uint8_t>::it
             (static_cast<DWORD>(*it++) << 24);
     this->data.resize(validDataBytes);
     std::copy(it, it + this->data.size(), std::begin(this->data));
-    it += this->data.size();
+    it += validDataBytes;
     if (hasExtData()) {
         it = CanFdExtFrameData::fromData(it);
     }
     // @note reservedCanFdExtFrameData is read here as CanFdExtFrameData doesn't know the objectSize
     reservedCanFdExtFrameData.resize(objectSize - calculateObjectSize());
     std::copy(it, it + reservedCanFdExtFrameData.size(), std::begin(reservedCanFdExtFrameData));
-    it += reservedCanFdExtFrameData.size();
+    it += objectSize - calculateObjectSize();
 
     return it;
 }

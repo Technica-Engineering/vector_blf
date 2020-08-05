@@ -73,6 +73,7 @@ void EthernetStatus::toData(std::vector<uint8_t> & data) {
     data.push_back((ethernetPhy >>  0) & 0xff);
     data.push_back((duplex >>  0) & 0xff);
     data.push_back((mdi >>  0) & 0xff);
+    data.push_back((connector >>  0) & 0xff);
     data.push_back((clockMode >>  0) & 0xff);
     data.push_back((pairs >>  0) & 0xff);
     data.push_back((hardwareChannel >>  0) & 0xff);

@@ -21,6 +21,8 @@
 
 #include <Vector/BLF/TestStructure.h>
 
+#include <algorithm>
+
 namespace Vector {
 namespace BLF {
 
@@ -68,15 +70,39 @@ std::vector<uint8_t>::iterator TestStructure::fromData(std::vector<uint8_t>::ite
             (static_cast<DWORD>(*it++) <<  8) |
             (static_cast<DWORD>(*it++) << 16) |
             (static_cast<DWORD>(*it++) << 24);
+#if 1
     executingObjectName.resize(executingObjectNameLength);
-    std::copy(it, it + executingObjectName.size(), std::begin(executingObjectName));
-    it += executingObjectName.size();
+    std::generate(executingObjectName.begin(), executingObjectName.end(), [&it]() {
+        return
+            (static_cast<char16_t>(*it++) <<  0) |
+            (static_cast<char16_t>(*it++) <<  8);
+    });
     name.resize(nameLength);
-    std::copy(it, it + name.size(), std::begin(name));
-    it += name.size();
+    std::generate(name.begin(), name.end(), [&it]() {
+        return
+            (static_cast<char16_t>(*it++) <<  0) |
+            (static_cast<char16_t>(*it++) <<  8);
+    });
     text.resize(textLength);
-    std::copy(it, it + text.size(), std::begin(text));
-    it += text.size();
+    std::generate(text.begin(), text.end(), [&it]() {
+        return
+            (static_cast<char16_t>(*it++) <<  0) |
+            (static_cast<char16_t>(*it++) <<  8);
+    });
+#else
+    executingObjectName.assign(
+                reinterpret_cast<char16_t *>(&(*it)),
+                reinterpret_cast<char16_t *>(&(*it)) + executingObjectNameLength);
+    it += executingObjectNameLength * sizeof(char16_t);
+    name.assign(
+                reinterpret_cast<char16_t *>(&(*it)),
+                reinterpret_cast<char16_t *>(&(*it)) + nameLength);
+    it += nameLength * sizeof(char16_t);
+    text.assign(
+                reinterpret_cast<char16_t *>(&(*it)),
+                reinterpret_cast<char16_t *>(&(*it)) + textLength);
+    it += textLength * sizeof(char16_t);
+#endif
 
     return it;
 }
@@ -117,9 +143,24 @@ void TestStructure::toData(std::vector<uint8_t> & data) {
     data.push_back((textLength >>  8) & 0xff);
     data.push_back((textLength >> 16) & 0xff);
     data.push_back((textLength >> 24) & 0xff);
+#if 1
+    std::for_each(executingObjectName.begin(), executingObjectName.end(), [&data](const char16_t & d) {
+        data.push_back((d >>  0) & 0xff);
+        data.push_back((d >>  8) & 0xff);
+    });
+    std::for_each(name.begin(), name.end(), [&data](const char16_t & d) {
+        data.push_back((d >>  0) & 0xff);
+        data.push_back((d >>  8) & 0xff);
+    });
+    std::for_each(text.begin(), text.end(), [&data](const char16_t & d) {
+        data.push_back((d >>  0) & 0xff);
+        data.push_back((d >>  8) & 0xff);
+    });
+#else
     data.insert(std::end(data), std::begin(executingObjectName), std::end(executingObjectName));
     data.insert(std::end(data), std::begin(name), std::end(name));
     data.insert(std::end(data), std::begin(text), std::end(text));
+#endif
 }
 
 DWORD TestStructure::calculateObjectSize() const {

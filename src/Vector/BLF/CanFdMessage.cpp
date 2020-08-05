@@ -63,7 +63,7 @@ std::vector<uint8_t>::iterator CanFdMessage::fromData(std::vector<uint8_t>::iter
             (static_cast<DWORD>(*it++) << 24);
     this->data.resize(validDataBytes);
     std::copy(it, it + this->data.size(), std::begin(this->data));
-    it += this->data.size();
+    it += validDataBytes;
     reservedCanFdMessage3 =
             (static_cast<DWORD>(*it++) <<  0) |
             (static_cast<DWORD>(*it++) <<  8) |

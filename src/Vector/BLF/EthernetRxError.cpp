@@ -61,7 +61,7 @@ std::vector<uint8_t>::iterator EthernetRxError::fromData(std::vector<uint8_t>::i
             (static_cast<DWORD>(*it++) << 24);
     frameData.resize(frameDataLength);
     std::copy(it, it + frameData.size(), std::begin(frameData));
-    it += frameData.size();
+    it += frameDataLength;
 
     return it;
 }

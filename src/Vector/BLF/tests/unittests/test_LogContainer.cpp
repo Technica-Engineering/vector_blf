@@ -20,17 +20,15 @@ BOOST_AUTO_TEST_CASE(SimpleTest) {
 
 /** compress a LogContainer, manipulate the uncompressedSize and see if it throws on uncompress */
 BOOST_AUTO_TEST_CASE(LogContainerUnexpectedUncompressedSizeException) {
-    Vector::BLF::LogContainer logContainer;
-    std::vector<char> uncompressedFile;
-
     /* put in some uncompressedData */
-    uncompressedFile.resize(256);
+    std::vector<uint8_t> uncompressedFile(256);
     for (uint16_t i = 0; i < 256; i++)
         uncompressedFile[i] = i;
-    logContainer.uncompressedFileSize = 256;
 
     /* compress LogContainer */
+    Vector::BLF::LogContainer logContainer;
     logContainer.compress(uncompressedFile, 2, 6); // ZLib compression with default compressionLevel
+    BOOST_CHECK_EQUAL(logContainer.uncompressedFileSize, 256);
 
     /* manipulate uncompressedFileSize */
     logContainer.uncompressedFileSize++;
@@ -41,17 +39,15 @@ BOOST_AUTO_TEST_CASE(LogContainerUnexpectedUncompressedSizeException) {
 
 /** compress a LogContainer, manipulate the compressedFile and see if it throws on uncompress */
 BOOST_AUTO_TEST_CASE(LogContainerUncompressErrorException) {
-    Vector::BLF::LogContainer logContainer;
-    std::vector<char> uncompressedFile;
-
     /* put in some uncompressedData */
-    uncompressedFile.resize(256);
+    std::vector<uint8_t> uncompressedFile(256);
     for (uint16_t i = 0; i < 256; i++)
         uncompressedFile[i] = i;
-    logContainer.uncompressedFileSize = 256;
 
     /* compress LogContainer */
+    Vector::BLF::LogContainer logContainer;
     logContainer.compress(uncompressedFile, 2, 6); // ZLib compression with default compressionLevel
+    BOOST_CHECK_EQUAL(logContainer.uncompressedFileSize, 256);
 
     /* manipulate uncompressedFile */
     logContainer.compressedFile[1] = 123;
@@ -62,17 +58,15 @@ BOOST_AUTO_TEST_CASE(LogContainerUncompressErrorException) {
 
 /** compress a LogContainer, manipulate the compressionMethod and see if it throws on uncompress */
 BOOST_AUTO_TEST_CASE(LogContainerUnknownCompressionMethod) {
-    Vector::BLF::LogContainer logContainer;
-    std::vector<char> uncompressedFile;
-
     /* put in some uncompressedData */
-    uncompressedFile.resize(256);
+    std::vector<uint8_t> uncompressedFile(256);
     for (uint16_t i = 0; i < 256; i++)
         uncompressedFile[i] = i;
-    logContainer.uncompressedFileSize = 256;
 
     /* compress LogContainer */
+    Vector::BLF::LogContainer logContainer;
     logContainer.compress(uncompressedFile, 2, 6); // ZLib compression with default compressionLevel
+    BOOST_CHECK_EQUAL(logContainer.uncompressedFileSize, 256);
 
     /* manipulate compressionMethod */
     logContainer.compressionMethod = 123;
@@ -83,16 +77,13 @@ BOOST_AUTO_TEST_CASE(LogContainerUnknownCompressionMethod) {
 
 /** compress a LogContainer with wrong compressionMethod or -Level and see if it throws */
 BOOST_AUTO_TEST_CASE(LogContainerCompressedWithWrongCompresionMethodOrLevel) {
-    Vector::BLF::LogContainer logContainer;
-    std::vector<char> uncompressedFile;
-
     /* put in some uncompressedData */
-    uncompressedFile.resize(256);
+    std::vector<uint8_t> uncompressedFile(256);
     for (uint16_t i = 0; i < 256; i++)
         uncompressedFile[i] = i;
-    logContainer.uncompressedFileSize = 256;
 
     /* compress LogContainer */
+    Vector::BLF::LogContainer logContainer;
     BOOST_CHECK_THROW(logContainer.compress(uncompressedFile, 1, 0), Vector::BLF::Exception); // undefined compressionMethod
 
     /* compress LogContainer */

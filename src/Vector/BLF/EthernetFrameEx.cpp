@@ -75,7 +75,7 @@ std::vector<uint8_t>::iterator EthernetFrameEx::fromData(std::vector<uint8_t>::i
             (static_cast<DWORD>(*it++) << 24);
     frameData.resize(frameLength);
     std::copy(it, it + frameData.size(), std::begin(frameData));
-    it += frameData.size();
+    it += frameLength;
 
     return it;
 }

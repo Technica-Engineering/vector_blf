@@ -81,7 +81,7 @@ std::vector<uint8_t>::iterator Most150Pkt::fromData(std::vector<uint8_t>::iterat
             (static_cast<DWORD>(*it++) << 24);
     pktData.resize(pktDataLength);
     std::copy(it, it + pktData.size(), std::begin(pktData));
-    it += pktData.size();
+    it += pktDataLength;
 
     return it;
 }

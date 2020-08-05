@@ -64,7 +64,7 @@ std::vector<uint8_t>::iterator EthernetFrame::fromData(std::vector<uint8_t>::ite
             (static_cast<ULONGLONG>(*it++) << 56);
     payLoad.resize(payLoadLength);
     std::copy(it, it + payLoad.size(), std::begin(payLoad));
-    it += payLoad.size();
+    it += payLoadLength;
 
     return it;
 }

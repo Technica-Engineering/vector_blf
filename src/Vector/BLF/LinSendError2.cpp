@@ -54,7 +54,8 @@ std::vector<uint8_t>::iterator LinSendError2::fromData(std::vector<uint8_t>::ite
             (static_cast<DWORD>(*it++) <<  8) |
             (static_cast<DWORD>(*it++) << 16) |
             (static_cast<DWORD>(*it++) << 24);
-    exactHeaderBaudrate =
+    uint64_t * ptr = reinterpret_cast<uint64_t *>(&exactHeaderBaudrate);
+    *ptr =
             (static_cast<uint64_t>(*it++) <<  0) |
             (static_cast<uint64_t>(*it++) <<  8) |
             (static_cast<uint64_t>(*it++) << 16) |
@@ -97,14 +98,15 @@ void LinSendError2::toData(std::vector<uint8_t> & data) {
     data.push_back((reservedLinSendError2 >>  8) & 0xff);
     data.push_back((reservedLinSendError2 >> 16) & 0xff);
     data.push_back((reservedLinSendError2 >> 24) & 0xff);
-    data.push_back((static_cast<uint64_t>(exactHeaderBaudrate) >>  0) & 0xff);
-    data.push_back((static_cast<uint64_t>(exactHeaderBaudrate) >>  8) & 0xff);
-    data.push_back((static_cast<uint64_t>(exactHeaderBaudrate) >> 16) & 0xff);
-    data.push_back((static_cast<uint64_t>(exactHeaderBaudrate) >> 24) & 0xff);
-    data.push_back((static_cast<uint64_t>(exactHeaderBaudrate) >> 32) & 0xff);
-    data.push_back((static_cast<uint64_t>(exactHeaderBaudrate) >> 40) & 0xff);
-    data.push_back((static_cast<uint64_t>(exactHeaderBaudrate) >> 48) & 0xff);
-    data.push_back((static_cast<uint64_t>(exactHeaderBaudrate) >> 56) & 0xff);
+    uint64_t * ptr = reinterpret_cast<uint64_t *>(&exactHeaderBaudrate);
+    data.push_back((*ptr >>  0) & 0xff);
+    data.push_back((*ptr >>  8) & 0xff);
+    data.push_back((*ptr >> 16) & 0xff);
+    data.push_back((*ptr >> 24) & 0xff);
+    data.push_back((*ptr >> 32) & 0xff);
+    data.push_back((*ptr >> 40) & 0xff);
+    data.push_back((*ptr >> 48) & 0xff);
+    data.push_back((*ptr >> 56) & 0xff);
     data.push_back((earlyStopbitOffset >>  0) & 0xff);
     data.push_back((earlyStopbitOffset >>  8) & 0xff);
     data.push_back((earlyStopbitOffset >> 16) & 0xff);

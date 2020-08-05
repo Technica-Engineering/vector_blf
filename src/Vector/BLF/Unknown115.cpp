@@ -108,7 +108,7 @@ std::vector<uint8_t>::iterator Unknown115::fromData(std::vector<uint8_t>::iterat
     }
     reservedUnknown115.resize(size);
     std::copy(it, it + reservedUnknown115.size(), std::begin(reservedUnknown115));
-    it += reservedUnknown115.size();
+    it += size;
 
     return it;
 }

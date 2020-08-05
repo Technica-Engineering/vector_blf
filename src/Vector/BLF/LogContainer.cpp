@@ -58,18 +58,14 @@ std::vector<uint8_t>::iterator LogContainer::fromData(std::vector<uint8_t>::iter
             (static_cast<DWORD>(*it++) <<  8) |
             (static_cast<DWORD>(*it++) << 16) |
             (static_cast<DWORD>(*it++) << 24);
-    compressedFileSize = objectSize - internalHeaderSize();
-    compressedFile.resize(compressedFileSize);
+    compressedFile.resize(objectSize - internalHeaderSize());
     std::copy(it, it + compressedFile.size(), std::begin(compressedFile));
-    it += compressedFile.size();
+    it += objectSize - internalHeaderSize();
 
     return it;
 }
 
 void LogContainer::toData(std::vector<uint8_t> & data) {
-    /* pre processing */
-    compressedFileSize = static_cast<DWORD>(compressedFile.size());
-
     ObjectHeaderBase::toData(data);
 
     data.push_back((compressionMethod >>  0) & 0xff);
@@ -124,7 +120,7 @@ void LogContainer::uncompress(std::vector<uint8_t> & uncompressedFile) const {
                          reinterpret_cast<Byte *>(uncompressedFile.data()),
                          &size,
                          reinterpret_cast<const Byte *>(compressedFile.data()),
-                         static_cast<uLong>(compressedFileSize));
+                         static_cast<uLong>(compressedFile.size()));
         if (size != uncompressedFileSize)
             throw Exception("LogContainer::uncompress(): unexpected uncompressedSize");
         if (retVal != Z_OK)
@@ -144,7 +140,6 @@ void LogContainer::compress(const std::vector<uint8_t> & uncompressedFile, const
     switch (compressionMethod) {
     case 0: /* no compression */
         compressedFile = uncompressedFile;
-        compressedFileSize = uncompressedFileSize;
         break;
 
     case 2: { /* zlib compress */
@@ -159,8 +154,7 @@ void LogContainer::compress(const std::vector<uint8_t> & uncompressedFile, const
                          compressionLevel);
         if (retVal != Z_OK)
             throw Exception("File::uncompressedFile2CompressedFile(): compress2 error");
-        compressedFileSize = static_cast<DWORD>(compressedBufferSize);
-        compressedFile.resize(compressedFileSize); // shrink_to_fit
+        compressedFile.resize(compressedBufferSize); // shrink_to_fit
     }
     break;
 

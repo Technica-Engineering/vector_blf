@@ -51,6 +51,9 @@ struct VECTOR_BLF_EXPORT SingleByteSerialEvent final {
     /** single byte */
     BYTE byte {};
 
+    /** reserved */
+    std::array<BYTE, 15> reservedSingleByteSerialEvent {};
+
     // @note might be extended in future versions
 };
 

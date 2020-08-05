@@ -5,24 +5,18 @@
 #include <boost/test/unit_test.hpp>
 #include <boost/filesystem.hpp>
 
-#include <Vector/BLF.h>
+#include <Vector/BLF/Exceptions.h>
+#include <Vector/BLF/ObjectHeaderBase.h>
 
 /** check if it throws on wrong signature */
 BOOST_AUTO_TEST_CASE(WrongSignature) {
-    /* write bad data */
-    {
-        Vector::BLF::RawCompressedFile file;
-        file.open(CMAKE_CURRENT_BINARY_DIR "/test_ObjectHeaderBase.blf", std::ios_base::out);
-        Vector::BLF::ObjectHeaderBase ohb1(1, Vector::BLF::ObjectType::UNKNOWN);
-        ohb1.signature = Vector::BLF::ObjectSignature - 1; // alter signature
-        ohb1.write(file);
-    }
+    /* create bad data */
+    Vector::BLF::ObjectHeaderBase ohb1(0, Vector::BLF::ObjectType::UNKNOWN);
+    ohb1.signature = Vector::BLF::ObjectSignature - 1; // alter signature
+    std::vector<uint8_t> data;
+    ohb1.toData(data);
 
     /* read back data, should throw an exception already during indexing */
-    {
-        Vector::BLF::RawCompressedFile file;
-        file.open(CMAKE_CURRENT_BINARY_DIR "/test_ObjectHeaderBase.blf", std::ios_base::in);
-        Vector::BLF::ObjectHeaderBase ohb2(1, Vector::BLF::ObjectType::UNKNOWN);
-        BOOST_CHECK_THROW(ohb2.read(file), Vector::BLF::Exception);
-    }
+    Vector::BLF::ObjectHeaderBase ohb2(0, Vector::BLF::ObjectType::UNKNOWN);
+    BOOST_CHECK_THROW(ohb2.fromData(data.begin()), Vector::BLF::Exception);
 }
