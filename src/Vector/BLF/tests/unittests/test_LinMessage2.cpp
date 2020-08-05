@@ -168,29 +168,28 @@ BOOST_AUTO_TEST_CASE(LinMessage2_2) {
 }
 
 // @todo check for all if0
-#if 0
 /** write and read a LinMessage with objectVersion0 */
 BOOST_AUTO_TEST_CASE(LinMessageVersion0) {
     /* write to file */
     {
-        Vector::BLF::RawCompressedFile file;
+        Vector::BLF::File file;
         file.open(CMAKE_CURRENT_BINARY_DIR "/test_LinMessage2.blf", std::ios_base::out);
 
-        Vector::BLF::LinMessage2 linMessage1;
-        BOOST_CHECK_EQUAL(linMessage1.calculateObjectSize(), 0xB8);
-        linMessage1.objectVersion = 0;
-        BOOST_CHECK_EQUAL(linMessage1.calculateObjectSize(), 0xA8);
-        linMessage1.write(file);
+        auto * linMessage = new Vector::BLF::LinMessage2(0);
+        BOOST_CHECK_EQUAL(linMessage->objectVersion, 0);
+        BOOST_CHECK_EQUAL(linMessage->calculateObjectSize(), 0xA8);
+        file.write(linMessage);
     }
 
     /* read from file */
     {
-        Vector::BLF::RawCompressedFile file;
+        Vector::BLF::File file;
         file.open(CMAKE_CURRENT_BINARY_DIR "/test_LinMessage2.blf", std::ios_base::in);
 
-        Vector::BLF::LinMessage2 linMessage2;
-        linMessage2.read(file);
-        BOOST_CHECK_EQUAL(linMessage2.objectVersion, 0);
+        Vector::BLF::ObjectHeaderBase * ohb;
+        ohb = file.read();
+        Vector::BLF::LinMessage2 * linMessage = reinterpret_cast<Vector::BLF::LinMessage2 *>(ohb);
+        BOOST_CHECK_EQUAL(linMessage->objectVersion, 0);
+        delete ohb;
     }
 }
-#endif

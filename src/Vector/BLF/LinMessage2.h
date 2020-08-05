@@ -39,7 +39,12 @@ namespace BLF {
  * LIN frame received or transmitted on a LIN channel.
  */
 struct VECTOR_BLF_EXPORT LinMessage2 final : ObjectHeader, LinDatabyteTimestampEvent {
-    LinMessage2();
+    /**
+     * Constructor
+     *
+     * @param[in] objectVersion object version (see documentation below)
+     */
+    LinMessage2(const WORD objectVersion = 1);
 
     std::vector<uint8_t>::iterator fromData(std::vector<uint8_t>::iterator it) override;
     void toData(std::vector<uint8_t> & data) override;

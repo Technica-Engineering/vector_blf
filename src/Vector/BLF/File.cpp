@@ -4,7 +4,6 @@
 #undef NDEBUG
 #include <cassert>
 #include <cstring>
-#include <iostream>
 
 #include <Vector/BLF/Exceptions.h>
 #include <Vector/BLF/LogContainer.h> /* for ObjectSignature */
@@ -510,10 +509,7 @@ void File::write(ObjectHeaderBase * ohb) {
     /* get data */
     std::vector<uint8_t> data;
     ohb->toData(data);
-    if (data.size() != ohb->objectSize) {
-        std::cerr << "data.size()=0x" << std::hex << data.size() << " != ohb->objectSize=0x" << ohb->objectSize << std::endl;
-        assert(false);
-    }
+    assert(data.size() == ohb->objectSize);
 
     /* add padding */
     DWORD objectSizeWithPadding = ohb->objectSize + padding(ohb->objectType, ohb->objectSize);
@@ -521,10 +517,7 @@ void File::write(ObjectHeaderBase * ohb) {
 
     /* write to file */
     std::streamsize size = write(data.data(), data.size());
-    if (size != objectSizeWithPadding) {
-        std::cerr << "size()=0x" << std::hex << size << " != objectSizeWithPadding=0x" << ohb->objectSize << std::endl;
-        assert(false);
-    }
+    assert(size == objectSizeWithPadding);
 
     /* delete ohb */
     delete ohb;
@@ -668,11 +661,11 @@ void File::indexCompressed() {
         m_uncompressedFileGetPosition += uncompressedObjectSize;
         m_file.seekg(m_compressedFileGetPosition);
         assert(m_file.good());
-    }
 
-    /* check if last object is truncated */
-    if ((m_index.rbegin()->first + std::streamsize(m_index.rbegin()->second.compressedObjectSize)) > m_compressedFileSize) {
-        throw Exception("File::index(): File is truncated.");
+        /* check if object is truncated */
+        if (m_compressedFileGetPosition > m_compressedFileSize) {
+            throw Exception("File::index(): File is truncated.");
+        }
     }
 }
 
@@ -757,6 +750,9 @@ void File::writeOldData() {
             logContainer.compress(it->second, m_compressionMethod, m_compressionLevel);
             std::vector<uint8_t> data;
             logContainer.toData(data);
+
+            /* add padding */
+            data.resize(data.size() + padding(ObjectType::LOG_CONTAINER, data.size()));
 
             /* complete index entry */
             assert(m_index.count(m_compressedFilePutPosition) > 0);

@@ -24,8 +24,8 @@
 namespace Vector {
 namespace BLF {
 
-LinMessage2::LinMessage2() :
-    ObjectHeader(ObjectType::LIN_MESSAGE2, 1) {
+LinMessage2::LinMessage2(const WORD objectVersion) :
+    ObjectHeader(ObjectType::LIN_MESSAGE2, objectVersion) {
 }
 
 std::vector<uint8_t>::iterator LinMessage2::fromData(std::vector<uint8_t>::iterator it) {
@@ -68,7 +68,7 @@ std::vector<uint8_t>::iterator LinMessage2::fromData(std::vector<uint8_t>::itera
             (static_cast<DWORD>(*it++) << 24);
 
     /* the following variables are only available in Version 3 and above */
-    if (objectVersion < 1)   // Vector bug: Shouldn't this be < 2?
+    if (objectVersion < 1) // Vector bug: Shouldn't this be < 2?
         return it;
 
     uint64_t * ptr = reinterpret_cast<uint64_t *>(&exactHeaderBaudrate);
@@ -123,7 +123,7 @@ void LinMessage2::toData(std::vector<uint8_t> & data) {
     data.push_back((respBaudrate >> 24) & 0xff);
 
     /* the following variables are only available in Version 3 and above */
-    if (objectVersion < 1)   // Vector bug: Shouldn't this be < 2?
+    if (objectVersion < 1) // Vector bug: Shouldn't this be < 2?
         return;
 
     uint64_t * ptr = reinterpret_cast<uint64_t *>(&exactHeaderBaudrate);
@@ -161,13 +161,19 @@ DWORD LinMessage2::calculateObjectSize() const {
         sizeof(reservedLinMessage1) +
         sizeof(reservedLinMessage2);
 
-    /*if (objectVersion >= 0)*/ // Vector bug: Shouldn't this be >= 1?
+    /* the following variables are only available in Version 2 and above */
+    /*if (objectVersion < 0)*/ // Vector bug: Shouldn't this be < 1?
+    /*    return size;*/
+
     size += sizeof(respBaudrate);
 
-    if (objectVersion >= 1) // Vector bug: Shouldn't this be >= 2?
-        size += sizeof(exactHeaderBaudrate) +
-                sizeof(earlyStopbitOffset) +
-                sizeof(earlyStopbitOffsetResponse);
+    /* the following variables are only available in Version 3 and above */
+    if (objectVersion < 1) // Vector bug: Shouldn't this be < 2?
+        return size;
+
+    size += sizeof(exactHeaderBaudrate) +
+            sizeof(earlyStopbitOffset) +
+            sizeof(earlyStopbitOffsetResponse);
 
     return size;
 }
