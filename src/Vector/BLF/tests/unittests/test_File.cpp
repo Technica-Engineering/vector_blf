@@ -13,6 +13,11 @@ BOOST_AUTO_TEST_CASE(Test1) {
     Vector::BLF::File file;
     file.open(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/test_CanMessage.blf", std::ios_base::in);
     BOOST_CHECK_EQUAL(file.tellg(), 0x90); // as FileStatistics was read already
+    BOOST_CHECK_EQUAL(file.tellp(), 0); // file opened for reading, not writing
+    BOOST_CHECK_EQUAL(file.compressedSize(), 420);
+    BOOST_CHECK_EQUAL(file.uncompressedSize(), 356);
+    BOOST_CHECK_EQUAL(file.uncompressedStatisticsSize(), 420);
+    BOOST_CHECK_EQUAL(file.objectCount(), 0); // increased on writing
 
     /* test file statistics */
     file.seekg(0);
@@ -49,8 +54,12 @@ BOOST_AUTO_TEST_CASE(Test1) {
     BOOST_CHECK_EQUAL(canMessage.objectSize, canMessage.calculateObjectSize());
     BOOST_CHECK(canMessage.objectType == Vector::BLF::ObjectType::CAN_MESSAGE);
 
-    /* seek back */
-    file.seekg(0);
+    /* seek to end */
+    file.seekg(0, std::ios_base::end);
+    BOOST_CHECK_EQUAL(file.tellg(), 356);
+
+    /* seek to begin */
+    file.seekg(0, std::ios_base::beg);
     BOOST_CHECK_EQUAL(file.tellg(), 0);
 
     /* read raw data */
@@ -62,6 +71,9 @@ BOOST_AUTO_TEST_CASE(Test1) {
     /* rewind to beginning of file */
     file.seekg(0);
     BOOST_CHECK_EQUAL(file.tellg(), 0);
+
+    /* write nullptr shouldn't do anything */
+    file.write(nullptr);
 
     /* close file */
     file.close();
