@@ -32,89 +32,89 @@ std::vector<uint8_t>::iterator AfdxBusStatistic::fromData(std::vector<uint8_t>::
     it = ObjectHeader::fromData(it);
 
     channel =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     flags =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     statDuration =
-            (static_cast<ULONG>(*it++) <<  0) |
-            (static_cast<ULONG>(*it++) <<  8) |
-            (static_cast<ULONG>(*it++) << 16) |
-            (static_cast<ULONG>(*it++) << 24);
+        (static_cast<ULONG>(*it++) <<  0) |
+        (static_cast<ULONG>(*it++) <<  8) |
+        (static_cast<ULONG>(*it++) << 16) |
+        (static_cast<ULONG>(*it++) << 24);
     statRxPacketCountHW =
-            (static_cast<ULONG>(*it++) <<  0) |
-            (static_cast<ULONG>(*it++) <<  8) |
-            (static_cast<ULONG>(*it++) << 16) |
-            (static_cast<ULONG>(*it++) << 24);
+        (static_cast<ULONG>(*it++) <<  0) |
+        (static_cast<ULONG>(*it++) <<  8) |
+        (static_cast<ULONG>(*it++) << 16) |
+        (static_cast<ULONG>(*it++) << 24);
     statTxPacketCountHW =
-            (static_cast<ULONG>(*it++) <<  0) |
-            (static_cast<ULONG>(*it++) <<  8) |
-            (static_cast<ULONG>(*it++) << 16) |
-            (static_cast<ULONG>(*it++) << 24);
+        (static_cast<ULONG>(*it++) <<  0) |
+        (static_cast<ULONG>(*it++) <<  8) |
+        (static_cast<ULONG>(*it++) << 16) |
+        (static_cast<ULONG>(*it++) << 24);
     statRxErrorCountHW =
-            (static_cast<ULONG>(*it++) <<  0) |
-            (static_cast<ULONG>(*it++) <<  8) |
-            (static_cast<ULONG>(*it++) << 16) |
-            (static_cast<ULONG>(*it++) << 24);
+        (static_cast<ULONG>(*it++) <<  0) |
+        (static_cast<ULONG>(*it++) <<  8) |
+        (static_cast<ULONG>(*it++) << 16) |
+        (static_cast<ULONG>(*it++) << 24);
     statTxErrorCountHW =
-            (static_cast<ULONG>(*it++) <<  0) |
-            (static_cast<ULONG>(*it++) <<  8) |
-            (static_cast<ULONG>(*it++) << 16) |
-            (static_cast<ULONG>(*it++) << 24);
+        (static_cast<ULONG>(*it++) <<  0) |
+        (static_cast<ULONG>(*it++) <<  8) |
+        (static_cast<ULONG>(*it++) << 16) |
+        (static_cast<ULONG>(*it++) << 24);
     statRxBytesHW =
-            (static_cast<ULONG>(*it++) <<  0) |
-            (static_cast<ULONG>(*it++) <<  8) |
-            (static_cast<ULONG>(*it++) << 16) |
-            (static_cast<ULONG>(*it++) << 24);
+        (static_cast<ULONG>(*it++) <<  0) |
+        (static_cast<ULONG>(*it++) <<  8) |
+        (static_cast<ULONG>(*it++) << 16) |
+        (static_cast<ULONG>(*it++) << 24);
     statTxBytesHW =
-            (static_cast<ULONG>(*it++) <<  0) |
-            (static_cast<ULONG>(*it++) <<  8) |
-            (static_cast<ULONG>(*it++) << 16) |
-            (static_cast<ULONG>(*it++) << 24);
+        (static_cast<ULONG>(*it++) <<  0) |
+        (static_cast<ULONG>(*it++) <<  8) |
+        (static_cast<ULONG>(*it++) << 16) |
+        (static_cast<ULONG>(*it++) << 24);
     statRxPacketCount =
-            (static_cast<ULONG>(*it++) <<  0) |
-            (static_cast<ULONG>(*it++) <<  8) |
-            (static_cast<ULONG>(*it++) << 16) |
-            (static_cast<ULONG>(*it++) << 24);
+        (static_cast<ULONG>(*it++) <<  0) |
+        (static_cast<ULONG>(*it++) <<  8) |
+        (static_cast<ULONG>(*it++) << 16) |
+        (static_cast<ULONG>(*it++) << 24);
     statTxPacketCount =
-            (static_cast<ULONG>(*it++) <<  0) |
-            (static_cast<ULONG>(*it++) <<  8) |
-            (static_cast<ULONG>(*it++) << 16) |
-            (static_cast<ULONG>(*it++) << 24);
+        (static_cast<ULONG>(*it++) <<  0) |
+        (static_cast<ULONG>(*it++) <<  8) |
+        (static_cast<ULONG>(*it++) << 16) |
+        (static_cast<ULONG>(*it++) << 24);
     statDroppedPacketCount =
-            (static_cast<ULONG>(*it++) <<  0) |
-            (static_cast<ULONG>(*it++) <<  8) |
-            (static_cast<ULONG>(*it++) << 16) |
-            (static_cast<ULONG>(*it++) << 24);
+        (static_cast<ULONG>(*it++) <<  0) |
+        (static_cast<ULONG>(*it++) <<  8) |
+        (static_cast<ULONG>(*it++) << 16) |
+        (static_cast<ULONG>(*it++) << 24);
     statInvalidPacketCount =
-            (static_cast<ULONG>(*it++) <<  0) |
-            (static_cast<ULONG>(*it++) <<  8) |
-            (static_cast<ULONG>(*it++) << 16) |
-            (static_cast<ULONG>(*it++) << 24);
+        (static_cast<ULONG>(*it++) <<  0) |
+        (static_cast<ULONG>(*it++) <<  8) |
+        (static_cast<ULONG>(*it++) << 16) |
+        (static_cast<ULONG>(*it++) << 24);
     statLostPacketCount =
-            (static_cast<ULONG>(*it++) <<  0) |
-            (static_cast<ULONG>(*it++) <<  8) |
-            (static_cast<ULONG>(*it++) << 16) |
-            (static_cast<ULONG>(*it++) << 24);
+        (static_cast<ULONG>(*it++) <<  0) |
+        (static_cast<ULONG>(*it++) <<  8) |
+        (static_cast<ULONG>(*it++) << 16) |
+        (static_cast<ULONG>(*it++) << 24);
     line =
-            (static_cast<BYTE>(*it++) <<  0);
+        (static_cast<BYTE>(*it++) <<  0);
     linkStatus =
-            (static_cast<BYTE>(*it++) <<  0);
+        (static_cast<BYTE>(*it++) <<  0);
     linkSpeed =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     linkLost =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     reservedAfdxBusStatistic1 =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     reservedAfdxBusStatistic2 =
-            (static_cast<DWORD>(*it++) <<  0) |
-            (static_cast<DWORD>(*it++) <<  8) |
-            (static_cast<DWORD>(*it++) << 16) |
-            (static_cast<DWORD>(*it++) << 24);
+        (static_cast<DWORD>(*it++) <<  0) |
+        (static_cast<DWORD>(*it++) <<  8) |
+        (static_cast<DWORD>(*it++) << 16) |
+        (static_cast<DWORD>(*it++) << 24);
 
     return it;
 }

@@ -32,16 +32,16 @@ std::vector<uint8_t>::iterator MostAllocTab::fromData(std::vector<uint8_t>::iter
     it = ObjectHeader2::fromData(it);
 
     channel =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     length =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     reservedMostAllocTab =
-            (static_cast<DWORD>(*it++) <<  0) |
-            (static_cast<DWORD>(*it++) <<  8) |
-            (static_cast<DWORD>(*it++) << 16) |
-            (static_cast<DWORD>(*it++) << 24);
+        (static_cast<DWORD>(*it++) <<  0) |
+        (static_cast<DWORD>(*it++) <<  8) |
+        (static_cast<DWORD>(*it++) << 16) |
+        (static_cast<DWORD>(*it++) << 24);
     tableData.resize(length);
     std::copy(it, it + tableData.size(), std::begin(tableData));
     it += length;

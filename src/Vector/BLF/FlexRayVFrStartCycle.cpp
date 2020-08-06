@@ -34,41 +34,41 @@ std::vector<uint8_t>::iterator FlexRayVFrStartCycle::fromData(std::vector<uint8_
     it = ObjectHeader::fromData(it);
 
     channel =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     version =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     channelMask =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     dir =
-            (static_cast<BYTE>(*it++) <<  0);
+        (static_cast<BYTE>(*it++) <<  0);
     cycle =
-            (static_cast<BYTE>(*it++) <<  0);
+        (static_cast<BYTE>(*it++) <<  0);
     clientIndexFlexRayVFrStartCycle =
-            (static_cast<DWORD>(*it++) <<  0) |
-            (static_cast<DWORD>(*it++) <<  8) |
-            (static_cast<DWORD>(*it++) << 16) |
-            (static_cast<DWORD>(*it++) << 24);
+        (static_cast<DWORD>(*it++) <<  0) |
+        (static_cast<DWORD>(*it++) <<  8) |
+        (static_cast<DWORD>(*it++) << 16) |
+        (static_cast<DWORD>(*it++) << 24);
     clusterNo =
-            (static_cast<DWORD>(*it++) <<  0) |
-            (static_cast<DWORD>(*it++) <<  8) |
-            (static_cast<DWORD>(*it++) << 16) |
-            (static_cast<DWORD>(*it++) << 24);
+        (static_cast<DWORD>(*it++) <<  0) |
+        (static_cast<DWORD>(*it++) <<  8) |
+        (static_cast<DWORD>(*it++) << 16) |
+        (static_cast<DWORD>(*it++) << 24);
     nmSize =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     std::copy(it, it + dataBytes.size(), std::begin(dataBytes));
     it += dataBytes.size();
     reservedFlexRayVFrStartCycle1 =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     tag =
-            (static_cast<DWORD>(*it++) <<  0) |
-            (static_cast<DWORD>(*it++) <<  8) |
-            (static_cast<DWORD>(*it++) << 16) |
-            (static_cast<DWORD>(*it++) << 24);
+        (static_cast<DWORD>(*it++) <<  0) |
+        (static_cast<DWORD>(*it++) <<  8) |
+        (static_cast<DWORD>(*it++) << 16) |
+        (static_cast<DWORD>(*it++) << 24);
     std::generate(this->data.begin(), this->data.end(), [&it]() {
         return
             (static_cast<DWORD>(*it++) <<  0) |
@@ -77,14 +77,14 @@ std::vector<uint8_t>::iterator FlexRayVFrStartCycle::fromData(std::vector<uint8_
             (static_cast<DWORD>(*it++) << 24);
     });
     reservedFlexRayVFrStartCycle2 =
-            (static_cast<ULONGLONG>(*it++) <<  0) |
-            (static_cast<ULONGLONG>(*it++) <<  8) |
-            (static_cast<ULONGLONG>(*it++) << 16) |
-            (static_cast<ULONGLONG>(*it++) << 24) |
-            (static_cast<ULONGLONG>(*it++) << 32) |
-            (static_cast<ULONGLONG>(*it++) << 40) |
-            (static_cast<ULONGLONG>(*it++) << 48) |
-            (static_cast<ULONGLONG>(*it++) << 56);
+        (static_cast<ULONGLONG>(*it++) <<  0) |
+        (static_cast<ULONGLONG>(*it++) <<  8) |
+        (static_cast<ULONGLONG>(*it++) << 16) |
+        (static_cast<ULONGLONG>(*it++) << 24) |
+        (static_cast<ULONGLONG>(*it++) << 32) |
+        (static_cast<ULONGLONG>(*it++) << 40) |
+        (static_cast<ULONGLONG>(*it++) << 48) |
+        (static_cast<ULONGLONG>(*it++) << 56);
 
     return it;
 }

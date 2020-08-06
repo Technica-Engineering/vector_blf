@@ -32,18 +32,18 @@ std::vector<uint8_t>::iterator AfdxStatus::fromData(std::vector<uint8_t>::iterat
     it = ObjectHeader::fromData(it);
 
     channel =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     reservedAfdxStatus1 =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     it = statusA.fromData(it);
     it = statusB.fromData(it);
     reservedAfdxStatus2 =
-            (static_cast<DWORD>(*it++) <<  0) |
-            (static_cast<DWORD>(*it++) <<  8) |
-            (static_cast<DWORD>(*it++) << 16) |
-            (static_cast<DWORD>(*it++) << 24);
+        (static_cast<DWORD>(*it++) <<  0) |
+        (static_cast<DWORD>(*it++) <<  8) |
+        (static_cast<DWORD>(*it++) << 16) |
+        (static_cast<DWORD>(*it++) << 24);
 
     return it;
 }

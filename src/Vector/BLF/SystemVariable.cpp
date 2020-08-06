@@ -32,43 +32,43 @@ std::vector<uint8_t>::iterator SystemVariable::fromData(std::vector<uint8_t>::it
     it = ObjectHeader::fromData(it);
 
     type =
-            (static_cast<DWORD>(*it++) <<  0) |
-            (static_cast<DWORD>(*it++) <<  8) |
-            (static_cast<DWORD>(*it++) << 16) |
-            (static_cast<DWORD>(*it++) << 24);
+        (static_cast<DWORD>(*it++) <<  0) |
+        (static_cast<DWORD>(*it++) <<  8) |
+        (static_cast<DWORD>(*it++) << 16) |
+        (static_cast<DWORD>(*it++) << 24);
     representation =
-            (static_cast<DWORD>(*it++) <<  0) |
-            (static_cast<DWORD>(*it++) <<  8) |
-            (static_cast<DWORD>(*it++) << 16) |
-            (static_cast<DWORD>(*it++) << 24);
+        (static_cast<DWORD>(*it++) <<  0) |
+        (static_cast<DWORD>(*it++) <<  8) |
+        (static_cast<DWORD>(*it++) << 16) |
+        (static_cast<DWORD>(*it++) << 24);
     reservedSystemVariable1 =
-            (static_cast<ULONGLONG>(*it++) <<  0) |
-            (static_cast<ULONGLONG>(*it++) <<  8) |
-            (static_cast<ULONGLONG>(*it++) << 16) |
-            (static_cast<ULONGLONG>(*it++) << 24) |
-            (static_cast<ULONGLONG>(*it++) << 32) |
-            (static_cast<ULONGLONG>(*it++) << 40) |
-            (static_cast<ULONGLONG>(*it++) << 48) |
-            (static_cast<ULONGLONG>(*it++) << 56);
+        (static_cast<ULONGLONG>(*it++) <<  0) |
+        (static_cast<ULONGLONG>(*it++) <<  8) |
+        (static_cast<ULONGLONG>(*it++) << 16) |
+        (static_cast<ULONGLONG>(*it++) << 24) |
+        (static_cast<ULONGLONG>(*it++) << 32) |
+        (static_cast<ULONGLONG>(*it++) << 40) |
+        (static_cast<ULONGLONG>(*it++) << 48) |
+        (static_cast<ULONGLONG>(*it++) << 56);
     nameLength =
-            (static_cast<DWORD>(*it++) <<  0) |
-            (static_cast<DWORD>(*it++) <<  8) |
-            (static_cast<DWORD>(*it++) << 16) |
-            (static_cast<DWORD>(*it++) << 24);
+        (static_cast<DWORD>(*it++) <<  0) |
+        (static_cast<DWORD>(*it++) <<  8) |
+        (static_cast<DWORD>(*it++) << 16) |
+        (static_cast<DWORD>(*it++) << 24);
     dataLength =
-            (static_cast<DWORD>(*it++) <<  0) |
-            (static_cast<DWORD>(*it++) <<  8) |
-            (static_cast<DWORD>(*it++) << 16) |
-            (static_cast<DWORD>(*it++) << 24);
+        (static_cast<DWORD>(*it++) <<  0) |
+        (static_cast<DWORD>(*it++) <<  8) |
+        (static_cast<DWORD>(*it++) << 16) |
+        (static_cast<DWORD>(*it++) << 24);
     reservedSystemVariable2 =
-            (static_cast<ULONGLONG>(*it++) <<  0) |
-            (static_cast<ULONGLONG>(*it++) <<  8) |
-            (static_cast<ULONGLONG>(*it++) << 16) |
-            (static_cast<ULONGLONG>(*it++) << 24) |
-            (static_cast<ULONGLONG>(*it++) << 32) |
-            (static_cast<ULONGLONG>(*it++) << 40) |
-            (static_cast<ULONGLONG>(*it++) << 48) |
-            (static_cast<ULONGLONG>(*it++) << 56);
+        (static_cast<ULONGLONG>(*it++) <<  0) |
+        (static_cast<ULONGLONG>(*it++) <<  8) |
+        (static_cast<ULONGLONG>(*it++) << 16) |
+        (static_cast<ULONGLONG>(*it++) << 24) |
+        (static_cast<ULONGLONG>(*it++) << 32) |
+        (static_cast<ULONGLONG>(*it++) << 40) |
+        (static_cast<ULONGLONG>(*it++) << 48) |
+        (static_cast<ULONGLONG>(*it++) << 56);
     name.assign(it, it + nameLength);
     it += nameLength;
     this->data.resize(dataLength);

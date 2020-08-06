@@ -32,38 +32,38 @@ std::vector<uint8_t>::iterator A429Status::fromData(std::vector<uint8_t>::iterat
     it = ObjectHeader::fromData(it);
 
     channel =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     dir =
-            (static_cast<BYTE>(*it++) <<  0);
+        (static_cast<BYTE>(*it++) <<  0);
     reservedA429Status1 =
-            (static_cast<BYTE>(*it++) <<  0);
+        (static_cast<BYTE>(*it++) <<  0);
     parity =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     reservedA429Status2 =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     minGap =
-            (static_cast<ULONG>(*it++) <<  0) |
-            (static_cast<ULONG>(*it++) <<  8) |
-            (static_cast<ULONG>(*it++) << 16) |
-            (static_cast<ULONG>(*it++) << 24);
+        (static_cast<ULONG>(*it++) <<  0) |
+        (static_cast<ULONG>(*it++) <<  8) |
+        (static_cast<ULONG>(*it++) << 16) |
+        (static_cast<ULONG>(*it++) << 24);
     bitrate =
-            (static_cast<ULONG>(*it++) <<  0) |
-            (static_cast<ULONG>(*it++) <<  8) |
-            (static_cast<ULONG>(*it++) << 16) |
-            (static_cast<ULONG>(*it++) << 24);
+        (static_cast<ULONG>(*it++) <<  0) |
+        (static_cast<ULONG>(*it++) <<  8) |
+        (static_cast<ULONG>(*it++) << 16) |
+        (static_cast<ULONG>(*it++) << 24);
     minBitrate =
-            (static_cast<ULONG>(*it++) <<  0) |
-            (static_cast<ULONG>(*it++) <<  8) |
-            (static_cast<ULONG>(*it++) << 16) |
-            (static_cast<ULONG>(*it++) << 24);
+        (static_cast<ULONG>(*it++) <<  0) |
+        (static_cast<ULONG>(*it++) <<  8) |
+        (static_cast<ULONG>(*it++) << 16) |
+        (static_cast<ULONG>(*it++) << 24);
     maxBitrate =
-            (static_cast<ULONG>(*it++) <<  0) |
-            (static_cast<ULONG>(*it++) <<  8) |
-            (static_cast<ULONG>(*it++) << 16) |
-            (static_cast<ULONG>(*it++) << 24);
+        (static_cast<ULONG>(*it++) <<  0) |
+        (static_cast<ULONG>(*it++) <<  8) |
+        (static_cast<ULONG>(*it++) << 16) |
+        (static_cast<ULONG>(*it++) << 24);
 
     return it;
 }

@@ -35,37 +35,37 @@ std::vector<uint8_t>::iterator LinMessage2::fromData(std::vector<uint8_t>::itera
     std::copy(it, it + this->data.size(), std::begin(data));
     it += this->data.size();
     crc =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     dir =
-            (static_cast<BYTE>(*it++) <<  0);
+        (static_cast<BYTE>(*it++) <<  0);
     simulated =
-            (static_cast<BYTE>(*it++) <<  0);
+        (static_cast<BYTE>(*it++) <<  0);
     isEtf =
-            (static_cast<BYTE>(*it++) <<  0);
+        (static_cast<BYTE>(*it++) <<  0);
     etfAssocIndex =
-            (static_cast<BYTE>(*it++) <<  0);
+        (static_cast<BYTE>(*it++) <<  0);
     etfAssocEtfId =
-            (static_cast<BYTE>(*it++) <<  0);
+        (static_cast<BYTE>(*it++) <<  0);
     fsmId =
-            (static_cast<BYTE>(*it++) <<  0);
+        (static_cast<BYTE>(*it++) <<  0);
     fsmState =
-            (static_cast<BYTE>(*it++) <<  0);
+        (static_cast<BYTE>(*it++) <<  0);
     reservedLinMessage1 =
-            (static_cast<BYTE>(*it++) <<  0);
+        (static_cast<BYTE>(*it++) <<  0);
     reservedLinMessage2 =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
 
     /* the following variables are only available in Version 2 and above */
     /*if (objectVersion < 0)*/ // Vector bug: Shouldn't this be < 1?
     /*    return it;*/
 
     respBaudrate =
-            (static_cast<DWORD>(*it++) <<  0) |
-            (static_cast<DWORD>(*it++) <<  8) |
-            (static_cast<DWORD>(*it++) << 16) |
-            (static_cast<DWORD>(*it++) << 24);
+        (static_cast<DWORD>(*it++) <<  0) |
+        (static_cast<DWORD>(*it++) <<  8) |
+        (static_cast<DWORD>(*it++) << 16) |
+        (static_cast<DWORD>(*it++) << 24);
 
     /* the following variables are only available in Version 3 and above */
     if (objectVersion < 1) // Vector bug: Shouldn't this be < 2?
@@ -73,24 +73,24 @@ std::vector<uint8_t>::iterator LinMessage2::fromData(std::vector<uint8_t>::itera
 
     uint64_t * ptr = reinterpret_cast<uint64_t *>(&exactHeaderBaudrate);
     *ptr =
-            (static_cast<uint64_t>(*it++) <<  0) |
-            (static_cast<uint64_t>(*it++) <<  8) |
-            (static_cast<uint64_t>(*it++) << 16) |
-            (static_cast<uint64_t>(*it++) << 24) |
-            (static_cast<uint64_t>(*it++) << 32) |
-            (static_cast<uint64_t>(*it++) << 40) |
-            (static_cast<uint64_t>(*it++) << 48) |
-            (static_cast<uint64_t>(*it++) << 56);
+        (static_cast<uint64_t>(*it++) <<  0) |
+        (static_cast<uint64_t>(*it++) <<  8) |
+        (static_cast<uint64_t>(*it++) << 16) |
+        (static_cast<uint64_t>(*it++) << 24) |
+        (static_cast<uint64_t>(*it++) << 32) |
+        (static_cast<uint64_t>(*it++) << 40) |
+        (static_cast<uint64_t>(*it++) << 48) |
+        (static_cast<uint64_t>(*it++) << 56);
     earlyStopbitOffset =
-            (static_cast<DWORD>(*it++) <<  0) |
-            (static_cast<DWORD>(*it++) <<  8) |
-            (static_cast<DWORD>(*it++) << 16) |
-            (static_cast<DWORD>(*it++) << 24);
+        (static_cast<DWORD>(*it++) <<  0) |
+        (static_cast<DWORD>(*it++) <<  8) |
+        (static_cast<DWORD>(*it++) << 16) |
+        (static_cast<DWORD>(*it++) << 24);
     earlyStopbitOffsetResponse =
-            (static_cast<DWORD>(*it++) <<  0) |
-            (static_cast<DWORD>(*it++) <<  8) |
-            (static_cast<DWORD>(*it++) << 16) |
-            (static_cast<DWORD>(*it++) << 24);
+        (static_cast<DWORD>(*it++) <<  0) |
+        (static_cast<DWORD>(*it++) <<  8) |
+        (static_cast<DWORD>(*it++) << 16) |
+        (static_cast<DWORD>(*it++) << 24);
 
     return it;
 }

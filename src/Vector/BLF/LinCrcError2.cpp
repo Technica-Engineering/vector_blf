@@ -35,49 +35,49 @@ std::vector<uint8_t>::iterator LinCrcError2::fromData(std::vector<uint8_t>::iter
     std::copy(it, it + this->data.size(), std::begin(this->data));
     it += this->data.size();
     crc =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     dir =
-            (static_cast<BYTE>(*it++) <<  0);
+        (static_cast<BYTE>(*it++) <<  0);
     fsmId =
-            (static_cast<BYTE>(*it++) <<  0);
+        (static_cast<BYTE>(*it++) <<  0);
     fsmState =
-            (static_cast<BYTE>(*it++) <<  0);
+        (static_cast<BYTE>(*it++) <<  0);
     simulated =
-            (static_cast<BYTE>(*it++) <<  0);
+        (static_cast<BYTE>(*it++) <<  0);
     reservedLinCrcError1 =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     respBaudrate =
-            (static_cast<DWORD>(*it++) <<  0) |
-            (static_cast<DWORD>(*it++) <<  8) |
-            (static_cast<DWORD>(*it++) << 16) |
-            (static_cast<DWORD>(*it++) << 24);
+        (static_cast<DWORD>(*it++) <<  0) |
+        (static_cast<DWORD>(*it++) <<  8) |
+        (static_cast<DWORD>(*it++) << 16) |
+        (static_cast<DWORD>(*it++) << 24);
     reservedLinCrcError2 =
-            (static_cast<DWORD>(*it++) <<  0) |
-            (static_cast<DWORD>(*it++) <<  8) |
-            (static_cast<DWORD>(*it++) << 16) |
-            (static_cast<DWORD>(*it++) << 24);
+        (static_cast<DWORD>(*it++) <<  0) |
+        (static_cast<DWORD>(*it++) <<  8) |
+        (static_cast<DWORD>(*it++) << 16) |
+        (static_cast<DWORD>(*it++) << 24);
     uint64_t * ptr = reinterpret_cast<uint64_t *>(&exactHeaderBaudrate);
     *ptr =
-            (static_cast<uint64_t>(*it++) <<  0) |
-            (static_cast<uint64_t>(*it++) <<  8) |
-            (static_cast<uint64_t>(*it++) << 16) |
-            (static_cast<uint64_t>(*it++) << 24) |
-            (static_cast<uint64_t>(*it++) << 32) |
-            (static_cast<uint64_t>(*it++) << 40) |
-            (static_cast<uint64_t>(*it++) << 48) |
-            (static_cast<uint64_t>(*it++) << 56);
+        (static_cast<uint64_t>(*it++) <<  0) |
+        (static_cast<uint64_t>(*it++) <<  8) |
+        (static_cast<uint64_t>(*it++) << 16) |
+        (static_cast<uint64_t>(*it++) << 24) |
+        (static_cast<uint64_t>(*it++) << 32) |
+        (static_cast<uint64_t>(*it++) << 40) |
+        (static_cast<uint64_t>(*it++) << 48) |
+        (static_cast<uint64_t>(*it++) << 56);
     earlyStopbitOffset =
-            (static_cast<DWORD>(*it++) <<  0) |
-            (static_cast<DWORD>(*it++) <<  8) |
-            (static_cast<DWORD>(*it++) << 16) |
-            (static_cast<DWORD>(*it++) << 24);
+        (static_cast<DWORD>(*it++) <<  0) |
+        (static_cast<DWORD>(*it++) <<  8) |
+        (static_cast<DWORD>(*it++) << 16) |
+        (static_cast<DWORD>(*it++) << 24);
     earlyStopbitOffsetResponse =
-            (static_cast<DWORD>(*it++) <<  0) |
-            (static_cast<DWORD>(*it++) <<  8) |
-            (static_cast<DWORD>(*it++) << 16) |
-            (static_cast<DWORD>(*it++) << 24);
+        (static_cast<DWORD>(*it++) <<  0) |
+        (static_cast<DWORD>(*it++) <<  8) |
+        (static_cast<DWORD>(*it++) << 16) |
+        (static_cast<DWORD>(*it++) << 24);
     return it;
 }
 

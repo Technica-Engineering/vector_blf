@@ -32,26 +32,26 @@ std::vector<uint8_t>::iterator Most150AllocTab::fromData(std::vector<uint8_t>::i
     it = ObjectHeader2::fromData(it);
 
     channel =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     eventModeFlags =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     freeBytes =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     length =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     reservedMost150AllocTab =
-            (static_cast<ULONGLONG>(*it++) <<  0) |
-            (static_cast<ULONGLONG>(*it++) <<  8) |
-            (static_cast<ULONGLONG>(*it++) << 16) |
-            (static_cast<ULONGLONG>(*it++) << 24) |
-            (static_cast<ULONGLONG>(*it++) << 32) |
-            (static_cast<ULONGLONG>(*it++) << 40) |
-            (static_cast<ULONGLONG>(*it++) << 48) |
-            (static_cast<ULONGLONG>(*it++) << 56);
+        (static_cast<ULONGLONG>(*it++) <<  0) |
+        (static_cast<ULONGLONG>(*it++) <<  8) |
+        (static_cast<ULONGLONG>(*it++) << 16) |
+        (static_cast<ULONGLONG>(*it++) << 24) |
+        (static_cast<ULONGLONG>(*it++) << 32) |
+        (static_cast<ULONGLONG>(*it++) << 40) |
+        (static_cast<ULONGLONG>(*it++) << 48) |
+        (static_cast<ULONGLONG>(*it++) << 56);
     tableData.resize(length);
     std::copy(it, it + tableData.size(), std::begin(tableData));
     it += length;

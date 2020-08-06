@@ -34,42 +34,42 @@ std::vector<uint8_t>::iterator TestStructure::fromData(std::vector<uint8_t>::ite
     it = ObjectHeader::fromData(it);
 
     executionObjectIdentify =
-            (static_cast<DWORD>(*it++) <<  0) |
-            (static_cast<DWORD>(*it++) <<  8) |
-            (static_cast<DWORD>(*it++) << 16) |
-            (static_cast<DWORD>(*it++) << 24);
+        (static_cast<DWORD>(*it++) <<  0) |
+        (static_cast<DWORD>(*it++) <<  8) |
+        (static_cast<DWORD>(*it++) << 16) |
+        (static_cast<DWORD>(*it++) << 24);
     type =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     reservedTestStructure =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     uniqueNo =
-            (static_cast<DWORD>(*it++) <<  0) |
-            (static_cast<DWORD>(*it++) <<  8) |
-            (static_cast<DWORD>(*it++) << 16) |
-            (static_cast<DWORD>(*it++) << 24);
+        (static_cast<DWORD>(*it++) <<  0) |
+        (static_cast<DWORD>(*it++) <<  8) |
+        (static_cast<DWORD>(*it++) << 16) |
+        (static_cast<DWORD>(*it++) << 24);
     action =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     result =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     executingObjectNameLength =
-            (static_cast<DWORD>(*it++) <<  0) |
-            (static_cast<DWORD>(*it++) <<  8) |
-            (static_cast<DWORD>(*it++) << 16) |
-            (static_cast<DWORD>(*it++) << 24);
+        (static_cast<DWORD>(*it++) <<  0) |
+        (static_cast<DWORD>(*it++) <<  8) |
+        (static_cast<DWORD>(*it++) << 16) |
+        (static_cast<DWORD>(*it++) << 24);
     nameLength =
-            (static_cast<DWORD>(*it++) <<  0) |
-            (static_cast<DWORD>(*it++) <<  8) |
-            (static_cast<DWORD>(*it++) << 16) |
-            (static_cast<DWORD>(*it++) << 24);
+        (static_cast<DWORD>(*it++) <<  0) |
+        (static_cast<DWORD>(*it++) <<  8) |
+        (static_cast<DWORD>(*it++) << 16) |
+        (static_cast<DWORD>(*it++) << 24);
     textLength =
-            (static_cast<DWORD>(*it++) <<  0) |
-            (static_cast<DWORD>(*it++) <<  8) |
-            (static_cast<DWORD>(*it++) << 16) |
-            (static_cast<DWORD>(*it++) << 24);
+        (static_cast<DWORD>(*it++) <<  0) |
+        (static_cast<DWORD>(*it++) <<  8) |
+        (static_cast<DWORD>(*it++) << 16) |
+        (static_cast<DWORD>(*it++) << 24);
 #if 1
     executingObjectName.resize(executingObjectNameLength);
     std::generate(executingObjectName.begin(), executingObjectName.end(), [&it]() {
@@ -91,16 +91,16 @@ std::vector<uint8_t>::iterator TestStructure::fromData(std::vector<uint8_t>::ite
     });
 #else
     executingObjectName.assign(
-                reinterpret_cast<char16_t *>(&(*it)),
-                reinterpret_cast<char16_t *>(&(*it)) + executingObjectNameLength);
+        reinterpret_cast<char16_t *>(&(*it)),
+        reinterpret_cast<char16_t *>(&(*it)) + executingObjectNameLength);
     it += executingObjectNameLength * sizeof(char16_t);
     name.assign(
-                reinterpret_cast<char16_t *>(&(*it)),
-                reinterpret_cast<char16_t *>(&(*it)) + nameLength);
+        reinterpret_cast<char16_t *>(&(*it)),
+        reinterpret_cast<char16_t *>(&(*it)) + nameLength);
     it += nameLength * sizeof(char16_t);
     text.assign(
-                reinterpret_cast<char16_t *>(&(*it)),
-                reinterpret_cast<char16_t *>(&(*it)) + textLength);
+        reinterpret_cast<char16_t *>(&(*it)),
+        reinterpret_cast<char16_t *>(&(*it)) + textLength);
     it += textLength * sizeof(char16_t);
 #endif
 

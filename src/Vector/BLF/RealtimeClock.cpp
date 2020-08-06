@@ -32,23 +32,23 @@ std::vector<uint8_t>::iterator RealtimeClock::fromData(std::vector<uint8_t>::ite
     it = ObjectHeader::fromData(it);
 
     time =
-            (static_cast<ULONGLONG>(*it++) <<  0) |
-            (static_cast<ULONGLONG>(*it++) <<  8) |
-            (static_cast<ULONGLONG>(*it++) << 16) |
-            (static_cast<ULONGLONG>(*it++) << 24) |
-            (static_cast<ULONGLONG>(*it++) << 32) |
-            (static_cast<ULONGLONG>(*it++) << 40) |
-            (static_cast<ULONGLONG>(*it++) << 48) |
-            (static_cast<ULONGLONG>(*it++) << 56);
+        (static_cast<ULONGLONG>(*it++) <<  0) |
+        (static_cast<ULONGLONG>(*it++) <<  8) |
+        (static_cast<ULONGLONG>(*it++) << 16) |
+        (static_cast<ULONGLONG>(*it++) << 24) |
+        (static_cast<ULONGLONG>(*it++) << 32) |
+        (static_cast<ULONGLONG>(*it++) << 40) |
+        (static_cast<ULONGLONG>(*it++) << 48) |
+        (static_cast<ULONGLONG>(*it++) << 56);
     loggingOffset =
-            (static_cast<ULONGLONG>(*it++) <<  0) |
-            (static_cast<ULONGLONG>(*it++) <<  8) |
-            (static_cast<ULONGLONG>(*it++) << 16) |
-            (static_cast<ULONGLONG>(*it++) << 24) |
-            (static_cast<ULONGLONG>(*it++) << 32) |
-            (static_cast<ULONGLONG>(*it++) << 40) |
-            (static_cast<ULONGLONG>(*it++) << 48) |
-            (static_cast<ULONGLONG>(*it++) << 56);
+        (static_cast<ULONGLONG>(*it++) <<  0) |
+        (static_cast<ULONGLONG>(*it++) <<  8) |
+        (static_cast<ULONGLONG>(*it++) << 16) |
+        (static_cast<ULONGLONG>(*it++) << 24) |
+        (static_cast<ULONGLONG>(*it++) << 32) |
+        (static_cast<ULONGLONG>(*it++) << 40) |
+        (static_cast<ULONGLONG>(*it++) << 48) |
+        (static_cast<ULONGLONG>(*it++) << 56);
 
     return it;
 }

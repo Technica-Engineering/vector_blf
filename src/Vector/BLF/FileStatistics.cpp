@@ -31,118 +31,118 @@ namespace BLF {
 
 std::vector<uint8_t>::iterator FileStatistics::fromData(std::vector<uint8_t>::iterator it) {
     signature =
-            (static_cast<DWORD>(*it++) <<  0) |
-            (static_cast<DWORD>(*it++) <<  8) |
-            (static_cast<DWORD>(*it++) << 16) |
-            (static_cast<DWORD>(*it++) << 24);
+        (static_cast<DWORD>(*it++) <<  0) |
+        (static_cast<DWORD>(*it++) <<  8) |
+        (static_cast<DWORD>(*it++) << 16) |
+        (static_cast<DWORD>(*it++) << 24);
     if (signature != FileSignature)
         throw Exception("FileStatistics::fromData(): File signature doesn't match.");
     statisticsSize =
-            (static_cast<DWORD>(*it++) <<  0) |
-            (static_cast<DWORD>(*it++) <<  8) |
-            (static_cast<DWORD>(*it++) << 16) |
-            (static_cast<DWORD>(*it++) << 24);
+        (static_cast<DWORD>(*it++) <<  0) |
+        (static_cast<DWORD>(*it++) <<  8) |
+        (static_cast<DWORD>(*it++) << 16) |
+        (static_cast<DWORD>(*it++) << 24);
     applicationId =
-            (static_cast<BYTE>(*it++) <<  0);
+        (static_cast<BYTE>(*it++) <<  0);
     applicationMajor =
-            (static_cast<BYTE>(*it++) <<  0);
+        (static_cast<BYTE>(*it++) <<  0);
     applicationMinor =
-            (static_cast<BYTE>(*it++) <<  0);
+        (static_cast<BYTE>(*it++) <<  0);
     applicationBuild =
-            (static_cast<BYTE>(*it++) <<  0);
+        (static_cast<BYTE>(*it++) <<  0);
     apiMajor =
-            (static_cast<BYTE>(*it++) <<  0);
+        (static_cast<BYTE>(*it++) <<  0);
     apiMinor =
-            (static_cast<BYTE>(*it++) <<  0);
+        (static_cast<BYTE>(*it++) <<  0);
     apiBuild =
-            (static_cast<BYTE>(*it++) <<  0);
+        (static_cast<BYTE>(*it++) <<  0);
     apiPatch =
-            (static_cast<BYTE>(*it++) <<  0);
+        (static_cast<BYTE>(*it++) <<  0);
     fileSize =
-            (static_cast<ULONGLONG>(*it++) <<  0) |
-            (static_cast<ULONGLONG>(*it++) <<  8) |
-            (static_cast<ULONGLONG>(*it++) << 16) |
-            (static_cast<ULONGLONG>(*it++) << 24) |
-            (static_cast<ULONGLONG>(*it++) << 32) |
-            (static_cast<ULONGLONG>(*it++) << 40) |
-            (static_cast<ULONGLONG>(*it++) << 48) |
-            (static_cast<ULONGLONG>(*it++) << 56);
+        (static_cast<ULONGLONG>(*it++) <<  0) |
+        (static_cast<ULONGLONG>(*it++) <<  8) |
+        (static_cast<ULONGLONG>(*it++) << 16) |
+        (static_cast<ULONGLONG>(*it++) << 24) |
+        (static_cast<ULONGLONG>(*it++) << 32) |
+        (static_cast<ULONGLONG>(*it++) << 40) |
+        (static_cast<ULONGLONG>(*it++) << 48) |
+        (static_cast<ULONGLONG>(*it++) << 56);
     uncompressedFileSize =
-            (static_cast<ULONGLONG>(*it++) <<  0) |
-            (static_cast<ULONGLONG>(*it++) <<  8) |
-            (static_cast<ULONGLONG>(*it++) << 16) |
-            (static_cast<ULONGLONG>(*it++) << 24) |
-            (static_cast<ULONGLONG>(*it++) << 32) |
-            (static_cast<ULONGLONG>(*it++) << 40) |
-            (static_cast<ULONGLONG>(*it++) << 48) |
-            (static_cast<ULONGLONG>(*it++) << 56);
+        (static_cast<ULONGLONG>(*it++) <<  0) |
+        (static_cast<ULONGLONG>(*it++) <<  8) |
+        (static_cast<ULONGLONG>(*it++) << 16) |
+        (static_cast<ULONGLONG>(*it++) << 24) |
+        (static_cast<ULONGLONG>(*it++) << 32) |
+        (static_cast<ULONGLONG>(*it++) << 40) |
+        (static_cast<ULONGLONG>(*it++) << 48) |
+        (static_cast<ULONGLONG>(*it++) << 56);
     objectCount =
-            (static_cast<DWORD>(*it++) <<  0) |
-            (static_cast<DWORD>(*it++) <<  8) |
-            (static_cast<DWORD>(*it++) << 16) |
-            (static_cast<DWORD>(*it++) << 24);
+        (static_cast<DWORD>(*it++) <<  0) |
+        (static_cast<DWORD>(*it++) <<  8) |
+        (static_cast<DWORD>(*it++) << 16) |
+        (static_cast<DWORD>(*it++) << 24);
     objectsRead =
-            (static_cast<DWORD>(*it++) <<  0) |
-            (static_cast<DWORD>(*it++) <<  8) |
-            (static_cast<DWORD>(*it++) << 16) |
-            (static_cast<DWORD>(*it++) << 24);
+        (static_cast<DWORD>(*it++) <<  0) |
+        (static_cast<DWORD>(*it++) <<  8) |
+        (static_cast<DWORD>(*it++) << 16) |
+        (static_cast<DWORD>(*it++) << 24);
     measurementStartTime.year =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     measurementStartTime.month =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     measurementStartTime.dayOfWeek =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     measurementStartTime.day =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     measurementStartTime.hour =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     measurementStartTime.minute =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     measurementStartTime.second =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     measurementStartTime.milliseconds =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     lastObjectTime.year =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     lastObjectTime.month =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     lastObjectTime.dayOfWeek =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     lastObjectTime.day =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     lastObjectTime.hour =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     lastObjectTime.minute =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     lastObjectTime.second =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     lastObjectTime.milliseconds =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     fileSizeWithoutUnknown115 =
-            (static_cast<ULONGLONG>(*it++) <<  0) |
-            (static_cast<ULONGLONG>(*it++) <<  8) |
-            (static_cast<ULONGLONG>(*it++) << 16) |
-            (static_cast<ULONGLONG>(*it++) << 24) |
-            (static_cast<ULONGLONG>(*it++) << 32) |
-            (static_cast<ULONGLONG>(*it++) << 40) |
-            (static_cast<ULONGLONG>(*it++) << 48) |
-            (static_cast<ULONGLONG>(*it++) << 56);
+        (static_cast<ULONGLONG>(*it++) <<  0) |
+        (static_cast<ULONGLONG>(*it++) <<  8) |
+        (static_cast<ULONGLONG>(*it++) << 16) |
+        (static_cast<ULONGLONG>(*it++) << 24) |
+        (static_cast<ULONGLONG>(*it++) << 32) |
+        (static_cast<ULONGLONG>(*it++) << 40) |
+        (static_cast<ULONGLONG>(*it++) << 48) |
+        (static_cast<ULONGLONG>(*it++) << 56);
     std::generate(reservedFileStatistics.begin(), reservedFileStatistics.end(), [&it]() {
         return
             (static_cast<DWORD>(*it++) <<  0) |

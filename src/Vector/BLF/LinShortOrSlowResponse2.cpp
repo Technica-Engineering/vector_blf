@@ -33,38 +33,38 @@ std::vector<uint8_t>::iterator LinShortOrSlowResponse2::fromData(std::vector<uin
     it = LinDatabyteTimestampEvent::fromData(it);
 
     numberOfRespBytes =
-            (static_cast<ULONG>(*it++) <<  0) |
-            (static_cast<ULONG>(*it++) <<  8) |
-            (static_cast<ULONG>(*it++) << 16) |
-            (static_cast<ULONG>(*it++) << 24);
+        (static_cast<ULONG>(*it++) <<  0) |
+        (static_cast<ULONG>(*it++) <<  8) |
+        (static_cast<ULONG>(*it++) << 16) |
+        (static_cast<ULONG>(*it++) << 24);
     std::copy(it, it + respBytes.size(), std::begin(respBytes));
     it += respBytes.size();
     slowResponse =
-            (static_cast<BYTE>(*it++) <<  0);
+        (static_cast<BYTE>(*it++) <<  0);
     interruptedByBreak =
-            (static_cast<BYTE>(*it++) <<  0);
+        (static_cast<BYTE>(*it++) <<  0);
     reservedLinShortOrSlowResponse1 =
-            (static_cast<BYTE>(*it++) <<  0);
+        (static_cast<BYTE>(*it++) <<  0);
     uint64_t * ptr = reinterpret_cast<uint64_t *>(&exactHeaderBaudrate);
     *ptr =
-            (static_cast<uint64_t>(*it++) <<  0) |
-            (static_cast<uint64_t>(*it++) <<  8) |
-            (static_cast<uint64_t>(*it++) << 16) |
-            (static_cast<uint64_t>(*it++) << 24) |
-            (static_cast<uint64_t>(*it++) << 32) |
-            (static_cast<uint64_t>(*it++) << 40) |
-            (static_cast<uint64_t>(*it++) << 48) |
-            (static_cast<uint64_t>(*it++) << 56);
+        (static_cast<uint64_t>(*it++) <<  0) |
+        (static_cast<uint64_t>(*it++) <<  8) |
+        (static_cast<uint64_t>(*it++) << 16) |
+        (static_cast<uint64_t>(*it++) << 24) |
+        (static_cast<uint64_t>(*it++) << 32) |
+        (static_cast<uint64_t>(*it++) << 40) |
+        (static_cast<uint64_t>(*it++) << 48) |
+        (static_cast<uint64_t>(*it++) << 56);
     earlyStopbitOffset =
-            (static_cast<DWORD>(*it++) <<  0) |
-            (static_cast<DWORD>(*it++) <<  8) |
-            (static_cast<DWORD>(*it++) << 16) |
-            (static_cast<DWORD>(*it++) << 24);
+        (static_cast<DWORD>(*it++) <<  0) |
+        (static_cast<DWORD>(*it++) <<  8) |
+        (static_cast<DWORD>(*it++) << 16) |
+        (static_cast<DWORD>(*it++) << 24);
     reservedLinShortOrSlowResponse2 =
-            (static_cast<DWORD>(*it++) <<  0) |
-            (static_cast<DWORD>(*it++) <<  8) |
-            (static_cast<DWORD>(*it++) << 16) |
-            (static_cast<DWORD>(*it++) << 24);
+        (static_cast<DWORD>(*it++) <<  0) |
+        (static_cast<DWORD>(*it++) <<  8) |
+        (static_cast<DWORD>(*it++) << 16) |
+        (static_cast<DWORD>(*it++) << 24);
 
     return it;
 }

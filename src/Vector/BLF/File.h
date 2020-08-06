@@ -44,9 +44,8 @@ namespace BLF {
  *
  * This class is thread-safe.
  */
-class VECTOR_BLF_EXPORT File final
-{
-public:
+class VECTOR_BLF_EXPORT File final {
+  public:
     virtual ~File();
 
     /* general methods */
@@ -263,7 +262,7 @@ public:
      */
     virtual void write(ObjectHeaderBase * ohb);
 
-private:
+  private:
     /** mutex */
     mutable std::mutex m_mutex {};
 

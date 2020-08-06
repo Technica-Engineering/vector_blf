@@ -26,32 +26,32 @@ namespace BLF {
 
 std::vector<uint8_t>::iterator AfdxLineStatus::fromData(std::vector<uint8_t>::iterator it) {
     flags =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     linkStatus =
-            (static_cast<BYTE>(*it++) <<  0);
+        (static_cast<BYTE>(*it++) <<  0);
     ethernetPhy =
-            (static_cast<BYTE>(*it++) <<  0);
+        (static_cast<BYTE>(*it++) <<  0);
     duplex =
-            (static_cast<BYTE>(*it++) <<  0);
+        (static_cast<BYTE>(*it++) <<  0);
     mdi =
-            (static_cast<BYTE>(*it++) <<  0);
+        (static_cast<BYTE>(*it++) <<  0);
     connector =
-            (static_cast<BYTE>(*it++) <<  0);
+        (static_cast<BYTE>(*it++) <<  0);
     clockMode =
-            (static_cast<BYTE>(*it++) <<  0);
+        (static_cast<BYTE>(*it++) <<  0);
     pairs =
-            (static_cast<BYTE>(*it++) <<  0);
+        (static_cast<BYTE>(*it++) <<  0);
     reservedAfdxLineStatus1 =
-            (static_cast<BYTE>(*it++) <<  0);
+        (static_cast<BYTE>(*it++) <<  0);
     reservedAfdxLineStatus2 =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     bitrate =
-            (static_cast<ULONG>(*it++) <<  0) |
-            (static_cast<ULONG>(*it++) <<  8) |
-            (static_cast<ULONG>(*it++) << 16) |
-            (static_cast<ULONG>(*it++) << 24);
+        (static_cast<ULONG>(*it++) <<  0) |
+        (static_cast<ULONG>(*it++) <<  8) |
+        (static_cast<ULONG>(*it++) << 16) |
+        (static_cast<ULONG>(*it++) << 24);
 
     return it;
 }

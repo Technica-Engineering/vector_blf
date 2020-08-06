@@ -28,10 +28,10 @@ namespace BLF {
 
 DWORD Unknown115::UnknownDataBlock::calculateObjectSize() {
     return
-            sizeof(UnknownDataBlock::timeStamp) +
-            sizeof(UnknownDataBlock::uncompressedFileSize) +
-            sizeof(UnknownDataBlock::value) +
-            sizeof(UnknownDataBlock::flags);
+        sizeof(UnknownDataBlock::timeStamp) +
+        sizeof(UnknownDataBlock::uncompressedFileSize) +
+        sizeof(UnknownDataBlock::value) +
+        sizeof(UnknownDataBlock::flags);
 }
 
 Unknown115::Unknown115() :
@@ -42,67 +42,67 @@ std::vector<uint8_t>::iterator Unknown115::fromData(std::vector<uint8_t>::iterat
     it = ObjectHeader::fromData(it);
 
     unknown0 =
-            (static_cast<uint64_t>(*it++) <<  0) |
-            (static_cast<uint64_t>(*it++) <<  8) |
-            (static_cast<uint64_t>(*it++) << 16) |
-            (static_cast<uint64_t>(*it++) << 24) |
-            (static_cast<uint64_t>(*it++) << 32) |
-            (static_cast<uint64_t>(*it++) << 40) |
-            (static_cast<uint64_t>(*it++) << 48) |
-            (static_cast<uint64_t>(*it++) << 56);
+        (static_cast<uint64_t>(*it++) <<  0) |
+        (static_cast<uint64_t>(*it++) <<  8) |
+        (static_cast<uint64_t>(*it++) << 16) |
+        (static_cast<uint64_t>(*it++) << 24) |
+        (static_cast<uint64_t>(*it++) << 32) |
+        (static_cast<uint64_t>(*it++) << 40) |
+        (static_cast<uint64_t>(*it++) << 48) |
+        (static_cast<uint64_t>(*it++) << 56);
     unknown1 =
-            (static_cast<uint64_t>(*it++) <<  0) |
-            (static_cast<uint64_t>(*it++) <<  8) |
-            (static_cast<uint64_t>(*it++) << 16) |
-            (static_cast<uint64_t>(*it++) << 24) |
-            (static_cast<uint64_t>(*it++) << 32) |
-            (static_cast<uint64_t>(*it++) << 40) |
-            (static_cast<uint64_t>(*it++) << 48) |
-            (static_cast<uint64_t>(*it++) << 56);
+        (static_cast<uint64_t>(*it++) <<  0) |
+        (static_cast<uint64_t>(*it++) <<  8) |
+        (static_cast<uint64_t>(*it++) << 16) |
+        (static_cast<uint64_t>(*it++) << 24) |
+        (static_cast<uint64_t>(*it++) << 32) |
+        (static_cast<uint64_t>(*it++) << 40) |
+        (static_cast<uint64_t>(*it++) << 48) |
+        (static_cast<uint64_t>(*it++) << 56);
     unknown2 =
-            (static_cast<uint64_t>(*it++) <<  0) |
-            (static_cast<uint64_t>(*it++) <<  8) |
-            (static_cast<uint64_t>(*it++) << 16) |
-            (static_cast<uint64_t>(*it++) << 24) |
-            (static_cast<uint64_t>(*it++) << 32) |
-            (static_cast<uint64_t>(*it++) << 40) |
-            (static_cast<uint64_t>(*it++) << 48) |
-            (static_cast<uint64_t>(*it++) << 56);
+        (static_cast<uint64_t>(*it++) <<  0) |
+        (static_cast<uint64_t>(*it++) <<  8) |
+        (static_cast<uint64_t>(*it++) << 16) |
+        (static_cast<uint64_t>(*it++) << 24) |
+        (static_cast<uint64_t>(*it++) << 32) |
+        (static_cast<uint64_t>(*it++) << 40) |
+        (static_cast<uint64_t>(*it++) << 48) |
+        (static_cast<uint64_t>(*it++) << 56);
     DWORD size = objectSize
-        - ObjectHeader::calculateObjectSize()
-        - sizeof(unknown0)
-        - sizeof(unknown1)
-        - sizeof(unknown2);
+                 - ObjectHeader::calculateObjectSize()
+                 - sizeof(unknown0)
+                 - sizeof(unknown1)
+                 - sizeof(unknown2);
     while(size >= UnknownDataBlock::calculateObjectSize()) {
         UnknownDataBlock dataBlock;
         dataBlock.timeStamp =
-                (static_cast<uint64_t>(*it++) <<  0) |
-                (static_cast<uint64_t>(*it++) <<  8) |
-                (static_cast<uint64_t>(*it++) << 16) |
-                (static_cast<uint64_t>(*it++) << 24) |
-                (static_cast<uint64_t>(*it++) << 32) |
-                (static_cast<uint64_t>(*it++) << 40) |
-                (static_cast<uint64_t>(*it++) << 48) |
-                (static_cast<uint64_t>(*it++) << 56);
+            (static_cast<uint64_t>(*it++) <<  0) |
+            (static_cast<uint64_t>(*it++) <<  8) |
+            (static_cast<uint64_t>(*it++) << 16) |
+            (static_cast<uint64_t>(*it++) << 24) |
+            (static_cast<uint64_t>(*it++) << 32) |
+            (static_cast<uint64_t>(*it++) << 40) |
+            (static_cast<uint64_t>(*it++) << 48) |
+            (static_cast<uint64_t>(*it++) << 56);
         dataBlock.uncompressedFileSize =
-                (static_cast<uint64_t>(*it++) <<  0) |
-                (static_cast<uint64_t>(*it++) <<  8) |
-                (static_cast<uint64_t>(*it++) << 16) |
-                (static_cast<uint64_t>(*it++) << 24) |
-                (static_cast<uint64_t>(*it++) << 32) |
-                (static_cast<uint64_t>(*it++) << 40) |
-                (static_cast<uint64_t>(*it++) << 48) |
-                (static_cast<uint64_t>(*it++) << 56);
+            (static_cast<uint64_t>(*it++) <<  0) |
+            (static_cast<uint64_t>(*it++) <<  8) |
+            (static_cast<uint64_t>(*it++) << 16) |
+            (static_cast<uint64_t>(*it++) << 24) |
+            (static_cast<uint64_t>(*it++) << 32) |
+            (static_cast<uint64_t>(*it++) << 40) |
+            (static_cast<uint64_t>(*it++) << 48) |
+            (static_cast<uint64_t>(*it++) << 56);
         dataBlock.value =
-                (static_cast<uint64_t>(*it++) <<  0) |
-                (static_cast<uint64_t>(*it++) <<  8) |
-                (static_cast<uint64_t>(*it++) << 16) |
-                (static_cast<uint64_t>(*it++) << 24);
+            (static_cast<uint64_t>(*it++) <<  0) |
+            (static_cast<uint64_t>(*it++) <<  8) |
+            (static_cast<uint64_t>(*it++) << 16) |
+            (static_cast<uint64_t>(*it++) << 24);
         dataBlock.flags =
-                (static_cast<uint64_t>(*it++) <<  0) |
-                (static_cast<uint64_t>(*it++) <<  8) |
-                (static_cast<uint64_t>(*it++) << 16) |
-                (static_cast<uint64_t>(*it++) << 24);
+            (static_cast<uint64_t>(*it++) <<  0) |
+            (static_cast<uint64_t>(*it++) <<  8) |
+            (static_cast<uint64_t>(*it++) << 16) |
+            (static_cast<uint64_t>(*it++) << 24);
         unknownData.push_back(dataBlock);
         size -= UnknownDataBlock::calculateObjectSize();
     }

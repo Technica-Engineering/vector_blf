@@ -382,29 +382,29 @@ ObjectHeaderBase * File::read() {
         return nullptr;
     }
     DWORD signature =
-            (static_cast<DWORD>(readData[0]) <<  0) |
-            (static_cast<DWORD>(readData[1]) <<  8) |
-            (static_cast<DWORD>(readData[2]) << 16) |
-            (static_cast<DWORD>(readData[3]) << 24);
+        (static_cast<DWORD>(readData[0]) <<  0) |
+        (static_cast<DWORD>(readData[1]) <<  8) |
+        (static_cast<DWORD>(readData[2]) << 16) |
+        (static_cast<DWORD>(readData[3]) << 24);
     if (signature != ObjectSignature) {
         throw Exception("File::read(): Object signature doesn't match.");
     }
 
     /* skip object header's headerSize and headerVersion */
     seekg(
-                sizeof(ObjectHeaderBase::headerSize) +
-                sizeof(ObjectHeaderBase::headerVersion),
-                std::ios_base::cur);
+        sizeof(ObjectHeaderBase::headerSize) +
+        sizeof(ObjectHeaderBase::headerVersion),
+        std::ios_base::cur);
 
     /* read object header's objectSize */
     if (read(reinterpret_cast<uint8_t *>(&readData), sizeof(ObjectHeaderBase::objectSize)) < std::streamsize(sizeof(ObjectHeaderBase::objectSize))) {
         return nullptr;
     }
     DWORD objectSize =
-            (static_cast<DWORD>(readData[0]) <<  0) |
-            (static_cast<DWORD>(readData[1]) <<  8) |
-            (static_cast<DWORD>(readData[2]) << 16) |
-            (static_cast<DWORD>(readData[3]) << 24);
+        (static_cast<DWORD>(readData[0]) <<  0) |
+        (static_cast<DWORD>(readData[1]) <<  8) |
+        (static_cast<DWORD>(readData[2]) << 16) |
+        (static_cast<DWORD>(readData[3]) << 24);
     assert(objectSize > 0);
 
     /* read object header's objectType */
@@ -412,10 +412,10 @@ ObjectHeaderBase * File::read() {
         return nullptr;
     }
     ObjectType objectType = static_cast<ObjectType>(
-            (static_cast<DWORD>(readData[0]) <<  0) |
-            (static_cast<DWORD>(readData[1]) <<  8) |
-            (static_cast<DWORD>(readData[2]) << 16) |
-            (static_cast<DWORD>(readData[3]) << 24));
+                                (static_cast<DWORD>(readData[0]) <<  0) |
+                                (static_cast<DWORD>(readData[1]) <<  8) |
+                                (static_cast<DWORD>(readData[2]) << 16) |
+                                (static_cast<DWORD>(readData[3]) << 24));
 
     /* read data */
     seekg(pos);
@@ -557,10 +557,10 @@ void File::indexCompressed() {
             throw Exception("File::indexCompressed(): Unable to read File signature.");
         }
         m_fileStatistics.signature =
-                (static_cast<DWORD>(readData[0]) <<  0) |
-                (static_cast<DWORD>(readData[1]) <<  8) |
-                (static_cast<DWORD>(readData[2]) << 16) |
-                (static_cast<DWORD>(readData[3]) << 24);
+            (static_cast<DWORD>(readData[0]) <<  0) |
+            (static_cast<DWORD>(readData[1]) <<  8) |
+            (static_cast<DWORD>(readData[2]) << 16) |
+            (static_cast<DWORD>(readData[3]) << 24);
         if (m_fileStatistics.signature != FileSignature) {
             throw Exception("File::indexCompressed(): File signature doesn't match.");
         }
@@ -569,10 +569,10 @@ void File::indexCompressed() {
         m_file.read(reinterpret_cast<char *>(&readData), sizeof(FileStatistics::statisticsSize));
         assert(m_file.good());
         m_fileStatistics.statisticsSize =
-                (static_cast<DWORD>(readData[0]) <<  0) |
-                (static_cast<DWORD>(readData[1]) <<  8) |
-                (static_cast<DWORD>(readData[2]) << 16) |
-                (static_cast<DWORD>(readData[3]) << 24);
+            (static_cast<DWORD>(readData[0]) <<  0) |
+            (static_cast<DWORD>(readData[1]) <<  8) |
+            (static_cast<DWORD>(readData[2]) << 16) |
+            (static_cast<DWORD>(readData[3]) << 24);
         if (m_file.gcount() < std::streamsize(sizeof(FileStatistics::statisticsSize))) {
             throw Exception("File::indexCompressed(): Unable to read FileStatistics size.");
         }
@@ -611,19 +611,19 @@ void File::indexCompressed() {
             throw Exception("File::indexCompressed(): Unable to read Object signature.");
         }
         DWORD signature =
-                (static_cast<DWORD>(readData[0]) <<  0) |
-                (static_cast<DWORD>(readData[1]) <<  8) |
-                (static_cast<DWORD>(readData[2]) << 16) |
-                (static_cast<DWORD>(readData[3]) << 24);
+            (static_cast<DWORD>(readData[0]) <<  0) |
+            (static_cast<DWORD>(readData[1]) <<  8) |
+            (static_cast<DWORD>(readData[2]) << 16) |
+            (static_cast<DWORD>(readData[3]) << 24);
         if (signature != ObjectSignature) {
             throw Exception("File::indexCompressed(): Object signature doesn't match.");
         }
 
         /* skip ObjectHeaderBase::headerSize and ObjectHeaderBase::headerVersion */
         m_file.seekg(
-                    sizeof(ObjectHeaderBase::headerSize) +
-                    sizeof(ObjectHeaderBase::headerVersion),
-                    std::ios_base::cur);
+            sizeof(ObjectHeaderBase::headerSize) +
+            sizeof(ObjectHeaderBase::headerVersion),
+            std::ios_base::cur);
         assert(m_file.good());
 
         /* read ObjectHeaderBase::objectSize */
@@ -633,10 +633,10 @@ void File::indexCompressed() {
             throw Exception("File::indexCompressed(): Unable to read Object size.");
         }
         DWORD objectSize =
-                (static_cast<DWORD>(readData[0]) <<  0) |
-                (static_cast<DWORD>(readData[1]) <<  8) |
-                (static_cast<DWORD>(readData[2]) << 16) |
-                (static_cast<DWORD>(readData[3]) << 24);
+            (static_cast<DWORD>(readData[0]) <<  0) |
+            (static_cast<DWORD>(readData[1]) <<  8) |
+            (static_cast<DWORD>(readData[2]) << 16) |
+            (static_cast<DWORD>(readData[3]) << 24);
 
         /* read ObjectHeaderBase::objectType */
         m_file.read(reinterpret_cast<char *>(&readData), sizeof(ObjectHeaderBase::objectType));
@@ -645,10 +645,10 @@ void File::indexCompressed() {
             throw Exception("File::indexCompressed(): Unable to read Object type.");
         }
         ObjectType objectType = static_cast<ObjectType>(
-                (static_cast<DWORD>(readData[0]) <<  0) |
-                (static_cast<DWORD>(readData[1]) <<  8) |
-                (static_cast<DWORD>(readData[2]) << 16) |
-                (static_cast<DWORD>(readData[3]) << 24));
+                                    (static_cast<DWORD>(readData[0]) <<  0) |
+                                    (static_cast<DWORD>(readData[1]) <<  8) |
+                                    (static_cast<DWORD>(readData[2]) << 16) |
+                                    (static_cast<DWORD>(readData[3]) << 24));
 
         /* skip padding */
         objectSize += padding(objectType, objectSize);
@@ -668,10 +668,10 @@ void File::indexCompressed() {
                 throw Exception("File::indexCompressed(): Unable to read LogContainer uncompressedFileSize.");
             }
             DWORD uncompressedFileSize =
-                    (static_cast<DWORD>(readData[0]) <<  0) |
-                    (static_cast<DWORD>(readData[1]) <<  8) |
-                    (static_cast<DWORD>(readData[2]) << 16) |
-                    (static_cast<DWORD>(readData[3]) << 24);
+                (static_cast<DWORD>(readData[0]) <<  0) |
+                (static_cast<DWORD>(readData[1]) <<  8) |
+                (static_cast<DWORD>(readData[2]) << 16) |
+                (static_cast<DWORD>(readData[3]) << 24);
             uncompressedObjectSize = uncompressedFileSize;
             uncompressedObjectStatisticsSize = 0x20 + uncompressedFileSize; // 0x20 = LogContainer::internalHeaderSize()
         } else {

@@ -32,30 +32,30 @@ std::vector<uint8_t>::iterator A429Error::fromData(std::vector<uint8_t>::iterato
     it = ObjectHeader::fromData(it);
 
     channel =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     errorType =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     sourceIdentifier =
-            (static_cast<ULONG>(*it++) <<  0) |
-            (static_cast<ULONG>(*it++) <<  8) |
-            (static_cast<ULONG>(*it++) << 16) |
-            (static_cast<ULONG>(*it++) << 24);
+        (static_cast<ULONG>(*it++) <<  0) |
+        (static_cast<ULONG>(*it++) <<  8) |
+        (static_cast<ULONG>(*it++) << 16) |
+        (static_cast<ULONG>(*it++) << 24);
     errReason =
-            (static_cast<ULONG>(*it++) <<  0) |
-            (static_cast<ULONG>(*it++) <<  8) |
-            (static_cast<ULONG>(*it++) << 16) |
-            (static_cast<ULONG>(*it++) << 24);
+        (static_cast<ULONG>(*it++) <<  0) |
+        (static_cast<ULONG>(*it++) <<  8) |
+        (static_cast<ULONG>(*it++) << 16) |
+        (static_cast<ULONG>(*it++) << 24);
     std::copy(it, it + errorText.size(), std::begin(errorText));
     it += errorText.size();
     std::copy(it, it + errorAttributes.size(), std::begin(errorAttributes));
     it += errorAttributes.size();
     reservedA429Error =
-            (static_cast<ULONG>(*it++) <<  0) |
-            (static_cast<ULONG>(*it++) <<  8) |
-            (static_cast<ULONG>(*it++) << 16) |
-            (static_cast<ULONG>(*it++) << 24);
+        (static_cast<ULONG>(*it++) <<  0) |
+        (static_cast<ULONG>(*it++) <<  8) |
+        (static_cast<ULONG>(*it++) << 16) |
+        (static_cast<ULONG>(*it++) << 24);
 
     return it;
 }

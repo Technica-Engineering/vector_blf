@@ -33,18 +33,18 @@ std::vector<uint8_t>::iterator LinShortOrSlowResponse::fromData(std::vector<uint
     it = LinDatabyteTimestampEvent::fromData(it);
 
     numberOfRespBytes =
-            (static_cast<ULONG>(*it++) <<  0) |
-            (static_cast<ULONG>(*it++) <<  8) |
-            (static_cast<ULONG>(*it++) << 16) |
-            (static_cast<ULONG>(*it++) << 24);
+        (static_cast<ULONG>(*it++) <<  0) |
+        (static_cast<ULONG>(*it++) <<  8) |
+        (static_cast<ULONG>(*it++) << 16) |
+        (static_cast<ULONG>(*it++) << 24);
     std::copy(it, it + respBytes.size(), std::begin(respBytes));
     it += respBytes.size();
     slowResponse =
-            (static_cast<BYTE>(*it++) <<  0);
+        (static_cast<BYTE>(*it++) <<  0);
     interruptedByBreak =
-            (static_cast<BYTE>(*it++) <<  0);
+        (static_cast<BYTE>(*it++) <<  0);
     reservedLinShortOrSlowResponse =
-            (static_cast<BYTE>(*it++) <<  0);
+        (static_cast<BYTE>(*it++) <<  0);
 
     return it;
 }

@@ -32,66 +32,66 @@ std::vector<uint8_t>::iterator GpsEvent::fromData(std::vector<uint8_t>::iterator
     it = ObjectHeader::fromData(it);
 
     flags =
-            (static_cast<DWORD>(*it++) <<  0) |
-            (static_cast<DWORD>(*it++) <<  8) |
-            (static_cast<DWORD>(*it++) << 16) |
-            (static_cast<DWORD>(*it++) << 24);
+        (static_cast<DWORD>(*it++) <<  0) |
+        (static_cast<DWORD>(*it++) <<  8) |
+        (static_cast<DWORD>(*it++) << 16) |
+        (static_cast<DWORD>(*it++) << 24);
     channel =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     reservedGpsEvent =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     uint64_t * ptr = reinterpret_cast<uint64_t *>(&latitude);
     *ptr =
-            (static_cast<uint64_t>(*it++) <<  0) |
-            (static_cast<uint64_t>(*it++) <<  8) |
-            (static_cast<uint64_t>(*it++) << 16) |
-            (static_cast<uint64_t>(*it++) << 24) |
-            (static_cast<uint64_t>(*it++) << 32) |
-            (static_cast<uint64_t>(*it++) << 40) |
-            (static_cast<uint64_t>(*it++) << 48) |
-            (static_cast<uint64_t>(*it++) << 56);
+        (static_cast<uint64_t>(*it++) <<  0) |
+        (static_cast<uint64_t>(*it++) <<  8) |
+        (static_cast<uint64_t>(*it++) << 16) |
+        (static_cast<uint64_t>(*it++) << 24) |
+        (static_cast<uint64_t>(*it++) << 32) |
+        (static_cast<uint64_t>(*it++) << 40) |
+        (static_cast<uint64_t>(*it++) << 48) |
+        (static_cast<uint64_t>(*it++) << 56);
     ptr = reinterpret_cast<uint64_t *>(&longitude);
     *ptr =
-            (static_cast<uint64_t>(*it++) <<  0) |
-            (static_cast<uint64_t>(*it++) <<  8) |
-            (static_cast<uint64_t>(*it++) << 16) |
-            (static_cast<uint64_t>(*it++) << 24) |
-            (static_cast<uint64_t>(*it++) << 32) |
-            (static_cast<uint64_t>(*it++) << 40) |
-            (static_cast<uint64_t>(*it++) << 48) |
-            (static_cast<uint64_t>(*it++) << 56);
+        (static_cast<uint64_t>(*it++) <<  0) |
+        (static_cast<uint64_t>(*it++) <<  8) |
+        (static_cast<uint64_t>(*it++) << 16) |
+        (static_cast<uint64_t>(*it++) << 24) |
+        (static_cast<uint64_t>(*it++) << 32) |
+        (static_cast<uint64_t>(*it++) << 40) |
+        (static_cast<uint64_t>(*it++) << 48) |
+        (static_cast<uint64_t>(*it++) << 56);
     ptr = reinterpret_cast<uint64_t *>(&altitude);
     *ptr =
-            (static_cast<uint64_t>(*it++) <<  0) |
-            (static_cast<uint64_t>(*it++) <<  8) |
-            (static_cast<uint64_t>(*it++) << 16) |
-            (static_cast<uint64_t>(*it++) << 24) |
-            (static_cast<uint64_t>(*it++) << 32) |
-            (static_cast<uint64_t>(*it++) << 40) |
-            (static_cast<uint64_t>(*it++) << 48) |
-            (static_cast<uint64_t>(*it++) << 56);
+        (static_cast<uint64_t>(*it++) <<  0) |
+        (static_cast<uint64_t>(*it++) <<  8) |
+        (static_cast<uint64_t>(*it++) << 16) |
+        (static_cast<uint64_t>(*it++) << 24) |
+        (static_cast<uint64_t>(*it++) << 32) |
+        (static_cast<uint64_t>(*it++) << 40) |
+        (static_cast<uint64_t>(*it++) << 48) |
+        (static_cast<uint64_t>(*it++) << 56);
     ptr = reinterpret_cast<uint64_t *>(&speed);
     *ptr =
-            (static_cast<uint64_t>(*it++) <<  0) |
-            (static_cast<uint64_t>(*it++) <<  8) |
-            (static_cast<uint64_t>(*it++) << 16) |
-            (static_cast<uint64_t>(*it++) << 24) |
-            (static_cast<uint64_t>(*it++) << 32) |
-            (static_cast<uint64_t>(*it++) << 40) |
-            (static_cast<uint64_t>(*it++) << 48) |
-            (static_cast<uint64_t>(*it++) << 56);
+        (static_cast<uint64_t>(*it++) <<  0) |
+        (static_cast<uint64_t>(*it++) <<  8) |
+        (static_cast<uint64_t>(*it++) << 16) |
+        (static_cast<uint64_t>(*it++) << 24) |
+        (static_cast<uint64_t>(*it++) << 32) |
+        (static_cast<uint64_t>(*it++) << 40) |
+        (static_cast<uint64_t>(*it++) << 48) |
+        (static_cast<uint64_t>(*it++) << 56);
     ptr = reinterpret_cast<uint64_t *>(&course);
     *ptr =
-            (static_cast<uint64_t>(*it++) <<  0) |
-            (static_cast<uint64_t>(*it++) <<  8) |
-            (static_cast<uint64_t>(*it++) << 16) |
-            (static_cast<uint64_t>(*it++) << 24) |
-            (static_cast<uint64_t>(*it++) << 32) |
-            (static_cast<uint64_t>(*it++) << 40) |
-            (static_cast<uint64_t>(*it++) << 48) |
-            (static_cast<uint64_t>(*it++) << 56);
+        (static_cast<uint64_t>(*it++) <<  0) |
+        (static_cast<uint64_t>(*it++) <<  8) |
+        (static_cast<uint64_t>(*it++) << 16) |
+        (static_cast<uint64_t>(*it++) << 24) |
+        (static_cast<uint64_t>(*it++) << 32) |
+        (static_cast<uint64_t>(*it++) << 40) |
+        (static_cast<uint64_t>(*it++) << 48) |
+        (static_cast<uint64_t>(*it++) << 56);
 
     return it;
 }

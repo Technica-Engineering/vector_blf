@@ -34,62 +34,62 @@ std::vector<uint8_t>::iterator A429BusStatistic::fromData(std::vector<uint8_t>::
     it = ObjectHeader::fromData(it);
 
     channel =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     dir =
-            (static_cast<BYTE>(*it++) <<  0);
+        (static_cast<BYTE>(*it++) <<  0);
     reservedA429BusStatistic =
-            (static_cast<BYTE>(*it++) <<  0);
+        (static_cast<BYTE>(*it++) <<  0);
     busload =
-            (static_cast<ULONG>(*it++) <<  0) |
-            (static_cast<ULONG>(*it++) <<  8) |
-            (static_cast<ULONG>(*it++) << 16) |
-            (static_cast<ULONG>(*it++) << 24);
+        (static_cast<ULONG>(*it++) <<  0) |
+        (static_cast<ULONG>(*it++) <<  8) |
+        (static_cast<ULONG>(*it++) << 16) |
+        (static_cast<ULONG>(*it++) << 24);
     dataTotal =
-            (static_cast<ULONG>(*it++) <<  0) |
-            (static_cast<ULONG>(*it++) <<  8) |
-            (static_cast<ULONG>(*it++) << 16) |
-            (static_cast<ULONG>(*it++) << 24);
+        (static_cast<ULONG>(*it++) <<  0) |
+        (static_cast<ULONG>(*it++) <<  8) |
+        (static_cast<ULONG>(*it++) << 16) |
+        (static_cast<ULONG>(*it++) << 24);
     errorTotal =
-            (static_cast<ULONG>(*it++) <<  0) |
-            (static_cast<ULONG>(*it++) <<  8) |
-            (static_cast<ULONG>(*it++) << 16) |
-            (static_cast<ULONG>(*it++) << 24);
+        (static_cast<ULONG>(*it++) <<  0) |
+        (static_cast<ULONG>(*it++) <<  8) |
+        (static_cast<ULONG>(*it++) << 16) |
+        (static_cast<ULONG>(*it++) << 24);
     bitrate =
-            (static_cast<ULONG>(*it++) <<  0) |
-            (static_cast<ULONG>(*it++) <<  8) |
-            (static_cast<ULONG>(*it++) << 16) |
-            (static_cast<ULONG>(*it++) << 24);
+        (static_cast<ULONG>(*it++) <<  0) |
+        (static_cast<ULONG>(*it++) <<  8) |
+        (static_cast<ULONG>(*it++) << 16) |
+        (static_cast<ULONG>(*it++) << 24);
     parityErrors =
-            (static_cast<USHORT>(*it++) <<  0) |
-            (static_cast<USHORT>(*it++) <<  8);
+        (static_cast<USHORT>(*it++) <<  0) |
+        (static_cast<USHORT>(*it++) <<  8);
     bitrateErrors =
-            (static_cast<USHORT>(*it++) <<  0) |
-            (static_cast<USHORT>(*it++) <<  8);
+        (static_cast<USHORT>(*it++) <<  0) |
+        (static_cast<USHORT>(*it++) <<  8);
     gapErrors =
-            (static_cast<USHORT>(*it++) <<  0) |
-            (static_cast<USHORT>(*it++) <<  8);
+        (static_cast<USHORT>(*it++) <<  0) |
+        (static_cast<USHORT>(*it++) <<  8);
     lineErrors =
-            (static_cast<USHORT>(*it++) <<  0) |
-            (static_cast<USHORT>(*it++) <<  8);
+        (static_cast<USHORT>(*it++) <<  0) |
+        (static_cast<USHORT>(*it++) <<  8);
     formatErrors =
-            (static_cast<USHORT>(*it++) <<  0) |
-            (static_cast<USHORT>(*it++) <<  8);
+        (static_cast<USHORT>(*it++) <<  0) |
+        (static_cast<USHORT>(*it++) <<  8);
     dutyFactorErrors =
-            (static_cast<USHORT>(*it++) <<  0) |
-            (static_cast<USHORT>(*it++) <<  8);
+        (static_cast<USHORT>(*it++) <<  0) |
+        (static_cast<USHORT>(*it++) <<  8);
     wordLenErrors =
-            (static_cast<USHORT>(*it++) <<  0) |
-            (static_cast<USHORT>(*it++) <<  8);
+        (static_cast<USHORT>(*it++) <<  0) |
+        (static_cast<USHORT>(*it++) <<  8);
     codingErrors =
-            (static_cast<USHORT>(*it++) <<  0) |
-            (static_cast<USHORT>(*it++) <<  8);
+        (static_cast<USHORT>(*it++) <<  0) |
+        (static_cast<USHORT>(*it++) <<  8);
     idleErrors =
-            (static_cast<USHORT>(*it++) <<  0) |
-            (static_cast<USHORT>(*it++) <<  8);
+        (static_cast<USHORT>(*it++) <<  0) |
+        (static_cast<USHORT>(*it++) <<  8);
     levelErrors =
-            (static_cast<USHORT>(*it++) <<  0) |
-            (static_cast<USHORT>(*it++) <<  8);
+        (static_cast<USHORT>(*it++) <<  0) |
+        (static_cast<USHORT>(*it++) <<  8);
     std::generate(labelCount.begin(), labelCount.end(), [&it]() {
         return
             (static_cast<USHORT>(*it++) <<  0) |

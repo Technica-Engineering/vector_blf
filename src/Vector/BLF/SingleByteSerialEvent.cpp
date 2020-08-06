@@ -26,7 +26,7 @@ namespace BLF {
 
 std::vector<uint8_t>::iterator SingleByteSerialEvent::fromData(std::vector<uint8_t>::iterator it) {
     byte =
-            (static_cast<BYTE>(*it++) <<  0);
+        (static_cast<BYTE>(*it++) <<  0);
     std::copy(it, it + reservedSingleByteSerialEvent.size(), std::begin(reservedSingleByteSerialEvent));
     it += reservedSingleByteSerialEvent.size();
 

@@ -163,28 +163,28 @@ ObjectHeaderBase::ObjectHeaderBase(const WORD headerVersion, const ObjectType ob
 
 std::vector<uint8_t>::iterator ObjectHeaderBase::fromData(std::vector<uint8_t>::iterator it) {
     signature =
-            (static_cast<DWORD>(*it++) <<  0) |
-            (static_cast<DWORD>(*it++) <<  8) |
-            (static_cast<DWORD>(*it++) << 16) |
-            (static_cast<DWORD>(*it++) << 24);
+        (static_cast<DWORD>(*it++) <<  0) |
+        (static_cast<DWORD>(*it++) <<  8) |
+        (static_cast<DWORD>(*it++) << 16) |
+        (static_cast<DWORD>(*it++) << 24);
     if (signature != ObjectSignature)
         throw Exception("ObjectHeaderBase::fromData(): Object signature doesn't match.");
     headerSize =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     headerVersion =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     objectSize =
-            (static_cast<DWORD>(*it++) <<  0) |
-            (static_cast<DWORD>(*it++) <<  8) |
-            (static_cast<DWORD>(*it++) << 16) |
-            (static_cast<DWORD>(*it++) << 24);
+        (static_cast<DWORD>(*it++) <<  0) |
+        (static_cast<DWORD>(*it++) <<  8) |
+        (static_cast<DWORD>(*it++) << 16) |
+        (static_cast<DWORD>(*it++) << 24);
     objectType = static_cast<ObjectType>(
-            (static_cast<DWORD>(*it++) <<  0) |
-            (static_cast<DWORD>(*it++) <<  8) |
-            (static_cast<DWORD>(*it++) << 16) |
-            (static_cast<DWORD>(*it++) << 24));
+                     (static_cast<DWORD>(*it++) <<  0) |
+                     (static_cast<DWORD>(*it++) <<  8) |
+                     (static_cast<DWORD>(*it++) << 16) |
+                     (static_cast<DWORD>(*it++) << 24));
 
     return it;
 }

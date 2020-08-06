@@ -32,26 +32,26 @@ std::vector<uint8_t>::iterator MostStatistic::fromData(std::vector<uint8_t>::ite
     it = ObjectHeader::fromData(it);
 
     channel =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     pktCnt =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     frmCnt =
-            (static_cast<LONG>(*it++) <<  0) |
-            (static_cast<LONG>(*it++) <<  8) |
-            (static_cast<LONG>(*it++) << 16) |
-            (static_cast<LONG>(*it++) << 24);
+        (static_cast<LONG>(*it++) <<  0) |
+        (static_cast<LONG>(*it++) <<  8) |
+        (static_cast<LONG>(*it++) << 16) |
+        (static_cast<LONG>(*it++) << 24);
     lightCnt =
-            (static_cast<LONG>(*it++) <<  0) |
-            (static_cast<LONG>(*it++) <<  8) |
-            (static_cast<LONG>(*it++) << 16) |
-            (static_cast<LONG>(*it++) << 24);
+        (static_cast<LONG>(*it++) <<  0) |
+        (static_cast<LONG>(*it++) <<  8) |
+        (static_cast<LONG>(*it++) << 16) |
+        (static_cast<LONG>(*it++) << 24);
     bufferLevel =
-            (static_cast<LONG>(*it++) <<  0) |
-            (static_cast<LONG>(*it++) <<  8) |
-            (static_cast<LONG>(*it++) << 16) |
-            (static_cast<LONG>(*it++) << 24);
+        (static_cast<LONG>(*it++) <<  0) |
+        (static_cast<LONG>(*it++) <<  8) |
+        (static_cast<LONG>(*it++) << 16) |
+        (static_cast<LONG>(*it++) << 24);
 
     return it;
 }

@@ -32,47 +32,47 @@ std::vector<uint8_t>::iterator EthernetErrorForwarded::fromData(std::vector<uint
     it = ObjectHeader::fromData(it);
 
     structLength =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     flags =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     channel =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     hardwareChannel =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     frameDuration =
-            (static_cast<UINT64>(*it++) <<  0) |
-            (static_cast<UINT64>(*it++) <<  8) |
-            (static_cast<UINT64>(*it++) << 16) |
-            (static_cast<UINT64>(*it++) << 24) |
-            (static_cast<UINT64>(*it++) << 32) |
-            (static_cast<UINT64>(*it++) << 40) |
-            (static_cast<UINT64>(*it++) << 48) |
-            (static_cast<UINT64>(*it++) << 56);
+        (static_cast<UINT64>(*it++) <<  0) |
+        (static_cast<UINT64>(*it++) <<  8) |
+        (static_cast<UINT64>(*it++) << 16) |
+        (static_cast<UINT64>(*it++) << 24) |
+        (static_cast<UINT64>(*it++) << 32) |
+        (static_cast<UINT64>(*it++) << 40) |
+        (static_cast<UINT64>(*it++) << 48) |
+        (static_cast<UINT64>(*it++) << 56);
     frameChecksum =
-            (static_cast<DWORD>(*it++) <<  0) |
-            (static_cast<DWORD>(*it++) <<  8) |
-            (static_cast<DWORD>(*it++) << 16) |
-            (static_cast<DWORD>(*it++) << 24);
+        (static_cast<DWORD>(*it++) <<  0) |
+        (static_cast<DWORD>(*it++) <<  8) |
+        (static_cast<DWORD>(*it++) << 16) |
+        (static_cast<DWORD>(*it++) << 24);
     dir =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     frameLength =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     frameHandle =
-            (static_cast<DWORD>(*it++) <<  0) |
-            (static_cast<DWORD>(*it++) <<  8) |
-            (static_cast<DWORD>(*it++) << 16) |
-            (static_cast<DWORD>(*it++) << 24);
+        (static_cast<DWORD>(*it++) <<  0) |
+        (static_cast<DWORD>(*it++) <<  8) |
+        (static_cast<DWORD>(*it++) << 16) |
+        (static_cast<DWORD>(*it++) << 24);
     error =
-            (static_cast<DWORD>(*it++) <<  0) |
-            (static_cast<DWORD>(*it++) <<  8) |
-            (static_cast<DWORD>(*it++) << 16) |
-            (static_cast<DWORD>(*it++) << 24);
+        (static_cast<DWORD>(*it++) <<  0) |
+        (static_cast<DWORD>(*it++) <<  8) |
+        (static_cast<DWORD>(*it++) << 16) |
+        (static_cast<DWORD>(*it++) << 24);
     frameData.resize(frameLength);
     std::copy(it, it + frameData.size(), std::begin(frameData));
     it += frameLength;

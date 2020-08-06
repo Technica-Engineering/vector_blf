@@ -32,90 +32,90 @@ std::vector<uint8_t>::iterator EthernetStatistic::fromData(std::vector<uint8_t>:
     it = ObjectHeader::fromData(it);
 
     channel =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     reservedEthernetStatistic1 =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     reservedEthernetStatistic2 =
-            (static_cast<DWORD>(*it++) <<  0) |
-            (static_cast<DWORD>(*it++) <<  8) |
-            (static_cast<DWORD>(*it++) << 16) |
-            (static_cast<DWORD>(*it++) << 24);
+        (static_cast<DWORD>(*it++) <<  0) |
+        (static_cast<DWORD>(*it++) <<  8) |
+        (static_cast<DWORD>(*it++) << 16) |
+        (static_cast<DWORD>(*it++) << 24);
     rcvOk_HW =
-            (static_cast<UINT64>(*it++) <<  0) |
-            (static_cast<UINT64>(*it++) <<  8) |
-            (static_cast<UINT64>(*it++) << 16) |
-            (static_cast<UINT64>(*it++) << 24) |
-            (static_cast<UINT64>(*it++) << 32) |
-            (static_cast<UINT64>(*it++) << 40) |
-            (static_cast<UINT64>(*it++) << 48) |
-            (static_cast<UINT64>(*it++) << 56);
+        (static_cast<UINT64>(*it++) <<  0) |
+        (static_cast<UINT64>(*it++) <<  8) |
+        (static_cast<UINT64>(*it++) << 16) |
+        (static_cast<UINT64>(*it++) << 24) |
+        (static_cast<UINT64>(*it++) << 32) |
+        (static_cast<UINT64>(*it++) << 40) |
+        (static_cast<UINT64>(*it++) << 48) |
+        (static_cast<UINT64>(*it++) << 56);
     xmitOk_HW =
-            (static_cast<UINT64>(*it++) <<  0) |
-            (static_cast<UINT64>(*it++) <<  8) |
-            (static_cast<UINT64>(*it++) << 16) |
-            (static_cast<UINT64>(*it++) << 24) |
-            (static_cast<UINT64>(*it++) << 32) |
-            (static_cast<UINT64>(*it++) << 40) |
-            (static_cast<UINT64>(*it++) << 48) |
-            (static_cast<UINT64>(*it++) << 56);
+        (static_cast<UINT64>(*it++) <<  0) |
+        (static_cast<UINT64>(*it++) <<  8) |
+        (static_cast<UINT64>(*it++) << 16) |
+        (static_cast<UINT64>(*it++) << 24) |
+        (static_cast<UINT64>(*it++) << 32) |
+        (static_cast<UINT64>(*it++) << 40) |
+        (static_cast<UINT64>(*it++) << 48) |
+        (static_cast<UINT64>(*it++) << 56);
     rcvError_HW =
-            (static_cast<UINT64>(*it++) <<  0) |
-            (static_cast<UINT64>(*it++) <<  8) |
-            (static_cast<UINT64>(*it++) << 16) |
-            (static_cast<UINT64>(*it++) << 24) |
-            (static_cast<UINT64>(*it++) << 32) |
-            (static_cast<UINT64>(*it++) << 40) |
-            (static_cast<UINT64>(*it++) << 48) |
-            (static_cast<UINT64>(*it++) << 56);
+        (static_cast<UINT64>(*it++) <<  0) |
+        (static_cast<UINT64>(*it++) <<  8) |
+        (static_cast<UINT64>(*it++) << 16) |
+        (static_cast<UINT64>(*it++) << 24) |
+        (static_cast<UINT64>(*it++) << 32) |
+        (static_cast<UINT64>(*it++) << 40) |
+        (static_cast<UINT64>(*it++) << 48) |
+        (static_cast<UINT64>(*it++) << 56);
     xmitError_HW =
-            (static_cast<UINT64>(*it++) <<  0) |
-            (static_cast<UINT64>(*it++) <<  8) |
-            (static_cast<UINT64>(*it++) << 16) |
-            (static_cast<UINT64>(*it++) << 24) |
-            (static_cast<UINT64>(*it++) << 32) |
-            (static_cast<UINT64>(*it++) << 40) |
-            (static_cast<UINT64>(*it++) << 48) |
-            (static_cast<UINT64>(*it++) << 56);
+        (static_cast<UINT64>(*it++) <<  0) |
+        (static_cast<UINT64>(*it++) <<  8) |
+        (static_cast<UINT64>(*it++) << 16) |
+        (static_cast<UINT64>(*it++) << 24) |
+        (static_cast<UINT64>(*it++) << 32) |
+        (static_cast<UINT64>(*it++) << 40) |
+        (static_cast<UINT64>(*it++) << 48) |
+        (static_cast<UINT64>(*it++) << 56);
     rcvBytes_HW =
-            (static_cast<UINT64>(*it++) <<  0) |
-            (static_cast<UINT64>(*it++) <<  8) |
-            (static_cast<UINT64>(*it++) << 16) |
-            (static_cast<UINT64>(*it++) << 24) |
-            (static_cast<UINT64>(*it++) << 32) |
-            (static_cast<UINT64>(*it++) << 40) |
-            (static_cast<UINT64>(*it++) << 48) |
-            (static_cast<UINT64>(*it++) << 56);
+        (static_cast<UINT64>(*it++) <<  0) |
+        (static_cast<UINT64>(*it++) <<  8) |
+        (static_cast<UINT64>(*it++) << 16) |
+        (static_cast<UINT64>(*it++) << 24) |
+        (static_cast<UINT64>(*it++) << 32) |
+        (static_cast<UINT64>(*it++) << 40) |
+        (static_cast<UINT64>(*it++) << 48) |
+        (static_cast<UINT64>(*it++) << 56);
     xmitBytes_HW =
-            (static_cast<UINT64>(*it++) <<  0) |
-            (static_cast<UINT64>(*it++) <<  8) |
-            (static_cast<UINT64>(*it++) << 16) |
-            (static_cast<UINT64>(*it++) << 24) |
-            (static_cast<UINT64>(*it++) << 32) |
-            (static_cast<UINT64>(*it++) << 40) |
-            (static_cast<UINT64>(*it++) << 48) |
-            (static_cast<UINT64>(*it++) << 56);
+        (static_cast<UINT64>(*it++) <<  0) |
+        (static_cast<UINT64>(*it++) <<  8) |
+        (static_cast<UINT64>(*it++) << 16) |
+        (static_cast<UINT64>(*it++) << 24) |
+        (static_cast<UINT64>(*it++) << 32) |
+        (static_cast<UINT64>(*it++) << 40) |
+        (static_cast<UINT64>(*it++) << 48) |
+        (static_cast<UINT64>(*it++) << 56);
     rcvNoBuffer_HW =
-            (static_cast<UINT64>(*it++) <<  0) |
-            (static_cast<UINT64>(*it++) <<  8) |
-            (static_cast<UINT64>(*it++) << 16) |
-            (static_cast<UINT64>(*it++) << 24) |
-            (static_cast<UINT64>(*it++) << 32) |
-            (static_cast<UINT64>(*it++) << 40) |
-            (static_cast<UINT64>(*it++) << 48) |
-            (static_cast<UINT64>(*it++) << 56);
+        (static_cast<UINT64>(*it++) <<  0) |
+        (static_cast<UINT64>(*it++) <<  8) |
+        (static_cast<UINT64>(*it++) << 16) |
+        (static_cast<UINT64>(*it++) << 24) |
+        (static_cast<UINT64>(*it++) << 32) |
+        (static_cast<UINT64>(*it++) << 40) |
+        (static_cast<UINT64>(*it++) << 48) |
+        (static_cast<UINT64>(*it++) << 56);
     sqi =
-            (static_cast<SHORT>(*it++) <<  0) |
-            (static_cast<SHORT>(*it++) <<  8);
+        (static_cast<SHORT>(*it++) <<  0) |
+        (static_cast<SHORT>(*it++) <<  8);
     hardwareChannel =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     reservedEthernetStatistic3 =
-            (static_cast<DWORD>(*it++) <<  0) |
-            (static_cast<DWORD>(*it++) <<  8) |
-            (static_cast<DWORD>(*it++) << 16) |
-            (static_cast<DWORD>(*it++) << 24);
+        (static_cast<DWORD>(*it++) <<  0) |
+        (static_cast<DWORD>(*it++) <<  8) |
+        (static_cast<DWORD>(*it++) << 16) |
+        (static_cast<DWORD>(*it++) << 24);
 
     return it;
 }

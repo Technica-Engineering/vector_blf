@@ -26,7 +26,7 @@ namespace BLF {
 
 std::vector<uint8_t>::iterator CompactSerialEvent::fromData(std::vector<uint8_t>::iterator it) {
     compactLength =
-            (static_cast<BYTE>(*it++) <<  0);
+        (static_cast<BYTE>(*it++) <<  0);
     std::copy(it, it + compactData.size(), std::begin(compactData));
     it += compactData.size();
 

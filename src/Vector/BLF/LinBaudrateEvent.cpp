@@ -32,16 +32,16 @@ std::vector<uint8_t>::iterator LinBaudrateEvent::fromData(std::vector<uint8_t>::
     it = ObjectHeader::fromData(it);
 
     channel =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     reservedLinBaudrateEvent =
-            (static_cast<WORD>(*it++) <<  0) |
-            (static_cast<WORD>(*it++) <<  8);
+        (static_cast<WORD>(*it++) <<  0) |
+        (static_cast<WORD>(*it++) <<  8);
     baudrate =
-            (static_cast<LONG>(*it++) <<  0) |
-            (static_cast<LONG>(*it++) <<  8) |
-            (static_cast<LONG>(*it++) << 16) |
-            (static_cast<LONG>(*it++) << 24);
+        (static_cast<LONG>(*it++) <<  0) |
+        (static_cast<LONG>(*it++) <<  8) |
+        (static_cast<LONG>(*it++) << 16) |
+        (static_cast<LONG>(*it++) << 24);
 
     return it;
 }
