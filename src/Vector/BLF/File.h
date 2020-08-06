@@ -70,18 +70,71 @@ public:
     virtual void close();
 
     /**
-     * Get compressed file size.
+     * Get file statistics.
+     */
+    virtual FileStatistics statistics() const;
+
+    /**
+     * Set application in file statistics.
+     *
+     * @param[in] id application ID (usually CANoe)
+     * @param[in] major application major number (usually 0)
+     * @param[in] minor application minor number (usually 0)
+     * @param[in] build application build number (usually 0)
+     */
+    virtual void setApplication(const BYTE id, const BYTE major, const BYTE minor, const BYTE build);
+
+    /**
+     * Set API in file statistics.
+     *
+     * @param[in] major BL API major number
+     * @param[in] minor BL API minor number
+     * @param[in] build BL API build number
+     * @param[in] patch BL API patch number
+     */
+    virtual void setApi(const BYTE major, const BYTE minor, const BYTE build, const BYTE patch);
+
+    /**
+     * Set measurement start time in file statistics.
+     *
+     * @param[in] time measurement start time
+     */
+    virtual void setMeasurementStartTime(const SYSTEMTIME time);
+
+    /**
+     * Set last object time in file statistics.
+     * @param[in] time last object time
+     */
+    virtual void setLastObjectTime(const SYSTEMTIME time);
+
+    /**
+     * Get compressed file size, not based on file statistics.
      *
      * @return compressed file size
      */
-    virtual std::streamsize compressedSize();
+    virtual std::streamsize compressedSize() const;
 
     /**
-     * Get uncompressed file size.
+     * Get uncompressed file size, not based on file statistics.
      *
      * @return uncompressed file size
      */
     virtual std::streamsize uncompressedSize() const;
+
+    /**
+     * Get uncompressed file statistics size, not based on file statistics.
+     * Different to uncompressedSize() this includes LogContainer headers.
+     *
+     * @return uncompressed file statistics size
+     */
+    virtual std::streamsize uncompressedStatisticsSize() const;
+
+    /**
+     * Get object count, not based on file statistics.
+     *
+     * @return object count
+     */
+    virtual DWORD objectCount() const;
 
     /**
      * Get default log container size.
@@ -161,7 +214,9 @@ public:
     virtual void seekg(const std::streamoff off, const std::ios_base::seekdir way);
 
     /**
-     * Convenience function to read one object.
+     * Convenience function to read one object and skip padding to next object.
+     * Also increases object count for file statistics. However it doesn't
+     * take seeking into account.
      *
      * @return Object
      *
@@ -188,7 +243,8 @@ public:
     virtual std::streampos tellp();
 
     /**
-     * Convenience function to write one object.
+     * Convenience function to write one object and add padding to next object.
+     * Also increases object count for file statistics.
      *
      * @param[in] ohb Object (ownership is passed)
      *
@@ -211,8 +267,12 @@ private:
 
     /* compressed file */
 
-    /** size of compressed file */
-    std::streamsize m_compressedFileSize {0}; // @todo use m_fileStatistics instead
+    /**
+     * size of compressed file
+     *
+     * @see FileStatistics::fileSize
+     */
+    std::streamsize m_compressedFileSize {0};
 
     /** get position of compressed file */
     std::streampos m_compressedFileGetPosition {0};
@@ -257,13 +317,27 @@ private:
     /* uncompressed file */
 
     /** size of uncompressed file */
-    std::streamsize m_uncompressedFileSize {0}; // @todo use m_fileStatistics instead
+    std::streamsize m_uncompressedFileSize {0};
+
+    /**
+     * size of uncompressed file including log container headers
+     *
+     * @see FileStatistics::uncompressedFileSize
+     */
+    std::streamsize m_uncompressedFileStatisticsSize {0};
 
     /** get position within uncompressed file */
     std::streampos m_uncompressedFileGetPosition {0};
 
     /** put position within uncompressed file */
     std::streampos m_uncompressedFilePutPosition {0};
+
+    /**
+     * object count
+     *
+     * @see FileStatistics::objectCount
+     */
+    DWORD m_objectCount {0};
 
     /**
      * uncompressed file data (cache)

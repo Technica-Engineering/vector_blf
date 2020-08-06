@@ -12,12 +12,18 @@
 
 #include <Vector/BLF.h>
 
-/** copy file statistics */
-static void copyFileStatistics(Vector::BLF::File & filein, Vector::BLF::File & fileout) {
+/**
+ * copy file statistics
+ *
+ * @param[in] filein input file
+ * @param[out] fileout output file
+ */
+static void copyFileStatistics(const Vector::BLF::File & filein, Vector::BLF::File & fileout) {
     /* copy non-generated filein statistics to fileout statistics */
     Vector::BLF::FileStatistics fileStatisticsIn;
-#if 0
     fileStatisticsIn = filein.statistics();
+    // skip signature
+    // skip statisticsSize
     fileout.setApplication(
                 fileStatisticsIn.applicationId,
                 fileStatisticsIn.applicationMajor,
@@ -28,13 +34,22 @@ static void copyFileStatistics(Vector::BLF::File & filein, Vector::BLF::File & f
                 fileStatisticsIn.apiMinor,
                 fileStatisticsIn.apiBuild,
                 fileStatisticsIn.apiPatch);
-    fileout.setObjectsRead(fileStatisticsIn.objectsRead);
+    // skip fileSize
+    // skip uncompressedFileSize
+    // skip objectCount
+    // @todo fileout.setObjectsRead(fileStatisticsIn.objectsRead);
     fileout.setMeasurementStartTime(fileStatisticsIn.measurementStartTime);
     fileout.setLastObjectTime(fileStatisticsIn.lastObjectTime);
-#endif
+    // skip fileSizeWithoutUnknown115
+    // skip resserved
 }
 
-/** copy objects */
+/**
+ * copy objects
+ *
+ * @param[in] filein input file
+ * @param[out] fileout output file
+ */
 static void copyObjects(Vector::BLF::File & filein, Vector::BLF::File & fileout) {
     std::vector<Vector::BLF::ObjectHeaderBase *> objects;
 
@@ -56,15 +71,28 @@ static void copyObjects(Vector::BLF::File & filein, Vector::BLF::File & fileout)
     }
 }
 
-/** get file size independent from fileStatistics */
+/**
+ * get file size independent from fileStatistics
+ *
+ * @param[in] fileName file name
+ * @return file size
+ */
 static std::streamsize fileSize(const char * fileName) {
     std::ifstream ifs(fileName);
     ifs.seekg(0, std::ios_base::end);
     return ifs.tellg();
 }
 
-/** compare files */
-static bool compareFiles(const char * infileName, const char * outfileName, uint64_t startPos, uint64_t lastPos) {
+/**
+ * compare files
+ *
+ * @param[in] infileName input file name
+ * @param[in] outfileName output file name
+ * @param[in] startPos start position
+ * @param[in] lastPos last position
+ * @return true if files have same content within given range
+ */
+static bool compareFiles(const char * infileName, const char * outfileName, const uint64_t startPos, const uint64_t lastPos) {
     /* open file */
     std::ifstream ifs1;
     std::ifstream ifs2;

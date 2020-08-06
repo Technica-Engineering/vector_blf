@@ -54,7 +54,7 @@ struct VECTOR_BLF_EXPORT FunctionBus final : ObjectHeader {
     /** type of system variable */
     DWORD functionBusObjectType {};
 
-    /** @todo VEType unknown */
+    /** @todo Is veType the communication object type, so Signal/PDU/RPC/Service? */
     DWORD veType {};
 
     /** length of variable name in bytes */

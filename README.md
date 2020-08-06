@@ -2,6 +2,12 @@
 
 This is a library to access Binary Log File (BLF) files from Vector Informatik.
 
+There are three major versions of the library available:
+
+- V1 supports sequential read/write without threads.
+- V2 supports sequential read/write using multiple threads.
+- V3 supports random read and sequential write without threads.
+
 # Build on Linux (e.g. Debian Testing)
 
 Building under Linux works as usual:
@@ -77,7 +83,7 @@ The following files are products of installation and building:
 
 # Standards
 
-* Implementation is compatible with binlog API version 7.1.0.
+* Implementation is tested to generate same results as binlog API version 4.7.1.0.
 
 # Test sources
 

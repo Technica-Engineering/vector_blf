@@ -167,7 +167,6 @@ BOOST_AUTO_TEST_CASE(LinMessage2_2) {
     file.close();
 }
 
-// @todo check for all if0
 /** write and read a LinMessage with objectVersion0 */
 BOOST_AUTO_TEST_CASE(LinMessageVersion0) {
     /* write to file */

@@ -41,29 +41,11 @@ void File::open(const char * filename, std::ios_base::openmode mode) {
     assert(m_file.tellg() == 0);
     assert(m_file.tellp() == 0);
 
-    /* set compressed file size */
-    m_file.seekg(0, std::ios_base::end);
-    assert(m_file.good());
-    m_compressedFileSize = m_file.tellg();
-    m_file.seekg(0);
-    assert(m_file.good());
-
     /* read operations */
     if (mode & std::ios_base::in) {
-        assert(m_compressedFileSize > 0);
-
         /* index file */
         indexCompressed();
         assert(!m_index.empty());
-
-        /* set uncompressed file size */
-        m_uncompressedFileSize = m_uncompressedFileGetPosition;
-
-        /* seek back to begin */
-        m_compressedFileGetPosition = 0;
-        m_uncompressedFileGetPosition = 0;
-        m_file.seekg(m_compressedFileGetPosition);
-        assert(m_file.good());
 
         /* read file statistics */
         assert(m_index[0].compressedObjectSize == m_fileStatistics.statisticsSize);
@@ -93,6 +75,7 @@ void File::open(const char * filename, std::ios_base::openmode mode) {
         assert(m_file.tellp() == m_compressedFilePutPosition);
         m_uncompressedFilePutPosition = m_fileStatistics.statisticsSize;
         m_uncompressedFileSize = m_uncompressedFilePutPosition;
+        m_uncompressedFileStatisticsSize = m_uncompressedFilePutPosition;
 
         /* add FileStatistics to index */
         IndexEntry indexEntry;
@@ -124,10 +107,12 @@ void File::close() {
     if (m_openMode & std::ios_base::out) {
         flushOldData();
 
-        /* set file statistics */
-        m_fileStatistics.uncompressedFileSize = m_uncompressedFileSize;
+        /* set file statistics (without Unknown115 objects) */
+        m_fileStatistics.uncompressedFileSize = m_uncompressedFileStatisticsSize;
+        m_fileStatistics.objectCount = m_objectCount;
         m_fileStatistics.fileSizeWithoutUnknown115 = m_compressedFileSize;
 
+        // @todo handle/write Unknown115
 #if 0
         /* write (multiple) unknown115 */
         std::vector<uint8_t> data;
@@ -139,7 +124,10 @@ void File::close() {
         data.clear();
         logContainer.toData(data);
         m_file.write(reinterpret_cast<const char *>(data.data()), data.size());
+        flushOldData();
 #endif
+
+        /* update file statistics (including Unknown115 objects) */
         m_fileStatistics.fileSize = m_compressedFileSize;
 
         /* write file statistics */
@@ -158,7 +146,48 @@ void File::close() {
     m_file.close();
 }
 
-std::streamsize File::compressedSize() {
+FileStatistics File::statistics() const {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    return m_fileStatistics;
+}
+
+void File::setApplication(const BYTE id, const BYTE major, const BYTE minor, const BYTE build) {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    m_fileStatistics.applicationId = id;
+    m_fileStatistics.applicationMajor = major;
+    m_fileStatistics.applicationMinor = minor;
+    m_fileStatistics.applicationBuild = build;
+}
+
+void File::setApi(const BYTE major, const BYTE minor, const BYTE build, const BYTE patch) {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    m_fileStatistics.apiMajor = major;
+    m_fileStatistics.apiMinor = minor;
+    m_fileStatistics.apiBuild = build;
+    m_fileStatistics.apiPatch = patch;
+}
+
+void File::setMeasurementStartTime(const SYSTEMTIME time) {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    m_fileStatistics.lastObjectTime = time;
+}
+
+void File::setLastObjectTime(const SYSTEMTIME time) {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    m_fileStatistics.lastObjectTime = time;
+}
+
+std::streamsize File::compressedSize() const {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
@@ -169,7 +198,21 @@ std::streamsize File::uncompressedSize() const {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
-    return m_uncompressedFilePutPosition;
+    return m_uncompressedFileSize;
+}
+
+std::streamsize File::uncompressedStatisticsSize() const {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    return m_uncompressedFileStatisticsSize;
+}
+
+DWORD File::objectCount() const {
+    /* mutex lock */
+    std::lock_guard<std::mutex> lock(m_mutex);
+
+    return m_objectCount;
 }
 
 DWORD File::defaultLogContainerSize() const {
@@ -308,6 +351,7 @@ void File::seekg(const std::streamoff off, const std::ios_base::seekdir way) {
     /* set reference position */
     std::streampos refPos;
     switch(way) {
+    default:
     case std::ios_base::beg:
         refPos = 0;
         break;
@@ -317,8 +361,6 @@ void File::seekg(const std::streamoff off, const std::ios_base::seekdir way) {
     case std::ios_base::end:
         refPos = m_uncompressedFileSize;
         break;
-    default:
-        assert(false); // this should never never happen
     }
 
     /* set get positions */
@@ -404,11 +446,6 @@ ObjectHeaderBase * File::read() {
             (static_cast<DWORD>(readData[2]) << 16) |
             (static_cast<DWORD>(readData[3]) << 24));
 
-    /* fix object size */
-    if (objectType == ObjectType::GLOBAL_MARKER) {
-        // @todo fix objectSize of GLOBAL_MARKER
-    }
-
     /* read data */
     seekg(pos);
     std::vector<uint8_t> data(objectSize);
@@ -427,6 +464,11 @@ ObjectHeaderBase * File::read() {
     /* skip padding */
     seekg(padding(objectType, objectSize), std::ios_base::cur);
 
+    /* increase object count */
+    if (objectType != ObjectType::Unknown115) {
+        m_objectCount++;
+    }
+
     return ohb;
 }
 
@@ -436,7 +478,7 @@ std::streamsize File::write(uint8_t * s, const std::streamsize n) {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
-    assert(!m_index.empty());
+    assert(!m_index.empty()); // at least fileStatistics should be in
     std::streamsize pcount = 0;
     while (pcount < n) {
         assert(compressedFilePositionContaining(m_uncompressedFilePutPosition) == m_compressedFilePutPosition);
@@ -504,7 +546,10 @@ std::streampos File::tellp() {
 }
 
 void File::write(ObjectHeaderBase * ohb) {
-    assert(ohb);
+    /* return if nothing is to be written */
+    if (!ohb) {
+        return;
+    }
 
     /* get data */
     std::vector<uint8_t> data;
@@ -521,10 +566,14 @@ void File::write(ObjectHeaderBase * ohb) {
 
     /* delete ohb */
     delete ohb;
+
+    /* increase object counter */
+    m_objectCount++;
 }
 
 void File::indexCompressed() {
-    assert(m_compressedFileSize > 0);
+    assert(m_file.tellg() == 0);
+    assert(m_file.good());
 
     /* read file statistics */
     {
@@ -572,12 +621,20 @@ void File::indexCompressed() {
         assert(m_file.good());
     }
 
+    /* update statistics */
+    m_compressedFileSize = m_compressedFileGetPosition;
+    m_uncompressedFileSize = m_uncompressedFileGetPosition;
+    m_uncompressedFileStatisticsSize = m_uncompressedFileGetPosition;
+
     /* read objects */
-    while(m_compressedFileGetPosition < m_compressedFileSize) {
+    while(m_file.good()) {
         uint8_t readData[4];
 
         /* read ObjectHeaderBase::signature */
         m_file.read(reinterpret_cast<char *>(&readData), sizeof(ObjectHeaderBase::signature));
+        if (!m_file.good()) {
+            break;
+        }
         assert(m_file.good());
         if (m_file.gcount() < std::streamsize(sizeof(ObjectHeaderBase::signature))) {
             throw Exception("File::index(): Unable to read Object signature.");
@@ -627,6 +684,7 @@ void File::indexCompressed() {
 
         /* LogContainers have other uncompressedSize */
         DWORD uncompressedObjectSize;
+        DWORD uncompressedObjectStatisticsSize;
         if (objectType == ObjectType::LOG_CONTAINER) {
             /* skip LogContainer::compressionMethod and LogContainer::reserved* */
             m_file.seekg(sizeof(WORD) + sizeof(WORD) + sizeof(DWORD), std::ios_base::cur);
@@ -644,8 +702,10 @@ void File::indexCompressed() {
                     (static_cast<DWORD>(readData[2]) << 16) |
                     (static_cast<DWORD>(readData[3]) << 24);
             uncompressedObjectSize = uncompressedFileSize;
+            uncompressedObjectStatisticsSize = 0x20 + uncompressedFileSize; // 0x20 = LogContainer::internalHeaderSize()
         } else {
             uncompressedObjectSize = objectSize;
+            uncompressedObjectStatisticsSize = objectSize;
         }
 
         /* add to index */
@@ -656,17 +716,31 @@ void File::indexCompressed() {
         indexEntry.uncompressedObjectSize = uncompressedObjectSize;
         m_index[m_compressedFileGetPosition] = indexEntry;
 
+        /* update statistics */
+        m_compressedFileSize += objectSize;
+        m_uncompressedFileSize += uncompressedObjectSize;
+        m_uncompressedFileStatisticsSize += uncompressedObjectStatisticsSize;
+
         /* seek to next object */
         m_compressedFileGetPosition += objectSize;
         m_uncompressedFileGetPosition += uncompressedObjectSize;
         m_file.seekg(m_compressedFileGetPosition);
         assert(m_file.good());
-
-        /* check if object is truncated */
-        if (m_compressedFileGetPosition > m_compressedFileSize) {
-            throw Exception("File::index(): File is truncated.");
-        }
     }
+
+    /* seek to end and see if file is truncated */
+    m_file.clear();
+    m_file.seekg(0, std::ios_base::end);
+    if (m_compressedFileSize > m_file.tellg()) {
+        throw Exception("File::index(): File is truncated.");
+    }
+
+    /* seek back to begin */
+    m_file.clear();
+    m_compressedFileGetPosition = 0;
+    m_uncompressedFileGetPosition = 0;
+    m_file.seekg(0);
+    assert(m_file.good());
 }
 
 DWORD File::padding(const ObjectType objectType, const DWORD objectSize) const {
@@ -767,6 +841,7 @@ void File::writeOldData() {
             /* advance pointers */
             m_compressedFilePutPosition += data.size();
             m_compressedFileSize = std::max(m_compressedFileSize, std::streamsize(m_compressedFilePutPosition));
+            m_uncompressedFileStatisticsSize += logContainer.internalHeaderSize() + data.size();
             assert(m_compressedFilePutPosition == m_file.tellp());
 
             /* delete first cache entry */

@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.0.0] - 2020-08-xx
+### Changed
+- Complete resign to support random read access via seekg
+- Dropped multi threading. Still thread-safe.
+
 ## [2.3.0] - 2020-05-27
 ### Added
 - Add method hasExtData to CanFdErrorFrame64 and CanFdMessage64.

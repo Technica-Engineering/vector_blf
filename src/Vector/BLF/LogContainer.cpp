@@ -21,8 +21,6 @@
 
 #include <Vector/BLF/LogContainer.h>
 
-#undef NDEBUG
-#include <cassert>
 #include <zlib.h>
 
 #include <Vector/BLF/Exceptions.h>
@@ -113,7 +111,6 @@ void LogContainer::uncompress(std::vector<uint8_t> & uncompressedFile) const {
         /* create buffer */
         uLong size = static_cast<uLong>(uncompressedFileSize);
         uncompressedFile.resize(size);
-        assert(uncompressedFile.size() == size); // ensure memory is reserved
 
         /* inflate */
         int retVal = ::uncompress(

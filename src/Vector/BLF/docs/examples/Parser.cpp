@@ -101,7 +101,8 @@ void show(Vector::BLF::FileStatistics * obj) {
               << std::dec << obj->lastObjectTime.milliseconds
               << std::endl;
     std::cout << "  fileSizeWithoutUnknown115: "
-              << "0x" << std::hex << obj->fileSizeWithoutUnknown115
+              << std::dec << obj->fileSizeWithoutUnknown115
+              << " (0x" << std::hex << obj->fileSizeWithoutUnknown115 << ")"
               << std::endl;
     std::cout << std::endl;
 }
@@ -2462,11 +2463,10 @@ int main(int argc, char * argv[]) {
 
     file.close();
 
-    std::cout << "RawCompressedFile.size: " << std::dec << file.rawCompressedFileSize() << std::endl;;
-    std::cout << "StructuredCompressedFile.size: " << std::dec << file.structuredCompressedFileSize() << std::endl;;
-    std::cout << "RawUncompressedFile.size: " << std::dec << file.rawUncompressedFileSize() << std::endl;;
-    std::cout << "RawUncompressedFile.statisticsSize: " << std::dec << file.rawUncompressedFileStatisticsSize() << std::endl;;
-    std::cout << "StructuredUncompressedFile.size: " << std::dec << file.size() << std::endl;;
+    std::cout << "File.compressedSize: " << std::dec << file.compressedSize() << std::endl;
+    std::cout << "File.uncompressedSize: " << std::dec << file.uncompressedSize() << std::endl;
+    std::cout << "File.uncompressedStatisticsSize: " << std::dec << file.uncompressedStatisticsSize() << std::endl;
+    std::cout << "File.objectCount: " << std::dec << file.objectCount() << std::endl;
 
     return 0;
 }
