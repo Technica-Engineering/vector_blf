@@ -19,8 +19,6 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
-// @todo rename to Types.h
-
 #pragma once
 
 #include <Vector/BLF/platform.h>

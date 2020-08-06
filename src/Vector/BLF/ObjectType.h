@@ -23,7 +23,7 @@
 
 #include <Vector/BLF/platform.h>
 
-#include <Vector/BLF/VectorTypes.h>
+#include <Vector/BLF/Types.h>
 
 namespace Vector {
 namespace BLF {

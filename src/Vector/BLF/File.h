@@ -32,7 +32,7 @@
 #include <Vector/BLF/FileStatistics.h>
 #include <Vector/BLF/ObjectHeaderBase.h>
 #include <Vector/BLF/ObjectType.h>
-#include <Vector/BLF/VectorTypes.h>
+#include <Vector/BLF/Types.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -53,6 +53,9 @@ public:
 
     /**
      * open file
+     *
+     * File get/put positions are set directly beyond file statistics, so to
+     * the first object in the file.
      *
      * @param[in] filename file name
      * @param[in] mode open in read or write mode
@@ -111,6 +114,9 @@ public:
      * Get compressed file size, not based on file statistics.
      *
      * @return compressed file size
+     *
+     * @see FileStatistics::fileSize
+     * @see FileStatistics::fileSizeWithoutUnknown115
      */
     virtual std::streamsize compressedSize() const;
 
@@ -126,6 +132,8 @@ public:
      * Different to uncompressedSize() this includes LogContainer headers.
      *
      * @return uncompressed file statistics size
+     *
+     * @see FileStatistics::uncompressedFileSize
      */
     virtual std::streamsize uncompressedStatisticsSize() const;
 
@@ -217,6 +225,9 @@ public:
      * Convenience function to read one object and skip padding to next object.
      * Also increases object count for file statistics. However it doesn't
      * take seeking into account.
+     *
+     * The operation will raise an exception, if the file get pointer is not
+     * at begin of a new object.
      *
      * @return Object
      *

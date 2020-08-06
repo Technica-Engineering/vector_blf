@@ -26,7 +26,7 @@
 #include <vector>
 
 #include <Vector/BLF/ObjectType.h>
-#include <Vector/BLF/VectorTypes.h>
+#include <Vector/BLF/Types.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 

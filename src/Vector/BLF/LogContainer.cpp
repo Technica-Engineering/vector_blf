@@ -150,7 +150,7 @@ void LogContainer::compress(const std::vector<uint8_t> & uncompressedFile, const
                          uncompressedFileSize,
                          compressionLevel);
         if (retVal != Z_OK)
-            throw Exception("File::uncompressedFile2CompressedFile(): compress2 error");
+            throw Exception("LogContainer::compress(): compress2 error");
         compressedFile.resize(compressedBufferSize); // shrink_to_fit
     }
     break;

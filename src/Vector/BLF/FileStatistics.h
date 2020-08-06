@@ -26,7 +26,7 @@
 #include <array>
 #include <vector>
 
-#include <Vector/BLF/VectorTypes.h>
+#include <Vector/BLF/Types.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -125,21 +125,21 @@ struct VECTOR_BLF_EXPORT FileStatistics final {
     /**
      * (compressed) file size in bytes
      *
-     * @see RawCompressedFile::size()
+     * @see File::compressedSize()
      */
     ULONGLONG fileSize {};
 
     /**
      * uncompressed file size in bytes
      *
-     * @see RawUncompressedFile::statisticsSize()
+     * @see File::uncompressedStatisticsSize()
      */
     ULONGLONG uncompressedFileSize {};
 
     /**
      * number of objects
      *
-     * @see StructuredUncompressedFile::size()
+     * @see File::objectCount()
      */
     DWORD objectCount {};
 
@@ -155,7 +155,7 @@ struct VECTOR_BLF_EXPORT FileStatistics final {
     /**
      * (compressed) file size without LogContainer+Unknown115 at end-of-file
      *
-     * @see RawCompressedFile::size()
+     * @see File::compressedSize()
      */
     ULONGLONG fileSizeWithoutUnknown115 {};
 

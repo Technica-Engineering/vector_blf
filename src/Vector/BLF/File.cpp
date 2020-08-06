@@ -8,7 +8,7 @@
 #include <Vector/BLF/Exceptions.h>
 #include <Vector/BLF/LogContainer.h> /* for ObjectSignature */
 #include <Vector/BLF/Unknown115.h>
-#include <Vector/BLF/VectorTypes.h>
+#include <Vector/BLF/Types.h>
 
 namespace Vector {
 namespace BLF {
@@ -374,37 +374,8 @@ void File::seekg(const std::streamoff off, const std::ios_base::seekdir way) {
 ObjectHeaderBase * File::read() {
     uint8_t readData[4];
 
-    /* skip file statistics */
+    /* remember position */
     std::streampos pos = tellg();
-    if (pos == 0) {
-        /* signature */
-        if (read(reinterpret_cast<uint8_t *>(&readData), sizeof(FileStatistics::signature)) < std::streamsize(sizeof(FileStatistics::signature))) {
-            return nullptr;
-        }
-        DWORD signature =
-                (static_cast<DWORD>(readData[0]) <<  0) |
-                (static_cast<DWORD>(readData[1]) <<  8) |
-                (static_cast<DWORD>(readData[2]) << 16) |
-                (static_cast<DWORD>(readData[3]) << 24);
-        if (signature != FileSignature) {
-            throw Exception("File::index(): File signature doesn't match.");
-        }
-
-        /* statistics size */
-        if (read(reinterpret_cast<uint8_t *>(&readData), sizeof(FileStatistics::statisticsSize)) < std::streamsize(sizeof(FileStatistics::statisticsSize))) {
-            return nullptr;
-        }
-        DWORD statisticsSize =
-                (static_cast<DWORD>(readData[0]) <<  0) |
-                (static_cast<DWORD>(readData[1]) <<  8) |
-                (static_cast<DWORD>(readData[2]) << 16) |
-                (static_cast<DWORD>(readData[3]) << 24);
-        assert(statisticsSize > 0);
-
-        /* seek beyond file statistics */
-        pos += statisticsSize;
-        seekg(pos);
-    }
 
     /* read object header's signature */
     if (read(reinterpret_cast<uint8_t *>(&readData), sizeof(ObjectHeaderBase::signature)) < std::streamsize(sizeof(ObjectHeaderBase::signature))) {
@@ -583,7 +554,7 @@ void File::indexCompressed() {
         m_file.read(reinterpret_cast<char *>(&readData), sizeof(FileStatistics::signature));
         assert(m_file.good());
         if (m_file.gcount() < std::streamsize(sizeof(FileStatistics::signature))) {
-            throw Exception("File::index(): Unable to read File signature.");
+            throw Exception("File::indexCompressed(): Unable to read File signature.");
         }
         m_fileStatistics.signature =
                 (static_cast<DWORD>(readData[0]) <<  0) |
@@ -591,7 +562,7 @@ void File::indexCompressed() {
                 (static_cast<DWORD>(readData[2]) << 16) |
                 (static_cast<DWORD>(readData[3]) << 24);
         if (m_fileStatistics.signature != FileSignature) {
-            throw Exception("File::index(): File signature doesn't match.");
+            throw Exception("File::indexCompressed(): File signature doesn't match.");
         }
 
         /* read FileStatistics::size */
@@ -603,7 +574,7 @@ void File::indexCompressed() {
                 (static_cast<DWORD>(readData[2]) << 16) |
                 (static_cast<DWORD>(readData[3]) << 24);
         if (m_file.gcount() < std::streamsize(sizeof(FileStatistics::statisticsSize))) {
-            throw Exception("File::index(): Unable to read FileStatistics size.");
+            throw Exception("File::indexCompressed(): Unable to read FileStatistics size.");
         }
 
         /* add FileStatistics to index */
@@ -637,7 +608,7 @@ void File::indexCompressed() {
         }
         assert(m_file.good());
         if (m_file.gcount() < std::streamsize(sizeof(ObjectHeaderBase::signature))) {
-            throw Exception("File::index(): Unable to read Object signature.");
+            throw Exception("File::indexCompressed(): Unable to read Object signature.");
         }
         DWORD signature =
                 (static_cast<DWORD>(readData[0]) <<  0) |
@@ -645,7 +616,7 @@ void File::indexCompressed() {
                 (static_cast<DWORD>(readData[2]) << 16) |
                 (static_cast<DWORD>(readData[3]) << 24);
         if (signature != ObjectSignature) {
-            throw Exception("File::index(): Object signature doesn't match.");
+            throw Exception("File::indexCompressed(): Object signature doesn't match.");
         }
 
         /* skip ObjectHeaderBase::headerSize and ObjectHeaderBase::headerVersion */
@@ -659,7 +630,7 @@ void File::indexCompressed() {
         m_file.read(reinterpret_cast<char *>(&readData), sizeof(ObjectHeaderBase::objectSize));
         assert(m_file.good());
         if (m_file.gcount() < std::streamsize(sizeof(ObjectHeaderBase::objectSize))) {
-            throw Exception("File::index(): Unable to read Object size.");
+            throw Exception("File::indexCompressed(): Unable to read Object size.");
         }
         DWORD objectSize =
                 (static_cast<DWORD>(readData[0]) <<  0) |
@@ -671,7 +642,7 @@ void File::indexCompressed() {
         m_file.read(reinterpret_cast<char *>(&readData), sizeof(ObjectHeaderBase::objectType));
         assert(m_file.good());
         if (m_file.gcount() < std::streamsize(sizeof(ObjectHeaderBase::objectType))) {
-            throw Exception("File::index(): Unable to read Object type.");
+            throw Exception("File::indexCompressed(): Unable to read Object type.");
         }
         ObjectType objectType = static_cast<ObjectType>(
                 (static_cast<DWORD>(readData[0]) <<  0) |
@@ -694,7 +665,7 @@ void File::indexCompressed() {
             m_file.read(reinterpret_cast<char *>(&readData), sizeof(LogContainer::uncompressedFileSize));
             assert(m_file.good());
             if (m_file.gcount() < std::streamsize(sizeof(LogContainer::uncompressedFileSize))) {
-                throw Exception("File::index(): Unable to read LogContainer uncompressedFileSize.");
+                throw Exception("File::indexCompressed(): Unable to read LogContainer uncompressedFileSize.");
             }
             DWORD uncompressedFileSize =
                     (static_cast<DWORD>(readData[0]) <<  0) |
@@ -732,7 +703,7 @@ void File::indexCompressed() {
     m_file.clear();
     m_file.seekg(0, std::ios_base::end);
     if (m_compressedFileSize > m_file.tellg()) {
-        throw Exception("File::index(): File is truncated.");
+        throw Exception("File::indexCompressed(): File is truncated.");
     }
 
     /* seek back to begin */

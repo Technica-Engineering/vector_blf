@@ -142,9 +142,9 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/SystemVariable.h
         ${CMAKE_CURRENT_SOURCE_DIR}/TestStructure.h
         ${CMAKE_CURRENT_SOURCE_DIR}/TriggerCondition.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/Types.h
         ${CMAKE_CURRENT_SOURCE_DIR}/Unknown115.h
         ${CMAKE_CURRENT_SOURCE_DIR}/VarObjectHeader.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/VectorTypes.h
         ${CMAKE_CURRENT_SOURCE_DIR}/WaterMarkEvent.h
         ${CMAKE_CURRENT_SOURCE_DIR}/WlanFrame.h
         ${CMAKE_CURRENT_SOURCE_DIR}/WlanStatistic.h
@@ -175,7 +175,6 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/CanMessage.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/CanOverloadFrame.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/CompactSerialEvent.cpp
-        #${CMAKE_CURRENT_SOURCE_DIR}/CompressedFile.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/DataLostBegin.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/DataLostEnd.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/DiagRequestInterpretation.cpp
