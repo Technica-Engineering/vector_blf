@@ -24,7 +24,7 @@
 namespace Vector {
 namespace BLF {
 
-ObjectHeader::ObjectHeader(const ObjectType objectType, const WORD objectVersion) :
+ObjectHeader::ObjectHeader(const ObjectType objectType, const uint16_t objectVersion) :
     ObjectHeaderBase(1, objectType),
     objectVersion(objectVersion) {
 }
@@ -45,7 +45,7 @@ void ObjectHeader::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&objectTimeStamp), sizeof(objectTimeStamp));
 }
 
-WORD ObjectHeader::calculateHeaderSize() const {
+uint16_t ObjectHeader::calculateHeaderSize() const {
     return
         ObjectHeaderBase::calculateHeaderSize() +
         sizeof(objectFlags) +
@@ -54,7 +54,7 @@ WORD ObjectHeader::calculateHeaderSize() const {
         sizeof(objectTimeStamp);
 }
 
-DWORD ObjectHeader::calculateObjectSize() const {
+uint32_t ObjectHeader::calculateObjectSize() const {
     return calculateHeaderSize();
 }
 

@@ -49,9 +49,9 @@ void TestStructure::read(AbstractFile & is) {
 
 void TestStructure::write(AbstractFile & os) {
     /* pre processing */
-    executingObjectNameLength = static_cast<DWORD>(executingObjectName.size());
-    nameLength = static_cast<DWORD>(name.size());
-    textLength = static_cast<DWORD>(text.size());
+    executingObjectNameLength = static_cast<uint32_t>(executingObjectName.size());
+    nameLength = static_cast<uint32_t>(name.size());
+    textLength = static_cast<uint32_t>(text.size());
 
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&executionObjectIdentify), sizeof(executionObjectIdentify));
@@ -68,7 +68,7 @@ void TestStructure::write(AbstractFile & os) {
     os.write(const_cast<char *>(reinterpret_cast<const char *>(text.data())), textLength * sizeof(char16_t));
 }
 
-DWORD TestStructure::calculateObjectSize() const {
+uint32_t TestStructure::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(executionObjectIdentify) +

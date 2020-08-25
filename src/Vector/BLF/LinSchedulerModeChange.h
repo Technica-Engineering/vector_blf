@@ -25,7 +25,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -44,29 +43,29 @@ struct VECTOR_BLF_EXPORT LinSchedulerModeChange final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      *
      * Channel number where the frame sent/received.
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /**
      * Index (0-based) of a previously active schedule
      * table
      */
-    BYTE oldMode {};
+    uint8_t oldMode {};
 
     /**
      * Index (0-based) of the newly activated schedule
      * table
      */
-    BYTE newMode {};
+    uint8_t newMode {};
 
     /** reserved */
-    DWORD reservedLinSchedulerModeChange {};
+    uint32_t reservedLinSchedulerModeChange {};
 };
 
 }

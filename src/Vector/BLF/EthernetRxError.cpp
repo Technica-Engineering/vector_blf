@@ -48,7 +48,7 @@ void EthernetRxError::read(AbstractFile & is) {
 void EthernetRxError::write(AbstractFile & os) {
     /* pre processing */
     structLength = calculateStructLength();
-    frameDataLength = static_cast<WORD>(frameData.size());
+    frameDataLength = static_cast<uint16_t>(frameData.size());
 
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&structLength), sizeof(structLength));
@@ -65,7 +65,7 @@ void EthernetRxError::write(AbstractFile & os) {
     os.skipp(objectSize % 4);
 }
 
-DWORD EthernetRxError::calculateObjectSize() const {
+uint32_t EthernetRxError::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(structLength) +
@@ -79,7 +79,7 @@ DWORD EthernetRxError::calculateObjectSize() const {
         frameDataLength;
 }
 
-WORD EthernetRxError::calculateStructLength() const {
+uint16_t EthernetRxError::calculateStructLength() const {
     return
         sizeof(structLength) +
         sizeof(channel) +

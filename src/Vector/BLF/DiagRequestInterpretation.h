@@ -25,7 +25,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -40,37 +39,37 @@ struct VECTOR_BLF_EXPORT DiagRequestInterpretation final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief unique ID identifying the used diagnostic description
      */
-    DWORD diagDescriptionHandle {};
+    uint32_t diagDescriptionHandle {};
 
     /**
      * @brief unique ID identifying the used diagnostic variant
      */
-    DWORD diagVariantHandle {};
+    uint32_t diagVariantHandle {};
 
     /**
      * @brief unique ID identifying the used diagnostic service
      */
-    DWORD diagServiceHandle {};
+    uint32_t diagServiceHandle {};
 
     /**
      * @brief string length for ecuQualifier
      */
-    DWORD ecuQualifierLength {};
+    uint32_t ecuQualifierLength {};
 
     /**
      * @brief string length for variantQualifier
      */
-    DWORD variantQualifierLength {};
+    uint32_t variantQualifierLength {};
 
     /**
      * @brief string length for serviceQualifier
      */
-    DWORD serviceQualifierLength {};
+    uint32_t serviceQualifierLength {};
 
     /**
      * @brief qualifier of the ECU the request was sent to

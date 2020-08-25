@@ -50,15 +50,15 @@ void A429Error::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&reservedA429Error), sizeof(reservedA429Error));
 }
 
-DWORD A429Error::calculateObjectSize() const {
+uint32_t A429Error::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(errorType) +
         sizeof(sourceIdentifier) +
         sizeof(errReason) +
-        static_cast<DWORD>(errorText.size()) +
-        static_cast<DWORD>(errorAttributes.size()) +
+        static_cast<uint32_t>(errorText.size()) +
+        static_cast<uint32_t>(errorAttributes.size()) +
         sizeof(reservedA429Error);
 }
 

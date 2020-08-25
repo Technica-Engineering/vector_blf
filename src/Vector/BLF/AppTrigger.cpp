@@ -46,7 +46,7 @@ void AppTrigger::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&appSpecific2), sizeof(appSpecific2));
 }
 
-DWORD AppTrigger::calculateObjectSize() const {
+uint32_t AppTrigger::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(preTriggerTime) +

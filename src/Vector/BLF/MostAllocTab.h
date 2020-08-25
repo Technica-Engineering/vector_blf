@@ -27,7 +27,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader2.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -45,23 +44,23 @@ struct VECTOR_BLF_EXPORT MostAllocTab final : ObjectHeader2 {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      *
      * Application channel
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /**
      * Length of variable data (usually 60 bytes for
      * MOST25)
      */
-    WORD length {};
+    uint16_t length {};
 
     /** reserved */
-    DWORD reservedMostAllocTab {};
+    uint32_t reservedMostAllocTab {};
 
     /**
      * Allocation Table

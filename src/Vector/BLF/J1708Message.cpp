@@ -50,7 +50,7 @@ void J1708Message::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&reservedJ1708Message2), sizeof(reservedJ1708Message2));
 }
 
-DWORD J1708Message::calculateObjectSize() const {
+uint32_t J1708Message::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
@@ -58,7 +58,7 @@ DWORD J1708Message::calculateObjectSize() const {
         sizeof(reservedJ1708Message1) +
         sizeof(error) +
         sizeof(size) +
-        static_cast<DWORD>(data.size()) +
+        static_cast<uint32_t>(data.size()) +
         sizeof(reservedJ1708Message2);
 }
 

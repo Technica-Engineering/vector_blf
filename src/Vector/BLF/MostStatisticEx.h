@@ -25,7 +25,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader2.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -44,30 +43,30 @@ struct VECTOR_BLF_EXPORT MostStatisticEx final : ObjectHeader2 {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      *
      * Application channel
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /** reserved */
-    WORD reservedMostStatisticEx1 {};
+    uint16_t reservedMostStatisticEx1 {};
 
     /**
      * Number of coding errors
      */
-    DWORD codingErrors {};
+    uint32_t codingErrors {};
 
     /**
      * MOST frame counter
      */
-    DWORD frameCounter {};
+    uint32_t frameCounter {};
 
     /** reserved */
-    DWORD reservedMostStatisticEx2 {};
+    uint32_t reservedMostStatisticEx2 {};
 };
 
 }

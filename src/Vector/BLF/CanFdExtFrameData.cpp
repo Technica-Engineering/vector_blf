@@ -37,11 +37,11 @@ void CanFdExtFrameData::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(reservedCanFdExtFrameData.data()), static_cast<std::streamsize>(reservedCanFdExtFrameData.size()));
 }
 
-DWORD CanFdExtFrameData::calculateObjectSize() const {
+uint32_t CanFdExtFrameData::calculateObjectSize() const {
     return
         sizeof(btrExtArb) +
         sizeof(btrExtData) +
-        static_cast<DWORD>(reservedCanFdExtFrameData.size());
+        static_cast<uint32_t>(reservedCanFdExtFrameData.size());
 }
 
 }

@@ -25,7 +25,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -42,17 +41,17 @@ struct VECTOR_BLF_EXPORT WlanStatistic final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      *
      * The channel of the frame.
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /** enumeration for flags */
-    enum Flags : WORD {
+    enum Flags : uint16_t {
         /** Valid Rx/Tx Counter */
         ValidRxTxCounter = 0x01,
 
@@ -61,40 +60,40 @@ struct VECTOR_BLF_EXPORT WlanStatistic final : ObjectHeader {
     };
 
     /** flags */
-    WORD flags {};
+    uint16_t flags {};
 
     /**
      * Number of Rx packets since last statistic event.
      */
-    ULONG rxPacketCount {};
+    uint32_t rxPacketCount {};
 
     /**
      * Number of Rx bytes since last statistic event.
      */
-    ULONG rxByteCount {};
+    uint32_t rxByteCount {};
 
     /**
      * Number of Tx packets since last statistic event.
      */
-    ULONG txPacketCount {};
+    uint32_t txPacketCount {};
 
     /**
      * Number of Tx bytes since last statistic event.
      */
-    ULONG txByteCount {};
+    uint32_t txByteCount {};
 
     /**
      * Number of collisions since last statistic event.
      */
-    ULONG collisionCount {};
+    uint32_t collisionCount {};
 
     /**
      * Number of errors since last statistic event.
      */
-    ULONG errorCount {};
+    uint32_t errorCount {};
 
     /** reserved */
-    DWORD reservedWlanStatistic {};
+    uint32_t reservedWlanStatistic {};
 };
 
 }

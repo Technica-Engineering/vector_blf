@@ -28,7 +28,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -53,13 +52,13 @@ struct VECTOR_BLF_EXPORT CompactSerialEvent final {
     virtual void write(AbstractFile & os);
 
     /** @copydoc ObjectHeader::calculateObjectSize */
-    virtual DWORD calculateObjectSize() const;
+    virtual uint32_t calculateObjectSize() const;
 
     /** compact length */
-    BYTE compactLength {};
+    uint8_t compactLength {};
 
     /** compact data */
-    std::array<BYTE, 15> compactData {};
+    std::array<uint8_t, 15> compactData {};
 };
 
 }

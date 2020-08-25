@@ -40,8 +40,8 @@ void FlexRayVFrStatus::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&wus), sizeof(wus));
     is.read(reinterpret_cast<char *>(&ccSyncState), sizeof(ccSyncState));
     is.read(reinterpret_cast<char *>(&tag), sizeof(tag));
-    is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size() * sizeof(DWORD)));
-    is.read(reinterpret_cast<char *>(reservedFlexRayVFrStatus2.data()), static_cast<std::streamsize>(reservedFlexRayVFrStatus2.size() * sizeof(WORD)));
+    is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size() * sizeof(uint32_t)));
+    is.read(reinterpret_cast<char *>(reservedFlexRayVFrStatus2.data()), static_cast<std::streamsize>(reservedFlexRayVFrStatus2.size() * sizeof(uint16_t)));
 }
 
 void FlexRayVFrStatus::write(AbstractFile & os) {
@@ -56,11 +56,11 @@ void FlexRayVFrStatus::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&wus), sizeof(wus));
     os.write(reinterpret_cast<char *>(&ccSyncState), sizeof(ccSyncState));
     os.write(reinterpret_cast<char *>(&tag), sizeof(tag));
-    os.write(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size() * sizeof(DWORD)));
-    os.write(reinterpret_cast<char *>(reservedFlexRayVFrStatus2.data()), static_cast<std::streamsize>(reservedFlexRayVFrStatus2.size() * sizeof(WORD)));
+    os.write(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size() * sizeof(uint32_t)));
+    os.write(reinterpret_cast<char *>(reservedFlexRayVFrStatus2.data()), static_cast<std::streamsize>(reservedFlexRayVFrStatus2.size() * sizeof(uint16_t)));
 }
 
-DWORD FlexRayVFrStatus::calculateObjectSize() const {
+uint32_t FlexRayVFrStatus::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
@@ -73,8 +73,8 @@ DWORD FlexRayVFrStatus::calculateObjectSize() const {
         sizeof(wus) +
         sizeof(ccSyncState) +
         sizeof(tag) +
-        static_cast<DWORD>(data.size() * sizeof(DWORD)) +
-        static_cast<DWORD>(reservedFlexRayVFrStatus2.size() * sizeof(WORD));
+        static_cast<uint32_t>(data.size() * sizeof(uint32_t)) +
+        static_cast<uint32_t>(reservedFlexRayVFrStatus2.size() * sizeof(uint16_t));
 }
 
 }

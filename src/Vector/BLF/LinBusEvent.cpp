@@ -38,7 +38,7 @@ void LinBusEvent::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&reservedLinBusEvent), sizeof(reservedLinBusEvent));
 }
 
-DWORD LinBusEvent::calculateObjectSize() const {
+uint32_t LinBusEvent::calculateObjectSize() const {
     return
         sizeof(sof) +
         sizeof(eventBaudrate) +

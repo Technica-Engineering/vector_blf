@@ -60,7 +60,7 @@ void CanErrorFrameExt::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
 }
 
-DWORD CanErrorFrameExt::calculateObjectSize() const {
+uint32_t CanErrorFrameExt::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
@@ -74,7 +74,7 @@ DWORD CanErrorFrameExt::calculateObjectSize() const {
         sizeof(id) +
         sizeof(flagsExt) +
         sizeof(reservedCanErrorFrameExt2) +
-        static_cast<DWORD>(data.size());
+        static_cast<uint32_t>(data.size());
 }
 
 }

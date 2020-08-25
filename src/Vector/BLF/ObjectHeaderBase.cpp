@@ -27,7 +27,7 @@
 namespace Vector {
 namespace BLF {
 
-ObjectHeaderBase::ObjectHeaderBase(const WORD headerVersion, const ObjectType objectType) :
+ObjectHeaderBase::ObjectHeaderBase(const uint16_t headerVersion, const ObjectType objectType) :
     headerVersion(headerVersion),
     objectType(objectType) {
 }
@@ -54,7 +54,7 @@ void ObjectHeaderBase::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&objectType), sizeof(objectType));
 }
 
-WORD ObjectHeaderBase::calculateHeaderSize() const {
+uint16_t ObjectHeaderBase::calculateHeaderSize() const {
     return
         sizeof(signature) +
         sizeof(headerSize) +
@@ -63,7 +63,7 @@ WORD ObjectHeaderBase::calculateHeaderSize() const {
         sizeof(objectType);
 }
 
-DWORD ObjectHeaderBase::calculateObjectSize() const {
+uint32_t ObjectHeaderBase::calculateObjectSize() const {
     return calculateHeaderSize();
 }
 

@@ -147,7 +147,6 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/UncompressedFile.h
         ${CMAKE_CURRENT_SOURCE_DIR}/Unknown115.h
         ${CMAKE_CURRENT_SOURCE_DIR}/VarObjectHeader.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/VectorTypes.h
         ${CMAKE_CURRENT_SOURCE_DIR}/WaterMarkEvent.h
         ${CMAKE_CURRENT_SOURCE_DIR}/WlanFrame.h
         ${CMAKE_CURRENT_SOURCE_DIR}/WlanStatistic.h

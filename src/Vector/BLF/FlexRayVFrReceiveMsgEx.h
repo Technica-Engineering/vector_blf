@@ -28,7 +28,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -45,21 +44,21 @@ struct VECTOR_BLF_EXPORT FlexRayVFrReceiveMsgEx final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      *
      * Application channel
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /**
      * @brief version of data struct
      *
      * Object version, for internal use
      */
-    WORD version {};
+    uint16_t version {};
 
     /**
      * @brief channel mask
@@ -70,7 +69,7 @@ struct VECTOR_BLF_EXPORT FlexRayVFrReceiveMsgEx final : ObjectHeader {
      *   - 2 = FlexRay Channel B
      *   - 3 = FlexRay Channels A and B
      */
-    WORD channelMask {};
+    uint16_t channelMask {};
 
     /**
      * @brief dir flag (tx, rx)
@@ -81,7 +80,7 @@ struct VECTOR_BLF_EXPORT FlexRayVFrReceiveMsgEx final : ObjectHeader {
      *   - 2 = Tx Request
      *   - 3 and 4 are for internal use only.
      */
-    WORD dir {};
+    uint16_t dir {};
 
     /**
      * @brief clientindex of send node
@@ -89,42 +88,42 @@ struct VECTOR_BLF_EXPORT FlexRayVFrReceiveMsgEx final : ObjectHeader {
      * Client index of send node. Must be set to 0 if file
      * is written from other applications.
      */
-    DWORD clientIndexFlexRayVFrReceiveMsgEx {};
+    uint32_t clientIndexFlexRayVFrReceiveMsgEx {};
 
     /**
      * @brief number of cluster
      *
      * Number of cluster: channel number - 1
      */
-    DWORD clusterNo {};
+    uint32_t clusterNo {};
 
     /**
      * @brief slot identifier, word
      *
      * Slot identifier
      */
-    WORD frameId {};
+    uint16_t frameId {};
 
     /**
      * @brief header crc channel 1
      *
      * Header CRC FlexRay channel 1 (A)
      */
-    WORD headerCrc1 {};
+    uint16_t headerCrc1 {};
 
     /**
      * @brief header crc channel 2
      *
      * Header CRC FlexRay channel 2 (B)
      */
-    WORD headerCrc2 {};
+    uint16_t headerCrc2 {};
 
     /**
      * @brief byte count (not payload) of frame from CC receive buffer
      *
      * Payload length in bytes
      */
-    WORD byteCount {};
+    uint16_t byteCount {};
 
     /**
      * @brief length of the data array (stretchy struct)
@@ -134,14 +133,14 @@ struct VECTOR_BLF_EXPORT FlexRayVFrReceiveMsgEx final : ObjectHeader {
      * small to receive the complete payload, then
      * dataCount is smaller than byteCount.
      */
-    WORD dataCount {};
+    uint16_t dataCount {};
 
     /**
      * @brief current cycle
      *
      * Cycle number
      */
-    WORD cycle {};
+    uint16_t cycle {};
 
     /**
      * @brief type of cc
@@ -155,7 +154,7 @@ struct VECTOR_BLF_EXPORT FlexRayVFrReceiveMsgEx final : ObjectHeader {
      *   - 5 = Vector VN interface
      *   - 6 = VN-Sync-Pulse (only in Status Event, for debugging purposes only)
      */
-    DWORD tag {};
+    uint32_t tag {};
 
     /**
      * @brief register flags
@@ -211,7 +210,7 @@ struct VECTOR_BLF_EXPORT FlexRayVFrReceiveMsgEx final : ObjectHeader {
      *   - Bit 9: Frame CRC Error (FrmCRC)
      *   - Bit 12: Tx Conflict
      */
-    DWORD data {};
+    uint32_t data {};
 
     /**
      * @brief frame flags
@@ -250,21 +249,21 @@ struct VECTOR_BLF_EXPORT FlexRayVFrReceiveMsgEx final : ObjectHeader {
      * The reserved bits and the bits which are for internally CANoe/CANalyzer usage must be ignored
      * from other applications. Other applications must set these bits to 0 when writing logging files.
      */
-    DWORD frameFlags {};
+    uint32_t frameFlags {};
 
     /**
      * @brief TxRq, TxAck flags
      *
      * Not used, reserved
      */
-    DWORD appParameter {};
+    uint32_t appParameter {};
 
     /**
      * @brief frame crc
      *
      * Frame CRC
      */
-    DWORD frameCrc {};
+    uint32_t frameCrc {};
 
     /**
      * @brief length of frame in ns
@@ -273,7 +272,7 @@ struct VECTOR_BLF_EXPORT FlexRayVFrReceiveMsgEx final : ObjectHeader {
      * in asynchronous mode, bit 15 is set in the
      * frame flags)
      */
-    DWORD frameLengthNs {};
+    uint32_t frameLengthNs {};
 
     /**
      * @brief for internal use
@@ -281,7 +280,7 @@ struct VECTOR_BLF_EXPORT FlexRayVFrReceiveMsgEx final : ObjectHeader {
      * For PDUs only: This is the slot ID of the frame
      * which contains this PDU
      */
-    WORD frameId1 {};
+    uint16_t frameId1 {};
 
     /**
      * @brief payload offset (position in a frame)
@@ -289,7 +288,7 @@ struct VECTOR_BLF_EXPORT FlexRayVFrReceiveMsgEx final : ObjectHeader {
      * For PDUs only: offset in bytes of PDU in an
      * owner (raw) frame
      */
-    WORD pduOffset {};
+    uint16_t pduOffset {};
 
     /**
      * @brief only valid for frames. Every stands for one PDU. If set, the PDU must be extracted out of the frame. The bit order is the PDU order in the frame starting with the PDU with the smallest offset
@@ -300,17 +299,17 @@ struct VECTOR_BLF_EXPORT FlexRayVFrReceiveMsgEx final : ObjectHeader {
      * frame starting with the PDU with the smallest
      * offset.
      */
-    WORD blfLogMask {};
+    uint16_t blfLogMask {};
 
     /** reserved */
-    std::array<WORD, 13> reservedFlexRayVFrReceiveMsgEx {};
+    std::array<uint16_t, 13> reservedFlexRayVFrReceiveMsgEx {};
 
     /**
      * @brief array of databytes
      *
      * Payload
      */
-    std::vector<BYTE> dataBytes {};
+    std::vector<uint8_t> dataBytes {};
 };
 
 }

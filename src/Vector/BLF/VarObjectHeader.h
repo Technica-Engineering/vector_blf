@@ -25,7 +25,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeaderBase.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -40,11 +39,11 @@ struct VECTOR_BLF_EXPORT VarObjectHeader : ObjectHeaderBase {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    WORD calculateHeaderSize() const override;
-    DWORD calculateObjectSize() const override;
+    uint16_t calculateHeaderSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /** enumeration for objectFlags */
-    enum ObjectFlags : DWORD {
+    enum ObjectFlags : uint32_t {
         /**
          * @brief 10 micro second timestamp
          *
@@ -68,12 +67,12 @@ struct VECTOR_BLF_EXPORT VarObjectHeader : ObjectHeaderBase {
      *
      * Unit of object timestamp.
      */
-    DWORD objectFlags {ObjectFlags::TimeOneNans};
+    uint32_t objectFlags {ObjectFlags::TimeOneNans};
 
     /**
      * @brief size of the static part of the object
      */
-    WORD objectStaticSize {};
+    uint16_t objectStaticSize {};
 
     /**
      * @brief object specific version
@@ -82,7 +81,7 @@ struct VECTOR_BLF_EXPORT VarObjectHeader : ObjectHeaderBase {
      * stated otherwise in the description of a specific
      * event.
      */
-    WORD objectVersion {};
+    uint16_t objectVersion {};
 
     /**
      * @brief object timestamp
@@ -90,7 +89,7 @@ struct VECTOR_BLF_EXPORT VarObjectHeader : ObjectHeaderBase {
      * Time stamp of this object in the unit specified in
      * objectFlags.
      */
-    ULONGLONG objectTimeStamp {};
+    uint64_t objectTimeStamp {};
 };
 
 }

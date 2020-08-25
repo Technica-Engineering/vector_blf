@@ -40,7 +40,7 @@ void RealtimeClock::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&loggingOffset), sizeof(loggingOffset));
 }
 
-DWORD RealtimeClock::calculateObjectSize() const {
+uint32_t RealtimeClock::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(time) +

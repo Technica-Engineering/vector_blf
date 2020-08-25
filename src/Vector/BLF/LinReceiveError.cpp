@@ -60,7 +60,7 @@ void LinReceiveError::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&reservedLinReceiveError), sizeof(reservedLinReceiveError));
 }
 
-DWORD LinReceiveError::calculateObjectSize() const {
+uint32_t LinReceiveError::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

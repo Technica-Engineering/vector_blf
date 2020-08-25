@@ -26,7 +26,6 @@
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/LinBusEvent.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -43,7 +42,7 @@ struct VECTOR_BLF_EXPORT LinWakeupEvent2 final : ObjectHeader, LinBusEvent {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * Wake-up length validity indicator:
@@ -51,12 +50,12 @@ struct VECTOR_BLF_EXPORT LinWakeupEvent2 final : ObjectHeader, LinBusEvent {
      *   - 1: Wake-up is too short
      *   - 2: Wake-up is too long
      */
-    BYTE lengthInfo {};
+    uint8_t lengthInfo {};
 
     /**
      * Byte value used by wakeup frame.
      */
-    BYTE signal {};
+    uint8_t signal {};
 
     /**
      * Flag indicating whether the wakeup frame has
@@ -64,13 +63,13 @@ struct VECTOR_BLF_EXPORT LinWakeupEvent2 final : ObjectHeader, LinBusEvent {
      * set) or by the LIN hardware itself (selector not
      * set).
      */
-    BYTE external {};
+    uint8_t external {};
 
     /** reserved */
-    BYTE reservedLinWakeupEvent1 {};
+    uint8_t reservedLinWakeupEvent1 {};
 
     /** reserved */
-    DWORD reservedLinWakeupEvent2 {};
+    uint32_t reservedLinWakeupEvent2 {};
 };
 
 }

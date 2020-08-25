@@ -25,7 +25,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -42,17 +41,17 @@ struct VECTOR_BLF_EXPORT RealtimeClock final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief logging start time in ns since 00:00 1.1.1970 GMT
      */
-    ULONGLONG time {};
+    uint64_t time {};
 
     /**
      * @brief measurement zero offset in ns to 00:00 1.1.1970 GMT
      */
-    ULONGLONG loggingOffset {};
+    uint64_t loggingOffset {};
 };
 
 }

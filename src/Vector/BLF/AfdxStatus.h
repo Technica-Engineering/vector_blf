@@ -26,7 +26,6 @@
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/AfdxLineStatus.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -43,15 +42,15 @@ struct VECTOR_BLF_EXPORT AfdxStatus final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /** reserved */
-    WORD reservedAfdxStatus1 {};
+    uint16_t reservedAfdxStatus1 {};
 
     /**
      * @brief status of adapter lineA
@@ -64,7 +63,7 @@ struct VECTOR_BLF_EXPORT AfdxStatus final : ObjectHeader {
     AfdxLineStatus statusB {};
 
     /** reserved */
-    DWORD reservedAfdxStatus2 {};
+    uint32_t reservedAfdxStatus2 {};
 };
 
 }

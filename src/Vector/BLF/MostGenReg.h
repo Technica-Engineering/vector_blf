@@ -25,7 +25,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader2.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -45,14 +44,14 @@ struct VECTOR_BLF_EXPORT MostGenReg final : ObjectHeader2 {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      *
      * Application channel
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /**
      * @brief read/write request/result
@@ -67,17 +66,17 @@ struct VECTOR_BLF_EXPORT MostGenReg final : ObjectHeader2 {
      *   - ReadFailed = 6: register read operation failed
      *   - WriteFailed = 7: register write operation failed
      */
-    BYTE subType {};
+    uint8_t subType {};
 
     /** reserved */
-    BYTE reservedMostGenReg1 {};
+    uint8_t reservedMostGenReg1 {};
 
     /**
      * @brief operation handle
      *
      * Operation handle (obsolete; write 0)
      */
-    DWORD handle {};
+    uint32_t handle {};
 
     /**
      * @brief register ID
@@ -102,20 +101,20 @@ struct VECTOR_BLF_EXPORT MostGenReg final : ObjectHeader2 {
      *   - MacAdr = 0xFE: 48 bit MAC address (EUI-48, conforming to the IEEE standard;
      *     MOST150 only)
      */
-    WORD regId {};
+    uint16_t regId {};
 
     /** reserved */
-    WORD reservedMostGenReg2 {};
+    uint16_t reservedMostGenReg2 {};
 
     /** reserved */
-    DWORD reservedMostGenReg3 {};
+    uint32_t reservedMostGenReg3 {};
 
     /**
      * @brief register value
      *
      * Register value
      */
-    ULONGLONG regValue {};
+    uint64_t regValue {};
 };
 
 }

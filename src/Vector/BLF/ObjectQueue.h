@@ -53,7 +53,7 @@ class VECTOR_BLF_EXPORT ObjectQueue {
     virtual T * read();
 
     /** @copydoc AbstractFile::tellg */
-    virtual DWORD tellg() const;
+    virtual uint32_t tellg() const;
 
     /**
      * Enqueue an object to end of queue.
@@ -65,7 +65,7 @@ class VECTOR_BLF_EXPORT ObjectQueue {
     void write(T * obj);
 
     /** @copydoc AbstractFile::tellp */
-    virtual DWORD tellp() const;
+    virtual uint32_t tellp() const;
 
     /** @copydoc AbstractFile::good */
     virtual bool good() const;
@@ -77,10 +77,10 @@ class VECTOR_BLF_EXPORT ObjectQueue {
     virtual void abort();
 
     /** @copydoc UncompressedFile::setFileSize */
-    virtual void setFileSize(DWORD fileSize);
+    virtual void setFileSize(uint32_t fileSize);
 
     /** @copydoc UncompressedFile::setBufferSize */
-    virtual void setBufferSize(DWORD bufferSize);
+    virtual void setBufferSize(uint32_t bufferSize);
 
     /** data was dequeued */
     std::condition_variable tellgChanged;
@@ -96,16 +96,16 @@ class VECTOR_BLF_EXPORT ObjectQueue {
     std::queue<T *> m_queue {};
 
     /** read position */
-    DWORD m_tellg {};
+    uint32_t m_tellg {};
 
     /** write position */
-    DWORD m_tellp {};
+    uint32_t m_tellp {};
 
     /** max size */
-    DWORD m_bufferSize {std::numeric_limits<DWORD>::max()};
+    uint32_t m_bufferSize {std::numeric_limits<uint32_t>::max()};
 
     /** eof position */
-    DWORD m_fileSize {std::numeric_limits<DWORD>::max()};
+    uint32_t m_fileSize {std::numeric_limits<uint32_t>::max()};
 
     /** error state */
     std::ios_base::iostate m_rdstate {std::ios_base::goodbit};

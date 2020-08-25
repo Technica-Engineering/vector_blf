@@ -68,7 +68,7 @@ void FlexRayV6Message::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(dataBytes.data()), static_cast<std::streamsize>(dataBytes.size()));
 }
 
-DWORD FlexRayV6Message::calculateObjectSize() const {
+uint32_t FlexRayV6Message::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
@@ -86,7 +86,7 @@ DWORD FlexRayV6Message::calculateObjectSize() const {
         sizeof(headerBitMask) +
         sizeof(reservedFlexRayV6Message1) +
         sizeof(reservedFlexRayV6Message2) +
-        static_cast<DWORD>(dataBytes.size());
+        static_cast<uint32_t>(dataBytes.size());
 }
 
 }

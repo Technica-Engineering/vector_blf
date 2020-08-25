@@ -27,7 +27,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader2.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -44,17 +43,17 @@ struct VECTOR_BLF_EXPORT MostEthernetPktFragment final : ObjectHeader2 {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      *
      * Application channel
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /** reserved */
-    BYTE reservedMostEthernetPktFragment1 {};
+    uint8_t reservedMostEthernetPktFragment1 {};
 
     /**
      * @brief acknowledge code
@@ -93,7 +92,7 @@ struct VECTOR_BLF_EXPORT MostEthernetPktFragment final : ObjectHeader2 {
      *     Restriction:
      *       - only for Dir = Tx or spy messages
      */
-    BYTE ackNack {};
+    uint8_t ackNack {};
 
     /**
      * @brief bitfield indicating which members have valid data
@@ -112,21 +111,21 @@ struct VECTOR_BLF_EXPORT MostEthernetPktFragment final : ObjectHeader2 {
      *   - Bit 10: 0x00000400: destMacAdr
      *   - Bit 31: 0x80000000: 0: MOST150 fragment; 1: MOST50 fragment
      */
-    DWORD validMask {};
+    uint32_t validMask {};
 
     /**
      * @brief 48 bit source address
      *
      * 48 bit source address
      */
-    ULONGLONG sourceMacAdr {};
+    uint64_t sourceMacAdr {};
 
     /**
      * @brief 48 bit target address
      *
      * 48 bit target address
      */
-    ULONGLONG destMacAdr {};
+    uint64_t destMacAdr {};
 
     /**
      * @brief a preemptive acknowledge code
@@ -136,7 +135,7 @@ struct VECTOR_BLF_EXPORT MostEthernetPktFragment final : ObjectHeader2 {
      *   - 0x01: Buffer full
      *   - 0x04: OK
      */
-    BYTE pAck {};
+    uint8_t pAck {};
 
     /**
      * @brief CRC acknowledge from the packet receiver(s) to the packet transmitter
@@ -147,17 +146,17 @@ struct VECTOR_BLF_EXPORT MostEthernetPktFragment final : ObjectHeader2 {
      *   - 0x01: CRC error
      *   - 0x04: OK
      */
-    BYTE cAck {};
+    uint8_t cAck {};
 
     /** reserved */
-    WORD reservedMostEthernetPktFragment2 {};
+    uint16_t reservedMostEthernetPktFragment2 {};
 
     /**
      * @brief Cyclic Redundancy Check
      *
      * Cyclic Redundancy Check
      */
-    DWORD crc {};
+    uint32_t crc {};
 
     /**
      * @brief number of transmitted user data bytes
@@ -168,7 +167,7 @@ struct VECTOR_BLF_EXPORT MostEthernetPktFragment final : ObjectHeader2 {
      * Note: The number of bytes saved in this event is
      * stored in firstDataLen.
      */
-    DWORD dataLen {};
+    uint32_t dataLen {};
 
     /**
      * @brief announced user data length at the start of the transmission
@@ -185,7 +184,7 @@ struct VECTOR_BLF_EXPORT MostEthernetPktFragment final : ObjectHeader2 {
      * byte) dataLen can also be greater than
      * dataLenAnnonced.
      */
-    DWORD dataLenAnnounced {};
+    uint32_t dataLenAnnounced {};
 
     /**
      * @brief number of bytes in firstData
@@ -197,10 +196,10 @@ struct VECTOR_BLF_EXPORT MostEthernetPktFragment final : ObjectHeader2 {
      * all counted bytes on bus will be stored in the
      * payload of the logging event.
      */
-    DWORD firstDataLen {};
+    uint32_t firstDataLen {};
 
     /** reserved */
-    DWORD reservedMostEthernetPktFragment3 {};
+    uint32_t reservedMostEthernetPktFragment3 {};
 
     /**
      * @brief variable data

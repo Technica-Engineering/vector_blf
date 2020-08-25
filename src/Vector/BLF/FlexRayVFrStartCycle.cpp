@@ -43,7 +43,7 @@ void FlexRayVFrStartCycle::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(dataBytes.data()), static_cast<std::streamsize>(dataBytes.size()));
     is.read(reinterpret_cast<char *>(&reservedFlexRayVFrStartCycle1), sizeof(reservedFlexRayVFrStartCycle1));
     is.read(reinterpret_cast<char *>(&tag), sizeof(tag));
-    is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size() * sizeof(DWORD)));
+    is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size() * sizeof(uint32_t)));
     is.read(reinterpret_cast<char *>(&reservedFlexRayVFrStartCycle2), sizeof(reservedFlexRayVFrStartCycle2));
 }
 
@@ -60,11 +60,11 @@ void FlexRayVFrStartCycle::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(dataBytes.data()), static_cast<std::streamsize>(dataBytes.size()));
     os.write(reinterpret_cast<char *>(&reservedFlexRayVFrStartCycle1), sizeof(reservedFlexRayVFrStartCycle1));
     os.write(reinterpret_cast<char *>(&tag), sizeof(tag));
-    os.write(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size() * sizeof(DWORD)));
+    os.write(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size() * sizeof(uint32_t)));
     os.write(reinterpret_cast<char *>(&reservedFlexRayVFrStartCycle2), sizeof(reservedFlexRayVFrStartCycle2));
 }
 
-DWORD FlexRayVFrStartCycle::calculateObjectSize() const {
+uint32_t FlexRayVFrStartCycle::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
@@ -75,10 +75,10 @@ DWORD FlexRayVFrStartCycle::calculateObjectSize() const {
         sizeof(clientIndexFlexRayVFrStartCycle) +
         sizeof(clusterNo) +
         sizeof(nmSize) +
-        static_cast<DWORD>(dataBytes.size()) +
+        static_cast<uint32_t>(dataBytes.size()) +
         sizeof(reservedFlexRayVFrStartCycle1) +
         sizeof(tag) +
-        static_cast<DWORD>(data.size() * sizeof(DWORD)) +
+        static_cast<uint32_t>(data.size() * sizeof(uint32_t)) +
         sizeof(reservedFlexRayVFrStartCycle2);
 }
 

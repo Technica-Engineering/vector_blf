@@ -27,7 +27,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -44,21 +43,21 @@ struct VECTOR_BLF_EXPORT FlexRayVFrError final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      *
      * Application channel
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /**
      * @brief object version
      *
      * Object version, for internal use
      */
-    WORD version {};
+    uint16_t version {};
 
     /**
      * @brief channel mask
@@ -69,17 +68,17 @@ struct VECTOR_BLF_EXPORT FlexRayVFrError final : ObjectHeader {
      *   - 2 = FlexRay Channel B
      *   - 3 = FlexRay Channels A and B
      */
-    WORD channelMask {};
+    uint16_t channelMask {};
 
     /**
      * @brief current cycle
      *
      * Cycle number
      */
-    BYTE cycle {};
+    uint8_t cycle {};
 
     /** reserved */
-    BYTE reservedFlexRayVFrError1 {};
+    uint8_t reservedFlexRayVFrError1 {};
 
     /**
      * @brief clientindex of send node
@@ -87,14 +86,14 @@ struct VECTOR_BLF_EXPORT FlexRayVFrError final : ObjectHeader {
      * Client index of send node. Must be set to 0 if file
      * is written from other applications
      */
-    DWORD clientIndexFlexRayVFrError {};
+    uint32_t clientIndexFlexRayVFrError {};
 
     /**
      * @brief number of cluster
      *
      * Number of cluster: channel number - 1
      */
-    DWORD clusterNo {};
+    uint32_t clusterNo {};
 
     /**
      * @brief type of cc
@@ -108,7 +107,7 @@ struct VECTOR_BLF_EXPORT FlexRayVFrError final : ObjectHeader {
      *   - 5 = Vector VN interface
      *   - 6 = VN-Sync-Pulse (only in Status Event, for debugging purposes only)
      */
-    DWORD tag {};
+    uint32_t tag {};
 
     /**
      * @brief register flags
@@ -136,7 +135,7 @@ struct VECTOR_BLF_EXPORT FlexRayVFrError final : ObjectHeader {
      *     - 13 = Slot boundary violation
      *     - 14 = Transmission across boundary
      *     - 15 = Latest transmit violation
-     *   - data[1]: DWORD layout depends on the error packet value (see previous row)
+     *   - data[1]: uint32_t layout depends on the error packet value (see previous row)
      *     - Error packet=2:
      *       - 0 = Unknown state
      *       - 1 = FlexRay protocol spec. > CONFIG
@@ -176,7 +175,7 @@ struct VECTOR_BLF_EXPORT FlexRayVFrError final : ObjectHeader {
      *     - 4 = FR_ERROR_NIT_FAILURE
      *     - 5 = FR_ERROR_CC_ERROR
      *     - 6 = FR_ERROR_OVERFLOW
-     *   - data[1] and data[2]: DWORD layout depends on the error tag value (see previous row):
+     *   - data[1] and data[2]: uint32_t layout depends on the error tag value (see previous row):
      *     - Error tag = 0:
      *       - Value 0: FR_ERROR_POC_ACTIVE
      *       - Value 1: FR_ERROR_POC_PASSIVE
@@ -219,10 +218,10 @@ struct VECTOR_BLF_EXPORT FlexRayVFrError final : ObjectHeader {
      *       - Value 0x02000000: Latest Transmit Violation on channel B
      *       - Value 0x04000000: Transmit Across Boundary on Channel B
      */
-    std::array<DWORD, 4> data {};
+    std::array<uint32_t, 4> data {};
 
     /** reserved */
-    DWORD reservedFlexRayVFrError2 {};
+    uint32_t reservedFlexRayVFrError2 {};
 };
 
 }

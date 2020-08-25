@@ -27,7 +27,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -44,21 +43,21 @@ struct VECTOR_BLF_EXPORT CanErrorFrameExt final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      *
      * Channel the frame was sent or received.
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /**
      * @brief CAN error frame length
      *
      * Length of error frame, unused, may be 0.
      */
-    WORD length {};
+    uint16_t length {};
 
     /**
      * @brief extended CAN error frame flags
@@ -71,7 +70,7 @@ struct VECTOR_BLF_EXPORT CanErrorFrameExt final : ObjectHeader {
      * - 4: Vector CAN Core Error Position
      * - 8: Vector CAN Core Frame Length in ns
      */
-    DWORD flags {};
+    uint32_t flags {};
 
     /**
      * @brief error control code
@@ -100,7 +99,7 @@ struct VECTOR_BLF_EXPORT CanErrorFrameExt final : ObjectHeader {
      *   - 2: RX-Error
      *   - 3: TX-Error
      */
-    BYTE ecc {};
+    uint8_t ecc {};
 
     /**
      * @brief error position
@@ -108,17 +107,17 @@ struct VECTOR_BLF_EXPORT CanErrorFrameExt final : ObjectHeader {
      * Bit position of the error frame in the corrupted
      * message.
      */
-    BYTE position {};
+    uint8_t position {};
 
     /**
      * @brief lower 4 bits: DLC from CAN-Core. Upper 4 bits: reserved
      *
      * Data length code of the corrupted message.
      */
-    BYTE dlc {};
+    uint8_t dlc {};
 
     /** reserved */
-    BYTE reservedCanErrorFrameExt1 {};
+    uint8_t reservedCanErrorFrameExt1 {};
 
     /**
      * @brief frame length in ns
@@ -127,14 +126,14 @@ struct VECTOR_BLF_EXPORT CanErrorFrameExt final : ObjectHeader {
      * difference between Start Of Frame and End Of
      * Frame)
      */
-    DWORD frameLengthInNs {};
+    uint32_t frameLengthInNs {};
 
     /**
      * @brief frame ID from CAN-Core
      *
      * Message ID of the corrupted message.
      */
-    DWORD id {};
+    uint32_t id {};
 
     /**
      * @brief extended error flags
@@ -157,17 +156,17 @@ struct VECTOR_BLF_EXPORT CanErrorFrameExt final : ObjectHeader {
      *   - 3: TX
      * - Bit 14: 1=The error frame was send from the application
      */
-    WORD flagsExt {};
+    uint16_t flagsExt {};
 
     /** reserved */
-    WORD reservedCanErrorFrameExt2 {};
+    uint16_t reservedCanErrorFrameExt2 {};
 
     /**
      * @brief Payload, only for CAN-Core
      *
      * Message data.
      */
-    std::array<BYTE, 8> data {};
+    std::array<uint8_t, 8> data {};
 };
 
 }

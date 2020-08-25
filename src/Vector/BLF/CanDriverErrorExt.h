@@ -27,7 +27,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -44,7 +43,7 @@ struct VECTOR_BLF_EXPORT CanDriverErrorExt final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
@@ -52,7 +51,7 @@ struct VECTOR_BLF_EXPORT CanDriverErrorExt final : ObjectHeader {
      * CAN channel the driver error information
      * belongs to.
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /**
      * @brief # of TX errors
@@ -60,7 +59,7 @@ struct VECTOR_BLF_EXPORT CanDriverErrorExt final : ObjectHeader {
      * Number of transmit errors that occurred in CAN
      * controller for that channel.
      */
-    BYTE txErrors {};
+    uint8_t txErrors {};
 
     /**
      * @brief # of RX errors
@@ -68,37 +67,37 @@ struct VECTOR_BLF_EXPORT CanDriverErrorExt final : ObjectHeader {
      * Number of receive errors that occurred in CAN
      * controller for that channel.
      */
-    BYTE rxErrors {};
+    uint8_t rxErrors {};
 
     /**
      * @brief CAN driver error code
      *
      * Error code
      */
-    DWORD errorCode {};
+    uint32_t errorCode {};
 
     /**
      * @brief flags
      *
      * To be defined.
      */
-    DWORD flags {};
+    uint32_t flags {};
 
     /**
      * @brief state register
      *
      * To be defined.
      */
-    BYTE state {};
+    uint8_t state {};
 
     /** reserved */
-    BYTE reservedCanDriverErrorExt1 {};
+    uint8_t reservedCanDriverErrorExt1 {};
 
     /** reserved */
-    WORD reservedCanDriverErrorExt2 {};
+    uint16_t reservedCanDriverErrorExt2 {};
 
     /** reserved */
-    std::array<DWORD, 4> reservedCanDriverErrorExt3 {};
+    std::array<uint32_t, 4> reservedCanDriverErrorExt3 {};
 };
 
 }

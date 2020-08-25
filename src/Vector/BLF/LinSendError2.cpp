@@ -57,7 +57,7 @@ void LinSendError2::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&reservedLinSendError3), sizeof(reservedLinSendError3));
 }
 
-DWORD LinSendError2::calculateObjectSize() const {
+uint32_t LinSendError2::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         LinMessageDescriptor::calculateObjectSize() +

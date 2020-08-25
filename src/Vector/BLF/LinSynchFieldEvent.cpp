@@ -36,7 +36,7 @@ void LinSynchFieldEvent::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&synchDelLength), sizeof(synchDelLength));
 }
 
-DWORD LinSynchFieldEvent::calculateObjectSize() const {
+uint32_t LinSynchFieldEvent::calculateObjectSize() const {
     return
         LinBusEvent::calculateObjectSize() +
         sizeof(synchBreakLength) +

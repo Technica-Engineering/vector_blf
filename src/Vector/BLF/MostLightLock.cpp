@@ -42,7 +42,7 @@ void MostLightLock::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&reservedMostLightLock), sizeof(reservedMostLightLock));
 }
 
-DWORD MostLightLock::calculateObjectSize() const {
+uint32_t MostLightLock::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

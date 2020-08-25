@@ -25,7 +25,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -43,17 +42,17 @@ struct VECTOR_BLF_EXPORT AfdxStatistic final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      *
      * The channel of the frame.
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /** enumeration for flags */
-    enum Flags : WORD {
+    enum Flags : uint16_t {
         /** channel is configured */
         ChannelIsConfigured = 0x0001,
 
@@ -80,86 +79,86 @@ struct VECTOR_BLF_EXPORT AfdxStatistic final : ObjectHeader {
     };
 
     /** flags */
-    WORD flags {};
+    uint16_t flags {};
 
     /**
      * Number of Rx packets since last
      * statistic event.
      */
-    ULONG rxPacketCount {};
+    uint32_t rxPacketCount {};
 
     /**
      * Number of Rx bytes since last
      * statistic event.
      */
-    ULONG rxByteCount {};
+    uint32_t rxByteCount {};
 
     /**
      * Number of Tx packets since last
      * statistic event.
      */
-    ULONG txPacketCount {};
+    uint32_t txPacketCount {};
 
     /**
      * Number of Tx bytes since last
      * statistic event.
      */
-    ULONG txByteCount {};
+    uint32_t txByteCount {};
 
     /**
      * Number of collisions since last
      * statistic event.
      */
-    ULONG collisionCount {};
+    uint32_t collisionCount {};
 
     /**
      * Number of errors since last statistic
      * event.
      */
-    ULONG errorCount {};
+    uint32_t errorCount {};
 
     /**
      * Number of dropped packet due to
      * redundancy check since last
      * statistic event.
      */
-    ULONG statDroppedRedundantPacketCount {};
+    uint32_t statDroppedRedundantPacketCount {};
 
     /**
      * Number of errors found at
      * redundancy check since last
      * statistic event.
      */
-    ULONG statRedundantErrorPacketCount {};
+    uint32_t statRedundantErrorPacketCount {};
 
     /**
      * Number of errors found at integrity
      * check since last statistic event.
      */
-    ULONG statIntegrityErrorPacketCount {};
+    uint32_t statIntegrityErrorPacketCount {};
 
     /**
      * Average period of frames on this
      * VL in [msec].
      */
-    ULONG statAvrgPeriodMsec {};
+    uint32_t statAvrgPeriodMsec {};
 
     /**
      * Average jitter of the time period of
      * frames on this VL in [mysec].
      */
-    ULONG statAvrgJitterMysec {};
+    uint32_t statAvrgJitterMysec {};
 
     /**
      * Unique ID assigned to this VL.
      */
-    ULONG vlid {};
+    uint32_t vlid {};
 
     /**
      * Time period covered by this event
      * in [msec].
      */
-    ULONG statDuration {};
+    uint32_t statDuration {};
 };
 
 }

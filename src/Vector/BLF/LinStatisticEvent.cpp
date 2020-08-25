@@ -56,7 +56,7 @@ void LinStatisticEvent::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&reservedLinStatisticEvent3), sizeof(reservedLinStatisticEvent3));
 }
 
-DWORD LinStatisticEvent::calculateObjectSize() const {
+uint32_t LinStatisticEvent::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

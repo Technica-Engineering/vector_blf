@@ -27,7 +27,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -44,12 +43,12 @@ struct VECTOR_BLF_EXPORT AfdxErrorEvent final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /**
      * @brief Error Level
@@ -57,10 +56,10 @@ struct VECTOR_BLF_EXPORT AfdxErrorEvent final : ObjectHeader {
      *   - 1=warning
      *   - 2=info
      */
-    WORD errorLevel {};
+    uint16_t errorLevel {};
 
     /** source identifier */
-    ULONG sourceIdentifier {};
+    uint32_t sourceIdentifier {};
 
     /** error text */
     std::array<char, 512> errorText {};

@@ -54,7 +54,7 @@ void FlexRayV6StartCycleEvent::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&reservedFlexRayV6StartCycleEvent), sizeof(reservedFlexRayV6StartCycleEvent));
 }
 
-DWORD FlexRayV6StartCycleEvent::calculateObjectSize() const {
+uint32_t FlexRayV6StartCycleEvent::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
@@ -64,7 +64,7 @@ DWORD FlexRayV6StartCycleEvent::calculateObjectSize() const {
         sizeof(fpgaTickOverflow) +
         sizeof(clientIndexFlexRayV6StartCycleEvent) +
         sizeof(clusterTime) +
-        static_cast<DWORD>(dataBytes.size()) +
+        static_cast<uint32_t>(dataBytes.size()) +
         sizeof(reservedFlexRayV6StartCycleEvent);
 }
 

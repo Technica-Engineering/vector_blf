@@ -28,7 +28,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -45,7 +44,7 @@ struct VECTOR_BLF_EXPORT EnvironmentVariable final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief length of variable name in bytes
@@ -53,7 +52,7 @@ struct VECTOR_BLF_EXPORT EnvironmentVariable final : ObjectHeader {
      * Length of the name of the environment variable
      * (without terminating 0)
      */
-    DWORD nameLength {};
+    uint32_t nameLength {};
 
     /**
      * @brief length of variable data in bytes
@@ -61,10 +60,10 @@ struct VECTOR_BLF_EXPORT EnvironmentVariable final : ObjectHeader {
      * Length of the data of the environment variable in
      * bytes.
      */
-    DWORD dataLength {};
+    uint32_t dataLength {};
 
     /** reserved */
-    ULONGLONG reservedEnvironmentVariable {};
+    uint64_t reservedEnvironmentVariable {};
 
     /**
      * @brief variable name in MBCS

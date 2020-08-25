@@ -27,7 +27,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader2.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -46,14 +45,14 @@ struct VECTOR_BLF_EXPORT MostReg final : ObjectHeader2 {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      *
      * Application channel
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /**
      * @brief read/write request/result
@@ -68,24 +67,24 @@ struct VECTOR_BLF_EXPORT MostReg final : ObjectHeader2 {
      *   - ReadFailed = 6: register read operation failed
      *   - WriteFailed = 7: register write operation failed
      */
-    BYTE subType {};
+    uint8_t subType {};
 
     /** reserved */
-    BYTE reservedMostReg {};
+    uint8_t reservedMostReg {};
 
     /**
      * @brief operation handle
      *
      * Operation handle (obsolete; write 0)
      */
-    DWORD handle {};
+    uint32_t handle {};
 
     /**
      * @brief start address
      *
      * Register address offset
      */
-    DWORD offset {};
+    uint32_t offset {};
 
     /**
      * @brief chip id
@@ -93,21 +92,21 @@ struct VECTOR_BLF_EXPORT MostReg final : ObjectHeader2 {
      * ID of chip
      *   - 1 – OS8104
      */
-    WORD chip {};
+    uint16_t chip {};
 
     /**
      * @brief number of bytes
      *
      * Number of valid bytes in regData
      */
-    WORD regDataLen {};
+    uint16_t regDataLen {};
 
     /**
      * @brief data bytes
      *
      * Register data
      */
-    std::array<BYTE, 16> regData {};
+    std::array<uint8_t, 16> regData {};
 };
 
 }

@@ -52,7 +52,7 @@ void GpsEvent::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&course), sizeof(course));
 }
 
-DWORD GpsEvent::calculateObjectSize() const {
+uint32_t GpsEvent::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(flags) +

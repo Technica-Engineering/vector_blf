@@ -25,7 +25,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeaderBase.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -42,11 +41,11 @@ struct VECTOR_BLF_EXPORT ObjectHeader2 : ObjectHeaderBase {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    WORD calculateHeaderSize() const override;
-    DWORD calculateObjectSize() const override;
+    uint16_t calculateHeaderSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /** enumeration for objectFlags */
-    enum ObjectFlags : DWORD {
+    enum ObjectFlags : uint32_t {
         /**
          * @brief 10 micro second timestamp
          *
@@ -70,10 +69,10 @@ struct VECTOR_BLF_EXPORT ObjectHeader2 : ObjectHeaderBase {
      *
      * Unit of object timestamp.
      */
-    DWORD objectFlags {ObjectFlags::TimeOneNans};
+    uint32_t objectFlags {ObjectFlags::TimeOneNans};
 
     /** enumeration for timeStampStatus */
-    enum TimeStampStatus : BYTE {
+    enum TimeStampStatus : uint8_t {
         /**
          * @brief 1: valid orig. timestamp
          *
@@ -103,10 +102,10 @@ struct VECTOR_BLF_EXPORT ObjectHeader2 : ObjectHeaderBase {
      *
      * Bit field.
      */
-    BYTE timeStampStatus {};
+    uint8_t timeStampStatus {};
 
     /** reserved */
-    BYTE reservedObjectHeader{0};
+    uint8_t reservedObjectHeader{0};
 
     /**
      * @brief object specific version
@@ -117,7 +116,7 @@ struct VECTOR_BLF_EXPORT ObjectHeader2 : ObjectHeaderBase {
      *
      * @note can be set in event class constructor
      */
-    WORD objectVersion {0};
+    uint16_t objectVersion {0};
 
     /**
      * @brief object timestamp
@@ -125,7 +124,7 @@ struct VECTOR_BLF_EXPORT ObjectHeader2 : ObjectHeaderBase {
      * Time stamp of this object in the unit specified in
      * objectFlags.
      */
-    ULONGLONG objectTimeStamp {0};
+    uint64_t objectTimeStamp {0};
 
     /**
      * @brief original object timestamp
@@ -133,7 +132,7 @@ struct VECTOR_BLF_EXPORT ObjectHeader2 : ObjectHeaderBase {
      * Original timestamp in the unit specified in
      * objectFlags.
      */
-    ULONGLONG originalTimeStamp {0};
+    uint64_t originalTimeStamp {0};
 };
 
 }

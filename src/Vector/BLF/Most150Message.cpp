@@ -55,7 +55,7 @@ void Most150Message::read(AbstractFile & is) {
 
 void Most150Message::write(AbstractFile & os) {
     /* pre processing */
-    msgLen = static_cast<DWORD>(msg.size());
+    msgLen = static_cast<uint32_t>(msg.size());
 
     ObjectHeader2::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
@@ -80,7 +80,7 @@ void Most150Message::write(AbstractFile & os) {
     os.skipp(objectSize % 4);
 }
 
-DWORD Most150Message::calculateObjectSize() const {
+uint32_t Most150Message::calculateObjectSize() const {
     return
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +

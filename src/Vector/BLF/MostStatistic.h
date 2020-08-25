@@ -25,7 +25,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -43,38 +42,38 @@ struct VECTOR_BLF_EXPORT MostStatistic final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      *
      * Application channel
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /**
      * Number of messages on Asynchronous channel
      * since the last Statistic event
      */
-    WORD pktCnt {};
+    uint16_t pktCnt {};
 
     /**
      * Number of messages on Control channel since
      * the last Statistic event
      */
-    LONG frmCnt {};
+    int32_t frmCnt {};
 
     /**
      * Number of signal stat transitions since the last
      * Statistic event
      */
-    LONG lightCnt {};
+    int32_t lightCnt {};
 
     /**
      * Receive buffer level of Optolyzer G1 in spy
      * mode
      */
-    LONG bufferLevel {};
+    int32_t bufferLevel {};
 };
 
 }

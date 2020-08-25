@@ -27,7 +27,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -44,19 +43,19 @@ struct VECTOR_BLF_EXPORT A429Error final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /** application channel */
-    WORD channel {};
+    uint16_t channel {};
 
     /** error type, 0=error, 1=warning, 2=info */
-    WORD errorType {};
+    uint16_t errorType {};
 
     /** source identifier */
-    ULONG sourceIdentifier {};
+    uint32_t sourceIdentifier {};
 
     /** error reason */
-    ULONG errReason {};
+    uint32_t errReason {};
 
     /** error text */
     std::array<char, 512> errorText {};
@@ -65,7 +64,7 @@ struct VECTOR_BLF_EXPORT A429Error final : ObjectHeader {
     std::array<char, 512> errorAttributes {};
 
     /** reserved */
-    DWORD reservedA429Error {};
+    uint32_t reservedA429Error {};
 };
 
 }

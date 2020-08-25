@@ -54,7 +54,7 @@ void AfdxFrame::read(AbstractFile & is) {
 
 void AfdxFrame::write(AbstractFile & os) {
     /* pre processing */
-    payLoadLength = static_cast<WORD>(payLoad.size());
+    payLoadLength = static_cast<uint16_t>(payLoad.size());
 
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(sourceAddress.data()), static_cast<std::streamsize>(sourceAddress.size()));
@@ -78,12 +78,12 @@ void AfdxFrame::write(AbstractFile & os) {
     os.skipp(objectSize % 4);
 }
 
-DWORD AfdxFrame::calculateObjectSize() const {
+uint32_t AfdxFrame::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
-        static_cast<DWORD>(sourceAddress.size()) +
+        static_cast<uint32_t>(sourceAddress.size()) +
         sizeof(channel) +
-        static_cast<DWORD>(destinationAddress.size()) +
+        static_cast<uint32_t>(destinationAddress.size()) +
         sizeof(dir) +
         sizeof(type) +
         sizeof(tpid) +

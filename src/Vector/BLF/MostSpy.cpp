@@ -62,7 +62,7 @@ void MostSpy::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&crc), sizeof(crc));
 }
 
-DWORD MostSpy::calculateObjectSize() const {
+uint32_t MostSpy::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
@@ -70,7 +70,7 @@ DWORD MostSpy::calculateObjectSize() const {
         sizeof(reservedMostSpy1) +
         sizeof(sourceAdr) +
         sizeof(destAdr) +
-        static_cast<DWORD>(msg.size()) +
+        static_cast<uint32_t>(msg.size()) +
         sizeof(reservedMostSpy2) +
         sizeof(rTyp) +
         sizeof(rTypAdr) +

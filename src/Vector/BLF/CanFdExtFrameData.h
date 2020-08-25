@@ -27,7 +27,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -50,7 +49,7 @@ struct VECTOR_BLF_EXPORT CanFdExtFrameData {
     virtual void write(AbstractFile & os);
 
     /** @copydoc ObjectHeader::calculateObjectSize */
-    virtual DWORD calculateObjectSize() const;
+    virtual uint32_t calculateObjectSize() const;
 
     /**
      * bit rate in arbitration phase
@@ -63,7 +62,7 @@ struct VECTOR_BLF_EXPORT CanFdExtFrameData {
      *   - 1: 32 MHz
      *   - 2: 80 MHz
      */
-    DWORD btrExtArb {};
+    uint32_t btrExtArb {};
 
     /**
      * bit rate in data phase
@@ -76,7 +75,7 @@ struct VECTOR_BLF_EXPORT CanFdExtFrameData {
      *   - 1: 32 MHz
      *   - 2: 80 MHz
      */
-    DWORD btrExtData {};
+    uint32_t btrExtData {};
 
     /** reserved */
     std::vector<uint8_t> reservedCanFdExtFrameData {};

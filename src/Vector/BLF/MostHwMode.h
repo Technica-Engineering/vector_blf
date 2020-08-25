@@ -25,7 +25,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader2.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -45,17 +44,17 @@ struct VECTOR_BLF_EXPORT MostHwMode final : ObjectHeader2 {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      *
      * Application channel
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /** reserved */
-    WORD reservedMostHwMode {};
+    uint16_t reservedMostHwMode {};
 
     /**
      * @brief bypass/master/slave/spy
@@ -72,14 +71,14 @@ struct VECTOR_BLF_EXPORT MostHwMode final : ObjectHeader2 {
      *   (MOST150)
      * - Bit 0x80: 1: no events from async. channel
      */
-    WORD hwMode {};
+    uint16_t hwMode {};
 
     /**
      * @brief marks the altered bits
      *
      * Bitmask of changed bits
      */
-    WORD hwModeMask {};
+    uint16_t hwModeMask {};
 };
 
 }

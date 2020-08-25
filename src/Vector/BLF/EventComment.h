@@ -27,7 +27,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -44,26 +43,26 @@ struct VECTOR_BLF_EXPORT EventComment final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief commented event type
      *
      * Type of the commented event
      */
-    DWORD commentedEventType {};
+    uint32_t commentedEventType {};
 
     /**
      * @brief text length in bytes
      *
      * Length of text without ending 0.
      */
-    DWORD textLength {};
+    uint32_t textLength {};
 
     /**
      * reserved
      */
-    ULONGLONG reservedEventComment {};
+    uint64_t reservedEventComment {};
 
     /**
      * @brief text in MBCS

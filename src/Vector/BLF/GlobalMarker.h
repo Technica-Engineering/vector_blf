@@ -26,7 +26,6 @@
 #include <string>
 
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -43,62 +42,62 @@ struct VECTOR_BLF_EXPORT GlobalMarker final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief commented event type
      *
      * Type of the commented events
      */
-    DWORD commentedEventType {};
+    uint32_t commentedEventType {};
 
     /**
      * Foreground color of the marker group.
      */
-    COLORREF foregroundColor {};
+    uint32_t foregroundColor {};
 
     /**
      * Background color of the marker group.
      */
-    COLORREF backgroundColor {};
+    uint32_t backgroundColor {};
 
     /**
      * Defines whether a marker can be relocated
      */
-    BYTE isRelocatable {};
+    uint8_t isRelocatable {};
 
     /** reserved */
-    BYTE reservedGlobalMarker1 {};
+    uint8_t reservedGlobalMarker1 {};
 
     /** reserved */
-    WORD reservedGlobalMarker2 {};
+    uint16_t reservedGlobalMarker2 {};
 
     /**
      * @brief group name length in bytes
      *
      * Length of groupName without ending 0.
      */
-    DWORD groupNameLength {};
+    uint32_t groupNameLength {};
 
     /**
      * @brief marker name length in bytes
      *
      * Length of markerName without ending 0.
      */
-    DWORD markerNameLength {};
+    uint32_t markerNameLength {};
 
     /**
      * @brief description length in bytes
      *
      * Length of description without ending 0.
      */
-    DWORD descriptionLength {};
+    uint32_t descriptionLength {};
 
     /** reserved */
-    DWORD reservedGlobalMarker3 {};
+    uint32_t reservedGlobalMarker3 {};
 
     /** reserved */
-    ULONGLONG reservedGlobalMarker4 {};
+    uint64_t reservedGlobalMarker4 {};
 
     /**
      * @brief group name

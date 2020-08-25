@@ -77,7 +77,7 @@ void AfdxBusStatistic::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&reservedAfdxBusStatistic2), sizeof(reservedAfdxBusStatistic2));
 }
 
-DWORD AfdxBusStatistic::calculateObjectSize() const {
+uint32_t AfdxBusStatistic::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

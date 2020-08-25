@@ -62,7 +62,7 @@ void MostCtrl::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&reservedMostCtrl4), sizeof(reservedMostCtrl4));
 }
 
-DWORD MostCtrl::calculateObjectSize() const {
+uint32_t MostCtrl::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
@@ -70,7 +70,7 @@ DWORD MostCtrl::calculateObjectSize() const {
         sizeof(reservedMostCtrl1) +
         sizeof(sourceAdr) +
         sizeof(destAdr) +
-        static_cast<DWORD>(msg.size()) +
+        static_cast<uint32_t>(msg.size()) +
         sizeof(reservedMostCtrl2) +
         sizeof(rTyp) +
         sizeof(rTypAdr) +

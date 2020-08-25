@@ -24,7 +24,6 @@
 #include <Vector/BLF/platform.h>
 
 #include <Vector/BLF/AbstractFile.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -36,7 +35,7 @@ namespace BLF {
  *
  * Object type.
  */
-enum class ObjectType : DWORD {
+enum class ObjectType : uint32_t {
     UNKNOWN = 0, /**< unknown object */
     CAN_MESSAGE = 1, /**< CAN message object */
     CAN_ERROR = 2, /**< CAN error frame object */
@@ -169,7 +168,7 @@ enum class ObjectType : DWORD {
 };
 
 /** object signature */
-const DWORD ObjectSignature = 0x4A424F4C; /* LOBJ */
+const uint32_t ObjectSignature = 0x4A424F4C; /* LOBJ */
 
 /**
  * @brief Base object header type definition
@@ -177,7 +176,7 @@ const DWORD ObjectSignature = 0x4A424F4C; /* LOBJ */
  * Object header base structure.
  */
 struct VECTOR_BLF_EXPORT ObjectHeaderBase {
-    ObjectHeaderBase(const WORD headerVersion, const ObjectType objectType);
+    ObjectHeaderBase(const uint16_t headerVersion, const ObjectType objectType);
     virtual ~ObjectHeaderBase() noexcept = default;
     ObjectHeaderBase(const ObjectHeaderBase &) = default;
     ObjectHeaderBase & operator=(const ObjectHeaderBase &) = default;
@@ -203,21 +202,21 @@ struct VECTOR_BLF_EXPORT ObjectHeaderBase {
      *
      * @return header size
      */
-    virtual WORD calculateHeaderSize() const;
+    virtual uint16_t calculateHeaderSize() const;
 
     /**
      * Calculates the objectSize
      *
      * @return object size
      */
-    virtual DWORD calculateObjectSize() const;
+    virtual uint32_t calculateObjectSize() const;
 
     /**
      * @brief signature (ObjectSignature)
      *
      * Object signature, must be ObjectSignature.
      */
-    DWORD signature {ObjectSignature};
+    uint32_t signature {ObjectSignature};
 
     /**
      * @brief sizeof object header
@@ -227,7 +226,7 @@ struct VECTOR_BLF_EXPORT ObjectHeaderBase {
      * sizeof(ObjectHeader2) depending on
      * the object header type used for the object.
      */
-    WORD headerSize {};
+    uint16_t headerSize {};
 
     /**
      * @brief header version (1)
@@ -242,14 +241,14 @@ struct VECTOR_BLF_EXPORT ObjectHeaderBase {
      *
      * @note is set in ObjectHeader/ObjectHeader2
      */
-    WORD headerVersion {};
+    uint16_t headerVersion {};
 
     /**
      * @brief object size
      *
      * Object size in bytes.
      */
-    DWORD objectSize {};
+    uint32_t objectSize {};
 
     /**
      * @brief object type
@@ -258,7 +257,7 @@ struct VECTOR_BLF_EXPORT ObjectHeaderBase {
      *
      * @note is set in each event class constructor
      */
-    ObjectType objectType {};
+    ObjectType objectType {ObjectType::UNKNOWN};
 };
 
 }

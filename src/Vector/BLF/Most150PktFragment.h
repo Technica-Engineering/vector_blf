@@ -27,7 +27,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader2.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -44,17 +43,17 @@ struct VECTOR_BLF_EXPORT Most150PktFragment final : ObjectHeader2 { /* applied f
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      *
      * Application channel
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /** reserved */
-    BYTE reservedMost150PktFragment1 {};
+    uint8_t reservedMost150PktFragment1 {};
 
     /**
      * @brief acknowledge code
@@ -93,7 +92,7 @@ struct VECTOR_BLF_EXPORT Most150PktFragment final : ObjectHeader2 { /* applied f
      *     Restriction:
      *       - only for Dir = Tx or spy messages
      */
-    BYTE ackNack {};
+    uint8_t ackNack {};
 
     /**
      * @brief bitfield indicating which members have valid data
@@ -112,21 +111,21 @@ struct VECTOR_BLF_EXPORT Most150PktFragment final : ObjectHeader2 { /* applied f
      *   - Bit 10: 0x00000400: destMacAdr
      *   - Bit 31: 0x80000000: 0: MOST150 fragment; 1: MOST50 fragment
      */
-    DWORD validMask {};
+    uint32_t validMask {};
 
     /**
      * @brief source address
      *
      * Source address
      */
-    DWORD sourceAdr {};
+    uint32_t sourceAdr {};
 
     /**
      * @brief target address
      *
      * Target address
      */
-    DWORD destAdr {};
+    uint32_t destAdr {};
 
     /**
      * @brief a preemptive acknowledge code
@@ -136,7 +135,7 @@ struct VECTOR_BLF_EXPORT Most150PktFragment final : ObjectHeader2 { /* applied f
      *   - 0x01: Buffer full
      *   - 0x04: OK
      */
-    BYTE pAck {};
+    uint8_t pAck {};
 
     /**
      * @brief CRC acknowledge from the packet receiver(s) to the packet transmitter
@@ -147,28 +146,28 @@ struct VECTOR_BLF_EXPORT Most150PktFragment final : ObjectHeader2 { /* applied f
      *   - 0x01: CRC error
      *   - 0x04: OK
      */
-    BYTE cAck {};
+    uint8_t cAck {};
 
     /**
      * @brief priority of the message
      *
      * Priority (not used; write 0x00)
      */
-    BYTE priority {};
+    uint8_t priority {};
 
     /**
      * @brief packet index, increments per message on MOST
      *
      * Packet index, increments per message on MOST
      */
-    BYTE pIndex {};
+    uint8_t pIndex {};
 
     /**
      * @brief Cyclic Redundancy Check
      *
      * Cyclic Redundancy Check
      */
-    DWORD crc {};
+    uint32_t crc {};
 
     /**
      * @brief number of transmitted user data bytes
@@ -179,7 +178,7 @@ struct VECTOR_BLF_EXPORT Most150PktFragment final : ObjectHeader2 { /* applied f
      * Note: The number of bytes saved in this event is
      * stored in mFirstDataLen.
      */
-    DWORD dataLen {};
+    uint32_t dataLen {};
 
     /**
      * @brief announced user data length at the start of the transmission
@@ -196,7 +195,7 @@ struct VECTOR_BLF_EXPORT Most150PktFragment final : ObjectHeader2 { /* applied f
      * byte) dataLen can also be greater than
      * dataLenAnnonced.
      */
-    DWORD dataLenAnnounced {};
+    uint32_t dataLenAnnounced {};
 
     /**
      * @brief number of bytes in firstData
@@ -208,10 +207,10 @@ struct VECTOR_BLF_EXPORT Most150PktFragment final : ObjectHeader2 { /* applied f
      * all counted bytes on bus will be stored in the
      * payload of the logging event.
      */
-    DWORD firstDataLen {};
+    uint32_t firstDataLen {};
 
     /** reserved */
-    DWORD reservedMost150PktFragment2 {};
+    uint32_t reservedMost150PktFragment2 {};
 
     /**
      * @brief variable data

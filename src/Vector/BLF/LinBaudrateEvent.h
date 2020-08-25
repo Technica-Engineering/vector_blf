@@ -25,7 +25,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -44,22 +43,22 @@ struct VECTOR_BLF_EXPORT LinBaudrateEvent final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      *
      * Channel number where the frame sent/received.
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /** reserved */
-    WORD reservedLinBaudrateEvent {};
+    uint16_t reservedLinBaudrateEvent {};
 
     /**
      * Measured baud rate [in bits/sec]
      */
-    LONG baudrate {};
+    int32_t baudrate {};
 };
 
 }

@@ -25,7 +25,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader2.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -42,14 +41,14 @@ struct VECTOR_BLF_EXPORT MostNetState final : ObjectHeader2 {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      *
      * Application channel
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /**
      * @brief MOST NetState
@@ -72,15 +71,15 @@ struct VECTOR_BLF_EXPORT MostNetState final : ObjectHeader2 {
      *   - 6 (NetOn/InitReady): NetOn/InitReady reported
      *     to application
      */
-    WORD stateNew {};
+    uint16_t stateNew {};
 
     /**
      * Previous network state
      */
-    WORD stateOld {};
+    uint16_t stateOld {};
 
     /** reserved */
-    WORD reservedMostNetState {};
+    uint16_t reservedMostNetState {};
 };
 
 }

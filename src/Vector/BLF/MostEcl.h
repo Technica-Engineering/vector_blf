@@ -25,7 +25,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader2.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -42,20 +41,20 @@ struct VECTOR_BLF_EXPORT MostEcl final : ObjectHeader2 {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      *
      * Application channel
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /**
      * - 0 – discrete
      * - 1 – sequence
      */
-    WORD mode {};
+    uint16_t mode {};
 
     /**
      * @brief Electrical Control Line level
@@ -67,10 +66,10 @@ struct VECTOR_BLF_EXPORT MostEcl final : ObjectHeader2 {
      *   - 0 – sequence stopped
      *   - 1 – sequence started
      */
-    WORD eclState {};
+    uint16_t eclState {};
 
     /** reserved */
-    WORD reservedMostEcl {};
+    uint16_t reservedMostEcl {};
 };
 
 }

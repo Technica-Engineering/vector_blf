@@ -30,15 +30,15 @@ void GeneralSerialEvent::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&reservedGeneralSerialEvent), sizeof(reservedGeneralSerialEvent));
     data.resize(dataLength);
     is.read(reinterpret_cast<char *>(data.data()), dataLength);
-    timeStamps.resize(timeStampsLength / sizeof(LONGLONG));
+    timeStamps.resize(timeStampsLength / sizeof(int64_t));
     is.read(reinterpret_cast<char *>(timeStamps.data()), timeStampsLength);
     // @note might be extended in future versions
 }
 
 void GeneralSerialEvent::write(AbstractFile & os) {
     /* pre processing */
-    dataLength = static_cast<DWORD>(data.size());
-    timeStampsLength = static_cast<DWORD>(timeStamps.size() * sizeof(LONGLONG));
+    dataLength = static_cast<uint32_t>(data.size());
+    timeStampsLength = static_cast<uint32_t>(timeStamps.size() * sizeof(int64_t));
 
     os.write(reinterpret_cast<char *>(&dataLength), sizeof(dataLength));
     os.write(reinterpret_cast<char *>(&timeStampsLength), sizeof(timeStampsLength));
@@ -47,7 +47,7 @@ void GeneralSerialEvent::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(timeStamps.data()), timeStampsLength);
 }
 
-DWORD GeneralSerialEvent::calculateObjectSize() const {
+uint32_t GeneralSerialEvent::calculateObjectSize() const {
     return
         sizeof(dataLength) +
         sizeof(timeStampsLength) +

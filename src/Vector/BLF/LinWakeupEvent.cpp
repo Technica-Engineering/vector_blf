@@ -44,7 +44,7 @@ void LinWakeupEvent::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&reservedLinWakeupEvent), sizeof(reservedLinWakeupEvent));
 }
 
-DWORD LinWakeupEvent::calculateObjectSize() const {
+uint32_t LinWakeupEvent::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

@@ -27,7 +27,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader2.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -44,14 +43,14 @@ struct VECTOR_BLF_EXPORT MostPkt2 final : ObjectHeader2 {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      *
      * Application channel
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /**
      * Direction of message events:
@@ -59,48 +58,48 @@ struct VECTOR_BLF_EXPORT MostPkt2 final : ObjectHeader2 {
      *   - 1: Tx (transmit receipt)
      *   - 2: Tx Request (transmit request)
      */
-    BYTE dir {};
+    uint8_t dir {};
 
     /** reserved */
-    BYTE reservedMostPkt1 {};
+    uint8_t reservedMostPkt1 {};
 
     /**
      * Source address
      */
-    DWORD sourceAdr {};
+    uint32_t sourceAdr {};
 
     /**
      * Target address
      */
-    DWORD destAdr {};
+    uint32_t destAdr {};
 
     /**
      * Arbitration byte
      */
-    BYTE arbitration {};
+    uint8_t arbitration {};
 
     /**
      * Obsolete member; read/write 0
      */
-    BYTE timeRes {};
+    uint8_t timeRes {};
 
     /**
      * Number of quadlets
      */
-    BYTE quadsToFollow {};
+    uint8_t quadsToFollow {};
 
     /** reserved */
-    BYTE reservedMostPkt2 {};
+    uint8_t reservedMostPkt2 {};
 
     /**
      * Cyclic Redundancy Check
      */
-    WORD crc {};
+    uint16_t crc {};
 
     /**
      * Priority
      */
-    BYTE priority {};
+    uint8_t priority {};
 
     /**
      * @brief Tranfer Type
@@ -114,30 +113,30 @@ struct VECTOR_BLF_EXPORT MostPkt2 final : ObjectHeader2 {
      *     Message was reported by the network spy. The Spy sees all messages
      *     independently of the desti-nation address.
      */
-    BYTE transferType {};
+    uint8_t transferType {};
 
     /**
      * Transmission state
      *   - 0 for Rx
      *   - 0x40 for TxOk (transmit request)
      */
-    BYTE state {};
+    uint8_t state {};
 
     /** reserved */
-    BYTE reservedMostPkt3 {};
+    uint8_t reservedMostPkt3 {};
 
     /** reserved */
-    WORD reservedMostPkt4 {};
+    uint16_t reservedMostPkt4 {};
 
     /**
      * @brief length of variable data in bytes
      *
      * Length of variable data in bytes (1014 max)
      */
-    DWORD pktDataLength {};
+    uint32_t pktDataLength {};
 
     /** reserved */
-    DWORD reservedMostPkt5 {};
+    uint32_t reservedMostPkt5 {};
 
     /**
      * @brief variable data

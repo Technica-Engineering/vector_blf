@@ -38,7 +38,7 @@ void DataLostBegin::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&queueIdentifier), sizeof(queueIdentifier));
 }
 
-DWORD DataLostBegin::calculateObjectSize() const {
+uint32_t DataLostBegin::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(queueIdentifier);

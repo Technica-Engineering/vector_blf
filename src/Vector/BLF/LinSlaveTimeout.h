@@ -25,7 +25,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -44,31 +43,31 @@ struct VECTOR_BLF_EXPORT LinSlaveTimeout final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      *
      * Channel number where the event notified
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /**
      * Slave Identifier in the Final State Machine
      */
-    BYTE slaveId {};
+    uint8_t slaveId {};
 
     /**
      * Source state identifier of a Slave in the Final
      * State Machine
      */
-    BYTE stateId {};
+    uint8_t stateId {};
 
     /**
      * Target state identifier of a Slave in the Final
      * State Machine
      */
-    DWORD followStateId {};
+    uint32_t followStateId {};
 };
 
 }

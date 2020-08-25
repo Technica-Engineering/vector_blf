@@ -44,7 +44,7 @@ void LinMessageDescriptor::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&checksumModel), sizeof(checksumModel));
 }
 
-DWORD LinMessageDescriptor::calculateObjectSize() const {
+uint32_t LinMessageDescriptor::calculateObjectSize() const {
     return
         LinSynchFieldEvent::calculateObjectSize() +
         sizeof(supplierId) +

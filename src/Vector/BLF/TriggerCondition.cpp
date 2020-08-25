@@ -41,8 +41,8 @@ void TriggerCondition::read(AbstractFile & is) {
 
 void TriggerCondition::write(AbstractFile & os) {
     /* pre processing */
-    triggerBlockNameLength = static_cast<DWORD>(triggerBlockName.size());
-    triggerConditionLength = static_cast<DWORD>(triggerCondition.size());
+    triggerBlockNameLength = static_cast<uint32_t>(triggerBlockName.size());
+    triggerConditionLength = static_cast<uint32_t>(triggerCondition.size());
 
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&state), sizeof(state));
@@ -52,7 +52,7 @@ void TriggerCondition::write(AbstractFile & os) {
     os.write(const_cast<char *>(triggerCondition.data()), triggerConditionLength);
 }
 
-DWORD TriggerCondition::calculateObjectSize() const {
+uint32_t TriggerCondition::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(state) +

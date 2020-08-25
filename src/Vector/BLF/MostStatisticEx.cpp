@@ -46,7 +46,7 @@ void MostStatisticEx::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&reservedMostStatisticEx2), sizeof(reservedMostStatisticEx2));
 }
 
-DWORD MostStatisticEx::calculateObjectSize() const {
+uint32_t MostStatisticEx::calculateObjectSize() const {
     return
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +

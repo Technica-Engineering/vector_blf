@@ -27,7 +27,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -42,14 +41,14 @@ struct VECTOR_BLF_EXPORT EthernetErrorEx final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * Calculates structLength.
      *
      * @return struct length
      */
-    virtual WORD calculateStructLength() const;
+    virtual uint16_t calculateStructLength() const;
 
     /**
      * @brief Length of this structure
@@ -58,7 +57,7 @@ struct VECTOR_BLF_EXPORT EthernetErrorEx final : ObjectHeader {
      * sizeof(ObjectHeader) and without raw data
      * length
      */
-    WORD structLength {};
+    uint16_t structLength {};
 
     /**
      * @brief flags, which indicates the valid fields:
@@ -68,42 +67,42 @@ struct VECTOR_BLF_EXPORT EthernetErrorEx final : ObjectHeader {
      *   - Bit 3 - frameChecksum valid
      *   - Bit 4 - frameHandle valid
      */
-    WORD flags {};
+    uint16_t flags {};
 
     /**
      * @brief application channel, i.e. Eth 1
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /**
      * @brief HW channel
      */
-    WORD hardwareChannel {};
+    uint16_t hardwareChannel {};
 
     /**
      * @brief Transmission duration in [ns]
      */
-    UINT64 frameDuration {};
+    uint64_t frameDuration {};
 
     /**
      * @brief Ethernet checksum
      */
-    DWORD frameChecksum {};
+    uint32_t frameChecksum {};
 
     /**
      * @brief Direction flag: 0=Rx, 1=Tx, 2=TxRq
      */
-    WORD dir {};
+    uint16_t dir {};
 
     /**
      * @brief Number of valid frameData bytes
      */
-    WORD frameLength {};
+    uint16_t frameLength {};
 
     /**
      * @brief Handle which refer the corresponding EthernetFrameForwarded event
      */
-    DWORD frameHandle {};
+    uint32_t frameHandle {};
 
     /**
      * Error code
@@ -113,7 +112,7 @@ struct VECTOR_BLF_EXPORT EthernetErrorEx final : ObjectHeader {
      * - 3: Invalid Data received
      * - 4: Collision detected
      */
-    DWORD error {};
+    uint32_t error {};
 
     /**
      * @brief Max 1612 data bytes per frame. Contains Ethernet header + Ethernet payload

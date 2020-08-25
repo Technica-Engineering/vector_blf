@@ -26,7 +26,6 @@
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/LinMessageDescriptor.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -43,14 +42,14 @@ struct VECTOR_BLF_EXPORT LinSendError2 final : ObjectHeader, LinMessageDescripto
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief EndOfHeader timestamp
      *
      * End of header timestamp [in nanosecond]
      */
-    ULONGLONG eoh {};
+    uint64_t eoh {};
 
     /**
      * @brief Event-triggered frame
@@ -60,27 +59,27 @@ struct VECTOR_BLF_EXPORT LinSendError2 final : ObjectHeader, LinMessageDescripto
      *   - 0: not ETF
      *   - 1: ETF
      */
-    BYTE isEtf {};
+    uint8_t isEtf {};
 
     /**
      * Slave Identifier in the Final State
      * Machine (obsolete)
      */
-    BYTE fsmId {};
+    uint8_t fsmId {};
 
     /**
      * State Identifier of a Slave in the Final State
      * Machine (obsolete)
      */
-    BYTE fsmState {};
+    uint8_t fsmState {};
 
     /** reserved */
-    BYTE reservedLinSendError1 {};
+    uint8_t reservedLinSendError1 {};
 
     /* the following variables are only available in Version 2 and above */
 
     /** reserved */
-    DWORD reservedLinSendError2 {};
+    uint32_t reservedLinSendError2 {};
 
     /* the following variables are only available in Version 3 and above */
 
@@ -90,7 +89,7 @@ struct VECTOR_BLF_EXPORT LinSendError2 final : ObjectHeader, LinMessageDescripto
      * Event's baudrate measured in header
      * [in bits/sec]
      */
-    DOUBLE exactHeaderBaudrate {};
+    double exactHeaderBaudrate {};
 
     /**
      * @brief Early stop bit offset for UART timestamps in ns
@@ -98,10 +97,10 @@ struct VECTOR_BLF_EXPORT LinSendError2 final : ObjectHeader, LinMessageDescripto
      * Early stop bit offset in frame header
      * for UART timestamps [in ns]
      */
-    DWORD earlyStopbitOffset {};
+    uint32_t earlyStopbitOffset {};
 
     /** reserved */
-    DWORD reservedLinSendError3 {};
+    uint32_t reservedLinSendError3 {};
 };
 
 }

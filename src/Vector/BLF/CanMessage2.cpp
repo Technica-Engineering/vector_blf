@@ -55,14 +55,14 @@ void CanMessage2::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&reservedCanMessage2), sizeof(reservedCanMessage2));
 }
 
-DWORD CanMessage2::calculateObjectSize() const {
+uint32_t CanMessage2::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(flags) +
         sizeof(dlc) +
         sizeof(id) +
-        static_cast<DWORD>(data.size()) +
+        static_cast<uint32_t>(data.size()) +
         sizeof(frameLength) +
         sizeof(bitCount) +
         sizeof(reservedCanMessage1) +

@@ -27,7 +27,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -44,14 +43,14 @@ struct VECTOR_BLF_EXPORT CanMessage2 final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      *
      * Channel the frame was sent or received.
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /**
      * @brief CAN dir & rtr
@@ -64,7 +63,7 @@ struct VECTOR_BLF_EXPORT CanMessage2 final : ObjectHeader {
      * - Bit 6: WU
      * - Bit 7: RTR
      */
-    BYTE flags {};
+    uint8_t flags {};
 
     /**
      * @brief CAN dlc
@@ -72,21 +71,21 @@ struct VECTOR_BLF_EXPORT CanMessage2 final : ObjectHeader {
      * Data length code of frame (number of valid data
      * bytes, max. 8)
      */
-    BYTE dlc {};
+    uint8_t dlc {};
 
     /**
      * @brief CAN ID
      *
      * Frame identifier.
      */
-    DWORD id {};
+    uint32_t id {};
 
     /**
      * @brief CAN data
      *
      * CAN data bytes
      */
-    std::array<BYTE, 8> data {};
+    std::array<uint8_t, 8> data {};
 
     /**
      * @brief message length in ns
@@ -95,7 +94,7 @@ struct VECTOR_BLF_EXPORT CanMessage2 final : ObjectHeader {
      * Interframe Space bit times and by Rx-messages
      * also not including 1 End-Of-Frame bit time
      */
-    DWORD frameLength {};
+    uint32_t frameLength {};
 
     /**
      * @brief complete message length in bits
@@ -103,13 +102,13 @@ struct VECTOR_BLF_EXPORT CanMessage2 final : ObjectHeader {
      * Total number of bits of the message including
      * EOF and Interframe space [in bits]
      */
-    BYTE bitCount {};
+    uint8_t bitCount {};
 
     /** reserved */
-    BYTE reservedCanMessage1 {};
+    uint8_t reservedCanMessage1 {};
 
     /** reserved */
-    WORD reservedCanMessage2 {};
+    uint16_t reservedCanMessage2 {};
 };
 
 }

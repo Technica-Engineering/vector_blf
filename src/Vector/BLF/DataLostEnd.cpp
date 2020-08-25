@@ -42,7 +42,7 @@ void DataLostEnd::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&numberOfLostEvents), sizeof(numberOfLostEvents));
 }
 
-DWORD DataLostEnd::calculateObjectSize() const {
+uint32_t DataLostEnd::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(queueIdentifier) +

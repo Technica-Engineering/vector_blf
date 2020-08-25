@@ -44,7 +44,7 @@ void MostStress::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&reservedMostStress), sizeof(reservedMostStress));
 }
 
-DWORD MostStress::calculateObjectSize() const {
+uint32_t MostStress::calculateObjectSize() const {
     return
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +

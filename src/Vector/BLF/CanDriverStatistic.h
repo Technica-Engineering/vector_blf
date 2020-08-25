@@ -25,7 +25,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -42,14 +41,14 @@ struct VECTOR_BLF_EXPORT CanDriverStatistic final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      *
      * CAN channel the statistic data belongs to.
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /**
      * @brief CAN bus load
@@ -57,7 +56,7 @@ struct VECTOR_BLF_EXPORT CanDriverStatistic final : ObjectHeader {
      * Busload in 1/100 percent (e.g. 100 means
      * 1%)
      */
-    WORD busLoad {};
+    uint16_t busLoad {};
 
     /**
      * @brief standard CAN id data frames
@@ -65,7 +64,7 @@ struct VECTOR_BLF_EXPORT CanDriverStatistic final : ObjectHeader {
      * Number of standard data frames sent on
      * that channel.
      */
-    DWORD standardDataFrames {};
+    uint32_t standardDataFrames {};
 
     /**
      * @brief extended CAN id data frames
@@ -73,7 +72,7 @@ struct VECTOR_BLF_EXPORT CanDriverStatistic final : ObjectHeader {
      * Number of extended data frames sent on
      * that channel.
      */
-    DWORD extendedDataFrames {};
+    uint32_t extendedDataFrames {};
 
     /**
      * @brief standard CAN id remote frames
@@ -81,7 +80,7 @@ struct VECTOR_BLF_EXPORT CanDriverStatistic final : ObjectHeader {
      * Number of remote data frames sent on that
      * channel.
      */
-    DWORD standardRemoteFrames {};
+    uint32_t standardRemoteFrames {};
 
     /**
      * @brief extented CAN id remote frames
@@ -89,14 +88,14 @@ struct VECTOR_BLF_EXPORT CanDriverStatistic final : ObjectHeader {
      * Number of extended remote data frames
      * sent on that channel.
      */
-    DWORD extendedRemoteFrames {};
+    uint32_t extendedRemoteFrames {};
 
     /**
      * @brief CAN error frames
      *
      * Number of error frams sent on that channel
      */
-    DWORD errorFrames {};
+    uint32_t errorFrames {};
 
     /**
      * @brief CAN overload frames
@@ -104,10 +103,10 @@ struct VECTOR_BLF_EXPORT CanDriverStatistic final : ObjectHeader {
      * Number of overload frams sent on that
      * channel.
      */
-    DWORD overloadFrames {};
+    uint32_t overloadFrames {};
 
     /** reserved */
-    DWORD reservedCanDriverStatistic {};
+    uint32_t reservedCanDriverStatistic {};
 };
 
 }

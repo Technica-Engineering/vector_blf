@@ -60,13 +60,13 @@ void LinMessage::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&reservedLinMessage2), sizeof(reservedLinMessage2));
 }
 
-DWORD LinMessage::calculateObjectSize() const {
+uint32_t LinMessage::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(id) +
         sizeof(dlc) +
-        static_cast<DWORD>(data.size()) +
+        static_cast<uint32_t>(data.size()) +
         sizeof(fsmId) +
         sizeof(fsmState) +
         sizeof(headerTime) +

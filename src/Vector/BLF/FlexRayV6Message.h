@@ -27,7 +27,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -44,14 +43,14 @@ struct VECTOR_BLF_EXPORT FlexRayV6Message final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      *
      * Application channel
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /**
      * @brief dir flag (tx, rx)
@@ -62,54 +61,54 @@ struct VECTOR_BLF_EXPORT FlexRayV6Message final : ObjectHeader {
      *   - 2 = Tx Request
      *   - 3 and 4 are for internal use only.
      */
-    BYTE dir {};
+    uint8_t dir {};
 
     /**
      * @brief additional time field in simulation
      *
      * Additional time field in simulation
      */
-    BYTE lowTime {};
+    uint8_t lowTime {};
 
     /**
      * @brief timestamp generated from xModule
      *
      * Timestamp generated from xModule
      */
-    DWORD fpgaTick {};
+    uint32_t fpgaTick {};
 
     /**
      * @brief overflow counter of the timestamp
      *
      * Overflow counter of the timestamp
      */
-    DWORD fpgaTickOverflow {};
+    uint32_t fpgaTickOverflow {};
 
     /**
      * @brief clientindex of send node
      *
      * Client index of send node
      */
-    DWORD clientIndexFlexRayV6Message {};
+    uint32_t clientIndexFlexRayV6Message {};
 
     /**
      * @brief relatvie clustertime, from 0 to cyclelength
      *
      * Relatvie clustertime, from 0 to cyclelength
      */
-    DWORD clusterTime {};
+    uint32_t clusterTime {};
 
     /**
      * @brief slot identifier
      *
      * slot identifier
      */
-    WORD frameId {};
+    uint16_t frameId {};
 
     /**
      * CRC of the frame header
      */
-    WORD headerCrc {};
+    uint16_t headerCrc {};
 
     /**
      * @brief V6 framestate
@@ -132,21 +131,21 @@ struct VECTOR_BLF_EXPORT FlexRayV6Message final : ObjectHeader {
      *   - 6 (0xC0) reserved
      *   - 7 (0xE0) reserved
      */
-    WORD frameState {};
+    uint16_t frameState {};
 
     /**
      * @brief dlc of message
      *
      * Payload length
      */
-    BYTE length {};
+    uint8_t length {};
 
     /**
      * @brief current cycle
      *
      * Current cycle number
      */
-    BYTE cycle {};
+    uint8_t cycle {};
 
     /**
      * @brief Bit0 = NMBit, Bit1 = SyncBit, Bit2 = Reserved
@@ -155,20 +154,20 @@ struct VECTOR_BLF_EXPORT FlexRayV6Message final : ObjectHeader {
      * - Bit 1 = SyncBit
      * - Bit 2 = Reserved
      */
-    BYTE headerBitMask {};
+    uint8_t headerBitMask {};
 
     /** reserved */
-    BYTE reservedFlexRayV6Message1 {};
+    uint8_t reservedFlexRayV6Message1 {};
 
     /** reserved */
-    WORD reservedFlexRayV6Message2 {};
+    uint16_t reservedFlexRayV6Message2 {};
 
     /**
      * @brief array of databytes
      *
      * Payload
      */
-    std::array<BYTE, 64> dataBytes {};
+    std::array<uint8_t, 64> dataBytes {};
 };
 
 }

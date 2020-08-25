@@ -25,7 +25,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -40,20 +39,20 @@ struct VECTOR_BLF_EXPORT WaterMarkEvent final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /** enumeration for queueState */
-    enum QueueState : DWORD {
+    enum QueueState : uint32_t {
         StatusNormal = 0,
         StatusEmergency = 1,
         StatusLostData = 2
     };
 
     /** the current state of the queue */
-    DWORD queueState {};
+    uint32_t queueState {};
 
     /** reserved */
-    DWORD reservedWaterMarkEvent {};
+    uint32_t reservedWaterMarkEvent {};
 };
 
 }

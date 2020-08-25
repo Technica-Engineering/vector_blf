@@ -25,7 +25,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -43,14 +42,14 @@ struct VECTOR_BLF_EXPORT LinSleepModeEvent final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      *
      * Channel number where the event notified
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /**
      * This value indicates the reason for an event.
@@ -74,10 +73,10 @@ struct VECTOR_BLF_EXPORT LinSleepModeEvent final : ObjectHeader {
      *   - 18: Bus traffic (can only occur if the LIN
      *     hardware does not have a Master function)
      */
-    BYTE reason {};
+    uint8_t reason {};
 
     /** Bit values for flags */
-    enum Flags : BYTE {
+    enum Flags : uint8_t {
         /** @brief LIN "was awake" */
         WasAwake = 0x01,
 
@@ -106,10 +105,10 @@ struct VECTOR_BLF_EXPORT LinSleepModeEvent final : ObjectHeader {
      *   - 1: External event
      *   - 0: Internal event
      */
-    BYTE flags {};
+    uint8_t flags {};
 
     /** reserved */
-    DWORD reservedLinSleepModeEvent {};
+    uint32_t reservedLinSleepModeEvent {};
 };
 
 }

@@ -46,7 +46,7 @@ void AfdxStatus::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&reservedAfdxStatus2), sizeof(reservedAfdxStatus2));
 }
 
-DWORD AfdxStatus::calculateObjectSize() const {
+uint32_t AfdxStatus::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

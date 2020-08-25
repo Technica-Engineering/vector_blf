@@ -28,7 +28,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -45,27 +44,27 @@ struct VECTOR_BLF_EXPORT EthernetFrame final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * Ethernet (MAC) address of source computer
      * (network byte order).
      */
-    std::array<BYTE, 6> sourceAddress {};
+    std::array<uint8_t, 6> sourceAddress {};
 
     /**
      * The channel of the frame.
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /**
      * Ethernet (MAC) address of target computer
      * (network byte order).
      */
-    std::array<BYTE, 6> destinationAddress {};
+    std::array<uint8_t, 6> destinationAddress {};
 
     /** enumeration for dir */
-    enum Dir : WORD {
+    enum Dir : uint16_t {
         Rx = 0,
         Tx = 1,
         TxRq = 2
@@ -76,7 +75,7 @@ struct VECTOR_BLF_EXPORT EthernetFrame final : ObjectHeader {
      *
      * Direction flag
      */
-    WORD dir {};
+    uint16_t dir {};
 
     /**
      * EtherType which indicates protocol for
@@ -85,19 +84,19 @@ struct VECTOR_BLF_EXPORT EthernetFrame final : ObjectHeader {
      * See Ethernet standard specification for valid
      * values.
      */
-    WORD type {};
+    uint16_t type {};
 
     /**
      * TPID when VLAN tag valid, zero when no
      * VLAN. See Ethernet standard specification.
      */
-    WORD tpid {};
+    uint16_t tpid {};
 
     /**
      * TCI when VLAND tag valid, zero when no
      * VLAN. See Ethernet standard specification.
      */
-    WORD tci {};
+    uint16_t tci {};
 
     /**
      * @brief Number of valid payLoad bytes
@@ -105,10 +104,10 @@ struct VECTOR_BLF_EXPORT EthernetFrame final : ObjectHeader {
      * Length of Ethernet payload data in bytes. Max.
      * 1500 Bytes (without Ethernet header)
      */
-    WORD payLoadLength {};
+    uint16_t payLoadLength {};
 
     /** reserved */
-    ULONGLONG reservedEthernetFrame {};
+    uint64_t reservedEthernetFrame {};
 
     /**
      * @brief Max 1500 data bytes per frame

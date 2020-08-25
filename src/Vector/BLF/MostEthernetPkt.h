@@ -27,7 +27,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader2.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -44,14 +43,14 @@ struct VECTOR_BLF_EXPORT MostEthernetPkt final : ObjectHeader2 {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      *
      * Application channel
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /**
      * @brief direction: 0: Rx; 1: Tx; 2: TxRequest
@@ -61,27 +60,27 @@ struct VECTOR_BLF_EXPORT MostEthernetPkt final : ObjectHeader2 {
      *   - 1: Tx (transmit receipt)
      *   - 2: Tx Request (transmit request)
      */
-    BYTE dir {};
+    uint8_t dir {};
 
     /** reserved */
-    BYTE reservedMostEthernetPkt1 {};
+    uint8_t reservedMostEthernetPkt1 {};
 
     /** reserved */
-    DWORD reservedMostEthernetPkt2 {};
+    uint32_t reservedMostEthernetPkt2 {};
 
     /**
      * @brief 48 bit source address
      *
      * 48 bit source address
      */
-    ULONGLONG sourceMacAdr {};
+    uint64_t sourceMacAdr {};
 
     /**
      * @brief 48 bit target address
      *
      * 48 bit target address
      */
-    ULONGLONG destMacAdr {};
+    uint64_t destMacAdr {};
 
     /**
      * @brief Tranfer Type
@@ -95,7 +94,7 @@ struct VECTOR_BLF_EXPORT MostEthernetPkt final : ObjectHeader2 {
      *     Message was reported by the network spy. The Spy sees all messages
      *     independently of the desti-nation address.
      */
-    BYTE transferType {};
+    uint8_t transferType {};
 
     /**
      * @brief transmission status
@@ -127,7 +126,7 @@ struct VECTOR_BLF_EXPORT MostEthernetPkt final : ObjectHeader2 {
      *       - only for Dir = Tx
      *       - only for mTransferType = Node
      */
-    BYTE state {};
+    uint8_t state {};
 
     /**
      * @brief acknowledge code
@@ -166,17 +165,17 @@ struct VECTOR_BLF_EXPORT MostEthernetPkt final : ObjectHeader2 {
      *     Restriction:
      *       - only for Dir = Tx or spy messages
      */
-    BYTE ackNack {};
+    uint8_t ackNack {};
 
     /** reserved */
-    BYTE reservedMostEthernetPkt3 {};
+    uint8_t reservedMostEthernetPkt3 {};
 
     /**
      * @brief Cyclic Redundancy Check
      *
      * Cyclic Redundancy Check
      */
-    DWORD crc {};
+    uint32_t crc {};
 
     /**
      * @brief a preemptive acknowledge code
@@ -186,7 +185,7 @@ struct VECTOR_BLF_EXPORT MostEthernetPkt final : ObjectHeader2 {
      *   - 0x01: Buffer full
      *   - 0x04: OK
      */
-    BYTE pAck {};
+    uint8_t pAck {};
 
     /**
      * @brief CRC acknowledge from the packet receiver(s) to the packet transmitter
@@ -197,20 +196,20 @@ struct VECTOR_BLF_EXPORT MostEthernetPkt final : ObjectHeader2 {
      *   - 0x01: CRC error
      *   - 0x04: OK
      */
-    BYTE cAck {};
+    uint8_t cAck {};
 
     /** reserved */
-    WORD reservedMostEthernetPkt4 {};
+    uint16_t reservedMostEthernetPkt4 {};
 
     /**
      * @brief length of variable data in bytes (1506 max)
      *
      * Length of variable data in bytes (1506 max)
      */
-    DWORD pktDataLength {};
+    uint32_t pktDataLength {};
 
     /** reserved */
-    ULONGLONG reservedMostEthernetPkt5 {};
+    uint64_t reservedMostEthernetPkt5 {};
 
     /**
      * @brief variable data

@@ -25,7 +25,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader2.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -43,17 +42,17 @@ struct VECTOR_BLF_EXPORT MostDataLost final : ObjectHeader2 {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      *
      * Application channel
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /** reserved */
-    WORD reservedMostDataLost {};
+    uint16_t reservedMostDataLost {};
 
     /**
      * @brief info about data loss
@@ -68,28 +67,28 @@ struct VECTOR_BLF_EXPORT MostDataLost final : ObjectHeader2 {
      *   - Bit4: 1: data loss on synchronous channel
      *   - Bit5: 1: data loss since driver queue full
      */
-    DWORD info {};
+    uint32_t info {};
 
     /**
      * Number of lost messages on Control channel
      */
-    DWORD lostMsgsCtrl {};
+    uint32_t lostMsgsCtrl {};
 
     /**
      * Number of lost messages on Packet Data
      * Channel channel
      */
-    DWORD lostMsgsAsync {};
+    uint32_t lostMsgsAsync {};
 
     /**
      * Absolute time in nano-seconds
      */
-    ULONGLONG lastGoodTimeStampNs {};
+    uint64_t lastGoodTimeStampNs {};
 
     /**
      * Absolute time in nano-seconds
      */
-    ULONGLONG nextGoodTimeStampNs {};
+    uint64_t nextGoodTimeStampNs {};
 };
 
 }

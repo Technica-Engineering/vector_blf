@@ -46,7 +46,7 @@ void MostSystemEvent::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&reservedMostSystemEvent), sizeof(reservedMostSystemEvent));
 }
 
-DWORD MostSystemEvent::calculateObjectSize() const {
+uint32_t MostSystemEvent::calculateObjectSize() const {
     return
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +

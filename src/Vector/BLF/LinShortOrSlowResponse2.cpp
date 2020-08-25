@@ -54,12 +54,12 @@ void LinShortOrSlowResponse2::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&reservedLinShortOrSlowResponse2), sizeof(reservedLinShortOrSlowResponse2));
 }
 
-DWORD LinShortOrSlowResponse2::calculateObjectSize() const {
+uint32_t LinShortOrSlowResponse2::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         LinDatabyteTimestampEvent::calculateObjectSize() +
         sizeof(numberOfRespBytes) +
-        static_cast<DWORD>(respBytes.size()) +
+        static_cast<uint32_t>(respBytes.size()) +
         sizeof(slowResponse) +
         sizeof(interruptedByBreak) +
         sizeof(reservedLinShortOrSlowResponse1) +

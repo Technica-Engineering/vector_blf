@@ -47,7 +47,7 @@ void AfdxErrorEvent::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(errorAttributes.data()), static_cast<std::streamsize>(errorAttributes.size()));
 }
 
-DWORD AfdxErrorEvent::calculateObjectSize() const {
+uint32_t AfdxErrorEvent::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

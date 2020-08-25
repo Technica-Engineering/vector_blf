@@ -31,7 +31,6 @@
 #include <Vector/BLF/GeneralSerialEvent.h>
 #include <Vector/BLF/ObjectHeader.h>
 #include <Vector/BLF/SingleByteSerialEvent.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -53,10 +52,10 @@ struct VECTOR_BLF_EXPORT SerialEvent final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /** enumeration for flags */
-    enum Flags : DWORD {
+    enum Flags : uint32_t {
         /** K-Line event */
         KLineEvent = 0x00000001,
 
@@ -83,24 +82,24 @@ struct VECTOR_BLF_EXPORT SerialEvent final : ObjectHeader {
     };
 
     /** flags */
-    DWORD flags {};
+    uint32_t flags {};
 
     /**
      * @brief channel of event
      *
      * channel of event
      */
-    DWORD port {};
+    uint32_t port {};
 
     /**
      * @brief baudrate at which this event was transmitted (optional)
      *
      * baudrate at which this event was transmitted (optional)
      */
-    DWORD baudrate {};
+    uint32_t baudrate {};
 
     /** reserved */
-    DWORD reservedSerialEvent {};
+    uint32_t reservedSerialEvent {};
 
     /** general serial event */
     GeneralSerialEvent general {};

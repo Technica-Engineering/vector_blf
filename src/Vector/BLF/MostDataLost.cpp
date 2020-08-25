@@ -50,7 +50,7 @@ void MostDataLost::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&nextGoodTimeStampNs), sizeof(nextGoodTimeStampNs));
 }
 
-DWORD MostDataLost::calculateObjectSize() const {
+uint32_t MostDataLost::calculateObjectSize() const {
     return
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +

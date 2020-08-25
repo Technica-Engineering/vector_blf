@@ -25,7 +25,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -42,15 +41,15 @@ struct VECTOR_BLF_EXPORT EthernetStatus final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * The channel of the event.
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /** enumeration for flags */
-    enum Flags : WORD {
+    enum Flags : uint16_t {
         /** Link Status */
         LinkStatus = 0x0001,
 
@@ -80,10 +79,10 @@ struct VECTOR_BLF_EXPORT EthernetStatus final : ObjectHeader {
     };
 
     /** flags */
-    WORD flags;
+    uint16_t flags;
 
     /** enumeration for linkStatus */
-    enum LinkStatus : BYTE {
+    enum LinkStatus : uint8_t {
         /** Unknown */
         UnknownLinkStatus = 0,
 
@@ -103,10 +102,10 @@ struct VECTOR_BLF_EXPORT EthernetStatus final : ObjectHeader {
     /**
      * @brief Link Status
      */
-    BYTE linkStatus {};
+    uint8_t linkStatus {};
 
     /** enumeration for ethernetPhy */
-    enum EthernetPhy : BYTE {
+    enum EthernetPhy : uint8_t {
         /** Unknown */
         UnknownEthernetPhy = 0,
 
@@ -120,10 +119,10 @@ struct VECTOR_BLF_EXPORT EthernetStatus final : ObjectHeader {
     /**
      * @brief Ethernet Phy
      */
-    BYTE ethernetPhy {};
+    uint8_t ethernetPhy {};
 
     /** enumeration for duplex */
-    enum Duplex : BYTE {
+    enum Duplex : uint8_t {
         /** Unknown */
         UnknownDuplex = 0,
 
@@ -137,10 +136,10 @@ struct VECTOR_BLF_EXPORT EthernetStatus final : ObjectHeader {
     /**
      * @brief Duplex
      */
-    BYTE duplex {};
+    uint8_t duplex {};
 
     /** enumeration for mdi */
-    enum Mdi : BYTE {
+    enum Mdi : uint8_t {
         /** Unknown */
         UnknownMdi = 0,
 
@@ -152,10 +151,10 @@ struct VECTOR_BLF_EXPORT EthernetStatus final : ObjectHeader {
     };
 
     /** MDI */
-    BYTE mdi {};
+    uint8_t mdi {};
 
     /** enumeration for connector */
-    enum Connector : BYTE {
+    enum Connector : uint8_t {
         /** Unknown */
         UnknownConnector = 0,
 
@@ -167,10 +166,10 @@ struct VECTOR_BLF_EXPORT EthernetStatus final : ObjectHeader {
     };
 
     /** connector */
-    BYTE connector {};
+    uint8_t connector {};
 
     /** enumeration for clockMode */
-    enum ClockMode : BYTE {
+    enum ClockMode : uint8_t {
         /** Unknown */
         UnknownClockMode = 0,
 
@@ -182,10 +181,10 @@ struct VECTOR_BLF_EXPORT EthernetStatus final : ObjectHeader {
     };
 
     /** clock mode */
-    BYTE clockMode {};
+    uint8_t clockMode {};
 
     /** enumeration for pairs */
-    enum Pairs : BYTE {
+    enum Pairs : uint8_t {
         /** Unknown */
         UnknownPairs = 0,
 
@@ -200,15 +199,15 @@ struct VECTOR_BLF_EXPORT EthernetStatus final : ObjectHeader {
     };
 
     /** pairs */
-    BYTE pairs {};
+    uint8_t pairs {};
 
     /** hardware channel */
-    BYTE hardwareChannel {};
+    uint8_t hardwareChannel {};
 
     /**
      * @brief Bitrate in [kbit/sec]
      */
-    DWORD bitrate {};
+    uint32_t bitrate {};
 };
 
 }

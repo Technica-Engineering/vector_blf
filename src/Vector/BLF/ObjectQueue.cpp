@@ -67,7 +67,7 @@ T * ObjectQueue<T>::read() {
 }
 
 template<typename T>
-DWORD ObjectQueue<T>::tellg() const {
+uint32_t ObjectQueue<T>::tellg() const {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
@@ -83,7 +83,7 @@ void ObjectQueue<T>::write(T * obj) {
     tellgChanged.wait(lock, [&] {
         return
         m_abort ||
-        static_cast<DWORD>(m_queue.size()) < m_bufferSize;
+        static_cast<uint32_t>(m_queue.size()) < m_bufferSize;
     });
 
     /* push data */
@@ -101,7 +101,7 @@ void ObjectQueue<T>::write(T * obj) {
 }
 
 template<typename T>
-DWORD ObjectQueue<T>::tellp() const {
+uint32_t ObjectQueue<T>::tellp() const {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
@@ -138,7 +138,7 @@ void ObjectQueue<T>::abort() {
 }
 
 template<typename T>
-void ObjectQueue<T>::setFileSize(DWORD fileSize) {
+void ObjectQueue<T>::setFileSize(uint32_t fileSize) {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
@@ -150,7 +150,7 @@ void ObjectQueue<T>::setFileSize(DWORD fileSize) {
 }
 
 template<typename T>
-void ObjectQueue<T>::setBufferSize(DWORD bufferSize) {
+void ObjectQueue<T>::setBufferSize(uint32_t bufferSize) {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 

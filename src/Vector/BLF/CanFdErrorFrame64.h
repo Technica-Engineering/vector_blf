@@ -28,7 +28,6 @@
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/CanFdExtFrameData.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -45,7 +44,7 @@ struct VECTOR_BLF_EXPORT CanFdErrorFrame64 final : ObjectHeader, CanFdExtFrameDa
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     virtual bool hasExtData() const;
 
@@ -54,40 +53,40 @@ struct VECTOR_BLF_EXPORT CanFdErrorFrame64 final : ObjectHeader, CanFdExtFrameDa
      *
      * Channel the frame was sent or received.
      */
-    BYTE channel {};
+    uint8_t channel {};
 
     /**
      * @brief CAN dlc
      *
      * Data length code of the corrupted message.
      */
-    BYTE dlc {};
+    uint8_t dlc {};
 
     /**
      * @brief Valid payload length of data
      *
      * Number of data bytes of the corrupted message.
      */
-    BYTE validDataBytes {};
+    uint8_t validDataBytes {};
 
     /**
      * Content of Philips SJA1000 Error Code Capture
      * register, or the Vector CAN-Core error register.
      * See field ecc of CanErrorFrameExt.
      */
-    BYTE ecc {};
+    uint8_t ecc {};
 
     /**
      * Defines what additional information is valid. See
      * field flags of CanErrorFrameExt.
      */
-    WORD flags {};
+    uint16_t flags {};
 
     /**
      * Extended error flags. See field flagsExt of
      * CanErrorFrameExt.
      */
-    WORD errorCodeExt {};
+    uint16_t errorCodeExt {};
 
     /**
      * @brief FD specific flags
@@ -109,20 +108,20 @@ struct VECTOR_BLF_EXPORT CanFdErrorFrame64 final : ObjectHeader, CanFdExtFrameDa
      *   - 0: EDL is 0
      *   - 1: EDL is 1
      */
-    WORD extFlags {};
+    uint16_t extFlags {};
 
     /** offset if extDataOffset is used */
-    BYTE extDataOffset {};
+    uint8_t extDataOffset {};
 
     /** resered */
-    BYTE reservedCanFdErrorFrame1 {};
+    uint8_t reservedCanFdErrorFrame1 {};
 
     /**
      * @brief CAN ID
      *
      * Message ID of the corrupted message.
      */
-    DWORD id {};
+    uint32_t id {};
 
     /**
      * @brief message length in ns
@@ -133,7 +132,7 @@ struct VECTOR_BLF_EXPORT CanFdErrorFrame64 final : ObjectHeader, CanFdExtFrameDa
      *
      * without 3 inter frame space bits and by Rx-message also without 1 End-Of-Frame bit
      */
-    DWORD frameLength {};
+    uint32_t frameLength {};
 
     /**
      * @brief bit rate used in arbitration phase
@@ -147,7 +146,7 @@ struct VECTOR_BLF_EXPORT CanFdErrorFrame64 final : ObjectHeader, CanFdExtFrameDa
      * - Bit 16-23: BTL Cycles
      * - Bit 24-31: Sampling Point
      */
-    DWORD btrCfgArb {};
+    uint32_t btrCfgArb {};
 
     /**
      * @brief bit rate used in data phase
@@ -156,7 +155,7 @@ struct VECTOR_BLF_EXPORT CanFdErrorFrame64 final : ObjectHeader, CanFdExtFrameDa
      * phase, may be 0, if not supported by
      * hardware/driver. See btrCfgArb.
      */
-    DWORD btrCfgData {};
+    uint32_t btrCfgData {};
 
     /**
      * @brief time offset of brs field
@@ -164,7 +163,7 @@ struct VECTOR_BLF_EXPORT CanFdErrorFrame64 final : ObjectHeader, CanFdExtFrameDa
      * Time offset of bit rate switch within BRS field in
      * nanoseconds
      */
-    DWORD timeOffsetBrsNs {};
+    uint32_t timeOffsetBrsNs {};
 
     /**
      * @brief time offset of brs field
@@ -172,12 +171,12 @@ struct VECTOR_BLF_EXPORT CanFdErrorFrame64 final : ObjectHeader, CanFdExtFrameDa
      * Time offset of bit rate switch within CRC
      * delimiter field in nanoseconds
      */
-    DWORD timeOffsetCrcDelNs {};
+    uint32_t timeOffsetCrcDelNs {};
 
     /**
      * CRC checksum of corrupted message.
      */
-    DWORD crc {};
+    uint32_t crc {};
 
     /**
      * @brief error position as bit offset
@@ -185,10 +184,10 @@ struct VECTOR_BLF_EXPORT CanFdErrorFrame64 final : ObjectHeader, CanFdExtFrameDa
      * Bit position of the error frame in the corrupted
      * message.
      */
-    WORD errorPosition {};
+    uint16_t errorPosition {};
 
     /** reserved */
-    WORD reservedCanFdErrorFrame2 {};
+    uint16_t reservedCanFdErrorFrame2 {};
 
     /**
      * @brief CAN FD data
@@ -198,7 +197,7 @@ struct VECTOR_BLF_EXPORT CanFdErrorFrame64 final : ObjectHeader, CanFdExtFrameDa
      * dlc, e.g. when DLC is 12 data has length
      * 24)
      */
-    std::vector<BYTE> data {};
+    std::vector<uint8_t> data {};
 };
 
 }

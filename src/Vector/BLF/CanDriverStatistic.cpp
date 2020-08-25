@@ -54,7 +54,7 @@ void CanDriverStatistic::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&reservedCanDriverStatistic), sizeof(reservedCanDriverStatistic));
 }
 
-DWORD CanDriverStatistic::calculateObjectSize() const {
+uint32_t CanDriverStatistic::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

@@ -25,7 +25,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -50,31 +49,31 @@ struct VECTOR_BLF_EXPORT LinBusEvent {
     virtual void write(AbstractFile & os);
 
     /** @copydoc ObjectHeader::calculateObjectSize */
-    virtual DWORD calculateObjectSize() const;
+    virtual uint32_t calculateObjectSize() const;
 
     /**
      * @brief Start Of Frame timestamp
      *
      * Timestamp of frame/event start
      */
-    ULONGLONG sof {};
+    uint64_t sof {};
 
     /**
      * @brief Baudrate of the event in bit/sec
      *
      * Baudrate of frame/event in bit/sec
      */
-    DWORD eventBaudrate {};
+    uint32_t eventBaudrate {};
 
     /**
      * @brief application channel
      *
      * Channel number where the frame/event notified
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /** reserved */
-    WORD reservedLinBusEvent {};
+    uint16_t reservedLinBusEvent {};
 };
 
 }

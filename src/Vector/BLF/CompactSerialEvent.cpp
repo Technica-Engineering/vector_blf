@@ -24,10 +24,10 @@
 namespace Vector {
 namespace BLF {
 
-DWORD CompactSerialEvent::calculateObjectSize() const {
+uint32_t CompactSerialEvent::calculateObjectSize() const {
     return
         sizeof(compactLength) +
-        static_cast<DWORD>(compactData.size());
+        static_cast<uint32_t>(compactData.size());
 }
 
 void CompactSerialEvent::read(AbstractFile & is) {

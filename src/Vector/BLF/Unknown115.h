@@ -27,7 +27,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -44,7 +43,7 @@ struct VECTOR_BLF_EXPORT Unknown115 final : public ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /* @todo unclear what the following values mean */
     uint64_t unknown0{};
@@ -57,7 +56,7 @@ struct VECTOR_BLF_EXPORT Unknown115 final : public ObjectHeader {
         uint32_t value; // @todo unknown value
         uint32_t flags; // @todo looks like some kind of flags field
 
-        static DWORD calculateObjectSize();
+        static uint32_t calculateObjectSize();
     };
     std::vector<UnknownDataBlock> unknownData {};
 

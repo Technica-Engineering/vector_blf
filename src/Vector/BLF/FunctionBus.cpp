@@ -42,8 +42,8 @@ void FunctionBus::read(AbstractFile & is) {
 
 void FunctionBus::write(AbstractFile & os) {
     /* pre processing */
-    nameLength = static_cast<DWORD>(name.size());
-    dataLength = static_cast<DWORD>(data.size());
+    nameLength = static_cast<uint32_t>(name.size());
+    dataLength = static_cast<uint32_t>(data.size());
 
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&functionBusObjectType), sizeof(functionBusObjectType));
@@ -54,7 +54,7 @@ void FunctionBus::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(data.data()), dataLength);
 }
 
-DWORD FunctionBus::calculateObjectSize() const {
+uint32_t FunctionBus::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(functionBusObjectType) +

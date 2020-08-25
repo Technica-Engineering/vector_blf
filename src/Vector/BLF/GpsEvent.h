@@ -25,7 +25,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -42,24 +41,24 @@ struct VECTOR_BLF_EXPORT GpsEvent final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * Not used, must be 0.
      */
-    DWORD flags {};
+    uint32_t flags {};
 
     /**
      * @brief channel of event
      *
      * GPS channel the GPS event was sent.
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /**
      * Reserved, must be 0.
      */
-    WORD reservedGpsEvent {};
+    uint16_t reservedGpsEvent {};
 
     /**
      * Latitude, possible values reach from -180 to 180.
@@ -67,24 +66,24 @@ struct VECTOR_BLF_EXPORT GpsEvent final : ObjectHeader {
      * Negative values are western hemisphere, positive
      * values are eastern hemisphere.
      */
-    DOUBLE latitude {};
+    double latitude {};
 
     /**
      * Longitude, possible values reach from -90 to 90.
      * Negative values are Southern hemisphere,
      * positive values are northern hemisphere.
      */
-    DOUBLE longitude {};
+    double longitude {};
 
     /**
      * Altitude in meters, measured above sea line.
      */
-    DOUBLE altitude {};
+    double altitude {};
 
     /**
      * Current vehicle speed in km/h.
      */
-    DOUBLE speed {};
+    double speed {};
 
     /**
      * Current driving course, possible values reach
@@ -92,7 +91,7 @@ struct VECTOR_BLF_EXPORT GpsEvent final : ObjectHeader {
      * north, 90 means driving east, -90 means driving
      * west, -180 and 180 mean driving south.
      */
-    DOUBLE course {};
+    double course {};
 };
 
 }

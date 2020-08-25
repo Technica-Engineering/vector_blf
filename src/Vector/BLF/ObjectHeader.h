@@ -25,7 +25,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeaderBase.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -38,15 +37,15 @@ namespace BLF {
  * Object header. Version 1.
  */
 struct VECTOR_BLF_EXPORT ObjectHeader : ObjectHeaderBase {
-    ObjectHeader(const ObjectType objectType, const WORD objectVersion = 0);
+    ObjectHeader(const ObjectType objectType, const uint16_t objectVersion = 0);
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    WORD calculateHeaderSize() const override;
-    DWORD calculateObjectSize() const override;
+    uint16_t calculateHeaderSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /** enumeration for objectFlags */
-    enum ObjectFlags : DWORD {
+    enum ObjectFlags : uint32_t {
         /**
          * @brief 10 micro second timestamp
          *
@@ -70,12 +69,12 @@ struct VECTOR_BLF_EXPORT ObjectHeader : ObjectHeaderBase {
      *
      * Unit of object timestamp.
      */
-    DWORD objectFlags {ObjectFlags::TimeOneNans};
+    uint32_t objectFlags {ObjectFlags::TimeOneNans};
 
     /**
      * @brief client index of send node
      */
-    WORD clientIndex {};
+    uint16_t clientIndex {};
 
     /**
      * @brief object specific version
@@ -86,7 +85,7 @@ struct VECTOR_BLF_EXPORT ObjectHeader : ObjectHeaderBase {
      *
      * @note can be set in event class constructor
      */
-    WORD objectVersion {0};
+    uint16_t objectVersion {0};
 
     /**
      * @brief object timestamp
@@ -94,7 +93,7 @@ struct VECTOR_BLF_EXPORT ObjectHeader : ObjectHeaderBase {
      * Time stamp of this object in the unit specified in
      * objectFlags.
      */
-    ULONGLONG objectTimeStamp {};
+    uint64_t objectTimeStamp {};
 };
 
 }

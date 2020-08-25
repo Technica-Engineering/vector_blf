@@ -47,7 +47,7 @@ void A429BusStatistic::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&codingErrors), sizeof(codingErrors));
     is.read(reinterpret_cast<char *>(&idleErrors), sizeof(idleErrors));
     is.read(reinterpret_cast<char *>(&levelErrors), sizeof(levelErrors));
-    is.read(reinterpret_cast<char *>(labelCount.data()), static_cast<std::streamsize>(labelCount.size() * sizeof(USHORT)));
+    is.read(reinterpret_cast<char *>(labelCount.data()), static_cast<std::streamsize>(labelCount.size() * sizeof(uint16_t)));
 }
 
 void A429BusStatistic::write(AbstractFile & os) {
@@ -69,10 +69,10 @@ void A429BusStatistic::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&codingErrors), sizeof(codingErrors));
     os.write(reinterpret_cast<char *>(&idleErrors), sizeof(idleErrors));
     os.write(reinterpret_cast<char *>(&levelErrors), sizeof(levelErrors));
-    os.write(reinterpret_cast<char *>(labelCount.data()), static_cast<std::streamsize>(labelCount.size() * sizeof(USHORT)));
+    os.write(reinterpret_cast<char *>(labelCount.data()), static_cast<std::streamsize>(labelCount.size() * sizeof(uint16_t)));
 }
 
-DWORD A429BusStatistic::calculateObjectSize() const {
+uint32_t A429BusStatistic::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
@@ -92,7 +92,7 @@ DWORD A429BusStatistic::calculateObjectSize() const {
         sizeof(codingErrors) +
         sizeof(idleErrors) +
         sizeof(levelErrors) +
-        static_cast<DWORD>(labelCount.size() * sizeof(USHORT));
+        static_cast<uint32_t>(labelCount.size() * sizeof(uint16_t));
 }
 
 }

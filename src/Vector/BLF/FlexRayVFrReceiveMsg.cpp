@@ -78,7 +78,7 @@ void FlexRayVFrReceiveMsg::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&reservedFlexRayVFrReceiveMsg4), sizeof(reservedFlexRayVFrReceiveMsg4));
 }
 
-DWORD FlexRayVFrReceiveMsg::calculateObjectSize() const {
+uint32_t FlexRayVFrReceiveMsg::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
@@ -99,7 +99,7 @@ DWORD FlexRayVFrReceiveMsg::calculateObjectSize() const {
         sizeof(data) +
         sizeof(frameFlags) +
         sizeof(appParameter) +
-        static_cast<DWORD>(dataBytes.size()) +
+        static_cast<uint32_t>(dataBytes.size()) +
         sizeof(reservedFlexRayVFrReceiveMsg3) +
         sizeof(reservedFlexRayVFrReceiveMsg4);
 }

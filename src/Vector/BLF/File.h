@@ -32,7 +32,6 @@
 #include <Vector/BLF/ObjectHeaderBase.h>
 #include <Vector/BLF/ObjectQueue.h>
 #include <Vector/BLF/UncompressedFile.h>
-#include <Vector/BLF/VectorTypes.h>
 
 // UNKNOWN = 0
 #include <Vector/BLF/CanMessage.h> // CAN_MESSAGE = 1
@@ -189,14 +188,14 @@ class VECTOR_BLF_EXPORT File final {
      *
      * This includes the LogContainer headers, and the uncompressed content.
      */
-    ULONGLONG currentUncompressedFileSize {};
+    uint64_t currentUncompressedFileSize {};
 
     /**
      * Current number of objects read
      *
      * Unknown115 is not counted.
      */
-    std::atomic<DWORD> currentObjectCount {};
+    std::atomic<uint32_t> currentObjectCount {};
 
     /**
      * zlib compression level (0=no compression, 1=best speed, 9=best compression, -1=default compression
@@ -279,14 +278,14 @@ class VECTOR_BLF_EXPORT File final {
      *
      * @return default log container size
      */
-    virtual DWORD defaultLogContainerSize() const;
+    virtual uint32_t defaultLogContainerSize() const;
 
     /**
      * Set default log container size.
      *
      * @param[in] defaultLogContainerSize default log container size
      */
-    virtual void setDefaultLogContainerSize(DWORD defaultLogContainerSize);
+    virtual void setDefaultLogContainerSize(uint32_t defaultLogContainerSize);
 
     /**
      * create object of given type

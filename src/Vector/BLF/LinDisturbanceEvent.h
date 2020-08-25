@@ -25,7 +25,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -43,14 +42,14 @@ struct VECTOR_BLF_EXPORT LinDisturbanceEvent final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      *
      * Channel number of the event
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /**
      * @brief LIN ID of disturbed response
@@ -59,7 +58,7 @@ struct VECTOR_BLF_EXPORT LinDisturbanceEvent final : ObjectHeader {
      * response or 0xFF if a header
      * was disturbed.
      */
-    BYTE id {};
+    uint8_t id {};
 
     /**
      * @brief LIN ID of disturbing header
@@ -69,7 +68,7 @@ struct VECTOR_BLF_EXPORT LinDisturbanceEvent final : ObjectHeader {
      * header (disturbanceType
      * == 2), otherwise 0xFF.
      */
-    BYTE disturbingFrameId {};
+    uint8_t disturbingFrameId {};
 
     /**
      * @brief type of disturbance (dominant, recessive, header, bitstream, variable bitstream)
@@ -83,7 +82,7 @@ struct VECTOR_BLF_EXPORT LinDisturbanceEvent final : ObjectHeader {
      *   - 4: disturbance with a variable
      *     bitstream
      */
-    ULONG disturbanceType {};
+    uint32_t disturbanceType {};
 
     /**
      * @brief index of the byte that was disturbed
@@ -98,7 +97,7 @@ struct VECTOR_BLF_EXPORT LinDisturbanceEvent final : ObjectHeader {
      * (id == 0xFF), 0 is the sync
      * field and 1 is the PID.
      */
-    ULONG byteIndex {};
+    uint32_t byteIndex {};
 
     /**
      * @brief index of the bit that was disturbed
@@ -108,7 +107,7 @@ struct VECTOR_BLF_EXPORT LinDisturbanceEvent final : ObjectHeader {
      *
      * The index of the bit that was
      */
-    ULONG bitIndex {};
+    uint32_t bitIndex {};
 
     /**
      * @brief offset in 1/16th bits into the disturbed bit
@@ -116,7 +115,7 @@ struct VECTOR_BLF_EXPORT LinDisturbanceEvent final : ObjectHeader {
      * The offset in 1/16th bits
      * into the disturbed bit.
      */
-    ULONG bitOffsetInSixteenthBits {};
+    uint32_t bitOffsetInSixteenthBits {};
 
     /**
      * @brief length of the disturbance in units of 1/16th bit
@@ -125,7 +124,7 @@ struct VECTOR_BLF_EXPORT LinDisturbanceEvent final : ObjectHeader {
      * recessive disturbance in units
      * of 1/16th bits.
      */
-    ULONG disturbanceLengthInSixteenthBits {};
+    uint32_t disturbanceLengthInSixteenthBits {};
 };
 
 }

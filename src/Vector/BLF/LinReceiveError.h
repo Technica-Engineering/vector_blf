@@ -25,7 +25,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -58,51 +57,51 @@ struct VECTOR_BLF_EXPORT LinReceiveError final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      *
      * Channel number where the event notified
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /**
      * @brief LIN ID
      *
      * Frame identifier
      */
-    BYTE id {};
+    uint8_t id {};
 
     /**
      * @brief LIN DLC
      *
      * Frame length
      */
-    BYTE dlc {};
+    uint8_t dlc {};
 
     /**
      * Slave Identifier in the Final State
      * Machine (obsolete)
      */
-    BYTE fsmId {};
+    uint8_t fsmId {};
 
     /**
      * State Identifier of a Slave in the Final
      * State Machine (obsolete)
      */
-    BYTE fsmState {};
+    uint8_t fsmState {};
 
     /**
      * Duration of the frame header [in bit
      * times]
      */
-    BYTE headerTime {};
+    uint8_t headerTime {};
 
     /**
      * Duration of the entire frame [in bit times]
      */
-    BYTE fullTime {};
+    uint8_t fullTime {};
 
     /**
      * The lower 4 bits indicate the LIN hardware
@@ -136,14 +135,14 @@ struct VECTOR_BLF_EXPORT LinReceiveError final : ObjectHeader {
      *   - 3: Unexpected Break field
      *   - 4: Unidentified error
      */
-    BYTE stateReason {};
+    uint8_t stateReason {};
 
     /**
      * Byte value that resulted the protocol
      * violation. Only valid for certain values of
      * stateReason
      */
-    BYTE offendingByte {};
+    uint8_t offendingByte {};
 
     /**
      * Specifies the detail level of the event.
@@ -153,7 +152,7 @@ struct VECTOR_BLF_EXPORT LinReceiveError final : ObjectHeader {
      * Most members are not valid unless this
      * member is 1
      */
-    BYTE shortError {};
+    uint8_t shortError {};
 
     /**
      * Flag indicating if the error is a result of
@@ -162,10 +161,10 @@ struct VECTOR_BLF_EXPORT LinReceiveError final : ObjectHeader {
      *   - 0: False
      *   - 1: True
      */
-    BYTE timeoutDuringDlcDetection {};
+    uint8_t timeoutDuringDlcDetection {};
 
     /** reserved */
-    DWORD reservedLinReceiveError {};
+    uint32_t reservedLinReceiveError {};
 };
 
 }

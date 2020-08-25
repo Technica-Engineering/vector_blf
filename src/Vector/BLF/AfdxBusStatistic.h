@@ -25,7 +25,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -42,109 +41,109 @@ struct VECTOR_BLF_EXPORT AfdxBusStatistic final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /**
      * @brief Bit0=Valid Rx/Tx Counter, Bit1=Valid Error Counter; Bit2=Valid VLId
      */
-    WORD flags {};
+    uint16_t flags {};
 
     /**
      * @brief real time period in mysec of statistic datacollection
      */
-    ULONG statDuration {};
+    uint32_t statDuration {};
 
     /* bus-specific info */
 
     /**
      * @brief read frames taken from hardware, i.e. on bus
      */
-    ULONG statRxPacketCountHW {};
+    uint32_t statRxPacketCountHW {};
 
     /**
      * @brief send frames as taken from hardware, i.e. on bus
      */
-    ULONG statTxPacketCountHW {};
+    uint32_t statTxPacketCountHW {};
 
     /**
      * @brief number of erronous Rx-frames detected by HW
      */
-    ULONG statRxErrorCountHW {};
+    uint32_t statRxErrorCountHW {};
 
     /**
      * @brief number of erronous Tx-frames detected by HW
      */
-    ULONG statTxErrorCountHW {};
+    uint32_t statTxErrorCountHW {};
 
     /**
      * @brief bytes received by HW during this time period
      */
-    ULONG statRxBytesHW {};
+    uint32_t statRxBytesHW {};
 
     /**
      * @brief bytes sent by HW during this time period
      */
-    ULONG statTxBytesHW {};
+    uint32_t statTxBytesHW {};
 
     /* CANwin specific info */
 
     /**
      * @brief received frames within CANwin
      */
-    ULONG statRxPacketCount {};
+    uint32_t statRxPacketCount {};
 
     /**
      * @brief send packets from within CANwin
      */
-    ULONG statTxPacketCount {};
+    uint32_t statTxPacketCount {};
 
     /**
      * @brief number of packets aktively dropped by CANwin
      */
-    ULONG statDroppedPacketCount {};
+    uint32_t statDroppedPacketCount {};
 
     /**
      * @brief number of packets with incompatible eth-header regarding AFDX-spec
      */
-    ULONG statInvalidPacketCount {};
+    uint32_t statInvalidPacketCount {};
 
     /**
      * @brief number of packets lost by CABwin due to queue overflow etc
      */
-    ULONG statLostPacketCount {};
+    uint32_t statLostPacketCount {};
 
     /* connection related info */
 
     /**
      * @brief lineA (0) or lineB (1)
      */
-    BYTE line {};
+    uint8_t line {};
 
     /**
      * @brief status of adapter as per EthernetStatus
      */
-    BYTE linkStatus {};
+    uint8_t linkStatus {};
 
     /**
      * @brief link speed: 0:=10mbps 1:=100mbps 2:=1000mbps
      */
-    WORD linkSpeed {};
+    uint16_t linkSpeed {};
 
     /**
      * @brief counter of link-losses during this period
      */
-    WORD linkLost {};
+    uint16_t linkLost {};
 
     /** reserved */
-    WORD reservedAfdxBusStatistic1 {};
+    uint16_t reservedAfdxBusStatistic1 {};
 
     /** reserved */
-    DWORD reservedAfdxBusStatistic2 {};
+    uint32_t reservedAfdxBusStatistic2 {};
 };
 
 }

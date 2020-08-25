@@ -27,7 +27,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -44,14 +43,14 @@ struct VECTOR_BLF_EXPORT EthernetRxError final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * Calculates structLength.
      *
      * @return struct length
      */
-    virtual WORD calculateStructLength() const;
+    virtual uint16_t calculateStructLength() const;
 
     /**
      * @brief Length of this structure
@@ -60,15 +59,15 @@ struct VECTOR_BLF_EXPORT EthernetRxError final : ObjectHeader {
      * sizeof(ObjectHeader) and without raw data
      * length
      */
-    WORD structLength {};
+    uint16_t structLength {};
 
     /**
      * The channel of the frame.
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /** enumeration for dir */
-    enum Dir : WORD {
+    enum Dir : uint16_t {
         /** receive */
         Rx = 0,
 
@@ -82,19 +81,19 @@ struct VECTOR_BLF_EXPORT EthernetRxError final : ObjectHeader {
     /**
      * @brief Direction flag
      */
-    WORD dir {};
+    uint16_t dir {};
 
     /**
      * @brief HW channel. 0 = invalid.
      */
-    WORD hardwareChannel {};
+    uint16_t hardwareChannel {};
 
     /**
      * @brief Frame Check Sum
      *
      * Ethernet frame checksum.
      */
-    DWORD fcs {};
+    uint32_t fcs {};
 
     /**
      * @brief Number of valid raw ethernet data bytes
@@ -102,10 +101,10 @@ struct VECTOR_BLF_EXPORT EthernetRxError final : ObjectHeader {
      * Number of valid raw ethernet data bytes, starting
      * with Target MAC ID.
      */
-    WORD frameDataLength {};
+    uint16_t frameDataLength {};
 
     /** reserved */
-    WORD reservedEthernetRxError {};
+    uint16_t reservedEthernetRxError {};
 
     /**
      * Error code
@@ -115,7 +114,7 @@ struct VECTOR_BLF_EXPORT EthernetRxError final : ObjectHeader {
      * - 3: Invalid Data received
      * - 4: Collision detected
      */
-    DWORD error {};
+    uint32_t error {};
 
     /**
      * @brief Max 1600 data bytes per frame

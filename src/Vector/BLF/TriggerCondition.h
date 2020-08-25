@@ -25,7 +25,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -40,10 +39,10 @@ struct VECTOR_BLF_EXPORT TriggerCondition final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /** enumeration for state */
-    enum State : DWORD {
+    enum State : uint32_t {
         Unknown = 0,
         Start = 1,
         Stop = 2,
@@ -51,13 +50,13 @@ struct VECTOR_BLF_EXPORT TriggerCondition final : ObjectHeader {
     };
 
     /** status */
-    DWORD state {};
+    uint32_t state {};
 
     /** length of trigger block name in bytes */
-    DWORD triggerBlockNameLength {};
+    uint32_t triggerBlockNameLength {};
 
     /** length of trigger condition in bytes */
-    DWORD triggerConditionLength {};
+    uint32_t triggerConditionLength {};
 
     /** trigger block name */
     std::string triggerBlockName {};

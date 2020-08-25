@@ -28,7 +28,6 @@
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/LinDatabyteTimestampEvent.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -58,26 +57,26 @@ struct VECTOR_BLF_EXPORT LinReceiveError2 final : ObjectHeader, LinDatabyteTimes
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief data bytes.
      */
-    std::array<BYTE, 8> data {};
+    std::array<uint8_t, 8> data {};
 
     /**
      * Slave Identifier in the
      * Final State Machine
      * (obsolete)
      */
-    BYTE fsmId {};
+    uint8_t fsmId {};
 
     /**
      * State Identifier of a Slave in
      * the Final State Machine
      * (obsolete)
      */
-    BYTE fsmState {};
+    uint8_t fsmState {};
 
     /**
      * The lower 4 bits indicate the
@@ -122,7 +121,7 @@ struct VECTOR_BLF_EXPORT LinReceiveError2 final : ObjectHeader, LinDatabyteTimes
      *   - 3: Unexpected Break field
      *   - 4: Unidentified error
      */
-    BYTE stateReason {};
+    uint8_t stateReason {};
 
     /**
      * Byte value that resulted the
@@ -130,7 +129,7 @@ struct VECTOR_BLF_EXPORT LinReceiveError2 final : ObjectHeader, LinDatabyteTimes
      * valid for certain values of
      * mStateReason
      */
-    BYTE offendingByte {};
+    uint8_t offendingByte {};
 
     /**
      * Specifies the detail level of
@@ -141,7 +140,7 @@ struct VECTOR_BLF_EXPORT LinReceiveError2 final : ObjectHeader, LinDatabyteTimes
      * Most members are not valid
      * unless this member is 1
      */
-    BYTE shortError {};
+    uint8_t shortError {};
 
     /**
      * Flag indicating if the error is
@@ -152,7 +151,7 @@ struct VECTOR_BLF_EXPORT LinReceiveError2 final : ObjectHeader, LinDatabyteTimes
      *   - 0: False
      *   - 1: True
      */
-    BYTE timeoutDuringDlcDetection {};
+    uint8_t timeoutDuringDlcDetection {};
 
     /**
      * @brief ETF collision flag
@@ -163,14 +162,14 @@ struct VECTOR_BLF_EXPORT LinReceiveError2 final : ObjectHeader, LinDatabyteTimes
      *   - 0: not ETF
      *   - 1: ETF
      */
-    BYTE isEtf {};
+    uint8_t isEtf {};
 
     /**
      * Flag indicating whether at
      * least one data byte value is
      * valid
      */
-    BYTE hasDatabytes {};
+    uint8_t hasDatabytes {};
 
     /* the following variables are only available in Version 2 and above */
 
@@ -181,10 +180,10 @@ struct VECTOR_BLF_EXPORT LinReceiveError2 final : ObjectHeader, LinDatabyteTimes
      * measured in response [in
      * bits/sec]
      */
-    DWORD respBaudrate {};
+    uint32_t respBaudrate {};
 
     /** reserved */
-    DWORD reservedLinReceiveError {};
+    uint32_t reservedLinReceiveError {};
 
     /* the following variables are only available in Version 3 and above */
 
@@ -195,7 +194,7 @@ struct VECTOR_BLF_EXPORT LinReceiveError2 final : ObjectHeader, LinDatabyteTimes
      * measured in header [in
      * bits/sec]
      */
-    DOUBLE exactHeaderBaudrate {};
+    double exactHeaderBaudrate {};
 
     /**
      * @brief Early stop bit offset for UART timestamps in ns
@@ -204,7 +203,7 @@ struct VECTOR_BLF_EXPORT LinReceiveError2 final : ObjectHeader, LinDatabyteTimes
      * frame header for UART
      * timestamps [in ns]
      */
-    DWORD earlyStopbitOffset {};
+    uint32_t earlyStopbitOffset {};
 
     /**
      * @brief Early stop bit offset in frame response for UART timestamps in ns
@@ -213,7 +212,7 @@ struct VECTOR_BLF_EXPORT LinReceiveError2 final : ObjectHeader, LinDatabyteTimes
      * frame response for
      * UART timestamps [in ns]
      */
-    DWORD earlyStopbitOffsetResponse {};
+    uint32_t earlyStopbitOffsetResponse {};
 };
 
 }

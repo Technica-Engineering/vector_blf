@@ -27,7 +27,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -42,10 +41,10 @@ struct VECTOR_BLF_EXPORT FunctionBus final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /** enumeration for functionBusObjectType */
-    enum FunctionBusObjectType : DWORD {
+    enum FunctionBusObjectType : uint32_t {
         Undefined = 0,
         Signal = 1,
         ServiceFunction = 2,
@@ -53,21 +52,21 @@ struct VECTOR_BLF_EXPORT FunctionBus final : ObjectHeader {
     };
 
     /** type of system variable */
-    DWORD functionBusObjectType {};
+    uint32_t functionBusObjectType {};
 
-    DWORD veType {};
+    uint32_t veType {};
 
     /** length of variable name in bytes */
-    DWORD nameLength {};
+    uint32_t nameLength {};
 
     /** length of variable data in bytes */
-    DWORD dataLength {};
+    uint32_t dataLength {};
 
     /** path name in the port server */
     std::string name {};
 
     /** variable data */
-    std::vector<BYTE> data {};
+    std::vector<uint8_t> data {};
 };
 
 }

@@ -39,7 +39,7 @@ BOOST_AUTO_TEST_CASE(SerialEvent_1) {
 
     /* GeneralSerialEvent */
     BOOST_CHECK_EQUAL(obj->general.dataLength, 3);
-    BOOST_CHECK_EQUAL(obj->general.timeStampsLength, 3 * sizeof(Vector::BLF::LONGLONG));
+    BOOST_CHECK_EQUAL(obj->general.timeStampsLength, 3 * sizeof(int64_t));
     BOOST_CHECK_EQUAL(obj->general.data[0], 0x11);
     BOOST_CHECK_EQUAL(obj->general.data[1], 0x22);
     BOOST_CHECK_EQUAL(obj->general.data[2], 0x33);

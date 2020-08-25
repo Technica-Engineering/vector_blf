@@ -42,7 +42,7 @@ void LinSpikeEvent::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&width), sizeof(width));
 }
 
-DWORD LinSpikeEvent::calculateObjectSize() const {
+uint32_t LinSpikeEvent::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

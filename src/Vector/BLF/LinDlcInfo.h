@@ -25,7 +25,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -44,31 +43,31 @@ struct VECTOR_BLF_EXPORT LinDlcInfo final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      *
      * Channel number where the frame sent/received.
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /**
      * @brief LIN ID
      *
      * Frame identifier
      */
-    BYTE id {};
+    uint8_t id {};
 
     /**
      * @brief LIN DLC
      *
      * Frame length
      */
-    BYTE dlc {};
+    uint8_t dlc {};
 
     /** reserved */
-    DWORD reservedLinDlcInfo {};
+    uint32_t reservedLinDlcInfo {};
 };
 
 }

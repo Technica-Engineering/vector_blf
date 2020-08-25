@@ -52,7 +52,7 @@ void MostReg::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(regData.data()), static_cast<std::streamsize>(regData.size()));
 }
 
-DWORD MostReg::calculateObjectSize() const {
+uint32_t MostReg::calculateObjectSize() const {
     return
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +
@@ -62,7 +62,7 @@ DWORD MostReg::calculateObjectSize() const {
         sizeof(offset) +
         sizeof(chip) +
         sizeof(regDataLen) +
-        static_cast<DWORD>(regData.size());
+        static_cast<uint32_t>(regData.size());
 }
 
 }

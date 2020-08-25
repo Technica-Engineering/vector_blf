@@ -69,8 +69,8 @@ void SerialEvent::write(AbstractFile & os) {
     os.skipp(objectSize % 4);
 }
 
-DWORD SerialEvent::calculateObjectSize() const {
-    DWORD size =
+uint32_t SerialEvent::calculateObjectSize() const {
+    uint32_t size =
         ObjectHeader::calculateObjectSize() +
         sizeof(flags) +
         sizeof(port) +

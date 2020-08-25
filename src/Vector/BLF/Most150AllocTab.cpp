@@ -44,7 +44,7 @@ void Most150AllocTab::read(AbstractFile & is) {
 
 void Most150AllocTab::write(AbstractFile & os) {
     /* pre processing */
-    length = static_cast<WORD>(tableData.size());
+    length = static_cast<uint16_t>(tableData.size());
 
     ObjectHeader2::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
@@ -58,7 +58,7 @@ void Most150AllocTab::write(AbstractFile & os) {
     os.skipp(objectSize % 4);
 }
 
-DWORD Most150AllocTab::calculateObjectSize() const {
+uint32_t Most150AllocTab::calculateObjectSize() const {
     return
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +

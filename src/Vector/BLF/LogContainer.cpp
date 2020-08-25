@@ -49,7 +49,7 @@ void LogContainer::read(AbstractFile & is) {
 
 void LogContainer::write(AbstractFile & os) {
     /* pre processing */
-    compressedFileSize = static_cast<DWORD>(compressedFile.size());
+    compressedFileSize = static_cast<uint32_t>(compressedFile.size());
 
     ObjectHeaderBase::write(os);
     os.write(reinterpret_cast<char *>(&compressionMethod), sizeof(compressionMethod));
@@ -63,13 +63,13 @@ void LogContainer::write(AbstractFile & os) {
     os.skipp(objectSize % 4);
 }
 
-DWORD LogContainer::calculateObjectSize() const {
+uint32_t LogContainer::calculateObjectSize() const {
     return
         internalHeaderSize() +
-        static_cast<DWORD>(compressedFile.size());
+        static_cast<uint32_t>(compressedFile.size());
 }
 
-WORD LogContainer::internalHeaderSize() const {
+uint16_t LogContainer::internalHeaderSize() const {
     return
         ObjectHeaderBase::calculateHeaderSize() +
         sizeof(compressionMethod) +
@@ -108,7 +108,7 @@ void LogContainer::uncompress() {
     }
 }
 
-void LogContainer::compress(const WORD compressionMethod, const int compressionLevel) {
+void LogContainer::compress(const uint16_t compressionMethod, const int compressionLevel) {
     this->compressionMethod = compressionMethod;
 
     switch (compressionMethod) {
@@ -129,7 +129,7 @@ void LogContainer::compress(const WORD compressionMethod, const int compressionL
                          compressionLevel);
         if (retVal != Z_OK)
             throw Exception("File::uncompressedFile2CompressedFile(): compress2 error");
-        compressedFileSize = static_cast<DWORD>(compressedBufferSize);
+        compressedFileSize = static_cast<uint32_t>(compressedBufferSize);
         compressedFile.resize(compressedFileSize); // shrink
     }
     break;

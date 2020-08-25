@@ -27,7 +27,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -44,14 +43,14 @@ struct VECTOR_BLF_EXPORT MostCtrl final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      *
      * Channel the message was sent or received.
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /**
      * Direction of message events:
@@ -59,28 +58,28 @@ struct VECTOR_BLF_EXPORT MostCtrl final : ObjectHeader {
      *   - 1: Tx (transmit receipt)
      *   - 2: Tx Request (transmit request)
      */
-    BYTE dir {};
+    uint8_t dir {};
 
     /** reserved */
-    BYTE reservedMostCtrl1 {};
+    uint8_t reservedMostCtrl1 {};
 
     /**
      * Source address
      */
-    DWORD sourceAdr {};
+    uint32_t sourceAdr {};
 
     /**
      * Target address
      */
-    DWORD destAdr {};
+    uint32_t destAdr {};
 
     /**
      * 17 data bytes
      */
-    std::array<BYTE, 17> msg {};
+    std::array<uint8_t, 17> msg {};
 
     /** reserved */
-    BYTE reservedMostCtrl2 {};
+    uint8_t reservedMostCtrl2 {};
 
     /**
      * @brief Control message sub type
@@ -94,7 +93,7 @@ struct VECTOR_BLF_EXPORT MostCtrl final : ObjectHeader {
      *   - 5: GetSource
      *   - >5: not used so far
      */
-    WORD rTyp {};
+    uint16_t rTyp {};
 
     /**
      * @brief Addressing mode
@@ -106,7 +105,7 @@ struct VECTOR_BLF_EXPORT MostCtrl final : ObjectHeader {
      *   - 0x30: Groupcast
      *   - 0xFF: Unknown
      */
-    BYTE rTypAdr {};
+    uint8_t rTypAdr {};
 
     /**
      * @brief Transmission state MOST25
@@ -141,10 +140,10 @@ struct VECTOR_BLF_EXPORT MostCtrl final : ObjectHeader {
      *     Restriction:
      *     - only for Dir = Tx (MOSTCtrl)
      */
-    BYTE state {};
+    uint8_t state {};
 
     /** reserved */
-    BYTE reservedMostCtrl3 {};
+    uint8_t reservedMostCtrl3 {};
 
     /**
      * @brief acknowledge bits
@@ -183,10 +182,10 @@ struct VECTOR_BLF_EXPORT MostCtrl final : ObjectHeader {
      *     Restriction:
      *       - only for Dir = Tx or spy messages
      */
-    BYTE ackNack {};
+    uint8_t ackNack {};
 
     /** reserved */
-    DWORD reservedMostCtrl4 {};
+    uint32_t reservedMostCtrl4 {};
 };
 
 }

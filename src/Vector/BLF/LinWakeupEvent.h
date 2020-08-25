@@ -25,7 +25,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -44,19 +43,19 @@ struct VECTOR_BLF_EXPORT LinWakeupEvent final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      *
      * Channel number where the frame sent/received.
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /**
      * Byte value used by wakeup frame.
      */
-    BYTE signal {};
+    uint8_t signal {};
 
     /**
      * Flag indicating whether the wakeup frame has
@@ -64,10 +63,10 @@ struct VECTOR_BLF_EXPORT LinWakeupEvent final : ObjectHeader {
      * set) or by the LIN hardware itself (selector not
      * set).
      */
-    BYTE external {};
+    uint8_t external {};
 
     /** reserved */
-    DWORD reservedLinWakeupEvent {};
+    uint32_t reservedLinWakeupEvent {};
 };
 
 }

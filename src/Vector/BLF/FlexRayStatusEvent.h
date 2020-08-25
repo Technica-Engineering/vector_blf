@@ -27,7 +27,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -44,40 +43,40 @@ struct VECTOR_BLF_EXPORT FlexRayStatusEvent final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /**
      * @brief object version
      */
-    WORD version {};
+    uint16_t version {};
 
     /**
      * @brief type of status event
      */
-    WORD statusType {};
+    uint16_t statusType {};
 
     /**
      * @brief additional info 1
      */
-    WORD infoMask1 {};
+    uint16_t infoMask1 {};
 
     /**
      * @brief additional info 2
      */
-    WORD infoMask2 {};
+    uint16_t infoMask2 {};
 
     /**
      * @brief additional info 3
      */
-    WORD infoMask3 {};
+    uint16_t infoMask3 {};
 
     /** reserved */
-    std::array<WORD, 18> reservedFlexRayStatusEvent {};
+    std::array<uint16_t, 18> reservedFlexRayStatusEvent {};
 };
 
 }

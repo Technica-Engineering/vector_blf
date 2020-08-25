@@ -27,7 +27,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -44,58 +43,58 @@ struct VECTOR_BLF_EXPORT A429Message final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /** data */
-    std::array<BYTE, 4> a429Data {};
+    std::array<uint8_t, 4> a429Data {};
 
     /** application channel */
-    WORD channel {};
+    uint16_t channel {};
 
     /** direction flag: 0=Rx, 1=Tx */
-    BYTE dir {};
+    uint8_t dir {};
 
     /** reserved */
-    BYTE reservedA429Message1 {};
+    uint8_t reservedA429Message1 {};
 
     /** bitrate */
-    ULONG bitrate {};
+    uint32_t bitrate {};
 
     /** error reason */
-    LONG errReason {};
+    int32_t errReason {};
 
     /** error position */
-    WORD errPosition {};
+    uint16_t errPosition {};
 
     /** reserved */
-    WORD reservedA429Message2 {};
+    uint16_t reservedA429Message2 {};
 
     /** reserved */
-    DWORD reservedA429Message3 {};
+    uint32_t reservedA429Message3 {};
 
     /** frame gap */
-    ULONGLONG frameGap {};
+    uint64_t frameGap {};
 
     /** frame length */
-    ULONG frameLength {};
+    uint32_t frameLength {};
 
     /** message control */
-    WORD msgCtrl {};
+    uint16_t msgCtrl {};
 
     /** reserved */
-    WORD reservedA429Message4 {};
+    uint16_t reservedA429Message4 {};
 
     /** cycle time */
-    ULONG cycleTime {};
+    uint32_t cycleTime {};
 
     /** error */
-    ULONG error {};
+    uint32_t error {};
 
     /** bit length of last bit */
-    ULONG bitLenOfLastBit {};
+    uint32_t bitLenOfLastBit {};
 
     /** reserved */
-    DWORD reservedA429Message5 {};
+    uint32_t reservedA429Message5 {};
 };
 
 }

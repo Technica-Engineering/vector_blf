@@ -55,7 +55,7 @@ void MostEthernetPkt::read(AbstractFile & is) {
 
 void MostEthernetPkt::write(AbstractFile & os) {
     /* pre processing */
-    pktDataLength = static_cast<DWORD>(pktData.size());
+    pktDataLength = static_cast<uint32_t>(pktData.size());
 
     ObjectHeader2::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
@@ -80,7 +80,7 @@ void MostEthernetPkt::write(AbstractFile & os) {
     os.skipp(objectSize % 4);
 }
 
-DWORD MostEthernetPkt::calculateObjectSize() const {
+uint32_t MostEthernetPkt::calculateObjectSize() const {
     return
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +

@@ -46,7 +46,7 @@ void MostStatistic::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&bufferLevel), sizeof(bufferLevel));
 }
 
-DWORD MostStatistic::calculateObjectSize() const {
+uint32_t MostStatistic::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

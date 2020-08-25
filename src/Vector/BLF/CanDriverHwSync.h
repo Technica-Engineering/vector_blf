@@ -25,7 +25,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -42,17 +41,17 @@ struct VECTOR_BLF_EXPORT CanDriverHwSync final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief channel where sync occured
      *
      * Application channel
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /** enumeration for flags */
-    enum Flags : BYTE {
+    enum Flags : uint8_t {
         /** sync was sent from this channel */
         Tx = 1,
 
@@ -64,13 +63,13 @@ struct VECTOR_BLF_EXPORT CanDriverHwSync final : ObjectHeader {
     };
 
     /** flags */
-    BYTE flags {};
+    uint8_t flags {};
 
     /** reserved */
-    BYTE reservedCanDriverHwSync1 {};
+    uint8_t reservedCanDriverHwSync1 {};
 
     /** reserved */
-    DWORD reservedCanDriverHwSync2 {};
+    uint32_t reservedCanDriverHwSync2 {};
 };
 
 }

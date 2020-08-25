@@ -67,7 +67,7 @@ void AfdxStatistic::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&statDuration), sizeof(statDuration));
 }
 
-DWORD AfdxStatistic::calculateObjectSize() const {
+uint32_t AfdxStatistic::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

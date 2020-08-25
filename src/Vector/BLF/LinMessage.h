@@ -27,7 +27,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -46,60 +45,60 @@ struct VECTOR_BLF_EXPORT LinMessage final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      *
      * Channel number where the frame sent/received.
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /**
      * @brief LIN ID
      *
      * Frame identifier
      */
-    BYTE id {};
+    uint8_t id {};
 
     /**
      * @brief LIN DLC
      *
      * Frame length
      */
-    BYTE dlc {};
+    uint8_t dlc {};
 
     /**
      * Databyte values
      */
-    std::array<BYTE, 8> data {};
+    std::array<uint8_t, 8> data {};
 
     /**
      * Slave Identifier in the Final State Machine
      * (obsolete)
      */
-    BYTE fsmId {};
+    uint8_t fsmId {};
 
     /**
      * State Identifier of a Slave in the Final State
      * Machine (obsolete)
      */
-    BYTE fsmState {};
+    uint8_t fsmState {};
 
     /**
      * Duration of the frame header [in bit times]
      */
-    BYTE headerTime {};
+    uint8_t headerTime {};
 
     /**
      * Duration of the entire frame [in bit times]
      */
-    BYTE fullTime {};
+    uint8_t fullTime {};
 
     /**
      * Checksum byte value
      */
-    WORD crc {};
+    uint16_t crc {};
 
     /**
      * @brief direction
@@ -109,13 +108,13 @@ struct VECTOR_BLF_EXPORT LinMessage final : ObjectHeader {
      *   - 1: Tx (transmit receipt)
      *   - 2: Tx Request (transmit request)
      */
-    BYTE dir {};
+    uint8_t dir {};
 
     /** reserved */
-    BYTE reservedLinMessage1 {};
+    uint8_t reservedLinMessage1 {};
 
     /** reserved */
-    DWORD reservedLinMessage2 {};
+    uint32_t reservedLinMessage2 {};
 };
 
 }

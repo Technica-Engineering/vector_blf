@@ -25,7 +25,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader2.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -44,24 +43,24 @@ struct VECTOR_BLF_EXPORT MostTxLight final : ObjectHeader2 {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      *
      * Application channel
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /**
      * - 0 – TxLight/Signal off
      * - 1 – TxLight/Signal enabled
      * - 2 – TxLight/Signal forced on
      */
-    WORD state {};
+    uint16_t state {};
 
     /** reserved */
-    DWORD reservedMostTxLight {};
+    uint32_t reservedMostTxLight {};
 };
 
 }

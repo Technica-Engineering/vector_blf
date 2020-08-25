@@ -44,7 +44,7 @@ void MostNetState::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&reservedMostNetState), sizeof(reservedMostNetState));
 }
 
-DWORD MostNetState::calculateObjectSize() const {
+uint32_t MostNetState::calculateObjectSize() const {
     return
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +

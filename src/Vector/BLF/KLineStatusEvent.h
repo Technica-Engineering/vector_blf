@@ -27,7 +27,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -42,10 +41,10 @@ struct VECTOR_BLF_EXPORT KLineStatusEvent final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /** enumeration for type */
-    enum Type : WORD {
+    enum Type : uint16_t {
         /** If set in type, direction is tester -> ECU */
         toEcu = 0x8000,
 
@@ -56,25 +55,25 @@ struct VECTOR_BLF_EXPORT KLineStatusEvent final : ObjectHeader {
     /**
      * @brief BusSystemFacility::VKLineStatusEventType
      */
-    WORD type {};
+    uint16_t type {};
 
     /**
      * @brief number of *bytes* used in data
      */
-    WORD dataLen {};
+    uint16_t dataLen {};
 
     /**
      * @brief channel of event
      */
-    DWORD port {};
+    uint32_t port {};
 
     /** reserved */
-    ULONGLONG reservedKLineStatusEvent {};
+    uint64_t reservedKLineStatusEvent {};
 
     /**
      * @brief the actual data, but only dataLen BYTES are used!
      */
-    std::array<UINT64, 3> data {};
+    std::array<uint64_t, 3> data {};
 };
 
 }

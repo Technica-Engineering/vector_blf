@@ -27,7 +27,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -48,21 +47,21 @@ struct VECTOR_BLF_EXPORT FlexRayVFrStatus final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      *
      * Application channel
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /**
      * @brief object version
      *
      * Object version, for internal use
      */
-    WORD version {};
+    uint16_t version {};
 
     /**
      * @brief channel mask
@@ -73,17 +72,17 @@ struct VECTOR_BLF_EXPORT FlexRayVFrStatus final : ObjectHeader {
      *   - 2 = FlexRay Channel B
      *   - 3 = FlexRay Channels A and B
      */
-    WORD channelMask {};
+    uint16_t channelMask {};
 
     /**
      * @brief current cycle
      *
      * Cycle number
      */
-    BYTE cycle {};
+    uint8_t cycle {};
 
     /** reserved */
-    BYTE reservedFlexRayVFrStatus1 {};
+    uint8_t reservedFlexRayVFrStatus1 {};
 
     /**
      * @brief clientindex of send node
@@ -91,14 +90,14 @@ struct VECTOR_BLF_EXPORT FlexRayVFrStatus final : ObjectHeader {
      * Client index of send node. Must be set to 0 if file is
      * written from other applications
      */
-    DWORD clientIndexFlexRayVFrStatus {};
+    uint32_t clientIndexFlexRayVFrStatus {};
 
     /**
      * @brief number of cluster
      *
      * Number of cluster: channel number – 1
      */
-    DWORD clusterNo {};
+    uint32_t clusterNo {};
 
     /**
      * @brief wakeup status
@@ -119,7 +118,7 @@ struct VECTOR_BLF_EXPORT FlexRayVFrStatus final : ObjectHeader {
      *   - 7: EXTERNAL_WAKEUP
      *   - 8: WUP_RECEIVED_WITHOUT_WUS_TX
      */
-    DWORD wus {};
+    uint32_t wus {};
 
     /**
      * @brief sync state of cc
@@ -133,7 +132,7 @@ struct VECTOR_BLF_EXPORT FlexRayVFrStatus final : ObjectHeader {
      *   - 1 = Synced active
      *   - 2 = Not synced
      */
-    DWORD ccSyncState {};
+    uint32_t ccSyncState {};
 
     /**
      * @brief type of cc
@@ -147,7 +146,7 @@ struct VECTOR_BLF_EXPORT FlexRayVFrStatus final : ObjectHeader {
      *   - 5 = Vector VN interface
      *   - 6 = VN-Sync-Pulse (only in Status Event, for debugging purposes only)
      */
-    DWORD tag {};
+    uint32_t tag {};
 
     /**
      * @brief register flags
@@ -213,7 +212,7 @@ struct VECTOR_BLF_EXPORT FlexRayVFrStatus final : ObjectHeader {
      *     Symbol length in bit times. Only valid for symbol type 4 and if the value is not
      *     zero.
      */
-    std::array<DWORD, 2> data {};
+    std::array<uint32_t, 2> data {};
 
     /**
      * @brief reserved
@@ -233,7 +232,7 @@ struct VECTOR_BLF_EXPORT FlexRayVFrStatus final : ObjectHeader {
      * reserved[1..15]:
      * Reserved
      */
-    std::array<WORD, 18> reservedFlexRayVFrStatus2 {};
+    std::array<uint16_t, 18> reservedFlexRayVFrStatus2 {};
 };
 
 }

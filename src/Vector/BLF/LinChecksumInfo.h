@@ -25,7 +25,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -44,21 +43,21 @@ struct VECTOR_BLF_EXPORT LinChecksumInfo final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      *
      * Channel number where the event notified
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /**
      * @brief LIN ID
      *
      * Frame identifier
      */
-    BYTE id {};
+    uint8_t id {};
 
     /**
      * @brief LIN checksum model
@@ -69,10 +68,10 @@ struct VECTOR_BLF_EXPORT LinChecksumInfo final : ObjectHeader {
      *   - 1: Enhanced
      *   - 0xFF: Unknown
      */
-    BYTE checksumModel {};
+    uint8_t checksumModel {};
 
     /** reserved */
-    DWORD reservedLinChecksumInfo {};
+    uint32_t reservedLinChecksumInfo {};
 };
 
 }

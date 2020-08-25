@@ -28,7 +28,6 @@
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/LinDatabyteTimestampEvent.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -46,14 +45,14 @@ struct VECTOR_BLF_EXPORT LinShortOrSlowResponse final : ObjectHeader, LinDatabyt
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief number of valid response bytes
      *
      * The number of response bytes.
      */
-    ULONG numberOfRespBytes {};
+    uint32_t numberOfRespBytes {};
 
     /**
      * @brief the response bytes (can include the checksum)
@@ -61,7 +60,7 @@ struct VECTOR_BLF_EXPORT LinShortOrSlowResponse final : ObjectHeader, LinDatabyt
      * The response bytes (can include the
      * checksum).
      */
-    std::array<BYTE, 9> respBytes {};
+    std::array<uint8_t, 9> respBytes {};
 
     /**
      * @brief non-zero, if the response was too slow
@@ -69,7 +68,7 @@ struct VECTOR_BLF_EXPORT LinShortOrSlowResponse final : ObjectHeader, LinDatabyt
      * Non-zero, if the response was too
      * slow; otherwise zero.
      */
-    BYTE slowResponse {};
+    uint8_t slowResponse {};
 
     /**
      * @brief non-zero, if the response was interrupted by a sync break
@@ -78,10 +77,10 @@ struct VECTOR_BLF_EXPORT LinShortOrSlowResponse final : ObjectHeader, LinDatabyt
      * interrupted by a sync break;
      * otherwise zero.
      */
-    BYTE interruptedByBreak {};
+    uint8_t interruptedByBreak {};
 
     /** reserved */
-    BYTE reservedLinShortOrSlowResponse {};
+    uint8_t reservedLinShortOrSlowResponse {};
 };
 
 }

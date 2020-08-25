@@ -25,7 +25,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -40,15 +39,15 @@ struct VECTOR_BLF_EXPORT TestStructure final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief unique ID identifying the executing test module or test configuration
      */
-    DWORD executionObjectIdentify {};
+    uint32_t executionObjectIdentify {};
 
     /** enumeration for type */
-    enum Type : WORD {
+    enum Type : uint16_t {
         TM_TESTMODULE = 1,
         TM_TESTGROUP = 2,
         TM_TESTCASE = 3,
@@ -65,18 +64,18 @@ struct VECTOR_BLF_EXPORT TestStructure final : ObjectHeader {
     /**
      * @brief type of structure element, see BL_TESTSTRUCT_TYPE_xxx
      */
-    WORD type {};
+    uint16_t type {};
 
     /** reserved */
-    WORD reservedTestStructure {};
+    uint16_t reservedTestStructure {};
 
     /**
      * @brief unique number of structure element (in this test run, transitive, can be used to correlate begin/end events)
      */
-    DWORD uniqueNo {};
+    uint32_t uniqueNo {};
 
     /** enumeration for action */
-    enum Action : WORD {
+    enum Action : uint16_t {
         BEGIN = 1,
         END = 2,
 
@@ -90,10 +89,10 @@ struct VECTOR_BLF_EXPORT TestStructure final : ObjectHeader {
     /**
      * @brief indicates begin/end of structure element, see BL_TESTSTRUCT_ACTION_xxx
      */
-    WORD action {};
+    uint16_t action {};
 
     /** enumeration for result */
-    enum Result : WORD {
+    enum Result : uint16_t {
         UNDEFINED = 0,
         NONE = 1,
         PASSED = 2,
@@ -105,22 +104,22 @@ struct VECTOR_BLF_EXPORT TestStructure final : ObjectHeader {
     /**
      * @brief overall result (verdict) for end of structure element events
      */
-    WORD result {};
+    uint16_t result {};
 
     /**
      * @brief string length in wchar_t's for executingObjectName
      */
-    DWORD executingObjectNameLength {};
+    uint32_t executingObjectNameLength {};
 
     /**
      * @brief string length in wchar_t's for name
      */
-    DWORD nameLength {};
+    uint32_t nameLength {};
 
     /**
      * @brief string length in wchar_t's for text
      */
-    DWORD textLength {};
+    uint32_t textLength {};
 
     /**
      * @brief name of the executing test module or test configuration as shown in CANoe (wchar_t)

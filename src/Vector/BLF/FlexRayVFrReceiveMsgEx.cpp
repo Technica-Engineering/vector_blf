@@ -51,14 +51,14 @@ void FlexRayVFrReceiveMsgEx::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&frameId1), sizeof(frameId1));
     is.read(reinterpret_cast<char *>(&pduOffset), sizeof(pduOffset));
     is.read(reinterpret_cast<char *>(&blfLogMask), sizeof(blfLogMask));
-    is.read(reinterpret_cast<char *>(reservedFlexRayVFrReceiveMsgEx.data()), static_cast<std::streamsize>(reservedFlexRayVFrReceiveMsgEx.size() * sizeof(WORD)));
+    is.read(reinterpret_cast<char *>(reservedFlexRayVFrReceiveMsgEx.data()), static_cast<std::streamsize>(reservedFlexRayVFrReceiveMsgEx.size() * sizeof(uint16_t)));
     dataBytes.resize(dataCount);
     is.read(reinterpret_cast<char *>(dataBytes.data()), static_cast<std::streamsize>(dataCount));
 }
 
 void FlexRayVFrReceiveMsgEx::write(AbstractFile & os) {
     /* pre processing */
-    dataCount = static_cast<WORD>(dataBytes.size());
+    dataCount = static_cast<uint16_t>(dataBytes.size());
 
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
@@ -82,12 +82,12 @@ void FlexRayVFrReceiveMsgEx::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&frameId1), sizeof(frameId1));
     os.write(reinterpret_cast<char *>(&pduOffset), sizeof(pduOffset));
     os.write(reinterpret_cast<char *>(&blfLogMask), sizeof(blfLogMask));
-    os.write(reinterpret_cast<char *>(reservedFlexRayVFrReceiveMsgEx.data()), static_cast<std::streamsize>(reservedFlexRayVFrReceiveMsgEx.size() * sizeof(WORD)));
+    os.write(reinterpret_cast<char *>(reservedFlexRayVFrReceiveMsgEx.data()), static_cast<std::streamsize>(reservedFlexRayVFrReceiveMsgEx.size() * sizeof(uint16_t)));
     os.write(reinterpret_cast<char *>(dataBytes.data()), static_cast<std::streamsize>(dataCount));
 }
 
-DWORD FlexRayVFrReceiveMsgEx::calculateObjectSize() const {
-    DWORD size =
+uint32_t FlexRayVFrReceiveMsgEx::calculateObjectSize() const {
+    uint32_t size =
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(version) +
@@ -110,7 +110,7 @@ DWORD FlexRayVFrReceiveMsgEx::calculateObjectSize() const {
         sizeof(frameId1) +
         sizeof(pduOffset) +
         sizeof(blfLogMask) +
-        static_cast<DWORD>(reservedFlexRayVFrReceiveMsgEx.size() * sizeof(WORD)) +
+        static_cast<uint32_t>(reservedFlexRayVFrReceiveMsgEx.size() * sizeof(uint16_t)) +
         dataCount;
 
     return size;

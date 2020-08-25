@@ -44,7 +44,7 @@ void LinSlaveTimeout::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&followStateId), sizeof(followStateId));
 }
 
-DWORD LinSlaveTimeout::calculateObjectSize() const {
+uint32_t LinSlaveTimeout::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

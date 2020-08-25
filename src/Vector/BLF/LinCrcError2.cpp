@@ -63,11 +63,11 @@ void LinCrcError2::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&earlyStopbitOffsetResponse), sizeof(earlyStopbitOffsetResponse));
 }
 
-DWORD LinCrcError2::calculateObjectSize() const {
+uint32_t LinCrcError2::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         LinDatabyteTimestampEvent::calculateObjectSize() +
-        static_cast<DWORD>(data.size()) +
+        static_cast<uint32_t>(data.size()) +
         sizeof(crc) +
         sizeof(dir) +
         sizeof(fsmId) +

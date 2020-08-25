@@ -27,7 +27,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -44,39 +43,39 @@ struct VECTOR_BLF_EXPORT FlexRaySync final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /** multiplexer */
-    BYTE mux {};
+    uint8_t mux {};
 
     /** length */
-    BYTE len {};
+    uint8_t len {};
 
     /** message id */
-    WORD messageId {};
+    uint16_t messageId {};
 
     /** CRC */
-    WORD crc {};
+    uint16_t crc {};
 
     /** direction */
-    BYTE dir {};
+    uint8_t dir {};
 
     /** reserved */
-    BYTE reservedFlexRaySync1 {};
+    uint8_t reservedFlexRaySync1 {};
 
     /** reserved */
-    WORD reservedFlexRaySync2 {};
+    uint16_t reservedFlexRaySync2 {};
 
     /** data bytes */
-    std::array<BYTE, 11> dataBytes {};
+    std::array<uint8_t, 11> dataBytes {};
 
     /** cycle */
-    BYTE cycle {};
+    uint8_t cycle {};
 };
 
 }

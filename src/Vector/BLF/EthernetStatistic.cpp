@@ -62,7 +62,7 @@ void EthernetStatistic::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&reservedEthernetStatistic3), sizeof(reservedEthernetStatistic3));
 }
 
-DWORD EthernetStatistic::calculateObjectSize() const {
+uint32_t EthernetStatistic::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

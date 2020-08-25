@@ -48,7 +48,7 @@ void CanFdMessage::read(AbstractFile & is) {
 
 void CanFdMessage::write(AbstractFile & os) {
     /* pre processing */
-    validDataBytes = static_cast<WORD>(data.size());
+    validDataBytes = static_cast<uint16_t>(data.size());
 
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
@@ -65,7 +65,7 @@ void CanFdMessage::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&reservedCanFdMessage3), sizeof(reservedCanFdMessage3));
 }
 
-DWORD CanFdMessage::calculateObjectSize() const {
+uint32_t CanFdMessage::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
@@ -78,7 +78,7 @@ DWORD CanFdMessage::calculateObjectSize() const {
         sizeof(validDataBytes) +
         sizeof(reservedCanFdMessage1) +
         sizeof(reservedCanFdMessage2) +
-        static_cast<DWORD>(data.size()) +
+        static_cast<uint32_t>(data.size()) +
         sizeof(reservedCanFdMessage3);
 }
 

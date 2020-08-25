@@ -25,7 +25,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -40,23 +39,23 @@ struct VECTOR_BLF_EXPORT DataLostEnd final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /** enumeration for queueIdentifier */
-    enum QueueIdentifier : DWORD {
+    enum QueueIdentifier : uint32_t {
         RtQueue = 0,
         AnlyzQueue = 1,
         RtAndAnlyzQueue = 2
     };
 
     /** identifier for the leaking queue */
-    DWORD queueIdentifier {};
+    uint32_t queueIdentifier {};
 
     /** timestamp of the first object lost */
-    ULONGLONG firstObjectLostTimeStamp {};
+    uint64_t firstObjectLostTimeStamp {};
 
     /** number of lost events */
-    DWORD numberOfLostEvents {};
+    uint32_t numberOfLostEvents {};
 };
 
 }

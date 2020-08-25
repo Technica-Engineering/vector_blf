@@ -28,7 +28,6 @@
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/LinDatabyteTimestampEvent.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -46,21 +45,21 @@ struct VECTOR_BLF_EXPORT LinCrcError2 final : ObjectHeader, LinDatabyteTimestamp
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief data bytes.
      *
      * Data byte values
      */
-    std::array<BYTE, 8> data {};
+    std::array<uint8_t, 8> data {};
 
     /**
      * @brief checksum byte
      *
      * Checksum byte value
      */
-    WORD crc {};
+    uint16_t crc {};
 
     /**
      * @brief direction
@@ -70,19 +69,19 @@ struct VECTOR_BLF_EXPORT LinCrcError2 final : ObjectHeader, LinDatabyteTimestamp
      *   - 1: Tx (transmit receipt)
      *   - 2: Tx Request (transmit request)
      */
-    BYTE dir {};
+    uint8_t dir {};
 
     /**
      * Slave Identifier in the Final State
      * Machine (obsolete)
      */
-    BYTE fsmId {};
+    uint8_t fsmId {};
 
     /**
      * State Identifier of a Slave in the
      * Final State Machine (obsolete)
      */
-    BYTE fsmState {};
+    uint8_t fsmState {};
 
     /**
      * @brief simulated frame
@@ -92,10 +91,10 @@ struct VECTOR_BLF_EXPORT LinCrcError2 final : ObjectHeader, LinDatabyteTimestamp
      *   - 0: real frame
      *   - 1: simulated frame
      */
-    BYTE simulated {};
+    uint8_t simulated {};
 
     /** reserved */
-    WORD reservedLinCrcError1 {};
+    uint16_t reservedLinCrcError1 {};
 
     /* the following variables are only available in Version 2 and above */
 
@@ -105,10 +104,10 @@ struct VECTOR_BLF_EXPORT LinCrcError2 final : ObjectHeader, LinDatabyteTimestamp
      * Event’s baudrate measured in
      * response [in bits/sec]
      */
-    DWORD respBaudrate {};
+    uint32_t respBaudrate {};
 
     /** reserved */
-    DWORD reservedLinCrcError2 {};
+    uint32_t reservedLinCrcError2 {};
 
     /* the following variables are only available in Version 3 and above */
 
@@ -119,7 +118,7 @@ struct VECTOR_BLF_EXPORT LinCrcError2 final : ObjectHeader, LinDatabyteTimestamp
      * measured in header [in
      * bits/sec]
      */
-    DOUBLE exactHeaderBaudrate {};
+    double exactHeaderBaudrate {};
 
     /**
      * @brief Early stop bit offset for UART timestamps in ns
@@ -128,7 +127,7 @@ struct VECTOR_BLF_EXPORT LinCrcError2 final : ObjectHeader, LinDatabyteTimestamp
      * frame header for UART
      * timestamps [in ns]
      */
-    DWORD earlyStopbitOffset {};
+    uint32_t earlyStopbitOffset {};
 
     /**
      * @brief Early stop bit offset in frame response for UART timestamps in ns
@@ -137,7 +136,7 @@ struct VECTOR_BLF_EXPORT LinCrcError2 final : ObjectHeader, LinDatabyteTimestamp
      * frame response for
      * UART timestamps [in ns]
      */
-    DWORD earlyStopbitOffsetResponse {};
+    uint32_t earlyStopbitOffsetResponse {};
 };
 
 }

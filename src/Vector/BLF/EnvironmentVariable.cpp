@@ -52,8 +52,8 @@ void EnvironmentVariable::read(AbstractFile & is) {
 
 void EnvironmentVariable::write(AbstractFile & os) {
     /* pre processing */
-    nameLength = static_cast<DWORD>(name.size());
-    dataLength = static_cast<DWORD>(data.size());
+    nameLength = static_cast<uint32_t>(name.size());
+    dataLength = static_cast<uint32_t>(data.size());
 
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&nameLength), sizeof(nameLength));
@@ -66,7 +66,7 @@ void EnvironmentVariable::write(AbstractFile & os) {
     os.skipp(objectSize % 4);
 }
 
-DWORD EnvironmentVariable::calculateObjectSize() const {
+uint32_t EnvironmentVariable::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(nameLength) +

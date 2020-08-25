@@ -27,7 +27,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -46,14 +45,14 @@ struct VECTOR_BLF_EXPORT CanMessage final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      *
      * Channel the frame was sent or received.
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /**
      * @brief CAN dir & rtr
@@ -66,7 +65,7 @@ struct VECTOR_BLF_EXPORT CanMessage final : ObjectHeader {
      * - Bit 6: WU
      * - Bit 7: RTR
      */
-    BYTE flags {};
+    uint8_t flags {};
 
     /**
      * @brief CAN dlc
@@ -74,21 +73,21 @@ struct VECTOR_BLF_EXPORT CanMessage final : ObjectHeader {
      * Data length code of frame (number of valid data
      * bytes, max. 8)
      */
-    BYTE dlc {};
+    uint8_t dlc {};
 
     /**
      * @brief CAN ID
      *
      * Frame identifier.
      */
-    DWORD id {};
+    uint32_t id {};
 
     /**
      * @brief CAN data
      *
      * CAN data bytes
      */
-    std::array<BYTE, 8> data {};
+    std::array<uint8_t, 8> data {};
 };
 
 }

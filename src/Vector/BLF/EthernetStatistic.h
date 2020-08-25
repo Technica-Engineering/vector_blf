@@ -25,7 +25,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -42,46 +41,46 @@ struct VECTOR_BLF_EXPORT EthernetStatistic final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /** channel */
-    WORD channel {};
+    uint16_t channel {};
 
     /** reserved */
-    WORD reservedEthernetStatistic1 {};
+    uint16_t reservedEthernetStatistic1 {};
 
     /** reserved */
-    DWORD reservedEthernetStatistic2 {};
+    uint32_t reservedEthernetStatistic2 {};
 
     /** receive ok */
-    UINT64 rcvOk_HW {};
+    uint64_t rcvOk_HW {};
 
     /** transmit ok */
-    UINT64 xmitOk_HW {};
+    uint64_t xmitOk_HW {};
 
     /** receive error */
-    UINT64 rcvError_HW {};
+    uint64_t rcvError_HW {};
 
     /** transmit error */
-    UINT64 xmitError_HW {};
+    uint64_t xmitError_HW {};
 
     /** receive bytes */
-    UINT64 rcvBytes_HW {};
+    uint64_t rcvBytes_HW {};
 
     /** transmit bytes */
-    UINT64 xmitBytes_HW {};
+    uint64_t xmitBytes_HW {};
 
     /** receive no buffer */
-    UINT64 rcvNoBuffer_HW {};
+    uint64_t rcvNoBuffer_HW {};
 
     /** signal quality */
-    SHORT sqi {};
+    int16_t sqi {};
 
     /** hardware channel */
-    WORD hardwareChannel {};
+    uint16_t hardwareChannel {};
 
     /** reserved */
-    DWORD reservedEthernetStatistic3 {};
+    uint32_t reservedEthernetStatistic3 {};
 };
 
 }

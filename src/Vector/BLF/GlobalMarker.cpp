@@ -75,7 +75,7 @@ void GlobalMarker::write(AbstractFile & os) {
     os.skipp(objectSize % 4);
 }
 
-DWORD GlobalMarker::calculateObjectSize() const {
+uint32_t GlobalMarker::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(commentedEventType) +

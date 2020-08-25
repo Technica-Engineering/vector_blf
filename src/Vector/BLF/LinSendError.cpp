@@ -50,7 +50,7 @@ void LinSendError::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&fullTime), sizeof(fullTime));
 }
 
-DWORD LinSendError::calculateObjectSize() const {
+uint32_t LinSendError::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

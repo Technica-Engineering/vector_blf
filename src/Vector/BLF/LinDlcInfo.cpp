@@ -44,7 +44,7 @@ void LinDlcInfo::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&reservedLinDlcInfo), sizeof(reservedLinDlcInfo));
 }
 
-DWORD LinDlcInfo::calculateObjectSize() const {
+uint32_t LinDlcInfo::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

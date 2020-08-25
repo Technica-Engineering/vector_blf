@@ -27,7 +27,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -44,21 +43,21 @@ struct VECTOR_BLF_EXPORT FlexRayVFrStartCycle final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      *
      * Application channel
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /**
      * @brief version of data struct
      *
      * Object version, for internal use
      */
-    WORD version {};
+    uint16_t version {};
 
     /**
      * @brief channel mask
@@ -69,7 +68,7 @@ struct VECTOR_BLF_EXPORT FlexRayVFrStartCycle final : ObjectHeader {
      *   - 2 = FlexRay Channel B
      *   - 3 = FlexRay Channels A and B
      */
-    WORD channelMask {};
+    uint16_t channelMask {};
 
     /**
      * @brief dir flag (tx, rx)
@@ -80,45 +79,45 @@ struct VECTOR_BLF_EXPORT FlexRayVFrStartCycle final : ObjectHeader {
      *   - 2 = Tx Request
      *   - 3 and 4 are for internal use only.
      */
-    BYTE dir {};
+    uint8_t dir {};
 
     /**
      * @brief current cycle
      *
      * Cycle number
      */
-    BYTE cycle {};
+    uint8_t cycle {};
 
     /**
      * @brief clientindex of send node
      *
      * Client index of send node
      */
-    DWORD clientIndexFlexRayVFrStartCycle {};
+    uint32_t clientIndexFlexRayVFrStartCycle {};
 
     /**
      * @brief number of cluster
      *
      * Number of cluster: channel number - 1
      */
-    DWORD clusterNo {};
+    uint32_t clusterNo {};
 
     /**
      * @brief size of NM Vector
      *
      * Length of NM-Vector in bytes
      */
-    WORD nmSize {};
+    uint16_t nmSize {};
 
     /**
      * @brief array of databytes (NM vector max. length)
      *
      * Array of databytes (NM vector max. length)
      */
-    std::array<BYTE, 12> dataBytes {};
+    std::array<uint8_t, 12> dataBytes {};
 
     /** reserved */
-    WORD reservedFlexRayVFrStartCycle1 {};
+    uint16_t reservedFlexRayVFrStartCycle1 {};
 
     /**
      * @brief type of cc
@@ -132,7 +131,7 @@ struct VECTOR_BLF_EXPORT FlexRayVFrStartCycle final : ObjectHeader {
      *   - 5 = Vector VN interface
      *   - 6 = VN-Sync-Pulse (only in Status Event, for debugging purposes only)
      */
-    DWORD tag {};
+    uint32_t tag {};
 
     /**
      * @brief register flags
@@ -157,12 +156,12 @@ struct VECTOR_BLF_EXPORT FlexRayVFrStartCycle final : ObjectHeader {
      *   - 3: Cycles with correction in passive mode, read from CCEV register
      *   - 4: Sync Frame status, read from SFS register
      */
-    std::array<DWORD, 5> data {};
+    std::array<uint32_t, 5> data {};
 
     /**
      * Reserved
      */
-    ULONGLONG reservedFlexRayVFrStartCycle2 {};
+    uint64_t reservedFlexRayVFrStartCycle2 {};
 };
 
 }

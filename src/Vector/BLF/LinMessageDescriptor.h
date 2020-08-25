@@ -26,7 +26,6 @@
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/LinSynchFieldEvent.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -39,7 +38,7 @@ namespace BLF {
 struct VECTOR_BLF_EXPORT LinMessageDescriptor : LinSynchFieldEvent {
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief LIN Sub-Identifier - Supplier ID
@@ -48,7 +47,7 @@ struct VECTOR_BLF_EXPORT LinMessageDescriptor : LinSynchFieldEvent {
      * as it is specified in LDF. LIN protocol 2.0
      * and higher
      */
-    WORD supplierId {};
+    uint16_t supplierId {};
 
     /**
      * @brief LIN Sub-Identifier - Message ID (16 bits)
@@ -61,7 +60,7 @@ struct VECTOR_BLF_EXPORT LinMessageDescriptor : LinSynchFieldEvent {
      * as it is specified in LDF in the list of
      * transmitter’s configurable frames.
      */
-    WORD messageId {};
+    uint16_t messageId {};
 
     /**
      * @brief LIN Sub-Identifier - NAD
@@ -70,21 +69,21 @@ struct VECTOR_BLF_EXPORT LinMessageDescriptor : LinSynchFieldEvent {
      * transmitter as it is specified in LDF. LIN
      * protocol 2.0 and higher
      */
-    BYTE nad {};
+    uint8_t nad {};
 
     /**
      * @brief LIN ID
      *
      * Frame identifier (6-bit)
      */
-    BYTE id {};
+    uint8_t id {};
 
     /**
      * @brief LIN DLC
      *
      * Frame length [in bytes]
      */
-    BYTE dlc {};
+    uint8_t dlc {};
 
     /**
      * @brief LIN checksum model
@@ -92,7 +91,7 @@ struct VECTOR_BLF_EXPORT LinMessageDescriptor : LinSynchFieldEvent {
      * Expected checksum model of checksum
      * value. Only valid if objectVersion >= 1.
      */
-    BYTE checksumModel {};
+    uint8_t checksumModel {};
 };
 
 }

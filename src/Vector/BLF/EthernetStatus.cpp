@@ -58,7 +58,7 @@ void EthernetStatus::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&bitrate), sizeof(bitrate));
 }
 
-DWORD EthernetStatus::calculateObjectSize() const {
+uint32_t EthernetStatus::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

@@ -27,7 +27,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -45,10 +44,10 @@ struct VECTOR_BLF_EXPORT AppText final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /** enumeration for source */
-    enum Source : DWORD {
+    enum Source : uint32_t {
         /** measurement comment */
         MeasurementComment = 0x00000000,
 
@@ -97,24 +96,24 @@ struct VECTOR_BLF_EXPORT AppText final : ObjectHeader {
      *
      * 2: Meta data
      */
-    DWORD source {};
+    uint32_t source {};
 
     /**
      * @brief reserved
      *
      * Depends on source.
      */
-    DWORD reservedAppText1 {};
+    uint32_t reservedAppText1 {};
 
     /**
      * @brief text length in bytes
      *
      * Length of text without ending 0.
      */
-    DWORD textLength {};
+    uint32_t textLength {};
 
     /** reserved */
-    DWORD reservedAppText2 {};
+    uint32_t reservedAppText2 {};
 
     /**
      * @brief text in MBCS

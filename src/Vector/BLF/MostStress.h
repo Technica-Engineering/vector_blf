@@ -25,7 +25,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader2.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -42,21 +41,21 @@ struct VECTOR_BLF_EXPORT MostStress final : ObjectHeader2 {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      *
      * Application channel
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /**
      * State of Stress mode:
      *   - 0 – Stopped
      *   - 1 – Started
      */
-    WORD state {};
+    uint16_t state {};
 
     /**
      * Stress mode of HW interface:
@@ -71,10 +70,10 @@ struct VECTOR_BLF_EXPORT MostStress final : ObjectHeader2 {
      *   - 9 – Shutdown flag usage
      *   - 10 – Rx Buffer Async
      */
-    WORD mode {};
+    uint16_t mode {};
 
     /** reserved */
-    WORD reservedMostStress {};
+    uint16_t reservedMostStress {};
 };
 
 }

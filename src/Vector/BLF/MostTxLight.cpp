@@ -42,7 +42,7 @@ void MostTxLight::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&reservedMostTxLight), sizeof(reservedMostTxLight));
 }
 
-DWORD MostTxLight::calculateObjectSize() const {
+uint32_t MostTxLight::calculateObjectSize() const {
     return
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +

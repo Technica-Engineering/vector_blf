@@ -27,7 +27,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader2.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -44,21 +43,21 @@ struct VECTOR_BLF_EXPORT Most150AllocTab final : ObjectHeader2 { /* applied for 
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      *
      * Application channel
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /**
      * @brief determines the data layout
      *
      * Determines the data layout (see below)
      */
-    WORD eventModeFlags {};
+    uint16_t eventModeFlags {};
 
     /**
      * @brief number of free bytes after the operation
@@ -67,7 +66,7 @@ struct VECTOR_BLF_EXPORT Most150AllocTab final : ObjectHeader2 { /* applied for 
      *   - Max. 116 with SBC=29 for MOST50
      *   - Max. 372 with SBC=93 for MOST150
      */
-    WORD freeBytes {};
+    uint16_t freeBytes {};
 
     /**
      * @brief number of bytes in tableData
@@ -75,10 +74,10 @@ struct VECTOR_BLF_EXPORT Most150AllocTab final : ObjectHeader2 { /* applied for 
      * Length of variable data in bytes. The value must
      * be a multiple of 4.
      */
-    WORD length {};
+    uint16_t length {};
 
     /** reserved */
-    ULONGLONG reservedMost150AllocTab {};
+    uint64_t reservedMost150AllocTab {};
 
     /**
      * Allocation Table data
@@ -108,7 +107,7 @@ struct VECTOR_BLF_EXPORT Most150AllocTab final : ObjectHeader2 { /* applied for 
      * - WWWW: label width
      * - < channels >: list of 16-bit channel numbers (size = label width)
      */
-    std::vector<BYTE> tableData {};
+    std::vector<uint8_t> tableData {};
 };
 
 }

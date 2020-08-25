@@ -46,14 +46,14 @@ void CanMessage::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
 }
 
-DWORD CanMessage::calculateObjectSize() const {
+uint32_t CanMessage::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(flags) +
         sizeof(dlc) +
         sizeof(id) +
-        static_cast<DWORD>(data.size());
+        static_cast<uint32_t>(data.size());
 }
 
 }

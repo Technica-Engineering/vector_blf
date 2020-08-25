@@ -24,7 +24,7 @@
 namespace Vector {
 namespace BLF {
 
-DWORD Unknown115::UnknownDataBlock::calculateObjectSize() {
+uint32_t Unknown115::UnknownDataBlock::calculateObjectSize() {
     return
             sizeof(UnknownDataBlock::timeStamp) +
             sizeof(UnknownDataBlock::uncompressedFileSize) +
@@ -43,7 +43,7 @@ void Unknown115::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&unknown1), sizeof(unknown1));
     is.read(reinterpret_cast<char *>(&unknown2), sizeof(unknown2));
 
-    DWORD size = objectSize
+    uint32_t size = objectSize
             - ObjectHeader::calculateObjectSize()
             - sizeof(unknown0)
             - sizeof(unknown1)
@@ -80,14 +80,14 @@ void Unknown115::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(reservedUnknown115.data()), static_cast<std::streamsize>(reservedUnknown115.size()));
 }
 
-DWORD Unknown115::calculateObjectSize() const {
+uint32_t Unknown115::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(unknown0) +
         sizeof(unknown1) +
         sizeof(unknown2) +
         unknownData.size() * UnknownDataBlock::calculateObjectSize() +
-        static_cast<DWORD>(reservedUnknown115.size());
+        static_cast<uint32_t>(reservedUnknown115.size());
 }
 
 }

@@ -27,7 +27,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeaderBase.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -42,7 +41,7 @@ struct VECTOR_BLF_EXPORT LogContainer final : ObjectHeaderBase {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * compression method
@@ -50,25 +49,25 @@ struct VECTOR_BLF_EXPORT LogContainer final : ObjectHeaderBase {
      *   - 0: no compression
      *   - 2: zlib deflate
      */
-    WORD compressionMethod {};
+    uint16_t compressionMethod {};
 
     /**
      * reserved
      */
-    WORD reservedLogContainer1 {};
+    uint16_t reservedLogContainer1 {};
 
     /**
      * reserved
      */
-    DWORD reservedLogContainer2 {};
+    uint32_t reservedLogContainer2 {};
 
     /**
      * uncompressed file size in bytes
      */
-    DWORD uncompressedFileSize {};
+    uint32_t uncompressedFileSize {};
 
     /** reserved */
-    DWORD reservedLogContainer3 {}; // @todo what is this? 0x0215, 0x9a, 0, 0x0c...
+    uint32_t reservedLogContainer3 {}; // @todo what is this? 0x0215, 0x9a, 0, 0x0c...
 
     /** compressed file content */
     std::vector<uint8_t> compressedFile {};
@@ -79,7 +78,7 @@ struct VECTOR_BLF_EXPORT LogContainer final : ObjectHeaderBase {
     std::vector<uint8_t> uncompressedFile {};
 
     /** compressed file size in bytes */
-    DWORD compressedFileSize {};
+    uint32_t compressedFileSize {};
 
     /** position of this LogContainer::uncompressedFile within UncompressedFile class */
     std::streampos filePosition {};
@@ -91,7 +90,7 @@ struct VECTOR_BLF_EXPORT LogContainer final : ObjectHeaderBase {
      *
      * @return Size of all headers.
      */
-    WORD internalHeaderSize() const;
+    uint16_t internalHeaderSize() const;
 
     /**
      * uncompress data
@@ -104,7 +103,7 @@ struct VECTOR_BLF_EXPORT LogContainer final : ObjectHeaderBase {
      * @param[in] compressionMethod compression method
      * @param[in] compressionLevel compression level (different for each method)
      */
-    virtual void compress(const WORD compressionMethod, const int compressionLevel);
+    virtual void compress(const uint16_t compressionMethod, const int compressionLevel);
 };
 
 }

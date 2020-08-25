@@ -25,7 +25,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -40,10 +39,10 @@ struct VECTOR_BLF_EXPORT DriverOverrun final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /** enumeration for busType */
-    enum BusType : DWORD {
+    enum BusType : uint32_t {
         /** CAN */
         Can = 1,
 
@@ -72,15 +71,15 @@ struct VECTOR_BLF_EXPORT DriverOverrun final : ObjectHeader {
     /**
      * @brief bus type
      */
-    DWORD busType {};
+    uint32_t busType {};
 
     /**
      * @brief channel where overrun occured
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /** reserved */
-    WORD reservedDriverOverrun {};
+    uint16_t reservedDriverOverrun {};
 };
 
 }

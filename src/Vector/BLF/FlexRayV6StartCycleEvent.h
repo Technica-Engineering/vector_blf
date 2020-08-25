@@ -27,7 +27,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -44,14 +43,14 @@ struct VECTOR_BLF_EXPORT FlexRayV6StartCycleEvent final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      *
      * Application channel
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /**
      * @brief dir flag (tx, rx)
@@ -62,28 +61,28 @@ struct VECTOR_BLF_EXPORT FlexRayV6StartCycleEvent final : ObjectHeader {
      *   - 2 = Tx Request
      *   - 3 and 4 are for internal use only.
      */
-    BYTE dir {};
+    uint8_t dir {};
 
     /**
      * @brief additional time field in simulation
      *
      * Additional time field in simulation
      */
-    BYTE lowTime {};
+    uint8_t lowTime {};
 
     /**
      * @brief timestamp generated from xModule
      *
      * Timestamp generated from xModule
      */
-    DWORD fpgaTick {};
+    uint32_t fpgaTick {};
 
     /**
      * @brief overflow counter of the timestamp
      *
      * Overflow counter of the timestamp
      */
-    DWORD fpgaTickOverflow {};
+    uint32_t fpgaTickOverflow {};
 
     /**
      * @brief clientindex of send node
@@ -91,24 +90,24 @@ struct VECTOR_BLF_EXPORT FlexRayV6StartCycleEvent final : ObjectHeader {
      * Client index of send node. Must be set to 0 if file
      * is written from other applications
      */
-    DWORD clientIndexFlexRayV6StartCycleEvent {};
+    uint32_t clientIndexFlexRayV6StartCycleEvent {};
 
     /**
      * @brief relative clustertime, from 0 to cyclelength
      *
      * Relative cluster time, from 0 to cycle length
      */
-    DWORD clusterTime {};
+    uint32_t clusterTime {};
 
     /**
      * @brief array of databytes
      *
      * Array of data bytes
      */
-    std::array<BYTE, 2> dataBytes {};
+    std::array<uint8_t, 2> dataBytes {};
 
     /** reserved */
-    WORD reservedFlexRayV6StartCycleEvent {};
+    uint16_t reservedFlexRayV6StartCycleEvent {};
 };
 
 }

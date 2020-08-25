@@ -40,7 +40,7 @@ void WaterMarkEvent::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&reservedWaterMarkEvent), sizeof(reservedWaterMarkEvent));
 }
 
-DWORD WaterMarkEvent::calculateObjectSize() const {
+uint32_t WaterMarkEvent::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(queueState) +

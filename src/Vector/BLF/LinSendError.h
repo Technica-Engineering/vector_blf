@@ -25,7 +25,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -44,50 +43,50 @@ struct VECTOR_BLF_EXPORT LinSendError final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      *
      * Channel number where the event notified
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /**
      * @brief LIN ID
      *
      * Frame identifier
      */
-    BYTE id {};
+    uint8_t id {};
 
     /**
      * @brief LIN DLC
      *
      * Frame length
      */
-    BYTE dlc {};
+    uint8_t dlc {};
 
     /**
      * Slave Identifier in the Final State Machine
      * (obsolete)
      */
-    BYTE fsmId {};
+    uint8_t fsmId {};
 
     /**
      * State Identifier of a Slave in the Final State
      * Machine (obsolete)
      */
-    BYTE fsmState {};
+    uint8_t fsmState {};
 
     /**
      * Duration of the frame header [in bit times]
      */
-    BYTE headerTime {};
+    uint8_t headerTime {};
 
     /**
      * Duration of the entire frame [in bit times]
      */
-    BYTE fullTime {};
+    uint8_t fullTime {};
 };
 
 }

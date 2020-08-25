@@ -28,7 +28,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -53,10 +52,10 @@ struct VECTOR_BLF_EXPORT SingleByteSerialEvent final {
     virtual void write(AbstractFile & os);
 
     /** @copydoc ObjectHeader::calculateObjectSize */
-    virtual DWORD calculateObjectSize() const;
+    virtual uint32_t calculateObjectSize() const;
 
     /** single byte */
-    BYTE byte {};
+    uint8_t byte {};
 };
 
 }

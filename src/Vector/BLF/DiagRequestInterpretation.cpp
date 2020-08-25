@@ -46,9 +46,9 @@ void DiagRequestInterpretation::read(AbstractFile & is) {
 
 void DiagRequestInterpretation::write(AbstractFile & os) {
     /* pre processing */
-    ecuQualifierLength = static_cast<DWORD>(ecuQualifier.size());
-    variantQualifierLength = static_cast<DWORD>(variantQualifier.size());
-    serviceQualifierLength = static_cast<DWORD>(serviceQualifier.size());
+    ecuQualifierLength = static_cast<uint32_t>(ecuQualifier.size());
+    variantQualifierLength = static_cast<uint32_t>(variantQualifier.size());
+    serviceQualifierLength = static_cast<uint32_t>(serviceQualifier.size());
 
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&diagDescriptionHandle), sizeof(diagDescriptionHandle));
@@ -62,7 +62,7 @@ void DiagRequestInterpretation::write(AbstractFile & os) {
     os.write(const_cast<char *>(serviceQualifier.data()), serviceQualifierLength);
 }
 
-DWORD DiagRequestInterpretation::calculateObjectSize() const {
+uint32_t DiagRequestInterpretation::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(diagDescriptionHandle) +

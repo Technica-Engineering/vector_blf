@@ -28,7 +28,6 @@
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/CanFdExtFrameData.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -45,7 +44,7 @@ struct VECTOR_BLF_EXPORT CanFdMessage64 final : ObjectHeader, CanFdExtFrameData 
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     virtual bool hasExtData() const;
 
@@ -54,7 +53,7 @@ struct VECTOR_BLF_EXPORT CanFdMessage64 final : ObjectHeader, CanFdExtFrameData 
      *
      * Channel the frame was sent or received.
      */
-    BYTE channel {};
+    uint8_t channel {};
 
     /**
      * @brief CAN dlc
@@ -70,7 +69,7 @@ struct VECTOR_BLF_EXPORT CanFdMessage64 final : ObjectHeader, CanFdExtFrameData 
      * - DLC=14: CAN=8, CAN FD=48
      * - DLC=15: CAN=8, CAN FD=64
      */
-    BYTE dlc {};
+    uint8_t dlc {};
 
     /**
      * @brief Valid payload length of data
@@ -78,7 +77,7 @@ struct VECTOR_BLF_EXPORT CanFdMessage64 final : ObjectHeader, CanFdExtFrameData 
      * Valid payload length of data, can differ from
      * DLC value.
      */
-    BYTE validDataBytes {};
+    uint8_t validDataBytes {};
 
     /**
      * @brief txRequiredCount (4 bits), txReqCount (4 Bits)
@@ -87,14 +86,14 @@ struct VECTOR_BLF_EXPORT CanFdMessage64 final : ObjectHeader, CanFdExtFrameData 
      * attempts, (Bits 4-7) Max Number of
      * transmission attempts.
      */
-    BYTE txCount {};
+    uint8_t txCount {};
 
     /**
      * @brief CAN ID
      *
      * Frame identifier.
      */
-    DWORD id {};
+    uint32_t id {};
 
     /**
      * @brief message length in ns
@@ -103,7 +102,7 @@ struct VECTOR_BLF_EXPORT CanFdMessage64 final : ObjectHeader, CanFdExtFrameData 
      * interframe-space bit times and by Rx-messages
      * also not including 1 end-of-frame bit time
      */
-    DWORD frameLength {};
+    uint32_t frameLength {};
 
     /**
      * @brief flags
@@ -128,7 +127,7 @@ struct VECTOR_BLF_EXPORT CanFdMessage64 final : ObjectHeader, CanFdExtFrameData 
      * - Bit#=17 (0x20000): 1=Frame is part of a burst
      * - Bit#=18-31: Reserved, must be 0
      */
-    DWORD flags {};
+    uint32_t flags {};
 
     /**
      * @brief bit rate used in arbitration phase
@@ -142,7 +141,7 @@ struct VECTOR_BLF_EXPORT CanFdMessage64 final : ObjectHeader, CanFdExtFrameData 
      * - Bit 16-23: BTL Cycles
      * - Bit 24-31: Sampling Point
      */
-    DWORD btrCfgArb {};
+    uint32_t btrCfgArb {};
 
     /**
      * @brief bit rate used in data phase
@@ -151,7 +150,7 @@ struct VECTOR_BLF_EXPORT CanFdMessage64 final : ObjectHeader, CanFdExtFrameData 
      * phase, may be 0, if not supported by
      * hardware/driver. See btrCfgArb.
      */
-    DWORD btrCfgData {};
+    uint32_t btrCfgData {};
 
     /**
      * @brief time offset of brs field
@@ -159,7 +158,7 @@ struct VECTOR_BLF_EXPORT CanFdMessage64 final : ObjectHeader, CanFdExtFrameData 
      * Time offset of bit rate switch within BRS field
      * in nanoseconds
      */
-    DWORD timeOffsetBrsNs {};
+    uint32_t timeOffsetBrsNs {};
 
     /**
      * @brief time offset of crc delimiter field
@@ -167,27 +166,27 @@ struct VECTOR_BLF_EXPORT CanFdMessage64 final : ObjectHeader, CanFdExtFrameData 
      * Time offset of bit rate switch within CRC
      * delimiter field in nanoseconds
      */
-    DWORD timeOffsetCrcDelNs {};
+    uint32_t timeOffsetCrcDelNs {};
 
     /**
      * @brief complete message length in bits
      *
      * Bit count of the message
      */
-    WORD bitCount {};
+    uint16_t bitCount {};
 
     /**
      * Direction of the message
      */
-    BYTE dir {};
+    uint8_t dir {};
 
     /** offset if extDataOffset is used */
-    BYTE extDataOffset {};
+    uint8_t extDataOffset {};
 
     /**
      * @brief CRC for CAN
      */
-    DWORD crc {};
+    uint32_t crc {};
 
     /**
      * @brief CAN FD data
@@ -196,7 +195,7 @@ struct VECTOR_BLF_EXPORT CanFdMessage64 final : ObjectHeader, CanFdExtFrameData 
      * than 64 bytes, according to the value of
      * dlc).
      */
-    std::vector<BYTE> data {};
+    std::vector<uint8_t> data {};
 };
 
 }

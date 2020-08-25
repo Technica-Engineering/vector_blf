@@ -25,7 +25,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader2.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -42,17 +41,17 @@ struct VECTOR_BLF_EXPORT MostTrigger final : ObjectHeader2 {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      *
      * Application channel
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /** reserved */
-    WORD reservedMostTrigger {};
+    uint16_t reservedMostTrigger {};
 
     /**
      * @brief trigger mode
@@ -62,7 +61,7 @@ struct VECTOR_BLF_EXPORT MostTrigger final : ObjectHeader2 {
      *   - 1 – synchronization master
      *   - 2 – synchronization slave
      */
-    WORD mode {};
+    uint16_t mode {};
 
     /**
      * @brief HW info
@@ -79,17 +78,17 @@ struct VECTOR_BLF_EXPORT MostTrigger final : ObjectHeader2 {
      *   - 8 – SMSC PCI 50
      *   - 9 – MOCCAcompact50e
      */
-    WORD hw {};
+    uint16_t hw {};
 
     /**
      * value of IO register
      */
-    DWORD previousTriggerValue {};
+    uint32_t previousTriggerValue {};
 
     /**
      * value of IO register
      */
-    DWORD currentTriggerValue {};
+    uint32_t currentTriggerValue {};
 };
 
 }

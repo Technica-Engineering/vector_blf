@@ -59,7 +59,7 @@ void CanFdErrorFrame64::read(AbstractFile & is) {
 
 void CanFdErrorFrame64::write(AbstractFile & os) {
     /* pre processing */
-    validDataBytes = static_cast<WORD>(data.size());
+    validDataBytes = static_cast<uint16_t>(data.size());
 
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
@@ -91,8 +91,8 @@ bool CanFdErrorFrame64::hasExtData() const {
         (objectSize >= extDataOffset + CanFdExtFrameData::calculateObjectSize());
 }
 
-DWORD CanFdErrorFrame64::calculateObjectSize() const {
-    DWORD size =
+uint32_t CanFdErrorFrame64::calculateObjectSize() const {
+    uint32_t size =
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(dlc) +
@@ -112,7 +112,7 @@ DWORD CanFdErrorFrame64::calculateObjectSize() const {
         sizeof(crc) +
         sizeof(errorPosition) +
         sizeof(reservedCanFdErrorFrame2) +
-        static_cast<DWORD>(data.size());
+        static_cast<uint32_t>(data.size());
     if (hasExtData())
         size += CanFdExtFrameData::calculateObjectSize();
     return size;

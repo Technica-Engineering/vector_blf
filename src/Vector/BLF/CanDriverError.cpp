@@ -44,7 +44,7 @@ void CanDriverError::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&errorCode), sizeof(errorCode));
 }
 
-DWORD CanDriverError::calculateObjectSize() const {
+uint32_t CanDriverError::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

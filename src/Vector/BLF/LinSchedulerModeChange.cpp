@@ -44,7 +44,7 @@ void LinSchedulerModeChange::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&reservedLinSchedulerModeChange), sizeof(reservedLinSchedulerModeChange));
 }
 
-DWORD LinSchedulerModeChange::calculateObjectSize() const {
+uint32_t LinSchedulerModeChange::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

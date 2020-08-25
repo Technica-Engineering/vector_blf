@@ -28,7 +28,6 @@
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/LinMessageDescriptor.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -41,7 +40,7 @@ namespace BLF {
 struct VECTOR_BLF_EXPORT LinDatabyteTimestampEvent : LinMessageDescriptor {
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief Databyte timestamps, where d[0] = EndOfHeader, d[1]=EndOfDataByte1, ..., d[8]=EndOfDataByte8
@@ -53,7 +52,7 @@ struct VECTOR_BLF_EXPORT LinDatabyteTimestampEvent : LinMessageDescriptor {
      * Indexes 1-9 correspond to response data
      * bytes D1-D8
      */
-    std::array<ULONGLONG, 9> databyteTimestamps {};
+    std::array<uint64_t, 9> databyteTimestamps {};
 };
 
 }

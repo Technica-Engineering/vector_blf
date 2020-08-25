@@ -27,7 +27,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -44,38 +43,38 @@ struct VECTOR_BLF_EXPORT J1708Message final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /**
      * @brief direction
      */
-    BYTE dir {};
+    uint8_t dir {};
 
     /** reserved */
-    BYTE reservedJ1708Message1 {};
+    uint8_t reservedJ1708Message1 {};
 
     /**
      * @brief error code
      */
-    WORD error {};
+    uint16_t error {};
 
     /**
      * @brief data size
      */
-    BYTE size {};
+    uint8_t size {};
 
     /**
      * @brief data
      */
-    std::array<BYTE, 255> data {};
+    std::array<uint8_t, 255> data {};
 
     /** reserved */
-    WORD reservedJ1708Message2 {};
+    uint16_t reservedJ1708Message2 {};
 };
 
 }

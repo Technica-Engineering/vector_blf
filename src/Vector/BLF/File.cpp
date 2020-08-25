@@ -154,7 +154,7 @@ void File::close() {
             m_uncompressedFile.nextLogContainer();
 
             /* set file size */
-            fileStatistics.fileSizeWithoutUnknown115 = static_cast<ULONGLONG>(m_compressedFile.tellp());
+            fileStatistics.fileSizeWithoutUnknown115 = static_cast<uint64_t>(m_compressedFile.tellp());
 
             /* write end of file message */
             auto * unknown115 = new Unknown115;
@@ -166,7 +166,7 @@ void File::close() {
         }
 
         /* set file statistics */
-        fileStatistics.fileSize = static_cast<ULONGLONG>(m_compressedFile.tellp());
+        fileStatistics.fileSize = static_cast<uint64_t>(m_compressedFile.tellp());
         fileStatistics.uncompressedFileSize = currentUncompressedFileSize;
         fileStatistics.objectCount = currentObjectCount;
         // @todo fileStatistics.objectsRead = ?
@@ -178,11 +178,11 @@ void File::close() {
     }
 }
 
-DWORD File::defaultLogContainerSize() const {
+uint32_t File::defaultLogContainerSize() const {
     return m_uncompressedFile.defaultLogContainerSize();
 }
 
-void File::setDefaultLogContainerSize(DWORD defaultLogContainerSize) {
+void File::setDefaultLogContainerSize(uint32_t defaultLogContainerSize) {
     m_uncompressedFile.setDefaultLogContainerSize(defaultLogContainerSize);
 }
 
@@ -774,7 +774,7 @@ void File::uncompressedFile2CompressedFile() {
     m_uncompressedFile.read(
         reinterpret_cast<char *>(logContainer.uncompressedFile.data()),
         m_uncompressedFile.defaultLogContainerSize());
-    logContainer.uncompressedFileSize = static_cast<DWORD>(m_uncompressedFile.gcount());
+    logContainer.uncompressedFileSize = static_cast<uint32_t>(m_uncompressedFile.gcount());
     logContainer.uncompressedFile.resize(logContainer.uncompressedFileSize);
 
     /* compress */

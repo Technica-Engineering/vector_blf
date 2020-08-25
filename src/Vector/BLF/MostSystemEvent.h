@@ -25,7 +25,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader2.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -42,14 +41,14 @@ struct VECTOR_BLF_EXPORT MostSystemEvent final : ObjectHeader2 {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      *
      * Application channel
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /**
      * @brief identifier of transported data
@@ -60,24 +59,24 @@ struct VECTOR_BLF_EXPORT MostSystemEvent final : ObjectHeader2 {
      *   - 2 - Shutdown Flag (MOST150)
      *   - 3 - Shutdown Reason (MOST150)
      */
-    WORD id {};
+    uint16_t id {};
 
     /**
      * @brief current value
      *
      * Current value
      */
-    DWORD value {};
+    uint32_t value {};
 
     /**
      * @brief previous value
      *
      * Previous value
      */
-    DWORD valueOld {};
+    uint32_t valueOld {};
 
     /** reserved */
-    DWORD reservedMostSystemEvent {};
+    uint32_t reservedMostSystemEvent {};
 };
 
 }

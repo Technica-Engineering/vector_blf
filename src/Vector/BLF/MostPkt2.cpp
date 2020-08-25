@@ -56,7 +56,7 @@ void MostPkt2::read(AbstractFile & is) {
 
 void MostPkt2::write(AbstractFile & os) {
     /* pre processing */
-    pktDataLength = static_cast<DWORD>(pktData.size());
+    pktDataLength = static_cast<uint32_t>(pktData.size());
 
     ObjectHeader2::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
@@ -82,7 +82,7 @@ void MostPkt2::write(AbstractFile & os) {
     os.skipp(objectSize % 4);
 }
 
-DWORD MostPkt2::calculateObjectSize() const {
+uint32_t MostPkt2::calculateObjectSize() const {
     return
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +

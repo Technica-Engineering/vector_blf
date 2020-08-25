@@ -53,7 +53,7 @@ void MostEthernetPktFragment::read(AbstractFile & is) {
 
 void MostEthernetPktFragment::write(AbstractFile & os) {
     /* pre processing */
-    firstDataLen = static_cast<DWORD>(firstData.size());
+    firstDataLen = static_cast<uint32_t>(firstData.size());
 
     ObjectHeader2::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
@@ -76,7 +76,7 @@ void MostEthernetPktFragment::write(AbstractFile & os) {
     os.skipp(objectSize % 4);
 }
 
-DWORD MostEthernetPktFragment::calculateObjectSize() const {
+uint32_t MostEthernetPktFragment::calculateObjectSize() const {
     return
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +

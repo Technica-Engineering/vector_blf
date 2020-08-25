@@ -26,18 +26,18 @@ namespace BLF {
 
 void LinDatabyteTimestampEvent::read(AbstractFile & is) {
     LinMessageDescriptor::read(is);
-    is.read(reinterpret_cast<char *>(databyteTimestamps.data()), static_cast<std::streamsize>(databyteTimestamps.size() * sizeof(ULONGLONG)));
+    is.read(reinterpret_cast<char *>(databyteTimestamps.data()), static_cast<std::streamsize>(databyteTimestamps.size() * sizeof(uint64_t)));
 }
 
 void LinDatabyteTimestampEvent::write(AbstractFile & os) {
     LinMessageDescriptor::write(os);
-    os.write(reinterpret_cast<char *>(databyteTimestamps.data()), static_cast<std::streamsize>(databyteTimestamps.size() * sizeof(ULONGLONG)));
+    os.write(reinterpret_cast<char *>(databyteTimestamps.data()), static_cast<std::streamsize>(databyteTimestamps.size() * sizeof(uint64_t)));
 }
 
-DWORD LinDatabyteTimestampEvent::calculateObjectSize() const {
+uint32_t LinDatabyteTimestampEvent::calculateObjectSize() const {
     return
         LinMessageDescriptor::calculateObjectSize() +
-        static_cast<DWORD>(databyteTimestamps.size() * sizeof(ULONGLONG));
+        static_cast<uint32_t>(databyteTimestamps.size() * sizeof(uint64_t));
 }
 
 }

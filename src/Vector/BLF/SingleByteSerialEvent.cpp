@@ -36,7 +36,7 @@ void SingleByteSerialEvent::write(AbstractFile & os) {
     os.skipp(15); // due to union
 }
 
-DWORD SingleByteSerialEvent::calculateObjectSize() const {
+uint32_t SingleByteSerialEvent::calculateObjectSize() const {
     return sizeof(byte);
 }
 

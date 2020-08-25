@@ -54,7 +54,7 @@ void FlexRayData::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(dataBytes.data()), static_cast<std::streamsize>(dataBytes.size()));
 }
 
-DWORD FlexRayData::calculateObjectSize() const {
+uint32_t FlexRayData::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
@@ -65,7 +65,7 @@ DWORD FlexRayData::calculateObjectSize() const {
         sizeof(dir) +
         sizeof(reservedFlexRayData1) +
         sizeof(reservedFlexRayData2) +
-        static_cast<DWORD>(dataBytes.size());
+        static_cast<uint32_t>(dataBytes.size());
 }
 
 }

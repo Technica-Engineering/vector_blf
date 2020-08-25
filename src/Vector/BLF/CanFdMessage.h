@@ -27,7 +27,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -42,17 +41,17 @@ struct VECTOR_BLF_EXPORT CanFdMessage final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /**
      * enumeration for flags
      */
-    enum Flags : BYTE {
+    enum Flags : uint8_t {
         /** transmit direction */
         TX = (1 << 0),
 
@@ -73,32 +72,32 @@ struct VECTOR_BLF_EXPORT CanFdMessage final : ObjectHeader {
      *
      * CAN dir, rtr, wu & nerr encoded into flags
      */
-    BYTE flags {};
+    uint8_t flags {};
 
     /**
      * @brief CAN dlc
      */
-    BYTE dlc {};
+    uint8_t dlc {};
 
     /**
      * @brief CAN ID
      */
-    DWORD id {};
+    uint32_t id {};
 
     /**
      * @brief message length in ns - without 3 inter frame space bits and by Rx-message also without 1 End-Of-Frame bit
      */
-    DWORD frameLength {};
+    uint32_t frameLength {};
 
     /**
      * @brief bit count of arbitration phase
      */
-    BYTE arbBitCount {};
+    uint8_t arbBitCount {};
 
     /**
      * enumeration for canFdFlags
      */
-    enum CanFdFlags : BYTE {
+    enum CanFdFlags : uint8_t {
         /** extended data length */
         EDL = (1 << 0),
 
@@ -112,26 +111,26 @@ struct VECTOR_BLF_EXPORT CanFdMessage final : ObjectHeader {
     /**
      * @brief CAN FD flags
      */
-    BYTE canFdFlags {};
+    uint8_t canFdFlags {};
 
     /**
      * @brief Valid payload length of data
      */
-    BYTE validDataBytes {};
+    uint8_t validDataBytes {};
 
     /** reserved */
-    BYTE reservedCanFdMessage1 {};
+    uint8_t reservedCanFdMessage1 {};
 
     /** reserved */
-    DWORD reservedCanFdMessage2 {};
+    uint32_t reservedCanFdMessage2 {};
 
     /**
      * @brief CAN FD data
      */
-    std::vector<BYTE> data {};
+    std::vector<uint8_t> data {};
 
     /** reserved */
-    DWORD reservedCanFdMessage3 {};
+    uint32_t reservedCanFdMessage3 {};
 };
 
 }

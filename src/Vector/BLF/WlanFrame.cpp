@@ -47,7 +47,7 @@ void WlanFrame::read(AbstractFile & is) {
 
 void WlanFrame::write(AbstractFile & os) {
     /* pre processing */
-    frameLength = static_cast<WORD>(frameData.size());
+    frameLength = static_cast<uint16_t>(frameData.size());
 
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
@@ -64,7 +64,7 @@ void WlanFrame::write(AbstractFile & os) {
     os.skipp(objectSize % 4);
 }
 
-DWORD WlanFrame::calculateObjectSize() const {
+uint32_t WlanFrame::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

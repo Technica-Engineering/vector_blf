@@ -25,7 +25,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -42,34 +41,34 @@ struct VECTOR_BLF_EXPORT A429Status final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /** application channel */
-    WORD channel {};
+    uint16_t channel {};
 
     /** direction flag: 0=Rx, 1=Tx */
-    BYTE dir {};
+    uint8_t dir {};
 
     /** reserved */
-    BYTE reservedA429Status1 {};
+    uint8_t reservedA429Status1 {};
 
     /** parity */
-    WORD parity {};
+    uint16_t parity {};
 
     /** reserved */
-    WORD reservedA429Status2 {};
+    uint16_t reservedA429Status2 {};
 
     /** minimum gap */
-    ULONG minGap {};
+    uint32_t minGap {};
 
     /** Tx bit rate */
-    ULONG bitrate {};
+    uint32_t bitrate {};
 
     /** Rx min bit rate */
-    ULONG minBitrate {};
+    uint32_t minBitrate {};
 
     /** Rx max bit rate */
-    ULONG maxBitrate {};
+    uint32_t maxBitrate {};
 };
 
 }

@@ -34,7 +34,7 @@ void KLineStatusEvent::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&dataLen), sizeof(dataLen));
     is.read(reinterpret_cast<char *>(&port), sizeof(port));
     is.read(reinterpret_cast<char *>(&reservedKLineStatusEvent), sizeof(reservedKLineStatusEvent));
-    is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size() * sizeof(UINT64)));
+    is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size() * sizeof(uint64_t)));
     // @note might be extended in future versions
 }
 
@@ -44,17 +44,17 @@ void KLineStatusEvent::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&dataLen), sizeof(dataLen));
     os.write(reinterpret_cast<char *>(&port), sizeof(port));
     os.write(reinterpret_cast<char *>(&reservedKLineStatusEvent), sizeof(reservedKLineStatusEvent));
-    os.write(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size() * sizeof(UINT64)));
+    os.write(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size() * sizeof(uint64_t)));
 }
 
-DWORD KLineStatusEvent::calculateObjectSize() const {
+uint32_t KLineStatusEvent::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(type) +
         sizeof(dataLen) +
         sizeof(port) +
         sizeof(reservedKLineStatusEvent) +
-        static_cast<DWORD>(data.size() * sizeof(UINT64));
+        static_cast<uint32_t>(data.size() * sizeof(uint64_t));
 }
 
 }

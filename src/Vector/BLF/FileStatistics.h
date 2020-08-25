@@ -26,7 +26,6 @@
 #include <array>
 
 #include <Vector/BLF/AbstractFile.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -36,12 +35,12 @@ namespace BLF {
 /**
  * File signature
  */
-const DWORD FileSignature = 0x47474F4C; /* LOGG */
+const uint32_t FileSignature = 0x47474F4C; /* LOGG */
 
 /**
  * Application ID
  */
-enum ApplicationId : BYTE {
+enum ApplicationId : uint8_t {
     /** Unknown */
     Unknown = 0,
 
@@ -71,6 +70,33 @@ enum ApplicationId : BYTE {
 
     /** CAETEC Logger */
     Caeteclogger = 201,
+};
+
+/** system time */
+struct SYSTEMTIME {
+    /** year */
+    uint16_t year;
+
+    /** month */
+    uint16_t month;
+
+    /** day of week (0=Sunday, 6=Saturday) */
+    uint16_t dayOfWeek;
+
+    /** day */
+    uint16_t day;
+
+    /** hour */
+    uint16_t hour;
+
+    /** minute */
+    uint16_t minute;
+
+    /** second */
+    uint16_t second;
+
+    /** milliseconds */
+    uint16_t milliseconds;
 };
 
 /**
@@ -103,49 +129,49 @@ struct VECTOR_BLF_EXPORT FileStatistics final {
      *
      * @return statistics size
      */
-    DWORD calculateStatisticsSize() const;
+    uint32_t calculateStatisticsSize() const;
 
     /** signature (signature) */
-    DWORD signature {FileSignature};
+    uint32_t signature {FileSignature};
 
     /** sizeof(FileStatistics) */
-    DWORD statisticsSize {calculateStatisticsSize()};
+    uint32_t statisticsSize {calculateStatisticsSize()};
 
     /** application ID (usually CANoe) */
-    BYTE applicationId {};
+    uint8_t applicationId {};
 
     /** application major number (usually 0) */
-    BYTE applicationMajor {};
+    uint8_t applicationMajor {};
 
     /** application minor number (usually 0) */
-    BYTE applicationMinor {};
+    uint8_t applicationMinor {};
 
     /** application build number (usually 0) */
-    BYTE applicationBuild {};
+    uint8_t applicationBuild {};
 
     /** BL API major number */
-    BYTE apiMajor {4};
+    uint8_t apiMajor {4};
 
     /** BL API minor number */
-    BYTE apiMinor {7};
+    uint8_t apiMinor {7};
 
     /** BL API build number */
-    BYTE apiBuild {1};
+    uint8_t apiBuild {1};
 
     /** BL API patch number */
-    BYTE apiPatch {0};
+    uint8_t apiPatch {0};
 
     /** (compressed) file size in bytes */
-    ULONGLONG fileSize {};
+    uint64_t fileSize {};
 
     /** uncompressed file size in bytes */
-    ULONGLONG uncompressedFileSize {};
+    uint64_t uncompressedFileSize {};
 
     /** number of objects */
-    DWORD objectCount {};
+    uint32_t objectCount {};
 
     /** number of objects read */
-    DWORD objectsRead {};
+    uint32_t objectsRead {};
 
     /** measurement start time */
     SYSTEMTIME measurementStartTime {};
@@ -154,10 +180,10 @@ struct VECTOR_BLF_EXPORT FileStatistics final {
     SYSTEMTIME lastObjectTime {};
 
     /** (compressed) file size without LogContainer+Unknown115 at end-of-file */
-    ULONGLONG fileSizeWithoutUnknown115 {};
+    uint64_t fileSizeWithoutUnknown115 {};
 
     /** reserved */
-    std::array<DWORD, 16> reservedFileStatistics {};
+    std::array<uint32_t, 16> reservedFileStatistics {};
 };
 
 }

@@ -44,7 +44,7 @@ void EventComment::read(AbstractFile & is) {
 
 void EventComment::write(AbstractFile & os) {
     /* pre processing */
-    textLength = static_cast<DWORD>(text.size());
+    textLength = static_cast<uint32_t>(text.size());
 
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&commentedEventType), sizeof(commentedEventType));
@@ -56,7 +56,7 @@ void EventComment::write(AbstractFile & os) {
     os.skipp(objectSize % 4);
 }
 
-DWORD EventComment::calculateObjectSize() const {
+uint32_t EventComment::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(commentedEventType) +

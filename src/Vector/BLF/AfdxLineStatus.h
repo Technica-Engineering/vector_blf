@@ -25,7 +25,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -48,7 +47,7 @@ struct VECTOR_BLF_EXPORT AfdxLineStatus final {
     virtual void write(AbstractFile & os);
 
     /** @copydoc ObjectHeader::calculateObjectSize */
-    virtual DWORD calculateObjectSize() const;
+    virtual uint32_t calculateObjectSize() const;
 
     /**
      * Flags
@@ -57,7 +56,7 @@ struct VECTOR_BLF_EXPORT AfdxLineStatus final {
      *   - Bit 2 - Ethernet Phy
      *   - Bit 3 - Duplex
      */
-    WORD flags {};
+    uint16_t flags {};
 
     /**
      * Link Status
@@ -67,7 +66,7 @@ struct VECTOR_BLF_EXPORT AfdxLineStatus final {
      *   - 3 - Negotiate
      *   - 4 - Link error
      */
-    BYTE linkStatus {};
+    uint8_t linkStatus {};
 
     /**
      * Eternet Phy
@@ -75,7 +74,7 @@ struct VECTOR_BLF_EXPORT AfdxLineStatus final {
      *   - 1 - IEEE 802.3
      *   - 2 - BroadR-Reach
      */
-    BYTE ethernetPhy {};
+    uint8_t ethernetPhy {};
 
     /**
      * Duplex
@@ -83,7 +82,7 @@ struct VECTOR_BLF_EXPORT AfdxLineStatus final {
      *   - 1 - Half Duplex
      *   - 2 - Full Duplex
      */
-    BYTE duplex {};
+    uint8_t duplex {};
 
     /**
      * MDI
@@ -91,7 +90,7 @@ struct VECTOR_BLF_EXPORT AfdxLineStatus final {
      *   - 1 - Direct
      *   - 2 - Crossover
      */
-    BYTE mdi {};
+    uint8_t mdi {};
 
     /**
      * Connector
@@ -99,7 +98,7 @@ struct VECTOR_BLF_EXPORT AfdxLineStatus final {
      *   - 1 - RJ45
      *   - 2 - D-Sub
      */
-    BYTE connector {};
+    uint8_t connector {};
 
     /**
      * Clock Mode
@@ -107,7 +106,7 @@ struct VECTOR_BLF_EXPORT AfdxLineStatus final {
      *   - 1 - Master
      *   - 2 - Slave
      */
-    BYTE clockMode {};
+    uint8_t clockMode {};
 
     /**
      * Pairs
@@ -116,18 +115,18 @@ struct VECTOR_BLF_EXPORT AfdxLineStatus final {
      *   - 2 - BR 2-pair
      *   - 3 - BR 4-pair
      */
-    BYTE pairs {};
+    uint8_t pairs {};
 
     /** reserved */
-    BYTE reservedAfdxLineStatus1 {};
+    uint8_t reservedAfdxLineStatus1 {};
 
     /** reserved */
-    WORD reservedAfdxLineStatus2 {};
+    uint16_t reservedAfdxLineStatus2 {};
 
     /**
      * Bitrate in [kbit/sec]
      */
-    ULONG bitrate {};
+    uint32_t bitrate {};
 };
 
 }

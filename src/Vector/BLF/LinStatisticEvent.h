@@ -25,7 +25,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -44,20 +43,20 @@ struct VECTOR_BLF_EXPORT LinStatisticEvent final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      *
      * Channel number where the frame sent/received.
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /** reserved */
-    WORD reservedLinStatisticEvent1 {};
+    uint16_t reservedLinStatisticEvent1 {};
 
     /** reserved */
-    DWORD reservedLinStatisticEvent2 {};
+    uint32_t reservedLinStatisticEvent2 {};
 
     /**
      * @brief bus load
@@ -71,38 +70,38 @@ struct VECTOR_BLF_EXPORT LinStatisticEvent final : ObjectHeader {
      *
      * Total number of bursts
      */
-    ULONG burstsTotal {};
+    uint32_t burstsTotal {};
 
     /**
      * @brief bursts overrun
      *
      * Number of overrun bursts
      */
-    ULONG burstsOverrun {};
+    uint32_t burstsOverrun {};
 
     /**
      * @brief frames sent
      *
      * Number of transmitted frames
      */
-    ULONG framesSent {};
+    uint32_t framesSent {};
 
     /**
      * @brief frames received
      *
      * Number of received frames
      */
-    ULONG framesReceived {};
+    uint32_t framesReceived {};
 
     /**
      * @brief frames unanswered
      *
      * Number of frames without response
      */
-    ULONG framesUnanswered {};
+    uint32_t framesUnanswered {};
 
     /** reserved */
-    DWORD reservedLinStatisticEvent3 {};
+    uint32_t reservedLinStatisticEvent3 {};
 };
 
 }

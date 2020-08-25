@@ -26,7 +26,6 @@
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/LinBusEvent.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -44,7 +43,7 @@ struct VECTOR_BLF_EXPORT LinUnexpectedWakeup final : ObjectHeader, LinBusEvent {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief width of the unexpected wakeup in nanoseconds (valid for LIN 2.x)
@@ -52,7 +51,7 @@ struct VECTOR_BLF_EXPORT LinUnexpectedWakeup final : ObjectHeader, LinBusEvent {
      * Width of the unexpected wakeup in nanoseconds.
      * Valid for LIN 2.x
      */
-    ULONGLONG width {};
+    uint64_t width {};
 
     /**
      * @brief byte signal of the unexpected wakeup (valid for LIN 1.x)
@@ -60,16 +59,16 @@ struct VECTOR_BLF_EXPORT LinUnexpectedWakeup final : ObjectHeader, LinBusEvent {
      * Byte signal of the unexpected wakeup. Valid for
      * LIN 1.x
      */
-    BYTE signal {};
+    uint8_t signal {};
 
     /** reserved */
-    BYTE reservedLinUnexpectedWakeup1 {};
+    uint8_t reservedLinUnexpectedWakeup1 {};
 
     /** reserved */
-    WORD reservedLinUnexpectedWakeup2 {};
+    uint16_t reservedLinUnexpectedWakeup2 {};
 
     /** reserved */
-    DWORD reservedLinUnexpectedWakeup3 {};
+    uint32_t reservedLinUnexpectedWakeup3 {};
 };
 
 }

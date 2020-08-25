@@ -53,7 +53,7 @@ void AfdxLineStatus::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&bitrate), sizeof(bitrate));
 }
 
-DWORD AfdxLineStatus::calculateObjectSize() const {
+uint32_t AfdxLineStatus::calculateObjectSize() const {
     return
         sizeof(flags) +
         sizeof(linkStatus) +

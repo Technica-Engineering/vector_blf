@@ -44,7 +44,7 @@ void LinChecksumInfo::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&reservedLinChecksumInfo), sizeof(reservedLinChecksumInfo));
 }
 
-DWORD LinChecksumInfo::calculateObjectSize() const {
+uint32_t LinChecksumInfo::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

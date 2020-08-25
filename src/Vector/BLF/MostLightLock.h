@@ -25,7 +25,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -54,14 +53,14 @@ struct VECTOR_BLF_EXPORT MostLightLock final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      *
      * Application channel
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /**
      * Signal state:
@@ -71,10 +70,10 @@ struct VECTOR_BLF_EXPORT MostLightLock final : ObjectHeader {
      *   - 0x10 – Stable Lock
      *   - 0x20 – Critical Unlock
      */
-    SHORT state {};
+    int16_t state {};
 
     /** reserved */
-    DWORD reservedMostLightLock {};
+    uint32_t reservedMostLightLock {};
 };
 
 }

@@ -26,7 +26,6 @@
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/LinBusEvent.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -39,21 +38,21 @@ namespace BLF {
 struct VECTOR_BLF_EXPORT LinSynchFieldEvent : LinBusEvent {
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief Sync Break Length in ns
      *
      * Length of dominant part [in nanoseconds]
      */
-    ULONGLONG synchBreakLength {};
+    uint64_t synchBreakLength {};
 
     /**
      * @brief Sync Delimiter Length in ns
      *
      * Length of delimiter (recessive) [in nanoseconds]
      */
-    ULONGLONG synchDelLength {};
+    uint64_t synchDelLength {};
 };
 
 }

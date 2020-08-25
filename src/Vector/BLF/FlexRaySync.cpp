@@ -56,7 +56,7 @@ void FlexRaySync::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&cycle), sizeof(cycle));
 }
 
-DWORD FlexRaySync::calculateObjectSize() const {
+uint32_t FlexRaySync::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
@@ -67,7 +67,7 @@ DWORD FlexRaySync::calculateObjectSize() const {
         sizeof(dir) +
         sizeof(reservedFlexRaySync1) +
         sizeof(reservedFlexRaySync2) +
-        static_cast<DWORD>(dataBytes.size()) +
+        static_cast<uint32_t>(dataBytes.size()) +
         sizeof(cycle);
 }
 

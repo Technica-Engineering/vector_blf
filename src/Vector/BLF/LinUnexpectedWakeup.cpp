@@ -49,7 +49,7 @@ void LinUnexpectedWakeup::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&reservedLinUnexpectedWakeup3), sizeof(reservedLinUnexpectedWakeup3));
 }
 
-DWORD LinUnexpectedWakeup::calculateObjectSize() const {
+uint32_t LinUnexpectedWakeup::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         LinBusEvent::calculateObjectSize() +

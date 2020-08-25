@@ -44,8 +44,8 @@ void CanErrorFrame::write(AbstractFile & os) {
         os.write(reinterpret_cast<char *>(&reservedCanErrorFrame), sizeof(reservedCanErrorFrame));
 }
 
-DWORD CanErrorFrame::calculateObjectSize() const {
-    DWORD size =
+uint32_t CanErrorFrame::calculateObjectSize() const {
+    uint32_t size =
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(length);

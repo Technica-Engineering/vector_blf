@@ -26,7 +26,6 @@
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/LinBusEvent.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -46,7 +45,7 @@ struct VECTOR_BLF_EXPORT LinLongDomSignalEvent final : ObjectHeader, LinBusEvent
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * One dominant signal can be reported with
@@ -56,16 +55,16 @@ struct VECTOR_BLF_EXPORT LinLongDomSignalEvent final : ObjectHeader, LinBusEvent
      *   - 1: Signal continuation
      *   - 2: Signal finished
      */
-    BYTE type {};
+    uint8_t type {};
 
     /** reserved */
-    BYTE reservedLinLongDomSignalEvent1 {};
+    uint8_t reservedLinLongDomSignalEvent1 {};
 
     /** reserved */
-    WORD reservedLinLongDomSignalEvent2 {};
+    uint16_t reservedLinLongDomSignalEvent2 {};
 
     /** reserved */
-    DWORD reservedLinLongDomSignalEvent3 {};
+    uint32_t reservedLinLongDomSignalEvent3 {};
 };
 
 }

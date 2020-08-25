@@ -54,7 +54,7 @@ void A429Status::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&maxBitrate), sizeof(maxBitrate));
 }
 
-DWORD A429Status::calculateObjectSize() const {
+uint32_t A429Status::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

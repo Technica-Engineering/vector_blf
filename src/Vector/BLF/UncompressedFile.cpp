@@ -286,14 +286,14 @@ void UncompressedFile::dropOldData() {
     m_data.pop_front();
 }
 
-DWORD UncompressedFile::defaultLogContainerSize() const {
+uint32_t UncompressedFile::defaultLogContainerSize() const {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 
     return m_defaultLogContainerSize;
 }
 
-void UncompressedFile::setDefaultLogContainerSize(DWORD defaultLogContainerSize) {
+void UncompressedFile::setDefaultLogContainerSize(uint32_t defaultLogContainerSize) {
     /* mutex lock */
     std::lock_guard<std::mutex> lock(m_mutex);
 

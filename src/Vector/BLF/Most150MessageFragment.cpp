@@ -54,7 +54,7 @@ void Most150MessageFragment::read(AbstractFile & is) {
 
 void Most150MessageFragment::write(AbstractFile & os) {
     /* pre processing */
-    firstDataLen = static_cast<DWORD>(firstData.size());
+    firstDataLen = static_cast<uint32_t>(firstData.size());
 
     ObjectHeader2::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
@@ -78,7 +78,7 @@ void Most150MessageFragment::write(AbstractFile & os) {
     os.skipp(objectSize % 4);
 }
 
-DWORD Most150MessageFragment::calculateObjectSize() const {
+uint32_t Most150MessageFragment::calculateObjectSize() const {
     return
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +

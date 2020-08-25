@@ -44,7 +44,7 @@ void VarObjectHeader::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&objectTimeStamp), sizeof(objectTimeStamp));
 }
 
-WORD VarObjectHeader::calculateHeaderSize() const {
+uint16_t VarObjectHeader::calculateHeaderSize() const {
     return
         ObjectHeaderBase::calculateHeaderSize() +
         sizeof(objectFlags) +
@@ -53,7 +53,7 @@ WORD VarObjectHeader::calculateHeaderSize() const {
         sizeof(objectTimeStamp);
 }
 
-DWORD VarObjectHeader::calculateObjectSize() const {
+uint32_t VarObjectHeader::calculateObjectSize() const {
     return calculateHeaderSize();
 }
 

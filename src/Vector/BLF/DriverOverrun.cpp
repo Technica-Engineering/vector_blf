@@ -42,7 +42,7 @@ void DriverOverrun::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&reservedDriverOverrun), sizeof(reservedDriverOverrun));
 }
 
-DWORD DriverOverrun::calculateObjectSize() const {
+uint32_t DriverOverrun::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(busType) +

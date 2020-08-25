@@ -60,13 +60,13 @@ void LinCrcError::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&reservedLinCrcError2), sizeof(reservedLinCrcError2));
 }
 
-DWORD LinCrcError::calculateObjectSize() const {
+uint32_t LinCrcError::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +
         sizeof(id) +
         sizeof(dlc) +
-        static_cast<DWORD>(data.size()) +
+        static_cast<uint32_t>(data.size()) +
         sizeof(fsmId) +
         sizeof(fsmState) +
         sizeof(headerTime) +

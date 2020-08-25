@@ -27,7 +27,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -48,26 +47,26 @@ struct VECTOR_BLF_EXPORT LinSyncError final : ObjectHeader {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      *
      * Channel number where the event notified.
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /** reserved */
-    WORD reservedLinSyncError1 {};
+    uint16_t reservedLinSyncError1 {};
 
     /**
      * Time intervals [in us] detected between the
      * falling signal edges of the Sync field
      */
-    std::array<WORD, 4> timeDiff {};
+    std::array<uint16_t, 4> timeDiff {};
 
     /** reserved */
-    DWORD reservedLinSyncError2 {};
+    uint32_t reservedLinSyncError2 {};
 };
 
 }

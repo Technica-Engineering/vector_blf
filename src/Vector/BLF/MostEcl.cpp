@@ -45,7 +45,7 @@ void MostEcl::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&reservedMostEcl), sizeof(reservedMostEcl));
 }
 
-DWORD MostEcl::calculateObjectSize() const {
+uint32_t MostEcl::calculateObjectSize() const {
     return
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +

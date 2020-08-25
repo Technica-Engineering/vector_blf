@@ -28,7 +28,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -53,38 +52,38 @@ struct VECTOR_BLF_EXPORT GeneralSerialEvent final {
     virtual void write(AbstractFile & os);
 
     /** @copydoc ObjectHeader::calculateObjectSize */
-    virtual DWORD calculateObjectSize() const;
+    virtual uint32_t calculateObjectSize() const;
 
     /**
      * @brief length of variable data in bytes
      *
      * length of variable data in bytes
      */
-    DWORD dataLength {};
+    uint32_t dataLength {};
 
     /**
      * @brief length of variable timestamps in bytes
      *
      * length of variable timestamps in bytes
      */
-    DWORD timeStampsLength {};
+    uint32_t timeStampsLength {};
 
     /** reserved */
-    ULONGLONG reservedGeneralSerialEvent {};
+    uint64_t reservedGeneralSerialEvent {};
 
     /**
      * @brief variable data
      *
      * variable data
      */
-    std::vector<BYTE> data {};
+    std::vector<uint8_t> data {};
 
     /**
      * @brief variable timestamps (optional)
      *
      * variable timestamps (optional)
      */
-    std::vector<LONGLONG> timeStamps {};
+    std::vector<int64_t> timeStamps {};
 };
 
 }

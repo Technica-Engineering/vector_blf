@@ -26,7 +26,6 @@
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/LinBusEvent.h>
 #include <Vector/BLF/ObjectHeader.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -44,14 +43,14 @@ struct VECTOR_BLF_EXPORT LinSpikeEvent2 final : ObjectHeader, LinBusEvent {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief the spike's width in microseconds
      *
      * Spike length in microseconds
      */
-    ULONG width {};
+    uint32_t width {};
 
     /**
      * Flag indicating whether this event is a simulated
@@ -59,13 +58,13 @@ struct VECTOR_BLF_EXPORT LinSpikeEvent2 final : ObjectHeader, LinBusEvent {
      *   - 0: real event
      *   - 1: simulated event
      */
-    BYTE internal {};
+    uint8_t internal {};
 
     /** reserved */
-    BYTE reservedLinSpikeEvent1 {};
+    uint8_t reservedLinSpikeEvent1 {};
 
     /** reserved */
-    WORD reservedLinSpikeEvent2 {};
+    uint16_t reservedLinSpikeEvent2 {};
 };
 
 }

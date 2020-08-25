@@ -47,8 +47,8 @@ void SystemVariable::read(AbstractFile & is) {
 
 void SystemVariable::write(AbstractFile & os) {
     /* pre processing */
-    nameLength = static_cast<DWORD>(name.size());
-    dataLength = static_cast<DWORD>(data.size());
+    nameLength = static_cast<uint32_t>(name.size());
+    dataLength = static_cast<uint32_t>(data.size());
 
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&type), sizeof(type));
@@ -64,7 +64,7 @@ void SystemVariable::write(AbstractFile & os) {
     os.skipp(objectSize % 4);
 }
 
-DWORD SystemVariable::calculateObjectSize() const {
+uint32_t SystemVariable::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(type) +

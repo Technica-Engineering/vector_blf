@@ -113,14 +113,14 @@ class VECTOR_BLF_EXPORT UncompressedFile final : public AbstractFile {
      *
      * @return default log container size
      */
-    virtual DWORD defaultLogContainerSize() const;
+    virtual uint32_t defaultLogContainerSize() const;
 
     /**
      * Set default log container size.
      *
      * @param[in] defaultLogContainerSize default log container size
      */
-    virtual void setDefaultLogContainerSize(DWORD defaultLogContainerSize);
+    virtual void setDefaultLogContainerSize(uint32_t defaultLogContainerSize);
 
     /** tellg was changed (after read or seekg) */
     std::condition_variable tellgChanged;
@@ -157,7 +157,7 @@ class VECTOR_BLF_EXPORT UncompressedFile final : public AbstractFile {
     mutable std::mutex m_mutex {};
 
     /** default log container size */
-    DWORD m_defaultLogContainerSize {0x20000};
+    uint32_t m_defaultLogContainerSize {0x20000};
 
     /**
      * Returns the file container, which contains pos.

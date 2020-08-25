@@ -44,7 +44,7 @@ void LinSleepModeEvent::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&reservedLinSleepModeEvent), sizeof(reservedLinSleepModeEvent));
 }
 
-DWORD LinSleepModeEvent::calculateObjectSize() const {
+uint32_t LinSleepModeEvent::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
         sizeof(channel) +

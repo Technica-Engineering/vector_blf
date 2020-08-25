@@ -27,7 +27,6 @@
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader2.h>
-#include <Vector/BLF/VectorTypes.h>
 
 #include <Vector/BLF/vector_blf_export.h>
 
@@ -44,14 +43,14 @@ struct VECTOR_BLF_EXPORT Most50Pkt final : ObjectHeader2 {
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
-    DWORD calculateObjectSize() const override;
+    uint32_t calculateObjectSize() const override;
 
     /**
      * @brief application channel
      *
      * Application channel
      */
-    WORD channel {};
+    uint16_t channel {};
 
     /**
      * @brief direction: 0: Rx; 1: Tx; 2: TxRequest
@@ -61,24 +60,24 @@ struct VECTOR_BLF_EXPORT Most50Pkt final : ObjectHeader2 {
      *   - 1: Tx (transmit receipt)
      *   - 2: Tx Request (transmit request)
      */
-    BYTE dir {};
+    uint8_t dir {};
 
     /** reserved */
-    BYTE reservedMost50Pkt1 {};
+    uint8_t reservedMost50Pkt1 {};
 
     /**
      * @brief source address
      *
      * Source address
      */
-    DWORD sourceAdr {};
+    uint32_t sourceAdr {};
 
     /**
      * @brief target address
      *
      * Target address
      */
-    DWORD destAdr {};
+    uint32_t destAdr {};
 
     /**
      * @brief Tranfer Type
@@ -92,7 +91,7 @@ struct VECTOR_BLF_EXPORT Most50Pkt final : ObjectHeader2 {
      *     Message was reported by the network spy. The Spy sees all messages
      *     independently of the desti-nation address.
      */
-    BYTE transferType {};
+    uint8_t transferType {};
 
     /**
      * @brief transmission status
@@ -124,7 +123,7 @@ struct VECTOR_BLF_EXPORT Most50Pkt final : ObjectHeader2 {
      *       - only for Dir = Tx
      *       - only for mTransferType = Node
      */
-    BYTE state {};
+    uint8_t state {};
 
     /**
      * @brief acknowledge code
@@ -163,40 +162,40 @@ struct VECTOR_BLF_EXPORT Most50Pkt final : ObjectHeader2 {
      *     Restriction:
      *       - only for Dir = Tx or spy messages
      */
-    BYTE ackNack {};
+    uint8_t ackNack {};
 
     /** reserved */
-    BYTE reservedMost50Pkt2 {};
+    uint8_t reservedMost50Pkt2 {};
 
     /**
      * @brief Cyclic Redundancy Check
      *
      * Cyclic Redundancy Check
      */
-    DWORD crc {};
+    uint32_t crc {};
 
     /** reserved */
-    WORD reservedMost50Pkt3 {};
+    uint16_t reservedMost50Pkt3 {};
 
     /**
      * @brief priority of the message
      *
      * Priority
      */
-    BYTE priority {};
+    uint8_t priority {};
 
     /** reserved */
-    BYTE reservedMost50Pkt4 {};
+    uint8_t reservedMost50Pkt4 {};
 
     /**
      * @brief length of variable data in bytes (1014 max)
      *
      * Length of variable data in bytes (1014 max)
      */
-    DWORD pktDataLength {};
+    uint32_t pktDataLength {};
 
     /** reserved */
-    DWORD reservedMost50Pkt5 {};
+    uint32_t reservedMost50Pkt5 {};
 
     /**
      * @brief variable data

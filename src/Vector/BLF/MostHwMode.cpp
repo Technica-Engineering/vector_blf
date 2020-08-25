@@ -44,7 +44,7 @@ void MostHwMode::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&hwModeMask), sizeof(hwModeMask));
 }
 
-DWORD MostHwMode::calculateObjectSize() const {
+uint32_t MostHwMode::calculateObjectSize() const {
     return
         ObjectHeader2::calculateObjectSize() +
         sizeof(channel) +

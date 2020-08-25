@@ -70,10 +70,10 @@ void A429Message::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&reservedA429Message5), sizeof(reservedA429Message5));
 }
 
-DWORD A429Message::calculateObjectSize() const {
+uint32_t A429Message::calculateObjectSize() const {
     return
         ObjectHeader::calculateObjectSize() +
-        static_cast<DWORD>(a429Data.size()) +
+        static_cast<uint32_t>(a429Data.size()) +
         sizeof(channel) +
         sizeof(dir) +
         sizeof(reservedA429Message1) +
