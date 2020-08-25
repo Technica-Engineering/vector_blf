@@ -19,6 +19,7 @@
  * met: http://www.gnu.org/copyleft/gpl.html.
  */
 
+#include <array>
 #include <codecvt>
 #include <cstring>
 #include <ctime>
@@ -55,6 +56,9 @@ void printString(char * data, size_t size) {
 }
 
 void show(Vector::BLF::FileStatistics * obj) {
+    std::array<std::string, 7> dayOfWeekStr = {
+        {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" }
+    };
     std::cout << "FileStatistics:" << std::endl;
     std::cout << "  statisticsSize: "
               << "0x" << std::hex << obj->statisticsSize << std::endl;
@@ -81,24 +85,24 @@ void show(Vector::BLF::FileStatistics * obj) {
     std::cout << "  objectsRead: "
               << std::dec << obj->objectsRead << std::endl;
     std::cout << "  measurementStartTime: "
-              << std::dec << obj->measurementStartTime.year << "-"
-              << std::dec << obj->measurementStartTime.month << "-"
-              << std::dec << obj->measurementStartTime.day << " "
-              << std::dec << obj->measurementStartTime.dayOfWeek << " "
-              << std::dec << obj->measurementStartTime.hour << ":"
-              << std::dec << obj->measurementStartTime.minute << ":"
-              << std::dec << obj->measurementStartTime.second << "."
-              << std::dec << obj->measurementStartTime.milliseconds
+              << std::dec << std::setfill('0') << std::setw(4) << obj->measurementStartTime.year << "-"
+              << std::dec << std::setfill('0') << std::setw(2) << obj->measurementStartTime.month << "-"
+              << std::dec << std::setfill('0') << std::setw(2) << obj->measurementStartTime.day << " "
+              << dayOfWeekStr[obj->measurementStartTime.dayOfWeek % 7] << " "
+              << std::dec << std::setfill('0') << std::setw(2) << obj->measurementStartTime.hour << ":"
+              << std::dec << std::setfill('0') << std::setw(2) << obj->measurementStartTime.minute << ":"
+              << std::dec << std::setfill('0') << std::setw(2) << obj->measurementStartTime.second << "."
+              << std::dec << std::setfill('0') << std::setw(3) << obj->measurementStartTime.milliseconds
               << std::endl;
     std::cout << "  lastObjectTime: "
-              << std::dec << obj->lastObjectTime.year << "-"
-              << std::dec << obj->lastObjectTime.month << "-"
-              << std::dec << obj->lastObjectTime.day << " "
-              << std::dec << obj->lastObjectTime.dayOfWeek << " "
-              << std::dec << obj->lastObjectTime.hour << ":"
-              << std::dec << obj->lastObjectTime.minute << ":"
-              << std::dec << obj->lastObjectTime.second << "."
-              << std::dec << obj->lastObjectTime.milliseconds
+              << std::dec << std::setfill('0') << std::setw(4) << obj->lastObjectTime.year << "-"
+              << std::dec << std::setfill('0') << std::setw(2) << obj->lastObjectTime.month << "-"
+              << std::dec << std::setfill('0') << std::setw(2) << obj->lastObjectTime.day << " "
+              << dayOfWeekStr[obj->lastObjectTime.dayOfWeek % 7] << " "
+              << std::dec << std::setfill('0') << std::setw(2) << obj->lastObjectTime.hour << ":"
+              << std::dec << std::setfill('0') << std::setw(2) << obj->lastObjectTime.minute << ":"
+              << std::dec << std::setfill('0') << std::setw(2) << obj->lastObjectTime.second << "."
+              << std::dec << std::setfill('0') << std::setw(3) << obj->lastObjectTime.milliseconds
               << std::endl;
     std::cout << "  fileSizeWithoutUnknown115: "
               << "0x" << std::hex << obj->fileSizeWithoutUnknown115
@@ -929,14 +933,14 @@ void show(Vector::BLF::EthernetFrame * obj) {
     std::cout << " sourceAddress=";
     printData(obj->sourceAddress.data(), obj->sourceAddress.size());
     std::cout << " channel=" << std::dec << obj->channel;
-    std::cout << "destinationAddress=";
+    std::cout << " destinationAddress=";
     printData(obj->destinationAddress.data(), obj->destinationAddress.size());
     std::cout << " dir=" << std::dec << obj->dir;
-    std::cout << " type=" << std::dec << obj->type;
+    std::cout << " type=0x" << std::hex << obj->type;
     std::cout << " tpid=" << std::dec << obj->tpid;
     std::cout << " tci=" << std::dec << obj->tci;
     std::cout << " payLoadLength=" << std::dec << obj->payLoadLength;
-    std::cout << "payLoad=";
+    std::cout << " payLoad=";
     printData(obj->payLoad.data(), min(obj->payLoad.size(), obj->payLoadLength));
     std::cout << std::endl;
 }
