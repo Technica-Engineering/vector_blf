@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+### Fixed
+- Drop VectorTypes.h and use std types instead.
+
 ## [2.3.1] - 2020-07-16
 ### Fixed
 - Fix Unknown115:write
