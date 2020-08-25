@@ -14,7 +14,7 @@ BOOST_AUTO_TEST_CASE(SystemVariable_1) {
     BOOST_REQUIRE(file.is_open());
 
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
-    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::SYS_VARIABLE);
     auto * obj = dynamic_cast<Vector::BLF::SystemVariable *>(ohb);
 
@@ -45,7 +45,7 @@ BOOST_AUTO_TEST_CASE(SystemVariable_1) {
 
     /* read next */
     ohb = file.read();
-    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::SYS_VARIABLE);
     obj = static_cast<Vector::BLF::SystemVariable *>(ohb);
     BOOST_CHECK_EQUAL(obj->type, Vector::BLF::SystemVariable::Type::Long);
@@ -54,7 +54,7 @@ BOOST_AUTO_TEST_CASE(SystemVariable_1) {
 
     /* read next */
     ohb = file.read();
-    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::SYS_VARIABLE);
     obj = static_cast<Vector::BLF::SystemVariable *>(ohb);
     BOOST_CHECK_EQUAL(obj->type, Vector::BLF::SystemVariable::Type::String);
@@ -63,7 +63,7 @@ BOOST_AUTO_TEST_CASE(SystemVariable_1) {
 
     /* read next */
     ohb = file.read();
-    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::SYS_VARIABLE);
     obj = static_cast<Vector::BLF::SystemVariable *>(ohb);
     BOOST_CHECK_EQUAL(obj->type, Vector::BLF::SystemVariable::Type::DoubleArray);
@@ -72,7 +72,7 @@ BOOST_AUTO_TEST_CASE(SystemVariable_1) {
 
     /* read next */
     ohb = file.read();
-    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::SYS_VARIABLE);
     obj = static_cast<Vector::BLF::SystemVariable *>(ohb);
     BOOST_CHECK_EQUAL(obj->type, Vector::BLF::SystemVariable::Type::LongArray);
@@ -81,7 +81,7 @@ BOOST_AUTO_TEST_CASE(SystemVariable_1) {
 
     /* read next */
     ohb = file.read();
-    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::SYS_VARIABLE);
     obj = static_cast<Vector::BLF::SystemVariable *>(ohb);
     BOOST_CHECK_EQUAL(obj->type, Vector::BLF::SystemVariable::Type::LongLong);
@@ -90,7 +90,7 @@ BOOST_AUTO_TEST_CASE(SystemVariable_1) {
 
     /* read next */
     ohb = file.read();
-    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::SYS_VARIABLE);
     obj = static_cast<Vector::BLF::SystemVariable *>(ohb);
     BOOST_CHECK_EQUAL(obj->type, Vector::BLF::SystemVariable::Type::ByteArray);
@@ -99,7 +99,7 @@ BOOST_AUTO_TEST_CASE(SystemVariable_1) {
 
     /* read next */
     ohb = file.read();
-    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::SYS_VARIABLE);
     obj = static_cast<Vector::BLF::SystemVariable *>(ohb);
     BOOST_CHECK_EQUAL(obj->type, Vector::BLF::SystemVariable::Type::ByteArray);
@@ -108,14 +108,14 @@ BOOST_AUTO_TEST_CASE(SystemVariable_1) {
 
     /* read last */
     ohb = file.read();
-    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::Unknown115);
 
     delete ohb;
 
     /* read last */
     ohb = file.read();
-    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::Unknown115);
 
     delete ohb;
@@ -134,7 +134,7 @@ BOOST_AUTO_TEST_CASE(SystemVariable_2) {
     BOOST_REQUIRE(file.is_open());
 
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
-    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::SYS_VARIABLE);
     auto * obj = dynamic_cast<Vector::BLF::SystemVariable *>(ohb);
 

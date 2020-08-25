@@ -14,7 +14,7 @@ BOOST_AUTO_TEST_CASE(LinLongDomSignalEvent2_1) {
     BOOST_REQUIRE(file.is_open());
 
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
-    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_LONG_DOM_SIG2);
     auto * obj = dynamic_cast<Vector::BLF::LinLongDomSignalEvent2 *>(ohb);
 
@@ -48,21 +48,21 @@ BOOST_AUTO_TEST_CASE(LinLongDomSignalEvent2_1) {
 
     /* read next */
     ohb = file.read();
-    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_LONG_DOM_SIG2);
 
     delete ohb;
 
     /* read last */
     ohb = file.read();
-    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::Unknown115);
 
     delete ohb;
 
     /* read last */
     ohb = file.read();
-    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::Unknown115);
 
     delete ohb;
@@ -81,7 +81,7 @@ BOOST_AUTO_TEST_CASE(LinLongDomSignalEvent2_2) {
     BOOST_REQUIRE(file.is_open());
 
     Vector::BLF::ObjectHeaderBase * ohb = file.read();
-    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_LONG_DOM_SIG2);
     auto * obj = dynamic_cast<Vector::BLF::LinLongDomSignalEvent2 *>(ohb);
 
@@ -112,7 +112,7 @@ BOOST_AUTO_TEST_CASE(LinLongDomSignalEvent2_2) {
     delete ohb;
 
     ohb = file.read();
-    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb);
     BOOST_REQUIRE(ohb->objectType == Vector::BLF::ObjectType::LIN_LONG_DOM_SIG2);
     obj = static_cast<Vector::BLF::LinLongDomSignalEvent2 *>(ohb);
 

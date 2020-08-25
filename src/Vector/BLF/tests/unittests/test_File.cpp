@@ -44,7 +44,7 @@ BOOST_AUTO_TEST_CASE(createUnknownObjects) {
     /* this should exist */
     Vector::BLF::ObjectHeaderBase * ohb;
     ohb = Vector::BLF::File::createObject(Vector::BLF::ObjectType::LOG_CONTAINER);
-    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb);
     BOOST_CHECK(ohb->objectType == Vector::BLF::ObjectType::LOG_CONTAINER);
     delete ohb;
 }
@@ -116,7 +116,7 @@ BOOST_AUTO_TEST_CASE(fileWithTruncatedCanMessage) {
 
     /* first CanMessage is ok */
     ohb = file.read();
-    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb);
     BOOST_CHECK(ohb->objectType == Vector::BLF::ObjectType::CAN_MESSAGE);
     BOOST_CHECK(file.good());
     delete ohb;
@@ -140,7 +140,7 @@ BOOST_AUTO_TEST_CASE(fileWithUnknownObjectType) {
 
     /* first CanMessage is ok */
     ohb = file.read();
-    BOOST_REQUIRE(ohb != nullptr);
+    BOOST_REQUIRE(ohb);
     BOOST_CHECK(ohb->objectType == Vector::BLF::ObjectType::CAN_MESSAGE);
     BOOST_CHECK(file.good());
     delete ohb;
