@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Added
+- New Types: CanSettingChanged, DistributedObjectMember, AttributeEvent
 ### Fixed
 - Drop VectorTypes.h and use std types instead.
 

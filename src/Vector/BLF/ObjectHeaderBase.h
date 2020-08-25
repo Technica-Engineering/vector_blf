@@ -164,7 +164,10 @@ enum class ObjectType : uint32_t {
     DATA_LOST_BEGIN = 125, /**< Data lost begin */
     DATA_LOST_END = 126, /**< Data lost end */
     WATER_MARK_EVENT = 127, /**< Watermark event */
-    TRIGGER_CONDITION = 128 /**< Trigger Condition event */
+    TRIGGER_CONDITION = 128, /**< Trigger Condition event */
+    CAN_SETTING_CHANGED = 129, /**< CAN Settings Changed object */
+    DISTRIBUTED_OBJECT_MEMBER = 130, /**< Distributed object member (communication setup) */
+    ATTRIBUTE_EVENT = 131, /**< ATTRIBUTE event (communication setup) */
 };
 
 /** object signature */

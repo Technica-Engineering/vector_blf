@@ -676,6 +676,18 @@ ObjectHeaderBase * File::createObject(ObjectType type) {
     case ObjectType::TRIGGER_CONDITION:
         obj = new TriggerCondition;
         break;
+
+    case ObjectType::CAN_SETTING_CHANGED:
+        obj = new CanSettingChanged;
+        break;
+
+    case ObjectType::DISTRIBUTED_OBJECT_MEMBER:
+        obj = new DistributedObjectMember;
+        break;
+
+    case ObjectType::ATTRIBUTE_EVENT:
+        obj = new AttributeEvent;
+        break;
     }
 
     return obj;

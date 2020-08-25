@@ -162,6 +162,9 @@
 #include <Vector/BLF/DataLostEnd.h> // DATA_LOST_END = 126
 #include <Vector/BLF/WaterMarkEvent.h> // WATER_MARK_EVENT = 127
 #include <Vector/BLF/TriggerCondition.h> // TRIGGER_CONDITION = 128
+#include <Vector/BLF/CanSettingChanged.h> // CAN_SETTING_CHANGED = 129
+#include <Vector/BLF/DistributedObjectMember.h> // DISTRIBUTED_OBJECT_MEMBER = 130
+#include <Vector/BLF/AttributeEvent.h> // ATTRIBUTE_EVENT = 131
 
 #include <Vector/BLF/vector_blf_export.h>
 

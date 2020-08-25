@@ -26,6 +26,7 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/AfdxStatus.h
         ${CMAKE_CURRENT_SOURCE_DIR}/AppText.h
         ${CMAKE_CURRENT_SOURCE_DIR}/AppTrigger.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/AttributeEvent.h
         ${CMAKE_CURRENT_SOURCE_DIR}/CanDriverErrorExt.h
         ${CMAKE_CURRENT_SOURCE_DIR}/CanDriverError.h
         ${CMAKE_CURRENT_SOURCE_DIR}/CanDriverHwSync.h
@@ -39,11 +40,13 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/CanMessage2.h
         ${CMAKE_CURRENT_SOURCE_DIR}/CanMessage.h
         ${CMAKE_CURRENT_SOURCE_DIR}/CanOverloadFrame.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/CanSettingChanged.h
         ${CMAKE_CURRENT_SOURCE_DIR}/CompactSerialEvent.h
         ${CMAKE_CURRENT_SOURCE_DIR}/CompressedFile.h
         ${CMAKE_CURRENT_SOURCE_DIR}/DataLostBegin.h
         ${CMAKE_CURRENT_SOURCE_DIR}/DataLostEnd.h
         ${CMAKE_CURRENT_SOURCE_DIR}/DiagRequestInterpretation.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/DistributedObjectMember.h
         ${CMAKE_CURRENT_SOURCE_DIR}/DriverOverrun.h
         ${CMAKE_CURRENT_SOURCE_DIR}/EnvironmentVariable.h
         ${CMAKE_CURRENT_SOURCE_DIR}/EthernetErrorEx.h
@@ -164,6 +167,7 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/AfdxStatus.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/AppText.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/AppTrigger.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/AttributeEvent.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/CanDriverError.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/CanDriverErrorExt.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/CanDriverHwSync.cpp
@@ -177,11 +181,13 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/CanMessage2.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/CanMessage.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/CanOverloadFrame.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/CanSettingChanged.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/CompactSerialEvent.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/CompressedFile.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/DataLostBegin.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/DataLostEnd.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/DiagRequestInterpretation.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/DistributedObjectMember.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/DriverOverrun.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/EnvironmentVariable.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/EthernetErrorEx.cpp
