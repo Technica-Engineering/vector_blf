@@ -34,6 +34,7 @@ void CanMessage2::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&flags), sizeof(flags));
     is.read(reinterpret_cast<char *>(&dlc), sizeof(dlc));
     is.read(reinterpret_cast<char *>(&id), sizeof(id));
+    data.resize(objectSize - calculateObjectSize()); // all remaining data
     is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
     is.read(reinterpret_cast<char *>(&frameLength), sizeof(frameLength));
     is.read(reinterpret_cast<char *>(&bitCount), sizeof(bitCount));

@@ -39,7 +39,7 @@ void EthernetFrame::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&tci), sizeof(tci));
     is.read(reinterpret_cast<char *>(&payLoadLength), sizeof(payLoadLength));
     is.read(reinterpret_cast<char *>(&reservedEthernetFrame), sizeof(reservedEthernetFrame));
-    payLoad.resize(payLoadLength);
+    payLoad.resize(objectSize - calculateObjectSize()); // all remaining data
     is.read(reinterpret_cast<char *>(payLoad.data()), payLoadLength);
 
     /* skip padding */
@@ -47,9 +47,6 @@ void EthernetFrame::read(AbstractFile & is) {
 }
 
 void EthernetFrame::write(AbstractFile & os) {
-    /* pre processing */
-    payLoadLength = static_cast<uint16_t>(payLoad.size());
-
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(sourceAddress.data()), static_cast<std::streamsize>(sourceAddress.size()));
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
@@ -78,7 +75,7 @@ uint32_t EthernetFrame::calculateObjectSize() const {
         sizeof(tci) +
         sizeof(payLoadLength) +
         sizeof(reservedEthernetFrame) +
-        payLoadLength;
+        static_cast<uint32_t>(payLoad.size());
 }
 
 }

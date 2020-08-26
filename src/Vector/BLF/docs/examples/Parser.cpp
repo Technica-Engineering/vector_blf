@@ -941,7 +941,7 @@ void show(Vector::BLF::EthernetFrame * obj) {
     std::cout << " tci=" << std::dec << obj->tci;
     std::cout << " payLoadLength=" << std::dec << obj->payLoadLength;
     std::cout << " payLoad=";
-    printData(obj->payLoad.data(), min(obj->payLoad.size(), obj->payLoadLength));
+    printData(obj->payLoad.data(), obj->payLoad.size());
     std::cout << std::endl;
 }
 
@@ -1253,7 +1253,7 @@ void show(Vector::BLF::CanMessage2 * obj) {
     std::cout << " dlc=" << std::dec << static_cast<uint16_t>(obj->dlc);
     std::cout << " id=0x" << std::hex << obj->id;
     std::cout << " data=";
-    printData(obj->data.data(), min(obj->data.size(), obj->dlc));
+    printData(obj->data.data(), obj->data.size());
     std::cout << " frameLength=" << std::dec << obj->frameLength;
     std::cout << " bitCount=" << std::dec << static_cast<uint16_t>(obj->bitCount);
     std::cout << std::endl;
@@ -1464,7 +1464,7 @@ void show(Vector::BLF::CanFdMessage * obj) {
     std::cout << " canFdFlags=0x" << std::hex << static_cast<uint16_t>(obj->canFdFlags);
     std::cout << " validDataBytes=" << std::dec << static_cast<uint16_t>(obj->validDataBytes);
     std::cout << " data=";
-    printData(obj->data.data(), min(obj->data.size(), obj->validDataBytes));
+    printData(obj->data.data(), obj->data.size());
     std::cout << std::endl;
 }
 

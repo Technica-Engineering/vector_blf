@@ -23,7 +23,7 @@
 
 #include <Vector/BLF/platform.h>
 
-#include <array>
+#include <vector>
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
@@ -85,7 +85,7 @@ struct VECTOR_BLF_EXPORT CanMessage2 final : ObjectHeader {
      *
      * CAN data bytes
      */
-    std::array<uint8_t, 8> data {};
+    std::vector<uint8_t> data {};
 
     /**
      * @brief message length in ns

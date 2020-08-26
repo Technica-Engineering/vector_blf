@@ -178,12 +178,12 @@ BOOST_AUTO_TEST_CASE(LinMessageVersion0) {
     /* write to file */
     Vector::BLF::LinMessage2 linMessage1;
     BOOST_CHECK_EQUAL(linMessage1.calculateObjectSize(), 0xB8);
-    linMessage1.objectVersion = 0;
-    BOOST_CHECK_EQUAL(linMessage1.calculateObjectSize(), 0xA8);
+    linMessage1.apiMajor = 1;
+    BOOST_CHECK_EQUAL(linMessage1.calculateObjectSize(), 0xA4);
     linMessage1.write(file);
 
     /* read from file */
     Vector::BLF::LinMessage2 linMessage2;
     linMessage2.read(file);
-    BOOST_CHECK_EQUAL(linMessage2.objectVersion, 0);
+    BOOST_CHECK_EQUAL(linMessage2.apiMajor, 1);
 }

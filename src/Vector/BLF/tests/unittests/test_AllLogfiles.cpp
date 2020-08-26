@@ -88,8 +88,6 @@ BOOST_AUTO_TEST_CASE(AllBinlogLogfiles) {
     /* input directory */
     boost::filesystem::path indir(CMAKE_CURRENT_SOURCE_DIR "/events_from_binlog/");
 
-
-
     /* output directory */
     boost::filesystem::path outdir(CMAKE_CURRENT_BINARY_DIR "/events_from_binlog/");
     if (!exists(outdir))

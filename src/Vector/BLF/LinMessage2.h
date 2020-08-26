@@ -165,6 +165,15 @@ struct VECTOR_BLF_EXPORT LinMessage2 final : ObjectHeader, LinDatabyteTimestampE
      * UART timestamps [in ns]
      */
     uint32_t earlyStopbitOffsetResponse {};
+
+    /* internal variables */
+
+    /**
+     * API major number (see FileStatistics)
+     *
+     * This is used to determine which member variables are valid.
+     */
+    uint8_t apiMajor {3};
 };
 
 }

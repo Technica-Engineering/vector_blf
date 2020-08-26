@@ -23,7 +23,7 @@
 
 #include <Vector/BLF/platform.h>
 
-#include <vector>
+#include <array>
 
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
@@ -127,7 +127,7 @@ struct VECTOR_BLF_EXPORT CanFdMessage final : ObjectHeader {
     /**
      * @brief CAN FD data
      */
-    std::vector<uint8_t> data {};
+    std::array<uint8_t, 64> data {};
 
     /** reserved */
     uint32_t reservedCanFdMessage3 {};

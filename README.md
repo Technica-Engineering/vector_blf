@@ -85,3 +85,4 @@ The following files are products of installation and building:
   binlog API version was 3.9.6.0.
 * events_from_binlog/*.blf have been generated using the binlog library under Windows.
   binlog API version was 4.5.2.2.
+* customer files
