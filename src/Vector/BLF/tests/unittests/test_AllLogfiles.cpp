@@ -12,7 +12,7 @@
 #include <Vector/BLF.h>
 
 /** copy file statistics */
-static void copyFileStatistics(Vector::BLF::File & filein, Vector::BLF::File & fileout) {
+static void copyFileStatistics(const Vector::BLF::File & filein, Vector::BLF::File & fileout) {
     /* copy non-generated filein statistics to fileout statistics */
     fileout.fileStatistics.applicationId = filein.fileStatistics.applicationId;
     fileout.fileStatistics.applicationMajor = filein.fileStatistics.applicationMajor;

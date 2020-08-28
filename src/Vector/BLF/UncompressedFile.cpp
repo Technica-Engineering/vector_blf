@@ -301,19 +301,20 @@ void UncompressedFile::setDefaultLogContainerSize(uint32_t defaultLogContainerSi
     m_defaultLogContainerSize = defaultLogContainerSize;
 }
 
-std::shared_ptr<LogContainer> UncompressedFile::logContainerContaining(std::streampos pos) {
-    /* loop over all logContainers */
-    for (std::shared_ptr<LogContainer> logContainer : m_data) {
-        /* when file position is contained ... */
-        if ((pos >= logContainer->filePosition) &&
-                (pos < logContainer->uncompressedFileSize + logContainer->filePosition)) {
+std::shared_ptr<LogContainer> UncompressedFile::logContainerContaining(const std::streampos pos) const {
+    /* find logContainer that contains file position */
+    std::list<std::shared_ptr<LogContainer>>::const_iterator result = std::find_if(m_data.cbegin(), m_data.cend(), [&pos](std::shared_ptr<LogContainer> logContainer){
+        return
+            (pos >= logContainer->filePosition) &&
+            (pos < logContainer->uncompressedFileSize + logContainer->filePosition);
+    });
 
-            /* ... return log container */
-            return logContainer;
-        }
+    /* if found, return logContainer */
+    if (result != m_data.cend()) {
+        return *result;
     }
 
-    /* not found, so return nullptr */
+    /* otherwise return nullptr */
     return nullptr;
 }
 

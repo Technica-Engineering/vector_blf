@@ -169,7 +169,7 @@ class VECTOR_BLF_EXPORT UncompressedFile final : public AbstractFile {
      * @param[in] pos position
      * @return log container or nullptr
      */
-    std::shared_ptr<LogContainer> logContainerContaining(std::streampos pos);
+    std::shared_ptr<LogContainer> logContainerContaining(const std::streampos pos) const;
 };
 
 }
