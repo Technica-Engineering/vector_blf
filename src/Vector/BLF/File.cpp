@@ -122,17 +122,21 @@ void File::close() {
         /* finalize compressedFileThread */
         m_compressedFileThreadRunning = false;
         m_compressedFile.close();
-        if (m_compressedFileThread.joinable())
-            m_compressedFileThread.join();
 
         /* finalize uncompressedFileThread */
         m_uncompressedFileThreadRunning = false;
         m_uncompressedFile.abort();
-        if (m_uncompressedFileThread.joinable())
-            m_uncompressedFileThread.join();
 
         /* abort readWriteQueue */
         m_readWriteQueue.abort();
+
+        /* finalize compressedFileThread */
+        if (m_compressedFileThread.joinable())
+            m_compressedFileThread.join();
+
+        /* finalize uncompressedFileThread */
+        if (m_uncompressedFileThread.joinable())
+            m_uncompressedFileThread.join();
     }
 
     /* write */
