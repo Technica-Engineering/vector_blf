@@ -34,12 +34,9 @@ void FileStatistics::read(AbstractFile & is) {
     if (signature != FileSignature)
         throw Exception("FileStatistics::read(): File signature doesn't match at this position.");
     is.read(reinterpret_cast<char *>(&statisticsSize), sizeof(statisticsSize));
-    is.read(reinterpret_cast<char *>(&unknown1), sizeof(unknown1));
-    is.read(reinterpret_cast<char *>(&unknown2), sizeof(unknown2));
-    is.read(reinterpret_cast<char *>(&unknown3), sizeof(unknown3));
-    is.read(reinterpret_cast<char *>(&unknown4), sizeof(unknown4));
+    is.read(reinterpret_cast<char *>(&apiNumber), sizeof(apiNumber));
     is.read(reinterpret_cast<char *>(&applicationId), sizeof(applicationId));
-    is.read(reinterpret_cast<char *>(&objectsRead), sizeof(objectsRead));
+    is.read(reinterpret_cast<char *>(&unknown), sizeof(unknown));
     is.read(reinterpret_cast<char *>(&applicationMajor), sizeof(applicationMajor));
     is.read(reinterpret_cast<char *>(&applicationMinor), sizeof(applicationMinor));
     is.read(reinterpret_cast<char *>(&fileSize), sizeof(fileSize));
@@ -55,12 +52,9 @@ void FileStatistics::read(AbstractFile & is) {
 void FileStatistics::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&signature), sizeof(signature));
     os.write(reinterpret_cast<char *>(&statisticsSize), sizeof(statisticsSize));
-    os.write(reinterpret_cast<char *>(&unknown1), sizeof(unknown1));
-    os.write(reinterpret_cast<char *>(&unknown2), sizeof(unknown2));
-    os.write(reinterpret_cast<char *>(&unknown3), sizeof(unknown3));
-    os.write(reinterpret_cast<char *>(&unknown4), sizeof(unknown4));
+    os.write(reinterpret_cast<char *>(&apiNumber), sizeof(apiNumber));
     os.write(reinterpret_cast<char *>(&applicationId), sizeof(applicationId));
-    os.write(reinterpret_cast<char *>(&objectsRead), sizeof(objectsRead));
+    os.write(reinterpret_cast<char *>(&unknown), sizeof(unknown));
     os.write(reinterpret_cast<char *>(&applicationMajor), sizeof(applicationMajor));
     os.write(reinterpret_cast<char *>(&applicationMinor), sizeof(applicationMinor));
     os.write(reinterpret_cast<char *>(&fileSize), sizeof(fileSize));
@@ -77,12 +71,9 @@ uint32_t FileStatistics::calculateStatisticsSize() const {
     return
         sizeof(signature) +
         sizeof(statisticsSize) +
-        sizeof(unknown1) +
-        sizeof(unknown2) +
-        sizeof(unknown3) +
-        sizeof(unknown4) +
+        sizeof(apiNumber) +
         sizeof(applicationId) +
-        sizeof(objectsRead) +
+        sizeof(unknown) +
         sizeof(applicationMajor) +
         sizeof(applicationMinor) +
         sizeof(fileSize) +

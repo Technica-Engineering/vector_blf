@@ -14,12 +14,9 @@
 /** copy file statistics */
 static void copyFileStatistics(const Vector::BLF::File & filein, Vector::BLF::File & fileout) {
     /* copy non-generated filein statistics to fileout statistics */
-    fileout.fileStatistics.unknown1 = filein.fileStatistics.unknown1;
-    fileout.fileStatistics.unknown2 = filein.fileStatistics.unknown2;
-    fileout.fileStatistics.unknown3 = filein.fileStatistics.unknown3;
-    fileout.fileStatistics.unknown4 = filein.fileStatistics.unknown4;
+    fileout.fileStatistics.apiNumber = filein.fileStatistics.apiNumber;
     fileout.fileStatistics.applicationId = filein.fileStatistics.applicationId;
-    fileout.fileStatistics.objectsRead = filein.fileStatistics.objectsRead;
+    fileout.fileStatistics.unknown = filein.fileStatistics.unknown;
     fileout.fileStatistics.applicationMajor = filein.fileStatistics.applicationMajor;
     fileout.fileStatistics.applicationMinor = filein.fileStatistics.applicationMinor;
     fileout.fileStatistics.applicationBuild = filein.fileStatistics.applicationBuild;

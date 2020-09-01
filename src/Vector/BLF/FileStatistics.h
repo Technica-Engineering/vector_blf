@@ -152,23 +152,20 @@ struct VECTOR_BLF_EXPORT FileStatistics final {
     /** sizeof(FileStatistics) */
     uint32_t statisticsSize {calculateStatisticsSize()};
 
-    /** @todo unknown what this is */
-    uint8_t unknown1 {};
-
-    /** @todo unknown what this is */
-    uint8_t unknown2 {};
-
-    /** @todo unknown what this is */
-    uint8_t unknown3 {};
-
-    /** @todo unknown what this is */
-    uint8_t unknown4 {};
+    /**
+     * BL API number
+     *
+     * This consists of major, minor, build, patch.
+     * It's encoded as such: major * 1000000 + minor * 1000 + build * 100 + patch.
+     * Example: 4010608 decodes to 4.1.6.8.
+     */
+    uint32_t apiNumber { 4080200 }; // 4.8.2.0
 
     /** application ID */
     uint8_t applicationId {};
 
-    /** number of objects read */
-    uint8_t objectsRead {};
+    /** @todo objectsRead or compressionLevel */
+    uint8_t unknown {1}; // 1, 6, 10
 
     /** application major number */
     uint8_t applicationMajor {};
@@ -186,7 +183,7 @@ struct VECTOR_BLF_EXPORT FileStatistics final {
     uint32_t objectCount {};
 
     /** application build number */
-    uint32_t applicationBuild {};
+    uint32_t applicationBuild {}; // @todo the BL API function takes an uint8_t argument here
 
     /** measurement start time */
     SYSTEMTIME measurementStartTime {};

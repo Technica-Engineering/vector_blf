@@ -80,11 +80,19 @@ void show(Vector::BLF::FileStatistics * obj) {
     std::cout << "FileStatistics:" << std::endl;
     std::cout << "  statisticsSize: "
               << "0x" << std::hex << obj->statisticsSize << std::endl;
-    std::cout << "  unknown: "
-              << std::dec << static_cast<uint16_t>(obj->unknown1) << "."
-              << std::dec << static_cast<uint16_t>(obj->unknown2) << "."
-              << std::dec << static_cast<uint16_t>(obj->unknown3) << "."
-              << std::dec << static_cast<uint16_t>(obj->unknown4) << std::endl;
+    uint32_t apiNumber = obj->apiNumber;
+    uint8_t apiPatch = apiNumber % 100;
+    apiNumber /= 100;
+    uint8_t apiBuild = apiNumber % 100;
+    apiNumber /= 100;
+    uint8_t apiMinor = apiNumber % 100;
+    apiNumber /= 100;
+    uint8_t apiMajor = apiNumber;
+    std::cout << "  apiNumber: "
+              << std::dec << static_cast<uint16_t>(apiMajor) << "."
+              << std::dec << static_cast<uint16_t>(apiMinor) << "."
+              << std::dec << static_cast<uint16_t>(apiBuild) << "."
+              << std::dec << static_cast<uint16_t>(apiPatch) << std::endl;
     if (applicationIdStr.count(obj->applicationId)) {
         std::cout << "  applicationId: "
                   << std::dec << static_cast<uint16_t>(obj->applicationId)
@@ -106,8 +114,8 @@ void show(Vector::BLF::FileStatistics * obj) {
               << std::endl;
     std::cout << "  objectCount: "
               << std::dec << obj->objectCount << std::endl;
-    std::cout << "  objectsRead: "
-              << std::dec << static_cast<uint16_t>(obj->objectsRead) << std::endl;
+    std::cout << "  unknown: "
+              << std::dec << static_cast<uint16_t>(obj->unknown) << std::endl;
     std::cout << "  measurementStartTime: "
               << std::dec << std::setfill('0') << std::setw(4) << obj->measurementStartTime.year << "-"
               << std::dec << std::setfill('0') << std::setw(2) << obj->measurementStartTime.month << "-"
