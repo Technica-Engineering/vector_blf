@@ -36,7 +36,7 @@ void FileStatistics::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&statisticsSize), sizeof(statisticsSize));
     is.read(reinterpret_cast<char *>(&apiNumber), sizeof(apiNumber));
     is.read(reinterpret_cast<char *>(&applicationId), sizeof(applicationId));
-    is.read(reinterpret_cast<char *>(&unknown), sizeof(unknown));
+    is.read(reinterpret_cast<char *>(&compressionLevel), sizeof(compressionLevel));
     is.read(reinterpret_cast<char *>(&applicationMajor), sizeof(applicationMajor));
     is.read(reinterpret_cast<char *>(&applicationMinor), sizeof(applicationMinor));
     is.read(reinterpret_cast<char *>(&fileSize), sizeof(fileSize));
@@ -54,7 +54,7 @@ void FileStatistics::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&statisticsSize), sizeof(statisticsSize));
     os.write(reinterpret_cast<char *>(&apiNumber), sizeof(apiNumber));
     os.write(reinterpret_cast<char *>(&applicationId), sizeof(applicationId));
-    os.write(reinterpret_cast<char *>(&unknown), sizeof(unknown));
+    os.write(reinterpret_cast<char *>(&compressionLevel), sizeof(compressionLevel));
     os.write(reinterpret_cast<char *>(&applicationMajor), sizeof(applicationMajor));
     os.write(reinterpret_cast<char *>(&applicationMinor), sizeof(applicationMinor));
     os.write(reinterpret_cast<char *>(&fileSize), sizeof(fileSize));
@@ -73,7 +73,7 @@ uint32_t FileStatistics::calculateStatisticsSize() const {
         sizeof(statisticsSize) +
         sizeof(apiNumber) +
         sizeof(applicationId) +
-        sizeof(unknown) +
+        sizeof(compressionLevel) +
         sizeof(applicationMajor) +
         sizeof(applicationMinor) +
         sizeof(fileSize) +

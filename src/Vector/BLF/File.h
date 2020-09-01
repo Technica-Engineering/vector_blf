@@ -201,9 +201,19 @@ class VECTOR_BLF_EXPORT File final {
     std::atomic<uint32_t> currentObjectCount {};
 
     /**
-     * zlib compression level (0=no compression, 1=best speed, 9=best compression, -1=default compression
+     * compression level
+     *
+     * zlib compression levels:
+     * - 0: Z_NO_COMPRESSION
+     * - 1: Z_BEST_SPEED
+     * - 9: Z_BEST_COMPRESSION
+     *
+     * Vector BLF compression levels:
+     * - 0: no compression
+     * - 6: default compression
+     * - 10: maximum compression
      */
-    int compressionLevel {6};
+    int compressionLevel {1};
 
     /**
      * Write Unknown115 message at file close

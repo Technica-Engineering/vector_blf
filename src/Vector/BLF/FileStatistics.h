@@ -164,8 +164,15 @@ struct VECTOR_BLF_EXPORT FileStatistics final {
     /** application ID */
     uint8_t applicationId {};
 
-    /** @todo objectsRead or compressionLevel */
-    uint8_t unknown {1}; // 1, 6, 10
+    /**
+     * compression level
+     *
+     * @note
+     *   zlib defines maximum compression level 9.
+     *   All files that show 10 here, actually have LogContainers with
+     *   compression level 6, which is default for Vector BLF.
+     */
+    uint8_t compressionLevel {1};
 
     /** application major number */
     uint8_t applicationMajor {};

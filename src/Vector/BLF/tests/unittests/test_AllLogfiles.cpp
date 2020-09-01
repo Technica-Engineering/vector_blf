@@ -16,7 +16,7 @@ static void copyFileStatistics(const Vector::BLF::File & filein, Vector::BLF::Fi
     /* copy non-generated filein statistics to fileout statistics */
     fileout.fileStatistics.apiNumber = filein.fileStatistics.apiNumber;
     fileout.fileStatistics.applicationId = filein.fileStatistics.applicationId;
-    fileout.fileStatistics.unknown = filein.fileStatistics.unknown;
+    fileout.fileStatistics.compressionLevel = filein.fileStatistics.compressionLevel;
     fileout.fileStatistics.applicationMajor = filein.fileStatistics.applicationMajor;
     fileout.fileStatistics.applicationMinor = filein.fileStatistics.applicationMinor;
     fileout.fileStatistics.applicationBuild = filein.fileStatistics.applicationBuild;

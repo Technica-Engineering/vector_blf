@@ -114,8 +114,8 @@ void show(Vector::BLF::FileStatistics * obj) {
               << std::endl;
     std::cout << "  objectCount: "
               << std::dec << obj->objectCount << std::endl;
-    std::cout << "  unknown: "
-              << std::dec << static_cast<uint16_t>(obj->unknown) << std::endl;
+    std::cout << "  compressionLevel: "
+              << std::dec << static_cast<uint16_t>(obj->compressionLevel) << std::endl;
     std::cout << "  measurementStartTime: "
               << std::dec << std::setfill('0') << std::setw(4) << obj->measurementStartTime.year << "-"
               << std::dec << std::setfill('0') << std::setw(2) << obj->measurementStartTime.month << "-"
