@@ -23,10 +23,11 @@
 #include <codecvt>
 #include <cstring>
 #include <ctime>
+#include <fstream>
 #include <iomanip>
 #include <iostream>
-#include <fstream>
 #include <locale>
+#include <map>
 
 #include <Vector/BLF.h>
 
@@ -56,23 +57,46 @@ void printString(char * data, size_t size) {
 }
 
 void show(Vector::BLF::FileStatistics * obj) {
-    std::array<std::string, 7> dayOfWeekStr = {
+    const std::map<uint8_t, std::string> applicationIdStr = {
+        { 0, "Unknown" },
+        { 1, "CANalyzer" },
+        { 2, "CANoe" },
+        { 3, "CANstress" },
+        { 4, "CANlog" },
+        { 5, "CANape" },
+        { 6, "CANcaseXL Log" },
+        { 7, "Vector Logger Configurator" },
+        { 200, "Porsche Logger" },
+        { 201, "CAETEC Logger" },
+        { 202, "Vector Network Simulator" },
+        { 203, "IPETRONIK Logger" },
+        { 204, "RT PK" },
+        { 205, "PikeTec" },
+        { 206, "Sparks" }
+    };
+    const std::array<std::string, 7> dayOfWeekStr = {
         {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" }
     };
     std::cout << "FileStatistics:" << std::endl;
     std::cout << "  statisticsSize: "
               << "0x" << std::hex << obj->statisticsSize << std::endl;
-    std::cout << "  applicationId: "
-              << std::dec << static_cast<uint16_t>(obj->applicationId) << std::endl;
+    std::cout << "  unknown: "
+              << std::dec << static_cast<uint16_t>(obj->unknown1) << "."
+              << std::dec << static_cast<uint16_t>(obj->unknown2) << "."
+              << std::dec << static_cast<uint16_t>(obj->unknown3) << "."
+              << std::dec << static_cast<uint16_t>(obj->unknown4) << std::endl;
+    if (applicationIdStr.count(obj->applicationId)) {
+        std::cout << "  applicationId: "
+                  << std::dec << static_cast<uint16_t>(obj->applicationId)
+                  << " (" << applicationIdStr.at(obj->applicationId) << ")" << std::endl;
+    } else {
+        std::cout << "  applicationId: "
+                  << std::dec << static_cast<uint16_t>(obj->applicationId) << std::endl;
+    }
     std::cout << "  applicationVersion: "
               << std::dec << static_cast<uint16_t>(obj->applicationMajor) << "."
               << std::dec << static_cast<uint16_t>(obj->applicationMinor) << "."
-              << std::dec << static_cast<uint16_t>(obj->applicationBuild) << std::endl;
-    std::cout << "  apiVersion: "
-              << std::dec << static_cast<uint16_t>(obj->apiMajor) << "."
-              << std::dec << static_cast<uint16_t>(obj->apiMinor) << "."
-              << std::dec << static_cast<uint16_t>(obj->apiBuild) << "."
-              << std::dec << static_cast<uint16_t>(obj->apiPatch) << std::endl;
+              << std::dec << obj->applicationBuild << std::endl;
     std::cout << "  fileSize: "
               << std::dec << obj->fileSize
               << " (0x" << std::hex << obj->fileSize << ")"
@@ -83,7 +107,7 @@ void show(Vector::BLF::FileStatistics * obj) {
     std::cout << "  objectCount: "
               << std::dec << obj->objectCount << std::endl;
     std::cout << "  objectsRead: "
-              << std::dec << obj->objectsRead << std::endl;
+              << std::dec << static_cast<uint16_t>(obj->objectsRead) << std::endl;
     std::cout << "  measurementStartTime: "
               << std::dec << std::setfill('0') << std::setw(4) << obj->measurementStartTime.year << "-"
               << std::dec << std::setfill('0') << std::setw(2) << obj->measurementStartTime.month << "-"

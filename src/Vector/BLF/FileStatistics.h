@@ -70,6 +70,21 @@ enum ApplicationId : uint8_t {
 
     /** CAETEC Logger */
     Caeteclogger = 201,
+
+    /** Vector Network Simulator */
+    Vectornetworksimulator = 202,
+
+    /** IPETRONIK Logger */
+    Ipetroniklogger=203,
+
+    /** RT PK */
+    RtPk=204,
+
+    /** PikeTec */
+    Piketec=205,
+
+    /** Sparks */
+    Sparks=206
 };
 
 /** system time */
@@ -137,29 +152,29 @@ struct VECTOR_BLF_EXPORT FileStatistics final {
     /** sizeof(FileStatistics) */
     uint32_t statisticsSize {calculateStatisticsSize()};
 
-    /** application ID (usually CANoe) */
+    /** @todo unknown what this is */
+    uint8_t unknown1 {};
+
+    /** @todo unknown what this is */
+    uint8_t unknown2 {};
+
+    /** @todo unknown what this is */
+    uint8_t unknown3 {};
+
+    /** @todo unknown what this is */
+    uint8_t unknown4 {};
+
+    /** application ID */
     uint8_t applicationId {};
 
-    /** application major number (usually 0) */
+    /** number of objects read */
+    uint8_t objectsRead {};
+
+    /** application major number */
     uint8_t applicationMajor {};
 
-    /** application minor number (usually 0) */
+    /** application minor number */
     uint8_t applicationMinor {};
-
-    /** application build number (usually 0) */
-    uint8_t applicationBuild {};
-
-    /** BL API major number */
-    uint8_t apiMajor {4};
-
-    /** BL API minor number */
-    uint8_t apiMinor {7};
-
-    /** BL API build number */
-    uint8_t apiBuild {1};
-
-    /** BL API patch number */
-    uint8_t apiPatch {0};
 
     /** (compressed) file size in bytes */
     uint64_t fileSize {};
@@ -170,8 +185,8 @@ struct VECTOR_BLF_EXPORT FileStatistics final {
     /** number of objects */
     uint32_t objectCount {};
 
-    /** number of objects read */
-    uint32_t objectsRead {};
+    /** application build number */
+    uint32_t applicationBuild {};
 
     /** measurement start time */
     SYSTEMTIME measurementStartTime {};
