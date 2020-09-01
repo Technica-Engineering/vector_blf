@@ -10,6 +10,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 - Fix issues with newer BLF in CanFdMessage, CanMessage2, EthernetFrame, LinMessage2
 - Fix potential deadlock in File::close
+- Fix FileStatistics: application, apiNumber, compressionLevel, objectsRead.
 
 ## [2.3.1] - 2020-07-16
 ### Fixed
