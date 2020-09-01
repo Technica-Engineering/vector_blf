@@ -104,7 +104,7 @@ BOOST_AUTO_TEST_CASE(AllBinlogLogfiles) {
 
         /* open output file */
         Vector::BLF::File fileout;
-        fileout.compressionLevel = 0;
+        fileout.compressionLevel = filein.fileStatistics.compressionLevel;
         boost::filesystem::path outfile(outdir.string() + eventFile);
         fileout.open(outfile.string(), std::ios_base::out);
         BOOST_REQUIRE(fileout.is_open());
@@ -149,6 +149,7 @@ BOOST_AUTO_TEST_CASE(AllConvertedLogfiles) {
 
         /* open output file */
         Vector::BLF::File fileout;
+        fileout.compressionLevel = 6; // @todo better use filein.fileStatistics.compressionLevel here
         fileout.writeUnknown115 = false;
         boost::filesystem::path outfile(outdir.string() + eventFile);
         fileout.open(outfile.string(), std::ios_base::out);
