@@ -39,7 +39,7 @@ int main(int argc, char ** argv) {
     obj.mType = 0xFFFF;
     obj.mTPID = 0x1111;
     obj.mTCI = 0x2222;
-    obj.mPayLoadLength = 3;
+    obj.mPayLoadLength = 3; // @todo this should be payLoadLength = payLoad.size() + 2;
     BYTE payLoad[3] = { 4, 5, 6 };
     obj.mPayLoad = payLoad;
 

@@ -38,15 +38,18 @@ void EthernetFrame::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&tpid), sizeof(tpid));
     is.read(reinterpret_cast<char *>(&tci), sizeof(tci));
     is.read(reinterpret_cast<char *>(&payLoadLength), sizeof(payLoadLength));
-    is.read(reinterpret_cast<char *>(&reservedEthernetFrame), sizeof(reservedEthernetFrame));
-    payLoad.resize(objectSize - calculateObjectSize()); // all remaining data
-    is.read(reinterpret_cast<char *>(payLoad.data()), payLoadLength);
+    is.read(reinterpret_cast<char *>(reservedEthernetFrame.data()), static_cast<std::streamsize>(reservedEthernetFrame.size()));
+    payLoad.resize(payLoadLength - 2);
+    is.read(reinterpret_cast<char *>(payLoad.data()), static_cast<std::streamsize>(payLoad.size()));
 
     /* skip padding */
-    is.seekg(objectSize % 4, std::ios_base::cur);
+    is.seekg(payLoadLength % 4, std::ios_base::cur);
 }
 
 void EthernetFrame::write(AbstractFile & os) {
+    /* pre processing */
+    payLoadLength = static_cast<uint16_t>(payLoad.size()) + 2;
+
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(sourceAddress.data()), static_cast<std::streamsize>(sourceAddress.size()));
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
@@ -56,11 +59,11 @@ void EthernetFrame::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&tpid), sizeof(tpid));
     os.write(reinterpret_cast<char *>(&tci), sizeof(tci));
     os.write(reinterpret_cast<char *>(&payLoadLength), sizeof(payLoadLength));
-    os.write(reinterpret_cast<char *>(&reservedEthernetFrame), sizeof(reservedEthernetFrame));
-    os.write(reinterpret_cast<char *>(payLoad.data()), payLoadLength);
+    os.write(reinterpret_cast<char *>(reservedEthernetFrame.data()), static_cast<std::streamsize>(reservedEthernetFrame.size()));
+    os.write(reinterpret_cast<char *>(payLoad.data()), static_cast<std::streamsize>(payLoad.size()));
 
     /* skip padding */
-    os.skipp(objectSize % 4);
+    os.skipp(payLoadLength % 4);
 }
 
 uint32_t EthernetFrame::calculateObjectSize() const {
@@ -74,7 +77,7 @@ uint32_t EthernetFrame::calculateObjectSize() const {
         sizeof(tpid) +
         sizeof(tci) +
         sizeof(payLoadLength) +
-        sizeof(reservedEthernetFrame) +
+        static_cast<uint32_t>(reservedEthernetFrame.size()) +
         static_cast<uint32_t>(payLoad.size());
 }
 
