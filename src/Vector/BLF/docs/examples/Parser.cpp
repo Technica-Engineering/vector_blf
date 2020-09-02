@@ -161,8 +161,7 @@ void show(Vector::BLF::CanErrorFrame * obj) {
     std::cout << "CanErrorFrame:";
     std::cout << " channel=" << std::dec << obj->channel;
     std::cout << " length=" << std::dec << obj->length;
-    if (obj->length > 0)
-        std::cout << " reserved=0x" << std::hex << obj->reservedCanErrorFrame;
+    std::cout << " reserved=0x" << std::hex << obj->reservedCanErrorFrame;
     std::cout << std::endl;
 }
 
@@ -968,9 +967,9 @@ void show(Vector::BLF::EthernetFrame * obj) {
     std::cout << " destinationAddress=";
     printData(obj->destinationAddress.data(), obj->destinationAddress.size());
     std::cout << " dir=" << std::dec << obj->dir;
-    std::cout << " type=0x" << std::hex << obj->type;
-    std::cout << " tpid=" << std::dec << obj->tpid;
-    std::cout << " tci=" << std::dec << obj->tci;
+    std::cout << " type=0x" << std::setfill('0') << std::setw(4) << std::hex << obj->type;
+    std::cout << " tpid=0x" << std::setfill('0') << std::setw(4) << std::hex << obj->tpid;
+    std::cout << " tci=0x" << std::setfill('0') << std::setw(4) << std::hex << obj->tci;
     std::cout << " payLoadLength=" << std::dec << obj->payLoadLength;
     std::cout << " payLoad=";
     printData(obj->payLoad.data(), obj->payLoad.size());
@@ -1436,9 +1435,9 @@ void show(Vector::BLF::AfdxFrame * obj) {
     std::cout << " destinationAddress=";
     printData(obj->destinationAddress.data(), obj->destinationAddress.size());
     std::cout << " dir=" << std::dec << obj->dir;
-    std::cout << " type=0x" << std::hex << obj->type;
-    std::cout << " tpid=" << std::dec << obj->tpid;
-    std::cout << " tci=" << std::dec << obj->tci;
+    std::cout << " type=0x" << std::setfill('0') << std::setw(4) << std::hex << obj->type;
+    std::cout << " tpid=0x" << std::setfill('0') << std::setw(4) << std::hex << obj->tpid;
+    std::cout << " tci=0x" << std::setfill('0') << std::setw(4) << std::hex << obj->tci;
     std::cout << " ethChan=" << std::dec << static_cast<uint16_t>(obj->ethChannel);
     std::cout << " flags=0x" << std::hex << obj->afdxFlags;
     std::cout << " bagUsec=" << std::dec << obj->bagUsec;
@@ -1519,7 +1518,7 @@ void show(Vector::BLF::CanFdMessage64 * obj) {
     std::cout << " extDataOffset=" << std::dec << static_cast<uint16_t>(obj->extDataOffset);
     std::cout << " crc=0x" << std::dec << obj->crc;
     std::cout << " data=";
-    printData(obj->data.data(), min(obj->data.size(), obj->validDataBytes));
+    printData(obj->data.data(), obj->data.size());
     if (obj->hasExtData()) {
         std::cout << " btrExtArb=0x" << std::hex << obj->btrExtArb;
         std::cout << " btrExtData=0x" << std::hex << obj->btrExtData;
