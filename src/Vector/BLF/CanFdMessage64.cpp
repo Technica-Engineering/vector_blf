@@ -49,15 +49,11 @@ void CanFdMessage64::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
     if (hasExtData())
         CanFdExtFrameData::read(is);
-    // @note reservedCanFdExtFrameData is read here as CanFdExtFrameData doesn't know the objectSize
-    reservedCanFdExtFrameData.resize(objectSize - calculateObjectSize());
-    is.read(reinterpret_cast<char *>(reservedCanFdExtFrameData.data()), static_cast<std::streamsize>(reservedCanFdExtFrameData.size()));
+    reservedCanFdMessage64.resize(objectSize - calculateObjectSize());
+    is.read(reinterpret_cast<char *>(reservedCanFdMessage64.data()), static_cast<std::streamsize>(reservedCanFdMessage64.size()));
 }
 
 void CanFdMessage64::write(AbstractFile & os) {
-    /* pre processing */
-    validDataBytes = static_cast<uint16_t>(data.size());
-
     ObjectHeader::write(os);
     os.write(reinterpret_cast<char *>(&channel), sizeof(channel));
     os.write(reinterpret_cast<char *>(&dlc), sizeof(dlc));
@@ -77,6 +73,7 @@ void CanFdMessage64::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
     if (hasExtData())
         CanFdExtFrameData::write(os);
+    os.write(reinterpret_cast<char *>(reservedCanFdMessage64.data()), static_cast<std::streamsize>(reservedCanFdMessage64.size()));
 }
 
 bool CanFdMessage64::hasExtData() const {
@@ -106,6 +103,7 @@ uint32_t CanFdMessage64::calculateObjectSize() const {
         static_cast<uint32_t>(data.size());
     if (hasExtData())
         size += CanFdExtFrameData::calculateObjectSize();
+    size += static_cast<uint32_t>(reservedCanFdMessage64.size());
     return size;
 }
 

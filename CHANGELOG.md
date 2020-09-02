@@ -8,7 +8,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - Drop VectorTypes.h and use std types instead.
 ### Fixed
-- Fix issues with newer BLF in CanFdMessage, CanMessage2, EthernetFrame, LinMessage2
+- Fixes in CanFdMessage, CanFdMessage64, CanMessage2, EthernetFrame, LinMessage2
 - Fix potential deadlock in File::close
 - Fix FileStatistics: application, apiNumber, compressionLevel, objectsRead.
 

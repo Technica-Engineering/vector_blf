@@ -198,6 +198,13 @@ struct VECTOR_BLF_EXPORT CanFdErrorFrame64 final : ObjectHeader, CanFdExtFrameDa
      * 24)
      */
     std::vector<uint8_t> data {};
+
+    /**
+     * reserved
+     *
+     * @note This usually has 8 data bytes, when CanFdExtFrameData is not used.
+     */
+    std::vector<uint8_t> reservedCanFdErrorFrame64 {};
 };
 
 }
