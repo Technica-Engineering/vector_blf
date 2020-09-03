@@ -303,7 +303,7 @@ void UncompressedFile::setDefaultLogContainerSize(uint32_t defaultLogContainerSi
 
 std::shared_ptr<LogContainer> UncompressedFile::logContainerContaining(const std::streampos pos) const {
     /* find logContainer that contains file position */
-    std::list<std::shared_ptr<LogContainer>>::const_iterator result = std::find_if(m_data.cbegin(), m_data.cend(), [&pos](std::shared_ptr<LogContainer> logContainer){
+    std::list<std::shared_ptr<LogContainer>>::const_iterator result = std::find_if(m_data.cbegin(), m_data.cend(), [&pos](std::shared_ptr<LogContainer> logContainer) {
         return
             (pos >= logContainer->filePosition) &&
             (pos < logContainer->uncompressedFileSize + logContainer->filePosition);

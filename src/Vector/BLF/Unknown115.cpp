@@ -26,10 +26,10 @@ namespace BLF {
 
 uint32_t Unknown115::UnknownDataBlock::calculateObjectSize() {
     return
-            sizeof(UnknownDataBlock::timeStamp) +
-            sizeof(UnknownDataBlock::uncompressedFileSize) +
-            sizeof(UnknownDataBlock::value) +
-            sizeof(UnknownDataBlock::flags);
+        sizeof(UnknownDataBlock::timeStamp) +
+        sizeof(UnknownDataBlock::uncompressedFileSize) +
+        sizeof(UnknownDataBlock::value) +
+        sizeof(UnknownDataBlock::flags);
 }
 
 Unknown115::Unknown115() :
@@ -44,10 +44,10 @@ void Unknown115::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&unknown2), sizeof(unknown2));
 
     uint32_t size = objectSize
-            - ObjectHeader::calculateObjectSize()
-            - sizeof(unknown0)
-            - sizeof(unknown1)
-            - sizeof(unknown2);
+                    - ObjectHeader::calculateObjectSize()
+                    - sizeof(unknown0)
+                    - sizeof(unknown1)
+                    - sizeof(unknown2);
 
     while(size >= UnknownDataBlock::calculateObjectSize()) {
         UnknownDataBlock dataBlock;
