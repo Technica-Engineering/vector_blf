@@ -41,6 +41,7 @@ void CanErrorFrameExt::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&id), sizeof(id));
     is.read(reinterpret_cast<char *>(&flagsExt), sizeof(flagsExt));
     is.read(reinterpret_cast<char *>(&reservedCanErrorFrameExt2), sizeof(reservedCanErrorFrameExt2));
+    data.resize(objectSize - calculateObjectSize()); // all remaining data
     is.read(reinterpret_cast<char *>(data.data()), static_cast<std::streamsize>(data.size()));
 }
 

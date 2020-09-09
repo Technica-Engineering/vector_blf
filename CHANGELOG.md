@@ -8,7 +8,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - Drop VectorTypes.h and use std types instead.
 ### Fixed
-- Fixes in CanFdMessage, CanFdMessage64, CanMessage2, EthernetFrame, LinMessage2
+- Fixes in CanErrorFrameExt, CanFdMessage, CanFdMessage64, CanMessage2, EthernetFrame, LinMessage2
 - Fix potential deadlock in File::close
 - Fix FileStatistics: application, apiNumber, compressionLevel, objectsRead.
 
