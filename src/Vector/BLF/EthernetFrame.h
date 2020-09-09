@@ -107,7 +107,7 @@ struct VECTOR_BLF_EXPORT EthernetFrame final : ObjectHeader {
     uint16_t payLoadLength {};
 
     /** reserved */
-    std::array<uint8_t, 10> reservedEthernetFrame {};
+    uint64_t reservedEthernetFrame {};
 
     /**
      * @brief Max 1500 data bytes per frame
