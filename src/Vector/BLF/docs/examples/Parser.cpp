@@ -1944,6 +1944,7 @@ int main(int argc, char * argv[]) {
 
     show(&file.fileStatistics);
 
+    uint32_t objectsRead = 0;
     while (file.good()) {
         Vector::BLF::ObjectHeaderBase * ohb = nullptr;
 
@@ -1955,6 +1956,10 @@ int main(int argc, char * argv[]) {
         }
         if (ohb == nullptr)
             break;
+
+        /* show objects read */
+        objectsRead++;
+        std::cout << "(nr=" << std::dec << objectsRead << ") ";
 
         /* ObjectHeader */
         auto * oh = dynamic_cast<Vector::BLF::ObjectHeader *>(ohb);
@@ -2494,6 +2499,7 @@ int main(int argc, char * argv[]) {
     std::cout << "End of file." << std::endl;
     std::cout << "uncompressedFileSize: " << std::dec << file.currentUncompressedFileSize << std::endl;
     std::cout << "objectCount: " << std::dec << file.currentObjectCount << std::endl;
+    std::cout << "objectsRead: " << std::dec << objectsRead << std::endl;
 
     file.close();
 
