@@ -78,7 +78,8 @@ uint32_t EthernetFrame::calculateObjectSize() const {
         sizeof(tci) +
         sizeof(payLoadLength) +
         static_cast<uint32_t>(reservedEthernetFrame.size()) +
-        static_cast<uint32_t>(payLoad.size());
+        (payLoadLength - 2) +
+        payLoadLength % 4;
 }
 
 }
