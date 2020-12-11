@@ -714,11 +714,21 @@ void File::uncompressedFile2ReadWriteQueue() {
         throw Exception("File::uncompressedFile2ReadWriteQueue(): Unknown object.");
     }
 
+    int32_t tmp = 0;
+    if (obj->calculateObjectSize() > ohb.objectSize) {
+	// we are about to read too much data
+        tmp = ohb.objectSize - obj->calculateObjectSize();
+    }
+
     /* read object */
     obj->read(m_uncompressedFile);
     if (!m_uncompressedFile.good()) {
         delete obj;
         throw Exception("File::uncompressedFile2ReadWriteQueue(): Read beyond end of file.");
+    }
+
+    if (tmp!=0) {
+        m_uncompressedFile.seekg(tmp);
     }
 
     /* push data into readWriteQueue */

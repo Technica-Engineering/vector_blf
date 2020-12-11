@@ -39,8 +39,13 @@ void LinSendError2::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&reservedLinSendError2), sizeof(reservedLinSendError2));
     is.read(reinterpret_cast<char *>(&exactHeaderBaudrate), sizeof(exactHeaderBaudrate));
     is.read(reinterpret_cast<char *>(&earlyStopbitOffset), sizeof(earlyStopbitOffset));
-    is.read(reinterpret_cast<char *>(&reservedLinSendError3), sizeof(reservedLinSendError3));
-    // @note might be extended in future versions
+
+    reservedLinSendError3_present = false;
+    if (this->objectSize >= calculateObjectSize() + sizeof(reservedLinSendError3)) {
+        is.read(reinterpret_cast<char*>(&reservedLinSendError3), sizeof(reservedLinSendError3));
+        reservedLinSendError3_present = true;
+	// @note might be extended in future versions
+    }
 }
 
 void LinSendError2::write(AbstractFile & os) {
@@ -69,7 +74,7 @@ uint32_t LinSendError2::calculateObjectSize() const {
         sizeof(reservedLinSendError2) +
         sizeof(exactHeaderBaudrate) +
         sizeof(earlyStopbitOffset) +
-        sizeof(reservedLinSendError3);
+        (reservedLinSendError3_present ? sizeof(reservedLinSendError3) : 0);
 }
 
 }
