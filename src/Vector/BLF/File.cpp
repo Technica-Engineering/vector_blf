@@ -716,7 +716,7 @@ void File::uncompressedFile2ReadWriteQueue() {
 
     int32_t tmp = 0;
     if (obj->calculateObjectSize() > ohb.objectSize) {
-	// we are about to read too much data
+        // we are about to read too much data
         tmp = ohb.objectSize - obj->calculateObjectSize();
     }
 
