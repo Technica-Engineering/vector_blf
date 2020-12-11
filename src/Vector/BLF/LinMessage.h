@@ -97,6 +97,7 @@ struct VECTOR_BLF_EXPORT LinMessage final : ObjectHeader {
     uint8_t reservedLinMessage1 {};
 
     /** reserved */
+    bool reservedLinMessage2_present{};
     uint32_t reservedLinMessage2 {};
 };
 

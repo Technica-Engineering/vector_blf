@@ -83,6 +83,7 @@ struct VECTOR_BLF_EXPORT LinSendError2 final : ObjectHeader, LinMessageDescripto
     uint32_t earlyStopbitOffset {};
 
     /** reserved */
+    bool reservedLinSendError3_present{};
     uint32_t reservedLinSendError3 {};
 };
 

@@ -24,7 +24,12 @@ void LinMessage::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&crc), sizeof(crc));
     is.read(reinterpret_cast<char *>(&dir), sizeof(dir));
     is.read(reinterpret_cast<char *>(&reservedLinMessage1), sizeof(reservedLinMessage1));
-    is.read(reinterpret_cast<char *>(&reservedLinMessage2), sizeof(reservedLinMessage2));
+
+    reservedLinMessage2_present = false;
+    if (this->objectSize >= calculateObjectSize() + sizeof(reservedLinMessage2)) {
+        is.read(reinterpret_cast<char *>(&reservedLinMessage2), sizeof(reservedLinMessage2));
+        reservedLinMessage2_present = true;
+    }
 }
 
 void LinMessage::write(AbstractFile & os) {
@@ -57,7 +62,7 @@ uint32_t LinMessage::calculateObjectSize() const {
         sizeof(crc) +
         sizeof(dir) +
         sizeof(reservedLinMessage1) +
-        sizeof(reservedLinMessage2);
+        (reservedLinMessage2_present ? sizeof(reservedLinMessage2) : 0);
 }
 
 }
