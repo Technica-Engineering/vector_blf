@@ -116,7 +116,7 @@ BOOST_AUTO_TEST_CASE(AllBinlogLogfiles) {
         copyObjects(filein, fileout);
 
         /* compare files */
-        BOOST_REQUIRE_MESSAGE(
+        BOOST_CHECK_MESSAGE(
             compareFiles(
                 infile.c_str(), outfile.c_str(),
                 static_cast<uint64_t>(fileout.fileStatistics.statisticsSize),
