@@ -5,12 +5,13 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ### Added
 - New Types: CanSettingChanged, DistributedObjectMember, AttributeEvent
+- Add support for Restore Points (which are stored in Unknown115 objects)
 ### Changed
 - Drop VectorTypes.h and use std types instead.
 ### Fixed
 - Fixes in CanErrorFrameExt, CanFdMessage, CanFdMessage64, CanMessage2, EthernetFrame, LinMessage2
 - Fix potential deadlock in File::close
-- Fix FileStatistics: application, apiNumber, compressionLevel, objectsRead.
+- Fix FileStatistics: application, apiNumber, compressionLevel, objectsRead
 
 ## [2.3.1] - 2020-07-16
 ### Fixed

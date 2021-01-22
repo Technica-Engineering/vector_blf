@@ -54,6 +54,9 @@ void File::open(const char * filename, const std::ios_base::openmode mode) {
         /* read file statistics */
         fileStatistics.read(m_compressedFile);
 
+        /* read restore points */
+        // @todo read restore points
+
         /* fileStatistics done */
         currentUncompressedFileSize += fileStatistics.statisticsSize;
 
@@ -152,17 +155,17 @@ void File::close() {
         if (m_compressedFileThread.joinable())
             m_compressedFileThread.join();
 
-        /* write final LogContainer+Unknown115 */
-        if (writeUnknown115) {
+        /* write restore points */
+        if (writeRestorePoints) {
             /* create a new log container for it */
             m_uncompressedFile.nextLogContainer();
 
             /* set file size */
-            fileStatistics.fileSizeWithoutUnknown115 = static_cast<uint64_t>(m_compressedFile.tellp());
+            fileStatistics.restorePointsOffset = static_cast<uint64_t>(m_compressedFile.tellp());
 
             /* write end of file message */
-            auto * unknown115 = new Unknown115;
-            m_readWriteQueue.write(unknown115);
+//            auto * unknown115 = new Unknown115;
+//            m_readWriteQueue.write(unknown115);
 
             /* process once */
             readWriteQueue2UncompressedFile();
@@ -630,7 +633,7 @@ ObjectHeaderBase * File::createObject(ObjectType type) {
         break;
 
     case ObjectType::Unknown115:
-        obj = new Unknown115;
+        obj = new RestorePointContainer;
         break;
 
     case ObjectType::Reserved116:
