@@ -346,6 +346,11 @@ class VECTOR_BLF_EXPORT File final {
     std::thread m_uncompressedFileThread {};
 
     /**
+     * exceptions from uncompressedFileThread
+     */
+    std::exception_ptr m_uncompressedFileThreadException {nullptr};
+
+    /**
      * thread still running
      */
     std::atomic<bool> m_uncompressedFileThreadRunning {};
@@ -365,6 +370,11 @@ class VECTOR_BLF_EXPORT File final {
      * thread between uncompressedFile and compressedFile
      */
     std::thread m_compressedFileThread {};
+
+    /**
+     * exceptions from compressedFileThread
+     */
+    std::exception_ptr m_compressedFileThreadException {nullptr};
 
     /**
      * thread still running
