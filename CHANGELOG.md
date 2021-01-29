@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+## [2.4.0] - 2021-01-29
 ### Added
 - New Types: CanSettingChanged, DistributedObjectMember, AttributeEvent
 - Add support for Restore Points (which are stored in Unknown115 objects)
