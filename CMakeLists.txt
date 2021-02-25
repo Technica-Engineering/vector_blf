@@ -4,9 +4,6 @@ project(Vector_BLF
     VERSION 2.3.1
     DESCRIPTION "Vector Binary Log File support library")
 
-# build types: None, Debug, Release, RelWithDebInfo, MinSizeRel
-set(CMAKE_BUILD_TYPE Release)
-
 # source code documentation
 option(OPTION_RUN_DOXYGEN "Run Doxygen" ON)
 
