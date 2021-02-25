@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+### Changed
+- Drop CMAKE_BUILD_TYPE from CMakeLists to allow passing it to cmake.
+- CanFdMessage handling. ValidDataBytes set automatically.
+### Fixed
+- Fix ObjectQueue virtuals. Clean queue in destructor.
+
 ## [2.4.0] - 2021-01-29
 ### Added
 - New Types: CanSettingChanged, DistributedObjectMember, AttributeEvent
