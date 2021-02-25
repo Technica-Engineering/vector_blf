@@ -40,20 +40,20 @@ namespace BLF {
  * Thread-safe queue for ObjectHeaderBase
  */
 template <typename T>
-class VECTOR_BLF_EXPORT ObjectQueue {
+class VECTOR_BLF_EXPORT ObjectQueue final {
   public:
     explicit ObjectQueue() = default;
-    virtual ~ObjectQueue();
+    ~ObjectQueue();
 
     /**
      * Get access to front of queue.
      *
      * @return object (or nullptr if empty)
      */
-    virtual T * read();
+    T * read();
 
     /** @copydoc AbstractFile::tellg */
-    virtual uint32_t tellg() const;
+    uint32_t tellg() const;
 
     /**
      * Enqueue an object to end of queue.
@@ -65,22 +65,22 @@ class VECTOR_BLF_EXPORT ObjectQueue {
     void write(T * obj);
 
     /** @copydoc AbstractFile::tellp */
-    virtual uint32_t tellp() const;
+    uint32_t tellp() const;
 
     /** @copydoc AbstractFile::good */
-    virtual bool good() const;
+    bool good() const;
 
     /** @copydoc AbstractFile::eof */
-    virtual bool eof() const;
+    bool eof() const;
 
     /** @copydoc UncompressedFile::abort */
-    virtual void abort();
+    void abort();
 
     /** @copydoc UncompressedFile::setFileSize */
-    virtual void setFileSize(uint32_t fileSize);
+    void setFileSize(uint32_t fileSize);
 
     /** @copydoc UncompressedFile::setBufferSize */
-    virtual void setBufferSize(uint32_t bufferSize);
+    void setBufferSize(uint32_t bufferSize);
 
     /** data was dequeued */
     std::condition_variable tellgChanged;
