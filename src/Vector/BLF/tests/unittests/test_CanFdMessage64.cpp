@@ -82,3 +82,33 @@ BOOST_AUTO_TEST_CASE(CanFdMessage64) {
     BOOST_CHECK(file.eof());
     file.close();
 }
+
+BOOST_AUTO_TEST_CASE(CanFdMessage64_Write) {
+    /* open file for writing */
+    Vector::BLF::File file;
+    file.open(CMAKE_CURRENT_BINARY_DIR "/test_CanFdMessage64_Write.blf", std::ios_base::out);
+    BOOST_REQUIRE(file.is_open());
+
+    /* write message */
+    auto * canFdMessage64 = new Vector::BLF::CanFdMessage64;
+    canFdMessage64->channel = 1;
+    canFdMessage64->dlc = 9;
+    canFdMessage64->id = 0x33;
+    canFdMessage64->data.resize(12);
+    canFdMessage64->data[0] = 0x44;
+    canFdMessage64->data[1] = 0x55;
+    canFdMessage64->data[2] = 0x55;
+    canFdMessage64->data[3] = 0x55;
+    canFdMessage64->data[4] = 0x55;
+    canFdMessage64->data[5] = 0x55;
+    canFdMessage64->data[6] = 0x55;
+    canFdMessage64->data[7] = 0x55;
+    canFdMessage64->data[8] = 0x55;
+    canFdMessage64->data[9] = 0x55;
+    canFdMessage64->data[10] = 0x55;
+    canFdMessage64->data[11] = 0x55;
+    file.write(canFdMessage64);
+
+    /* close file */
+    file.close();
+}
