@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2013-2021 Tobias Lorenz <tobias.lorenz@gmx.net>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 PROJECT_NAME           = "Vector BLF"
 OUTPUT_DIRECTORY       = @PROJECT_BINARY_DIR@/src/Vector/BLF/docs/doxygen
 STRIP_FROM_PATH        = @PROJECT_SOURCE_DIR@/src/Vector/BLF/

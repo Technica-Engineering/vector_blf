@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2013-2021 Tobias Lorenz <tobias.lorenz@gmx.net>
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 #define _CRT_SECURE_NO_WARNINGS
 #include <tchar.h>
 #include <stdio.h>

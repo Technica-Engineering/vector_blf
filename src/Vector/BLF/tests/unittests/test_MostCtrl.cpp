@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2013-2021 Tobias Lorenz <tobias.lorenz@gmx.net>
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 #define BOOST_TEST_MODULE MostCtrl
 #if !defined(WIN32)
 #define BOOST_TEST_DYN_LINK
