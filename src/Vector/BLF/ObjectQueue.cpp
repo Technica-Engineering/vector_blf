@@ -30,6 +30,12 @@ namespace BLF {
 template<typename T>
 ObjectQueue<T>::~ObjectQueue() {
     abort();
+
+    /* delete elements in queue */
+    while (!m_queue.empty()) {
+        delete m_queue.front();
+        m_queue.pop();
+    }
 }
 
 template<typename T>

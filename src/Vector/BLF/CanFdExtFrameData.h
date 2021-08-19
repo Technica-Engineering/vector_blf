@@ -23,6 +23,8 @@
 
 #include <Vector/BLF/platform.h>
 
+#include <vector>
+
 #include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
 
@@ -74,6 +76,11 @@ struct VECTOR_BLF_EXPORT CanFdExtFrameData {
      *   - 2: 80 MHz
      */
     uint32_t btrExtData {};
+
+    /** reserved */
+    std::vector<uint8_t> reservedCanFdExtFrameData {};
+
+    // @note might be extended in future versions
 };
 
 }

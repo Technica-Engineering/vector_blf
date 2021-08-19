@@ -142,13 +142,15 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/ObjectQueue.h
         ${CMAKE_CURRENT_SOURCE_DIR}/platform.h
         ${CMAKE_CURRENT_SOURCE_DIR}/RealtimeClock.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/RestorePoint.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/RestorePointContainer.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/RestorePoints.h
         ${CMAKE_CURRENT_SOURCE_DIR}/SerialEvent.h
         ${CMAKE_CURRENT_SOURCE_DIR}/SingleByteSerialEvent.h
         ${CMAKE_CURRENT_SOURCE_DIR}/SystemVariable.h
         ${CMAKE_CURRENT_SOURCE_DIR}/TestStructure.h
         ${CMAKE_CURRENT_SOURCE_DIR}/TriggerCondition.h
         ${CMAKE_CURRENT_SOURCE_DIR}/UncompressedFile.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/Unknown115.h
         ${CMAKE_CURRENT_SOURCE_DIR}/VarObjectHeader.h
         ${CMAKE_CURRENT_SOURCE_DIR}/WaterMarkEvent.h
         ${CMAKE_CURRENT_SOURCE_DIR}/WlanFrame.h
@@ -281,13 +283,15 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}/ObjectHeader.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/ObjectQueue.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/RealtimeClock.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/RestorePoint.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/RestorePointContainer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/RestorePoints.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/SerialEvent.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/SingleByteSerialEvent.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/SystemVariable.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/TestStructure.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/TriggerCondition.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/UncompressedFile.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/Unknown115.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/VarObjectHeader.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/WaterMarkEvent.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/WlanFrame.cpp

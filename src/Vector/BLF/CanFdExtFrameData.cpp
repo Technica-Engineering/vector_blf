@@ -27,18 +27,20 @@ namespace BLF {
 void CanFdExtFrameData::read(AbstractFile & is) {
     is.read(reinterpret_cast<char *>(&btrExtArb), sizeof(btrExtArb));
     is.read(reinterpret_cast<char *>(&btrExtData), sizeof(btrExtData));
-    // @note might be extended in future versions
+    // @note reservedCanFdExtFrameData is read by CanFdMessage64/CanFdErrorFrame64 due to objectSize known there.
 }
 
 void CanFdExtFrameData::write(AbstractFile & os) {
     os.write(reinterpret_cast<char *>(&btrExtArb), sizeof(btrExtArb));
     os.write(reinterpret_cast<char *>(&btrExtData), sizeof(btrExtData));
+    os.write(reinterpret_cast<char *>(reservedCanFdExtFrameData.data()), reservedCanFdExtFrameData.size());
 }
 
 uint32_t CanFdExtFrameData::calculateObjectSize() const {
     return
         sizeof(btrExtArb) +
-        sizeof(btrExtData);
+        sizeof(btrExtData) +
+        static_cast<uint32_t>(reservedCanFdExtFrameData.size());
 }
 
 }

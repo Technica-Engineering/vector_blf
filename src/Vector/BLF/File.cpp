@@ -22,6 +22,7 @@
 #include <Vector/BLF/File.h>
 
 #include <cstring>
+#include <iostream>
 
 #include <Vector/BLF/Exceptions.h>
 
@@ -53,6 +54,9 @@ void File::open(const char * filename, const std::ios_base::openmode mode) {
     if (mode & std::ios_base::in) {
         /* read file statistics */
         fileStatistics.read(m_compressedFile);
+
+        /* read restore points */
+        // @todo read restore points
 
         /* fileStatistics done */
         currentUncompressedFileSize += fileStatistics.statisticsSize;
@@ -147,22 +151,36 @@ void File::close() {
         /* finalize uncompressedFileThread */
         if (m_uncompressedFileThread.joinable())
             m_uncompressedFileThread.join();
+        if (m_uncompressedFileThreadException) {
+            try{
+                std::rethrow_exception(m_uncompressedFileThreadException);
+            } catch(const std::exception &ex) {
+                std::cerr << "uncompressedFileThread exited with exception: " << ex.what() << std::endl;
+            }
+        }
 
         /* finalize compressedFileThread */
         if (m_compressedFileThread.joinable())
             m_compressedFileThread.join();
+        if (m_compressedFileThreadException) {
+            try{
+                std::rethrow_exception(m_compressedFileThreadException);
+            } catch(const std::exception &ex) {
+                std::cerr << "compressedFileThread exited with exception: " << ex.what() << std::endl;
+            }
+        }
 
-        /* write final LogContainer+Unknown115 */
-        if (writeUnknown115) {
+        /* write restore points */
+        if (writeRestorePoints) {
             /* create a new log container for it */
             m_uncompressedFile.nextLogContainer();
 
             /* set file size */
-            fileStatistics.fileSizeWithoutUnknown115 = static_cast<uint64_t>(m_compressedFile.tellp());
+            fileStatistics.restorePointsOffset = static_cast<uint64_t>(m_compressedFile.tellp());
 
             /* write end of file message */
-            auto * unknown115 = new Unknown115;
-            m_readWriteQueue.write(unknown115);
+//            auto * unknown115 = new Unknown115;
+//            m_readWriteQueue.write(unknown115);
 
             /* process once */
             readWriteQueue2UncompressedFile();
@@ -630,7 +648,7 @@ ObjectHeaderBase * File::createObject(ObjectType type) {
         break;
 
     case ObjectType::Unknown115:
-        obj = new Unknown115;
+        obj = new RestorePointContainer;
         break;
 
     case ObjectType::Reserved116:
@@ -825,67 +843,83 @@ void File::uncompressedFile2CompressedFile() {
 }
 
 void File::uncompressedFileReadThread(File * file) {
-    while (file->m_uncompressedFileThreadRunning) {
-        /* process */
-        try {
-            file->uncompressedFile2ReadWriteQueue();
-        } catch (Vector::BLF::Exception &) {
-            file->m_uncompressedFileThreadRunning = false;
+    try {
+        while (file->m_uncompressedFileThreadRunning) {
+            /* process */
+            try {
+                file->uncompressedFile2ReadWriteQueue();
+            } catch (Vector::BLF::Exception &) {
+                file->m_uncompressedFileThreadRunning = false;
+            }
+
+            /* check for eof */
+            if (!file->m_uncompressedFile.good())
+                file->m_uncompressedFileThreadRunning = false;
         }
 
-        /* check for eof */
-        if (!file->m_uncompressedFile.good())
-            file->m_uncompressedFileThreadRunning = false;
+        /* set end of file */
+        file->m_readWriteQueue.setFileSize(file->m_readWriteQueue.tellp());
+    } catch (...) {
+        file->m_uncompressedFileThreadException = std::current_exception();
     }
-
-    /* set end of file */
-    file->m_readWriteQueue.setFileSize(file->m_readWriteQueue.tellp());
 }
 
 void File::uncompressedFileWriteThread(File * file) {
-    while (file->m_uncompressedFileThreadRunning) {
-        /* process */
-        file->readWriteQueue2UncompressedFile();
+    try {
+        while (file->m_uncompressedFileThreadRunning) {
+            /* process */
+            file->readWriteQueue2UncompressedFile();
 
-        /* check for eof */
-        if (!file->m_readWriteQueue.good())
-            file->m_uncompressedFileThreadRunning = false;
+            /* check for eof */
+            if (!file->m_readWriteQueue.good())
+                file->m_uncompressedFileThreadRunning = false;
+        }
+
+        /* set end of file */
+        file->m_uncompressedFile.setFileSize(file->m_uncompressedFile.tellp());
+    } catch (...) {
+        file->m_uncompressedFileThreadException = std::current_exception();
     }
-
-    /* set end of file */
-    file->m_uncompressedFile.setFileSize(file->m_uncompressedFile.tellp());
 }
 
 void File::compressedFileReadThread(File * file) {
-    while (file->m_compressedFileThreadRunning) {
-        /* process */
-        try {
-            file->compressedFile2UncompressedFile();
-        } catch (Vector::BLF::Exception &) {
-            file->m_compressedFileThreadRunning = false;
+    try {
+        while (file->m_compressedFileThreadRunning) {
+            /* process */
+            try {
+                file->compressedFile2UncompressedFile();
+            } catch (Vector::BLF::Exception &) {
+                file->m_compressedFileThreadRunning = false;
+            }
+
+            /* check for eof */
+            if (!file->m_compressedFile.good())
+                file->m_compressedFileThreadRunning = false;
         }
 
-        /* check for eof */
-        if (!file->m_compressedFile.good())
-            file->m_compressedFileThreadRunning = false;
+        /* set end of file */
+        file->m_uncompressedFile.setFileSize(file->m_uncompressedFile.tellp());
+    } catch (...) {
+        file->m_compressedFileThreadException = std::current_exception();
     }
-
-    /* set end of file */
-    file->m_uncompressedFile.setFileSize(file->m_uncompressedFile.tellp());
 }
 
 void File::compressedFileWriteThread(File * file) {
-    while (file->m_compressedFileThreadRunning) {
-        /* process */
-        file->uncompressedFile2CompressedFile();
+    try {
+        while (file->m_compressedFileThreadRunning) {
+            /* process */
+            file->uncompressedFile2CompressedFile();
 
-        /* check for eof */
-        if (!file->m_uncompressedFile.good())
-            file->m_compressedFileThreadRunning = false;
+            /* check for eof */
+            if (!file->m_uncompressedFile.good())
+                file->m_compressedFileThreadRunning = false;
+        }
+
+        /* set end of file */
+        // There is no CompressedFile::setFileSize that need to be set. std::fstream handles this already.
+    } catch (...) {
+        file->m_compressedFileThreadException = std::current_exception();
     }
-
-    /* set end of file */
-    // There is no CompressedFile::setFileSize that need to be set. std::fstream handles this already.
 }
 
 }

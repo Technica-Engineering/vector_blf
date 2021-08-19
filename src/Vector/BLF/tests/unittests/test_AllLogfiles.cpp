@@ -116,11 +116,11 @@ BOOST_AUTO_TEST_CASE(AllBinlogLogfiles) {
         copyObjects(filein, fileout);
 
         /* compare files */
-        BOOST_REQUIRE_MESSAGE(
+        BOOST_CHECK_MESSAGE(
             compareFiles(
                 infile.c_str(), outfile.c_str(),
                 static_cast<uint64_t>(fileout.fileStatistics.statisticsSize),
-                fileout.fileStatistics.fileSizeWithoutUnknown115),
+                fileout.fileStatistics.restorePointsOffset),
             eventFile + " is different");
     }
 }
@@ -150,7 +150,7 @@ BOOST_AUTO_TEST_CASE(AllConvertedLogfiles) {
         /* open output file */
         Vector::BLF::File fileout;
         fileout.compressionLevel = 6; // @todo better use filein.fileStatistics.compressionLevel here
-        fileout.writeUnknown115 = false;
+        fileout.writeRestorePoints = false;
         boost::filesystem::path outfile(outdir.string() + eventFile);
         fileout.open(outfile.string(), std::ios_base::out);
         BOOST_REQUIRE(fileout.is_open());
@@ -170,7 +170,7 @@ BOOST_AUTO_TEST_CASE(AllConvertedLogfiles) {
             compareFiles(
                 infile.c_str(), outfile.c_str(),
                 static_cast<uint64_t>(fileout.fileStatistics.statisticsSize),
-                fileout.fileStatistics.fileSizeWithoutUnknown115),
+                fileout.fileStatistics.restorePointsOffset),
             eventFile + " is different");
     }
 }

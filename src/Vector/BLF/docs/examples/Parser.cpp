@@ -136,8 +136,8 @@ void show(Vector::BLF::FileStatistics * obj) {
               << std::dec << std::setfill('0') << std::setw(2) << obj->lastObjectTime.second << "."
               << std::dec << std::setfill('0') << std::setw(3) << obj->lastObjectTime.milliseconds
               << std::endl;
-    std::cout << "  fileSizeWithoutUnknown115: "
-              << "0x" << std::hex << obj->fileSizeWithoutUnknown115
+    std::cout << "  restorePointsOffset: "
+              << "0x" << std::hex << obj->restorePointsOffset
               << std::endl;
     std::cout << std::endl;
 }
@@ -1754,22 +1754,11 @@ void show(Vector::BLF::EthernetStatistic * obj) {
 }
 
 // Unknown115 = 115
-void show(Vector::BLF::Unknown115 * obj) {
-    std::cout << "Unknown115:";
-    std::cout << " unknown0=0x" << std::setfill('0') << std::setw(16) << std::hex << obj->unknown0;
-    std::cout << " unknown1=0x" << std::setfill('0') << std::setw(16) << std::hex << obj->unknown1;
-    std::cout << " unknown2=0x" << std::setfill('0') << std::setw(16) << std::hex << obj->unknown2;
-    std::cout << " unknownData=";
-    std::cout << "[";
-    for (const Vector::BLF::Unknown115::UnknownDataBlock & data: obj->unknownData) {
-        std::cout << "[";
-        std::cout << "timeStamp=" << std::dec << data.timeStamp;
-        std::cout << " uncompressedFileSize=" << std::dec << data.uncompressedFileSize;
-        std::cout << " value=" << std::dec << data.value;
-        std::cout << " flags=0x" << std::setfill('0') << std::setw(8) << std::hex << data.flags;
-        std::cout << "]";
-    }
-    std::cout << "]";
+void show(Vector::BLF::RestorePointContainer * obj) {
+    std::cout << "RestorePointContainer:";
+    std::cout << " dataLength=" << std::dec << obj->dataLength;
+    std::cout << " data=";
+    printData(obj->data.data(), obj->data.size());
     std::cout << std::endl;
 }
 
@@ -2431,7 +2420,7 @@ int main(int argc, char * argv[]) {
             break;
 
         case Vector::BLF::ObjectType::Unknown115:
-            show(reinterpret_cast<Vector::BLF::Unknown115 *>(ohb));
+            show(reinterpret_cast<Vector::BLF::RestorePointContainer *>(ohb));
             break;
 
         case Vector::BLF::ObjectType::Reserved116:

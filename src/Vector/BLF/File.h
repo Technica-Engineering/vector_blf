@@ -31,6 +31,7 @@
 #include <Vector/BLF/FileStatistics.h>
 #include <Vector/BLF/ObjectHeaderBase.h>
 #include <Vector/BLF/ObjectQueue.h>
+#include <Vector/BLF/RestorePoints.h>
 #include <Vector/BLF/UncompressedFile.h>
 
 // UNKNOWN = 0
@@ -148,7 +149,7 @@
 #include <Vector/BLF/A429BusStatistic.h> // A429_BUS_STATISTIC = 112
 #include <Vector/BLF/A429Message.h> // A429_MESSAGE = 113
 #include <Vector/BLF/EthernetStatistic.h> // ETHERNET_STATISTIC = 114
-#include <Vector/BLF/Unknown115.h> // Unknown115 = 115
+#include <Vector/BLF/RestorePointContainer.h> // Unknown115 = 115
 // Reserved116 = 116
 // Reserved117 = 117
 #include <Vector/BLF/TestStructure.h> // TEST_STRUCTURE = 118
@@ -216,9 +217,9 @@ class VECTOR_BLF_EXPORT File final {
     int compressionLevel {1};
 
     /**
-     * Write Unknown115 message at file close
+     * Write restore points at file close.
      */
-    bool writeUnknown115 {true};
+    bool writeRestorePoints {true};
 
     /**
      * open file
@@ -345,6 +346,11 @@ class VECTOR_BLF_EXPORT File final {
     std::thread m_uncompressedFileThread {};
 
     /**
+     * exceptions from uncompressedFileThread
+     */
+    std::exception_ptr m_uncompressedFileThreadException {nullptr};
+
+    /**
      * thread still running
      */
     std::atomic<bool> m_uncompressedFileThreadRunning {};
@@ -364,6 +370,11 @@ class VECTOR_BLF_EXPORT File final {
      * thread between uncompressedFile and compressedFile
      */
     std::thread m_compressedFileThread {};
+
+    /**
+     * exceptions from compressedFileThread
+     */
+    std::exception_ptr m_compressedFileThreadException {nullptr};
 
     /**
      * thread still running

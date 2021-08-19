@@ -189,8 +189,12 @@ struct VECTOR_BLF_EXPORT FileStatistics final {
     /** number of objects */
     uint32_t objectCount {};
 
-    /** application build number */
-    uint32_t applicationBuild {}; // @todo the BL API function takes an uint8_t argument here
+    /**
+     * application build number
+     *
+     * @todo The BL API function takes an uint8_t argument here.
+     */
+    uint32_t applicationBuild {};
 
     /** measurement start time */
     SYSTEMTIME measurementStartTime {};
@@ -198,8 +202,21 @@ struct VECTOR_BLF_EXPORT FileStatistics final {
     /** last object time */
     SYSTEMTIME lastObjectTime {};
 
-    /** (compressed) file size without LogContainer+Unknown115 at end-of-file */
-    uint64_t fileSizeWithoutUnknown115 {};
+    /**
+     * @note
+     *   The following variables are based on observations, as there is no
+     *   public documentation available.
+     */
+
+    /**
+     * This variable designates the file position of the (first) LogContainer
+     * that contains the RestorePointContainer objects.
+     *
+     * If RestorePoints are not used, this defaults to 0.
+     *
+     * @see RestorePointContainer
+     */
+    uint64_t restorePointsOffset {};
 
     /** reserved */
     std::array<uint32_t, 16> reservedFileStatistics {};

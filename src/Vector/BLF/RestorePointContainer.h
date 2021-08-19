@@ -23,9 +23,9 @@
 
 #include <Vector/BLF/platform.h>
 
+#include <array>
 #include <vector>
 
-#include <Vector/BLF/AbstractFile.h>
 #include <Vector/BLF/ObjectHeader.h>
 
 #include <Vector/BLF/vector_blf_export.h>
@@ -36,31 +36,31 @@ namespace BLF {
 /**
  * @brief UNKNOWN_115
  *
- * This always comes at the end of a file.
+ * These objects store a contiguous block of data containing the Restore
+ * Points, similar to what a LogContainer does for Log data.
+ *
+ * The default dataLength is 2000, which results in an objectSize of 2048.
+ *
+ * @note
+ *   This class is based on observations, as there is no
+ *   public documentation available. There are undocumented API functions for
+ *   RestorePoint handling. And this seems like it.
  */
-struct VECTOR_BLF_EXPORT Unknown115 final : public ObjectHeader {
-    Unknown115();
+struct VECTOR_BLF_EXPORT RestorePointContainer final : public ObjectHeader {
+    RestorePointContainer();
 
     void read(AbstractFile & is) override;
     void write(AbstractFile & os) override;
     uint32_t calculateObjectSize() const override;
 
-    /* @todo unclear what the following values mean */
-    uint64_t unknown0{};
-    uint64_t unknown1{};
-    uint64_t unknown2{};
+    /** reserved */
+    std::array<uint8_t, 14> reservedRestorePointContainer {};
 
-    struct UnknownDataBlock {
-        uint64_t timeStamp; // unit: ns
-        uint64_t uncompressedFileSize; // unit: bytes
-        uint32_t value; // @todo unknown value
-        uint32_t flags; // @todo looks like some kind of flags field
+    /** restore point data size */
+    uint16_t dataLength {};
 
-        static uint32_t calculateObjectSize();
-    };
-    std::vector<UnknownDataBlock> unknownData {};
-
-    std::vector<uint8_t> reservedUnknown115 {};
+    /** restore point data */
+    std::vector<uint8_t> data {};
 };
 
 }

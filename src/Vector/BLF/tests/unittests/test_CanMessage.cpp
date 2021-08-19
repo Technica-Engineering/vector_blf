@@ -157,3 +157,23 @@ BOOST_AUTO_TEST_CASE(CanMessage_2) {
     BOOST_CHECK(file.eof());
     file.close();
 }
+
+BOOST_AUTO_TEST_CASE(CanMessage_Write) {
+    /* open file for writing */
+    Vector::BLF::File file;
+    file.open(CMAKE_CURRENT_BINARY_DIR "/test_CanMessage_Write.blf", std::ios_base::out);
+    BOOST_REQUIRE(file.is_open());
+
+    /* write message */
+    auto * canMessage = new Vector::BLF::CanMessage;
+    canMessage->channel = 1;
+    canMessage->flags = 1; // TX
+    canMessage->dlc = 2;
+    canMessage->id = 0x33;
+    canMessage->data[0] = 0x44;
+    canMessage->data[1] = 0x55;
+    file.write(canMessage);
+
+    /* close file */
+    file.close();
+}
