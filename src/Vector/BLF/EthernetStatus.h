@@ -191,6 +191,23 @@ struct VECTOR_BLF_EXPORT EthernetStatus final : ObjectHeader {
      * @brief Bitrate in [kbit/sec]
      */
     uint32_t bitrate {};
+
+    /**
+     * reservedEthernetStatus1
+     */
+    uint32_t reservedEthernetStatus1;
+
+    /**
+     * reservedEthernetStatus1
+     */
+    uint32_t reservedEthernetStatus2;
+
+    /**
+     * API major number (see FileStatistics)
+     *
+     * This is used to determine which member variables are valid.
+     */
+    uint8_t apiMajor{ 2 };
 };
 
 }
