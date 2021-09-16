@@ -4,8 +4,13 @@
 
 #include <Vector/BLF/UncompressedFile.h>
 
+#undef DEBUG_WRITE_LOG_CONTAINERS_TO_DISK
+
 #include <algorithm>
 #include <cstring>
+#ifdef DEBUG_WRITE_LOG_CONTAINERS_TO_DISK
+#include <fstream>
+#endif
 
 #include <Vector/BLF/Exceptions.h>
 
@@ -195,6 +200,12 @@ void UncompressedFile::write(const std::shared_ptr<LogContainer> & logContainer)
     /* append logContainer */
     m_data.push_back(logContainer);
     logContainer->filePosition = m_tellp;
+
+#ifdef DEBUG_WRITE_LOG_CONTAINERS_TO_DISK
+    /* write the logContainer to disk */
+    std::ofstream ofs(std::to_string(logContainer->filePosition) + ".blf");
+    ofs.write(reinterpret_cast<const char *>(logContainer->uncompressedFile.data()), logContainer->uncompressedFileSize);
+#endif
 
     /* advance put pointer */
     m_tellp += logContainer->uncompressedFileSize;
