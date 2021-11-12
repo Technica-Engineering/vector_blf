@@ -2,13 +2,14 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+## [2.4.1] - 2021-11-12
 ### Changed
 - Drop CMAKE_BUILD_TYPE from CMakeLists to allow passing it to cmake.
 - CanFdMessage handling. ValidDataBytes set automatically.
 - Introduced SPDX REUSE specification.
 ### Fixed
 - Fix ObjectQueue virtuals. Clean queue in destructor.
+- UncompressedFile stops reading, when bufferSize is reached.
 
 ## [2.4.0] - 2021-01-29
 ### Added
