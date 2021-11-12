@@ -195,7 +195,14 @@ void UncompressedFile::abort() {
 
 void UncompressedFile::write(const std::shared_ptr<LogContainer> & logContainer) {
     /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
+    std::unique_lock<std::mutex> lock(m_mutex);
+
+    /* wait for free space */
+    tellgChanged.wait(lock, [&] {
+        return
+        m_abort ||
+        static_cast<uint32_t>(m_tellp - m_tellg) < m_bufferSize;
+    });
 
     /* append logContainer */
     m_data.push_back(logContainer);
