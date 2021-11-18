@@ -1,7 +1,11 @@
+# SPDX-FileCopyrightText: 2013-2021 Tobias Lorenz <tobias.lorenz@gmx.net>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 cmake_minimum_required(VERSION 3.9)
 
 project(Vector_BLF
-    VERSION 2.3.1
+    VERSION 2.4.1
     DESCRIPTION "Vector Binary Log File support library")
 
 # source code documentation
@@ -52,7 +56,7 @@ set(CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR})
 set(CPACK_PACKAGE_VERSION_PATCH ${PROJECT_VERSION_PATCH})
 set(CPACK_PACKAGE_CONTACT "Tobias Lorenz <tobias.lorenz@gmx.net>")
-set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_CURRENT_SOURCE_DIR}/LICENSE.GPL-3.0)
+set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_CURRENT_SOURCE_DIR}/LICENSES/GPL-3.0-or-later.txt)
 set(CPACK_RESOURCE_FILE_README ${CMAKE_CURRENT_SOURCE_DIR}/README.md)
 include(CPack)
 
@@ -61,7 +65,7 @@ install(
     FILES
         CHANGELOG.md
         README.md
-        LICENSE.GPL-3.0
+        LICENSES/GPL-3.0-or-later.txt
     DESTINATION ${CMAKE_INSTALL_DOCDIR})
 
 # sub directories

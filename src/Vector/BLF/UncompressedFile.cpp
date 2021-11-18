@@ -1,28 +1,16 @@
-/*
- * Copyright (C) 2013-2020 Tobias Lorenz.
- * Contact: tobias.lorenz@gmx.net
- *
- * This file is part of Tobias Lorenz's Toolkit.
- *
- * Commercial License Usage
- * Licensees holding valid commercial licenses may use this file in
- * accordance with the commercial license agreement provided with the
- * Software or, alternatively, in accordance with the terms contained in
- * a written agreement between you and Tobias Lorenz.
- *
- * GNU General Public License 3.0 Usage
- * Alternatively, this file may be used under the terms of the GNU
- * General Public License version 3.0 as published by the Free Software
- * Foundation and appearing in the file LICENSE.GPL included in the
- * packaging of this file.  Please review the following information to
- * ensure the GNU General Public License version 3.0 requirements will be
- * met: http://www.gnu.org/copyleft/gpl.html.
- */
+// SPDX-FileCopyrightText: 2013-2021 Tobias Lorenz <tobias.lorenz@gmx.net>
+//
+// SPDX-License-Identifier: GPL-3.0-or-later
 
 #include <Vector/BLF/UncompressedFile.h>
 
+#undef DEBUG_WRITE_LOG_CONTAINERS_TO_DISK
+
 #include <algorithm>
 #include <cstring>
+#ifdef DEBUG_WRITE_LOG_CONTAINERS_TO_DISK
+#include <fstream>
+#endif
 
 #include <Vector/BLF/Exceptions.h>
 
@@ -207,11 +195,24 @@ void UncompressedFile::abort() {
 
 void UncompressedFile::write(const std::shared_ptr<LogContainer> & logContainer) {
     /* mutex lock */
-    std::lock_guard<std::mutex> lock(m_mutex);
+    std::unique_lock<std::mutex> lock(m_mutex);
+
+    /* wait for free space */
+    tellgChanged.wait(lock, [&] {
+        return
+        m_abort ||
+        static_cast<uint32_t>(m_tellp - m_tellg) < m_bufferSize;
+    });
 
     /* append logContainer */
     m_data.push_back(logContainer);
     logContainer->filePosition = m_tellp;
+
+#ifdef DEBUG_WRITE_LOG_CONTAINERS_TO_DISK
+    /* write the logContainer to disk */
+    std::ofstream ofs(std::to_string(logContainer->filePosition) + ".blf");
+    ofs.write(reinterpret_cast<const char *>(logContainer->uncompressedFile.data()), logContainer->uncompressedFileSize);
+#endif
 
     /* advance put pointer */
     m_tellp += logContainer->uncompressedFileSize;

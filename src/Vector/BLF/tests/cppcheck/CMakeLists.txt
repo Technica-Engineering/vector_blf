@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2013-2021 Tobias Lorenz <tobias.lorenz@gmx.net>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 get_target_property(sources ${PROJECT_NAME} SOURCES)
 
 add_custom_target(cppcheck ALL
