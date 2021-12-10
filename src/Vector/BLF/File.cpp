@@ -712,7 +712,8 @@ void File::uncompressedFile2ReadWriteQueue() {
     ObjectHeaderBase * obj = createObject(ohb.objectType);
     if (obj == nullptr) {
         /* in case of unknown objectType */
-        throw Exception("File::uncompressedFile2ReadWriteQueue(): Unknown object.");
+        m_uncompressedFile.seekg(ohb.objectSize, std::ios_base::cur);
+        return;
     }
 
     int32_t tmp = 0;
