@@ -285,7 +285,7 @@ struct VECTOR_BLF_EXPORT FlexRayVFrReceiveMsgEx final : ObjectHeader {
     uint16_t blfLogMask {};
 
     /** reserved */
-    std::array<uint16_t, 13> reservedFlexRayVFrReceiveMsgEx {};
+    std::array<uint16_t, 13> reservedFlexRayVFrReceiveMsgEx1 {};
 
     /**
      * @brief array of databytes
@@ -293,6 +293,9 @@ struct VECTOR_BLF_EXPORT FlexRayVFrReceiveMsgEx final : ObjectHeader {
      * Payload
      */
     std::vector<uint8_t> dataBytes {};
+
+    /** reserved */
+    std::vector<uint8_t> reservedFlexRayVFrReceiveMsgEx2 {};
 };
 
 }
