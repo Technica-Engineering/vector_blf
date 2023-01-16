@@ -25,7 +25,6 @@ namespace BLF {
 template <typename T>
 class VECTOR_BLF_EXPORT ObjectQueue final {
   public:
-    explicit ObjectQueue() = default;
     ~ObjectQueue();
 
     /**
@@ -66,10 +65,10 @@ class VECTOR_BLF_EXPORT ObjectQueue final {
     void setBufferSize(uint32_t bufferSize);
 
     /** data was dequeued */
-    std::condition_variable tellgChanged;
+    std::condition_variable tellgChanged {};
 
     /** data was enqueued */
-    std::condition_variable tellpChanged;
+    std::condition_variable tellpChanged {};
 
   private:
     /** abort further operations */
