@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.4.2] - 2023-01-19
+### Fixed
+- Removed default constructor in ObjectQueue<ObjectHeaderBase>. Added initializers.
+
 ## [2.4.1] - 2021-11-12
 ### Changed
 - Drop CMAKE_BUILD_TYPE from CMakeLists to allow passing it to cmake.
