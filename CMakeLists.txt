@@ -8,9 +8,6 @@ project(Vector_BLF
     VERSION 2.4.1
     DESCRIPTION "Vector Binary Log File support library")
 
-# source code documentation
-option(OPTION_RUN_DOXYGEN "Run Doxygen" ON)
-
 # static code analysis
 option(OPTION_RUN_CCCC "Run CCCC" OFF)
 option(OPTION_RUN_CPPCHECK "Run Cppcheck" OFF)
@@ -30,13 +27,6 @@ set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules")
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 find_package(ZLIB REQUIRED)
-if(OPTION_RUN_DOXYGEN)
-    find_package(Doxygen REQUIRED)
-    find_package(Graphviz)
-    if(WIN32)
-        find_package(HTMLHelp REQUIRED)
-    endif()
-endif()
 if(OPTION_RUN_CCCC)
     find_package(CCCC REQUIRED)
 endif()

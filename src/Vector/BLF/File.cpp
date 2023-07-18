@@ -229,157 +229,17 @@ ObjectHeaderBase * File::createObject(ObjectType type) {
         obj = new LogContainer();
         break;
 
-    case ObjectType::LIN_MESSAGE:
-        obj = new LinMessage();
-        break;
-
-    case ObjectType::LIN_CRC_ERROR:
-        obj = new LinCrcError();
-        break;
-
-    case ObjectType::LIN_DLC_INFO:
-        obj = new LinDlcInfo();
-        break;
-
-    case ObjectType::LIN_RCV_ERROR:
-        obj = new LinReceiveError();
-        break;
-
-    case ObjectType::LIN_SND_ERROR:
-        obj = new LinSendError();
-        break;
-
-    case ObjectType::LIN_SLV_TIMEOUT:
-        obj = new LinSlaveTimeout();
-        break;
-
-    case ObjectType::LIN_SCHED_MODCH:
-        obj = new LinSchedulerModeChange();
-        break;
-
-    case ObjectType::LIN_SYN_ERROR:
-        obj = new LinSyncError();
-        break;
-
-    case ObjectType::LIN_BAUDRATE:
-        obj = new LinBaudrateEvent();
-        break;
-
-    case ObjectType::LIN_SLEEP:
-        obj = new LinSleepModeEvent();
-        break;
-
-    case ObjectType::LIN_WAKEUP:
-        obj = new LinWakeupEvent();
-        break;
-
-    case ObjectType::MOST_SPY:
-        obj = new MostSpy();
-        break;
-
-    case ObjectType::MOST_CTRL:
-        obj = new MostCtrl();
-        break;
-
-    case ObjectType::MOST_LIGHTLOCK:
-        obj = new MostLightLock();
-        break;
-
-    case ObjectType::MOST_STATISTIC:
-        obj = new MostStatistic();
-        break;
-
     case ObjectType::Reserved26:
     case ObjectType::Reserved27:
     case ObjectType::Reserved28:
-        break;
-
-    case ObjectType::FLEXRAY_DATA:
-        obj = new FlexRayData();
-        break;
-
-    case ObjectType::FLEXRAY_SYNC:
-        obj = new FlexRaySync();
         break;
 
     case ObjectType::CAN_DRIVER_ERROR:
         obj = new CanDriverError();
         break;
 
-    case ObjectType::MOST_PKT:
-        obj = new MostPkt();
-        break;
-
-    case ObjectType::MOST_PKT2:
-        obj = new MostPkt2();
-        break;
-
-    case ObjectType::MOST_HWMODE:
-        obj = new MostHwMode();
-        break;
-
-    case ObjectType::MOST_REG:
-        obj = new MostReg();
-        break;
-
-    case ObjectType::MOST_GENREG:
-        obj = new MostGenReg();
-        break;
-
-    case ObjectType::MOST_NETSTATE:
-        obj = new MostNetState();
-        break;
-
-    case ObjectType::MOST_DATALOST:
-        obj = new MostDataLost();
-        break;
-
-    case ObjectType::MOST_TRIGGER:
-        obj = new MostTrigger();
-        break;
-
-    case ObjectType::FLEXRAY_CYCLE:
-        obj = new FlexRayV6StartCycleEvent();
-        break;
-
-    case ObjectType::FLEXRAY_MESSAGE:
-        obj = new FlexRayV6Message();
-        break;
-
-    case ObjectType::LIN_CHECKSUM_INFO:
-        obj = new LinChecksumInfo();
-        break;
-
-    case ObjectType::LIN_SPIKE_EVENT:
-        obj = new LinSpikeEvent();
-        break;
-
     case ObjectType::CAN_DRIVER_SYNC:
         obj = new CanDriverHwSync();
-        break;
-
-    case ObjectType::FLEXRAY_STATUS:
-        obj = new FlexRayStatusEvent();
-        break;
-
-    case ObjectType::GPS_EVENT:
-        obj = new GpsEvent();
-        break;
-
-    case ObjectType::FR_ERROR:
-        obj = new FlexRayVFrError();
-        break;
-
-    case ObjectType::FR_STATUS:
-        obj = new FlexRayVFrStatus();
-        break;
-
-    case ObjectType::FR_STARTCYCLE:
-        obj = new FlexRayVFrStartCycle();
-        break;
-
-    case ObjectType::FR_RCVMESSAGE:
-        obj = new FlexRayVFrReceiveMsg();
         break;
 
     case ObjectType::REALTIMECLOCK:
@@ -390,73 +250,8 @@ ObjectHeaderBase * File::createObject(ObjectType type) {
     case ObjectType::Reserved53:
         break;
 
-    case ObjectType::LIN_STATISTIC:
-        obj = new LinStatisticEvent();
-        break;
-
-    case ObjectType::J1708_MESSAGE:
-    case ObjectType::J1708_VIRTUAL_MSG:
-        obj = new J1708Message();
-        break;
-
-    case ObjectType::LIN_MESSAGE2:
-        obj = new LinMessage2();
-        break;
-
-    case ObjectType::LIN_SND_ERROR2:
-        obj = new LinSendError2();
-        break;
-
-    case ObjectType::LIN_SYN_ERROR2:
-        obj = new LinSyncError2();
-        break;
-
-    case ObjectType::LIN_CRC_ERROR2:
-        obj = new LinCrcError2();
-        break;
-
-    case ObjectType::LIN_RCV_ERROR2:
-        obj = new LinReceiveError2();
-        break;
-
-    case ObjectType::LIN_WAKEUP2:
-        obj = new LinWakeupEvent2();
-        break;
-
-    case ObjectType::LIN_SPIKE_EVENT2:
-        obj = new LinSpikeEvent2();
-        break;
-
-    case ObjectType::LIN_LONG_DOM_SIG:
-        obj = new LinLongDomSignalEvent();
-        break;
-
     case ObjectType::APP_TEXT:
         obj = new AppText();
-        break;
-
-    case ObjectType::FR_RCVMESSAGE_EX:
-        obj = new FlexRayVFrReceiveMsgEx();
-        break;
-
-    case ObjectType::MOST_STATISTICEX:
-        obj = new MostStatisticEx();
-        break;
-
-    case ObjectType::MOST_TXLIGHT:
-        obj = new MostTxLight();
-        break;
-
-    case ObjectType::MOST_ALLOCTAB:
-        obj = new MostAllocTab();
-        break;
-
-    case ObjectType::MOST_STRESS:
-        obj = new MostStress();
-        break;
-
-    case ObjectType::ETHERNET_FRAME:
-        obj = new EthernetFrame();
         break;
 
     case ObjectType::SYS_VARIABLE:
@@ -471,66 +266,6 @@ ObjectHeaderBase * File::createObject(ObjectType type) {
         obj = new CanDriverErrorExt();
         break;
 
-    case ObjectType::LIN_LONG_DOM_SIG2:
-        obj = new LinLongDomSignalEvent2();
-        break;
-
-    case ObjectType::MOST_150_MESSAGE:
-        obj = new Most150Message();
-        break;
-
-    case ObjectType::MOST_150_PKT:
-        obj = new Most150Pkt();
-        break;
-
-    case ObjectType::MOST_ETHERNET_PKT:
-        obj = new MostEthernetPkt();
-        break;
-
-    case ObjectType::MOST_150_MESSAGE_FRAGMENT:
-        obj = new Most150MessageFragment();
-        break;
-
-    case ObjectType::MOST_150_PKT_FRAGMENT:
-        obj = new Most150PktFragment();
-        break;
-
-    case ObjectType::MOST_ETHERNET_PKT_FRAGMENT:
-        obj = new MostEthernetPktFragment();
-        break;
-
-    case ObjectType::MOST_SYSTEM_EVENT:
-        obj = new MostSystemEvent();
-        break;
-
-    case ObjectType::MOST_150_ALLOCTAB:
-        obj = new Most150AllocTab();
-        break;
-
-    case ObjectType::MOST_50_MESSAGE:
-        obj = new Most50Message();
-        break;
-
-    case ObjectType::MOST_50_PKT:
-        obj = new Most50Pkt();
-        break;
-
-    case ObjectType::CAN_MESSAGE2:
-        obj = new CanMessage2();
-        break;
-
-    case ObjectType::LIN_UNEXPECTED_WAKEUP:
-        obj = new LinUnexpectedWakeup();
-        break;
-
-    case ObjectType::LIN_SHORT_OR_SLOW_RESPONSE:
-        obj = new LinShortOrSlowResponse();
-        break;
-
-    case ObjectType::LIN_DISTURBANCE_EVENT:
-        obj = new LinDisturbanceEvent();
-        break;
-
     case ObjectType::SERIAL_EVENT:
         obj = new SerialEvent();
         break;
@@ -543,33 +278,10 @@ ObjectHeaderBase * File::createObject(ObjectType type) {
         obj = new EventComment();
         break;
 
-    case ObjectType::WLAN_FRAME:
-        obj = new WlanFrame();
-        break;
-
-    case ObjectType::WLAN_STATISTIC:
-        obj = new WlanStatistic();
-        break;
-
-    case ObjectType::MOST_ECL:
-        obj = new MostEcl();
-        break;
-
     case ObjectType::GLOBAL_MARKER:
         obj = new GlobalMarker();
         break;
 
-    case ObjectType::AFDX_FRAME:
-        obj = new AfdxFrame();
-        break;
-
-    case ObjectType::AFDX_STATISTIC:
-        obj = new AfdxStatistic();
-        break;
-
-    case ObjectType::KLINE_STATUSEVENT:
-        obj = new KLineStatusEvent();
-        break;
 
     case ObjectType::CAN_FD_MESSAGE:
         obj = new CanFdMessage();
@@ -579,55 +291,11 @@ ObjectHeaderBase * File::createObject(ObjectType type) {
         obj = new CanFdMessage64();
         break;
 
-    case ObjectType::ETHERNET_RX_ERROR:
-        obj = new EthernetRxError();
-        break;
-
-    case ObjectType::ETHERNET_STATUS:
-        obj = new EthernetStatus();
-        break;
-
     case ObjectType::CAN_FD_ERROR_64:
         obj = new CanFdErrorFrame64();
         break;
 
-    case ObjectType::LIN_SHORT_OR_SLOW_RESPONSE2:
-        obj = new LinShortOrSlowResponse2;
-        break;
-
-    case ObjectType::AFDX_STATUS:
-        obj = new AfdxStatus;
-        break;
-
-    case ObjectType::AFDX_BUS_STATISTIC:
-        obj = new AfdxBusStatistic;
-        break;
-
     case ObjectType::Reserved108:
-        break;
-
-    case ObjectType::AFDX_ERROR_EVENT:
-        obj = new AfdxErrorEvent;
-        break;
-
-    case ObjectType::A429_ERROR:
-        obj = new A429Error;
-        break;
-
-    case ObjectType::A429_STATUS:
-        obj = new A429Status;
-        break;
-
-    case ObjectType::A429_BUS_STATISTIC:
-        obj = new A429BusStatistic;
-        break;
-
-    case ObjectType::A429_MESSAGE:
-        obj = new A429Message;
-        break;
-
-    case ObjectType::ETHERNET_STATISTIC:
-        obj = new EthernetStatistic;
         break;
 
     case ObjectType::Unknown115:
@@ -646,22 +314,6 @@ ObjectHeaderBase * File::createObject(ObjectType type) {
         obj = new DiagRequestInterpretation;
         break;
 
-    case ObjectType::ETHERNET_FRAME_EX:
-        obj = new EthernetFrameEx;
-        break;
-
-    case ObjectType::ETHERNET_FRAME_FORWARDED:
-        obj = new EthernetFrameForwarded;
-        break;
-
-    case ObjectType::ETHERNET_ERROR_EX:
-        obj = new EthernetErrorEx;
-        break;
-
-    case ObjectType::ETHERNET_ERROR_FORWARDED:
-        obj = new EthernetErrorForwarded;
-        break;
-
     case ObjectType::FUNCTION_BUS:
         obj = new FunctionBus;
         break;
@@ -673,11 +325,7 @@ ObjectHeaderBase * File::createObject(ObjectType type) {
     case ObjectType::DATA_LOST_END:
         obj = new DataLostEnd;
         break;
-
-    case ObjectType::WATER_MARK_EVENT:
-        obj = new WaterMarkEvent;
-        break;
-
+        
     case ObjectType::TRIGGER_CONDITION:
         obj = new TriggerCondition;
         break;
