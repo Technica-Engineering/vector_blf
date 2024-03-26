@@ -5,7 +5,7 @@
 cmake_minimum_required(VERSION 3.9)
 
 project(Vector_BLF
-    VERSION 2.4.1
+    VERSION 2.4.2
     DESCRIPTION "Vector Binary Log File support library")
 
 # source code documentation

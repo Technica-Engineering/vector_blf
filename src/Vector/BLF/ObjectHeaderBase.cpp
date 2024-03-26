@@ -16,9 +16,27 @@ namespace Vector {
 		}
 
 		void ObjectHeaderBase::read(AbstractFile& is) {
-			is.read(reinterpret_cast<char*>(&signature), sizeof(signature));
-			if (signature != ObjectSignature) {
-				throw Exception("ObjectHeaderBase::read(): Object signature doesn't match at this position.");
+			/* let us be more robust, when reading */
+			uint32_t tmp = 0;
+			while (tmp != ObjectSignature) {
+				is.read(reinterpret_cast<char *>(&tmp), sizeof(tmp));
+				if (tmp == ObjectSignature) {
+					signature = tmp;
+				} else {
+					if (is.eof()) {
+						throw Exception("ObjectHeaderBase::read(): End of File.");
+					}
+
+					if ((0xffffff00 & tmp) == 0x424f4c00) {
+						is.seekg(-3, std::ios_base::cur);
+					} else if ((0xffff0000 & tmp) == 0x4f4c0000) {
+						is.seekg(-2, std::ios_base::cur);
+					} else if ((0xff000000 & tmp) == 0x4c000000) {
+						is.seekg(-1, std::ios_base::cur);
+					} else {
+						/* do not seek as we did not find a single char */
+					}
+				}
 			}
 			is.read(reinterpret_cast<char*>(&headerSize), sizeof(headerSize));
 			is.read(reinterpret_cast<char*>(&headerVersion), sizeof(headerVersion));
