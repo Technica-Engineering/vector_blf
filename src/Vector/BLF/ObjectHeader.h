@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include <cstdint>
+
 #include <Vector/BLF/platform.h>
 
 #include <Vector/BLF/AbstractFile.h>
