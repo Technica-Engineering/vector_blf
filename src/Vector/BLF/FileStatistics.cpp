@@ -4,6 +4,7 @@
 
 #include <Vector/BLF/FileStatistics.h>
 
+#include <cstdint>
 #include <string>
 
 #include <Vector/BLF/AbstractFile.h>
